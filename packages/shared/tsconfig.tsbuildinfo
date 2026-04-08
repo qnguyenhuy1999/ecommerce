@@ -1,0 +1,1 @@
+{"root":["./src/api.ts","./src/env.ts","./src/index.ts","./src/pagination.ts","./src/schemas/auth.ts","./src/schemas/cart.ts","./src/schemas/order.ts","./src/schemas/payment.ts","./src/schemas/product.ts","./src/schemas/seller.ts","./src/schemas/user.ts"],"version":"5.9.3"}
