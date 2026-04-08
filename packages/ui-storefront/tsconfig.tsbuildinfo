@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/components/cartdrawer.tsx","./src/components/cartitem.tsx","./src/components/filtersidebar.tsx","./src/components/productcard.tsx","./src/components/productgrid.tsx","./src/layouts/storefrontfooter.tsx","./src/layouts/storefrontheader.tsx","./src/layouts/storefrontshell.tsx"],"version":"5.9.3"}
