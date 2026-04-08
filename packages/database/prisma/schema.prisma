@@ -1,0 +1,379 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Enums ────────────────────────────────────────────────────
+
+enum UserRole {
+  USER
+  SELLER
+  ADMIN
+}
+
+enum UserStatus {
+  UNVERIFIED
+  ACTIVE
+  SUSPENDED
+}
+
+enum KycStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  INACTIVE
+  DELETED
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID
+  PROCESSING
+  SHIPPED
+  COMPLETED
+  CANCELLED
+  REFUNDED
+  PENDING_REFUND
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  REFUNDED
+}
+
+enum ReservationStatus {
+  ACTIVE
+  EXPIRED
+  CONFIRMED
+}
+
+enum LedgerType {
+  CREDIT
+  DEBIT
+}
+
+enum NotificationType {
+  ORDER_PAID
+  ORDER_SHIPPED
+  ORDER_COMPLETED
+  ORDER_CANCELLED
+  REFUND_APPROVED
+  REFUND_REJECTED
+  SELLER_APPROVED
+  SELLER_REJECTED
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  NEW_ORDER
+}
+
+// ─── Models ─────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  role          UserRole  @default(USER)
+  status        UserStatus @default(UNVERIFIED)
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  seller        Seller?
+  carts         Cart[]
+  orders        Order[]          @relation("BuyerOrders")
+  notifications Notification[]
+  reviews       Review[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+}
+
+model Seller {
+  id                         String    @id @default(cuid())
+  userId                     String    @unique
+  user                       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storeName                  String    @unique
+  storeDescription           String?
+  kycStatus                  KycStatus @default(PENDING)
+  kycDocuments               Json?
+  commissionRate              Float     @default(0.10)
+  rating                     Float     @default(0)
+  totalRatings               Int       @default(0)
+  businessRegistrationNumber String?
+  bankAccountNumber          String?
+  bankCode                   String?
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+
+  products    Product[]
+  subOrders   SubOrder[]
+  commissions Commission[]
+  ledger      SellerLedger[]
+  reviews     Review[]
+
+  @@index([userId])
+  @@index([kycStatus])
+  @@index([storeName])
+  @@index([rating])
+}
+
+model Product {
+  id          String        @id @default(cuid())
+  sellerId    String
+  seller      Seller        @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sku         String
+  name        String
+  description String?
+  price       Float
+  status      ProductStatus @default(DRAFT)
+  categoryId  String?
+  images      String[]
+  rating      Float         @default(0)
+  reviewCount Int           @default(0)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  deletedAt   DateTime?
+
+  variants ProductVariant[]
+  reviews Review[]
+
+  @@unique([sellerId, sku])
+  @@index([sellerId])
+  @@index([status])
+  @@index([categoryId])
+  @@index([name])
+  @@index([price])
+  @@index([deletedAt])
+}
+
+model ProductVariant {
+  id            String   @id @default(cuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sku          String
+  attributes   Json
+  priceOverride Float?
+  stock        Int      @default(0)
+  reservedStock Int     @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  cartItems             CartItem[]
+  inventoryReservations InventoryReservation[]
+  orderItems            OrderItem[]
+
+  @@unique([productId, sku])
+  @@index([productId])
+  @@index([sku])
+}
+
+model InventoryReservation {
+  id        String            @id @default(cuid())
+  variantId String
+  variant   ProductVariant    @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  orderId  String
+  quantity  Int
+  expiresAt DateTime
+  status    ReservationStatus @default(ACTIVE)
+  createdAt DateTime          @default(now())
+
+  @@index([variantId])
+  @@index([orderId])
+  @@index([status])
+  @@index([expiresAt])
+  @@index([status, expiresAt])
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items CartItem[]
+
+  @@index([userId])
+}
+
+model CartItem {
+  id        String        @id @default(cuid())
+  cartId    String
+  cart      Cart          @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  quantity  Int
+  createdAt DateTime      @default(now())
+
+  @@unique([cartId, variantId])
+  @@index([cartId])
+  @@index([variantId])
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  orderNumber     String      @unique
+  buyerId         String
+  buyer           User        @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Restrict)
+  status          OrderStatus @default(PENDING_PAYMENT)
+  subtotal        Float
+  shippingFee     Float       @default(0)
+  totalAmount     Float
+  shippingAddress Json
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  deletedAt       DateTime?
+
+  subOrders SubOrder[]
+  commissions Commission[]
+  payment   Payment?
+  reviews   Review[]
+
+  @@index([buyerId])
+  @@index([status])
+  @@index([orderNumber])
+  @@index([createdAt])
+  @@index([deletedAt])
+}
+
+model SubOrder {
+  id               String      @id @default(cuid())
+  orderId          String
+  order            Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  sellerId         String
+  seller           Seller      @relation(fields: [sellerId], references: [id], onDelete: Restrict)
+  subtotal         Float
+  status           OrderStatus @default(PENDING_PAYMENT)
+  shippingTracking Json?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  items OrderItem[]
+
+  @@unique([orderId, sellerId])
+  @@index([orderId])
+  @@index([sellerId])
+  @@index([status])
+}
+
+model OrderItem {
+  id            String        @id @default(cuid())
+  subOrderId    String
+  subOrder      SubOrder      @relation(fields: [subOrderId], references: [id], onDelete: Cascade)
+  variantId     String
+  variant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
+  quantity      Int
+  unitPrice     Float
+  priceSnapshot Json
+  createdAt     DateTime      @default(now())
+
+  @@index([subOrderId])
+  @@index([variantId])
+}
+
+model Payment {
+  id                 String        @id @default(cuid())
+  orderId            String        @unique
+  order              Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  provider           String
+  providerReference  String?
+  amount             Float
+  currency           String        @default("SGD")
+  status             PaymentStatus @default(PENDING)
+  idempotencyKey     String        @unique
+  webhookReceivedAt  DateTime?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+
+  @@index([orderId])
+  @@index([provider])
+  @@index([status])
+  @@index([idempotencyKey])
+  @@index([providerReference])
+}
+
+model Commission {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  sellerId  String
+  seller    Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  amount    Float
+  rate      Float
+  createdAt DateTime @default(now())
+
+  @@unique([orderId, sellerId])
+  @@index([orderId])
+  @@index([sellerId])
+  @@index([createdAt])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  body      String
+  data      Json?
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+  @@index([createdAt])
+  @@index([userId, isRead, createdAt])
+}
+
+model SellerLedger {
+  id            String     @id @default(cuid())
+  sellerId      String
+  seller        Seller     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  type          LedgerType
+  amount        Float
+  referenceType String?
+  referenceId   String?
+  description   String?
+  createdAt     DateTime   @default(now())
+
+  @@index([sellerId])
+  @@index([type])
+  @@index([referenceType, referenceId])
+  @@index([createdAt])
+  @@index([sellerId, createdAt])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  sellerId  String
+  seller    Seller  @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  @@unique([orderId, productId, userId])
+  @@index([sellerId])
+  @@index([productId])
+  @@index([userId])
+  @@index([rating])
+}
