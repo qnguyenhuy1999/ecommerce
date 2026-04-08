@@ -1,0 +1,43 @@
+/* Admin-specific design tokens extending @ecom/ui */
+@import "@ecom/ui/styles";
+
+@layer base {
+  :root {
+    --admin-sidebar-width: 16rem;
+    --admin-header-height: 3.5rem;
+    --admin-content-max-width: 80rem;
+  }
+}
+
+@layer components {
+  .admin-sidebar {
+    width: var(--admin-sidebar-width);
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: hsl(var(--background));
+    border-right: 1px solid hsl(var(--border));
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-header {
+    height: var(--admin-header-height);
+    position: fixed;
+    top: 0;
+    left: var(--admin-sidebar-width);
+    right: 0;
+    background-color: hsl(var(--background));
+    border-bottom: 1px solid hsl(var(--border));
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+  }
+
+  .admin-content {
+    margin-left: var(--admin-sidebar-width);
+    padding-top: var(--admin-header-height);
+    min-height: 100vh;
+  }
+}

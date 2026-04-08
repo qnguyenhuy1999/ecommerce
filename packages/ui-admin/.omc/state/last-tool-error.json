@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"cd /c/Users/User/Desktop/ecommerce && pnpm --filter @ecom/ui-admin build 2>&1\",\"timeout\":60000,\"description\":\"Build ui-admin\"}",
+  "error": "Exit code 2\n\n> @ecom/ui-admin@0.1.0 build C:\\Users\\User\\Desktop\\ecommerce\\packages\\ui-admin\n> tsc\n\nerror TS5083: Cannot read file 'C:/Users/User/Desktop/ecommerce/tsconfig/react-library.json'.\r\nsrc/components/breadcrumb/index.ts(20,7): error TS1005: '>' expected.\r\nsrc/components/breadcrumb/index.ts(20,16): error TS1005: ')' expected.\r\nsrc/components/breadcrumb/index.ts(21,7): error TS1005: ',' expected.\r\nsrc/components/breadcrumb/index.ts(22,7): error TS1005: ',' expected.\r\nsrc/components/breadc...",
+  "timestamp": "2026-04-08T08:14:52.153Z",
+  "retry_count": 1
+}
