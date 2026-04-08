@@ -1,0 +1,19 @@
+{
+  "extends": "../../packages/tsconfig/nextjs.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@ecom/ui-admin": ["../../packages/ui-admin/src"],
+      "@ecom/ui": ["../../packages/ui/src"],
+      "@ecom/api-client": ["../../packages/api-client/src"],
+      "@ecom/api-types": ["../../packages/api-types/src"],
+      "@ecom/constants": ["../../packages/constants/src"],
+      "@ecom/shared": ["../../packages/shared/src"]
+    }
+  },
+  "include": ["next.config.js", "src/**/*"],
+  "exclude": ["node_modules"]
+}
