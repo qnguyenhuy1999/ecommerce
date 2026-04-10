@@ -1,7 +1,7 @@
-import Redis from 'ioredis';
-import { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } from './env';
+import Redis from 'ioredis'
+import { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } from './env'
 
-let redis: Redis | null = null;
+let redis: Redis | null = null
 
 export function getRedis(): Redis {
   if (!redis) {
@@ -11,22 +11,22 @@ export function getRedis(): Redis {
       password: REDIS_PASSWORD || undefined,
       maxRetriesPerRequest: 3,
       retryStrategy: (times) => Math.min(times * 50, 2000),
-    });
+    })
 
     redis.on('error', (err) => {
-      console.error('[Redis] Connection error:', err);
-    });
+      console.error('[Redis] Connection error:', err)
+    })
 
     redis.on('connect', () => {
-      console.log('[Redis] Connected');
-    });
+      console.log('[Redis] Connected')
+    })
   }
-  return redis;
+  return redis
 }
 
 export async function closeRedis(): Promise<void> {
   if (redis) {
-    await redis.quit();
-    redis = null;
+    await redis.quit()
+    redis = null
   }
 }

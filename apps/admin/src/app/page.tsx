@@ -5,5 +5,5 @@ export default function AdminPage() {
       <h1 className="text-3xl font-bold">Admin Dashboard</h1>
       <p className="text-muted-foreground">Coming soon...</p>
     </main>
-  );
+  )
 }

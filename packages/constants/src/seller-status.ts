@@ -4,12 +4,12 @@ export const KycStatus = {
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
   REVISION: 'REVISION',
-} as const;
-export type KycStatus = (typeof KycStatus)[keyof typeof KycStatus];
+} as const
+export type KycStatus = (typeof KycStatus)[keyof typeof KycStatus]
 
 export const SellerStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
   SUSPENDED: 'SUSPENDED',
-} as const;
-export type SellerStatus = (typeof SellerStatus)[keyof typeof SellerStatus];
+} as const
+export type SellerStatus = (typeof SellerStatus)[keyof typeof SellerStatus]

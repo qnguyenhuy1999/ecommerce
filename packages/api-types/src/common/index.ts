@@ -1,12 +1,12 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 // ─── Pagination ────────────────────────────────────────────────
 export const PaginationParamsSchema = z.object({
   page: z.coerce.number().int().min(1).default(1),
   limit: z.coerce.number().int().min(1).max(100).default(20),
-});
+})
 
-export type PaginationParams = z.infer<typeof PaginationParamsSchema>;
+export type PaginationParams = z.infer<typeof PaginationParamsSchema>
 
 export function paginatedResponseSchema<T extends z.ZodTypeAny>(dataSchema: T) {
   return z.object({
@@ -17,7 +17,7 @@ export function paginatedResponseSchema<T extends z.ZodTypeAny>(dataSchema: T) {
       limit: z.number(),
       totalPages: z.number(),
     }),
-  });
+  })
 }
 
 // ─── API Error ─────────────────────────────────────────────────
@@ -28,9 +28,9 @@ export const ApiErrorSchema = z.object({
   details: z.record(z.unknown()).optional(),
   timestamp: z.string(),
   path: z.string().optional(),
-});
+})
 
-export type ApiError = z.infer<typeof ApiErrorSchema>;
+export type ApiError = z.infer<typeof ApiErrorSchema>
 
 // ─── Standard Response ─────────────────────────────────────────
 export const ApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
@@ -38,11 +38,9 @@ export const ApiResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
     success: z.literal(true),
     data: dataSchema,
     message: z.string().optional(),
-  });
+  })
 
-export const ApiListResponseSchema = <T extends z.ZodTypeAny>(
-  dataSchema: T,
-) =>
+export const ApiListResponseSchema = <T extends z.ZodTypeAny>(dataSchema: T) =>
   z.object({
     success: z.literal(true),
     data: z.array(dataSchema),
@@ -52,4 +50,4 @@ export const ApiListResponseSchema = <T extends z.ZodTypeAny>(
       limit: z.number(),
       totalPages: z.number(),
     }),
-  });
+  })

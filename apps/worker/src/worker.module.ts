@@ -1,11 +1,13 @@
-import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+
 import { PrismaModule } from '@ecom/database';
-import { EmailProcessor } from './processors/email.processor';
-import { OrderExpirationProcessor } from './processors/order-expiration.processor';
+
 import { CommissionProcessor } from './processors/commission.processor';
+import { EmailProcessor } from './processors/email.processor';
 import { InventoryReconciliationProcessor } from './processors/inventory-reconciliation.processor';
+import { OrderExpirationProcessor } from './processors/order-expiration.processor';
 
 @Module({
   imports: [
@@ -31,4 +33,5 @@ import { InventoryReconciliationProcessor } from './processors/inventory-reconci
     InventoryReconciliationProcessor,
   ],
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class WorkerModule {}

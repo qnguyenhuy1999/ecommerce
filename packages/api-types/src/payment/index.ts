@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const CreatePaymentIntentRequestSchema = z.object({
   orderId: z.string().min(1),
-});
+})
 
-export type CreatePaymentIntentRequest = z.infer<typeof CreatePaymentIntentRequestSchema>;
+export type CreatePaymentIntentRequest = z.infer<typeof CreatePaymentIntentRequestSchema>
 
 export const PaymentIntentResponseSchema = z.object({
   clientSecret: z.string(),
@@ -12,9 +12,9 @@ export const PaymentIntentResponseSchema = z.object({
   amount: z.number(),
   currency: z.string(),
   status: z.enum(['PENDING', 'SUCCESS', 'FAILED', 'REFUNDED']),
-});
+})
 
-export type PaymentIntentResponse = z.infer<typeof PaymentIntentResponseSchema>;
+export type PaymentIntentResponse = z.infer<typeof PaymentIntentResponseSchema>
 
 export const WebhookPayloadSchema = z.object({
   id: z.string(),
@@ -22,6 +22,6 @@ export const WebhookPayloadSchema = z.object({
   data: z.object({
     object: z.record(z.unknown()),
   }),
-});
+})
 
-export type WebhookPayload = z.infer<typeof WebhookPayloadSchema>;
+export type WebhookPayload = z.infer<typeof WebhookPayloadSchema>

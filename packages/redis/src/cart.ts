@@ -1,7 +1,7 @@
 // TODO: implement
 export async function getCartRedis(key: string): Promise<Record<string, unknown> | null> {
   // Use Redis GET to retrieve cart data
-  return null;
+  return null
 }
 
 // TODO: implement

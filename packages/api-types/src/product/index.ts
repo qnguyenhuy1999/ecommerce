@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { PaginationParamsSchema } from '../common';
+import { z } from 'zod'
+import { PaginationParamsSchema } from '../common'
 
 export const CreateProductRequestSchema = z.object({
   sku: z.string().min(1).max(100),
@@ -18,13 +18,13 @@ export const CreateProductRequestSchema = z.object({
       }),
     )
     .optional(),
-});
+})
 
-export type CreateProductRequest = z.infer<typeof CreateProductRequestSchema>;
+export type CreateProductRequest = z.infer<typeof CreateProductRequestSchema>
 
-export const UpdateProductRequestSchema = CreateProductRequestSchema.partial();
+export const UpdateProductRequestSchema = CreateProductRequestSchema.partial()
 
-export type UpdateProductRequest = z.infer<typeof UpdateProductRequestSchema>;
+export type UpdateProductRequest = z.infer<typeof UpdateProductRequestSchema>
 
 export const ProductResponseSchema = z.object({
   id: z.string(),
@@ -38,21 +38,23 @@ export const ProductResponseSchema = z.object({
   images: z.array(z.string()),
   rating: z.number(),
   reviewCount: z.number(),
-  variants: z.array(
-    z.object({
-      id: z.string(),
-      sku: z.string(),
-      attributes: z.record(z.string()),
-      priceOverride: z.number().nullable(),
-      stock: z.number(),
-      reservedStock: z.number(),
-    }),
-  ).optional(),
+  variants: z
+    .array(
+      z.object({
+        id: z.string(),
+        sku: z.string(),
+        attributes: z.record(z.string()),
+        priceOverride: z.number().nullable(),
+        stock: z.number(),
+        reservedStock: z.number(),
+      }),
+    )
+    .optional(),
   createdAt: z.string(),
   updatedAt: z.string(),
-});
+})
 
-export type ProductResponse = z.infer<typeof ProductResponseSchema>;
+export type ProductResponse = z.infer<typeof ProductResponseSchema>
 
 export const ProductListRequestSchema = PaginationParamsSchema.extend({
   search: z.string().optional(),
@@ -63,6 +65,6 @@ export const ProductListRequestSchema = PaginationParamsSchema.extend({
   maxPrice: z.number().optional(),
   sortBy: z.enum(['name', 'price', 'createdAt', 'rating']).optional(),
   sortOrder: z.enum(['asc', 'desc']).optional(),
-});
+})
 
-export type ProductListRequest = z.infer<typeof ProductListRequestSchema>;
+export type ProductListRequest = z.infer<typeof ProductListRequestSchema>

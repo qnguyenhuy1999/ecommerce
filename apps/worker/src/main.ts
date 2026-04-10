@@ -1,10 +1,10 @@
-import { NestFactory } from '@nestjs/core';
-import { WorkerModule } from './worker.module';
+import { NestFactory } from '@nestjs/core'
+import { WorkerModule } from './worker.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(WorkerModule);
-  await app.listen(0);
-  console.log('[Worker] BullMQ processors running');
+  const app = await NestFactory.create(WorkerModule)
+  await app.listen(0)
+  console.log('[Worker] BullMQ processors running')
 }
 
-bootstrap();
+void bootstrap()

@@ -1,4 +1,4 @@
-import { env } from './env.validation';
+import { env } from './env.validation'
 
 export default () => ({
   nodeEnv: env.NODE_ENV,
@@ -31,4 +31,4 @@ export default () => ({
   cors: {
     origin: env.CORS_ORIGIN,
   },
-});
+})

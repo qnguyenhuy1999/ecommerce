@@ -5,5 +5,5 @@ export default function HomePage() {
       <h1 className="text-3xl font-bold">Ecommerce Storefront</h1>
       <p className="text-gray-600">Coming soon...</p>
     </main>
-  );
+  )
 }

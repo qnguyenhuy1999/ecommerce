@@ -3,8 +3,8 @@ export const UserRole = {
   USER: 'USER',
   SELLER: 'SELLER',
   ADMIN: 'ADMIN',
-} as const;
-export type UserRole = (typeof UserRole)[keyof typeof UserRole];
+} as const
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 // ─── User Status ──────────────────────────────────────────────
 export const UserStatus = {
@@ -12,5 +12,5 @@ export const UserStatus = {
   ACTIVE: 'ACTIVE',
   SUSPENDED: 'SUSPENDED',
   DELETED: 'DELETED',
-} as const;
-export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus];
+} as const
+export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

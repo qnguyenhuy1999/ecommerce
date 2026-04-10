@@ -1,20 +1,20 @@
-import { z } from 'zod';
-import { paginationParamsSchema } from '../pagination';
+import { z } from 'zod'
+import { paginationParamsSchema } from '../pagination'
 
-export const productStatusSchema = z.enum(['DRAFT', 'ACTIVE', 'ARCHIVED', 'OUT_OF_STOCK']);
-export type ProductStatus = z.infer<typeof productStatusSchema>;
+export const productStatusSchema = z.enum(['DRAFT', 'ACTIVE', 'ARCHIVED', 'OUT_OF_STOCK'])
+export type ProductStatus = z.infer<typeof productStatusSchema>
 
 export const productImageSchema = z.object({
   url: z.string().url(),
   alt: z.string().optional(),
   isPrimary: z.boolean().default(false),
-});
+})
 
 export const dimensionsSchema = z.object({
   length: z.number().positive(),
   width: z.number().positive(),
   height: z.number().positive(),
-});
+})
 
 export const productSchema = z.object({
   id: z.string().uuid(),
@@ -36,7 +36,7 @@ export const productSchema = z.object({
   reviewCount: z.number().int().min(0).default(0),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
-});
+})
 
 export const createProductSchema = z.object({
   name: z.string().min(1).max(200),
@@ -51,9 +51,9 @@ export const createProductSchema = z.object({
   images: z.array(productImageSchema).default([]),
   weight: z.number().positive().nullable().optional(),
   dimensions: dimensionsSchema.nullable().optional(),
-});
+})
 
-export const updateProductSchema = createProductSchema.partial();
+export const updateProductSchema = createProductSchema.partial()
 
 export const productListParamsSchema = paginationParamsSchema.extend({
   sellerId: z.string().uuid().optional(),
@@ -62,9 +62,9 @@ export const productListParamsSchema = paginationParamsSchema.extend({
   minPrice: z.number().positive().optional(),
   maxPrice: z.number().positive().optional(),
   search: z.string().optional(),
-});
+})
 
-export type Product = z.infer<typeof productSchema>;
-export type CreateProductInput = z.infer<typeof createProductSchema>;
-export type UpdateProductInput = z.infer<typeof updateProductSchema>;
-export type ProductListParams = z.infer<typeof productListParamsSchema>;
+export type Product = z.infer<typeof productSchema>
+export type CreateProductInput = z.infer<typeof createProductSchema>
+export type UpdateProductInput = z.infer<typeof updateProductSchema>
+export type ProductListParams = z.infer<typeof productListParamsSchema>

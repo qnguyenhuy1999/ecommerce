@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { paginationParamsSchema } from '../pagination';
+import { z } from 'zod'
+import { paginationParamsSchema } from '../pagination'
 
 export const orderStatusSchema = z.enum([
   'PENDING_PAYMENT',
@@ -10,11 +10,11 @@ export const orderStatusSchema = z.enum([
   'CANCELLED',
   'REFUND_REQUESTED',
   'REFUNDED',
-]);
-export type OrderStatus = z.infer<typeof orderStatusSchema>;
+])
+export type OrderStatus = z.infer<typeof orderStatusSchema>
 
-export const paymentStatusEnum = z.enum(['PENDING', 'PAID', 'FAILED', 'REFUNDED']);
-export type PaymentStatusEnum = z.infer<typeof paymentStatusEnum>;
+export const paymentStatusEnum = z.enum(['PENDING', 'PAID', 'FAILED', 'REFUNDED'])
+export type PaymentStatusEnum = z.infer<typeof paymentStatusEnum>
 
 export const orderItemSchema = z.object({
   productId: z.string().uuid(),
@@ -24,7 +24,7 @@ export const orderItemSchema = z.object({
   unitPrice: z.number().positive(),
   totalPrice: z.number().positive(),
   sellerId: z.string().uuid(),
-});
+})
 
 export const shippingAddressSchema = z.object({
   fullName: z.string(),
@@ -34,7 +34,7 @@ export const shippingAddressSchema = z.object({
   state: z.string(),
   postalCode: z.string(),
   country: z.string().default('VN'),
-});
+})
 
 export const orderSchema = z.object({
   id: z.string().uuid(),
@@ -54,34 +54,34 @@ export const orderSchema = z.object({
   notes: z.string().nullable(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
-});
+})
 
 export const createOrderItemSchema = z.object({
   productId: z.string().uuid(),
   quantity: z.number().int().positive(),
-});
+})
 
 export const createOrderSchema = z.object({
   items: z.array(createOrderItemSchema).min(1),
   shippingAddress: shippingAddressSchema,
   paymentMethod: z.enum(['STRIPE', 'COD', 'WALLET']),
   notes: z.string().optional(),
-});
+})
 
 export const updateOrderStatusSchema = z.object({
   status: orderStatusSchema,
   trackingNumber: z.string().optional(),
   notes: z.string().optional(),
-});
+})
 
 export const orderListParamsSchema = paginationParamsSchema.extend({
   status: orderStatusSchema.optional(),
   buyerId: z.string().uuid().optional(),
   sellerId: z.string().uuid().optional(),
   paymentStatus: paymentStatusEnum.optional(),
-});
+})
 
-export type Order = z.infer<typeof orderSchema>;
-export type CreateOrderInput = z.infer<typeof createOrderSchema>;
-export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>;
-export type OrderListParams = z.infer<typeof orderListParamsSchema>;
+export type Order = z.infer<typeof orderSchema>
+export type CreateOrderInput = z.infer<typeof createOrderSchema>
+export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>
+export type OrderListParams = z.infer<typeof orderListParamsSchema>

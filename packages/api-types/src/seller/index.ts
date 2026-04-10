@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { PaginationParamsSchema } from '../common';
+import { z } from 'zod'
+import { PaginationParamsSchema } from '../common'
 
 export const KycSubmitRequestSchema = z.object({
   storeName: z.string().min(3).max(100),
@@ -14,9 +14,9 @@ export const KycSubmitRequestSchema = z.object({
       bankAccount: z.string().url().optional(),
     })
     .optional(),
-});
+})
 
-export type KycSubmitRequest = z.infer<typeof KycSubmitRequestSchema>;
+export type KycSubmitRequest = z.infer<typeof KycSubmitRequestSchema>
 
 export const SellerResponseSchema = z.object({
   id: z.string(),
@@ -27,22 +27,22 @@ export const SellerResponseSchema = z.object({
   rating: z.number(),
   totalRatings: z.number(),
   createdAt: z.string(),
-});
+})
 
-export type SellerResponse = z.infer<typeof SellerResponseSchema>;
+export type SellerResponse = z.infer<typeof SellerResponseSchema>
 
 export const SellerListRequestSchema = PaginationParamsSchema.extend({
   status: z.enum(['PENDING', 'APPROVED', 'REJECTED']).optional(),
   search: z.string().optional(),
-});
+})
 
-export type SellerListRequest = z.infer<typeof SellerListRequestSchema>;
+export type SellerListRequest = z.infer<typeof SellerListRequestSchema>
 
 export const UpdateSellerRequestSchema = z.object({
   storeName: z.string().min(3).max(100).optional(),
   storeDescription: z.string().max(500).optional(),
   bankAccountNumber: z.string().max(30).optional(),
   bankCode: z.string().max(20).optional(),
-});
+})
 
-export type UpdateSellerRequest = z.infer<typeof UpdateSellerRequestSchema>;
+export type UpdateSellerRequest = z.infer<typeof UpdateSellerRequestSchema>

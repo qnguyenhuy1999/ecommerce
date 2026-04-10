@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod'
 
 const envSchema = z.object({
   // Application
@@ -60,16 +60,16 @@ const envSchema = z.object({
   SMTP_USER: z.string().optional().default(''),
   SMTP_PASSWORD: z.string().optional().default(''),
   EMAIL_FROM: z.string().optional().default('noreply@example.com'),
-});
+})
 
-const parsed = envSchema.safeParse(process.env);
+const parsed = envSchema.safeParse(process.env)
 
 if (!parsed.success) {
-  const errors = parsed.error.errors.map((e) => `[${e.path.join('.')}] ${e.message}`).join('\n');
-  console.error('❌ Environment validation failed:\n', errors);
-  throw new Error(`Environment validation failed:\n${errors}`);
+  const errors = parsed.error.errors.map((e) => `[${e.path.join('.')}] ${e.message}`).join('\n')
+  console.error('❌ Environment validation failed:\n', errors)
+  throw new Error(`Environment validation failed:\n${errors}`)
 }
 
-export const env = parsed.data;
+export const env = parsed.data
 
-export type Env = z.infer<typeof envSchema>;
+export type Env = z.infer<typeof envSchema>

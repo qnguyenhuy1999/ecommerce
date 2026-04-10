@@ -1,4 +1,4 @@
-export * from './client';
+export * from './client'
 
 export const emailConfig = {
   host: process.env.SMTP_HOST || 'localhost',
@@ -8,4 +8,4 @@ export const emailConfig = {
     user: process.env.SMTP_USER || '',
     pass: process.env.SMTP_PASS || '',
   },
-};
+}
