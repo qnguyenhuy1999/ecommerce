@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [BRD.md](./../01-requirements/BRD.md) — Functional requirements FR-01 through FR-08 drive these endpoints
 > - [GLOSSARY.md](./../01-requirements/GLOSSARY.md) — Term definitions
 > - [SECURITY.md](./SECURITY.md) — Authentication and authorization requirements
@@ -61,28 +62,26 @@ https://api.marketplace.com/v1
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "Human-readable error message",
-    "details": [
-      { "field": "email", "message": "Email is required" }
-    ]
+    "details": [{ "field": "email", "message": "Email is required" }]
   }
 }
 ```
 
 ### HTTP Status Codes
 
-| Code | Usage |
-|------|-------|
-| 200 | Success (GET, PATCH) |
-| 201 | Created (POST) |
-| 204 | No Content (DELETE) |
-| 400 | Bad Request / Validation Error |
-| 401 | Unauthorized (no/invalid token) |
-| 403 | Forbidden (insufficient permissions) |
-| 404 | Not Found |
-| 409 | Conflict (e.g., out of stock, duplicate) |
-| 422 | Unprocessable Entity |
-| 429 | Too Many Requests (rate limited) |
-| 500 | Internal Server Error |
+| Code | Usage                                    |
+| ---- | ---------------------------------------- |
+| 200  | Success (GET, PATCH)                     |
+| 201  | Created (POST)                           |
+| 204  | No Content (DELETE)                      |
+| 400  | Bad Request / Validation Error           |
+| 401  | Unauthorized (no/invalid token)          |
+| 403  | Forbidden (insufficient permissions)     |
+| 404  | Not Found                                |
+| 409  | Conflict (e.g., out of stock, duplicate) |
+| 422  | Unprocessable Entity                     |
+| 429  | Too Many Requests (rate limited)         |
+| 500  | Internal Server Error                    |
 
 ### Pagination
 
@@ -120,11 +119,11 @@ Register a new user account.
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| email | string | Yes | Unique email address |
-| password | string | Yes | Min 8 chars, must include uppercase, lowercase, number |
-| role | enum | No | `USER` (default) or `SELLER` |
+| Field    | Type   | Required | Description                                            |
+| -------- | ------ | -------- | ------------------------------------------------------ |
+| email    | string | Yes      | Unique email address                                   |
+| password | string | Yes      | Min 8 chars, must include uppercase, lowercase, number |
+| role     | enum   | No       | `USER` (default) or `SELLER`                           |
 
 **Response (201):**
 
@@ -142,6 +141,7 @@ Register a new user account.
 ```
 
 **Errors:**
+
 - 400: `EMAIL_EXISTS`, `VALIDATION_ERROR`
 - 422: `INVALID_PASSWORD_FORMAT`
 
@@ -177,6 +177,7 @@ Authenticate and receive JWT tokens.
 ```
 
 **Errors:**
+
 - 401: `INVALID_CREDENTIALS`
 
 ---
@@ -210,6 +211,7 @@ Refresh access token using refresh token.
 ```
 
 **Errors:**
+
 - 401: `INVALID_REFRESH_TOKEN`, `TOKEN_EXPIRED`
 
 ---
@@ -267,6 +269,7 @@ Verify email address using token from verification email.
 ```
 
 **Errors:**
+
 - 400: `INVALID_TOKEN`, `TOKEN_EXPIRED`, `ALREADY_VERIFIED`
 
 ---
@@ -313,10 +316,10 @@ Update current user profile.
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| password | string | No | New password (requires currentPassword) |
-| currentPassword | string | No | Required when changing password |
+| Field           | Type   | Required | Description                             |
+| --------------- | ------ | -------- | --------------------------------------- |
+| password        | string | No       | New password (requires currentPassword) |
+| currentPassword | string | No       | Required when changing password         |
 
 **Response (200):**
 
@@ -332,6 +335,7 @@ Update current user profile.
 ```
 
 **Errors:**
+
 - 400: `CURRENT_PASSWORD_REQUIRED`, `INVALID_CURRENT_PASSWORD`
 - 422: `INVALID_PASSWORD_FORMAT`
 
@@ -362,9 +366,9 @@ Get orders for the current user.
       "id": "uuid",
       "orderNumber": "ORD-20260407-001",
       "status": "PAID",
-      "subtotal": 150.00,
-      "shippingFee": 10.00,
-      "totalAmount": 160.00,
+      "subtotal": 150.0,
+      "shippingFee": 10.0,
+      "totalAmount": 160.0,
       "itemCount": 3,
       "createdAt": "2026-04-07T00:00:00Z"
     }
@@ -400,13 +404,13 @@ Register as a seller (requires existing USER account with verified email).
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| storeName | string | Yes | Unique store display name |
-| storeDescription | string | No | Store bio/description |
-| businessRegistrationNumber | string | Yes | Government-issued business ID |
-| bankAccountNumber | string | Yes | For payouts |
-| bankCode | string | Yes | Bank identifier |
+| Field                      | Type   | Required | Description                   |
+| -------------------------- | ------ | -------- | ----------------------------- |
+| storeName                  | string | Yes      | Unique store display name     |
+| storeDescription           | string | No       | Store bio/description         |
+| businessRegistrationNumber | string | Yes      | Government-issued business ID |
+| bankAccountNumber          | string | Yes      | For payouts                   |
+| bankCode                   | string | Yes      | Bank identifier               |
 
 **Response (201):**
 
@@ -424,6 +428,7 @@ Register as a seller (requires existing USER account with verified email).
 ```
 
 **Errors:**
+
 - 400: `STORE_NAME_EXISTS`, `SELLER_ALREADY_REGISTERED`
 - 403: `EMAIL_NOT_VERIFIED`
 
@@ -471,6 +476,7 @@ Update seller store information. Only the seller themselves can update.
 **Response (200):** Updated seller data.
 
 **Errors:**
+
 - 403: `NOT_SELLER_OWNER`
 - 404: `SELLER_NOT_FOUND`
 
@@ -563,18 +569,14 @@ Get seller analytics dashboard data.
 {
   "success": true,
   "data": {
-    "totalRevenue": 15420.50,
+    "totalRevenue": 15420.5,
     "totalOrders": 234,
     "totalProducts": 42,
     "averageRating": 4.5,
     "pendingOrders": 5,
     "totalCommission": 1542.05,
-    "topProducts": [
-      { "id": "uuid", "name": "Wireless Mouse", "sold": 89 }
-    ],
-    "revenueByDay": [
-      { "date": "2026-04-01", "amount": 520.00 }
-    ]
+    "topProducts": [{ "id": "uuid", "name": "Wireless Mouse", "sold": 89 }],
+    "revenueByDay": [{ "date": "2026-04-01", "amount": 520.0 }]
   }
 }
 ```
@@ -701,20 +703,21 @@ Create a new product. Only approved sellers can publish.
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| sku | string | Yes | Unique per seller |
-| name | string | Yes | Max 255 chars |
-| description | string | No | Max 5000 chars |
-| price | number | Yes | > 0 |
-| status | enum | No | `DRAFT` (default) or `ACTIVE` |
-| categoryId | string | Yes | Valid category ID |
-| images | string[] | No | CDN URLs |
-| variants | array | No | If omitted, creates a single default variant |
+| Field       | Type     | Required | Description                                  |
+| ----------- | -------- | -------- | -------------------------------------------- |
+| sku         | string   | Yes      | Unique per seller                            |
+| name        | string   | Yes      | Max 255 chars                                |
+| description | string   | No       | Max 5000 chars                               |
+| price       | number   | Yes      | > 0                                          |
+| status      | enum     | No       | `DRAFT` (default) or `ACTIVE`                |
+| categoryId  | string   | Yes      | Valid category ID                            |
+| images      | string[] | No       | CDN URLs                                     |
+| variants    | array    | No       | If omitted, creates a single default variant |
 
 **Response (201):** Created product with ID.
 
 **Errors:**
+
 - 400: `SKU_EXISTS`, `SKU_NOT_UNIQUE_PER_SELLER`
 - 403: `KYC_NOT_APPROVED`, `CANNOT_PUBLISH_WITHOUT_APPROVAL`
 - 404: `CATEGORY_NOT_FOUND`
@@ -732,6 +735,7 @@ Update a product.
 **Response (200):** Updated product.
 
 **Errors:**
+
 - 403: `NOT_PRODUCT_OWNER`
 - 404: `PRODUCT_NOT_FOUND`
 
@@ -746,6 +750,7 @@ Soft-delete a product (sets status to DELETED).
 **Response (204):** No content.
 
 **Errors:**
+
 - 403: `NOT_PRODUCT_OWNER`
 - 404: `PRODUCT_NOT_FOUND`
 
@@ -839,10 +844,10 @@ Add item to cart.
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| variantId | string | Yes | Valid variant ID |
-| quantity | int | Yes | Min 1, max stock |
+| Field     | Type   | Required | Description      |
+| --------- | ------ | -------- | ---------------- |
+| variantId | string | Yes      | Valid variant ID |
+| quantity  | int    | Yes      | Min 1, max stock |
 
 **Response (201):**
 
@@ -859,6 +864,7 @@ Add item to cart.
 ```
 
 **Errors:**
+
 - 400: `INSUFFICIENT_STOCK`
 - 404: `VARIANT_NOT_FOUND`
 
@@ -881,6 +887,7 @@ Update cart item quantity.
 **Response (200):** Updated cart item.
 
 **Errors:**
+
 - 400: `INSUFFICIENT_STOCK`, `INVALID_QUANTITY`
 - 404: `CART_ITEM_NOT_FOUND`
 
@@ -895,6 +902,7 @@ Remove item from cart.
 **Response (204):** No content.
 
 **Errors:**
+
 - 404: `CART_ITEM_NOT_FOUND`, `NOT_CART_OWNER`
 
 ---
@@ -935,11 +943,11 @@ Checkout — create order from cart.
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| shippingAddress | object | Yes | Delivery address |
-| paymentMethod | string | Yes | Payment provider identifier |
-| idempotencyKey | string | Yes | UUID to prevent duplicate orders |
+| Field           | Type   | Required | Description                      |
+| --------------- | ------ | -------- | -------------------------------- |
+| shippingAddress | object | Yes      | Delivery address                 |
+| paymentMethod   | string | Yes      | Payment provider identifier      |
+| idempotencyKey  | string | Yes      | UUID to prevent duplicate orders |
 
 **Response (201):**
 
@@ -950,9 +958,9 @@ Checkout — create order from cart.
     "orderId": "uuid",
     "orderNumber": "ORD-20260407-001",
     "status": "PENDING_PAYMENT",
-    "subtotal": 150.00,
-    "shippingFee": 10.00,
-    "totalAmount": 160.00,
+    "subtotal": 150.0,
+    "shippingFee": 10.0,
+    "totalAmount": 160.0,
     "paymentIntent": {
       "clientSecret": "pi_xxx_secret_xxx",
       "provider": "stripe",
@@ -972,6 +980,7 @@ Checkout — create order from cart.
 ```
 
 **Errors:**
+
 - 400: `CART_EMPTY`, `IDEMPOTENCY_KEY_REUSED`
 - 409: `INSUFFICIENT_STOCK` (some items no longer available)
 
@@ -1060,27 +1069,28 @@ Update order status (used by sellers and admin).
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| status | enum | Yes | Valid transition from current status |
-| shippingTracking | object | No | Required when transitioning to SHIPPED |
+| Field            | Type   | Required | Description                            |
+| ---------------- | ------ | -------- | -------------------------------------- |
+| status           | enum   | Yes      | Valid transition from current status   |
+| shippingTracking | object | No       | Required when transitioning to SHIPPED |
 
 **Response (200):** Updated order.
 
 **Errors:**
+
 - 400: `INVALID_STATUS_TRANSITION`
 - 403: `NOT_ORDER_OWNER` (for sub-orders) or `NOT_ADMIN`
 - 404: `ORDER_NOT_FOUND`
 
 **Valid Transitions:**
 
-| Current | Allowed Next |
-|---------|-------------|
-| PENDING_PAYMENT | PAID, CANCELLED |
-| PAID | PROCESSING, CANCELLED |
-| PROCESSING | SHIPPED |
-| SHIPPED | COMPLETED, REFUNDED |
-| COMPLETED | REFUNDED |
+| Current         | Allowed Next          |
+| --------------- | --------------------- |
+| PENDING_PAYMENT | PAID, CANCELLED       |
+| PAID            | PROCESSING, CANCELLED |
+| PROCESSING      | SHIPPED               |
+| SHIPPED         | COMPLETED, REFUNDED   |
+| COMPLETED       | REFUNDED              |
 
 ---
 
@@ -1095,14 +1105,14 @@ Request a refund for an order.
 ```json
 {
   "reason": "Product not as described",
-  "requestedAmount": 160.00
+  "requestedAmount": 160.0
 }
 ```
 
-| Field | Type | Required | Description |
-|-------|------|----------|-------------|
-| reason | string | Yes | Refund reason |
-| requestedAmount | number | No | Full or partial refund amount |
+| Field           | Type   | Required | Description                   |
+| --------------- | ------ | -------- | ----------------------------- |
+| reason          | string | Yes      | Refund reason                 |
+| requestedAmount | number | No       | Full or partial refund amount |
 
 **Response (201):**
 
@@ -1114,13 +1124,14 @@ Request a refund for an order.
     "orderId": "uuid",
     "status": "PENDING_REFUND",
     "reason": "Product not as described",
-    "requestedAmount": 160.00,
+    "requestedAmount": 160.0,
     "createdAt": "2026-04-07T00:00:00Z"
   }
 }
 ```
 
 **Errors:**
+
 - 400: `REFUND_ALREADY_REQUESTED`, `ORDER_NOT_REFUNDABLE`
 - 404: `ORDER_NOT_FOUND`
 
@@ -1153,7 +1164,7 @@ Create a payment intent (usually called internally by checkout).
     "paymentId": "uuid",
     "clientSecret": "pi_xxx_secret_xxx",
     "redirectUrl": "https://stripe.com/pay/...",
-    "amount": 160.00,
+    "amount": 160.0,
     "currency": "SGD",
     "status": "PENDING"
   }
@@ -1178,7 +1189,7 @@ Get payment details.
     "orderId": "uuid",
     "provider": "stripe",
     "providerReference": "pi_xxx",
-    "amount": 160.00,
+    "amount": 160.0,
     "currency": "SGD",
     "status": "SUCCESS",
     "idempotencyKey": "payment-key-uuid",
@@ -1209,6 +1220,7 @@ Webhook endpoint for payment gateway callbacks.
 ```
 
 **Processing:**
+
 1. Verify webhook signature using provider's secret
 2. Check idempotency key — if already processed, return 200 immediately
 3. Update payment record based on event type
@@ -1216,6 +1228,7 @@ Webhook endpoint for payment gateway callbacks.
 5. Return 200
 
 **Errors:**
+
 - 400: `INVALID_SIGNATURE`
 
 ---
@@ -1277,5 +1290,6 @@ Mark a notification as read.
 ```
 
 **Errors:**
+
 - 404: `NOTIFICATION_NOT_FOUND`
 - 403: `NOT_NOTIFICATION_OWNER`

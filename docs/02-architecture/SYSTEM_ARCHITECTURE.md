@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [BRD.md](./../01-requirements/BRD.md) — Business requirements driving this architecture
 > - [GLOSSARY.md](./../01-requirements/GLOSSARY.md) — Term definitions
 > - [SEQUENCE_DIAGRAMS.md](./SEQUENCE_DIAGRAMS.md) — Detailed flow diagrams
@@ -66,20 +67,20 @@ PostgreSQL Primary   Async Consumers
 
 ### Modules
 
-| Module | Responsibility |
-|--------|---------------|
-| **auth** | Registration, login, JWT issuance, email verification |
-| **user** | User profile, preferences |
-| **seller** | Seller onboarding, KYC, store management |
-| **product** | Product CRUD, variants, catalog, search |
-| **inventory** | Stock management, reservations, atomic operations |
-| **cart** | Cart management, item operations |
-| **order** | Order creation, splitting, lifecycle management |
-| **payment** | Payment intent creation, webhook handling |
-| **commission** | Commission calculation, ledger entries |
-| **review** | Ratings and reviews |
-| **notification** | In-app notifications, email/SMS triggers |
-| **admin** | Seller approval, dispute resolution, analytics |
+| Module           | Responsibility                                        |
+| ---------------- | ----------------------------------------------------- |
+| **auth**         | Registration, login, JWT issuance, email verification |
+| **user**         | User profile, preferences                             |
+| **seller**       | Seller onboarding, KYC, store management              |
+| **product**      | Product CRUD, variants, catalog, search               |
+| **inventory**    | Stock management, reservations, atomic operations     |
+| **cart**         | Cart management, item operations                      |
+| **order**        | Order creation, splitting, lifecycle management       |
+| **payment**      | Payment intent creation, webhook handling             |
+| **commission**   | Commission calculation, ledger entries                |
+| **review**       | Ratings and reviews                                   |
+| **notification** | In-app notifications, email/SMS triggers              |
+| **admin**        | Seller approval, dispute resolution, analytics        |
 
 ### Design Principles
 
@@ -102,15 +103,15 @@ PostgreSQL Primary   Async Consumers
 
 ### Core Tables
 
-| Table | Fields |
-|-------|--------|
-| **User** | id, email, role (USER \| SELLER \| ADMIN), status |
-| **Seller** | id, owner_id (user), shop_name, status, commission_rate, rating |
-| **Product** | id, seller_id, name, price, status |
-| **Inventory** | product_id, seller_id, total_stock, reserved_stock |
-| **Order** | id, buyer_id, total_amount, status |
-| **SubOrder** | id, order_id, seller_id, subtotal, status |
-| **OrderItem** | id, sub_order_id, product_id, quantity, price_snapshot |
+| Table         | Fields                                                          |
+| ------------- | --------------------------------------------------------------- |
+| **User**      | id, email, role (USER \| SELLER \| ADMIN), status               |
+| **Seller**    | id, owner_id (user), shop_name, status, commission_rate, rating |
+| **Product**   | id, seller_id, name, price, status                              |
+| **Inventory** | product_id, seller_id, total_stock, reserved_stock              |
+| **Order**     | id, buyer_id, total_amount, status                              |
+| **SubOrder**  | id, order_id, seller_id, subtotal, status                       |
+| **OrderItem** | id, sub_order_id, product_id, quantity, price_snapshot          |
 
 ---
 
@@ -203,15 +204,15 @@ Preload stock into Redis before sale starts
 
 ### Tables
 
-| Table | Fields |
-|-------|--------|
+| Table            | Fields                                                                                               |
+| ---------------- | ---------------------------------------------------------------------------------------------------- |
 | **SellerLedger** | id, seller_id, type (CREDIT \| DEBIT), amount, reference_type, reference_id, description, created_at |
 
 ### Commission Flow
 
 1. Buyer completes payment for order
 2. PAYMENT_SUCCESS event triggers commission calculation
-3. Commission = subtotal * commission_rate
+3. Commission = subtotal \* commission_rate
 4. Ledger entry: CREDIT to seller wallet (subtotal - commission)
 5. Ledger entry: DEBIT commission to platform account
 
@@ -219,11 +220,11 @@ Preload stock into Redis before sale starts
 
 ## 8. Database Strategy
 
-| Layer | Purpose |
-|-------|--------|
-| **PostgreSQL Primary** | All write operations |
-| **PostgreSQL Read Replica** | Product listings, order history, analytics |
-| **Redis** | Cache (product details, categories, sessions) + atomic counters (inventory) |
+| Layer                       | Purpose                                                                     |
+| --------------------------- | --------------------------------------------------------------------------- |
+| **PostgreSQL Primary**      | All write operations                                                        |
+| **PostgreSQL Read Replica** | Product listings, order history, analytics                                  |
+| **Redis**                   | Cache (product details, categories, sessions) + atomic counters (inventory) |
 
 ### Required Indexes
 
@@ -262,14 +263,14 @@ Miss → Query DB → Store in Redis → Return
 
 ### BullMQ Queues (MVP)
 
-| Queue | Purpose |
-|-------|--------|
-| **email** | Transactional emails (order confirmation, refund) |
-| **notification** | In-app notification creation |
-| **analytics** | Event aggregation and metrics |
-| **order-expiration** | Cancel unpaid orders after timeout |
-| **settlement** | Commission calculation and seller payouts |
-| **inventory-reconciliation** | Sync Redis counters with DB periodically |
+| Queue                        | Purpose                                           |
+| ---------------------------- | ------------------------------------------------- |
+| **email**                    | Transactional emails (order confirmation, refund) |
+| **notification**             | In-app notification creation                      |
+| **analytics**                | Event aggregation and metrics                     |
+| **order-expiration**         | Cancel unpaid orders after timeout                |
+| **settlement**               | Commission calculation and seller payouts         |
+| **inventory-reconciliation** | Sync Redis counters with DB periodically          |
 
 ### Event-Driven Benefits
 
@@ -281,12 +282,12 @@ Miss → Query DB → Store in Redis → Return
 
 ## 11. Horizontal Scaling Strategy
 
-| Layer | Strategy |
-|-------|----------|
-| **API Layer** | Stateless servers — auto-scale by CPU/memory |
-| **Redis** | Cluster mode with replica nodes for high availability |
-| **Database** | Primary + read replicas; partition large tables by seller_id in Phase 3 |
-| **Queue Workers** | Scale workers independently based on queue depth |
+| Layer             | Strategy                                                                |
+| ----------------- | ----------------------------------------------------------------------- |
+| **API Layer**     | Stateless servers — auto-scale by CPU/memory                            |
+| **Redis**         | Cluster mode with replica nodes for high availability                   |
+| **Database**      | Primary + read replicas; partition large tables by seller_id in Phase 3 |
+| **Queue Workers** | Scale workers independently based on queue depth                        |
 
 ---
 
@@ -336,11 +337,11 @@ Miss → Query DB → Store in Redis → Return
 
 ### Infrastructure Evolution Table
 
-| Phase | DB Strategy | Messaging | Inventory | Search |
-|-------|-------------|-----------|-----------|--------|
-| MVP | Single cluster | BullMQ | DB locking | DB |
-| Scale | DB per service | Kafka | Redis atomic | Elasticsearch |
-| 1M+ | DB per service cluster | Kafka cluster | Redis cluster | ES cluster |
+| Phase | DB Strategy            | Messaging     | Inventory     | Search        |
+| ----- | ---------------------- | ------------- | ------------- | ------------- |
+| MVP   | Single cluster         | BullMQ        | DB locking    | DB            |
+| Scale | DB per service         | Kafka         | Redis atomic  | Elasticsearch |
+| 1M+   | DB per service cluster | Kafka cluster | Redis cluster | ES cluster    |
 
 ---
 
@@ -367,4 +368,4 @@ This document is informed by:
 
 ---
 
-*See [SEQUENCE_DIAGRAMS.md](./SEQUENCE_DIAGRAMS.md) for detailed flow diagrams.*
+_See [SEQUENCE_DIAGRAMS.md](./SEQUENCE_DIAGRAMS.md) for detailed flow diagrams._

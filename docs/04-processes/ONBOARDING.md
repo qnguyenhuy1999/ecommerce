@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [INFRASTRUCTURE.md](./../03-technical/INFRASTRUCTURE.md) — Docker and environment setup
 > - [API_DESIGN.md](./../03-technical/API_DESIGN.md) — API endpoint reference
 > - [DEPLOYMENT.md](./DEPLOYMENT.md) — Deployment procedures
@@ -69,12 +70,12 @@ npm run dev --workspace=apps/web    # Web on :3001
 
 ### Common Setup Issues
 
-| Issue | Solution |
-|-------|----------|
-| Port already in use | Change port in `.env` or stop the conflicting process |
-| Docker not running | Start Docker Desktop, run `docker ps` to verify |
-| Migration fails | Ensure Postgres is healthy: `docker compose ps postgres` |
-| npm install fails | Clear cache: `npm cache clean --force && npm install` |
+| Issue               | Solution                                                 |
+| ------------------- | -------------------------------------------------------- |
+| Port already in use | Change port in `.env` or stop the conflicting process    |
+| Docker not running  | Start Docker Desktop, run `docker ps` to verify          |
+| Migration fails     | Ensure Postgres is healthy: `docker compose ps postgres` |
+| npm install fails   | Clear cache: `npm cache clean --force && npm install`    |
 
 ---
 
@@ -322,39 +323,39 @@ async findAll(@Request() req, @Query() dto: GetNotificationsDto) {
 
 // DTO example
 export interface CreateProductDto {
-  sku: string;
-  name: string;
-  price: number;
+  sku: string
+  name: string
+  price: number
 }
 
 // Response type
 export interface ProductResponse {
-  id: string;
-  sku: string;
-  name: string;
-  price: number;
-  status: ProductStatus;
+  id: string
+  sku: string
+  name: string
+  price: number
+  status: ProductStatus
 }
 ```
 
 ### Naming
 
-| Entity | Convention | Example |
-|--------|-----------|---------|
-| Files | kebab-case | `order-service.ts` |
-| Classes | PascalCase | `OrderService` |
-| Variables | camelCase | `orderId`, `isActive` |
-| Constants | SCREAMING_SNAKE | `MAX_RETRY_COUNT` |
-| Enums | PascalCase values | `OrderStatus.PAID` |
-| DTOs | PascalCase | `CreateOrderDto` |
-| Database tables | PascalCase | `ProductVariant` |
-| API routes | kebab-case | `/order-items` |
+| Entity          | Convention        | Example               |
+| --------------- | ----------------- | --------------------- |
+| Files           | kebab-case        | `order-service.ts`    |
+| Classes         | PascalCase        | `OrderService`        |
+| Variables       | camelCase         | `orderId`, `isActive` |
+| Constants       | SCREAMING_SNAKE   | `MAX_RETRY_COUNT`     |
+| Enums           | PascalCase values | `OrderStatus.PAID`    |
+| DTOs            | PascalCase        | `CreateOrderDto`      |
+| Database tables | PascalCase        | `ProductVariant`      |
+| API routes      | kebab-case        | `/order-items`        |
 
 ### Error Handling
 
 ```typescript
 // Always use custom exceptions
-throw new NotFoundException('ORDER_NOT_FOUND');
+throw new NotFoundException('ORDER_NOT_FOUND')
 
 // Consistent error codes
 export enum ErrorCode {
@@ -373,13 +374,13 @@ export enum ErrorCode {
 const user = await prisma.user.findUnique({
   where: { id: userId },
   select: { id: true, email: true, role: true },
-});
+})
 
 // Use transactions for multi-step operations
 await prisma.$transaction([
   prisma.order.create({ data: orderData }),
   prisma.inventoryReservation.createMany({ data: reservations }),
-]);
+])
 ```
 
 ---

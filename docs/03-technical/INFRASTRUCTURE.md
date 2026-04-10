@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [SYSTEM_ARCHITECTURE.md](./../02-architecture/SYSTEM_ARCHITECTURE.md) — Architecture decisions and evolution path
 > - [DEPLOYMENT.md](./../04-processes/DEPLOYMENT.md) — Release and deployment procedures
 > - [TESTING_STRATEGY.md](./TESTING_STRATEGY.md) — Test environment setup
@@ -37,11 +38,11 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: marketplace_dev
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U marketplace"]
+      test: ['CMD-SHELL', 'pg_isready -U marketplace']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -51,12 +52,12 @@ services:
     image: redis:7-alpine
     container_name: marketplace-redis
     ports:
-      - "6379:6379"
+      - '6379:6379'
     command: redis-server --appendonly yes
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ['CMD', 'redis-cli', 'ping']
       interval: 10s
       timeout: 5s
       retries: 5
@@ -73,7 +74,7 @@ services:
       NODE_ENV: development
       # ... other env vars from .env
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       postgres:
         condition: service_healthy
@@ -113,7 +114,7 @@ services:
     environment:
       NEXT_PUBLIC_API_URL: http://localhost:3000
     ports:
-      - "3001:3000"
+      - '3001:3000'
     depends_on:
       - api
     volumes:
@@ -267,7 +268,6 @@ RESERVATION_TIMEOUT_SECONDS=900
    ```
 
 6. **Verify:**
-
    - API: http://localhost:3000
    - Web: http://localhost:3001
    - Health: http://localhost:3000/health
@@ -303,11 +303,11 @@ RESERVATION_TIMEOUT_SECONDS=900
 
 ### Deployment Targets
 
-| Environment | Recommended Platform | Notes |
-|-------------|---------------------|-------|
-| Development | Local Docker | Full stack |
-| Staging | AWS ECS / Railway / Render | Mirror production |
-| Production | AWS ECS (Fargate) | Multi-AZ RDS, Redis Cluster |
+| Environment | Recommended Platform       | Notes                       |
+| ----------- | -------------------------- | --------------------------- |
+| Development | Local Docker               | Full stack                  |
+| Staging     | AWS ECS / Railway / Render | Mirror production           |
+| Production  | AWS ECS (Fargate)          | Multi-AZ RDS, Redis Cluster |
 
 ### Database
 
@@ -447,9 +447,9 @@ jobs:
 
 ```typescript
 // src/tracing.ts
-import { NodeSDK } from '@opentelemetry/sdk-node';
-import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
-import { JaegerExporter } from '@opentelemetry/exporter-jaeger';
+import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node'
+import { JaegerExporter } from '@opentelemetry/exporter-jaeger'
+import { NodeSDK } from '@opentelemetry/sdk-node'
 
 const sdk = new NodeSDK({
   serviceName: 'marketplace-api',
@@ -457,22 +457,22 @@ const sdk = new NodeSDK({
     endpoint: process.env.JAEGER_ENDPOINT || 'http://localhost:14268/api/traces',
   }),
   instrumentations: [getNodeAutoInstrumentations()],
-});
+})
 
-sdk.start();
+sdk.start()
 ```
 
 ### Key Metrics to Monitor
 
-| Metric | Alert Threshold | Dashboard |
-|--------|----------------|-----------|
-| API p95 latency | > 200ms | APM dashboard |
-| API error rate | > 1% | APM dashboard |
-| DB connection pool | > 80% | RDS dashboard |
-| Redis memory | > 75% | ElastiCache dashboard |
-| Queue depth | > 1000 | BullMQ dashboard |
-| Failed payment webhooks | > 5 in 5 min | Alerting |
-| Inventory reserve latency | > 100ms | APM dashboard |
+| Metric                    | Alert Threshold | Dashboard             |
+| ------------------------- | --------------- | --------------------- |
+| API p95 latency           | > 200ms         | APM dashboard         |
+| API error rate            | > 1%            | APM dashboard         |
+| DB connection pool        | > 80%           | RDS dashboard         |
+| Redis memory              | > 75%           | ElastiCache dashboard |
+| Queue depth               | > 1000          | BullMQ dashboard      |
+| Failed payment webhooks   | > 5 in 5 min    | Alerting              |
+| Inventory reserve latency | > 100ms         | APM dashboard         |
 
 ### Logging Strategy
 
@@ -491,5 +491,5 @@ logger.log({
   sellerCount: subOrders.length,
   totalAmount: order.totalAmount,
   duration: performance.now() - start,
-});
+})
 ```

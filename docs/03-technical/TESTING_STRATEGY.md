@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [API_DESIGN.md](./API_DESIGN.md) — API endpoints to test
 > - [BRD.md](./../01-requirements/BRD.md) — Acceptance criteria to verify
 > - [INFRASTRUCTURE.md](./INFRASTRUCTURE.md) — Test environment setup
@@ -39,13 +40,13 @@
 Target coverage: >= 80% for services
 ```
 
-| Layer | Tools | Scope | Target | CI Gate |
-|-------|-------|-------|--------|---------|
-| Unit | Jest | Services, utils, validators | 200+ tests, 80% coverage | Yes — must pass |
-| Integration | Supertest + Jest | API endpoints, DB flows | 50 tests | Yes — must pass |
-| E2E | Playwright | Critical user journeys | 10+ scenarios | Optional on PR, full on staging |
-| Load | k6 | Checkout, product browse | 5K concurrent | Weekly on staging |
-| Security | OWASP ZAP | All endpoints | Baseline scan | Monthly |
+| Layer       | Tools            | Scope                       | Target                   | CI Gate                         |
+| ----------- | ---------------- | --------------------------- | ------------------------ | ------------------------------- |
+| Unit        | Jest             | Services, utils, validators | 200+ tests, 80% coverage | Yes — must pass                 |
+| Integration | Supertest + Jest | API endpoints, DB flows     | 50 tests                 | Yes — must pass                 |
+| E2E         | Playwright       | Critical user journeys      | 10+ scenarios            | Optional on PR, full on staging |
+| Load        | k6               | Checkout, product browse    | 5K concurrent            | Weekly on staging               |
+| Security    | OWASP ZAP        | All endpoints               | Baseline scan            | Monthly                         |
 
 ---
 
@@ -64,12 +65,7 @@ export default {
   testEnvironment: 'node',
   roots: ['<rootDir>/src'],
   testMatch: ['**/*.spec.ts'],
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/**/*.module.ts',
-    '!src/main.ts',
-    '!src/**/*.dto.ts',
-  ],
+  collectCoverageFrom: ['src/**/*.ts', '!src/**/*.module.ts', '!src/main.ts', '!src/**/*.dto.ts'],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -81,7 +77,7 @@ export default {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-};
+}
 ```
 
 ### What to Test
@@ -96,20 +92,17 @@ export default {
 
 ```typescript
 describe('OrderService', () => {
-  let orderService: OrderService;
-  let prisma: PrismaService;
+  let orderService: OrderService
+  let prisma: PrismaService
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [
-        OrderService,
-        { provide: PrismaService, useValue: mockPrisma },
-      ],
-    }).compile();
+      providers: [OrderService, { provide: PrismaService, useValue: mockPrisma }],
+    }).compile()
 
-    orderService = module.get(OrderService);
-    prisma = module.get(PrismaService);
-  });
+    orderService = module.get(OrderService)
+    prisma = module.get(PrismaService)
+  })
 
   describe('createOrder', () => {
     it('should create order with PENDING_PAYMENT status', async () => {
@@ -118,30 +111,30 @@ describe('OrderService', () => {
         status: 'PENDING_PAYMENT',
         totalAmount: 100,
         buyerId: 'buyer-123',
-      });
+      })
 
       const result = await orderService.createOrder({
         buyerId: 'buyer-123',
         cartId: 'cart-123',
         shippingAddress: mockAddress,
         idempotencyKey: 'idem-123',
-      });
+      })
 
-      expect(result.status).toBe('PENDING_PAYMENT');
+      expect(result.status).toBe('PENDING_PAYMENT')
       expect(mockPrisma.order.create).toHaveBeenCalledWith(
         expect.objectContaining({
           data: expect.objectContaining({
             status: 'PENDING_PAYMENT',
           }),
         }),
-      );
-    });
+      )
+    })
 
     it('should throw CONFLICT error on idempotency key reuse', async () => {
       mockPrisma.order.findUnique.mockResolvedValue({
         id: 'existing-order',
         idempotencyKey: 'idem-123',
-      });
+      })
 
       await expect(
         orderService.createOrder({
@@ -149,28 +142,26 @@ describe('OrderService', () => {
           cartId: 'cart-123',
           idempotencyKey: 'idem-123',
         }),
-      ).rejects.toThrow(IdempotencyKeyConflictException);
-    });
-  });
+      ).rejects.toThrow(IdempotencyKeyConflictException)
+    })
+  })
 
   describe('order status transitions', () => {
     it('should transition PENDING_PAYMENT -> PAID', async () => {
-      mockPrisma.order.update.mockResolvedValue({ status: 'PAID' });
-      const result = await orderService.updateStatus('order-123', 'PAID');
-      expect(result.status).toBe('PAID');
-    });
+      mockPrisma.order.update.mockResolvedValue({ status: 'PAID' })
+      const result = await orderService.updateStatus('order-123', 'PAID')
+      expect(result.status).toBe('PAID')
+    })
 
     it('should reject invalid transition PENDING_PAYMENT -> SHIPPED', async () => {
       mockPrisma.order.findUnique.mockResolvedValue({
         status: 'PENDING_PAYMENT',
-      });
+      })
 
-      await expect(
-        orderService.updateStatus('order-123', 'SHIPPED'),
-      ).rejects.toThrow(InvalidStatusTransitionException);
-    });
-  });
-});
+      await expect(orderService.updateStatus('order-123', 'SHIPPED')).rejects.toThrow(InvalidStatusTransitionException)
+    })
+  })
+})
 ```
 
 ### Example: Inventory Reservation
@@ -182,15 +173,15 @@ describe('InventoryService.reserveStock', () => {
       id: 'variant-1',
       stock: 10,
       version: 1,
-    });
+    })
     mockPrisma.productVariant.update.mockResolvedValue({
       stock: 8,
       version: 2,
-    });
+    })
 
-    const result = await service.reserveStock('variant-1', 2);
+    const result = await service.reserveStock('variant-1', 2)
 
-    expect(result.remaining).toBe(8);
+    expect(result.remaining).toBe(8)
     expect(mockPrisma.productVariant.update).toHaveBeenCalledWith(
       expect.objectContaining({
         where: { id: 'variant-1', version: 1 },
@@ -200,20 +191,18 @@ describe('InventoryService.reserveStock', () => {
           version: 2,
         }),
       }),
-    );
-  });
+    )
+  })
 
   it('should throw OUT_OF_STOCK when stock is insufficient', async () => {
     mockPrisma.productVariant.findUnique.mockResolvedValue({
       stock: 1,
       version: 1,
-    });
+    })
 
-    await expect(service.reserveStock('variant-1', 5)).rejects.toThrow(
-      InsufficientStockException,
-    );
-  });
-});
+    await expect(service.reserveStock('variant-1', 5)).rejects.toThrow(InsufficientStockException)
+  })
+})
 ```
 
 ---
@@ -226,15 +215,15 @@ describe('InventoryService.reserveStock', () => {
 // test/integration.setup.ts
 beforeAll(async () => {
   // Use separate test database
-  process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/marketplace_test';
-  await migrateDatabase();
-  await seedTestData();
-});
+  process.env.DATABASE_URL = 'postgresql://user:pass@localhost:5432/marketplace_test'
+  await migrateDatabase()
+  await seedTestData()
+})
 
 afterAll(async () => {
-  await cleanupDatabase();
-  await prisma.$disconnect();
-});
+  await cleanupDatabase()
+  await prisma.$disconnect()
+})
 ```
 
 ### Test Categories
@@ -247,75 +236,75 @@ describe('Auth Module (Integration)', () => {
     it('should register a new user', async () => {
       const res = await request(app.getHttpServer())
         .post('/auth/register')
-        .send({ email: 'new@test.com', password: 'TestPass123' });
+        .send({ email: 'new@test.com', password: 'TestPass123' })
 
-      expect(res.status).toBe(201);
-      expect(res.body.success).toBe(true);
-      expect(res.body.data.email).toBe('new@test.com');
-      expect(res.body.data.status).toBe('UNVERIFIED');
-    });
+      expect(res.status).toBe(201)
+      expect(res.body.success).toBe(true)
+      expect(res.body.data.email).toBe('new@test.com')
+      expect(res.body.data.status).toBe('UNVERIFIED')
+    })
 
     it('should reject duplicate email', async () => {
-      await createTestUser({ email: 'existing@test.com' });
+      await createTestUser({ email: 'existing@test.com' })
       const res = await request(app.getHttpServer())
         .post('/auth/register')
-        .send({ email: 'existing@test.com', password: 'TestPass123' });
+        .send({ email: 'existing@test.com', password: 'TestPass123' })
 
-      expect(res.status).toBe(400);
-      expect(res.body.error.code).toBe('EMAIL_EXISTS');
-    });
-  });
+      expect(res.status).toBe(400)
+      expect(res.body.error.code).toBe('EMAIL_EXISTS')
+    })
+  })
 
   describe('POST /auth/login', () => {
     it('should return JWT tokens on valid credentials', async () => {
       await createTestUser({
         email: 'login@test.com',
         password: await hashPassword('TestPass123'),
-      });
+      })
 
       const res = await request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: 'login@test.com', password: 'TestPass123' });
+        .send({ email: 'login@test.com', password: 'TestPass123' })
 
-      expect(res.status).toBe(200);
-      expect(res.body.data.accessToken).toBeDefined();
-      expect(res.body.data.refreshToken).toBeDefined();
-    });
+      expect(res.status).toBe(200)
+      expect(res.body.data.accessToken).toBeDefined()
+      expect(res.body.data.refreshToken).toBeDefined()
+    })
 
     it('should reject invalid password', async () => {
       const res = await request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: 'login@test.com', password: 'WrongPass123' });
+        .send({ email: 'login@test.com', password: 'WrongPass123' })
 
-      expect(res.status).toBe(401);
-    });
-  });
-});
+      expect(res.status).toBe(401)
+    })
+  })
+})
 ```
 
 **Checkout Flow:**
 
 ```typescript
 describe('Checkout Flow (Integration)', () => {
-  let authToken: string;
-  let seller: Seller;
-  let product: Product;
+  let authToken: string
+  let seller: Seller
+  let product: Product
 
   beforeEach(async () => {
     // Setup: create seller, product, and cart
-    seller = await createApprovedSeller();
-    product = await createProduct({ sellerId: seller.id, stock: 10 });
-    authToken = await getAuthToken({ role: 'USER' });
-  });
+    seller = await createApprovedSeller()
+    product = await createProduct({ sellerId: seller.id, stock: 10 })
+    authToken = await getAuthToken({ role: 'USER' })
+  })
 
   it('should complete full checkout flow', async () => {
     // Add to cart
     const cartRes = await request(app.getHttpServer())
       .post('/cart/items')
       .set('Authorization', `Bearer ${authToken}`)
-      .send({ variantId: product.defaultVariantId, quantity: 2 });
+      .send({ variantId: product.defaultVariantId, quantity: 2 })
 
-    expect(cartRes.status).toBe(201);
+    expect(cartRes.status).toBe(201)
 
     // Checkout
     const checkoutRes = await request(app.getHttpServer())
@@ -325,15 +314,15 @@ describe('Checkout Flow (Integration)', () => {
         shippingAddress: mockAddress,
         paymentMethod: 'stripe',
         idempotencyKey: `checkout-${Date.now()}`,
-      });
+      })
 
-    expect(checkoutRes.status).toBe(201);
-    expect(checkoutRes.body.data.status).toBe('PENDING_PAYMENT');
-    expect(checkoutRes.body.data.paymentIntent).toBeDefined();
-  });
+    expect(checkoutRes.status).toBe(201)
+    expect(checkoutRes.body.data.status).toBe('PENDING_PAYMENT')
+    expect(checkoutRes.body.data.paymentIntent).toBeDefined()
+  })
 
   it('should fail checkout when stock is insufficient', async () => {
-    await updateVariant({ stock: 0 });
+    await updateVariant({ stock: 0 })
 
     const res = await request(app.getHttpServer())
       .post('/orders')
@@ -341,12 +330,12 @@ describe('Checkout Flow (Integration)', () => {
       .send({
         paymentMethod: 'stripe',
         idempotencyKey: `checkout-${Date.now()}`,
-      });
+      })
 
-    expect(res.status).toBe(409);
-    expect(res.body.error.code).toBe('INSUFFICIENT_STOCK');
-  });
-});
+    expect(res.status).toBe(409)
+    expect(res.body.error.code).toBe('INSUFFICIENT_STOCK')
+  })
+})
 ```
 
 **Payment Webhook:**
@@ -354,28 +343,28 @@ describe('Checkout Flow (Integration)', () => {
 ```typescript
 describe('Payment Webhook (Integration)', () => {
   it('should process payment success webhook idempotently', async () => {
-    const order = await createPendingOrder();
+    const order = await createPendingOrder()
 
     // First webhook call
     const res1 = await request(app.getHttpServer())
       .post('/payments/webhook')
       .set('stripe-signature', 'valid-signature')
-      .send(mockPaymentIntentSucceeded(order.idempotencyKey));
+      .send(mockPaymentIntentSucceeded(order.idempotencyKey))
 
-    expect(res1.status).toBe(200);
+    expect(res1.status).toBe(200)
 
     // Duplicate webhook call
     const res2 = await request(app.getHttpServer())
       .post('/payments/webhook')
       .set('stripe-signature', 'valid-signature')
-      .send(mockPaymentIntentSucceeded(order.idempotencyKey));
+      .send(mockPaymentIntentSucceeded(order.idempotencyKey))
 
-    expect(res2.status).toBe(200);
+    expect(res2.status).toBe(200)
     // Order status should not change (idempotent)
-    const updatedOrder = await getOrder(order.id);
-    expect(updatedOrder.status).toBe('PAID');
-  });
-});
+    const updatedOrder = await getOrder(order.id)
+    expect(updatedOrder.status).toBe('PAID')
+  })
+})
 ```
 
 ---
@@ -386,52 +375,52 @@ describe('Payment Webhook (Integration)', () => {
 
 ```typescript
 // e2e/checkout.spec.ts
-import { test, expect } from '@playwright/test';
+import { test, expect } from '@playwright/test'
 
 test.describe('Critical User Journeys', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-  });
+    await page.goto('/')
+  })
 
   test('user can browse, add to cart, and checkout', async ({ page }) => {
     // Browse products
-    await page.click('[data-testid="search-input"]');
-    await page.fill('[data-testid="search-input"]', 'wireless mouse');
-    await page.click('[data-testid="search-button"]');
-    await page.waitForSelector('[data-testid="product-card"]');
+    await page.click('[data-testid="search-input"]')
+    await page.fill('[data-testid="search-input"]', 'wireless mouse')
+    await page.click('[data-testid="search-button"]')
+    await page.waitForSelector('[data-testid="product-card"]')
 
     // Add to cart
-    await page.click('[data-testid="product-card"]:first-child');
-    await page.click('[data-testid="add-to-cart"]');
-    await expect(page.locator('[data-testid="cart-count"]')).toHaveText('1');
+    await page.click('[data-testid="product-card"]:first-child')
+    await page.click('[data-testid="add-to-cart"]')
+    await expect(page.locator('[data-testid="cart-count"]')).toHaveText('1')
 
     // Checkout
-    await page.click('[data-testid="checkout-button"]');
-    await page.fill('[data-testid="address-form"]', mockAddress);
-    await page.click('[data-testid="place-order"]');
-    await expect(page.locator('[data-testid="order-confirmation"]')).toBeVisible();
-  });
+    await page.click('[data-testid="checkout-button"]')
+    await page.fill('[data-testid="address-form"]', mockAddress)
+    await page.click('[data-testid="place-order"]')
+    await expect(page.locator('[data-testid="order-confirmation"]')).toBeVisible()
+  })
 
   test('seller can register and add products', async ({ page }) => {
     // Login as seller
-    await page.goto('/login');
-    await page.fill('[name="email"]', 'seller@test.com');
-    await page.fill('[name="password"]', 'TestPass123');
-    await page.click('[data-testid="login-button"]');
+    await page.goto('/login')
+    await page.fill('[name="email"]', 'seller@test.com')
+    await page.fill('[name="password"]', 'TestPass123')
+    await page.click('[data-testid="login-button"]')
 
     // Navigate to seller dashboard
-    await page.goto('/seller/dashboard');
+    await page.goto('/seller/dashboard')
 
     // Add product
-    await page.click('[data-testid="add-product"]');
-    await page.fill('[name="name"]', 'New Product');
-    await page.fill('[name="price"]', '29.99');
-    await page.fill('[name="sku"]', 'NP-001');
-    await page.click('[data-testid="publish-product"]');
+    await page.click('[data-testid="add-product"]')
+    await page.fill('[name="name"]', 'New Product')
+    await page.fill('[name="price"]', '29.99')
+    await page.fill('[name="sku"]', 'NP-001')
+    await page.click('[data-testid="publish-product"]')
 
-    await expect(page.locator('[data-testid="product-list"]')).toContainText('New Product');
-  });
-});
+    await expect(page.locator('[data-testid="product-list"]')).toContainText('New Product')
+  })
+})
 ```
 
 ---
@@ -442,67 +431,75 @@ test.describe('Critical User Journeys', () => {
 
 ```javascript
 // k6/checkout-load-test.js
-import http from 'k6/http';
-import { check, sleep } from 'k6';
+import { check, sleep } from 'k6'
+import http from 'k6/http'
 
 export const options = {
   stages: [
-    { duration: '30s', target: 100 },   // Ramp up
-    { duration: '1m', target: 1000 },  // Sustain
-    { duration: '30s', target: 5000 },  // Spike
-    { duration: '1m', target: 5000 },   // Sustained peak
-    { duration: '30s', target: 0 },     // Ramp down
+    { duration: '30s', target: 100 }, // Ramp up
+    { duration: '1m', target: 1000 }, // Sustain
+    { duration: '30s', target: 5000 }, // Spike
+    { duration: '1m', target: 5000 }, // Sustained peak
+    { duration: '30s', target: 0 }, // Ramp down
   ],
   thresholds: {
-    http_req_duration: ['p(95)<300'],  // p95 < 300ms
-    http_req_failed: ['rate<0.01'],   // Error rate < 1%
+    http_req_duration: ['p(95)<300'], // p95 < 300ms
+    http_req_failed: ['rate<0.01'], // Error rate < 1%
     checkout_success_rate: ['rate>0.95'],
   },
-};
+}
 
 export default function () {
-  const baseUrl = 'https://api-staging.marketplace.com/v1';
+  const baseUrl = 'https://api-staging.marketplace.com/v1'
 
   // Get auth token
-  const loginRes = http.post(`${baseUrl}/auth/login`, JSON.stringify({
-    email: `loadtest_${__VU}@test.com`,
-    password: 'LoadTest123',
-  }), {
-    headers: { 'Content-Type': 'application/json' },
-  });
+  const loginRes = http.post(
+    `${baseUrl}/auth/login`,
+    JSON.stringify({
+      email: `loadtest_${__VU}@test.com`,
+      password: 'LoadTest123',
+    }),
+    {
+      headers: { 'Content-Type': 'application/json' },
+    },
+  )
 
-  const token = loginRes.json('data.accessToken');
+  const token = loginRes.json('data.accessToken')
 
   // Get cart
   const cartRes = http.get(`${baseUrl}/cart`, {
     headers: { Authorization: `Bearer ${token}` },
-  });
+  })
 
   // Checkout
-  const checkoutRes = http.post(`${baseUrl}/orders`, JSON.stringify({
-    shippingAddress: {
-      fullName: 'Load Test',
-      phone: '+6590000000',
-      addressLine1: '123 Test St',
-      city: 'Singapore',
-      postalCode: '123456',
-      country: 'SG',
+  const checkoutRes = http.post(
+    `${baseUrl}/orders`,
+    JSON.stringify({
+      shippingAddress: {
+        fullName: 'Load Test',
+        phone: '+6590000000',
+        addressLine1: '123 Test St',
+        city: 'Singapore',
+        postalCode: '123456',
+        country: 'SG',
+      },
+      paymentMethod: 'stripe',
+      idempotencyKey: `k6-${__VU}-${__ITER}-${Date.now()}`,
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
     },
-    paymentMethod: 'stripe',
-    idempotencyKey: `k6-${__VU}-${__ITER}-${Date.now()}`,
-  }), {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  )
 
   check(checkoutRes, {
     'checkout status 201': (r) => r.status === 201,
     'checkout returns orderId': (r) => r.json('data.orderId') !== undefined,
-  });
+  })
 
-  sleep(1);
+  sleep(1)
 }
 ```
 
@@ -518,7 +515,7 @@ name: Security Scan
 
 on:
   schedule:
-    - cron: '0 0 1 * *'  # Monthly
+    - cron: '0 0 1 * *' # Monthly
   workflow_dispatch:
 
 jobs:
@@ -544,9 +541,9 @@ jobs:
 
 ```typescript
 // test/factories/index.ts
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient()
 
 export async function createTestUser(overrides = {}) {
   return prisma.user.create({
@@ -558,11 +555,11 @@ export async function createTestUser(overrides = {}) {
       emailVerified: new Date(),
       ...overrides,
     },
-  });
+  })
 }
 
 export async function createTestSeller(user?: User, overrides = {}) {
-  const userOrCreated = user || await createTestUser();
+  const userOrCreated = user || (await createTestUser())
   return prisma.seller.create({
     data: {
       userId: userOrCreated.id,
@@ -570,11 +567,11 @@ export async function createTestSeller(user?: User, overrides = {}) {
       kycStatus: 'APPROVED',
       ...overrides,
     },
-  });
+  })
 }
 
 export async function createTestProduct(sellerId: string, overrides = {}) {
-  const sku = `SKU-${Date.now()}-${Math.random()}`;
+  const sku = `SKU-${Date.now()}-${Math.random()}`
   return prisma.product.create({
     data: {
       sellerId,
@@ -584,7 +581,7 @@ export async function createTestProduct(sellerId: string, overrides = {}) {
       status: 'ACTIVE',
       ...overrides,
     },
-  });
+  })
 }
 ```
 
@@ -593,14 +590,14 @@ export async function createTestProduct(sellerId: string, overrides = {}) {
 ```typescript
 // Clean up between tests
 afterEach(async () => {
-  await prisma.notification.deleteMany();
-  await prisma.orderItem.deleteMany();
-  await prisma.subOrder.deleteMany();
-  await prisma.order.deleteMany();
-  await prisma.cartItem.deleteMany();
-  await prisma.cart.deleteMany();
-  await prisma.inventoryReservation.deleteMany();
-});
+  await prisma.notification.deleteMany()
+  await prisma.orderItem.deleteMany()
+  await prisma.subOrder.deleteMany()
+  await prisma.order.deleteMany()
+  await prisma.cartItem.deleteMany()
+  await prisma.cart.deleteMany()
+  await prisma.inventoryReservation.deleteMany()
+})
 ```
 
 ---

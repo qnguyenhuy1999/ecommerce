@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [INFRASTRUCTURE.md](./../03-technical/INFRASTRUCTURE.md) — Infrastructure setup and CI/CD pipeline
 > - [ONBOARDING.md](./ONBOARDING.md) — Developer setup reference
 > - [SYSTEM_ARCHITECTURE.md](./../02-architecture/SYSTEM_ARCHITECTURE.md) — Architecture phases
@@ -67,10 +68,10 @@ Format: `v{MAJOR}.{MINOR}.{PATCH}`
 
 ### Build Arguments
 
-| ARG | Description | Required |
-|-----|-------------|----------|
-| `NODE_ENV` | `production` or `development` | Yes |
-| `API_URL` | Backend API URL for frontend | Yes (frontend only) |
+| ARG        | Description                   | Required            |
+| ---------- | ----------------------------- | ------------------- |
+| `NODE_ENV` | `production` or `development` | Yes                 |
+| `API_URL`  | Backend API URL for frontend  | Yes (frontend only) |
 
 ### Build Commands
 
@@ -151,19 +152,19 @@ npm run db:rollback --workspace=apps/api
 // Migration 1: Add nullable column
 await db.query(`
   ALTER TABLE "Product" ADD COLUMN "rating" DOUBLE PRECISION DEFAULT 0;
-`);
+`)
 
 // Migration 2: Backfill (separate job, run after deployment)
 await db.query(`
   UPDATE "Product" SET "rating" = (
     SELECT AVG(rating) FROM "Review" WHERE "productId" = "Product".id
   ) WHERE "rating" = 0;
-`);
+`)
 
 // Migration 3: Add NOT NULL constraint (after backfill)
 await db.query(`
   ALTER TABLE "Product" ALTER COLUMN "rating" SET NOT NULL;
-`);
+`)
 ```
 
 ### Post-Migration Verification
@@ -228,11 +229,11 @@ aws rds restore-db-instance-from-db-snapshot \
 
 ### Rollback Decision Criteria
 
-| Issue | Action |
-|-------|--------|
-| API returning 5xx errors | Rollback immediately |
-| Database migration failed | Rollback migration, investigate |
-| Partial deployment | Rollback to stable version |
+| Issue                        | Action                                  |
+| ---------------------------- | --------------------------------------- |
+| API returning 5xx errors     | Rollback immediately                    |
+| Database migration failed    | Rollback migration, investigate         |
+| Partial deployment           | Rollback to stable version              |
 | Performance regression > 20% | Investigate first; rollback if critical |
 
 ---
@@ -241,11 +242,11 @@ aws rds restore-db-instance-from-db-snapshot \
 
 ### Environment Overview
 
-| Environment | Branch | URL | Purpose |
-|-------------|--------|-----|---------|
-| Development | Local | localhost:3001 | Individual development |
-| Staging | `develop` | staging.marketplace.com | Integration testing |
-| Production | `main` (tags) | api.marketplace.com | Live users |
+| Environment | Branch        | URL                     | Purpose                |
+| ----------- | ------------- | ----------------------- | ---------------------- |
+| Development | Local         | localhost:3001          | Individual development |
+| Staging     | `develop`     | staging.marketplace.com | Integration testing    |
+| Production  | `main` (tags) | api.marketplace.com     | Live users             |
 
 ### Promotion Path
 
@@ -281,10 +282,10 @@ Manual trigger on version tag:
 
 ### Environment-Specific Config
 
-| Variable | Development | Staging | Production |
-|----------|-------------|---------|-----------|
-| `NODE_ENV` | development | staging | production |
-| `LOG_LEVEL` | debug | info | warn |
-| Rate limiting | Disabled | Normal | Enforced |
-| Source maps | Yes | No | No |
-| Error details | Full stack | Generic | Generic |
+| Variable      | Development | Staging | Production |
+| ------------- | ----------- | ------- | ---------- |
+| `NODE_ENV`    | development | staging | production |
+| `LOG_LEVEL`   | debug       | info    | warn       |
+| Rate limiting | Disabled    | Normal  | Enforced   |
+| Source maps   | Yes         | No      | No         |
+| Error details | Full stack  | Generic | Generic    |

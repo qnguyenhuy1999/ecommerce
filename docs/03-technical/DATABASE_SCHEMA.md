@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [BRD.md](./../01-requirements/BRD.md) — Entity definitions from conceptual data model (Section 10)
 > - [GLOSSARY.md](./../01-requirements/GLOSSARY.md) — Term definitions
 > - [API_DESIGN.md](./API_DESIGN.md) — API endpoints consuming this schema
@@ -14,6 +15,7 @@
 This document defines the complete database schema using **Prisma ORM**. The schema follows the conceptual data model from BRD Section 10 with extensions for operational needs.
 
 All tables include:
+
 - `id` (CUID) as primary key
 - `createdAt` and `updatedAt` timestamps (except immutable ledger and log tables)
 - Soft deletes via `deletedAt` where applicable
@@ -484,23 +486,23 @@ model Review {
 
 ## Index Strategy Summary
 
-| Table | Indexes | Purpose |
-|-------|---------|---------|
-| User | email, role, status | Auth lookups, role filtering |
-| Seller | userId, kycStatus, storeName, rating | User->seller lookup, admin queries, search |
-| Product | sellerId+sku (unique), status, categoryId, name, price, deletedAt | CRUD, category browse, search |
-| ProductVariant | productId+sku (unique), productId, sku | Variant lookup, stock queries |
-| InventoryReservation | variantId, orderId, status, expiresAt, status+expiresAt | Cleanup jobs, stock management |
-| Cart | userId (unique) | Single cart per user |
-| CartItem | cartId+variantId (unique), cartId, variantId | Cart operations |
-| Order | buyerId, status, orderNumber, createdAt, deletedAt | Buyer history, admin ops |
-| SubOrder | orderId+sellerId (unique), orderId, sellerId, status | Multi-seller queries |
-| OrderItem | subOrderId, variantId | Order detail, analytics |
-| Payment | orderId (unique), provider, status, idempotencyKey, providerReference | Payment ops, webhook matching |
-| Commission | orderId+sellerId (unique), orderId, sellerId, createdAt | Settlement, reporting |
-| Notification | userId, isRead, createdAt, userId+isRead+createdAt | Inbox, unread count |
-| SellerLedger | sellerId, type, referenceType+referenceId, createdAt, sellerId+createdAt | Balance calc, reconciliation |
-| Review | orderId+productId+userId (unique), sellerId, productId, userId, rating | Product/seller ratings |
+| Table                | Indexes                                                                  | Purpose                                    |
+| -------------------- | ------------------------------------------------------------------------ | ------------------------------------------ |
+| User                 | email, role, status                                                      | Auth lookups, role filtering               |
+| Seller               | userId, kycStatus, storeName, rating                                     | User->seller lookup, admin queries, search |
+| Product              | sellerId+sku (unique), status, categoryId, name, price, deletedAt        | CRUD, category browse, search              |
+| ProductVariant       | productId+sku (unique), productId, sku                                   | Variant lookup, stock queries              |
+| InventoryReservation | variantId, orderId, status, expiresAt, status+expiresAt                  | Cleanup jobs, stock management             |
+| Cart                 | userId (unique)                                                          | Single cart per user                       |
+| CartItem             | cartId+variantId (unique), cartId, variantId                             | Cart operations                            |
+| Order                | buyerId, status, orderNumber, createdAt, deletedAt                       | Buyer history, admin ops                   |
+| SubOrder             | orderId+sellerId (unique), orderId, sellerId, status                     | Multi-seller queries                       |
+| OrderItem            | subOrderId, variantId                                                    | Order detail, analytics                    |
+| Payment              | orderId (unique), provider, status, idempotencyKey, providerReference    | Payment ops, webhook matching              |
+| Commission           | orderId+sellerId (unique), orderId, sellerId, createdAt                  | Settlement, reporting                      |
+| Notification         | userId, isRead, createdAt, userId+isRead+createdAt                       | Inbox, unread count                        |
+| SellerLedger         | sellerId, type, referenceType+referenceId, createdAt, sellerId+createdAt | Balance calc, reconciliation               |
+| Review               | orderId+productId+userId (unique), sellerId, productId, userId, rating   | Product/seller ratings                     |
 
 ---
 

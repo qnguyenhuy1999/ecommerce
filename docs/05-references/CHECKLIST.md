@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [DEPLOYMENT.md](./../04-processes/DEPLOYMENT.md) — Deployment procedures
 > - [ONBOARDING.md](./../04-processes/ONBOARDING.md) — Code conventions
 > - [SECURITY.md](./../03-technical/SECURITY.md) — Security requirements

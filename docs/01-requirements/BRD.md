@@ -357,15 +357,15 @@ The platform must:
 | Entity               | Fields                                    |
 | -------------------- | ----------------------------------------- |
 | User                 | id, email, role, status                   |
-| Seller               | id, user_id, store_name, kyc_status        |
-| Product              | id, seller_id, sku, price, status          |
-| ProductVariant       | id, product_id, attributes, stock          |
+| Seller               | id, user_id, store_name, kyc_status       |
+| Product              | id, seller_id, sku, price, status         |
+| ProductVariant       | id, product_id, attributes, stock         |
 | InventoryReservation | id, sku, quantity, expires_at             |
 | Cart                 | id, user_id                               |
 | Order                | id, buyer_id, status, total_amount        |
 | OrderItem            | id, order_id, product_id, quantity, price |
-| Payment              | id, order_id, status, provider_reference   |
-| Commission           | id, order_id, seller_id, amount            |
+| Payment              | id, order_id, status, provider_reference  |
+| Commission           | id, order_id, seller_id, amount           |
 
 ### Relationships
 
@@ -503,7 +503,7 @@ For APAC:
 | SKU  | Stock Keeping Unit       |
 | GMV  | Gross Merchandise Value  |
 | KYC  | Know Your Customer       |
-| RTO  | Recovery Time Objective |
+| RTO  | Recovery Time Objective  |
 | RPO  | Recovery Point Objective |
 
 ---

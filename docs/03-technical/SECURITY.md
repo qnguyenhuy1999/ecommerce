@@ -3,6 +3,7 @@
 **Version:** 1.0.0 | **Date:** 2026-04-07
 
 > **Related Documents:**
+>
 > - [BRD.md](./../01-requirements/BRD.md) — NFR security requirements (Section 12) and regulatory compliance (Section 14)
 > - [GLOSSARY.md](./../01-requirements/GLOSSARY.md) — Security term definitions
 > - [API_DESIGN.md](./API_DESIGN.md) — API authentication requirements
@@ -34,19 +35,19 @@
 
 ```typescript
 // NestJS example using argon2
-import * as argon2 from 'argon2';
+import * as argon2 from 'argon2'
 
 async function hashPassword(password: string): Promise<string> {
   return argon2.hash(password, {
     type: argon2.argon2id,
-    memoryCost: 65536,  // 64MB
+    memoryCost: 65536, // 64MB
     timeCost: 3,
     parallelism: 4,
-  });
+  })
 }
 
 async function verifyPassword(hash: string, password: string): Promise<boolean> {
-  return argon2.verify(hash, password);
+  return argon2.verify(hash, password)
 }
 ```
 
@@ -65,11 +66,11 @@ async function verifyPassword(hash: string, password: string): Promise<boolean> 
 
 ```typescript
 interface JwtPayload {
-  sub: string;       // user ID
-  email: string;
-  role: UserRole;
-  iat: number;       // issued at
-  exp: number;        // expiration
+  sub: string // user ID
+  email: string
+  role: UserRole
+  iat: number // issued at
+  exp: number // expiration
 }
 ```
 
@@ -86,24 +87,24 @@ interface JwtPayload {
 
 ### Roles and Permissions
 
-| Permission | USER | SELLER | ADMIN |
-|------------|------|--------|-------|
-| Browse products | Yes | Yes | Yes |
-| Manage own cart | Yes | Yes | Yes |
-| Checkout & order | Yes | Yes | Yes |
-| View own orders | Yes | Yes | Yes |
-| Manage own seller profile | No | Yes | Yes |
-| CRUD own products | No | Yes | Yes |
-| View own sub-orders | No | Yes | Yes |
-| Update sub-order status | No | Yes | Yes |
-| Manage own seller ledger | No | Yes | Yes |
-| View own analytics | No | Yes | Yes |
-| View all sellers | No | No | Yes |
-| Approve seller KYC | No | No | Yes |
-| Manage all orders | No | No | Yes |
-| Resolve disputes | No | No | Yes |
-| Generate payout reports | No | No | Yes |
-| System configuration | No | No | Yes |
+| Permission                | USER | SELLER | ADMIN |
+| ------------------------- | ---- | ------ | ----- |
+| Browse products           | Yes  | Yes    | Yes   |
+| Manage own cart           | Yes  | Yes    | Yes   |
+| Checkout & order          | Yes  | Yes    | Yes   |
+| View own orders           | Yes  | Yes    | Yes   |
+| Manage own seller profile | No   | Yes    | Yes   |
+| CRUD own products         | No   | Yes    | Yes   |
+| View own sub-orders       | No   | Yes    | Yes   |
+| Update sub-order status   | No   | Yes    | Yes   |
+| Manage own seller ledger  | No   | Yes    | Yes   |
+| View own analytics        | No   | Yes    | Yes   |
+| View all sellers          | No   | No     | Yes   |
+| Approve seller KYC        | No   | No     | Yes   |
+| Manage all orders         | No   | No     | Yes   |
+| Resolve disputes          | No   | No     | Yes   |
+| Generate payout reports   | No   | No     | Yes   |
+| System configuration      | No   | No     | Yes   |
 
 ### Resource Ownership
 
@@ -165,10 +166,10 @@ export class CreateProductDto {
 // SAFE — Prisma parameterized
 const user = await prisma.user.findUnique({
   where: { email: userInput },
-});
+})
 
 // UNSAFE — never do this
-await prisma.$queryRaw`SELECT * FROM users WHERE email = ${userInput}`;
+await prisma.$queryRaw`SELECT * FROM users WHERE email = ${userInput}`
 ```
 
 ### XSS Prevention
@@ -262,14 +263,14 @@ await prisma.$queryRaw`SELECT * FROM users WHERE email = ${userInput}`;
 
 ### Strategy
 
-| Endpoint Type | Limit | Window | Response |
-|--------------|-------|--------|----------|
-| Auth (login/register) | 10 requests | 1 minute | 429 |
-| Auth (refresh) | 30 requests | 1 minute | 429 |
-| Public read (products, search) | 100 requests | 1 minute | 429 |
-| Authenticated (cart, orders) | 60 requests | 1 minute | 429 |
-| Payment webhook | No limit | — | 200 |
-| File upload | 10 requests | 1 minute | 429 |
+| Endpoint Type                  | Limit        | Window   | Response |
+| ------------------------------ | ------------ | -------- | -------- |
+| Auth (login/register)          | 10 requests  | 1 minute | 429      |
+| Auth (refresh)                 | 30 requests  | 1 minute | 429      |
+| Public read (products, search) | 100 requests | 1 minute | 429      |
+| Authenticated (cart, orders)   | 60 requests  | 1 minute | 429      |
+| Payment webhook                | No limit     | —        | 200      |
+| File upload                    | 10 requests  | 1 minute | 429      |
 
 ### Implementation
 
@@ -353,14 +354,14 @@ async handleStripeWebhook(
 
 ### Data Handling
 
-| Data Type | Storage | Encryption |
-|-----------|---------|-----------|
-| User email | DB | At rest |
-| User password | DB (hashed) | At rest |
-| Payment tokens | DB | At rest |
-| KYC documents | S3 (signed URLs only) | At rest + signed URLs |
-| Bank account | DB | Field-level encryption |
-| Personal data in orders | DB | At rest |
+| Data Type               | Storage               | Encryption             |
+| ----------------------- | --------------------- | ---------------------- |
+| User email              | DB                    | At rest                |
+| User password           | DB (hashed)           | At rest                |
+| Payment tokens          | DB                    | At rest                |
+| KYC documents           | S3 (signed URLs only) | At rest + signed URLs  |
+| Bank account            | DB                    | Field-level encryption |
+| Personal data in orders | DB                    | At rest                |
 
 ---
 
@@ -375,7 +376,7 @@ const corsOptions = {
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-};
+}
 ```
 
 ### Security Headers
