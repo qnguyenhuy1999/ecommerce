@@ -1,41 +1,20 @@
-import * as React from "react";
-import { X, SlidersHorizontal } from "lucide-react";
-import { cn } from "@ecom/ui";
-import { Button } from "@ecom/ui";
-import { Checkbox } from "@ecom/ui";
-import { Label } from "@ecom/ui";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from "@ecom/ui";
-
-interface FilterOption {
-  value: string;
-  label: string;
-  count?: number;
-}
-
-interface FilterConfig {
-  id: string;
-  label: string;
-  type: "checkbox" | "radio" | "price-range";
-  options?: FilterOption[];
-}
-
-interface FilterSidebarProps {
-  filters: FilterConfig[];
-  onFilterChange: (filterId: string, values: string[]) => void;
-  onClear: () => void;
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-  className?: string;
-}
+import * as React from 'react'
+import { cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { Checkbox } from '@ecom/ui'
+import { Label } from '@ecom/ui'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetFooter } from '@ecom/ui'
+import { SlidersHorizontal } from 'lucide-react'
+import type { FilterSidebarProps, FilterConfig, FilterOption } from './types'
 
 const FilterSidebarContent = ({
   filters,
   onFilterChange,
   onClear,
   className,
-}: Omit<FilterSidebarProps, "open" | "onOpenChange">) => {
+}: Omit<FilterSidebarProps, 'open' | 'onOpenChange'>) => {
   return (
-    <div className={cn("flex flex-col gap-6", className)}>
+    <div className={cn('flex flex-col gap-6', className)}>
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-sm flex items-center gap-2">
@@ -56,16 +35,15 @@ const FilterSidebarContent = ({
       {filters.map((filter) => (
         <div key={filter.id} className="flex flex-col gap-3">
           <h4 className="text-sm font-medium">{filter.label}</h4>
-          {filter.type === "checkbox" && filter.options && (
+          {filter.type === 'checkbox' && filter.options && (
             <div className="flex flex-col gap-2">
               {filter.options.map((option) => (
                 <div key={option.value} className="flex items-center gap-2">
                   <Checkbox
                     id={`${filter.id}-${option.value}`}
                     value={option.value}
-                    onCheckedChange={(checked) => {
-                      // read current selections for this filter from a ref (handled externally via onFilterChange)
-                      onFilterChange(filter.id, [option.value]);
+                    onCheckedChange={() => {
+                      onFilterChange(filter.id, [option.value])
                     }}
                   />
                   <Label
@@ -81,7 +59,7 @@ const FilterSidebarContent = ({
               ))}
             </div>
           )}
-          {filter.type === "radio" && filter.options && (
+          {filter.type === 'radio' && filter.options && (
             <div className="flex flex-col gap-2">
               {filter.options.map((option) => (
                 <div key={option.value} className="flex items-center gap-2">
@@ -103,7 +81,7 @@ const FilterSidebarContent = ({
               ))}
             </div>
           )}
-          {filter.type === "price-range" && (
+          {filter.type === 'price-range' && (
             <p className="text-xs text-muted-foreground italic">
               Price range controls coming soon.
             </p>
@@ -111,22 +89,19 @@ const FilterSidebarContent = ({
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
 const FilterSidebar = React.forwardRef<HTMLDivElement, FilterSidebarProps>(
   ({ filters, onFilterChange, onClear, open, onOpenChange, className }, ref) => {
-    const isControlled = open !== undefined && onOpenChange !== undefined;
+    const isControlled = open !== undefined && onOpenChange !== undefined
 
     return (
       <>
         {/* Desktop inline sidebar */}
         <div
           ref={ref}
-          className={cn(
-            "hidden md:block w-56 flex-shrink-0 p-4 border-r bg-background",
-            className
-          )}
+          className={cn('hidden md:block w-56 flex-shrink-0 p-4 border-r bg-background', className)}
         >
           <FilterSidebarContent
             filters={filters}
@@ -137,7 +112,12 @@ const FilterSidebar = React.forwardRef<HTMLDivElement, FilterSidebarProps>(
 
         {/* Mobile sheet overlay */}
         {isControlled && open && (
-          <Sheet open={open} onClose={() => onOpenChange?.(false)}>
+          <Sheet
+            open={open}
+            onOpenChange={(isOpen) => {
+              if (!isOpen) onOpenChange?.(false)
+            }}
+          >
             <SheetContent className="w-80">
               <SheetHeader>
                 <SheetTitle className="flex items-center gap-2">
@@ -161,10 +141,10 @@ const FilterSidebar = React.forwardRef<HTMLDivElement, FilterSidebarProps>(
           </Sheet>
         )}
       </>
-    );
-  }
-);
-FilterSidebar.displayName = "FilterSidebar";
+    )
+  },
+)
+FilterSidebar.displayName = 'FilterSidebar'
 
-export { FilterSidebar };
-export type { FilterSidebarProps, FilterConfig, FilterOption };
+export { FilterSidebar }
+export type { FilterSidebarProps, FilterConfig, FilterOption }

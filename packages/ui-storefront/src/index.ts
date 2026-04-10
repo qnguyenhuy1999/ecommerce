@@ -1,23 +1,27 @@
-export { StorefrontShell } from "./layouts/StorefrontShell";
-export type { StorefrontShellProps } from "./layouts/StorefrontShell";
+// Layouts
+export { StorefrontShell } from './layouts/storefront-shell'
+export type { StorefrontShellProps } from './layouts/storefront-shell'
 
-export { StorefrontHeader } from "./layouts/StorefrontHeader";
-export type { StorefrontHeaderProps } from "./layouts/StorefrontHeader";
+export { StorefrontHeader } from './layouts/storefront-header'
+export type { StorefrontHeaderProps } from './layouts/storefront-header'
 
-export { StorefrontFooter } from "./layouts/StorefrontFooter";
-export type { StorefrontFooterProps } from "./layouts/StorefrontFooter";
+export { StorefrontFooter } from './layouts/storefront-footer'
+export type { StorefrontFooterProps } from './layouts/storefront-footer'
 
-export { ProductCard } from "./components/ProductCard";
-export type { ProductCardProps } from "./components/ProductCard";
+// Organisms
+export { ProductGrid } from './organisms/product-grid'
+export type { ProductGridProps, Product } from './organisms/product-grid'
 
-export { ProductGrid } from "./components/ProductGrid";
-export type { ProductGridProps, Product } from "./components/ProductGrid";
+export { CartDrawer } from './organisms/cart-drawer'
+export type { CartDrawerProps, CartItemData } from './organisms/cart-drawer'
 
-export { CartDrawer } from "./components/CartDrawer";
-export type { CartDrawerProps, CartItemData } from "./components/CartDrawer";
+// Molecules
+export { ProductCard } from './molecules/product-card'
+export type { ProductCardProps } from './molecules/product-card'
 
-export { CartItem } from "./components/CartItem";
-export type { CartItemProps } from "./components/CartItem";
+export { FilterSidebar } from './molecules/filter-sidebar'
+export type { FilterSidebarProps, FilterConfig, FilterOption } from './molecules/filter-sidebar'
 
-export { FilterSidebar } from "./components/FilterSidebar";
-export type { FilterSidebarProps, FilterConfig, FilterOption } from "./components/FilterSidebar";
+// Atoms
+export { CartItem } from './atoms/cart-item'
+export type { CartItemProps } from './atoms/cart-item'

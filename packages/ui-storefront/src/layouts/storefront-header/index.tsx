@@ -1,40 +1,32 @@
-import * as React from "react";
-import { ShoppingCart, Menu, X } from "lucide-react";
-import { cn } from "@ecom/ui";
-import { Button } from "@ecom/ui";
-import { Badge } from "@ecom/ui";
+import * as React from 'react'
+import { cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { Badge } from '@ecom/ui'
+import { ShoppingCart, Menu, X } from 'lucide-react'
 
-interface StorefrontHeaderProps {
-  cartCount?: number;
-  onCartClick?: () => void;
-  logo?: React.ReactNode;
-  className?: string;
+export interface StorefrontHeaderProps {
+  cartCount?: number
+  onCartClick?: () => void
+  logo?: React.ReactNode
+  className?: string
 }
 
 const NAV_LINKS = [
-  { label: "Shop", href: "#" },
-  { label: "About", href: "#" },
-  { label: "Contact", href: "#" },
-];
+  { label: 'Shop', href: '#' },
+  { label: 'About', href: '#' },
+  { label: 'Contact', href: '#' },
+]
 
 const StorefrontHeader = React.forwardRef<HTMLDivElement, StorefrontHeaderProps>(
   ({ cartCount = 0, onCartClick, logo, className }, ref) => {
-    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false)
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8",
-          className
-        )}
-      >
+      <div ref={ref} className={cn('mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8', className)}>
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex-shrink-0">
-            {logo ?? (
-              <span className="text-xl font-bold tracking-tight">Storefront</span>
-            )}
+            {logo ?? <span className="text-xl font-bold tracking-tight">Storefront</span>}
           </div>
 
           {/* Desktop nav */}
@@ -64,7 +56,7 @@ const StorefrontHeader = React.forwardRef<HTMLDivElement, StorefrontHeaderProps>
                 variant="default"
                 className="absolute -top-1 -right-1 h-5 min-w-[1.25rem] flex items-center justify-center rounded-full p-0 text-xs"
               >
-                {cartCount > 99 ? "99+" : cartCount}
+                {cartCount > 99 ? '99+' : cartCount}
               </Badge>
             )}
           </Button>
@@ -74,7 +66,7 @@ const StorefrontHeader = React.forwardRef<HTMLDivElement, StorefrontHeaderProps>
             variant="ghost"
             size="icon"
             className="md:hidden"
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             onClick={() => setMobileMenuOpen((prev) => !prev)}
           >
             {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -100,10 +92,9 @@ const StorefrontHeader = React.forwardRef<HTMLDivElement, StorefrontHeaderProps>
           </nav>
         )}
       </div>
-    );
-  }
-);
-StorefrontHeader.displayName = "StorefrontHeader";
+    )
+  },
+)
+StorefrontHeader.displayName = 'StorefrontHeader'
 
-export { StorefrontHeader };
-export type { StorefrontHeaderProps };
+export { StorefrontHeader }

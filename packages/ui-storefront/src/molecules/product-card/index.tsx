@@ -1,36 +1,20 @@
-import * as React from "react";
-import { ShoppingCart } from "lucide-react";
-import { cn } from "@ecom/ui";
-import { Card, CardContent, CardFooter } from "@ecom/ui";
-import { Badge } from "@ecom/ui";
-import { Button } from "@ecom/ui";
-import { Skeleton } from "@ecom/ui";
-
-interface ProductCardProps {
-  id: string;
-  image: string;
-  title: string;
-  price: number;
-  originalPrice?: number;
-  badge?: React.ReactNode;
-  onAddToCart?: (id: string) => void;
-  loading?: boolean;
-  className?: string;
-}
+import * as React from 'react'
+import { cn } from '@ecom/ui'
+import { Card, CardContent, CardFooter, Button } from '@ecom/ui'
+import { Skeleton } from '@ecom/ui'
+import { ShoppingCart } from 'lucide-react'
+import type { ProductCardProps } from './types'
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 
 const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
-  (
-    { id, image, title, price, originalPrice, badge, onAddToCart, loading, className },
-    ref
-  ) => {
-    const [imgError, setImgError] = React.useState(false);
+  ({ id, image, title, price, originalPrice, badge, onAddToCart, loading, className }, ref) => {
+    const [imgError, setImgError] = React.useState(false)
 
     if (loading) {
       return (
-        <Card ref={ref} className={cn("overflow-hidden", className)}>
+        <Card ref={ref} className={cn('overflow-hidden', className)}>
           <Skeleton className="aspect-square w-full" />
           <CardContent className="p-4 space-y-2">
             <Skeleton className="h-4 w-3/4" />
@@ -40,11 +24,11 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
             <Skeleton className="h-9 w-full" />
           </CardFooter>
         </Card>
-      );
+      )
     }
 
     return (
-      <Card ref={ref} className={cn("group overflow-hidden", className)}>
+      <Card ref={ref} className={cn('group overflow-hidden', className)}>
         <CardContent className="p-0 relative">
           {/* Image */}
           <div className="aspect-square overflow-hidden bg-muted">
@@ -63,9 +47,7 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
           </div>
 
           {/* Badge slot */}
-          {badge && (
-            <div className="absolute top-3 left-3">{badge}</div>
-          )}
+          {badge && <div className="absolute top-3 left-3">{badge}</div>}
         </CardContent>
 
         <CardFooter className="flex flex-col items-start gap-2 p-4">
@@ -92,10 +74,10 @@ const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
           </Button>
         </CardFooter>
       </Card>
-    );
-  }
-);
-ProductCard.displayName = "ProductCard";
+    )
+  },
+)
+ProductCard.displayName = 'ProductCard'
 
-export { ProductCard };
-export type { ProductCardProps };
+export { ProductCard }
+export type { ProductCardProps }

@@ -1,41 +1,19 @@
-import * as React from "react";
-import { Minus, Plus, Trash2 } from "lucide-react";
-import { Button, cn } from "@ecom/ui";
-
-interface CartItemProps {
-  item: {
-    id: string;
-    name: string;
-    price: number;
-    quantity: number;
-    image?: string;
-  };
-  onQuantityChange?: (quantity: number) => void;
-  onRemove?: () => void;
-  className?: string;
-}
+import * as React from 'react'
+import { Button, cn } from '@ecom/ui'
+import { Minus, Plus, Trash2 } from 'lucide-react'
+import type { CartItemProps } from './types'
 
 const formatPrice = (value: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
+  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
 
 const CartItem = React.forwardRef<HTMLDivElement, CartItemProps>(
   ({ item, onQuantityChange, onRemove, className }, ref) => {
     return (
-      <div
-        ref={ref}
-        className={cn(
-          "flex items-start gap-3 py-4",
-          className
-        )}
-      >
+      <div ref={ref} className={cn('flex items-start gap-3 py-4', className)}>
         {/* Image */}
         <div className="h-16 w-16 flex-shrink-0 overflow-hidden rounded-md bg-muted">
           {item.image ? (
-            <img
-              src={item.image}
-              alt={item.name}
-              className="h-full w-full object-cover"
-            />
+            <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
           ) : (
             <div className="flex h-full w-full items-center justify-center text-muted-foreground text-xs">
               No image
@@ -74,9 +52,7 @@ const CartItem = React.forwardRef<HTMLDivElement, CartItemProps>(
 
         {/* Price + Remove */}
         <div className="flex flex-col items-end gap-2">
-          <span className="text-sm font-medium">
-            {formatPrice(item.price * item.quantity)}
-          </span>
+          <span className="text-sm font-medium">{formatPrice(item.price * item.quantity)}</span>
           <Button
             variant="ghost"
             size="icon"
@@ -88,10 +64,10 @@ const CartItem = React.forwardRef<HTMLDivElement, CartItemProps>(
           </Button>
         </div>
       </div>
-    );
-  }
-);
-CartItem.displayName = "CartItem";
+    )
+  },
+)
+CartItem.displayName = 'CartItem'
 
-export { CartItem };
-export type { CartItemProps };
+export { CartItem }
+export type { CartItemProps }
