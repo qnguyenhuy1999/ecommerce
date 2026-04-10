@@ -1,39 +1,15 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "../../lib/utils";
-
-interface SidebarNavItem {
-  label: string;
-  href?: string;
-  icon?: React.ReactNode;
-  badge?: string | number;
-  onClick?: () => void;
-}
-
-interface SidebarNavGroup {
-  label?: string;
-  items: SidebarNavItem[];
-}
-
-interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
-  logo?: React.ReactNode;
-  navGroups?: SidebarNavGroup[];
-  footer?: React.ReactNode;
-}
+import { cn } from '@ecom/ui'
+import type { SidebarProps, SidebarNavGroup, SidebarNavItem } from './types'
 
 function Sidebar({ logo, navGroups = [], footer, className, ...props }: SidebarProps) {
   return (
     <aside
-      className={cn(
-        "w-64 h-screen flex flex-col border-r bg-background shrink-0",
-        className
-      )}
+      className={cn('w-64 h-screen flex flex-col border-r bg-background shrink-0', className)}
       {...props}
     >
-      {logo && (
-        <div className="h-14 px-4 flex items-center border-b shrink-0">{logo}</div>
-      )}
+      {logo && <div className="h-14 px-4 flex items-center border-b shrink-0">{logo}</div>}
       <nav className="flex-1 overflow-y-auto p-3 space-y-6">
         {navGroups.map((group, gi) => (
           <div key={gi}>
@@ -46,12 +22,12 @@ function Sidebar({ logo, navGroups = [], footer, className, ...props }: SidebarP
               {group.items.map((item, i) => (
                 <li key={i}>
                   <a
-                    href={item.href || "#"}
+                    href={item.href || '#'}
                     onClick={item.onClick}
                     className={cn(
-                      "flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm font-medium text-foreground transition-colors",
-                      "hover:bg-accent hover:text-accent-foreground",
-                      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                      'flex items-center gap-2.5 px-2 py-1.5 rounded-md text-sm font-medium text-foreground transition-colors',
+                      'hover:bg-accent hover:text-accent-foreground',
+                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                     )}
                   >
                     {item.icon && (
@@ -70,12 +46,10 @@ function Sidebar({ logo, navGroups = [], footer, className, ...props }: SidebarP
           </div>
         ))}
       </nav>
-      {footer && (
-        <div className="p-3 border-t shrink-0">{footer}</div>
-      )}
+      {footer && <div className="p-3 border-t shrink-0">{footer}</div>}
     </aside>
-  );
+  )
 }
 
-export { Sidebar };
-export type { SidebarProps, SidebarNavGroup, SidebarNavItem };
+export { Sidebar }
+export type { SidebarProps, SidebarNavGroup, SidebarNavItem }

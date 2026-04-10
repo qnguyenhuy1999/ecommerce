@@ -1,32 +1,29 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "../../lib/utils";
+import * as React from 'react'
+import { cn } from '@ecom/ui'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
-  sidebar?: React.ReactNode;
-  header?: React.ReactNode;
-  children: React.ReactNode;
-  sidebarWidth?: string;
-  headerHeight?: string;
+  sidebar?: React.ReactNode
+  header?: React.ReactNode
+  children: React.ReactNode
+  sidebarWidth?: string
+  headerHeight?: string
 }
 
 function AdminLayout({
   sidebar,
   header,
   children,
-  sidebarWidth = "16rem",
-  headerHeight = "3.5rem",
+  sidebarWidth = '16rem',
+  headerHeight = '3.5rem',
   className,
   ...props
 }: AdminLayoutProps) {
   return (
-    <div className={cn("min-h-screen bg-background", className)} {...props}>
+    <div className={cn('min-h-screen bg-background', className)} {...props}>
       {sidebar && (
-        <div
-          className="fixed top-0 left-0 h-screen shrink-0"
-          style={{ width: sidebarWidth }}
-        >
+        <div className="fixed top-0 left-0 h-screen shrink-0" style={{ width: sidebarWidth }}>
           {sidebar}
         </div>
       )}
@@ -42,16 +39,13 @@ function AdminLayout({
             {header}
           </div>
         )}
-        <main
-          className="flex-1"
-          style={{ paddingTop: header ? headerHeight : 0 }}
-        >
+        <main className="flex-1" style={{ paddingTop: header ? headerHeight : 0 }}>
           <div className="p-6">{children}</div>
         </main>
       </div>
     </div>
-  );
+  )
 }
 
-export { AdminLayout };
-export type { AdminLayoutProps };
+export { AdminLayout }
+export type { AdminLayoutProps }

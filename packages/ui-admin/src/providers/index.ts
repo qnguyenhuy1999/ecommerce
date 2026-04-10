@@ -1,1 +1,1 @@
-export { ThemeProvider } from "@ecom/ui";
+export { ThemeProvider } from '@ecom/ui'

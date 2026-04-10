@@ -1,34 +1,23 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "../../lib/utils";
+import * as React from 'react'
+import { cn } from '@ecom/ui'
 
 interface StatCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  label: string;
-  value: string | number;
-  description?: string;
+  label: string
+  value: string | number
+  description?: string
   trend?: {
-    value: string;
-    positive: boolean;
-  };
-  icon?: React.ReactNode;
+    value: string
+    positive: boolean
+  }
+  icon?: React.ReactNode
 }
 
-function StatCard({
-  label,
-  value,
-  description,
-  trend,
-  icon,
-  className,
-  ...props
-}: StatCardProps) {
+function StatCard({ label, value, description, trend, icon, className, ...props }: StatCardProps) {
   return (
     <div
-      className={cn(
-        "rounded-lg border bg-card p-5 text-card-foreground shadow-sm",
-        className
-      )}
+      className={cn('rounded-lg border bg-card p-5 text-card-foreground shadow-sm', className)}
       {...props}
     >
       <div className="flex items-start justify-between gap-3">
@@ -40,16 +29,14 @@ function StatCard({
               {trend && (
                 <span
                   className={cn(
-                    "inline-flex items-center text-xs font-medium",
-                    trend.positive ? "text-green-600" : "text-red-600"
+                    'inline-flex items-center text-xs font-medium',
+                    trend.positive ? 'text-green-600' : 'text-red-600',
                   )}
                 >
-                  {trend.positive ? "↑" : "↓"} {trend.value}
+                  {trend.positive ? '↑' : '↓'} {trend.value}
                 </span>
               )}
-              {description && (
-                <p className="text-xs text-muted-foreground">{description}</p>
-              )}
+              {description && <p className="text-xs text-muted-foreground">{description}</p>}
             </div>
           )}
         </div>
@@ -60,8 +47,8 @@ function StatCard({
         )}
       </div>
     </div>
-  );
+  )
 }
 
-export { StatCard };
-export type { StatCardProps };
+export { StatCard }
+export type { StatCardProps }

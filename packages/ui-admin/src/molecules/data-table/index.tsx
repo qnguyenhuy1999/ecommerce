@@ -1,43 +1,13 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import { cn } from "../../lib/utils";
-import { Pagination } from "@ecom/ui";
-
-type SortDirection = "asc" | "desc" | null;
-
-interface ColumnDef<T> {
-  key: keyof T | string;
-  header: string;
-  cell?: (row: T) => React.ReactNode;
-  sortable?: boolean;
-  className?: string;
-}
-
-interface DataTableProps<T extends Record<string, unknown> = Record<string, unknown>>
-  extends React.HTMLAttributes<HTMLDivElement> {
-  columns: ColumnDef<T>[];
-  data: T[];
-  keyField?: keyof T;
-  page?: number;
-  totalPages?: number;
-  onPageChange?: (page: number) => void;
-  pageSize?: number;
-  selectable?: boolean;
-  selectedKeys?: (string | number)[];
-  onSelectionChange?: (keys: (string | number)[]) => void;
-  onSortChange?: (key: string, direction: SortDirection) => void;
-  sortKey?: string;
-  sortDirection?: SortDirection;
-  loading?: boolean;
-  emptyMessage?: string;
-  className?: string;
-}
+import * as React from 'react'
+import { cn, Pagination } from '@ecom/ui'
+import type { DataTableProps, ColumnDef, SortDirection } from './types'
 
 function DataTable<T extends Record<string, unknown> = Record<string, unknown>>({
   columns,
   data,
-  keyField = "id" as keyof T,
+  keyField = 'id' as keyof T,
   page = 1,
   totalPages = 1,
   onPageChange,
@@ -49,53 +19,57 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
   sortKey,
   sortDirection,
   loading = false,
-  emptyMessage = "No data available",
+  emptyMessage = 'No data available',
   className,
   ...props
 }: DataTableProps<T>) {
   const allSelected =
-    selectable && data.length > 0 && data.every((row) => selectedKeys.includes(row[keyField] as string | number));
+    selectable &&
+    data.length > 0 &&
+    data.every((row) => selectedKeys.includes(row[keyField] as string | number))
   const someSelected =
-    selectable && !allSelected && data.some((row) => selectedKeys.includes(row[keyField] as string | number));
+    selectable &&
+    !allSelected &&
+    data.some((row) => selectedKeys.includes(row[keyField] as string | number))
 
   function toggleAll() {
-    if (!selectable || !onSelectionChange) return;
+    if (!selectable || !onSelectionChange) return
     if (allSelected) {
-      const current = new Set(selectedKeys);
-      data.forEach((row) => current.delete(row[keyField] as string | number));
-      onSelectionChange(Array.from(current));
+      const current = new Set(selectedKeys)
+      data.forEach((row) => current.delete(row[keyField] as string | number))
+      onSelectionChange(Array.from(current))
     } else {
-      const current = new Set(selectedKeys);
-      data.forEach((row) => current.add(row[keyField] as string | number));
-      onSelectionChange(Array.from(current));
+      const current = new Set(selectedKeys)
+      data.forEach((row) => current.add(row[keyField] as string | number))
+      onSelectionChange(Array.from(current))
     }
   }
 
   function toggleRow(key: string | number) {
-    if (!selectable || !onSelectionChange) return;
-    const current = selectedKeys;
+    if (!selectable || !onSelectionChange) return
+    const current = selectedKeys
     if (current.includes(key)) {
-      onSelectionChange(current.filter((k) => k !== key));
+      onSelectionChange(current.filter((k) => k !== key))
     } else {
-      onSelectionChange([...current, key]);
+      onSelectionChange([...current, key])
     }
   }
 
   function handleSort(key: string) {
-    if (!onSortChange) return;
+    if (!onSortChange) return
     const next: SortDirection =
       sortKey === key
-        ? sortDirection === "asc"
-          ? "desc"
-          : sortDirection === "desc"
+        ? sortDirection === 'asc'
+          ? 'desc'
+          : sortDirection === 'desc'
             ? null
-            : "asc"
-        : "asc";
-    onSortChange(key, next);
+            : 'asc'
+        : 'asc'
+    onSortChange(key, next)
   }
 
   return (
-    <div className={cn("flex flex-col", className)} {...props}>
+    <div className={cn('flex flex-col', className)} {...props}>
       <div className="overflow-x-auto rounded-lg border">
         <table className="w-full text-sm">
           <thead>
@@ -106,7 +80,7 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
                     type="checkbox"
                     checked={allSelected}
                     ref={(el) => {
-                      if (el) el.indeterminate = someSelected;
+                      if (el) el.indeterminate = someSelected
                     }}
                     onChange={toggleAll}
                     className="rounded border-input"
@@ -117,16 +91,16 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
                 <th
                   key={col.key as string}
                   className={cn(
-                    "px-4 py-3 text-left font-medium text-muted-foreground",
-                    col.sortable && "cursor-pointer select-none hover:text-foreground",
-                    col.className
+                    'px-4 py-3 text-left font-medium text-muted-foreground',
+                    col.sortable && 'cursor-pointer select-none hover:text-foreground',
+                    col.className,
                   )}
                   onClick={col.sortable ? () => handleSort(col.key as string) : undefined}
                 >
                   <div className="flex items-center gap-1">
                     {col.header}
                     {col.sortable && sortKey === col.key && (
-                      <span className="text-xs">{sortDirection === "asc" ? "↑" : "↓"}</span>
+                      <span className="text-xs">{sortDirection === 'asc' ? '↑' : '↓'}</span>
                     )}
                   </div>
                 </th>
@@ -137,10 +111,17 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
             {loading ? (
               Array.from({ length: pageSize || 5 }).map((_, i) => (
                 <tr key={i} className="border-b">
-                  {selectable && <td className="px-4 py-3"><div className="h-4 w-4 bg-muted rounded animate-pulse" /></td>}
+                  {selectable && (
+                    <td className="px-4 py-3">
+                      <div className="h-4 w-4 bg-muted rounded animate-pulse" />
+                    </td>
+                  )}
                   {columns.map((col) => (
                     <td key={col.key as string} className="px-4 py-3">
-                      <div className="h-4 bg-muted rounded animate-pulse" style={{ width: "60%" }} />
+                      <div
+                        className="h-4 bg-muted rounded animate-pulse"
+                        style={{ width: '60%' }}
+                      />
                     </td>
                   ))}
                 </tr>
@@ -156,14 +137,14 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
               </tr>
             ) : (
               data.map((row) => {
-                const rowKey = row[keyField] as string | number;
-                const isSelected = selectedKeys.includes(rowKey);
+                const rowKey = row[keyField] as string | number
+                const isSelected = selectedKeys.includes(rowKey)
                 return (
                   <tr
                     key={rowKey as string}
                     className={cn(
-                      "border-b transition-colors",
-                      isSelected ? "bg-muted/50" : "hover:bg-muted/30"
+                      'border-b transition-colors',
+                      isSelected ? 'bg-muted/50' : 'hover:bg-muted/30',
                     )}
                   >
                     {selectable && (
@@ -177,12 +158,12 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
                       </td>
                     )}
                     {columns.map((col) => (
-                      <td key={col.key as string} className={cn("px-4 py-3", col.className)}>
+                      <td key={col.key as string} className={cn('px-4 py-3', col.className)}>
                         {col.cell ? col.cell(row) : (row[col.key as keyof T] as React.ReactNode)}
                       </td>
                     ))}
                   </tr>
-                );
+                )
               })
             )}
           </tbody>
@@ -191,16 +172,12 @@ function DataTable<T extends Record<string, unknown> = Record<string, unknown>>(
 
       {onPageChange && totalPages > 1 && (
         <div className="mt-4 flex justify-end">
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            onPageChange={onPageChange}
-          />
+          <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export { DataTable };
-export type { DataTableProps, ColumnDef, SortDirection };
+export { DataTable }
+export type { DataTableProps, ColumnDef, SortDirection }
