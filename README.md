@@ -4,14 +4,14 @@ A production-grade multi-vendor marketplace built with NestJS, Next.js, Prisma, 
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend API | NestJS + Prisma + PostgreSQL |
-| Background Jobs | BullMQ + Redis |
-| Frontend (Storefront) | Next.js 14 (App Router) |
-| Frontend (Admin) | Next.js 14 (App Router) |
-| Monorepo | Turborepo |
-| Containerization | Docker Compose |
+| Layer                 | Technology                   |
+| --------------------- | ---------------------------- |
+| Backend API           | NestJS + Prisma + PostgreSQL |
+| Background Jobs       | BullMQ + Redis               |
+| Frontend (Storefront) | Next.js 14 (App Router)      |
+| Frontend (Admin)      | Next.js 14 (App Router)      |
+| Monorepo              | Turborepo                    |
+| Containerization      | Docker Compose               |
 
 ## Architecture
 
@@ -69,12 +69,12 @@ npm run dev
 
 ### Services
 
-| Service | URL |
-|---------|-----|
-| API | http://localhost:3000 |
+| Service            | URL                        |
+| ------------------ | -------------------------- |
+| API                | http://localhost:3000      |
 | API Docs (Swagger) | http://localhost:3000/docs |
-| Storefront | http://localhost:8000 |
-| Admin | http://localhost:8001 |
+| Storefront         | http://localhost:8000      |
+| Admin              | http://localhost:8001      |
 
 ## Documentation
 
@@ -102,6 +102,7 @@ npm run db:seed       # Seed database
 ## Environment Variables
 
 See `.env.example` for all required variables. Key ones:
+
 - `DATABASE_URL` — PostgreSQL connection string
 - `REDIS_HOST` / `REDIS_PORT` — Redis connection
 - `JWT_SECRET` — JWT signing secret

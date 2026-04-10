@@ -1,0 +1,10 @@
+dist
+node_modules
+.turbo
+storybook-static
+.env
+*.log
+.pnpm-store
+coverage
+.cache
+pnpm-lock.yaml

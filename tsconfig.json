@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./apps/api" },
+    { "path": "./apps/worker" },
+    { "path": "./apps/storefront" },
+    { "path": "./apps/admin" },
+    { "path": "./packages/ui" },
+    { "path": "./packages/ui-admin" },
+    { "path": "./packages/ui-storefront" },
+    { "path": "./packages/api-client" },
+    { "path": "./packages/api-types" },
+    { "path": "./packages/constants" },
+    { "path": "./packages/database" },
+    { "path": "./packages/email" },
+    { "path": "./packages/redis" },
+    { "path": "./packages/shared" }
+  ]
+}
