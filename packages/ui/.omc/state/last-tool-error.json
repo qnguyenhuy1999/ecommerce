@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"pnpm --filter @ecom/ui-admin build 2>&1 && pnpm --filter @ecom/ui-storefront build 2>&1\",\"timeout\":60000,\"description\":\"Build ui-admin and ui-storefront\"}",
+  "error": "Exit code 2\n\n> @ecom/ui-admin@0.1.0 build /Users/mac/Desktop/ecommerce/packages/ui-admin\n> tsc\n\n../ui/src/components/ui/avatar.tsx(6,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.\n../ui/src/components/ui/dropdown-menu.tsx(5,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.\n../ui/src/components/ui/separator.tsx(4,20): error TS2307: Cannot find module '@/lib/utils' or its corresponding type declarations.\n../ui/s...",
+  "timestamp": "2026-04-10T10:57:10.249Z",
+  "retry_count": 2
+}

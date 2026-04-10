@@ -6,8 +6,12 @@
     "jsx": "react-jsx",
     "moduleResolution": "bundler",
     "declaration": true,
-    "noEmit": false
+    "noEmit": false,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "src/stubs"]
+  "exclude": ["node_modules", "dist", "src/stubs", "src/**/*.stories.tsx"]
 }
