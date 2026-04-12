@@ -1,1 +1,73 @@
-@import "@ecom/ui/styles";
+@import '@ecom/ui/styles';
+
+@layer base {
+  :root {
+    --storefront-header-height: 5rem;
+    --storefront-footer-min-height: 20rem;
+    --storefront-content-max-width: 80rem;
+    --storefront-grid-gap: 1.5rem;
+  }
+}
+
+@layer components {
+  /* Product card — photography-first with generous radius */
+  .product-card {
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+    transition:
+      box-shadow var(--motion-normal) var(--motion-ease),
+      transform var(--motion-normal) var(--motion-ease);
+  }
+
+  .product-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  /* CTA button — brand red, not accent */
+  .btn-brand {
+    background-color: var(--color-brand);
+    color: var(--color-brand-foreground);
+    border-radius: var(--radius);
+    padding: 0 1.5rem;
+    height: 3rem;
+    font-weight: 600;
+    font-size: var(--font-size-ui-text);
+    transition:
+      background-color var(--motion-fast) var(--motion-ease),
+      transform var(--motion-fast) var(--motion-ease);
+  }
+
+  .btn-brand:hover {
+    background-color: var(--color-brand-pressed);
+  }
+
+  .btn-brand:focus-visible {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  .btn-brand:active {
+    transform: scale(0.98);
+  }
+
+  /* Wishlist heart overlay */
+  .wishlist-overlay {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 10;
+  }
+
+  /* Search bar — prominent with circular CTA */
+  .search-bar {
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elevation-1);
+    transition: box-shadow var(--motion-normal) var(--motion-ease);
+  }
+
+  .search-bar:focus-within {
+    box-shadow: var(--elevation-3);
+  }
+}

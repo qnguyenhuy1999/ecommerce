@@ -1,5 +1,4 @@
-/* Admin-specific design tokens extending @ecom/ui */
-@import "@ecom/ui/styles";
+@import '@ecom/ui/styles';
 
 @layer base {
   :root {
@@ -16,8 +15,8 @@
     position: fixed;
     left: 0;
     top: 0;
-    background-color: hsl(var(--background));
-    border-right: 1px solid hsl(var(--border));
+    background-color: var(--color-background);
+    border-right: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
   }
@@ -28,8 +27,8 @@
     top: 0;
     left: var(--admin-sidebar-width);
     right: 0;
-    background-color: hsl(var(--background));
-    border-bottom: 1px solid hsl(var(--border));
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     padding: 0 1.5rem;

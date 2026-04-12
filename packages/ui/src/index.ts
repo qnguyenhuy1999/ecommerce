@@ -64,7 +64,8 @@ export {
 export { Pagination } from './organisms/pagination'
 
 // Providers
-export { ThemeProvider } from './providers'
+export { ThemeProvider, useTheme } from './providers'
+export type { Theme, ResolvedTheme, ThemeContextValue } from './providers'
 
-// Theme
+// Utilities
 export { cn } from './lib/utils'
