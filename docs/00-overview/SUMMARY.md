@@ -52,15 +52,10 @@
 
 ### [06 - UI Package Documentation](./../06-ui/)
 
-| Document                                            | Description                                                |
-| --------------------------------------------------- | ---------------------------------------------------------- |
-| [README.md](./../06-ui/README.md)                   | UI package overview and navigation                         |
-| [01-overview.md](./../06-ui/01-overview.md)         | Package roles, dependency hierarchy, design principles     |
-| [02-architecture.md](./../06-ui/02-architecture.md) | Atomic design layers, folder structure, CSS token strategy |
-| [03-conventions.md](./../06-ui/03-conventions.md)   | Naming, exports, props, variants, forward refs, cn() usage |
-| [04-storybook.md](./../06-ui/04-storybook.md)       | Story writing guidelines, templates, controls              |
-| [05-shadcn.md](./../06-ui/05-shadcn.md)             | shadcn integration, adding components, migration guide     |
-| [06-theming.md](./../06-ui/06-theming.md)           | CSS tokens, extending themes in downstream packages        |
+| Document                                    | Description                              |
+| ------------------------------------------- | ---------------------------------------- |
+| [README.md](./../06-ui/README.md)           | Full UI package documentation                  |
+| [VISUAL_DESIGN.md](./../06-ui/VISUAL_DESIGN.md) | Airbnb-inspired visual design system reference |
 
 ---
 
@@ -90,8 +85,8 @@ INFRASTRUCTURE.md
 CHECKLIST.md
     └── aggregates → All process and quality requirements
 
-06-ui/ (UI package documentation)
-    ├── 01-overview.md → referenced by → SYSTEM_ARCHITECTURE.md (frontend architecture)
+06-ui/README.md (UI package documentation)
+    ├── 01-overview → referenced by → SYSTEM_ARCHITECTURE.md (frontend architecture)
     ├── 02-architecture.md → informs → frontend component architecture
     ├── 03-conventions.md → referenced by → ONBOARDING.md (coding standards)
     ├── 05-shadcn.md → referenced by → SYSTEM_ARCHITECTURE.md (UI component strategy)
