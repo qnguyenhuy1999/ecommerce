@@ -12,7 +12,7 @@ import { OrderModule } from './modules/order/order.module';
 import { PaymentModule } from './modules/payment/payment.module';
 import { NotificationModule } from './modules/notification/notification.module';
 import { AdminModule } from './modules/admin/admin.module';
-import { PrismaModule } from './prisma/prisma.module';
+import { PrismaModule } from '@ecom/database';
 
 @Module({
   imports: [

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Button } from '../button/index'
+import { Button } from '../../atoms/button/index'
 import { Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from './index'
 
 const meta = {

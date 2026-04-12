@@ -1,1 +1,5 @@
 @import '@ecom/ui/styles';
+@import '@ecom/ui-admin/styles';
+
+@source "../../../../packages/ui/src";
+@source "../../../../packages/ui-admin/src";

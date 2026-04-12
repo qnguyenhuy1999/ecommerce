@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Label } from '../label/index'
+import { Label } from '../../atoms/label/index'
 import { Textarea } from './index'
 
 const meta = {

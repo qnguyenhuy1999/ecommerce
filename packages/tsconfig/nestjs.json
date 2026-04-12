@@ -13,8 +13,7 @@
     "paths": {
       "@/*": ["src/*"],
       "@ecom/constants": ["../constants/src"],
-      "@ecom/api-types": ["../api-types/src"],
-      "@ecom/database": ["../database/src"]
+      "@ecom/api-types": ["../api-types/src"]
     }
   },
   "include": ["src/**/*"],

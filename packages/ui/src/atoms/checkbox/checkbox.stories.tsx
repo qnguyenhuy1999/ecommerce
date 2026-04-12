@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Label } from '../label/index'
+import { Label } from '../../atoms/label/index'
 import { Checkbox } from './index'
 
 const meta = {

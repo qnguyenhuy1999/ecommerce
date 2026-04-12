@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { Button } from '../button/index'
+import { Button } from '../../atoms/button/index'
 import {
   Dialog,
   DialogTrigger,

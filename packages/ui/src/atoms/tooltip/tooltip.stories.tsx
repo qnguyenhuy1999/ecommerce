@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Button } from '../button/index'
+import { Button } from '../../atoms/button/index'
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './index'
 
 const meta = {
