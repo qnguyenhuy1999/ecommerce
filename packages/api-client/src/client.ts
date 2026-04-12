@@ -1,5 +1,5 @@
-import type { AuthResponse, ApiError } from '@ecom/api-types'
 import axios, { AxiosInstance, AxiosError } from 'axios'
+import type { AuthResponse, ApiError } from '@ecom/api-types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 

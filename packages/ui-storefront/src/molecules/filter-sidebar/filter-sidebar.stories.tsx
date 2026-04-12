@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { FilterSidebar } from './index'
 import type { FilterSidebarProps, FilterConfig } from './types'
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { FilterSidebar } from './index'
 
 const meta = {
   title: 'Molecules/FilterSidebar',

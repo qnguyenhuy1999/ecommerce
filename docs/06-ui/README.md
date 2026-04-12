@@ -207,11 +207,13 @@ pnpm storybook:storefront   # @ecom/ui-storefront (port 6008)
 
 ```typescript
 const meta = {
-  title: 'Category/ComponentName',  // e.g. 'Atoms/Button', 'Molecules/Dialog'
+  title: 'Category/ComponentName', // e.g. 'Atoms/Button', 'Molecules/Dialog'
   component: Component,
   tags: ['autodocs'],
   parameters: { layout: 'centered' | 'padded' | 'fullscreen' },
-  argTypes: { /* expose key props as controls */ },
+  argTypes: {
+    /* expose key props as controls */
+  },
 } satisfies Meta<typeof Component>
 
 export default meta
@@ -221,6 +223,7 @@ type Story = StoryObj<typeof meta>
 ### Story Types
 
 **1. Default (args-based):** Simple prop passing
+
 ```typescript
 export const Default = {
   args: { children: 'Click me' },
@@ -228,6 +231,7 @@ export const Default = {
 ```
 
 **2. Showcase (render-based):** Variant grids, all-states displays
+
 ```typescript
 export const AllVariants = {
   render: () => (
@@ -241,6 +245,7 @@ export const AllVariants = {
 ```
 
 **3. Interactive (state-based):** Components with internal state
+
 ```typescript
 export const Default = () => {
   const [open, setOpen] = useState(false);
@@ -260,6 +265,7 @@ export const Default = () => {
 ```
 
 **4. Variants (story objects):** Size/variant combinations
+
 ```typescript
 export const Small = { args: { children: 'Small', size: 'sm' } }
 export const Large = { args: { children: 'Large', size: 'lg' } }
@@ -350,17 +356,17 @@ All color variables use **oklch** for perceptually uniform color manipulation.
 
 ### Token Categories
 
-| Category        | Variables                                        |
-| --------------- | ------------------------------------------------ |
-| **Base**        | `--background`, `--foreground`                   |
-| **Primary**     | `--primary`, `--primary-foreground`              |
-| **Secondary**   | `--secondary`, `--secondary-foreground`          |
-| **Muted**       | `--muted`, `--muted-foreground`                  |
-| **Accent**      | `--accent`, `--accent-foreground`                |
-| **Destructive**| `--destructive`, `--destructive-foreground`    |
-| **Card**        | `--card`, `--card-foreground`                    |
-| **Input/Border**| `--input`, `--border`, `--ring`                  |
-| **Radius**      | `--radius`                                        |
+| Category         | Variables                                   |
+| ---------------- | ------------------------------------------- |
+| **Base**         | `--background`, `--foreground`              |
+| **Primary**      | `--primary`, `--primary-foreground`         |
+| **Secondary**    | `--secondary`, `--secondary-foreground`     |
+| **Muted**        | `--muted`, `--muted-foreground`             |
+| **Accent**       | `--accent`, `--accent-foreground`           |
+| **Destructive**  | `--destructive`, `--destructive-foreground` |
+| **Card**         | `--card`, `--card-foreground`               |
+| **Input/Border** | `--input`, `--border`, `--ring`             |
+| **Radius**       | `--radius`                                  |
 
 ### Using Tokens
 
@@ -399,36 +405,36 @@ Photography-forward, warm, minimal. Red is action. Never pure black.
 
 ### Color Philosophy
 
-| Role               | Token                         | Light    | Dark       |
-| ------------------ | ----------------------------- | -------- | ---------- |
-| Page background    | `--palette-bg-page`           | #ffffff  | #121212    |
-| Card background     | `--palette-bg-surface`        | #ffffff  | #1c1c1c    |
-| Secondary surface   | `--palette-bg-surface-secondary` | #f2f2f2 | #2a2a2a |
-| Primary accent     | `--palette-bg-primary-core`   | #ff385c  | #ff385c    |
-| Text primary       | `--palette-text-primary`      | #222222  | #f7f7f7    |
-| Text secondary     | `--palette-text-secondary`    | #6a6a6a  | #b3b3b3    |
+| Role              | Token                            | Light   | Dark    |
+| ----------------- | -------------------------------- | ------- | ------- |
+| Page background   | `--palette-bg-page`              | #ffffff | #121212 |
+| Card background   | `--palette-bg-surface`           | #ffffff | #1c1c1c |
+| Secondary surface | `--palette-bg-surface-secondary` | #f2f2f2 | #2a2a2a |
+| Primary accent    | `--palette-bg-primary-core`      | #ff385c | #ff385c |
+| Text primary      | `--palette-text-primary`         | #222222 | #f7f7f7 |
+| Text secondary    | `--palette-text-secondary`       | #6a6a6a | #b3b3b3 |
 
 Brand red stays identical across themes.
 
 ### Typography
 
-| Role            | Size | Weight | Line Height |
-| --------------- | ---- | ------ | ---------- |
-| Section Heading | 28px | 700    | 1.43       |
-| Card Heading    | 22px | 600    | 1.18       |
-| Feature Title   | 20px | 600    | 1.20       |
-| UI Text         | 16px | 500-600| 1.25       |
-| Body            | 14px | 400-500| 1.43       |
-| Small           | 13px | 400    | 1.23       |
-| Tag             | 12px | 400-700| 1.33       |
-| Badge           | 11px | 600    | 1.18       |
+| Role            | Size | Weight  | Line Height |
+| --------------- | ---- | ------- | ----------- |
+| Section Heading | 28px | 700     | 1.43        |
+| Card Heading    | 22px | 600     | 1.18        |
+| Feature Title   | 20px | 600     | 1.20        |
+| UI Text         | 16px | 500-600 | 1.25        |
+| Body            | 14px | 400-500 | 1.43        |
+| Small           | 13px | 400     | 1.23        |
+| Tag             | 12px | 400-700 | 1.33        |
+| Badge           | 11px | 600     | 1.18        |
 
 Font: Airbnb Cereal VF, Circular, -apple-system, system-ui, Roboto, Helvetica Neue
 
 ### Border Radius Scale
 
 | Usage            | Radius |
-| ---------------  | ------ |
+| ---------------- | ------ |
 | Small links      | 4px    |
 | Buttons          | 8px    |
 | Badges           | 14px   |
@@ -438,12 +444,12 @@ Font: Airbnb Cereal VF, Circular, -apple-system, system-ui, Roboto, Helvetica Ne
 
 ### Elevation (Shadow)
 
-| Level   | Use                |
-| ------- | ------------------ |
-| Level 0 | Flat background    |
-| Level 1 | Cards, search      |
-| Level 2 | Hover lift         |
-| Level 3 | Active / focus     |
+| Level   | Use             |
+| ------- | --------------- |
+| Level 0 | Flat background |
+| Level 1 | Cards, search   |
+| Level 2 | Hover lift      |
+| Level 3 | Active / focus  |
 
 Three-layer shadows for natural lift — never heavy or dramatic.
 
@@ -453,14 +459,14 @@ Base unit: 8px. Allowed: 2, 3, 4, 6, 8, 10, 11, 12, 15, 16, 22, 24, 32
 
 ### Grid Breakpoints
 
-| Breakpoint    | Columns |
-| ------------- | ------ |
-| <375px        | 1      |
-| 375–550px     | 1      |
-| 550–744px     | 2      |
-| 950–1128px    | 3      |
-| 1128–1440px   | 4      |
-| 1440–1920px   | 5      |
+| Breakpoint  | Columns |
+| ----------- | ------- |
+| <375px      | 1       |
+| 375–550px   | 1       |
+| 550–744px   | 2       |
+| 950–1128px  | 3       |
+| 1128–1440px | 4       |
+| 1440–1920px | 5       |
 
 ### Do's and Don'ts
 

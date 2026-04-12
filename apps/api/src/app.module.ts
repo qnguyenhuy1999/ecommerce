@@ -1,18 +1,21 @@
+import { BullModule } from '@nestjs/bullmq';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { BullModule } from '@nestjs/bullmq';
+
+import { PrismaModule } from '@ecom/database';
+
+import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { UserModule } from './modules/user/user.module';
-import { SellerModule } from './modules/seller/seller.module';
-import { ProductModule } from './modules/product/product.module';
-import { InventoryModule } from './modules/inventory/inventory.module';
 import { CartModule } from './modules/cart/cart.module';
+import { InventoryModule } from './modules/inventory/inventory.module';
+import { NotificationModule } from './modules/notification/notification.module';
 import { OrderModule } from './modules/order/order.module';
 import { PaymentModule } from './modules/payment/payment.module';
-import { NotificationModule } from './modules/notification/notification.module';
-import { AdminModule } from './modules/admin/admin.module';
-import { PrismaModule } from '@ecom/database';
+import { ProductModule } from './modules/product/product.module';
+import { SellerModule } from './modules/seller/seller.module';
+import { UserModule } from './modules/user/user.module';
+
 
 @Module({
   imports: [
@@ -37,4 +40,7 @@ import { PrismaModule } from '@ecom/database';
     AdminModule,
   ],
 })
+ 
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class AppModule {}

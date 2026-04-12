@@ -1,5 +1,7 @@
-import { Badge } from '@ecom/ui'
 import type { Meta, StoryObj } from '@storybook/react'
+
+import { Badge } from '@ecom/ui'
+
 import { ProductCard } from './index'
 
 const meta = {

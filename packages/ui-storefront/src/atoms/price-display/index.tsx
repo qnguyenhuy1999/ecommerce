@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { cn } from '@ecom/ui'
 
 export interface PriceDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -8,13 +7,13 @@ export interface PriceDisplayProps extends React.HTMLAttributes<HTMLDivElement> 
   size?: 'sm' | 'default' | 'lg'
 }
 
-function PriceDisplay({ 
-  price, 
-  originalPrice, 
-  currency = 'USD', 
-  size = 'default', 
-  className, 
-  ...props 
+function PriceDisplay({
+  price,
+  originalPrice,
+  currency = 'USD',
+  size = 'default',
+  className,
+  ...props
 }: PriceDisplayProps) {
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -30,19 +29,30 @@ function PriceDisplay({
   }[size]
 
   return (
-    <div className={cn("flex items-center flex-wrap gap-2", className)} {...props}>
-      <span className={cn("font-bold tracking-tight text-foreground", hasSale && 'text-brand', textSizes.price)}>
+    <div className={cn('flex items-center flex-wrap gap-2', className)} {...props}>
+      <span
+        className={cn(
+          'font-bold tracking-tight text-foreground',
+          hasSale && 'text-brand',
+          textSizes.price,
+        )}
+      >
         {formatter.format(price)}
       </span>
       {hasSale && (
         <>
-          <span className={cn("text-muted-foreground line-through decoration-muted-foreground/50 font-medium translate-y-[1px]", textSizes.original)}>
+          <span
+            className={cn(
+              'text-muted-foreground line-through decoration-muted-foreground/50 font-medium translate-y-[1px]',
+              textSizes.original,
+            )}
+          >
             {formatter.format(originalPrice)}
           </span>
           {size !== 'sm' && (
-             <span className="text-[10px] font-bold text-brand uppercase tracking-wider bg-brand-muted px-1.5 py-0.5 rounded-[4px] ml-1">
-               {Math.round(((originalPrice - price) / originalPrice) * 100)}% Off
-             </span>
+            <span className="text-[10px] font-bold text-brand uppercase tracking-wider bg-brand-muted px-1.5 py-0.5 rounded-[4px] ml-1">
+              {Math.round(((originalPrice - price) / originalPrice) * 100)}% Off
+            </span>
           )}
         </>
       )}

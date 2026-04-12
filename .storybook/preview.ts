@@ -1,5 +1,5 @@
-import React from 'react'
 import type { Preview, Decorator } from '@storybook/react'
+import React from 'react'
 import '../../packages/ui/src/theme/tokens.css'
 
 const withThemeProvider: Decorator = (Story, context) => {

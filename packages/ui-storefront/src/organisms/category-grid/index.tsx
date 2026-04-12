@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { cn } from '@ecom/ui'
+
 import { CategoryCard } from '../../molecules/category-card'
 
 export interface CategoryGridProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -20,7 +20,7 @@ function CategoryGrid({ categories, columns = 3, className, ...props }: Category
   }[columns]
 
   return (
-    <div className={cn("grid gap-[var(--storefront-grid-gap)]", gridClasses, className)} {...props}>
+    <div className={cn('grid gap-[var(--storefront-grid-gap)]', gridClasses, className)} {...props}>
       {categories.map((category, index) => (
         <CategoryCard
           key={index}

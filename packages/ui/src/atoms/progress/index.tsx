@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import React from 'react'
 import { cn } from '../../lib/utils'
 
 const progressVariants = cva('relative w-full overflow-hidden rounded-full bg-muted', {
@@ -35,7 +35,8 @@ const fillVariants = cva(
 )
 
 interface ProgressProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends
+    React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof progressVariants>,
     VariantProps<typeof fillVariants> {
   value?: number
@@ -56,10 +57,7 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
         className={cn(progressVariants({ size }), className)}
         {...props}
       >
-        <div
-          className={fillVariants({ variant })}
-          style={{ width: `${percentage}%` }}
-        />
+        <div className={fillVariants({ variant })} style={{ width: `${percentage}%` }} />
       </div>
     )
   },

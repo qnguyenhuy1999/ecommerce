@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { cn } from '../../lib/utils'
+import React from 'react'
 import { Button } from '../../atoms/button'
+import { cn } from '../../lib/utils'
 
 interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode
@@ -29,16 +29,10 @@ function EmptyState({ icon, title, description, action, className, ...props }: E
       )}
       <div className="space-y-1.5">
         <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-        {description && (
-          <p className="text-sm text-muted-foreground max-w-md">{description}</p>
-        )}
+        {description && <p className="text-sm text-muted-foreground max-w-md">{description}</p>}
       </div>
       {action && (
-        <Button
-          variant={action.variant || 'outline'}
-          onClick={action.onClick}
-          className="mt-2"
-        >
+        <Button variant={action.variant || 'outline'} onClick={action.onClick} className="mt-2">
           {action.label}
         </Button>
       )}

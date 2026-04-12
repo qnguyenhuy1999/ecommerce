@@ -1,6 +1,5 @@
-import * as React from 'react'
-import { cn, Popover, PopoverContent, PopoverTrigger, Button, ScrollArea } from '@ecom/ui'
 import { Bell, Check, Info, AlertTriangle, CheckCircle, Package } from 'lucide-react'
+import { cn, Popover, PopoverContent, PopoverTrigger, Button, ScrollArea } from '@ecom/ui'
 
 export interface NotificationItem {
   id: string
@@ -26,8 +25,15 @@ const typeConfig = {
   order: { icon: Package, color: 'text-brand', bg: 'bg-brand-muted' },
 }
 
-function NotificationPanel({ notifications, onMarkRead, onMarkAllRead, trigger, className, ...props }: NotificationPanelProps) {
-  const unreadCount = notifications.filter(n => !n.read).length
+function NotificationPanel({
+  notifications,
+  onMarkRead,
+  onMarkAllRead,
+  trigger,
+  className,
+  ...props
+}: NotificationPanelProps) {
+  const unreadCount = notifications.filter((n) => !n.read).length
 
   const defaultTrigger = (
     <Button variant="ghost" size="icon" className="relative h-9 w-9">
@@ -43,14 +49,12 @@ function NotificationPanel({ notifications, onMarkRead, onMarkAllRead, trigger, 
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        {trigger || defaultTrigger}
-      </PopoverTrigger>
-      <PopoverContent align="end" className={cn("w-80 p-0 overflow-hidden", className)} {...props}>
+      <PopoverTrigger asChild>{trigger || defaultTrigger}</PopoverTrigger>
+      <PopoverContent align="end" className={cn('w-80 p-0 overflow-hidden', className)} {...props}>
         <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/30">
           <h3 className="font-semibold text-sm">Notifications</h3>
           {unreadCount > 0 && onMarkAllRead && (
-            <button 
+            <button
               onClick={(e) => {
                 e.stopPropagation()
                 onMarkAllRead()
@@ -61,7 +65,7 @@ function NotificationPanel({ notifications, onMarkRead, onMarkAllRead, trigger, 
             </button>
           )}
         </div>
-        
+
         <ScrollArea className="h-[300px]">
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-48 text-center px-4">
@@ -74,24 +78,37 @@ function NotificationPanel({ notifications, onMarkRead, onMarkAllRead, trigger, 
               {notifications.map((notification) => {
                 const Config = typeConfig[notification.type]
                 const Icon = Config.icon
-                
+
                 return (
-                  <div 
+                  <div
                     key={notification.id}
                     onClick={() => !notification.read && onMarkRead?.(notification.id)}
                     className={cn(
-                      "flex gap-3 p-4 border-b last:border-0 hover:bg-muted/50 transition-colors cursor-pointer",
-                      !notification.read ? "bg-accent/30" : "opacity-75 relative"
+                      'flex gap-3 p-4 border-b last:border-0 hover:bg-muted/50 transition-colors cursor-pointer',
+                      !notification.read ? 'bg-accent/30' : 'opacity-75 relative',
                     )}
                   >
                     {!notification.read && (
                       <span className="absolute left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-brand"></span>
                     )}
-                    <div className={cn("shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5", Config.bg, Config.color)}>
+                    <div
+                      className={cn(
+                        'shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5',
+                        Config.bg,
+                        Config.color,
+                      )}
+                    >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={cn("text-sm mb-0.5", !notification.read ? "font-semibold text-foreground" : "font-medium text-foreground/80")}>
+                      <p
+                        className={cn(
+                          'text-sm mb-0.5',
+                          !notification.read
+                            ? 'font-semibold text-foreground'
+                            : 'font-medium text-foreground/80',
+                        )}
+                      >
                         {notification.title}
                       </p>
                       <p className="text-xs text-muted-foreground leading-snug line-clamp-2">

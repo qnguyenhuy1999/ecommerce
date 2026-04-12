@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { cn } from '../../lib/utils'
+import React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { cn } from '../../lib/utils'
 
 interface PaginationProps {
   page: number
@@ -44,7 +44,9 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
   return (
     <nav className={cn('flex items-center gap-1', className)} aria-label="pagination">
       <button
-        onClick={() => onPageChange(page - 1)}
+        onClick={() => {
+          onPageChange(page - 1)
+        }}
         disabled={page <= 1}
         className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Previous page"
@@ -63,7 +65,9 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
         ) : (
           <button
             key={p}
-            onClick={() => onPageChange(p)}
+            onClick={() => {
+              onPageChange(p)
+            }}
             className={cn(
               buttonBase,
               'h-9 w-9',
@@ -79,7 +83,9 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
       )}
 
       <button
-        onClick={() => onPageChange(page + 1)}
+        onClick={() => {
+          onPageChange(page + 1)
+        }}
         disabled={page >= totalPages}
         className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Next page"

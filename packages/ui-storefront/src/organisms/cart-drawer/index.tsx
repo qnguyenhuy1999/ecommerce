@@ -1,10 +1,19 @@
 'use client'
 
-import * as React from 'react'
-import {
-  cn, Sheet, SheetContent, SheetHeader, SheetTitle, Button, Separator, Progress, Input, ScrollArea
-} from '@ecom/ui'
 import { ShoppingBag, ArrowRight } from 'lucide-react'
+
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  Button,
+  Separator,
+  Progress,
+  Input,
+  ScrollArea,
+} from '@ecom/ui'
+
 import { CartItem } from '../../atoms/cart-item'
 import { PriceDisplay } from '../../atoms/price-display'
 
@@ -46,14 +55,27 @@ function CartDrawer({
           {/* Shipping Progress Indicator */}
           {items.length > 0 && (
             <div className="px-6 py-4 bg-muted/30 border-b">
-               <p className="text-sm font-medium mb-3">
-                 {percentToFreeShipping >= 100 ? (
-                   <span className="text-success flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-success"></span> You've unlocked free shipping!</span>
-                 ) : (
-                   <span>You're <strong className="text-foreground">${remainingForFreeShipping.toFixed(2)}</strong> away from free shipping.</span>
-                 )}
-               </p>
-               <Progress value={percentToFreeShipping} variant={percentToFreeShipping >= 100 ? 'success' : 'brand'} className="h-2" />
+              <p className="text-sm font-medium mb-3">
+                {percentToFreeShipping >= 100 ? (
+                  <span className="text-success flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-success"></span> You've unlocked
+                    free shipping!
+                  </span>
+                ) : (
+                  <span>
+                    You're{' '}
+                    <strong className="text-foreground">
+                      ${remainingForFreeShipping.toFixed(2)}
+                    </strong>{' '}
+                    away from free shipping.
+                  </span>
+                )}
+              </p>
+              <Progress
+                value={percentToFreeShipping}
+                variant={percentToFreeShipping >= 100 ? 'success' : 'brand'}
+                className="h-2"
+              />
             </div>
           )}
 
@@ -66,7 +88,13 @@ function CartDrawer({
               <p className="text-muted-foreground text-sm max-w-[250px] mb-8">
                 Looks like you haven't added anything to your cart yet.
               </p>
-              <Button className="w-full sm:w-auto px-8" onClick={() => onOpenChange(false)} variant="outline">
+              <Button
+                className="w-full sm:w-auto px-8"
+                onClick={() => {
+                  onOpenChange(false)
+                }}
+                variant="outline"
+              >
                 Continue Shopping
               </Button>
             </div>
@@ -89,12 +117,14 @@ function CartDrawer({
             <div className="p-6 border-t bg-background mt-auto space-y-4">
               {/* Promo Code Input */}
               <div className="flex gap-2">
-                 <Input placeholder="Promo code" className="h-[42px]" />
-                 <Button variant="outline" className="h-[42px] shrink-0 font-semibold">Apply</Button>
+                <Input placeholder="Promo code" className="h-[42px]" />
+                <Button variant="outline" className="h-[42px] shrink-0 font-semibold">
+                  Apply
+                </Button>
               </div>
-              
+
               <Separator />
-              
+
               <div className="space-y-1.5">
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Subtotal</span>
@@ -102,18 +132,16 @@ function CartDrawer({
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span className="font-medium">{percentToFreeShipping >= 100 ? 'Free' : 'Calculated at checkout'}</span>
+                  <span className="font-medium">
+                    {percentToFreeShipping >= 100 ? 'Free' : 'Calculated at checkout'}
+                  </span>
                 </div>
                 <div className="flex justify-between text-base font-bold pt-2 border-t mt-2">
                   <span>Total</span>
                   <PriceDisplay price={subtotal} size="lg" />
                 </div>
               </div>
-              <Button 
-                className="w-full btn-brand group mt-2" 
-                size="xl" 
-                onClick={onCheckout}
-              >
+              <Button className="w-full btn-brand group mt-2" size="xl" onClick={onCheckout}>
                 Checkout
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>

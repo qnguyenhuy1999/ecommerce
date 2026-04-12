@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import React from 'react'
 import { cn } from '../../lib/utils'
 
 /* --- Popover ------------------------------------------------------------- */
@@ -89,7 +89,9 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
         }
       }
       document.addEventListener('mousedown', handleClick)
-      return () => document.removeEventListener('mousedown', handleClick)
+      return () => {
+        document.removeEventListener('mousedown', handleClick)
+      }
     }, [ctx])
 
     // Close on Escape
@@ -99,7 +101,9 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
         if (e.key === 'Escape') ctx!.setOpen(false)
       }
       document.addEventListener('keydown', handleKey)
-      return () => document.removeEventListener('keydown', handleKey)
+      return () => {
+        document.removeEventListener('keydown', handleKey)
+      }
     }, [ctx])
 
     if (!ctx.open) return null

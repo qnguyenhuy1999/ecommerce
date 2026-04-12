@@ -1,7 +1,8 @@
-import * as React from 'react'
-import { cn } from '@ecom/ui'
-import { Rating } from '../../atoms/rating'
 import { CheckCircle2 } from 'lucide-react'
+
+import { cn } from '@ecom/ui'
+
+import { Rating } from '../../atoms/rating'
 
 export interface ReviewCardProps extends React.HTMLAttributes<HTMLDivElement> {
   author: string
@@ -12,20 +13,30 @@ export interface ReviewCardProps extends React.HTMLAttributes<HTMLDivElement> {
   verified?: boolean
 }
 
-function ReviewCard({ author, avatar, rating, date, content, verified = false, className, ...props }: ReviewCardProps) {
+function ReviewCard({
+  author,
+  avatar,
+  rating,
+  date,
+  content,
+  verified = false,
+  className,
+  ...props
+}: ReviewCardProps) {
   return (
-    <div className={cn("flex flex-col gap-3 p-5 rounded-[20px] bg-card border shadow-sm", className)} {...props}>
+    <div
+      className={cn('flex flex-col gap-3 p-5 rounded-[20px] bg-card border shadow-sm', className)}
+      {...props}
+    >
       <div className="flex justify-between items-start">
         <Rating value={rating} size="sm" className="mb-2" />
         <span className="text-xs text-muted-foreground">{date}</span>
       </div>
-      
+
       <div className="flex-1">
-        <p className="text-sm text-foreground/90 leading-relaxed line-clamp-4">
-          "{content}"
-        </p>
+        <p className="text-sm text-foreground/90 leading-relaxed line-clamp-4">"{content}"</p>
       </div>
-      
+
       <div className="flex items-center gap-3 pt-3 mt-auto border-t">
         {avatar ? (
           <img src={avatar} alt={author} className="w-8 h-8 rounded-full object-cover shrink-0" />

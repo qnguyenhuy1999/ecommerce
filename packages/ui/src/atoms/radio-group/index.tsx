@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import React from 'react'
 import { cn } from '../../lib/utils'
 
 interface RadioGroupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -10,7 +10,10 @@ interface RadioGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   name?: string
 }
 
-interface RadioGroupItemProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+interface RadioGroupItemProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  'onChange'
+> {
   value: string
   label?: string
 }

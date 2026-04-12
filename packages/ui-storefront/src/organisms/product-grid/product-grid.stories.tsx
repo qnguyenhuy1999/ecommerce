@@ -1,7 +1,9 @@
-import { Badge } from '@ecom/ui'
-import type { Meta, StoryObj } from '@storybook/react'
-import { ProductGrid } from './index'
 import type { Product } from './types'
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { Badge } from '@ecom/ui'
+
+import { ProductGrid } from './index'
 
 const meta = {
   title: 'Organisms/ProductGrid',

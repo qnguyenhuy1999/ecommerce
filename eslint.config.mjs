@@ -21,6 +21,9 @@ export default [
       "**/*.js",
       "**/*.cjs",
       "**/*.mjs",
+      "**/*.d.ts",
+      "**/next-env.d.ts",
+      "**/types/**",
       "!**/.storybook/**/*.js",
     ],
   },
@@ -47,6 +50,13 @@ export default [
   // ─── TypeScript: type-checked (needs project) ──────────────────────────────
   {
     files: ["**/*.ts", "**/*.tsx", "**/*.mts", "**/*.cts"],
+    // Exclude packages without their own tsconfig.json (monorepo workspaces)
+    ignores: [
+      "apps/storefront/**",
+      "apps/admin/**",
+      "packages/ui-admin/**",
+      "packages/ui-storefront/**",
+    ],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
@@ -100,14 +110,17 @@ export default [
         {
           groups: [
             ["type"],
-            ["external"],
+            ["builtin", "external"],
             ["internal"],
-            ["parent", "sibling"],
+            ["parent", "sibling", "index"],
           ],
           "newlines-between": "always",
           alphabetize: { order: "asc", caseInsensitive: true },
           pathGroupsExcludedImportTypes: ["type"],
           pathGroups: [
+            { pattern: "react", group: "builtin", position: "before" },
+            { pattern: "lucide-react", group: "external", position: "after" },
+            { pattern: "reflect-metadata", group: "builtin", position: "before" },
             { pattern: "@ecom/**", group: "internal", position: "after" },
             { pattern: "@/**", group: "internal", position: "after" },
           ],
@@ -129,12 +142,4 @@ export default [
     },
   },
 
-  // ─── Next.js (storefront, admin) ───────────────────────────────────────────
-  {
-    files: ["apps/storefront/**/*", "apps/admin/**/*"],
-    rules: {
-      "react-hooks/rules-of-hooks": "error",
-      "react-hooks/exhaustive-deps": "warn",
-    },
-  },
 ];

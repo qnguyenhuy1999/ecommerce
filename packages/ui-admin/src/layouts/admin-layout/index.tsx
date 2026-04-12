@@ -1,6 +1,5 @@
 'use client'
 
-import * as React from 'react'
 import { cn } from '@ecom/ui'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {

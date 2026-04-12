@@ -1,15 +1,21 @@
-import * as React from 'react'
 import { Badge as UiBadge, type BadgeProps as UiBadgeProps } from '@ecom/ui'
 import { cn } from '@ecom/ui'
 
-export type StatusValue = 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled' | 'refunded' | 'failed'
+export type StatusValue =
+  | 'pending'
+  | 'processing'
+  | 'shipped'
+  | 'delivered'
+  | 'cancelled'
+  | 'refunded'
+  | 'failed'
 
 export interface StatusBadgeProps extends Omit<UiBadgeProps, 'variant'> {
   status: StatusValue
   label?: string
 }
 
-const statusMap: Record<StatusValue, { variant: UiBadgeProps['variant'], defaultLabel: string }> = {
+const statusMap: Record<StatusValue, { variant: UiBadgeProps['variant']; defaultLabel: string }> = {
   pending: { variant: 'warning', defaultLabel: 'Pending' },
   processing: { variant: 'info', defaultLabel: 'Processing' },
   shipped: { variant: 'info', defaultLabel: 'Shipped' },
@@ -21,11 +27,11 @@ const statusMap: Record<StatusValue, { variant: UiBadgeProps['variant'], default
 
 function StatusBadge({ status, label, className, ...props }: StatusBadgeProps) {
   const config = statusMap[status] || statusMap.pending
-  
+
   return (
-    <UiBadge 
-      variant={config.variant} 
-      className={cn('capitalize whitespace-nowrap', className)} 
+    <UiBadge
+      variant={config.variant}
+      className={cn('capitalize whitespace-nowrap', className)}
       {...props}
     >
       <span className="w-1.5 h-1.5 rounded-full bg-current mr-1.5 opacity-75" />

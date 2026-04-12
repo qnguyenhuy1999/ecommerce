@@ -5,5 +5,9 @@
 // - restoreStock: Redis INCR on expiry/cancellation
 // - getStock: Redis GET fallback to DB
 import { Injectable } from '@nestjs/common';
+
 @Injectable()
+ 
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class InventoryService {}

@@ -1,10 +1,19 @@
-import * as React from 'react'
-import { cn } from '@ecom/ui'
-import { ProductCard } from '../../molecules/product-card'
 import type { ProductGridProps, Product } from './types'
 
+import React from 'react'
+
+import { cn } from '@ecom/ui'
+
+import {
+  ProductCard,
+  ProductCardImage,
+  ProductCardContent,
+  ProductCardTitle,
+  ProductCardBadge,
+} from '../../molecules/product-card'
+
 const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
-  ({ products, onAddToCart, loading, emptyMessage = 'No products found.', className }, ref) => {
+  ({ products, loading, emptyMessage = 'No products found.', className }, ref) => {
     if (loading) {
       return (
         <div
@@ -15,7 +24,10 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
           )}
         >
           {Array.from({ length: 8 }).map((_, i) => (
-            <ProductCard key={i} id="" image="" title="" price={0} loading />
+            <ProductCard key={i} id="" title="">
+              <ProductCardImage src="" alt="" />
+              <ProductCardContent />
+            </ProductCard>
           ))}
         </div>
       )
@@ -41,16 +53,13 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
         )}
       >
         {products.map((product) => (
-          <ProductCard
-            key={product.id}
-            id={product.id}
-            image={product.image}
-            title={product.title}
-            price={product.price}
-            originalPrice={product.originalPrice}
-            badge={product.badge}
-            onAddToCart={onAddToCart}
-          />
+          <ProductCard key={product.id} id={product.id} title={product.title}>
+            <ProductCardImage src={product.image} alt={product.title} />
+            {product.badge && <ProductCardBadge>{product.badge}</ProductCardBadge>}
+            <ProductCardContent>
+              <ProductCardTitle />
+            </ProductCardContent>
+          </ProductCard>
         ))}
       </div>
     )

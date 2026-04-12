@@ -6,5 +6,10 @@
 // - updateStatus: validate state transition, update sub-order status
 // - requestRefund: update status to PENDING_REFUND
 import { Injectable } from '@nestjs/common';
+
+ 
 @Injectable()
+ 
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class OrderService {}

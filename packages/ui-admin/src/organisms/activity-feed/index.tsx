@@ -1,4 +1,3 @@
-import * as React from 'react'
 import { cn, Avatar, AvatarFallback, AvatarImage } from '@ecom/ui'
 
 export interface ActivityItem {
@@ -18,12 +17,15 @@ export interface ActivityFeedProps extends React.HTMLAttributes<HTMLDivElement> 
 
 function ActivityFeed({ items, className, ...props }: ActivityFeedProps) {
   return (
-    <div className={cn("space-y-4", className)} {...props}>
+    <div className={cn('space-y-4', className)} {...props}>
       {items.map((item) => (
-        <div key={item.id} className="flex gap-4 p-3 rounded-[8px] hover:bg-muted/50 transition-colors">
+        <div
+          key={item.id}
+          className="flex gap-4 p-3 rounded-[8px] hover:bg-muted/50 transition-colors"
+        >
           <Avatar className="w-8 h-8 shrink-0">
-             {item.user.avatar && <AvatarImage src={item.user.avatar} alt={item.user.name} />}
-             <AvatarFallback className="text-xs">{item.user.name.charAt(0)}</AvatarFallback>
+            {item.user.avatar && <AvatarImage src={item.user.avatar} alt={item.user.name} />}
+            <AvatarFallback className="text-xs">{item.user.name.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1 min-w-0">
             <p className="text-sm text-foreground">
@@ -36,9 +38,7 @@ function ActivityFeed({ items, className, ...props }: ActivityFeedProps) {
         </div>
       ))}
       {items.length === 0 && (
-         <div className="p-4 text-center text-sm text-muted-foreground">
-           No recent activity
-         </div>
+        <div className="p-4 text-center text-sm text-muted-foreground">No recent activity</div>
       )}
     </div>
   )

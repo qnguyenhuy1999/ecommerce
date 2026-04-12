@@ -52,9 +52,9 @@
 
 ### [06 - UI Package Documentation](./../06-ui/)
 
-| Document                                    | Description                              |
-| ------------------------------------------- | ---------------------------------------- |
-| [README.md](./../06-ui/README.md)           | Full UI package documentation                  |
+| Document                                        | Description                                    |
+| ----------------------------------------------- | ---------------------------------------------- |
+| [README.md](./../06-ui/README.md)               | Full UI package documentation                  |
 | [VISUAL_DESIGN.md](./../06-ui/VISUAL_DESIGN.md) | Airbnb-inspired visual design system reference |
 
 ---

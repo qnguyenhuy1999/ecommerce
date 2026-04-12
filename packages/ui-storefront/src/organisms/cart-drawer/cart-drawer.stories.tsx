@@ -1,8 +1,11 @@
-import { useState } from 'react'
-import { Button } from '@ecom/ui'
-import type { Meta, StoryObj } from '@storybook/react'
-import { CartDrawer } from './index'
 import type { CartDrawerProps, CartItemData } from './types'
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { useState } from 'react'
+
+import { Button } from '@ecom/ui'
+
+import { CartDrawer } from './index'
 
 const meta = {
   title: 'Organisms/CartDrawer',

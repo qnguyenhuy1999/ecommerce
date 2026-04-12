@@ -1,10 +1,13 @@
 'use client'
 
-import * as React from 'react'
-import { cn, Button } from '@ecom/ui'
 import { Plus, Minus } from 'lucide-react'
 
-export interface QuantityStepperProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+import { cn } from '@ecom/ui'
+
+export interface QuantityStepperProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'onChange'
+> {
   value: number
   onChange: (value: number) => void
   min?: number
@@ -40,25 +43,25 @@ function QuantityStepper({
 
   const sizes = {
     sm: { h: 'h-8', w: 'w-8', text: 'text-xs', icon: 'w-3 h-3' },
-    default: { h: 'h-10', w: 'w-10', text: 'text-sm', icon: 'w-4 h-4' }
+    default: { h: 'h-10', w: 'w-10', text: 'text-sm', icon: 'w-4 h-4' },
   }[size]
 
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border bg-background shadow-sm overflow-hidden",
+        'inline-flex items-center rounded-full border bg-background shadow-sm overflow-hidden',
         sizes.h,
-        disabled && "opacity-50 cursor-not-allowed",
-        className
+        disabled && 'opacity-50 cursor-not-allowed',
+        className,
       )}
       {...props}
     >
       <button
         type="button"
         className={cn(
-          "flex items-center justify-center transition-colors hover:bg-muted active:bg-muted/80 h-full",
+          'flex items-center justify-center transition-colors hover:bg-muted active:bg-muted/80 h-full',
           sizes.w,
-          atMin && "opacity-50 cursor-not-allowed"
+          atMin && 'opacity-50 cursor-not-allowed',
         )}
         onClick={handleDecrease}
         disabled={disabled || atMin}
@@ -66,17 +69,17 @@ function QuantityStepper({
       >
         <Minus className={sizes.icon} />
       </button>
-      
-      <div className={cn("flex items-center justify-center font-medium w-8", sizes.text)}>
+
+      <div className={cn('flex items-center justify-center font-medium w-8', sizes.text)}>
         {value}
       </div>
-      
+
       <button
         type="button"
         className={cn(
-          "flex items-center justify-center transition-colors hover:bg-muted active:bg-muted/80 h-full",
+          'flex items-center justify-center transition-colors hover:bg-muted active:bg-muted/80 h-full',
           sizes.w,
-          atMax && "opacity-50 cursor-not-allowed"
+          atMax && 'opacity-50 cursor-not-allowed',
         )}
         onClick={handleIncrease}
         disabled={disabled || atMax}

@@ -1,6 +1,7 @@
 import { ValidationPipe } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -34,9 +35,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, document)
 
-  const port = process.env.PORT || 3000
+  const port = parseInt(process.env.PORT ?? '3000', 10)
   await app.listen(port)
-  console.log(`[API] Running on http://localhost:${port}`)
+  console.log(`[API] Running on http://localhost:${String(port)}`)
 }
 
-bootstrap()
+bootstrap().catch(console.error)

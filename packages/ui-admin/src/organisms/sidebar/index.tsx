@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
+import React from 'react'
+import { ChevronRight } from 'lucide-react'
 import { cn, Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@ecom/ui'
-import { ChevronDown, ChevronRight } from 'lucide-react'
 import type { SidebarProps, SidebarNavGroup, SidebarNavItem } from './types'
 
 function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolean }) {
@@ -36,7 +36,10 @@ function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolea
             </span>
           )}
           {hasChildren && (
-            <span className="shrink-0 transition-transform duration-200" style={{ transform: expanded ? 'rotate(90deg)' : 'none' }}>
+            <span
+              className="shrink-0 transition-transform duration-200"
+              style={{ transform: expanded ? 'rotate(90deg)' : 'none' }}
+            >
               <ChevronRight className="w-4 h-4" />
             </span>
           )}
@@ -81,18 +84,26 @@ function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolea
   )
 }
 
-function Sidebar({ logo, navGroups = [], footer, collapsed = false, className, ...props }: SidebarProps) {
+function Sidebar({
+  logo,
+  navGroups = [],
+  footer,
+  collapsed = false,
+  className,
+  ...props
+}: SidebarProps) {
   return (
     <aside
-      className={cn(
-        'admin-sidebar',
-        collapsed && 'admin-sidebar--collapsed',
-        className
-      )}
+      className={cn('admin-sidebar', collapsed && 'admin-sidebar--collapsed', className)}
       {...props}
     >
       {logo && (
-        <div className={cn("h-14 flex items-center border-b shrink-0", collapsed ? "justify-center px-0" : "px-4")}>
+        <div
+          className={cn(
+            'h-14 flex items-center border-b shrink-0',
+            collapsed ? 'justify-center px-0' : 'px-4',
+          )}
+        >
           {logo}
         </div>
       )}
@@ -115,7 +126,16 @@ function Sidebar({ logo, navGroups = [], footer, collapsed = false, className, .
           </div>
         ))}
       </nav>
-      {footer && <div className={cn("p-3 border-t shrink-0 flex items-center", collapsed ? "justify-center" : "")}>{footer}</div>}
+      {footer && (
+        <div
+          className={cn(
+            'p-3 border-t shrink-0 flex items-center',
+            collapsed ? 'justify-center' : '',
+          )}
+        >
+          {footer}
+        </div>
+      )}
     </aside>
   )
 }

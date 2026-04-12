@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
+
+import { StorefrontShell } from './index'
 import { StorefrontFooter } from '../../layouts/storefront-footer'
 import { StorefrontHeader } from '../../layouts/storefront-header'
-import { StorefrontShell } from './index'
 
 const meta = {
   title: 'Layouts/StorefrontShell',

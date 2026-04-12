@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { CartItem } from './index'
 import type { CartItemProps } from './types'
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { CartItem } from './index'
 
 const meta = {
   title: 'Atoms/CartItem',

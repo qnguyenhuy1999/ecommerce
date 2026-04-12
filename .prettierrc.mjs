@@ -18,10 +18,11 @@ export default {
     "@babel/plugin-proposal-decorators",
   ],
   importOrder: [
-    "^(react|reflect-metadata)$",
-    "^(@?\\w)",
-    "^(@/.*)$",
+    "^react$",
+    "^reflect-metadata$",
+    "^lucide-react$",
     "^(@ecom/.*)$",
+    "^(@/.*)$",
     "^[./]",
   ],
   overrides: [

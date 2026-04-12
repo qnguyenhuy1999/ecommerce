@@ -5,5 +5,9 @@
 // - removeItem: remove item
 // - clearCart: delete all items
 import { Injectable } from '@nestjs/common';
+
 @Injectable()
+ 
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class CartService {}

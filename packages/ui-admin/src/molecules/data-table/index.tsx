@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import React from 'react'
 
 const DataTableContext = React.createContext<{
   selectable?: boolean
@@ -22,7 +22,14 @@ export interface DataTableProps extends React.HTMLAttributes<HTMLDivElement> {
   onSelectionChange?: (keys: (string | number)[]) => void
 }
 
-function DataTable({ selectable, selectedKeys, onSelectionChange, className, children, ...props }: DataTableProps) {
+function DataTable({
+  selectable,
+  selectedKeys,
+  onSelectionChange,
+  className,
+  children,
+  ...props
+}: DataTableProps) {
   return (
     <DataTableContext.Provider value={{ selectable, selectedKeys, onSelectionChange }}>
       <div className={`flex flex-col space-y-4 ${className || ''}`} {...props}>
@@ -40,19 +47,21 @@ function DataTableToolbar({ className, children, ...props }: React.HTMLAttribute
   )
 }
 
-function DataTableBulkActions({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function DataTableBulkActions({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   const { selectedKeys } = useDataTable()
-  
+
   if (!selectedKeys || selectedKeys.length === 0) return null
 
   return (
-    <div 
-      className={`flex items-center gap-2 p-2 bg-muted/50 border rounded-[var(--radius-sm)] transition-opacity duration-[var(--motion-duration-fast)] ${className || ''}`} 
+    <div
+      className={`flex items-center gap-2 p-2 bg-muted/50 border rounded-[var(--radius-sm)] transition-opacity duration-[var(--motion-duration-fast)] ${className || ''}`}
       {...props}
     >
-      <span className="text-sm font-medium ml-2 mr-4">
-        {selectedKeys.length} selected
-      </span>
+      <span className="text-sm font-medium ml-2 mr-4">{selectedKeys.length} selected</span>
       {children}
     </div>
   )

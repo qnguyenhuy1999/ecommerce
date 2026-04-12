@@ -1,6 +1,6 @@
-import * as React from 'react'
-import { cn } from '@ecom/ui'
+import React from 'react'
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
+import { cn } from '@ecom/ui'
 
 export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
@@ -10,12 +10,27 @@ export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode
 }
 
-function MetricCard({ label, value, previousValue, format = 'number', icon, className, ...props }: MetricCardProps) {
+function MetricCard({
+  label,
+  value,
+  previousValue,
+  format = 'number',
+  icon,
+  className,
+  ...props
+}: MetricCardProps) {
   const formattedValue = React.useMemo(() => {
     switch (format) {
-      case 'currency': return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value)
-      case 'percent': return new Intl.NumberFormat('en-US', { style: 'percent' }).format(value / 100)
-      default: return new Intl.NumberFormat('en-US').format(value)
+      case 'currency':
+        return new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+          maximumFractionDigits: 0,
+        }).format(value)
+      case 'percent':
+        return new Intl.NumberFormat('en-US', { style: 'percent' }).format(value / 100)
+      default:
+        return new Intl.NumberFormat('en-US').format(value)
     }
   }, [value, format])
 
@@ -35,19 +50,23 @@ function MetricCard({ label, value, previousValue, format = 'number', icon, clas
       <div className="flex items-baseline gap-2">
         <h2 className="text-2xl font-bold tracking-tight">{formattedValue}</h2>
         {percentChange !== null && (
-          <div className={cn(
-            'flex items-center text-xs font-semibold',
-            isPositive ? 'text-success' : 'text-destructive'
-          )}>
-            {isPositive ? <ArrowUpRight className="w-3 h-3 mr-0.5" /> : <ArrowDownRight className="w-3 h-3 mr-0.5" />}
+          <div
+            className={cn(
+              'flex items-center text-xs font-semibold',
+              isPositive ? 'text-success' : 'text-destructive',
+            )}
+          >
+            {isPositive ? (
+              <ArrowUpRight className="w-3 h-3 mr-0.5" />
+            ) : (
+              <ArrowDownRight className="w-3 h-3 mr-0.5" />
+            )}
             {Math.abs(percentChange)}%
           </div>
         )}
       </div>
       {previousValue !== undefined && (
-        <p className="text-[13px] text-muted-foreground mt-1">
-          vs previous period
-        </p>
+        <p className="text-[13px] text-muted-foreground mt-1">vs previous period</p>
       )}
     </div>
   )

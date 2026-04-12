@@ -1,6 +1,6 @@
 'use client'
 
-import * as React from 'react'
+import React from 'react'
 
 const ProductCardContext = React.createContext<{
   id: string
@@ -26,8 +26,8 @@ export interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
 function ProductCard({ id, title, href, className, children, ...props }: ProductCardProps) {
   return (
     <ProductCardContext.Provider value={{ id, title, href }}>
-      <div 
-        className={`group flex flex-col h-full bg-card rounded-[var(--radius-lg)] shadow-[var(--elevation-card)] transition-[box-shadow] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-default)] hover:shadow-[var(--elevation-hover)] ${className || ''}`} 
+      <div
+        className={`group flex flex-col h-full bg-card rounded-[var(--radius-lg)] shadow-[var(--elevation-card)] transition-[box-shadow] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-default)] hover:shadow-[var(--elevation-hover)] ${className || ''}`}
         {...props}
       >
         {children}
@@ -46,12 +46,16 @@ function ProductCardImage({
   const [loaded, setLoaded] = React.useState(false)
 
   const imageContent = (
-    <div className={`relative aspect-[16/10] bg-muted overflow-hidden rounded-t-[var(--radius-lg)] ${className || ''}`}>
+    <div
+      className={`relative aspect-[16/10] bg-muted overflow-hidden rounded-t-[var(--radius-lg)] ${className || ''}`}
+    >
       <img
         src={src || '/placeholder.jpg'}
         alt={alt || title}
         loading="lazy"
-        onLoad={() => setLoaded(true)}
+        onLoad={() => {
+          setLoaded(true)
+        }}
         className={`w-full h-full object-cover transition-opacity duration-[var(--motion-duration-normal)] ease-[var(--motion-ease-default)] ${loaded ? 'opacity-100' : 'opacity-0'}`}
         {...props}
       />
@@ -59,26 +63,40 @@ function ProductCardImage({
   )
 
   if (href) {
-    return <a href={href} className="block relative">{imageContent}</a>
+    return (
+      <a href={href} className="block relative">
+        {imageContent}
+      </a>
+    )
   }
   return <div className="block relative">{imageContent}</div>
 }
 
-function ProductCardContent({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function ProductCardContent({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   const { href } = useProductCard()
-  const Tag = href ? 'a' : 'div'
+  if (href) {
+    return (
+      <a href={href} className={`flex flex-col flex-1 p-4 ${className || ''}`}>
+        {children}
+      </a>
+    )
+  }
   return (
-    <Tag href={href} className={`flex flex-col flex-1 p-4 ${className || ''}`} {...(href ? {} : props)}>
+    <div className={`flex flex-col flex-1 p-4 ${className || ''}`} {...props}>
       {children}
-    </Tag>
+    </div>
   )
 }
 
 function ProductCardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
   const { title } = useProductCard()
   return (
-    <h3 
-      className={`font-medium tracking-tight text-foreground line-clamp-2 hover:underline underline-offset-4 ${className || ''}`} 
+    <h3
+      className={`font-medium tracking-tight text-foreground line-clamp-2 hover:underline underline-offset-4 ${className || ''}`}
       {...props}
     >
       {title}
@@ -88,8 +106,8 @@ function ProductCardTitle({ className, ...props }: React.HTMLAttributes<HTMLHead
 
 function ProductCardBadge({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div 
-      className={`absolute top-3 left-3 z-10 px-2 py-1 bg-foreground text-background text-[11px] font-bold rounded-[var(--radius-sm)] ${className || ''}`} 
+    <div
+      className={`absolute top-3 left-3 z-10 px-2 py-1 bg-foreground text-background text-[11px] font-bold rounded-[var(--radius-sm)] ${className || ''}`}
       {...props}
     >
       {children}

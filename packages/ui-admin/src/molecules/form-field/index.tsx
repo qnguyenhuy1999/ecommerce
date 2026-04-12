@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import { cn, Label } from '@ecom/ui'
 
 export interface FormFieldProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -20,14 +20,14 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
             {required && <span className="ml-1 text-destructive">*</span>}
           </Label>
         </div>
-        
+
         {children}
-        
+
         {(description || error) && (
           <p
             className={cn(
               'text-[13px]',
-              error ? 'text-destructive font-medium' : 'text-muted-foreground'
+              error ? 'text-destructive font-medium' : 'text-muted-foreground',
             )}
           >
             {error || description}
@@ -35,7 +35,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
         )}
       </div>
     )
-  }
+  },
 )
 
 FormField.displayName = 'FormField'

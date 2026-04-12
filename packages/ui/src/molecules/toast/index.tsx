@@ -1,8 +1,8 @@
 'use client'
 
-import * as React from 'react'
-import { cn } from '../../lib/utils'
+import React from 'react'
 import { X } from 'lucide-react'
+import { cn } from '../../lib/utils'
 
 /* --- Types --------------------------------------------------------------- */
 export type ToastVariant = 'default' | 'success' | 'warning' | 'error' | 'info'
@@ -71,15 +71,23 @@ function ToastItem({ toast }: { toast: ToastData }) {
 
   React.useEffect(() => {
     const duration = toast.duration ?? 5000
-    const timer = setTimeout(() => setExiting(true), duration)
-    return () => clearTimeout(timer)
+    const timer = setTimeout(() => {
+      setExiting(true)
+    }, duration)
+    return () => {
+      clearTimeout(timer)
+    }
   }, [toast.duration])
 
   React.useEffect(() => {
     return exiting
       ? (() => {
-          const timer = setTimeout(() => removeToast(toast.id), 200)
-          return () => clearTimeout(timer)
+          const timer = setTimeout(() => {
+            removeToast(toast.id)
+          }, 200)
+          return () => {
+            clearTimeout(timer)
+          }
         })()
       : undefined
   }, [exiting, toast.id, removeToast])
@@ -110,7 +118,9 @@ function ToastItem({ toast }: { toast: ToastData }) {
         )}
       </div>
       <button
-        onClick={() => setExiting(true)}
+        onClick={() => {
+          setExiting(true)
+        }}
         className="shrink-0 rounded-[4px] p-0.5 opacity-60 hover:opacity-100 transition-opacity"
         aria-label="Dismiss"
       >

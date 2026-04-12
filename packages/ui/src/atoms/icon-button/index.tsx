@@ -1,5 +1,5 @@
-import * as React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
+import React from 'react'
 import { cn } from '../../lib/utils'
 
 const iconButtonVariants = cva(
@@ -16,7 +16,8 @@ const iconButtonVariants = cva(
       variant: {
         default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
-        outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        outline:
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
         brand: 'bg-brand text-brand-foreground shadow-sm hover:bg-brand-hover',
         destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
       },
@@ -34,8 +35,7 @@ const iconButtonVariants = cva(
 )
 
 interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof iconButtonVariants> {
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof iconButtonVariants> {
   icon: React.ReactNode
   label: string
 }
