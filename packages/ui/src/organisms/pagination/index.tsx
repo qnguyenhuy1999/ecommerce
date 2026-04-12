@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { cn } from '../../lib/utils'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PaginationProps {
   page: number
@@ -33,32 +34,41 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
     return items
   }, [page, totalPages])
 
+  const buttonBase = [
+    'inline-flex items-center justify-center rounded-full text-sm font-medium',
+    'transition-all duration-[150ms] ease-[cubic-bezier(0.4,0,0.2,1)]',
+    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+    'disabled:pointer-events-none disabled:opacity-50',
+  ].join(' ')
+
   return (
     <nav className={cn('flex items-center gap-1', className)} aria-label="pagination">
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className={cn(
-          'inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        )}
+        className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Previous page"
       >
-        Previous
+        <ChevronLeft className="h-4 w-4" />
       </button>
 
       {pages.map((p, i) =>
         p === 'ellipsis' ? (
-          <span key={`ellipsis-${i}`} className="flex h-9 w-9 items-center justify-center text-sm">
-            ...
+          <span
+            key={`ellipsis-${i}`}
+            className="flex h-9 w-9 items-center justify-center text-sm text-muted-foreground"
+          >
+            …
           </span>
         ) : (
           <button
             key={p}
             onClick={() => onPageChange(p)}
             className={cn(
-              'inline-flex h-9 w-9 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+              buttonBase,
+              'h-9 w-9',
               p === page
-                ? 'bg-primary text-primary-foreground shadow hover:bg-primary/90'
+                ? 'bg-brand text-brand-foreground shadow-sm hover:bg-brand-hover'
                 : 'hover:bg-accent hover:text-accent-foreground',
             )}
             aria-current={p === page ? 'page' : undefined}
@@ -71,12 +81,10 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={page >= totalPages}
-        className={cn(
-          'inline-flex h-9 items-center justify-center rounded-md px-3 text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-        )}
+        className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Next page"
       >
-        Next
+        <ChevronRight className="h-4 w-4" />
       </button>
     </nav>
   )

@@ -1,183 +1,61 @@
 'use client'
 
 import * as React from 'react'
-import { cn, Pagination } from '@ecom/ui'
-import type { DataTableProps, ColumnDef, SortDirection } from './types'
 
-function DataTable<T extends Record<string, unknown> = Record<string, unknown>>({
-  columns,
-  data,
-  keyField = 'id' as keyof T,
-  page = 1,
-  totalPages = 1,
-  onPageChange,
-  pageSize,
-  selectable = false,
-  selectedKeys = [],
-  onSelectionChange,
-  onSortChange,
-  sortKey,
-  sortDirection,
-  loading = false,
-  emptyMessage = 'No data available',
-  className,
-  ...props
-}: DataTableProps<T>) {
-  const allSelected =
-    selectable &&
-    data.length > 0 &&
-    data.every((row) => selectedKeys.includes(row[keyField] as string | number))
-  const someSelected =
-    selectable &&
-    !allSelected &&
-    data.some((row) => selectedKeys.includes(row[keyField] as string | number))
+const DataTableContext = React.createContext<{
+  selectable?: boolean
+  selectedKeys?: (string | number)[]
+  onSelectionChange?: (keys: (string | number)[]) => void
+} | null>(null)
 
-  function toggleAll() {
-    if (!selectable || !onSelectionChange) return
-    if (allSelected) {
-      const current = new Set(selectedKeys)
-      data.forEach((row) => current.delete(row[keyField] as string | number))
-      onSelectionChange(Array.from(current))
-    } else {
-      const current = new Set(selectedKeys)
-      data.forEach((row) => current.add(row[keyField] as string | number))
-      onSelectionChange(Array.from(current))
-    }
+export function useDataTable() {
+  const context = React.useContext(DataTableContext)
+  if (!context) {
+    throw new Error('DataTable components must be used within DataTable')
   }
+  return context
+}
 
-  function toggleRow(key: string | number) {
-    if (!selectable || !onSelectionChange) return
-    const current = selectedKeys
-    if (current.includes(key)) {
-      onSelectionChange(current.filter((k) => k !== key))
-    } else {
-      onSelectionChange([...current, key])
-    }
-  }
+export interface DataTableProps extends React.HTMLAttributes<HTMLDivElement> {
+  selectable?: boolean
+  selectedKeys?: (string | number)[]
+  onSelectionChange?: (keys: (string | number)[]) => void
+}
 
-  function handleSort(key: string) {
-    if (!onSortChange) return
-    const next: SortDirection =
-      sortKey === key
-        ? sortDirection === 'asc'
-          ? 'desc'
-          : sortDirection === 'desc'
-            ? null
-            : 'asc'
-        : 'asc'
-    onSortChange(key, next)
-  }
-
+function DataTable({ selectable, selectedKeys, onSelectionChange, className, children, ...props }: DataTableProps) {
   return (
-    <div className={cn('flex flex-col', className)} {...props}>
-      <div className="overflow-x-auto rounded-lg border">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b bg-muted/40">
-              {selectable && (
-                <th className="w-10 px-4 py-3">
-                  <input
-                    type="checkbox"
-                    checked={allSelected}
-                    ref={(el) => {
-                      if (el) el.indeterminate = someSelected
-                    }}
-                    onChange={toggleAll}
-                    className="rounded border-input"
-                  />
-                </th>
-              )}
-              {columns.map((col) => (
-                <th
-                  key={col.key as string}
-                  className={cn(
-                    'px-4 py-3 text-left font-medium text-muted-foreground',
-                    col.sortable && 'cursor-pointer select-none hover:text-foreground',
-                    col.className,
-                  )}
-                  onClick={col.sortable ? () => handleSort(col.key as string) : undefined}
-                >
-                  <div className="flex items-center gap-1">
-                    {col.header}
-                    {col.sortable && sortKey === col.key && (
-                      <span className="text-xs">{sortDirection === 'asc' ? '↑' : '↓'}</span>
-                    )}
-                  </div>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {loading ? (
-              Array.from({ length: pageSize || 5 }).map((_, i) => (
-                <tr key={i} className="border-b">
-                  {selectable && (
-                    <td className="px-4 py-3">
-                      <div className="h-4 w-4 bg-muted rounded animate-pulse" />
-                    </td>
-                  )}
-                  {columns.map((col) => (
-                    <td key={col.key as string} className="px-4 py-3">
-                      <div
-                        className="h-4 bg-muted rounded animate-pulse"
-                        style={{ width: '60%' }}
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))
-            ) : data.length === 0 ? (
-              <tr>
-                <td
-                  colSpan={columns.length + (selectable ? 1 : 0)}
-                  className="px-4 py-12 text-center text-muted-foreground"
-                >
-                  {emptyMessage}
-                </td>
-              </tr>
-            ) : (
-              data.map((row) => {
-                const rowKey = row[keyField] as string | number
-                const isSelected = selectedKeys.includes(rowKey)
-                return (
-                  <tr
-                    key={rowKey as string}
-                    className={cn(
-                      'border-b transition-colors',
-                      isSelected ? 'bg-muted/50' : 'hover:bg-muted/30',
-                    )}
-                  >
-                    {selectable && (
-                      <td className="px-4 py-3">
-                        <input
-                          type="checkbox"
-                          checked={!!isSelected}
-                          onChange={() => toggleRow(rowKey)}
-                          className="rounded border-input"
-                        />
-                      </td>
-                    )}
-                    {columns.map((col) => (
-                      <td key={col.key as string} className={cn('px-4 py-3', col.className)}>
-                        {col.cell ? col.cell(row) : (row[col.key as keyof T] as React.ReactNode)}
-                      </td>
-                    ))}
-                  </tr>
-                )
-              })
-            )}
-          </tbody>
-        </table>
+    <DataTableContext.Provider value={{ selectable, selectedKeys, onSelectionChange }}>
+      <div className={`flex flex-col space-y-4 ${className || ''}`} {...props}>
+        {children}
       </div>
+    </DataTableContext.Provider>
+  )
+}
 
-      {onPageChange && totalPages > 1 && (
-        <div className="mt-4 flex justify-end">
-          <Pagination page={page} totalPages={totalPages} onPageChange={onPageChange} />
-        </div>
-      )}
+function DataTableToolbar({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={`flex items-center justify-between p-1 ${className || ''}`} {...props}>
+      {children}
     </div>
   )
 }
 
-export { DataTable }
-export type { DataTableProps, ColumnDef, SortDirection }
+function DataTableBulkActions({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  const { selectedKeys } = useDataTable()
+  
+  if (!selectedKeys || selectedKeys.length === 0) return null
+
+  return (
+    <div 
+      className={`flex items-center gap-2 p-2 bg-muted/50 border rounded-[var(--radius-sm)] transition-opacity duration-[var(--motion-duration-fast)] ${className || ''}`} 
+      {...props}
+    >
+      <span className="text-sm font-medium ml-2 mr-4">
+        {selectedKeys.length} selected
+      </span>
+      {children}
+    </div>
+  )
+}
+
+export { DataTable, DataTableToolbar, DataTableBulkActions }

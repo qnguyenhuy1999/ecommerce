@@ -29,4 +29,21 @@ export interface DataTableProps<
   loading?: boolean
   emptyMessage?: string
   className?: string
+  
+  // Row actions
+  onEdit?: (row: T) => void
+  onDelete?: (row: T) => void
+  onView?: (row: T) => void
+  
+  // Bulk Actions
+  bulkActions?: {
+    label: string
+    onClick: (keys: (string | number)[]) => void
+    variant?: 'default' | 'destructive' | 'outline'
+    icon?: React.ReactNode
+  }[]
+  
+  // Toolbar
+  showToolbar?: boolean
+  onSearchChange?: (value: string) => void
 }

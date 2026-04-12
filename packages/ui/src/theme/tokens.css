@@ -1,23 +1,24 @@
 @import 'tailwindcss';
 
 @theme {
-  /* --- Typography -------------------------------------------------------- */
+  /* === Typography ======================================================== */
   --font-family-base:
     'Airbnb Cereal VF', 'Circular', -apple-system, system-ui, 'Roboto', 'Helvetica Neue', sans-serif;
   --font-sans: var(--font-family-base);
 
-  --font-size-section-heading: 1.75rem; /* 28px */
-  --font-size-card-heading: 1.375rem; /* 22px */
-  --font-size-sub-heading: 1.3125rem; /* 21px */
-  --font-size-feature-title: 1.25rem; /* 20px */
-  --font-size-ui-text: 1rem; /* 16px */
-  --font-size-body: 0.875rem; /* 14px */
-  --font-size-small: 0.8125rem; /* 13px */
-  --font-size-tag: 0.75rem; /* 12px */
-  --font-size-badge: 0.6875rem; /* 11px */
-  --font-size-micro: 0.5rem; /* 8px */
+  /* Typography Scale */
+  --font-size-section-heading: 1.75rem;   /* 28px */
+  --font-size-card-heading: 1.375rem;     /* 22px */
+  --font-size-sub-heading: 1.3125rem;     /* 21px */
+  --font-size-feature-title: 1.25rem;     /* 20px */
+  --font-size-ui-text: 1rem;              /* 16px */
+  --font-size-body: 0.875rem;             /* 14px */
+  --font-size-small: 0.8125rem;           /* 13px */
+  --font-size-tag: 0.75rem;              /* 12px */
+  --font-size-badge: 0.6875rem;           /* 11px */
+  --font-size-micro: 0.5rem;              /* 8px */
 
-  /* --- shadcn Semantic Colors (Light defaults) --------------------------- */
+  /* === Semantic Colors (Light defaults) =================================== */
   --color-background: #ffffff;
   --color-foreground: #222222;
 
@@ -46,48 +47,93 @@
   --color-input: #c1c1c1;
   --color-ring: #ff385c;
 
-  /* --- Brand (CTA-only — NOT accent) ------------------------------------- */
+  /* === Brand CTA (Red — action only, NOT accent) ========================= */
   --color-brand: #ff385c;
   --color-brand-foreground: #ffffff;
+  --color-brand-hover: #e00b41;
+  --color-brand-active: #c50b38;
+  --color-brand-muted: rgba(255, 56, 92, 0.1);
   --color-brand-pressed: #e00b41;
 
-  /* --- Semantic Surfaces ------------------------------------------------- */
+  /* === Status Semantics =================================================== */
+  --color-success: #00a67e;
+  --color-success-foreground: #ffffff;
+  --color-success-muted: rgba(0, 166, 126, 0.1);
+
+  --color-warning: #f5a623;
+  --color-warning-foreground: #222222;
+  --color-warning-muted: rgba(245, 166, 35, 0.1);
+
+  --color-info: #428bff;
+  --color-info-foreground: #ffffff;
+  --color-info-muted: rgba(66, 139, 255, 0.1);
+
+  /* === Semantic Surfaces ================================================== */
   --color-surface: #ffffff;
   --color-surface-secondary: #f2f2f2;
 
-  /* --- Border Radius Scale ----------------------------------------------- */
-  --radius-sm: 4px; /* small links */
-  --radius: 8px; /* buttons */
-  --radius-md: 14px; /* badges */
-  --radius-card: 20px; /* cards */
-  --radius-lg: 32px; /* large containers */
-  --radius-full: 9999px; /* pills / circular */
+  /* === Chart Color Palette (Admin data viz) =============================== */
+  --color-chart-1: #ff385c;
+  --color-chart-2: #428bff;
+  --color-chart-3: #00a67e;
+  --color-chart-4: #f5a623;
+  --color-chart-5: #460479;
+  --color-chart-6: #92174d;
 
-  /* --- Elevation / Shadow System ----------------------------------------- */
+  /* === Border Radius Scale (Semantic) ===================================== */
+  --radius-xs: 4px;       /* small links, tags */
+  --radius-sm: 8px;       /* buttons, inputs */
+  --radius: 8px;          /* default — alias for sm */
+  --radius-md: 14px;      /* badges */
+  --radius-lg: 20px;      /* cards */
+  --radius-xl: 32px;      /* large containers, search bar */
+  --radius-full: 9999px;  /* pills, circular */
+  --radius-card: 20px;    /* alias — backward compat */
+
+  /* === Elevation / Shadow System ========================================== */
   --elevation-0: none;
-  --elevation-1:
-    0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 2px 6px rgba(0, 0, 0, 0.04),
+  --elevation-card:
+    0px 0px 0px 1px rgba(0, 0, 0, 0.02),
+    0px 2px 6px rgba(0, 0, 0, 0.04),
     0px 4px 8px rgba(0, 0, 0, 0.1);
-  --elevation-2: 0px 4px 12px rgba(0, 0, 0, 0.08);
-  --elevation-3: 0px 6px 20px rgba(0, 0, 0, 0.12);
+  --elevation-hover: 0px 4px 12px rgba(0, 0, 0, 0.08);
+  --elevation-dropdown: 0px 4px 16px rgba(0, 0, 0, 0.12);
+  --elevation-modal: 0px 16px 48px rgba(0, 0, 0, 0.18);
 
-  --shadow-card: var(--elevation-1);
-  --shadow-hover: var(--elevation-2);
+  /* Legacy aliases */
+  --elevation-1: var(--elevation-card);
+  --elevation-2: var(--elevation-hover);
+  --elevation-3: var(--elevation-dropdown);
 
-  /* --- Motion Tokens ----------------------------------------------------- */
+  --shadow-card: var(--elevation-card);
+  --shadow-hover: var(--elevation-hover);
+
+  /* === Motion Tokens ====================================================== */
   --motion-fast: 150ms;
   --motion-normal: 250ms;
   --motion-slow: 400ms;
+  --motion-duration-fast: 150ms;
+  --motion-duration-normal: 250ms;
+  --motion-duration-slow: 400ms;
+
   --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-ease-in: cubic-bezier(0.4, 0, 1, 1);
   --motion-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --motion-ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --motion-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* --- Focus Ring -------------------------------------------------------- */
+  --motion-scale-press: 0.98;
+  --motion-scale-hover: 1.02;
+
+  /* === Focus Ring ========================================================= */
   --focus-ring-width: 2px;
   --focus-ring-offset: 2px;
   --focus-ring-color: var(--color-ring);
 }
 
+/* =========================================================================
+   Light Theme (default)
+   ========================================================================= */
 :root {
   color-scheme: light;
 
@@ -114,15 +160,19 @@
 
   /* Shadows (Light) */
   --palette-shadow-card:
-    0px 0px 0px 1px rgba(0, 0, 0, 0.02), 0px 2px 6px rgba(0, 0, 0, 0.04),
+    0px 0px 0px 1px rgba(0, 0, 0, 0.02),
+    0px 2px 6px rgba(0, 0, 0, 0.04),
     0px 4px 8px rgba(0, 0, 0, 0.1);
   --palette-shadow-hover: 0px 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+/* =========================================================================
+   Dark Theme
+   ========================================================================= */
 .dark {
   color-scheme: dark;
 
-  /* --- shadcn Semantic Overrides ----------------------------------------- */
+  /* Semantic Overrides */
   --color-background: #121212;
   --color-foreground: #f7f7f7;
 
@@ -154,21 +204,52 @@
   /* Brand stays identical */
   --color-brand: #ff385c;
   --color-brand-foreground: #ffffff;
+  --color-brand-hover: #e00b41;
+  --color-brand-active: #c50b38;
+  --color-brand-muted: rgba(255, 56, 92, 0.15);
   --color-brand-pressed: #e00b41;
+
+  /* Status (Dark) */
+  --color-success: #34d399;
+  --color-success-foreground: #121212;
+  --color-success-muted: rgba(52, 211, 153, 0.15);
+
+  --color-warning: #fbbf24;
+  --color-warning-foreground: #121212;
+  --color-warning-muted: rgba(251, 191, 36, 0.15);
+
+  --color-info: #6ea8ff;
+  --color-info-foreground: #121212;
+  --color-info-muted: rgba(110, 168, 255, 0.15);
 
   /* Surfaces (Dark) */
   --color-surface: #1c1c1c;
   --color-surface-secondary: #2a2a2a;
 
-  /* --- Elevation (Dark) — deeper, more contrast -------------------------- */
-  --elevation-1: 0px 0px 0px 1px rgba(255, 255, 255, 0.02), 0px 6px 16px rgba(0, 0, 0, 0.6);
-  --elevation-2: 0px 8px 24px rgba(0, 0, 0, 0.8);
-  --elevation-3: 0px 12px 32px rgba(0, 0, 0, 0.9);
+  /* Elevation (Dark) — deeper, more contrast */
+  --elevation-card:
+    0px 0px 0px 1px rgba(255, 255, 255, 0.02),
+    0px 6px 16px rgba(0, 0, 0, 0.6);
+  --elevation-hover: 0px 8px 24px rgba(0, 0, 0, 0.8);
+  --elevation-dropdown: 0px 8px 24px rgba(0, 0, 0, 0.7);
+  --elevation-modal: 0px 24px 56px rgba(0, 0, 0, 0.9);
 
-  --shadow-card: var(--elevation-1);
-  --shadow-hover: var(--elevation-2);
+  --elevation-1: var(--elevation-card);
+  --elevation-2: var(--elevation-hover);
+  --elevation-3: var(--elevation-dropdown);
 
-  /* --- Palette (Dark) ---------------------------------------------------- */
+  --shadow-card: var(--elevation-card);
+  --shadow-hover: var(--elevation-hover);
+
+  /* Chart (Dark) — slightly lighter for visibility */
+  --color-chart-1: #ff6b87;
+  --color-chart-2: #6ea8ff;
+  --color-chart-3: #34d399;
+  --color-chart-4: #fbbf24;
+  --color-chart-5: #a855f7;
+  --color-chart-6: #f472b6;
+
+  /* Palette (Dark) */
   --palette-bg-page: #121212;
   --palette-bg-surface: #1c1c1c;
   --palette-bg-surface-secondary: #2a2a2a;
@@ -185,10 +266,15 @@
   --palette-text-legal: #6ea8ff;
   --palette-text-primary-error: #ff6b5e;
 
-  --palette-shadow-card: 0px 0px 0px 1px rgba(255, 255, 255, 0.02), 0px 6px 16px rgba(0, 0, 0, 0.6);
+  --palette-shadow-card:
+    0px 0px 0px 1px rgba(255, 255, 255, 0.02),
+    0px 6px 16px rgba(0, 0, 0, 0.6);
   --palette-shadow-hover: 0px 8px 24px rgba(0, 0, 0, 0.8);
 }
 
+/* =========================================================================
+   Base Layer
+   ========================================================================= */
 @layer base {
   *,
   *::before,
@@ -204,4 +290,51 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
   }
+}
+
+/* =========================================================================
+   Utility Animations
+   ========================================================================= */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(4px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes slide-down {
+  from { transform: translateY(-4px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes scale-in {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes counter-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }

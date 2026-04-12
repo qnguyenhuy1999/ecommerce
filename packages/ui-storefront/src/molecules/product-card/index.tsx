@@ -1,83 +1,100 @@
+'use client'
+
 import * as React from 'react'
-import { cn } from '@ecom/ui'
-import { Card, CardContent, CardFooter, Button } from '@ecom/ui'
-import { Skeleton } from '@ecom/ui'
-import { ShoppingCart } from 'lucide-react'
-import type { ProductCardProps } from './types'
 
-const formatPrice = (value: number) =>
-  new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value)
+const ProductCardContext = React.createContext<{
+  id: string
+  title: string
+  href?: string
+} | null>(null)
 
-const ProductCard = React.forwardRef<HTMLDivElement, ProductCardProps>(
-  ({ id, image, title, price, originalPrice, badge, onAddToCart, loading, className }, ref) => {
-    const [imgError, setImgError] = React.useState(false)
+export function useProductCard() {
+  const context = React.useContext(ProductCardContext)
+  if (!context) {
+    throw new Error('ProductCard components must be used within ProductCard')
+  }
+  return context
+}
 
-    if (loading) {
-      return (
-        <Card ref={ref} className={cn('overflow-hidden', className)}>
-          <Skeleton className="aspect-square w-full" />
-          <CardContent className="p-4 space-y-2">
-            <Skeleton className="h-4 w-3/4" />
-            <Skeleton className="h-5 w-1/3" />
-          </CardContent>
-          <CardFooter className="p-4 pt-0">
-            <Skeleton className="h-9 w-full" />
-          </CardFooter>
-        </Card>
-      )
-    }
+export interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
+  id: string
+  title: string
+  href?: string
+  children: React.ReactNode
+}
 
-    return (
-      <Card ref={ref} className={cn('group overflow-hidden', className)}>
-        <CardContent className="p-0 relative">
-          {/* Image */}
-          <div className="aspect-square overflow-hidden bg-muted">
-            {imgError ? (
-              <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
-                No image
-              </div>
-            ) : (
-              <img
-                src={image}
-                alt={title}
-                className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                onError={() => setImgError(true)}
-              />
-            )}
-          </div>
+function ProductCard({ id, title, href, className, children, ...props }: ProductCardProps) {
+  return (
+    <ProductCardContext.Provider value={{ id, title, href }}>
+      <div 
+        className={`group flex flex-col h-full bg-card rounded-[var(--radius-lg)] shadow-[var(--elevation-card)] transition-[box-shadow] duration-[var(--motion-duration-fast)] ease-[var(--motion-ease-default)] hover:shadow-[var(--elevation-hover)] ${className || ''}`} 
+        {...props}
+      >
+        {children}
+      </div>
+    </ProductCardContext.Provider>
+  )
+}
 
-          {/* Badge slot */}
-          {badge && <div className="absolute top-3 left-3">{badge}</div>}
-        </CardContent>
+function ProductCardImage({
+  src,
+  alt,
+  className,
+  ...props
+}: React.ImgHTMLAttributes<HTMLImageElement>) {
+  const { title, href } = useProductCard()
+  const [loaded, setLoaded] = React.useState(false)
 
-        <CardFooter className="flex flex-col items-start gap-2 p-4">
-          <div className="w-full">
-            <h3 className="font-medium text-sm leading-snug line-clamp-2">{title}</h3>
-            <div className="flex items-baseline gap-2 mt-1">
-              <span className="font-semibold text-base">{formatPrice(price)}</span>
-              {originalPrice && originalPrice > price && (
-                <span className="text-sm text-muted-foreground line-through">
-                  {formatPrice(originalPrice)}
-                </span>
-              )}
-            </div>
-          </div>
+  const imageContent = (
+    <div className={`relative aspect-[16/10] bg-muted overflow-hidden rounded-t-[var(--radius-lg)] ${className || ''}`}>
+      <img
+        src={src || '/placeholder.jpg'}
+        alt={alt || title}
+        loading="lazy"
+        onLoad={() => setLoaded(true)}
+        className={`w-full h-full object-cover transition-opacity duration-[var(--motion-duration-normal)] ease-[var(--motion-ease-default)] ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        {...props}
+      />
+    </div>
+  )
 
-          <Button
-            variant="default"
-            size="sm"
-            className="w-full gap-2"
-            onClick={() => onAddToCart?.(id)}
-          >
-            <ShoppingCart className="h-4 w-4" />
-            Add to Cart
-          </Button>
-        </CardFooter>
-      </Card>
-    )
-  },
-)
-ProductCard.displayName = 'ProductCard'
+  if (href) {
+    return <a href={href} className="block relative">{imageContent}</a>
+  }
+  return <div className="block relative">{imageContent}</div>
+}
 
-export { ProductCard }
-export type { ProductCardProps }
+function ProductCardContent({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  const { href } = useProductCard()
+  const Tag = href ? 'a' : 'div'
+  return (
+    <Tag href={href} className={`flex flex-col flex-1 p-4 ${className || ''}`} {...(href ? {} : props)}>
+      {children}
+    </Tag>
+  )
+}
+
+function ProductCardTitle({ className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  const { title } = useProductCard()
+  return (
+    <h3 
+      className={`font-medium tracking-tight text-foreground line-clamp-2 hover:underline underline-offset-4 ${className || ''}`} 
+      {...props}
+    >
+      {title}
+    </h3>
+  )
+}
+
+function ProductCardBadge({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div 
+      className={`absolute top-3 left-3 z-10 px-2 py-1 bg-foreground text-background text-[11px] font-bold rounded-[var(--radius-sm)] ${className || ''}`} 
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+
+export { ProductCard, ProductCardImage, ProductCardContent, ProductCardTitle, ProductCardBadge }
