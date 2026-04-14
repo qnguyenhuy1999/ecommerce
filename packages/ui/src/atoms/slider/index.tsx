@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+
 import { cn } from '../../lib/utils'
 
 interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
@@ -47,7 +48,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
           {/* Filled track */}
           <div
             className="absolute h-full rounded-full bg-brand transition-[width] duration-[100ms]"
-            style={{ width: `${percentage}%` }}
+            style={{ width: `${String(percentage)}%` }}
           />
         </div>
 
@@ -79,14 +80,14 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
             'pointer-events-none',
             disabled && 'opacity-50',
           )}
-          style={{ left: `${percentage}%` }}
+          style={{ left: `${String(percentage)}%` }}
         />
 
         {/* Value label on hover */}
         {formatLabel && (
           <div
             className="absolute -top-8 -translate-x-1/2 rounded-[8px] bg-foreground px-2 py-0.5 text-xs text-background opacity-0 transition-opacity group-hover:opacity-100 pointer-events-none"
-            style={{ left: `${percentage}%` }}
+            style={{ left: `${String(percentage)}%` }}
           >
             {formatLabel(value)}
           </div>

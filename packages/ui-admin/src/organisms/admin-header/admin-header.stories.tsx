@@ -1,7 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
+
 import { Button } from '@ecom/ui'
+
 import { Header, HeaderUserMenu } from './index'
-import type { HeaderProps, HeaderUserMenuProps } from './types'
+import type { HeaderProps } from './types'
 
 const meta = {
   title: 'Organisms/AdminHeader',
@@ -11,7 +13,6 @@ const meta = {
 } satisfies Meta<typeof Header>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {

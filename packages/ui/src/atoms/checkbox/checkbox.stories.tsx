@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { Label } from '../../atoms/label/index'
+import type { Meta } from '@storybook/react'
+
 import { Checkbox } from './index'
+import { Label } from '../../atoms/label/index'
 
 const meta = {
   title: 'Atoms/Checkbox',
@@ -16,7 +17,6 @@ const meta = {
 } satisfies Meta<typeof Checkbox>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Unchecked = {
   args: {

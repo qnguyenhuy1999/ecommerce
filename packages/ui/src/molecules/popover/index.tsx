@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+
 import { cn } from '../../lib/utils'
 
 /* --- Popover ------------------------------------------------------------- */
@@ -41,8 +42,10 @@ const PopoverTrigger = React.forwardRef<HTMLButtonElement, PopoverTriggerProps>(
       <button
         ref={(node) => {
           if (typeof ref === 'function') ref(node)
-          else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node
-          ;(ctx.triggerRef as React.MutableRefObject<HTMLButtonElement | null>).current = node
+          else if (ref) ref.current = node
+          if (ctx.triggerRef.current !== node) {
+            ctx.triggerRef.current = node
+          }
         }}
         className={className}
         onClick={(e) => {
@@ -72,48 +75,51 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
     const ctx = React.useContext(PopoverContext)
     if (!ctx) throw new Error('PopoverContent must be used within Popover')
 
+    const { open, setOpen, triggerRef } = ctx
     const contentRef = React.useRef<HTMLDivElement>(null)
 
     // Close on click outside
     React.useEffect(() => {
-      if (!ctx.open) return
+      if (!open) return
       function handleClick(e: MouseEvent) {
         const target = e.target as Node
         if (
           contentRef.current &&
           !contentRef.current.contains(target) &&
-          ctx!.triggerRef.current &&
-          !ctx!.triggerRef.current.contains(target)
+          triggerRef.current &&
+          !triggerRef.current.contains(target)
         ) {
-          ctx!.setOpen(false)
+          setOpen(false)
         }
       }
       document.addEventListener('mousedown', handleClick)
       return () => {
         document.removeEventListener('mousedown', handleClick)
       }
-    }, [ctx])
+    }, [open, setOpen, triggerRef])
 
     // Close on Escape
     React.useEffect(() => {
-      if (!ctx.open) return
+      if (!open) return
       function handleKey(e: KeyboardEvent) {
-        if (e.key === 'Escape') ctx!.setOpen(false)
+        if (e.key === 'Escape') setOpen(false)
       }
       document.addEventListener('keydown', handleKey)
       return () => {
         document.removeEventListener('keydown', handleKey)
       }
-    }, [ctx])
+    }, [open, setOpen])
 
-    if (!ctx.open) return null
+    if (!open) return null
 
     return (
       <div
         ref={(node) => {
           if (typeof ref === 'function') ref(node)
-          else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node
-          ;(contentRef as React.MutableRefObject<HTMLDivElement | null>).current = node
+          else if (ref) ref.current = node
+          if (contentRef.current !== node) {
+            contentRef.current = node
+          }
         }}
         className={cn(
           'absolute z-50 min-w-[8rem] rounded-[8px] border bg-popover p-4 text-popover-foreground',

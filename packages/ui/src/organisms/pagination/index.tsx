@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+
 import { cn } from '../../lib/utils'
 
 interface PaginationProps {
@@ -57,7 +59,7 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
       {pages.map((p, i) =>
         p === 'ellipsis' ? (
           <span
-            key={`ellipsis-${i}`}
+            key={`ellipsis-${String(i)}`}
             className="flex h-9 w-9 items-center justify-center text-sm text-muted-foreground"
           >
             …
@@ -77,7 +79,7 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
             )}
             aria-current={p === page ? 'page' : undefined}
           >
-            {p}
+            {String(p)}
           </button>
         ),
       )}

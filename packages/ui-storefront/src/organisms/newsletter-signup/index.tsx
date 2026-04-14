@@ -38,7 +38,7 @@ function NewsletterSignup({
       }
       setStatus('success')
       setEmail('')
-    } catch (err) {
+    } catch {
       setStatus('error')
     }
   }

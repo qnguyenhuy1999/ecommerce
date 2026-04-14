@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
+
 import { Sidebar } from './index'
 import type { SidebarProps } from './types'
 
@@ -10,7 +11,6 @@ const meta = {
 } satisfies Meta<typeof Sidebar>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 const DASHBOARD_GROUP = {
   label: 'Dashboard',

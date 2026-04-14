@@ -1,7 +1,9 @@
 'use client'
 
 import { Search, Bell } from 'lucide-react'
+
 import { cn, Dropdown, DropdownTrigger, DropdownContent, DropdownItem } from '@ecom/ui'
+
 import type { HeaderProps, HeaderUserMenuProps } from './types'
 
 function Header({ title, subtitle, actions, className, ...props }: HeaderProps) {

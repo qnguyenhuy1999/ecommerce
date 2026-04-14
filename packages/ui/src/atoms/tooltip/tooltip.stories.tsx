@@ -1,7 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
-import { Button } from '../../atoms/button/index'
+
+import type { Meta } from '@storybook/react'
+
+
 import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './index'
+import { Button } from '../../atoms/button/index'
 
 const meta = {
   title: 'Atoms/Tooltip',
@@ -13,7 +16,6 @@ const meta = {
 } satisfies Meta<typeof Tooltip>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
   <TooltipProvider>{children}</TooltipProvider>

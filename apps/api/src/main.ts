@@ -37,7 +37,9 @@ async function bootstrap() {
 
   const port = parseInt(process.env.PORT ?? '3000', 10)
   await app.listen(port)
+  // eslint-disable-next-line no-console
   console.log(`[API] Running on http://localhost:${String(port)}`)
 }
 
+// eslint-disable-next-line no-console
 bootstrap().catch(console.error)

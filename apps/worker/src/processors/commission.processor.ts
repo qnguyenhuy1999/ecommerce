@@ -10,6 +10,7 @@ export class CommissionProcessor extends WorkerHost {
   async process(job: Job): Promise<void> {
     // TODO: calculate commission for each SubOrder
     // TODO: create Commission record + SellerLedger DEBIT entry
+    // eslint-disable-next-line no-console
     console.info('[CommissionProcessor] Processing job', job.id);
   }
 }

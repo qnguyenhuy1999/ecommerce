@@ -12,6 +12,7 @@ export class EmailProcessor extends WorkerHost {
       // TODO: case 'order-confirmation': send order confirmation
       // TODO: case 'seller-approved': send approval email
       default:
+        // eslint-disable-next-line no-console
         console.info(`[EmailProcessor] Unknown job: ${job.name}`);
     }
   }

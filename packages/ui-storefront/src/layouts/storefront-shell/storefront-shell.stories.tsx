@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import { StorefrontShell } from './index'
 import { StorefrontFooter } from '../../layouts/storefront-footer'
@@ -12,7 +12,6 @@ const meta = {
 } satisfies Meta<typeof StorefrontShell>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   render: () => (

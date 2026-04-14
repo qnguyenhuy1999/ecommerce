@@ -1,4 +1,8 @@
 // TODO: implement Stripe gateway — concrete implementation of PaymentGateway
+
+import { Injectable } from '@nestjs/common';
+import Stripe from 'stripe';
+
 import type {
   PaymentGateway,
   PaymentIntent,
@@ -6,9 +10,6 @@ import type {
   RefundResult,
   WebhookEvent,
 } from './payment-gateway.interface';
-
-import { Injectable } from '@nestjs/common';
-import Stripe from 'stripe';
 
 @Injectable()
 export class StripeGateway implements PaymentGateway {

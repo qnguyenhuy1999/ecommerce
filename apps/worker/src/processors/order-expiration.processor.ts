@@ -11,6 +11,7 @@ export class OrderExpirationProcessor extends WorkerHost {
     // TODO: find PENDING_PAYMENT orders past expiry
     // TODO: restore inventory reservations
     // TODO: emit ORDER_EXPIRED event
+    // eslint-disable-next-line no-console
     console.info('[OrderExpirationProcessor] Processing job', job.id);
   }
 }

@@ -5,7 +5,7 @@ import { cn, Card, CardHeader, CardTitle, CardContent, Select } from '@ecom/ui'
 export interface RevenueChartProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   totalRevenue?: string
-  data?: any[] // Placeholder for actual chart data format (e.g. Recharts)
+  data?: unknown[] // Placeholder for actual chart data format (e.g. Recharts)
   period?: string
   onPeriodChange?: (period: string) => void
 }
@@ -13,7 +13,6 @@ export interface RevenueChartProps extends React.HTMLAttributes<HTMLDivElement> 
 function RevenueChart({
   title = 'Revenue Overview',
   totalRevenue,
-  data,
   period = '30d',
   onPeriodChange,
   className,

@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import { StorefrontHeader } from './index'
 
@@ -10,7 +10,6 @@ const meta = {
 } satisfies Meta<typeof StorefrontHeader>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {

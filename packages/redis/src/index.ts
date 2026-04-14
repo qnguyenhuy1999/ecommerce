@@ -1,4 +1,5 @@
 import Redis from 'ioredis'
+
 import { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } from './env'
 
 let redis: Redis | null = null

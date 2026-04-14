@@ -1,5 +1,6 @@
 // TODO: implement
 import type { OrderResponse, CheckoutRequest, OrderListRequest } from '@ecom/api-types'
+
 import { getApiClient } from './client'
 
 export const orderClient = {
@@ -27,8 +28,12 @@ export const orderClient = {
     return data.data
   },
 
-  updateStatus: async (id: string, status: string, shippingTracking?: unknown) => {
-    const { data } = await getApiClient().patch(`/orders/${id}/status`, {
+  updateStatus: async (
+    id: string,
+    status: string,
+    shippingTracking?: unknown,
+  ): Promise<unknown> => {
+    const { data } = await getApiClient().patch<unknown>(`/orders/${id}/status`, {
       status,
       shippingTracking,
     })

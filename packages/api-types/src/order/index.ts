@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { PaginationParamsSchema } from '../common'
 
 export const ShippingAddressSchema = z.object({

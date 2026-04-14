@@ -1,9 +1,9 @@
-import type { Product } from './types'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import { Badge } from '@ecom/ui'
 
 import { ProductGrid } from './index'
+import type { Product } from './types'
 
 const meta = {
   title: 'Organisms/ProductGrid',
@@ -13,7 +13,6 @@ const meta = {
 } satisfies Meta<typeof ProductGrid>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 const SAMPLE_PRODUCTS: Product[] = [
   {

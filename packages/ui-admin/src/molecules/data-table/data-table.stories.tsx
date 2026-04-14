@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
+
 import { DataTable } from './index'
 import type { ColumnDef } from './types'
 
@@ -10,7 +11,6 @@ const meta = {
 } satisfies Meta<typeof DataTable>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 interface ProductRow {
   id: number

@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import React from 'react'
+import type { Meta } from '@storybook/react'
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './index'
 
 const meta = {
@@ -12,7 +12,6 @@ const meta = {
 } satisfies Meta<typeof Tabs>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = () => (
   <Tabs defaultValue="tab1" className="w-[400px]">

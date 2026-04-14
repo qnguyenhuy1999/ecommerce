@@ -1,4 +1,5 @@
 import { Bell, Check, Info, AlertTriangle, CheckCircle, Package } from 'lucide-react'
+
 import { cn, Popover, PopoverContent, PopoverTrigger, Button, ScrollArea } from '@ecom/ui'
 
 export interface NotificationItem {
@@ -82,7 +83,15 @@ function NotificationPanel({
                 return (
                   <div
                     key={notification.id}
+                    role="button"
+                    tabIndex={0}
                     onClick={() => !notification.read && onMarkRead?.(notification.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        if (!notification.read) onMarkRead?.(notification.id)
+                      }
+                    }}
                     className={cn(
                       'flex gap-3 p-4 border-b last:border-0 hover:bg-muted/50 transition-colors cursor-pointer',
                       !notification.read ? 'bg-accent/30' : 'opacity-75 relative',

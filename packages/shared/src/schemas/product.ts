@@ -1,4 +1,5 @@
 import { z } from 'zod'
+
 import { paginationParamsSchema } from '../pagination'
 
 export const productStatusSchema = z.enum(['DRAFT', 'ACTIVE', 'ARCHIVED', 'OUT_OF_STOCK'])

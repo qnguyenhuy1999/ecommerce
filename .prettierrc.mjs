@@ -13,10 +13,10 @@ export default {
   arrowParens: "always",
   endOfLine: "lf",
   plugins: [
-    "prettier-plugin-organize-imports",
     "@trivago/prettier-plugin-sort-imports",
     "@babel/plugin-proposal-decorators",
   ],
+  importOrderSeparation: true,
   importOrder: [
     "^react$",
     "^reflect-metadata$",

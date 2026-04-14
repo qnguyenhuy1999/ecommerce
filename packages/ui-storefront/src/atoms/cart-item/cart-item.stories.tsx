@@ -1,7 +1,7 @@
-import type { CartItemProps } from './types'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import { CartItem } from './index'
+import type { CartItemProps } from './types'
 
 const meta = {
   title: 'Atoms/CartItem',
@@ -11,7 +11,6 @@ const meta = {
 } satisfies Meta<typeof CartItem>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 const SAMPLE_ITEM: CartItemProps['item'] = {
   id: 'item-1',

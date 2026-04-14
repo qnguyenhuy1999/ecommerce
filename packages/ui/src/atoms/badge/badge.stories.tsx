@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import React from 'react'
-import { Badge, badgeVariants } from './index'
+import type { Meta } from '@storybook/react'
+
+import { Badge } from './index'
 
 const meta = {
   title: 'Atoms/Badge',
@@ -18,7 +18,6 @@ const meta = {
 } satisfies Meta<typeof Badge>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {

@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
+
 import { Pagination } from './index'
 
 const meta = {
@@ -11,7 +12,6 @@ const meta = {
 } satisfies Meta<typeof Pagination>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {
@@ -47,19 +47,13 @@ export const FewPages = {
 
 export const ControlledDemo = {
   render: () => {
-    const [page, setPage] = (window as any).__page
-      ? [
-          (window as any).__page,
-          (v: number) => {
-            ;(window as any).__page = v
-          },
-        ]
-      : [1, (v: number) => {}]
+    const __page = (globalThis as Record<string, unknown>).__page
+    const page: number = __page !== undefined ? (__page as number) : 1
     return (
       <Pagination
         page={page}
         totalPages={10}
-        onPageChange={(p) => {
+        onPageChange={() => {
           /* controlled */
         }}
       />

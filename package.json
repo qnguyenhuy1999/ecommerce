@@ -10,6 +10,9 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "lint": "turbo lint",
+    "format": "pnpm -w exec prettier --write \"**/*.{ts,tsx,md}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
+    "format:check": "pnpm -w exec prettier --check \"**/*.{ts,tsx,md}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
+    "type-check": "turbo typecheck",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
     "db:generate": "cd packages/database && npx prisma generate",
@@ -19,7 +22,6 @@
     "docker:up": "docker compose up -d",
     "docker:down": "docker compose down",
     "clean": "turbo clean && rm -rf node_modules",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
     "storybook": "pnpm --filter @ecom/ui storybook",
     "storybook:admin": "pnpm --filter @ecom/ui-admin storybook",
     "storybook:storefront": "pnpm --filter @ecom/ui-storefront storybook",
@@ -29,11 +31,6 @@
   "devDependencies": {
     "@babel/parser": "^7.29.2",
     "@babel/plugin-proposal-decorators": "^7.29.0",
-    "@storybook/addon-a11y": "^8.6.18",
-    "@storybook/addon-essentials": "^8.6.18",
-    "@storybook/addon-interactions": "^8.6.18",
-    "@storybook/react-vite": "^8.6.18",
-    "@storybook/test": "^8.6.18",
     "@trivago/prettier-plugin-sort-imports": "^5.2.0",
     "@turbo/gen": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
@@ -43,20 +40,10 @@
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.0.0",
+    "eslint-plugin-unused-imports": "^4.4.1",
     "prettier": "^3.2.0",
-    "prettier-plugin-organize-imports": "^4.1.0",
-    "storybook": "^8.6.18",
     "turbo": "^2.0.0",
     "typescript": "^5.4.0"
-  },
-  "eslintConfig": {
-    "root": true,
-    "extends": [
-      "./eslint.config.mjs"
-    ],
-    "parserOptions": {
-      "project": "./tsconfig.json"
-    }
   },
   "prettier": "./.prettierrc.mjs",
   "engines": {

@@ -17,10 +17,21 @@ import {
 import { CartItem } from '../../atoms/cart-item'
 import { PriceDisplay } from '../../atoms/price-display'
 
+export interface CartItemData {
+  id: string
+  title: string
+  price: number
+  originalPrice?: number
+  image: string
+  quantity: number
+  variant?: string
+  options?: Record<string, string>
+}
+
 export interface CartDrawerProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  items: any[]
+  items: CartItemData[]
   subtotal: number
   freeShippingThreshold?: number
   onCheckout?: () => void

@@ -10,6 +10,7 @@ export class InventoryReconciliationProcessor extends WorkerHost {
   async process(job: Job): Promise<void> {
     // TODO: periodically sync Redis stock counters with DB stock values
     // TODO: detect and flag any discrepancies
+    // eslint-disable-next-line no-console
     console.info('[InventoryReconciliationProcessor] Processing job', job.id);
   }
 }

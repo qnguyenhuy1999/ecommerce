@@ -1,4 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
+
 import { AdminLayout } from './index'
 
 const meta = {
@@ -9,7 +10,6 @@ const meta = {
 } satisfies Meta<typeof AdminLayout>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   render: () => (

@@ -2,26 +2,26 @@
 import { getApiClient } from './client'
 
 export const cartClient = {
-  get: async () => {
-    const { data } = await getApiClient().get('/cart')
+  get: async (): Promise<unknown> => {
+    const { data } = await getApiClient().get<unknown>('/cart')
     return data
   },
 
-  addItem: async (variantId: string, quantity: number) => {
-    const { data } = await getApiClient().post('/cart/items', { variantId, quantity })
+  addItem: async (variantId: string, quantity: number): Promise<unknown> => {
+    const { data } = await getApiClient().post<unknown>('/cart/items', { variantId, quantity })
     return data
   },
 
-  updateItem: async (itemId: string, quantity: number) => {
-    const { data } = await getApiClient().patch(`/cart/items/${itemId}`, { quantity })
+  updateItem: async (itemId: string, quantity: number): Promise<unknown> => {
+    const { data } = await getApiClient().patch<unknown>(`/cart/items/${itemId}`, { quantity })
     return data
   },
 
-  removeItem: async (itemId: string) => {
+  removeItem: async (itemId: string): Promise<void> => {
     await getApiClient().delete(`/cart/items/${itemId}`)
   },
 
-  clear: async () => {
+  clear: async (): Promise<void> => {
     await getApiClient().delete('/cart')
   },
 }

@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import React from 'react'
+import type { Meta } from '@storybook/react'
+
 import { Avatar, AvatarImage, AvatarFallback } from './index'
 
 const meta = {
@@ -12,7 +12,6 @@ const meta = {
 } satisfies Meta<typeof Avatar>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   render: () => (

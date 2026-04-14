@@ -1,7 +1,7 @@
-import type { FilterSidebarProps, FilterConfig } from './types'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta } from '@storybook/react'
 
 import { FilterSidebar } from './index'
+import type { FilterConfig } from './types'
 
 const meta = {
   title: 'Molecules/FilterSidebar',
@@ -11,7 +11,6 @@ const meta = {
 } satisfies Meta<typeof FilterSidebar>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 const CATEGORY_FILTER: FilterConfig = {
   id: 'category',

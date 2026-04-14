@@ -1,5 +1,6 @@
 // TODO: implement
 import type { LoginRequest, RegisterRequest, AuthResponse } from '@ecom/api-types'
+
 import { getApiClient } from './client'
 
 export const authClient = {

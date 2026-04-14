@@ -1,6 +1,6 @@
 import { Module, Global } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '@prisma/client';
 import { Pool } from 'pg';
 
 const globalForPrisma = globalThis as unknown as {
@@ -32,4 +32,5 @@ function createPrismaClient() {
   ],
   exports: [PrismaClient],
 })
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class PrismaModule {}

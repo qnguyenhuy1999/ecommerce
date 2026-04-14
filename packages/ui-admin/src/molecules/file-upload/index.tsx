@@ -1,7 +1,9 @@
 'use client'
 
 import React from 'react'
+
 import { UploadCloud, X, File as FileIcon, ImageIcon } from 'lucide-react'
+
 import { cn, Button } from '@ecom/ui'
 
 export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
@@ -24,6 +26,8 @@ function FileUpload({
   const [isDragging, setIsDragging] = React.useState(false)
   const [files, setFiles] = React.useState<File[]>([])
   const fileInputRef = React.useRef<HTMLInputElement>(null)
+  const filesRef = React.useRef<File[]>(files)
+  filesRef.current = files
 
   const handleDragOver = React.useCallback(
     (e: React.DragEvent) => {
@@ -38,6 +42,23 @@ function FileUpload({
     setIsDragging(false)
   }, [])
 
+  const processFiles = React.useCallback(
+    (newFiles: File[]) => {
+      const validFiles = newFiles.filter((f) => f.size <= maxSize)
+
+      if (multiple) {
+        const merged = [...filesRef.current, ...validFiles]
+        setFiles(merged)
+        if (onUpload) onUpload(merged)
+      } else {
+        const selected = validFiles.slice(0, 1)
+        setFiles(selected)
+        if (onUpload) onUpload(selected)
+      }
+    },
+    [maxSize, multiple, onUpload],
+  )
+
   const handleDrop = React.useCallback(
     (e: React.DragEvent) => {
       e.preventDefault()
@@ -47,43 +68,48 @@ function FileUpload({
       const droppedFiles = Array.from(e.dataTransfer.files)
       processFiles(droppedFiles)
     },
-    [disabled],
+    [disabled, processFiles],
   )
 
-  const handleFileChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      processFiles(Array.from(e.target.files))
-    }
-  }, [])
+  const handleFileChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (e.target.files) {
+        processFiles(Array.from(e.target.files))
+      }
+    },
+    [processFiles],
+  )
 
-  const processFiles = (newFiles: File[]) => {
-    // Basic validation could be expanded here (mime type, exact size)
-    const validFiles = newFiles.filter((f) => f.size <= maxSize)
+  const removeFile = React.useCallback(
+    (indexToRemove: number) => {
+      setFiles((prev) => {
+        const newFiles = prev.filter((_, i) => i !== indexToRemove)
+        if (onUpload) onUpload(newFiles)
+        return newFiles
+      })
+    },
+    [onUpload],
+  )
 
-    if (multiple) {
-      setFiles((prev) => [...prev, ...validFiles])
-      if (onUpload) onUpload([...files, ...validFiles])
-    } else {
-      setFiles(validFiles.slice(0, 1))
-      if (onUpload) onUpload(validFiles.slice(0, 1))
-    }
-  }
-
-  const removeFile = (indexToRemove: number) => {
-    setFiles((prev) => {
-      const newFiles = prev.filter((_, i) => i !== indexToRemove)
-      if (onUpload) onUpload(newFiles)
-      return newFiles
-    })
-  }
+  const openFilePicker = React.useCallback(() => {
+    if (!disabled) fileInputRef.current?.click()
+  }, [disabled])
 
   return (
     <div className={cn('space-y-4', className)} {...props}>
       <div
+        role="button"
+        tabIndex={disabled ? -1 : 0}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={() => !disabled && fileInputRef.current?.click()}
+        onClick={openFilePicker}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault()
+            openFilePicker()
+          }
+        }}
         className={cn(
           'relative flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-[8px]',
           'transition-colors duration-200 ease-in-out',

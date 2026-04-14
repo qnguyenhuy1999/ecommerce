@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
+
 import { cn } from '@ecom/ui'
 
 export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -2,9 +2,9 @@
 
 import React from 'react'
 
-import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
-import { cn, Button } from '@ecom/ui'
+import { Button, cn } from '@ecom/ui'
 
 export interface ProductCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string

@@ -1,6 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { Input } from '../../atoms/input/index'
+import type { Meta } from '@storybook/react'
+
 import { Label } from './index'
+import { Input } from '../../atoms/input/index'
 
 const meta = {
   title: 'Atoms/Label',
@@ -11,12 +12,10 @@ const meta = {
   },
   argTypes: {
     children: { control: 'text' },
-    disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Label>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {

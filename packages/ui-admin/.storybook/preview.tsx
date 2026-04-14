@@ -1,5 +1,7 @@
 import type { Preview } from '@storybook/react'
+
 import '@ecom/ui/styles'
+
 import '../src/theme/theme.css'
 
 const preview: Preview = {

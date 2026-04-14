@@ -1,8 +1,12 @@
 'use client'
 
-import * as DialogPrimitive from '@radix-ui/react-dialog'
 import React from 'react'
+
+import * as DialogPrimitive from '@radix-ui/react-dialog'
+
+
 import { X } from 'lucide-react'
+
 import { cn } from '../../lib/utils'
 
 const Root = DialogPrimitive.Root
@@ -12,7 +16,7 @@ const Trigger = DialogPrimitive.Trigger
 const Close = DialogPrimitive.Close
 
 const Content = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentRef<typeof DialogPrimitive.Content>,
   React.ComponentProps<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   return (
@@ -58,7 +62,7 @@ const Footer = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) =
 Footer.displayName = 'DialogFooter'
 
 const Title = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
+  React.ComponentRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
@@ -70,7 +74,7 @@ const Title = React.forwardRef<
 Title.displayName = DialogPrimitive.Title.displayName
 
 const Description = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description

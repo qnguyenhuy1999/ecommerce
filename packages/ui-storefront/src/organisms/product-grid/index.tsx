@@ -1,9 +1,8 @@
-import type { ProductGridProps, Product } from './types'
-
 import React from 'react'
 
 import { cn } from '@ecom/ui'
 
+import type { ProductGridProps, Product } from './types'
 import {
   ProductCard,
   ProductCardImage,

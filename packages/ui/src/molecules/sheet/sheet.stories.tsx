@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import React from 'react'
-import { Button } from '../../atoms/button/index'
+
+import type { Meta } from '@storybook/react'
+
+
 import {
   Sheet,
   SheetContent,
@@ -10,6 +11,7 @@ import {
   SheetDescription,
   SheetFooter,
 } from './index'
+import { Button } from '../../atoms/button/index'
 
 const meta = {
   title: 'Molecules/Sheet',
@@ -21,13 +23,18 @@ const meta = {
 } satisfies Meta<typeof Sheet>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Right = () => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open Sheet</Button>
+      <Button
+        onClick={() => {
+          setOpen(true)
+        }}
+      >
+        Open Sheet
+      </Button>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="right">
           <SheetHeader>
@@ -42,10 +49,21 @@ export const Right = () => {
             ))}
           </div>
           <SheetFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setOpen(false)
+              }}
+            >
               Cancel
             </Button>
-            <Button onClick={() => setOpen(false)}>Save Changes</Button>
+            <Button
+              onClick={() => {
+                setOpen(false)
+              }}
+            >
+              Save Changes
+            </Button>
           </SheetFooter>
         </SheetContent>
       </Sheet>
@@ -57,7 +75,13 @@ export const Left = () => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open Left Sheet</Button>
+      <Button
+        onClick={() => {
+          setOpen(true)
+        }}
+      >
+        Open Left Sheet
+      </Button>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="left">
           <SheetHeader>
@@ -83,7 +107,13 @@ export const Bottom = () => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <Button onClick={() => setOpen(true)}>Open Bottom Sheet</Button>
+      <Button
+        onClick={() => {
+          setOpen(true)
+        }}
+      >
+        Open Bottom Sheet
+      </Button>
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetContent side="bottom">
           <SheetHeader>

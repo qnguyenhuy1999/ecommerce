@@ -1,7 +1,8 @@
-import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
-import React from 'react'
-import { Button } from '../../atoms/button/index'
+
+import type { Meta } from '@storybook/react'
+
+
 import {
   Dialog,
   DialogTrigger,
@@ -10,8 +11,8 @@ import {
   DialogTitle,
   DialogDescription,
   DialogFooter,
-  DialogClose,
 } from './index'
+import { Button } from '../../atoms/button/index'
 
 const meta = {
   title: 'Molecules/Dialog',
@@ -23,7 +24,6 @@ const meta = {
 } satisfies Meta<typeof Dialog>
 
 export default meta
-type Story = StoryObj<typeof meta>
 
 export const Default = () => {
   const [open, setOpen] = useState(false)
@@ -41,10 +41,20 @@ export const Default = () => {
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
             Cancel
           </Button>
-          <Button variant="destructive" onClick={() => setOpen(false)}>
+          <Button
+            variant="destructive"
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
             Delete
           </Button>
         </DialogFooter>
@@ -83,10 +93,21 @@ export const WithForm = () => {
           </div>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => setOpen(false)}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
             Cancel
           </Button>
-          <Button onClick={() => setOpen(false)}>Create</Button>
+          <Button
+            onClick={() => {
+              setOpen(false)
+            }}
+          >
+            Create
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

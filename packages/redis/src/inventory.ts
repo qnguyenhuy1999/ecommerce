@@ -13,7 +13,12 @@ export async function reserveStock(productId: string, quantity: number): Promise
 }
 
 // TODO: implement
-export async function confirmStockReservation(productId: string, quantity: number): Promise<void> {
+export async function confirmStockReservation(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _productId: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _quantity: number,
+): Promise<void> {
   // Stock already reserved, mark as confirmed in DB
 }
 

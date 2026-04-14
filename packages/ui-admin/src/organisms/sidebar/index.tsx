@@ -1,8 +1,11 @@
 'use client'
 
 import React from 'react'
+
 import { ChevronRight } from 'lucide-react'
+
 import { cn, Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@ecom/ui'
+
 import type { SidebarProps, SidebarNavGroup, SidebarNavItem } from './types'
 
 function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolean }) {

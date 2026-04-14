@@ -23,7 +23,7 @@ export interface FilterGroup {
 
 export interface FilterSidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   groups: FilterGroup[]
-  onFilterChange?: (groupId: string, value: any) => void
+  onFilterChange?: (groupId: string, value: unknown) => void
   onClearAll?: () => void
 }
 
@@ -32,7 +32,7 @@ function CollapsibleFilterGroup({
   onFilterChange,
 }: {
   group: FilterGroup
-  onFilterChange?: (id: string, val: any) => void
+  onFilterChange?: (id: string, val: unknown) => void
 }) {
   const [isOpen, setIsOpen] = React.useState(true)
 
