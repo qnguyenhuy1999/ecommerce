@@ -12,18 +12,6 @@ export default {
   bracketSpacing: true,
   arrowParens: "always",
   endOfLine: "lf",
-  plugins: [
-    "@trivago/prettier-plugin-sort-imports",
-  ],
-  importOrderSeparation: true,
-  importOrder: [
-    "^react$",
-    "^reflect-metadata$",
-    "^lucide-react$",
-    "^(@ecom/.*)$",
-    "^(@/.*)$",
-    "^[./]",
-  ],
   overrides: [
     {
       files: "*.{json,yaml,yml,md,mdx}",
