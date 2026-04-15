@@ -1,8 +1,8 @@
 import type { Meta } from '@storybook/react'
 
-import { StorefrontShell } from './index'
 import { StorefrontFooter } from '../../layouts/storefront-footer'
 import { StorefrontHeader } from '../../layouts/storefront-header'
+import { StorefrontShell } from './index'
 
 const meta = {
   title: 'Layouts/StorefrontShell',
@@ -15,17 +15,10 @@ export default meta
 
 export const Default = {
   render: () => (
-    <StorefrontShell
-      header={<StorefrontHeader cartCount={2} onCartClick={() => {}} />}
-      footer={<StorefrontFooter />}
-    >
+    <StorefrontShell header={<StorefrontHeader cartCount={2} onCartClick={() => {}} />} footer={<StorefrontFooter />}>
       <div style={{ padding: '2rem' }}>
-        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>
-          Featured Products
-        </h2>
-        <p style={{ color: 'var(--muted-foreground)' }}>
-          Browse our latest collection of products.
-        </p>
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, marginBottom: '1rem' }}>Featured Products</h2>
+        <p style={{ color: 'var(--muted-foreground)' }}>Browse our latest collection of products.</p>
       </div>
     </StorefrontShell>
   ),

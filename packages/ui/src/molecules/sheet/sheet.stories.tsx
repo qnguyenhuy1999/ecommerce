@@ -1,17 +1,9 @@
-import { useState } from 'react'
-
 import type { Meta } from '@storybook/react'
 
+import { useState } from 'react'
 
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetDescription,
-  SheetFooter,
-} from './index'
 import { Button } from '../../atoms/button/index'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from './index'
 
 const meta = {
   title: 'Molecules/Sheet',
@@ -31,8 +23,7 @@ export const Right = () => {
       <Button
         onClick={() => {
           setOpen(true)
-        }}
-      >
+        }}>
         Open Sheet
       </Button>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -53,15 +44,13 @@ export const Right = () => {
               variant="outline"
               onClick={() => {
                 setOpen(false)
-              }}
-            >
+              }}>
               Cancel
             </Button>
             <Button
               onClick={() => {
                 setOpen(false)
-              }}
-            >
+              }}>
               Save Changes
             </Button>
           </SheetFooter>
@@ -78,8 +67,7 @@ export const Left = () => {
       <Button
         onClick={() => {
           setOpen(true)
-        }}
-      >
+        }}>
         Open Left Sheet
       </Button>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -89,10 +77,7 @@ export const Left = () => {
           </SheetHeader>
           <div className="py-4 space-y-1">
             {['Dashboard', 'Orders', 'Products', 'Settings'].map((item) => (
-              <button
-                key={item}
-                className="block w-full text-left px-4 py-2 text-sm hover:bg-accent rounded-md"
-              >
+              <button key={item} className="block w-full text-left px-4 py-2 text-sm hover:bg-accent rounded-md">
                 {item}
               </button>
             ))}
@@ -110,8 +95,7 @@ export const Bottom = () => {
       <Button
         onClick={() => {
           setOpen(true)
-        }}
-      >
+        }}>
         Open Bottom Sheet
       </Button>
       <Sheet open={open} onOpenChange={setOpen}>
@@ -121,10 +105,7 @@ export const Bottom = () => {
           </SheetHeader>
           <div className="py-4 grid grid-cols-3 gap-4">
             {['Share', 'Copy Link', 'Edit', 'Delete'].map((action) => (
-              <button
-                key={action}
-                className="p-4 border rounded-md text-sm text-center hover:bg-accent"
-              >
+              <button key={action} className="p-4 border rounded-md text-sm text-center hover:bg-accent">
                 {action}
               </button>
             ))}

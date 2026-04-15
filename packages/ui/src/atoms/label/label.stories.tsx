@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react'
 
-import { Label } from './index'
 import { Input } from '../../atoms/input/index'
+import { Label } from './index'
 
 const meta = {
   title: 'Atoms/Label',
@@ -47,10 +47,7 @@ export const WithInput = {
 export const Disabled = {
   render: () => (
     <div className="space-y-1.5">
-      <Label
-        htmlFor="disabled-input"
-        className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-      >
+      <Label htmlFor="disabled-input" className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         Disabled Field
       </Label>
       <Input id="disabled-input" placeholder="Cannot edit" disabled />

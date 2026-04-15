@@ -36,8 +36,7 @@ const PRODUCT_COLUMNS: ColumnDef<ProductRow>[] = [
           fontWeight: 500,
           backgroundColor: row.status === 'Active' ? '#dcfce7' : '#fee2e2',
           color: row.status === 'Active' ? '#166534' : '#991b1b',
-        }}
-      >
+        }}>
         {row.status}
       </span>
     ),

@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react'
 
-import { Textarea } from './index'
 import { Label } from '../../atoms/label/index'
+import { Textarea } from './index'
 
 const meta = {
   title: 'Atoms/Textarea',

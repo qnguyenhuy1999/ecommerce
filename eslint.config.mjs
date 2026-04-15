@@ -32,8 +32,7 @@ export default [
 
   // ─── TypeScript (base) ─────────────────────────────────────────────────────
   {
-    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
-    ignores: ['.storybook/**'],
+    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts', '**/*.stories.tsx'],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
@@ -93,7 +92,7 @@ export default [
 
   // ─── React / JSX ───────────────────────────────────────────────────────────
   {
-    files: ['**/*.tsx'],
+    files: ['**/*.tsx', '**/*.stories.tsx'],
     plugins: {
       react,
       'react-hooks': reactHooks,
@@ -149,6 +148,21 @@ export default [
       'import/newline-after-import': 'error',
       'import/first': 'error',
 
+      'import/no-default-export': 'off',
+    },
+  },
+
+  // ─── Stories import order (Prettier handles it) ────────────────────────────
+  {
+    files: ['**/*.stories.tsx'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/order': 'off',
+      'import/no-duplicates': 'error',
+      'import/newline-after-import': 'error',
+      'import/first': 'error',
       'import/no-default-export': 'off',
     },
   },

@@ -1,8 +1,8 @@
-import { useState } from 'react'
-
 import type { Meta } from '@storybook/react'
 
+import { useState } from 'react'
 
+import { Button } from '../../atoms/button/index'
 import {
   Dialog,
   DialogTrigger,
@@ -12,7 +12,6 @@ import {
   DialogDescription,
   DialogFooter,
 } from './index'
-import { Button } from '../../atoms/button/index'
 
 const meta = {
   title: 'Molecules/Dialog',
@@ -36,8 +35,8 @@ export const Default = () => {
         <DialogHeader>
           <DialogTitle>Are you sure?</DialogTitle>
           <DialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your
-            data from our servers.
+            This action cannot be undone. This will permanently delete your account and remove your data from our
+            servers.
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
@@ -45,16 +44,14 @@ export const Default = () => {
             variant="outline"
             onClick={() => {
               setOpen(false)
-            }}
-          >
+            }}>
             Cancel
           </Button>
           <Button
             variant="destructive"
             onClick={() => {
               setOpen(false)
-            }}
-          >
+            }}>
             Delete
           </Button>
         </DialogFooter>
@@ -97,15 +94,13 @@ export const WithForm = () => {
             variant="outline"
             onClick={() => {
               setOpen(false)
-            }}
-          >
+            }}>
             Cancel
           </Button>
           <Button
             onClick={() => {
               setOpen(false)
-            }}
-          >
+            }}>
             Create
           </Button>
         </DialogFooter>

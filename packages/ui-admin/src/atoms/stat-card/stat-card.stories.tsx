@@ -56,8 +56,7 @@ export const AllIcons = {
         gap: '1rem',
         padding: '2rem',
         maxWidth: '600px',
-      }}
-    >
+      }}>
       <StatCard label="Total Revenue" value="$12,450" icon={<DollarSign />} />
       <StatCard label="Orders" value="1,284" icon={<ShoppingCart />} />
       <StatCard label="Active Users" value="3,892" icon={<Users />} />

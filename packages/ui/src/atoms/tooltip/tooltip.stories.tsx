@@ -1,10 +1,9 @@
-import React from 'react'
-
 import type { Meta } from '@storybook/react'
 
+import React from 'react'
 
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './index'
 import { Button } from '../../atoms/button/index'
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './index'
 
 const meta = {
   title: 'Atoms/Tooltip',
@@ -17,9 +16,7 @@ const meta = {
 
 export default meta
 
-const Wrapper = ({ children }: { children: React.ReactNode }) => (
-  <TooltipProvider>{children}</TooltipProvider>
-)
+const Wrapper = ({ children }: { children: React.ReactNode }) => <TooltipProvider>{children}</TooltipProvider>
 
 export const Default = {
   render: () => (

@@ -14,7 +14,6 @@ export default {
   endOfLine: "lf",
   plugins: [
     "@trivago/prettier-plugin-sort-imports",
-    "@babel/plugin-proposal-decorators",
   ],
   importOrderSeparation: true,
   importOrder: [
@@ -32,6 +31,13 @@ export default {
         tabWidth: 2,
         printWidth: 120,
         proseWrap: "preserve",
+      },
+    },
+    {
+      files: "*.stories.tsx",
+      options: {
+        printWidth: 120,
+        bracketSameLine: true,
       },
     },
   ],

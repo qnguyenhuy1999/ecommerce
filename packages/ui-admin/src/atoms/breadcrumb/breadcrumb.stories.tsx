@@ -13,11 +13,7 @@ export default meta
 
 export const Default = {
   args: {
-    items: [
-      { label: 'Home', href: '/' },
-      { label: 'Products', href: '/products' },
-      { label: 'Electronics' },
-    ],
+    items: [{ label: 'Home', href: '/' }, { label: 'Products', href: '/products' }, { label: 'Electronics' }],
   },
 }
 

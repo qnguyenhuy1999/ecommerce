@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react'
 
-import { Checkbox } from './index'
 import { Label } from '../../atoms/label/index'
+import { Checkbox } from './index'
 
 const meta = {
   title: 'Atoms/Checkbox',

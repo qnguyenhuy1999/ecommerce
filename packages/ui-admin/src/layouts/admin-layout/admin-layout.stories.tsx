@@ -19,8 +19,7 @@ export const Default = {
         <div style={{ padding: '0 1.5rem' }}>
           <span style={{ fontWeight: 600 }}>Admin Header</span>
         </div>
-      }
-    >
+      }>
       <div style={{ padding: '1rem' }}>
         <p>Main content area — your dashboard content goes here.</p>
       </div>
@@ -35,8 +34,7 @@ export const WithoutSidebar = {
         <div style={{ padding: '0 1.5rem' }}>
           <span style={{ fontWeight: 600 }}>Full-width Header</span>
         </div>
-      }
-    >
+      }>
       <div style={{ padding: '1rem' }}>
         <p>Content without a sidebar.</p>
       </div>
