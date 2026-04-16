@@ -31,6 +31,7 @@ function Rating({
     <div className={cn('flex items-center gap-1.5', className)} {...props}>
       <div
         className="flex items-center gap-0.5"
+        role="img"
         aria-label={`Rating: ${safeValue} out of ${max} stars`}
       >
         {Array.from({ length: max }).map((_, i) => {
@@ -39,13 +40,20 @@ function Rating({
 
           return (
             <div key={i} className="relative">
+              {/* Empty star */}
               <Star className={cn(iconSize, 'text-muted-foreground/30 fill-muted/30')} />
+              {/* Filled star overlay */}
               {(isFilled || isHalf) && (
                 <div
                   className="absolute inset-0 overflow-hidden"
                   style={{ width: isHalf ? '50%' : '100%' }}
                 >
-                  <Star className={cn(iconSize, 'rating-star fill-current')} />
+                  <Star
+                    className={cn(
+                      iconSize,
+                      'rating-star fill-current text-[var(--color-rating-star)]',
+                    )}
+                  />
                 </div>
               )}
             </div>
@@ -54,8 +62,8 @@ function Rating({
       </div>
 
       {showCount && count !== undefined && (
-        <span className="text-xs text-muted-foreground font-medium ml-1 tabular-nums">
-          ({count})
+        <span className="text-[var(--text-micro)] text-muted-foreground font-medium ml-1 tabular-nums">
+          ({count.toLocaleString()})
         </span>
       )}
     </div>

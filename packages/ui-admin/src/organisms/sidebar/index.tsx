@@ -8,10 +8,47 @@ import { cn, Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@e
 
 import type { SidebarProps, SidebarNavGroup, SidebarNavItem } from './types'
 
-function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolean }) {
-  const [expanded, setExpanded] = React.useState(false)
+function NavItem({
+  item,
+  collapsed,
+  onNavigate,
+  currentPath,
+}: {
+  item: SidebarNavItem
+  collapsed?: boolean
+  onNavigate?: (href: string) => void
+  currentPath?: string
+}) {
+  const [expanded, setExpanded] = React.useState(
+    item.children?.some((c) => c.isActive || (currentPath && c.href === currentPath)) ?? false,
+  )
   const hasChildren = item.children && item.children.length > 0
-  const isCurrent = typeof window !== 'undefined' && window.location.pathname === item.href // naïve check
+  const isCurrent =
+    item.isActive ||
+    (currentPath && item.href === currentPath) ||
+    (typeof window !== 'undefined' && window.location.pathname === item.href)
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      const next = e.currentTarget.parentElement?.nextElementSibling?.querySelector(
+        'a',
+      ) as HTMLAnchorElement
+      if (next) next.focus()
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      const prev = e.currentTarget.parentElement?.previousElementSibling?.querySelector(
+        'a',
+      ) as HTMLAnchorElement
+      if (prev) prev.focus()
+    } else if (e.key === 'ArrowRight' && hasChildren && !expanded) {
+      e.preventDefault()
+      setExpanded(true)
+    } else if (e.key === 'ArrowLeft' && hasChildren && expanded) {
+      e.preventDefault()
+      setExpanded(false)
+    }
+  }
 
   const content = (
     <a
@@ -20,9 +57,13 @@ function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolea
         if (hasChildren) {
           e.preventDefault()
           setExpanded((prev) => !prev)
+        } else if (onNavigate && item.href) {
+          e.preventDefault()
+          onNavigate(item.href)
         }
         item.onClick?.()
       }}
+      onKeyDown={handleKeyDown}
       className={cn(
         'admin-sidebar__nav-item',
         isCurrent && 'admin-sidebar__nav-item--active',
@@ -40,7 +81,7 @@ function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolea
           )}
           {hasChildren && (
             <span
-              className="shrink-0 transition-transform duration-200"
+              className="shrink-0 transition-transform duration-[var(--motion-fast)]"
               style={{ transform: expanded ? 'rotate(90deg)' : 'none' }}
             >
               <ChevronRight className="w-4 h-4" />
@@ -70,12 +111,23 @@ function NavItem({ item, collapsed }: { item: SidebarNavItem; collapsed?: boolea
     <li>
       {content}
       {hasChildren && expanded && !collapsed && (
-        <ul className="mt-1 pl-8 space-y-1 animate-in slide-in-from-top-2 duration-200">
+        <ul className="mt-1 pl-8 space-y-1 animate-in slide-in-from-top-2 duration-[var(--motion-fast)]">
           {item.children!.map((child, idx) => (
             <li key={idx}>
               <a
                 href={child.href}
-                className="block py-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                onClick={(e) => {
+                  if (onNavigate) {
+                    e.preventDefault()
+                    onNavigate(child.href)
+                  }
+                }}
+                className={cn(
+                  'block py-1.5 text-sm transition-colors',
+                  child.isActive || (currentPath && child.href === currentPath)
+                    ? 'text-foreground font-medium'
+                    : 'text-muted-foreground hover:text-foreground',
+                )}
               >
                 {child.label}
               </a>
@@ -92,6 +144,8 @@ function Sidebar({
   navGroups = [],
   footer,
   collapsed = false,
+  onNavigate,
+  currentPath,
   className,
   ...props
 }: SidebarProps) {
@@ -123,7 +177,13 @@ function Sidebar({
             )}
             <ul className="space-y-1">
               {group.items.map((item, i) => (
-                <NavItem key={i} item={item} collapsed={collapsed} />
+                <NavItem
+                  key={i}
+                  item={item}
+                  collapsed={collapsed}
+                  onNavigate={onNavigate}
+                  currentPath={currentPath}
+                />
               ))}
             </ul>
           </div>

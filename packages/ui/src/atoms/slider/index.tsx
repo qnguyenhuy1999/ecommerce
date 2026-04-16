@@ -4,7 +4,7 @@ import React from 'react'
 
 import { cn } from '../../lib/utils'
 
-interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface SliderProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   min?: number
   max?: number
   step?: number
@@ -42,12 +42,20 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
     }
 
     return (
-      <div ref={ref} className={cn('relative flex w-full items-center', className)} {...props}>
+      <div
+        ref={ref}
+        className={cn(
+          'group relative flex w-full items-center',
+          disabled && 'opacity-50',
+          className,
+        )}
+        {...props}
+      >
         {/* Track background */}
-        <div className="relative h-2 w-full rounded-full bg-muted">
-          {/* Filled track */}
+        <div className="relative h-1.5 w-full rounded-full bg-muted">
+          {/* Filled track — brand color */}
           <div
-            className="absolute h-full rounded-full bg-brand transition-[width] duration-[100ms]"
+            className="absolute h-full rounded-full bg-brand transition-[width] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]"
             style={{ width: `${String(percentage)}%` }}
           />
         </div>
@@ -75,19 +83,29 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
         <div
           className={cn(
             'absolute top-1/2 h-5 w-5 -translate-y-1/2 -translate-x-1/2 rounded-full',
-            'border-2 border-brand bg-background shadow-sm',
-            'transition-[left,transform] duration-[100ms]',
+            'border-2 border-brand bg-background',
+            'shadow-[var(--elevation-card)]',
+            // Motion: position + subtle scale using token duration
+            'transition-[left] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
             'pointer-events-none',
-            disabled && 'opacity-50',
           )}
           style={{ left: `${String(percentage)}%` }}
         />
 
-        {/* Value label on hover */}
+        {/* Value label on hover — tooltip above thumb */}
         {formatLabel && (
           <div
-            className="absolute -top-8 -translate-x-1/2 rounded-[8px] bg-foreground px-2 py-0.5 text-xs text-background opacity-0 transition-opacity group-hover:opacity-100 pointer-events-none"
+            className={cn(
+              'absolute -top-8 -translate-x-1/2 rounded-[var(--radius-sm)]',
+              'bg-foreground px-2 py-0.5',
+              'text-[var(--text-micro)] text-background',
+              // Fade in on group hover
+              'opacity-0 group-hover:opacity-100',
+              'transition-opacity duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+              'pointer-events-none',
+            )}
             style={{ left: `${String(percentage)}%` }}
+            aria-hidden="true"
           >
             {formatLabel(value)}
           </div>
@@ -99,4 +117,3 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 Slider.displayName = 'Slider'
 
 export { Slider }
-export type { SliderProps }

@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
@@ -37,8 +39,9 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
   }, [page, totalPages])
 
   const buttonBase = [
-    'inline-flex items-center justify-center rounded-full text-sm font-medium',
-    'transition-all duration-[150ms] ease-[cubic-bezier(0.4,0,0.2,1)]',
+    'inline-flex items-center justify-center rounded-full text-[var(--text-sm)] font-medium',
+    // Use token duration + easing
+    'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     'disabled:pointer-events-none disabled:opacity-50',
   ].join(' ')
@@ -46,9 +49,7 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
   return (
     <nav className={cn('flex items-center gap-1', className)} aria-label="pagination">
       <button
-        onClick={() => {
-          onPageChange(page - 1)
-        }}
+        onClick={() => { onPageChange(page - 1); }}
         disabled={page <= 1}
         className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Previous page"
@@ -60,24 +61,24 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
         p === 'ellipsis' ? (
           <span
             key={`ellipsis-${String(i)}`}
-            className="flex h-9 w-9 items-center justify-center text-sm text-muted-foreground"
+            className="flex h-9 w-9 items-center justify-center text-[var(--text-sm)] text-muted-foreground"
+            aria-hidden="true"
           >
             …
           </span>
         ) : (
           <button
             key={p}
-            onClick={() => {
-              onPageChange(p)
-            }}
+            onClick={() => { onPageChange(p); }}
             className={cn(
               buttonBase,
               'h-9 w-9',
               p === page
-                ? 'bg-brand text-brand-foreground shadow-sm hover:bg-brand-hover'
+                ? 'bg-brand text-brand-foreground shadow-[var(--elevation-card)] hover:bg-brand-hover'
                 : 'hover:bg-accent hover:text-accent-foreground',
             )}
             aria-current={p === page ? 'page' : undefined}
+            aria-label={`Page ${String(p)}`}
           >
             {String(p)}
           </button>
@@ -85,9 +86,7 @@ function Pagination({ page, totalPages, onPageChange, className }: PaginationPro
       )}
 
       <button
-        onClick={() => {
-          onPageChange(page + 1)
-        }}
+        onClick={() => { onPageChange(page + 1); }}
         disabled={page >= totalPages}
         className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Next page"

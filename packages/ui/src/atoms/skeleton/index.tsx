@@ -1,22 +1,34 @@
 import React from 'react'
 
+import { cva, type VariantProps } from 'class-variance-authority'
+
 import { cn } from '../../lib/utils'
 
-type SkeletonProps = React.HTMLAttributes<HTMLDivElement>
+const skeletonVariants = cva(
+  [
+    'bg-muted bg-[length:200%_100%] bg-gradient-to-r from-muted via-muted/60 to-muted',
+    'motion-safe:animate-[shimmer_2s_infinite_linear]',
+  ].join(' '),
+  {
+    variants: {
+      variant: {
+        text: 'rounded-[var(--radius-sm)] h-4 w-full',
+        circular: 'rounded-full h-10 w-10 shrink-0',
+        rectangular: 'rounded-[var(--radius-sm)]',
+        card: 'rounded-[var(--radius-lg)]',
+      },
+    },
+    defaultVariants: {
+      variant: 'rectangular',
+    },
+  },
+)
 
-function Skeleton({ className, ...props }: SkeletonProps) {
-  return (
-    <div
-      className={cn(
-        'rounded-[8px] bg-muted',
-        'animate-[shimmer_2s_infinite_linear]',
-        'bg-[length:200%_100%]',
-        'bg-gradient-to-r from-muted via-muted/60 to-muted',
-        className,
-      )}
-      {...props}
-    />
-  )
+export interface SkeletonProps
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof skeletonVariants> {}
+
+function Skeleton({ className, variant, ...props }: SkeletonProps) {
+  return <div className={cn(skeletonVariants({ variant }), className)} {...props} />
 }
 
 export { Skeleton }

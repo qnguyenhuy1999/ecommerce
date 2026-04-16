@@ -233,10 +233,10 @@
 
   /* Rating stars ----------------------------------------------------------- */
   .rating-star {
-    color: #f5a623;
+    color: var(--color-rating-star, #f5a623);
   }
 
   .rating-star:hover {
-    color: #fbbf24;
+    filter: brightness(1.1);
   }
 }

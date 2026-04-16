@@ -4,7 +4,10 @@ import React from 'react'
 
 import { cn } from '../../lib/utils'
 
-interface SwitchProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onChange'> {
+export interface SwitchProps extends Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'onChange'
+> {
   checked?: boolean
   onCheckedChange?: (checked: boolean) => void
   size?: 'sm' | 'default' | 'lg'
@@ -29,8 +32,9 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         ref={ref}
         className={cn(
           'peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent',
-          'transition-colors duration-[150ms] ease-[cubic-bezier(0.4,0,0.2,1)]',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          // Track: color transition using token duration/ease
+          'transition-colors duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-[var(--focus-ring-offset)]',
           'disabled:cursor-not-allowed disabled:opacity-50',
           checked ? 'bg-brand' : 'bg-input',
           s.track,
@@ -42,7 +46,8 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
         <span
           className={cn(
             'pointer-events-none block rounded-full bg-background shadow-sm ring-0',
-            'transition-transform duration-[150ms] ease-[cubic-bezier(0.4,0,0.2,1)]',
+            // Thumb: snappy 150ms transform using token duration/ease
+            'transition-transform duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
             s.thumb,
             checked ? s.translate : 'translate-x-0',
           )}
@@ -54,4 +59,3 @@ const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
 Switch.displayName = 'Switch'
 
 export { Switch }
-export type { SwitchProps }

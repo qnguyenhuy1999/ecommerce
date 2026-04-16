@@ -1,6 +1,17 @@
 'use client'
 
-import { cn, Card, CardHeader, CardTitle, CardContent, Select } from '@ecom/ui'
+import {
+  cn,
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  Select,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+  SelectValue,
+} from '@ecom/ui'
 
 export interface RevenueChartProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
@@ -29,14 +40,18 @@ function RevenueChart({
           {onPeriodChange && (
             <Select
               value={period}
-              onChange={(e) => {
-                onPeriodChange(e.target.value)
+              onValueChange={(v) => {
+                onPeriodChange(v)
               }}
-              className="h-8 text-xs py-1"
             >
-              <option value="7d">Last 7 days</option>
-              <option value="30d">Last 30 days</option>
-              <option value="90d">Last 90 days</option>
+              <SelectTrigger className="h-8 text-xs py-1 w-auto min-w-[120px]">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7d">Last 7 days</SelectItem>
+                <SelectItem value="30d">Last 30 days</SelectItem>
+                <SelectItem value="90d">Last 90 days</SelectItem>
+              </SelectContent>
             </Select>
           )}
         </div>

@@ -1,6 +1,10 @@
 'use client'
 
-import { cn } from '@ecom/ui'
+import React, { useState, useEffect } from 'react'
+
+import { Menu, X } from 'lucide-react'
+
+import { cn, Button } from '@ecom/ui'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   sidebar?: React.ReactNode
@@ -8,6 +12,7 @@ interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   sidebarWidth?: string
   headerHeight?: string
+  isNavigating?: boolean
 }
 
 function AdminLayout({
@@ -15,31 +20,92 @@ function AdminLayout({
   header,
   children,
   sidebarWidth = '16rem',
-  headerHeight = '3.5rem',
   className,
+  isNavigating = false,
   ...props
 }: AdminLayoutProps) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMobileMenuOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
-    <div className={cn('min-h-screen bg-background', className)} {...props}>
+    <div
+      className={cn('min-h-screen bg-background flex flex-col lg:flex-row', className)}
+      {...props}
+    >
+      {/* Top Loading Bar */}
+      {isNavigating && (
+        <div className="fixed top-0 left-0 right-0 h-1 z-50 bg-brand/20 overflow-hidden">
+          <div
+            className="h-full bg-brand animate-[indeterminate_1s_infinite_linear] origin-left"
+            style={{ width: '50%' }}
+          />
+        </div>
+      )}
+
+      {/* Mobile Header with Menu Toggle (only visible below lg) */}
+      <div className="lg:hidden flex items-center justify-between p-4 border-b bg-background sticky top-0 z-40">
+        <div className="flex-1">{/* Logo could go here if extracted from sidebar */}</div>
+        <Button variant="ghost" size="icon" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </Button>
+      </div>
+
+      {/* Mobile Sidebar Overlay */}
+      {mobileMenuOpen && (
+        <div
+          role="button"
+          tabIndex={0}
+          aria-label="Close sidebar"
+          className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 lg:hidden animate-in fade-in"
+          onClick={() => setMobileMenuOpen(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') setMobileMenuOpen(false)
+          }}
+        />
+      )}
+
+      {/* Sidebar (Fixed Desktop, Drawer Mobile) */}
       {sidebar && (
-        <div className="fixed top-0 left-0 h-screen shrink-0" style={{ width: sidebarWidth }}>
+        <div
+          className={cn(
+            'fixed inset-y-0 left-0 z-50 h-screen shrink-0 bg-background border-r transition-transform duration-[var(--motion-normal)] ease-[var(--motion-ease-out)]',
+            'lg:translate-x-0 lg:sticky lg:top-0',
+            mobileMenuOpen ? 'translate-x-0' : '-translate-x-full',
+          )}
+          style={{ width: sidebarWidth }}
+        >
           {sidebar}
         </div>
       )}
-      <div
-        className="flex flex-col min-h-screen"
-        style={{ marginLeft: sidebar ? sidebarWidth : 0 }}
-      >
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-w-0">
         {header && (
-          <div
-            className="fixed top-0 shrink-0 bg-background border-b z-10"
-            style={{ left: sidebar ? sidebarWidth : 0, right: 0, height: headerHeight }}
-          >
+          <div className="hidden lg:block sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
             {header}
           </div>
         )}
-        <main className="flex-1" style={{ paddingTop: header ? headerHeight : 0 }}>
-          <div className="p-6">{children}</div>
+
+        {/* We reuse header on mobile, placed inline, or it's hidden. The header component itself handles its mobile rendering if needed */}
+        <div className="lg:hidden">{header}</div>
+
+        <main className="flex-1 relative">
+          <div
+            key={isNavigating ? 'navigating' : 'idle'}
+            className="p-4 md:p-6 lg:p-8 animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)] fill-mode-both"
+          >
+            {children}
+          </div>
         </main>
       </div>
     </div>

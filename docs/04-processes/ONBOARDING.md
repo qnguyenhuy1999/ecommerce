@@ -168,10 +168,10 @@ npm run nest:service notification --workspace=apps/api
 
 ```typescript
 // apps/api/src/modules/notification/notification.module.ts
-import { Module } from '@nestjs/common';
-import { NotificationService } from './notification.service';
-import { NotificationController } from './notification.controller';
-import { PrismaModule } from '../../prisma/prisma.module';
+import { Module } from '@nestjs/common'
+import { NotificationService } from './notification.service'
+import { NotificationController } from './notification.controller'
+import { PrismaModule } from '../../prisma/prisma.module'
 
 @Module({
   imports: [PrismaModule],
@@ -203,27 +203,27 @@ export class AppModule {}
 
 ```typescript
 // apps/api/src/modules/notification/dto/get-notifications.dto.ts
-import { IsOptional, IsBoolean, IsInt, Min, Max } from 'class-validator';
-import { Type } from 'class-transformer';
+import { IsOptional, IsBoolean, IsInt, Min, Max } from 'class-validator'
+import { Type } from 'class-transformer'
 
 export class GetNotificationsDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
-  page: number = 1;
+  page: number = 1
 
   @IsOptional()
   @Type(() => Number)
   @IsInt()
   @Min(1)
   @Max(100)
-  limit: number = 20;
+  limit: number = 20
 
   @IsOptional()
   @IsBoolean()
   @Type(() => Boolean)
-  isRead?: boolean;
+  isRead?: boolean
 }
 ```
 
@@ -231,10 +231,10 @@ export class GetNotificationsDto {
 
 ```typescript
 // apps/api/src/modules/notification/notification.controller.ts
-import { Controller, Get, Patch, Param, Body, Query, UseGuards, Request } from '@nestjs/common';
-import { NotificationService } from './notification.service';
-import { GetNotificationsDto } from './dto/get-notifications.dto';
-import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard';
+import { Controller, Get, Patch, Param, Body, Query, UseGuards, Request } from '@nestjs/common'
+import { NotificationService } from './notification.service'
+import { GetNotificationsDto } from './dto/get-notifications.dto'
+import { JwtAuthGuard } from '../../common/guards/jwt-auth.guard'
 
 @Controller('notifications')
 @UseGuards(JwtAuthGuard)
@@ -243,12 +243,12 @@ export class NotificationController {
 
   @Get()
   async findAll(@Request() req, @Query() dto: GetNotificationsDto) {
-    return this.notificationService.findAll(req.user.id, dto);
+    return this.notificationService.findAll(req.user.id, dto)
   }
 
   @Patch(':id/read')
   async markAsRead(@Param('id') id: string, @Request() req) {
-    return this.notificationService.markAsRead(id, req.user.id);
+    return this.notificationService.markAsRead(id, req.user.id)
   }
 }
 ```

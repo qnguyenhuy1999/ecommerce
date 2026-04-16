@@ -1,9 +1,25 @@
 import React from 'react'
 
+import { cva, type VariantProps } from 'class-variance-authority'
+
 import { Button } from '../../atoms/button'
 import { cn } from '../../lib/utils'
 
-interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
+const emptyStateVariants = cva('flex flex-col items-center justify-center text-center', {
+  variants: {
+    variant: {
+      default: 'gap-4 py-16 px-6',
+      compact: 'gap-2 py-8 px-4',
+      fullpage: 'gap-6 py-32 px-8 min-h-[50vh]',
+    },
+  },
+  defaultVariants: {
+    variant: 'default',
+  },
+})
+
+interface EmptyStateProps
+  extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof emptyStateVariants> {
   icon?: React.ReactNode
   title: string
   description?: string
@@ -14,17 +30,19 @@ interface EmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   }
 }
 
-function EmptyState({ icon, title, description, action, className, ...props }: EmptyStateProps) {
+function EmptyState({
+  icon,
+  title,
+  description,
+  action,
+  variant,
+  className,
+  ...props
+}: EmptyStateProps) {
   return (
-    <div
-      className={cn(
-        'flex flex-col items-center justify-center gap-4 py-16 px-6 text-center',
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn(emptyStateVariants({ variant }), className)} {...props}>
       {icon && (
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-8 [&_svg]:w-8">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-8 [&_svg]:w-8 animate-[float_6s_ease-in-out_infinite]">
           {icon}
         </div>
       )}

@@ -2,15 +2,25 @@
 
 import React from 'react'
 
-import { Filter, ChevronDown } from 'lucide-react'
+import { Filter } from 'lucide-react'
 
-import { cn, Slider, Checkbox, ScrollArea } from '@ecom/ui'
+import {
+  cn,
+  Slider,
+  Checkbox,
+  ScrollArea,
+  Button,
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from '@ecom/ui'
 
 export interface FilterOption {
   label: string
   value: string
   count?: number
-  color?: string // For color swatches
+  color?: string
 }
 
 export interface FilterGroup {
@@ -27,6 +37,7 @@ export interface FilterSidebarProps extends React.HTMLAttributes<HTMLDivElement>
   onClearAll?: () => void
 }
 
+// ─── Collapsible group ──────────────────────────────────────────────────────
 function CollapsibleFilterGroup({
   group,
   onFilterChange,
@@ -34,32 +45,12 @@ function CollapsibleFilterGroup({
   group: FilterGroup
   onFilterChange?: (id: string, val: unknown) => void
 }) {
-  const [isOpen, setIsOpen] = React.useState(true)
-
   return (
-    <div className="py-5 border-b last:border-b-0 border-border">
-      <button
-        className="flex items-center justify-between w-full font-semibold text-sm hover:text-brand transition-colors"
-        onClick={() => {
-          setIsOpen(!isOpen)
-        }}
-        aria-expanded={isOpen}
-      >
+    <AccordionItem value={group.id} variant="ghost" className="border-b rounded-none mb-0 pb-1">
+      <AccordionTrigger className="hover:no-underline font-semibold text-[var(--text-sm)] py-5 px-0">
         {group.title}
-        <ChevronDown
-          className={cn(
-            'w-4 h-4 text-muted-foreground transition-transform duration-200',
-            isOpen ? 'rotate-180' : '',
-          )}
-        />
-      </button>
-
-      <div
-        className={cn(
-          'overflow-hidden transition-all duration-300 ease-in-out',
-          isOpen ? 'max-h-[500px] mt-4 opacity-100' : 'max-h-0 mt-0 opacity-0',
-        )}
-      >
+      </AccordionTrigger>
+      <AccordionContent className="px-0 pb-4">
         {group.type === 'checkbox' && (
           <div className="space-y-3">
             {group.options?.map((opt) => (
@@ -68,12 +59,20 @@ function CollapsibleFilterGroup({
                   onCheckedChange={(c) =>
                     onFilterChange?.(group.id, { value: opt.value, checked: c })
                   }
+                  aria-label={opt.label}
                 />
-                <span className="text-sm font-medium text-muted-foreground group-hover/label:text-foreground transition-colors flex-1">
+                <span
+                  className={cn(
+                    'text-[var(--text-sm)] font-medium text-muted-foreground',
+                    'group-hover/label:text-foreground transition-colors duration-[var(--motion-fast)] flex-1',
+                  )}
+                >
                   {opt.label}
                 </span>
                 {opt.count !== undefined && (
-                  <span className="text-xs text-muted-foreground/70">{opt.count}</span>
+                  <span className="text-[var(--text-micro)] text-muted-foreground/70">
+                    {opt.count}
+                  </span>
                 )}
               </label>
             ))}
@@ -98,8 +97,9 @@ function CollapsibleFilterGroup({
                 <div
                   className={cn(
                     'w-8 h-8 rounded-full border border-border flex items-center justify-center',
-                    'peer-checked:ring-2 ring-offset-2 ring-brand transition-all',
+                    'peer-checked:ring-2 ring-offset-2 ring-brand',
                     'group-hover/color:scale-110 shadow-sm',
+                    'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
                   )}
                   style={{ backgroundColor: opt.color || opt.value }}
                 />
@@ -119,7 +119,15 @@ function CollapsibleFilterGroup({
                     onFilterChange?.(group.id, { value: opt.value, checked: e.target.checked })
                   }
                 />
-                <div className="flex items-center justify-center min-w-[40px] h-10 px-2 rounded-[8px] border text-sm font-medium text-muted-foreground transition-all hover:border-brand peer-checked:bg-foreground peer-checked:text-background peer-checked:border-foreground">
+                <div
+                  className={cn(
+                    'flex items-center justify-center min-w-[40px] h-10 px-2',
+                    'rounded-[var(--radius-sm)] border text-[var(--text-sm)] font-medium text-muted-foreground',
+                    'peer-checked:bg-foreground peer-checked:text-background peer-checked:border-foreground',
+                    'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+                    'hover:border-brand hover:text-foreground',
+                  )}
+                >
                   {opt.label}
                 </div>
               </label>
@@ -137,17 +145,22 @@ function CollapsibleFilterGroup({
               onChange={(val) => onFilterChange?.(group.id, val)}
               formatLabel={(val) => `$${val}`}
             />
-            <div className="flex items-center justify-between mt-4 text-sm font-medium text-muted-foreground">
+            <div
+              className={cn(
+                'flex items-center justify-between mt-4 text-[var(--text-sm)] font-medium text-muted-foreground',
+              )}
+            >
               <span>${group.range.min}</span>
               <span>${group.range.max}</span>
             </div>
           </div>
         )}
-      </div>
-    </div>
+      </AccordionContent>
+    </AccordionItem>
   )
 }
 
+// ─── FilterSidebar ───────────────────────────────────────────────────────────
 function FilterSidebar({
   groups,
   onFilterChange,
@@ -158,26 +171,30 @@ function FilterSidebar({
   return (
     <div className={cn('w-full md:w-64 shrink-0 flex flex-col', className)} {...props}>
       <div className="flex items-center justify-between pb-4 border-b">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
+        <h2 className="text-[var(--text-lg)] font-semibold flex items-center gap-2">
           <Filter className="w-5 h-5" />
           Filters
         </h2>
         {onClearAll && (
-          <button
+          <Button
+            variant="link"
+            size="sm"
             onClick={onClearAll}
-            className="text-xs font-semibold text-muted-foreground hover:text-foreground underline underline-offset-4"
+            className="text-[var(--text-micro)] font-semibold text-muted-foreground hover:text-foreground p-0 h-auto"
           >
             Clear all
-          </button>
+          </Button>
         )}
       </div>
 
       <ScrollArea className="flex-1 pr-4 -mr-4">
-        {groups.map((group) => (
-          <CollapsibleFilterGroup key={group.id} group={group} onFilterChange={onFilterChange} />
-        ))}
+        <Accordion type="multiple" defaultValue={groups.map((g) => g.id)} className="w-full">
+          {groups.map((group) => (
+            <CollapsibleFilterGroup key={group.id} group={group} onFilterChange={onFilterChange} />
+          ))}
+        </Accordion>
         {groups.length === 0 && (
-          <div className="py-8 text-center text-sm text-muted-foreground border-b">
+          <div className="py-8 text-center text-[var(--text-sm)] text-muted-foreground border-b">
             No filters available
           </div>
         )}

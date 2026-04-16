@@ -1,6 +1,6 @@
 'use client'
 
-import { ShoppingBag, ArrowRight } from 'lucide-react'
+import { ShoppingBag, ArrowRight, Sparkles } from 'lucide-react'
 
 import {
   Sheet,
@@ -12,11 +12,14 @@ import {
   Progress,
   Input,
   ScrollArea,
+  Badge,
+  EmptyState,
 } from '@ecom/ui'
 
 import { CartItem } from '../../atoms/cart-item'
 import { PriceDisplay } from '../../atoms/price-display'
 
+// ─── Types ───────────────────────────────────────────────────────────────────
 export interface CartItemData {
   id: string
   title: string
@@ -39,6 +42,7 @@ export interface CartDrawerProps {
   onRemoveItem?: (id: string) => void
 }
 
+// ─── Component ────────────────────────────────────────────────────────────────
 function CartDrawer({
   open,
   onOpenChange,
@@ -51,67 +55,70 @@ function CartDrawer({
 }: CartDrawerProps) {
   const percentToFreeShipping = Math.min((subtotal / freeShippingThreshold) * 100, 100)
   const remainingForFreeShipping = freeShippingThreshold - subtotal
+  const isFreeShippingUnlocked = percentToFreeShipping >= 100
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md flex flex-col p-0 border-l border-border bg-background sm:rounded-l-[20px] shadow-[var(--elevation-modal)]">
-        <SheetHeader className="p-6 border-b text-left">
-          <SheetTitle className="text-xl font-semibold flex items-center gap-2 tracking-tight">
+      <SheetContent className="w-full sm:max-w-md flex flex-col p-0 border-l border-border bg-background sm:rounded-l-[var(--radius-xl)] shadow-[var(--elevation-modal)]">
+        {/* Header with item count badge */}
+        <SheetHeader className="p-[var(--padding-card)] border-b text-left">
+          <SheetTitle className="text-[var(--text-lg)] font-semibold flex items-center gap-2 tracking-tight">
             <ShoppingBag className="w-5 h-5" />
-            Your Cart ({items.length})
+            Your Cart
+            {items.length > 0 && (
+              <Badge variant="sale" className="ml-1 text-[var(--text-micro)]">
+                {items.length}
+              </Badge>
+            )}
           </SheetTitle>
         </SheetHeader>
 
         <div className="flex-1 overflow-hidden flex flex-col">
-          {/* Shipping Progress Indicator */}
+          {/* Free shipping progress */}
           {items.length > 0 && (
-            <div className="px-6 py-4 bg-muted/30 border-b">
-              <p className="text-sm font-medium mb-3">
-                {percentToFreeShipping >= 100 ? (
+            <div className="px-[var(--padding-card)] py-4 bg-muted/30 border-b">
+              <p className="text-[var(--text-sm)] font-medium mb-3 flex items-center gap-2">
+                {isFreeShippingUnlocked ? (
                   <span className="text-success flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-success"></span> You've unlocked
-                    free shipping!
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Free shipping unlocked!
                   </span>
                 ) : (
-                  <span>
+                  <>
                     You're{' '}
-                    <strong className="text-foreground">
+                    <strong className="text-foreground font-semibold">
                       ${remainingForFreeShipping.toFixed(2)}
                     </strong>{' '}
                     away from free shipping.
-                  </span>
+                  </>
                 )}
               </p>
               <Progress
                 value={percentToFreeShipping}
-                variant={percentToFreeShipping >= 100 ? 'success' : 'brand'}
-                className="h-2"
+                variant={isFreeShippingUnlocked ? 'success' : 'brand'}
+                className="h-1.5"
               />
             </div>
           )}
 
+          {/* Empty state */}
           {items.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-              <div className="w-20 h-20 bg-muted/50 rounded-full flex items-center justify-center mb-6">
-                <ShoppingBag className="w-10 h-10 text-muted-foreground" />
-              </div>
-              <h3 className="text-lg font-semibold mb-2">Your cart is empty</h3>
-              <p className="text-muted-foreground text-sm max-w-[250px] mb-8">
-                Looks like you haven't added anything to your cart yet.
-              </p>
-              <Button
-                className="w-full sm:w-auto px-8"
-                onClick={() => {
-                  onOpenChange(false)
+            <div className="flex-1 flex items-center justify-center p-[var(--padding-card)]">
+              <EmptyState
+                icon={<ShoppingBag />}
+                title="Your cart is empty"
+                description="Looks like you haven't added anything yet."
+                action={{
+                  label: 'Continue Shopping',
+                  onClick: () => onOpenChange(false),
+                  variant: 'outline',
                 }}
-                variant="outline"
-              >
-                Continue Shopping
-              </Button>
+              />
             </div>
           ) : (
+            /* Item list */
             <ScrollArea className="flex-1" orientation="vertical">
-              <div className="flex flex-col gap-6 p-6">
+              <div className="flex flex-col gap-6 p-[var(--padding-card)]">
                 {items.map((item) => (
                   <CartItem
                     key={item.id}
@@ -124,37 +131,41 @@ function CartDrawer({
             </ScrollArea>
           )}
 
+          {/* Footer: promo + totals + checkout */}
           {items.length > 0 && (
-            <div className="p-6 border-t bg-background mt-auto space-y-4">
-              {/* Promo Code Input */}
+            <div className="p-[var(--padding-card)] border-t bg-background mt-auto space-y-4 shadow-[var(--elevation-dropdown)] z-10 relative">
+              {/* Promo code */}
               <div className="flex gap-2">
-                <Input placeholder="Promo code" className="h-[42px]" />
-                <Button variant="outline" className="h-[42px] shrink-0 font-semibold">
+                <Input placeholder="Promo code" className="h-10 flex-1" />
+                <Button variant="outline" className="h-10 shrink-0 font-semibold px-5">
                   Apply
                 </Button>
               </div>
 
               <Separator />
 
+              {/* Totals */}
               <div className="space-y-1.5">
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-[var(--text-sm)]">
                   <span className="text-muted-foreground">Subtotal</span>
                   <span className="font-medium">${subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between text-[var(--text-sm)]">
                   <span className="text-muted-foreground">Shipping</span>
                   <span className="font-medium">
-                    {percentToFreeShipping >= 100 ? 'Free' : 'Calculated at checkout'}
+                    {isFreeShippingUnlocked ? 'Free' : 'Calculated at checkout'}
                   </span>
                 </div>
-                <div className="flex justify-between text-base font-bold pt-2 border-t mt-2">
+                <div className="flex justify-between text-[var(--text-base)] font-bold pt-2 border-t mt-2">
                   <span>Total</span>
                   <PriceDisplay price={subtotal} size="lg" />
                 </div>
               </div>
-              <Button className="w-full btn-brand group mt-2" size="xl" onClick={onCheckout}>
+
+              {/* Checkout CTA */}
+              <Button className="w-full group" size="xl" onClick={onCheckout}>
                 Checkout
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-[var(--motion-fast)]" />
               </Button>
             </div>
           )}

@@ -1,8 +1,10 @@
+'use client'
+
 import React from 'react'
 
 import { Heart } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn, IconButton } from '@ecom/ui'
 
 export interface WishlistButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
@@ -21,6 +23,7 @@ function WishlistButton({
   ...props
 }: WishlistButtonProps) {
   const [internalState, setInternalState] = React.useState(wishlisted)
+  const [justLiked, setJustLiked] = React.useState(false)
   const isWishlisted = onToggle ? wishlisted : internalState
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
@@ -28,6 +31,10 @@ function WishlistButton({
     e.stopPropagation()
     const nextState = !isWishlisted
     setInternalState(nextState)
+    if (nextState) {
+      setJustLiked(true)
+      setTimeout(() => setJustLiked(false), 1000)
+    }
     onToggle?.(nextState)
   }
 
@@ -38,26 +45,40 @@ function WishlistButton({
   }[size]
 
   return (
-    <button
-      type="button"
+    <IconButton
+      icon={
+        <>
+          {justLiked && (
+            <span className="absolute inset-0 rounded-full border-2 border-brand animate-ping opacity-0 pointer-events-none" />
+          )}
+          <Heart
+            className={cn(
+              // Icon transition: color + fill + scale
+              'transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-bounce)] relative z-10',
+              isWishlisted
+                ? 'fill-brand text-brand scale-110'
+                : 'fill-transparent text-muted-foreground group-hover:text-foreground group-hover:scale-105',
+            )}
+          />
+        </>
+      }
+      label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
       className={cn(
-        'group relative flex items-center justify-center rounded-full bg-background shadow-sm hover:shadow-[var(--elevation-hover)] transition-all duration-[250ms] border border-border/50',
+        'group relative rounded-full',
+        'bg-background shadow-[var(--elevation-card)] border border-border/50',
+        // Transition: shadow + background, using token duration
+        'transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
+        // Hover: elevated shadow
+        'hover:shadow-[var(--elevation-hover)]',
+        // Press: scale down
+        'active:scale-90',
         dims,
         className,
       )}
       onClick={handleClick}
-      aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}
+      aria-pressed={isWishlisted}
       {...props}
-    >
-      <Heart
-        className={cn(
-          'transition-all duration-[400ms] ease-[cubic-bezier(0.34,1.56,0.64,1)]',
-          isWishlisted
-            ? 'fill-brand text-brand scale-110'
-            : 'fill-transparent text-muted-foreground group-hover:text-foreground group-hover:scale-105',
-        )}
-      />
-    </button>
+    />
   )
 }
 

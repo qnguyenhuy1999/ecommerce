@@ -1,352 +1,526 @@
-# Design System – Airbnb Inspired (Light & Dark Theme)
+# Design System – Marketplace Platform
 
 ---
 
-# 1. Visual Theme & Atmosphere
+## 1. Visual Theme & Philosophy
 
-This design system is inspired by Airbnb’s warm, photography-forward marketplace experience. It feels like flipping through a travel magazine where every page invites exploration and booking.
+Inspired by Airbnb's warm, photography-forward experience, adapted for a scalable modern marketplace platform.
 
-The foundation is minimal and restrained:
+It combines:
 
-- Photography-first
-- Single brand accent (Rausch Red)
-- Warm typography
-- Soft, natural elevation
-- Generous border radius
-- Token-based color system
+- **Emotional UX** — storefront surfaces that feel warm and premium
+- **Functional clarity** — admin dashboard optimized for data density and speed
+- **Token-driven theming** — no hardcoded values, all via CSS custom properties
+- **High reusability** — 3-layer architecture across all applications
 
-The interface is designed for browsing, not commanding.
+### 1.1 Core Principles
 
----
-
-## 1.1 Core Brand Philosophy
-
-- Start with white (light) or charcoal (dark)
-- Let photography provide the emotional color
-- Use red only for primary actions
-- Never use pure black (#000000)
-- Use warm near-black for text
-- Use multi-layer shadows for natural lift
-- Always use generous rounding
+| Principle                               | Rationale                                                 |
+| --------------------------------------- | --------------------------------------------------------- |
+| Canvas is neutral, content is emotional | Photography and product imagery carry color               |
+| Red is reserved for actions             | Brand CTA stands out; avoids visual noise                 |
+| Avoid pure `#000000`                    | Use `#222222` for warm near-black that reads better       |
+| Soft multi-layer shadows                | Depth without harshness                                   |
+| Generous border radius                  | Friendly, approachable feel (Airbnb-inspired)             |
+| Never hardcode colors in components     | All values via CSS tokens — enables theming and dark mode |
 
 ---
 
-# 2. Theme Architecture
+## 2. Architecture Overview
 
-The system supports:
+The system is structured into 3 layers:
 
-- ✅ Light Theme (default)
-- ✅ Dark Theme (system or user toggled)
-- ✅ Token-driven color switching
-- ✅ No hardcoded colors in components
+```
+Layer 1 — Core (packages/ui)
+  └─ Reusable, domain-agnostic components
 
-All components must use semantic tokens.
+Layer 2 — Domain UI
+  ├─ packages/ui-storefront   (customer-facing marketplace)
+  └─ packages/ui-admin        (internal dashboard)
 
----
+Layer 3 — Applications
+  └─ Product apps consuming UI packages
+```
 
-# 3. Color System (Token-Based)
-
-Use semantic variables:
---palette-\*
-
----
-
-# 3.1 Light Theme
-
-## Background & Surfaces
-
-| Role            | Token                          | Value   |
-| --------------- | ------------------------------ | ------- |
-| Page Background | --palette-bg-page              | #ffffff |
-| Card Background | --palette-bg-surface           | #ffffff |
-| Light Surface   | --palette-bg-surface-secondary | #f2f2f2 |
-| Border          | --palette-border-default       | #c1c1c1 |
+**Single source of truth**: `packages/ui/src/theme/tokens.css` — all design tokens live here. The doc describes intent and documents usage; the CSS file is the authoritative implementation.
 
 ---
 
-## Brand
+## 3. Token System
 
-| Role           | Token                      | Value   |
-| -------------- | -------------------------- | ------- |
-| Primary Accent | --palette-bg-primary-core  | #ff385c |
-| Pressed Accent | --palette-bg-tertiary-core | #e00b41 |
-| Luxe Tier      | --palette-bg-primary-luxe  | #460479 |
-| Plus Tier      | --palette-bg-primary-plus  | #92174d |
+### 3.1 Token Philosophy
 
----
+- No hardcoded values in components — always use tokens
+- Primitive tokens → Semantic tokens → Component-level usage
+- Dark theme: semantic tokens override inside `.dark {}` block
+- Chart tokens: admin-only, heavier saturation for data visibility
 
-## Text
+### 3.2 Primitive Palette
 
-| Role          | Token                        | Value            |
-| ------------- | ---------------------------- | ---------------- |
-| Primary       | --palette-text-primary       | #222222          |
-| Focused       | --palette-text-focused       | #3f3f3f          |
-| Secondary     | --palette-text-secondary     | #6a6a6a          |
-| Disabled      | --palette-text-disabled      | rgba(0,0,0,0.24) |
-| Link Disabled | --palette-text-link-disabled | #929292          |
-| Legal         | --palette-text-legal         | #428bff          |
-| Error         | --palette-text-primary-error | #c13515          |
+```css
+:root {
+  /* Neutrals */
+  --palette-white: #ffffff;
+  --palette-black-soft: #222222;
 
----
+  /* Extended Neutrals for Admin */
+  --palette-gray-50: #f9fafb;
+  --palette-gray-100: #f3f4f6;
+  --palette-gray-200: #e5e7eb;
+  --palette-gray-300: #d1d5db;
+  --palette-gray-400: #9ca3af;
+  --palette-gray-500: #6b7280;
+  --palette-gray-600: #4b5563;
+  --palette-gray-700: #374151;
+  --palette-gray-800: #1f2937;
+  --palette-gray-900: #111827;
 
-## Shadows (Light)
+  /* Brand Core */
+  --palette-bg-primary-core: #ff385c;
+  --palette-bg-tertiary-core: #e00b41;
 
-**Card Shadow (Level 1)**
-rgba(0,0,0,0.02) 0px 0px 0px 1px,
-rgba(0,0,0,0.04) 0px 2px 6px,
-rgba(0,0,0,0.1) 0px 4px 8px
+  /* Brand Extended */
+  --palette-bg-primary-luxe: #460479; /* purple accent */
+  --palette-bg-primary-plus: #92174d; /* rose accent */
+}
+```
 
-**Hover Shadow (Level 2)**
-rgba(0,0,0,0.08) 0px 4px 12px
+### 3.3 Semantic Tokens — Light Theme
 
----
+```css
+:root {
+  /* ── Backgrounds ─────────────────────────────────────────── */
+  --color-background: #ffffff; /* page background */
+  --color-surface: #ffffff; /* card / sheet surface */
+  --color-surface-secondary: #f2f2f2; /* muted panels */
+  --color-secondary: #f2f2f2; /* secondary surfaces */
+  --color-accent: #f2f2f2; /* subtle highlight */
 
-# 3.2 Dark Theme
+  /* ── Foregrounds ─────────────────────────────────────────── */
+  --color-foreground: #222222; /* primary text */
+  --color-muted-foreground: #6a6a6a; /* secondary text */
+  --color-disabled: rgba(0, 0, 0, 0.24); /* disabled text */
 
-Dark mode preserves warmth. It is NOT pure black UI.
+  /* ── Brand CTA (RED — actions only, NOT decorative accent) ── */
+  --color-brand: #ff385c;
+  --color-brand-admin: #ee2d50; /* better contrast for small text */
+  --color-brand-foreground: #ffffff;
+  --color-brand-hover: #e00b41;
+  --color-brand-active: #c50b38;
+  --color-brand-muted: rgba(255, 56, 92, 0.1);
+  --color-brand-pressed: #e00b41;
 
-## Background & Surfaces
+  /* ── Status ──────────────────────────────────────────────── */
+  --color-success: #00a67e;
+  --color-success-foreground: #ffffff;
+  --color-success-muted: rgba(0, 166, 126, 0.1);
 
-| Role              | Token                          | Value                  |
-| ----------------- | ------------------------------ | ---------------------- |
-| Page Background   | --palette-bg-page              | #121212                |
-| Card Background   | --palette-bg-surface           | #1c1c1c                |
-| Secondary Surface | --palette-bg-surface-secondary | #2a2a2a                |
-| Border            | --palette-border-default       | rgba(255,255,255,0.08) |
+  --color-warning: #f5a623;
+  --color-warning-foreground: #222222;
+  --color-warning-muted: rgba(245, 166, 35, 0.1);
 
----
+  --color-info: #428bff;
+  --color-info-foreground: #ffffff;
+  --color-info-muted: rgba(66, 139, 255, 0.1);
 
-## Brand
+  --color-destructive: #c13515;
+  --color-destructive-foreground: #ffffff;
 
-Brand red remains identical:
+  /* ── Borders & Rings ─────────────────────────────────────── */
+  --color-border: #c1c1c1;
+  --color-input: #c1c1c1;
+  --color-ring: #ff385c; /* focus ring matches brand */
+}
+```
 
-| Role           | Token                      | Value   |
-| -------------- | -------------------------- | ------- |
-| Primary Accent | --palette-bg-primary-core  | #ff385c |
-| Pressed Accent | --palette-bg-tertiary-core | #e00b41 |
+### 3.4 Semantic Tokens — Dark Theme
 
----
+```css
+.dark {
+  /* ── Backgrounds ─────────────────────────────────────────── */
+  --color-background: #121212;
+  --color-surface: #1c1c1c;
+  --color-surface-secondary: #2a2a2a;
+  --color-secondary: #2a2a2a;
+  --color-accent: #2a2a2a;
 
-## Text (Dark)
+  /* ── Foregrounds ─────────────────────────────────────────── */
+  --color-foreground: #f7f7f7;
+  --color-muted-foreground: #b3b3b3;
+  --color-disabled: rgba(255, 255, 255, 0.3);
 
-| Role          | Token                        | Value                 |
-| ------------- | ---------------------------- | --------------------- |
-| Primary       | --palette-text-primary       | #f7f7f7               |
-| Secondary     | --palette-text-secondary     | #b3b3b3               |
-| Focused       | --palette-text-focused       | #ffffff               |
-| Disabled      | --palette-text-disabled      | rgba(255,255,255,0.3) |
-| Link Disabled | --palette-text-link-disabled | #777777               |
-| Legal         | --palette-text-legal         | #6ea8ff               |
-| Error         | --palette-text-primary-error | #ff6b5e               |
+  /* ── Brand — stays identical across themes ───────────────── */
+  --color-brand: #ff385c;
+  --color-brand-admin: #ee2d50;
+  --color-brand-foreground: #ffffff;
+  --color-brand-hover: #e00b41;
+  --color-brand-active: #c50b38;
+  --color-brand-muted: rgba(255, 56, 92, 0.15);
+  --color-brand-pressed: #e00b41;
 
----
+  /* ── Status (dark-adapted saturation) ────────────────────── */
+  --color-success: #34d399;
+  --color-success-foreground: #121212;
+  --color-success-muted: rgba(52, 211, 153, 0.15);
 
-## Shadows (Dark)
+  --color-warning: #fbbf24;
+  --color-warning-foreground: #121212;
+  --color-warning-muted: rgba(251, 191, 36, 0.15);
 
-**Card Shadow (Dark Level 1)**
-rgba(255,255,255,0.02) 0px 0px 0px 1px,
-rgba(0,0,0,0.6) 0px 6px 16px
+  --color-info: #6ea8ff;
+  --color-info-foreground: #121212;
+  --color-info-muted: rgba(110, 168, 255, 0.15);
 
-**Hover Shadow (Dark Level 2)**
-rgba(0,0,0,0.8) 0px 8px 24px
+  --color-destructive: #ff6b5e;
+  --color-destructive-foreground: #121212;
 
----
-
-# 4. Typography System
-
-## Font Family
-
-Airbnb Cereal VF,
-Circular,
--apple-system,
-system-ui,
-Roboto,
-Helvetica Neue
-
-OpenType:
-font-feature-settings: "salt";
-
----
-
-## Weight Philosophy
-
-- 500 (Medium) – Default UI
-- 600 (Semibold) – Emphasis
-- 700 (Bold) – Primary headings
-- ❌ Never use 300 or thin weights for headings
-
----
-
-## Hierarchy
-
-| Role            | Size | Weight  | Line Height | Letter Spacing |
-| --------------- | ---- | ------- | ----------- | -------------- |
-| Section Heading | 28px | 700     | 1.43        | normal         |
-| Card Heading    | 22px | 600     | 1.18        | -0.44px        |
-| Sub Heading     | 21px | 700     | 1.43        | normal         |
-| Feature Title   | 20px | 600     | 1.20        | -0.18px        |
-| UI Text         | 16px | 500–600 | 1.25        | normal         |
-| Body            | 14px | 400–500 | 1.43        | normal         |
-| Small           | 13px | 400     | 1.23        | normal         |
-| Tag             | 12px | 400–700 | 1.33        | normal         |
-| Badge           | 11px | 600     | 1.18        | normal         |
-| Micro Uppercase | 8px  | 700     | 1.25        | 0.32px         |
-
----
-
-# 5. Border Radius Scale
-
-| Usage             | Radius |
-| ----------------- | ------ |
-| Small links       | 4px    |
-| Buttons           | 8px    |
-| Badges            | 14px   |
-| Cards             | 20px   |
-| Large containers  | 32px   |
-| Circular controls | 50%    |
-
-No sharp corners on cards.
+  /* ── Borders ─────────────────────────────────────────────── */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-input: rgba(255, 255, 255, 0.08);
+  --color-ring: #ff385c;
+}
+```
 
 ---
 
-# 6. Elevation System
+## 4. Typography System
 
-| Level   | Use                 |
-| ------- | ------------------- |
-| Level 0 | Flat background     |
-| Level 1 | Cards, search       |
-| Level 2 | Hover lift          |
-| Level 3 | Active / Focus ring |
+### Font Stack
 
-Shadows must feel natural and soft.
+```
+Airbnb Cereal VF, Circular, -apple-system, system-ui, Roboto, Helvetica Neue, sans-serif
+```
 
----
+Load Airbnb Cereal Variable from your CDN or local font asset. Falls back gracefully through the stack.
 
-# 7. Component Guidelines
+### Weight Usage
 
-## 7.1 Buttons
+| Weight | Usage                                    |
+| ------ | ---------------------------------------- |
+| 400    | Body text, small labels, disabled states |
+| 500    | Default UI text, paragraph content       |
+| 600    | Emphasis, card headings, feature titles  |
+| 700    | Section headings, hero text              |
 
-Primary Button:
+**Avoid**: weights below 400 (thin/tracking feels dated).
 
-Light:
+### Type Scale
 
-- Background: #222222
-- Text: #ffffff
-
-Dark:
-
-- Background: #f7f7f7
-- Text: #121212
-
-Radius: 8px  
-Padding: 0 24px  
-Hover: transition to brand red  
-Focus: 2px focus ring + slight scale
-
----
-
-## 7.2 Cards
-
-- Radius: 20px
-- Three-layer shadow
-- Photography occupies top 60–70%
-- Content below image
-
-Dark mode:
-
-- Subtle glow border
-- Reduced heavy shadow
+| Role            | rem       | px   | Weight  | Use                      |
+| --------------- | --------- | ---- | ------- | ------------------------ |
+| Section Heading | 1.75rem   | 28px | 700     | Page section titles      |
+| Card Heading    | 1.375rem  | 22px | 600     | Product card titles      |
+| Feature Title   | 1.25rem   | 20px | 600     | Feature sections         |
+| UI Text         | 1rem      | 16px | 500     | Default interactive text |
+| Body            | 0.875rem  | 14px | 400–500 | Paragraphs, descriptions |
+| Small           | 0.8125rem | 13px | 400     | Captions, metadata       |
+| Tag             | 0.75rem   | 12px | 500     | Badges, chips            |
+| Badge           | 0.6875rem | 11px | 500     | Pill labels              |
+| Micro           | 0.5rem    | 8px  | —       | Rarely used, icon labels |
 
 ---
 
-## 7.3 Search Bar
+## 5. Border Radius System
 
-- Prominent placement
-- 32px radius container
-- Red circular search CTA
-- Expands on desktop
-- Compact on mobile
+| Token           | Value  | Use                          |
+| --------------- | ------ | ---------------------------- |
+| `--radius-xs`   | 4px    | Small links, inline tags     |
+| `--radius-sm`   | 8px    | Buttons, inputs, badges      |
+| `--radius-md`   | 14px   | Badges, chips                |
+| `--radius-lg`   | 20px   | Cards, sheets                |
+| `--radius-xl`   | 32px   | Large containers, search bar |
+| `--radius-full` | 9999px | Pills, avatars, toggles      |
 
----
-
-## 7.4 Listing Card
-
-Structure:
-
-1. Image (16:10 ratio)
-2. Wishlist icon (top-right overlay)
-3. Title (16px, 600)
-4. Description (14px, secondary)
-5. Price tag (12–14px)
-
-Full card tap target on mobile.
+**Note**: `--radius` is an alias for `--radius-sm` for backward compatibility. Use `--radius-sm` directly.
 
 ---
 
-# 8. Layout System
+## 6. Elevation / Shadow System
 
-## Spacing Scale
+| Level | Token                  | Use Case              | Shadow                                  |
+| ----- | ---------------------- | --------------------- | --------------------------------------- |
+| 0     | `--elevation-0`        | Flat surfaces         | `none`                                  |
+| 1     | `--elevation-card`     | Product cards, sheets | 0px border + 2px/4px/8px layered shadow |
+| 2     | `--elevation-hover`    | Hover state lift      | 4px/12px shadow                         |
+| 3     | `--elevation-dropdown` | Dropdown, popover     | 4px/16px shadow                         |
+| Modal | `--elevation-modal`    | Modal, drawer         | 16px/48px deep shadow                   |
 
-Base unit: 8px
+### Shadow Philosophy
 
-Allowed spacing:
-2, 3, 4, 6, 8, 10, 11, 12, 15, 16, 22, 24, 32
+Use **multi-layer shadows** (border-pixel + 2–3 blur layers). This creates depth closer to real-world card stacking than single-layer shadows.
 
----
-
-## Grid Behavior
-
-| Breakpoint  | Columns |
-| ----------- | ------- |
-| <375px      | 1       |
-| 375–550px   | 1       |
-| 550–744px   | 2       |
-| 950–1128px  | 3       |
-| 1128–1440px | 4       |
-| 1440–1920px | 5       |
+**Dark theme**: shadows use black with lower opacity and larger blur — deeper, more contrast, avoids the "floating in void" look.
 
 ---
 
-# 9. Image Treatment
+## 7. Motion / Animation System
 
-- Photography-first
-- Generous height
-- Swipe carousel on mobile
-- Dot indicators
-- 8–14px image radius
-- Heart icon overlay
-- Maintain aspect ratio
+### Duration Tokens
 
-Images are hero. UI supports.
+| Token             | Value | Use                              |
+| ----------------- | ----- | -------------------------------- |
+| `--motion-fast`   | 150ms | Hover states, micro-interactions |
+| `--motion-normal` | 250ms | State transitions, button press  |
+| `--motion-slow`   | 400ms | Page transitions, panel slides   |
+
+### Easing Curves
+
+| Token                   | Curve                            | Use                       |
+| ----------------------- | -------------------------------- | ------------------------- |
+| `--motion-ease`         | `cubic-bezier(0.4,0,0.2,1)`      | Default, buttons          |
+| `--motion-ease-in`      | `cubic-bezier(0.4,0,1,1)`        | Enter animations          |
+| `--motion-ease-out`     | `cubic-bezier(0,0,0.2,1)`        | Exit animations           |
+| `--motion-ease-bounce`  | `cubic-bezier(0.34,1.56,0.64,1)` | Celebration / success     |
+| `--motion-ease-default` | `cubic-bezier(0.4,0,0.2,1)`      | Alias for `--motion-ease` |
+
+### Scale Tokens
+
+| Token                  | Value  | Use                   |
+| ---------------------- | ------ | --------------------- |
+| `--motion-scale-press` | `0.98` | Button press feedback |
+| `--motion-scale-hover` | `1.02` | Card hover lift       |
+
+### Interaction Motion Rules
+
+| Interaction          | Duration                  | Easing              | Effect                  |
+| -------------------- | ------------------------- | ------------------- | ----------------------- |
+| Hover                | `--motion-fast` (150ms)   | `--motion-ease-out` | Color, shadow           |
+| Button press         | `--motion-fast` (150ms)   | `--motion-ease`     | `scale(0.98)`           |
+| Card hover lift      | `--motion-normal` (250ms) | `--motion-ease-out` | Shadow elevation        |
+| Panel / Drawer slide | `--motion-slow` (400ms)   | `--motion-ease-out` | translateX/Y            |
+| Modal                | `--motion-slow` (400ms)   | `--motion-ease-out` | scale(0.95→1) + opacity |
+| Page transition      | `--motion-slow` (400ms)   | `--motion-ease-out` | fade + slide            |
+
+**Avoid**: heavy animations that block interaction or play on loop without user trigger.
 
 ---
 
-# 10. Do’s and Don’ts
+## 8. Focus Ring
 
-## Do
+All interactive elements must show a visible focus state:
 
-- Use #222222 (light text)
-- Use #f7f7f7 (dark text)
-- Use red sparingly
-- Use soft three-layer shadows
-- Use warm typography
-- Use generous radius
+```css
+/* Applied via :focus-visible */
+outline: 2px solid var(--color-ring); /* brand red */
+outline-offset: 2px;
+```
 
-## Don’t
+| Token                 | Value               |
+| --------------------- | ------------------- |
+| `--focus-ring-width`  | 2px                 |
+| `--focus-ring-offset` | 2px                 |
+| `--focus-ring-color`  | `var(--color-ring)` |
 
-- Don’t use pure black (#000000)
-- Don’t use red as background surface
-- Don’t introduce new brand colors
-- Don’t use sharp 0px corners
-- Don’t use heavy dramatic shadows
-- Don’t hardcode colors (use tokens)
+**Rule**: `:focus` (always shown) should NOT be used for accessibility — use `:focus-visible` so keyboard users get ring, mouse users don't.
 
 ---
 
-# Final Principle
+## 9. Chart / Data Visualization Palette
 
-White (or charcoal) is canvas.  
-Photography is color.  
-Red is action.  
-Warmth is identity.  
-Soft depth creates trust.
+Used in admin dashboard only — heavier saturation for readability against neutral backgrounds.
+
+| Token             | Light     | Dark      | Semantic |
+| ----------------- | --------- | --------- | -------- |
+| `--color-chart-1` | `#ff385c` | `#ff6b87` | Brand    |
+| `--color-chart-2` | `#428bff` | `#6ea8ff` | Info     |
+| `--color-chart-3` | `#00a67e` | `#34d399` | Success  |
+| `--color-chart-4` | `#f5a623` | `#fbbf24` | Warning  |
+| `--color-chart-5` | `#460479` | `#a855f7` | Purple   |
+| `--color-chart-6` | `#92174d` | `#f472b6` | Rose     |
+
+---
+
+## 10. Component Architecture
+
+### Layer 1 — Core (`packages/ui`)
+
+Domain-agnostic primitives:
+
+```
+Button · Input · Card · Badge · Avatar · Separator · Progress · ScrollArea · Sheet
+```
+
+### Layer 2 — Storefront (`packages/ui-storefront`)
+
+Customer-facing marketplace patterns:
+
+```
+ProductCard · ListingCard · FilterPanel · CheckoutForm · CartDrawer · CartItem · PriceDisplay
+```
+
+### Layer 2 — Admin (`packages/ui-admin`)
+
+Dashboard internal patterns:
+
+```
+DataTable · Sidebar · DashboardWidget · FormBuilder · StatCard
+```
+
+### Component API Pattern
+
+```tsx
+// Variants
+<Button variant="primary" size="lg" />
+<Button variant="secondary" size="md" />
+<Button variant="outline" size="sm" />
+<Button variant="ghost" size="sm" />
+
+// Elevation
+<Card elevation="1" />        {/* card */}
+<Card elevation="2" interactive />  {/* hover lift */}
+
+// Status
+<Badge variant="success" />
+<Badge variant="warning" />
+<Badge variant="info" />
+```
+
+### Required Interaction States
+
+Every interactive component must implement:
+
+| State              | Implementation                              |
+| ------------------ | ------------------------------------------- |
+| **Hover**          | Color shift + shadow lift (`--elevation-2`) |
+| **Active / Press** | `scale(0.98)` + `color-brand-active`        |
+| **Focus Visible**  | `2px solid var(--color-ring)` outline       |
+| **Disabled**       | `opacity: 0.5` + `cursor: not-allowed`      |
+
+---
+
+## 11. Layout System
+
+### Spacing Scale (base: 8px)
+
+```
+4 · 8 · 12 · 16 · 20 · 24 · 32 · 40 · 48 · 64
+```
+
+Use multiples of 4px or 8px. Avoid arbitrary spacing values.
+
+### Grid — Column Breakpoints
+
+| Viewport   | Columns |
+| ---------- | ------- |
+| < 550px    | 1       |
+| 550–900px  | 2       |
+| 900–1200px | 3       |
+| > 1200px   | 4–5     |
+
+Use CSS Grid with `auto-fill` or Tailwind's responsive grid utilities.
+
+### Container Max Width
+
+| Surface       | Max Width |
+| ------------- | --------- |
+| Storefront    | 1280px    |
+| Admin sidebar | 260px     |
+| Admin content | fluid     |
+
+---
+
+## 12. Storefront UX Rules
+
+| Rule                              | Rationale                                                            |
+| --------------------------------- | -------------------------------------------------------------------- |
+| **Image-first layout**            | Photography carries emotional weight — hero images fill the viewport |
+| **Full-card clickable on mobile** | Larger tap targets, easier navigation                                |
+| **Soft hover lift**               | `--elevation-2` shadow + `scale(1.02)` — subtle, not aggressive      |
+| **Prioritize conversion**         | Primary CTA above the fold, secondary below                          |
+| **Free shipping threshold**       | Show progress bar when cart < $100 to drive upsell                   |
+| **Soft empty state**              | Friendly illustration + CTA, not a dead end                          |
+
+---
+
+## 13. Admin UX Rules
+
+| Rule                         | Rationale                                                        |
+| ---------------------------- | ---------------------------------------------------------------- |
+| **Data density prioritized** | More information per viewport — admin users scan, not browse     |
+| **Clear hierarchy**          | Headings, subheadings, and metadata at correct scale             |
+| **Minimal decoration**       | Reduce visual noise — focus on the data                          |
+| **Fast scanning**            | Monospace for numbers, left-aligned text, no decorative elements |
+| **Dark sidebar**             | Sidebar `#121212` creates clear separation from content area     |
+
+---
+
+## 14. Accessibility
+
+| Requirement         | Standard                                               |
+| ------------------- | ------------------------------------------------------ |
+| Color contrast      | WCAG AA (4.5:1 for text, 3:1 for UI)                   |
+| Keyboard navigation | All interactive elements reachable via Tab             |
+| Focus visible       | Ring must appear on `:focus-visible`                   |
+| Tap target          | Minimum 44×44px                                        |
+| Motion preference   | Respect `prefers-reduced-motion` — disable transitions |
+
+---
+
+## 15. Do & Don't
+
+### ✅ Do
+
+- Use semantic tokens (`var(--color-brand)`) — never hardcode `#ff385c` inline
+- Use `--elevation-card` for card surfaces
+- Keep UI soft and warm — generous radius, muted backgrounds
+- Maintain consistency — one radius token per component type
+- Reuse core components from `packages/ui` — avoid custom styles
+- Support both light and dark themes — test both surfaces
+- Use `--motion-*` tokens — not hardcoded `ms` values in CSS
+
+### ❌ Don't
+
+- Hardcode colors (`#222222`, `#ff385c`) directly in components
+- Mix admin/storefront logic — separate packages exist for a reason
+- Use pure `#000000` — use `--palette-black-soft` (`#222222`) instead
+- Add random decorative colors — brand red is reserved for actions
+- Use sharp corners on cards — `--radius-lg` (20px) minimum
+- Hardcode pixel values — use `--motion-fast`, `--radius-sm` tokens
+- Skip the focus ring — accessibility is not optional
+
+---
+
+## 16. Final Principle
+
+```
+Canvas is neutral.
+Content is emotional.
+Red is action.
+System enables scale.
+Consistency builds trust.
+```
+
+---
+
+## Appendix: Token Cheatsheet
+
+```
+COLORS
+  Brand:    --color-brand · --color-brand-hover · --color-brand-muted
+  Status:   --color-success · --color-warning · --color-info · --color-destructive
+  Surface:  --color-background · --color-surface · --color-surface-secondary
+  Text:     --color-foreground · --color-muted-foreground · --color-disabled
+
+TYPOGRAPHY
+  Sizes:    --font-size-*
+  Weights:  400 body · 500 default · 600 emphasis · 700 headings
+
+RADIUS
+  --radius-xs (4px) · --radius-sm (8px) · --radius-md (14px)
+  --radius-lg (20px) · --radius-xl (32px) · --radius-full (9999px)
+
+ELEVATION
+  --elevation-0 · --elevation-card · --elevation-hover · --elevation-dropdown · --elevation-modal
+
+MOTION
+  Durations: --motion-fast (150ms) · --motion-normal (250ms) · --motion-slow (400ms)
+  Easings:   --motion-ease · --motion-ease-in · --motion-ease-out · --motion-ease-bounce
+  Scale:     --motion-scale-press (0.98) · --motion-scale-hover (1.02)
+
+FOCUS
+  --focus-ring-width (2px) · --focus-ring-offset (2px) · --focus-ring-color (--color-ring)
+```
+
+---
+
+_Doc version: aligned with `packages/ui/src/theme/tokens.css` (authoritative source). Update this doc when tokens.css changes._

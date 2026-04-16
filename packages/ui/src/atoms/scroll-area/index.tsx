@@ -22,7 +22,7 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
           // Custom thin scrollbar
           '[&::-webkit-scrollbar]:w-1.5',
           '[&::-webkit-scrollbar-track]:bg-transparent',
-          '[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-border',
+          '[&::-webkit-scrollbar-thumb]:rounded-full [&::webkit-scrollbar-thumb]:bg-border',
           'hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/30',
           // Firefox
           'scrollbar-width-thin scrollbar-color-[var(--color-border)_transparent]',

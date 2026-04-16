@@ -56,7 +56,9 @@ function CartDrawerOpen() {
       subtotal={subtotal}
       onCheckout={() => {}}
       onRemoveItem={(id) => setItems((prev) => prev.filter((i) => i.id !== id))}
-      onUpdateQuantity={() => {}}
+      onUpdateQuantity={(id, qty) => {
+        setItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item)))
+      }}
     />
   )
 }
@@ -66,19 +68,11 @@ export const Open = {
 }
 
 export const Empty = {
-  render: () => (
-    <CartDrawer
-      open
-      onOpenChange={() => {}}
-      items={[]}
-      subtotal={0}
-      onCheckout={() => {}}
-    />
-  ),
+  render: () => <CartDrawer open onOpenChange={() => {}} items={[]} subtotal={0} onCheckout={() => {}} />,
 }
 
 function CartDrawerSingle() {
-  const { items } = useCartStories([
+  const { items, setItems } = useCartStories([
     {
       id: 'item-1',
       title: 'Wireless Headphones',
@@ -95,7 +89,9 @@ function CartDrawerSingle() {
       subtotal={89.99}
       onCheckout={() => {}}
       onRemoveItem={() => {}}
-      onUpdateQuantity={() => {}}
+      onUpdateQuantity={(id, qty) => {
+        setItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item)))
+      }}
     />
   )
 }
@@ -117,7 +113,9 @@ function CartDrawerInteractive() {
         subtotal={subtotal}
         onCheckout={() => setOpen(false)}
         onRemoveItem={(id) => setItems((prev) => prev.filter((i) => i.id !== id))}
-        onUpdateQuantity={() => {}}
+        onUpdateQuantity={(id, qty) => {
+          setItems((prev) => prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item)))
+        }}
       />
     </>
   )

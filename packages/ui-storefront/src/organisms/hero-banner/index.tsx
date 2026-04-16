@@ -1,4 +1,4 @@
-import { cn, Button } from '@ecom/ui'
+import { cn, buttonVariants } from '@ecom/ui'
 
 export interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
@@ -8,7 +8,7 @@ export interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
   backgroundImage?: string
   overlay?: boolean
   align?: 'left' | 'center' | 'right'
-  minHeight?: string
+  size?: 'sm' | 'md' | 'lg' | 'full'
 }
 
 function HeroBanner({
@@ -19,7 +19,7 @@ function HeroBanner({
   backgroundImage,
   overlay = true,
   align = 'center',
-  minHeight = '600px',
+  size = 'lg',
   className,
   ...props
 }: HeroBannerProps) {
@@ -29,8 +29,22 @@ function HeroBanner({
     right: 'items-end text-right',
   }[align]
 
+  const sizeClass = {
+    sm: 'min-h-[300px]',
+    md: 'min-h-[450px]',
+    lg: 'min-h-[600px]',
+    full: 'min-h-[100vh]',
+  }[size]
+
   return (
-    <div className={cn('hero-banner w-full bg-muted', className)} style={{ minHeight }} {...props}>
+    <div
+      className={cn(
+        'hero-banner relative w-full bg-muted overflow-hidden flex flex-col',
+        sizeClass,
+        className,
+      )}
+      {...props}
+    >
       {backgroundImage && (
         <img
           src={backgroundImage}
@@ -43,31 +57,37 @@ function HeroBanner({
 
       <div
         className={cn(
-          'relative z-10 w-full max-w-7xl mx-auto h-full flex justify-center flex-col px-6 md:px-12',
+          'relative z-10 w-full max-w-7xl mx-auto flex-1 flex justify-center flex-col px-6 md:px-12',
           alignClass,
         )}
-        style={{ minHeight }}
       >
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-white max-w-3xl leading-tight mb-4 animate-[slide-up_500ms_ease-out]">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight text-white max-w-3xl leading-tight mb-4 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both">
           {title}
         </h1>
 
         {subtitle && (
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-8 animate-[slide-up_700ms_ease-out] leading-relaxed">
+          <p
+            className="text-lg md:text-xl text-white/90 max-w-2xl mb-8 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both"
+            style={{ animationDelay: '100ms' }}
+          >
             {subtitle}
           </p>
         )}
 
         {ctaLabel && (
-          <div className="animate-[slide-up_900ms_ease-out]">
-            <Button
-              variant="brand"
-              size="xl"
-              asChild
-              className="rounded-full px-10 text-base shadow-xl"
+          <div
+            className="animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both"
+            style={{ animationDelay: '200ms' }}
+          >
+            <a
+              href={ctaHref}
+              className={cn(
+                buttonVariants({ size: 'lg' }),
+                "h-12 px-10 text-base shadow-[var(--elevation-card)] hover:shadow-[var(--elevation-hover)]"
+              )}
             >
-              <a href={ctaHref}>{ctaLabel}</a>
-            </Button>
+              {ctaLabel}
+            </a>
           </div>
         )}
       </div>

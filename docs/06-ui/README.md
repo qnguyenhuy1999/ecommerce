@@ -160,8 +160,8 @@ const buttonVariants = cva('base classes', {
   defaultVariants: { variant: 'default', size: 'default' },
 })
 
-export { Button, buttonVariants };
-export type { ButtonProps };
+export { Button, buttonVariants }
+export type { ButtonProps }
 ```
 
 ### Forward Refs
@@ -182,9 +182,9 @@ Always set `displayName` for all forwardRef components.
 Import `cn` from `@ecom/ui` or `../../lib/utils`. Never duplicate it.
 
 ```typescript
-import { cn } from "@ecom/ui";
+import { cn } from '@ecom/ui'
 // or
-import { cn } from "../../lib/utils";
+import { cn } from '../../lib/utils'
 ```
 
 ### "use client" Directive

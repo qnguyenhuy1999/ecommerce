@@ -1,22 +1,31 @@
 @import 'tailwindcss';
 
 @theme {
-  /* === Typography ======================================================== */
+  /* === Typography Scale ======================================================== */
   --font-family-base:
     'Airbnb Cereal VF', 'Circular', -apple-system, system-ui, 'Roboto', 'Helvetica Neue', sans-serif;
   --font-sans: var(--font-family-base);
 
-  /* Typography Scale */
-  --font-size-section-heading: 1.75rem;   /* 28px */
-  --font-size-card-heading: 1.375rem;     /* 22px */
-  --font-size-sub-heading: 1.3125rem;     /* 21px */
-  --font-size-feature-title: 1.25rem;     /* 20px */
-  --font-size-ui-text: 1rem;              /* 16px */
-  --font-size-body: 0.875rem;             /* 14px */
-  --font-size-small: 0.8125rem;           /* 13px */
-  --font-size-tag: 0.75rem;              /* 12px */
-  --font-size-badge: 0.6875rem;           /* 11px */
-  --font-size-micro: 0.5rem;              /* 8px */
+  /* Unified Text Scale — replaces hardcoded px values across all components */
+  --text-micro: 0.6875rem;   /* 11px — badges, legal text */
+  --text-sm: 0.875rem;      /* 14px — body default */
+  --text-base: 1rem;        /* 16px — UI text */
+  --text-lg: 1.125rem;      /* 18px — card titles */
+  --text-xl: 1.25rem;       /* 20px — section titles */
+  --text-2xl: 1.5rem;       /* 24px — page headings */
+  --text-3xl: 1.875rem;     /* 30px — hero headings */
+
+  /* Legacy aliases — backward compat, mapped to unified scale */
+  --font-size-section-heading: 1.75rem;
+  --font-size-card-heading: 1.375rem;
+  --font-size-sub-heading: 1.3125rem;
+  --font-size-feature-title: 1.25rem;
+  --font-size-ui-text: 1rem;
+  --font-size-body: 0.875rem;
+  --font-size-small: 0.8125rem;
+  --font-size-tag: 0.75rem;
+  --font-size-badge: 0.6875rem;
+  --font-size-micro: 0.5rem;
 
   /* === Semantic Colors (Light defaults) =================================== */
   --color-background: #ffffff;
@@ -49,6 +58,7 @@
 
   /* === Brand CTA (Red — action only, NOT accent) ========================= */
   --color-brand: #ff385c;
+  --color-brand-admin: #ee2d50;
   --color-brand-foreground: #ffffff;
   --color-brand-hover: #e00b41;
   --color-brand-active: #c50b38;
@@ -80,14 +90,50 @@
   --color-chart-5: #460479;
   --color-chart-6: #92174d;
 
+  /* === Spacing Scale — consistent padding/margin across components ============= */
+  --space-0: 0px;
+  --space-1: 0.25rem;    /* 4px  */
+  --space-2: 0.5rem;     /* 8px  */
+  --space-3: 0.75rem;    /* 12px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;      /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+
+  /* Component padding rules */
+  --padding-card: var(--space-6);          /* p-6 — Card, ReviewCard, CartItem */
+  --padding-card-content: var(--space-4); /* p-4 — ProductCardContent */
+  --padding-badge: var(--space-1) var(--space-2); /* px-2 py-1 — Badge padding */
+  --padding-input: var(--space-3) var(--space-3); /* px-3 py-2 — Input */
+
+  /* Component inner spacing */
+  --space-card-header: var(--space-6);
+  --space-card-footer: var(--space-6);
+  --space-list-gap: var(--space-4);
+  --space-section-gap: var(--space-6);
+
+  /* === Border Width ======================================================== */
+  --border-thin: 1px;
+  --border-medium: 2px;
+
+  /* === Focus Ring ========================================================= */
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--color-ring);
+
+  /* === Rating Star ======================================================= */
+  --color-rating-star: var(--color-brand);
+
   /* === Border Radius Scale (Semantic) ===================================== */
   --radius-xs: 4px;       /* small links, tags */
   --radius-sm: 8px;       /* buttons, inputs */
   --radius: 8px;          /* default — alias for sm */
-  --radius-md: 14px;      /* badges */
-  --radius-lg: 20px;      /* cards */
-  --radius-xl: 32px;      /* large containers, search bar */
-  --radius-full: 9999px;  /* pills, circular */
+  --radius-md: 14px;      /* badges, small cards */
+  --radius-lg: 20px;      /* cards, review cards */
+  --radius-xl: 32px;      /* large containers, search bar, drawers */
+  --radius-full: 9999px;  /* pills, circular buttons, steppers */
   --radius-card: 20px;    /* alias — backward compat */
 
   /* === Elevation / Shadow System ========================================== */
@@ -125,10 +171,31 @@
   --motion-scale-press: 0.98;
   --motion-scale-hover: 1.02;
 
-  /* === Focus Ring ========================================================= */
-  --focus-ring-width: 2px;
-  --focus-ring-offset: 2px;
-  --focus-ring-color: var(--color-ring);
+  /* === Typography Additions ============================================== */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* === Z-Index Scale ===================================================== */
+  --z-dropdown: 50;
+  --z-sticky: 40;
+  --z-modal: 50;
+  --z-overlay: 50;
+}
+
+/* === Reduced Motion Support =============================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms !important;
+    --motion-normal: 0ms !important;
+    --motion-slow: 0ms !important;
+    --motion-duration-fast: 0ms !important;
+    --motion-duration-normal: 0ms !important;
+    --motion-duration-slow: 0ms !important;
+    --motion-scale-press: 1 !important;
+    --motion-scale-hover: 1 !important;
+  }
 }
 
 /* =========================================================================
@@ -136,6 +203,18 @@
    ========================================================================= */
 :root {
   color-scheme: light;
+
+  /* Neutrals (Extended Scale) */
+  --palette-gray-50: #f9fafb;
+  --palette-gray-100: #f3f4f6;
+  --palette-gray-200: #e5e7eb;
+  --palette-gray-300: #d1d5db;
+  --palette-gray-400: #9ca3af;
+  --palette-gray-500: #6b7280;
+  --palette-gray-600: #4b5563;
+  --palette-gray-700: #374151;
+  --palette-gray-800: #1f2937;
+  --palette-gray-900: #111827;
 
   /* Background & Surfaces */
   --palette-bg-page: #ffffff;
@@ -157,6 +236,8 @@
   --palette-text-link-disabled: #929292;
   --palette-text-legal: #428bff;
   --palette-text-primary-error: #c13515;
+
+  --color-disabled: rgba(0, 0, 0, 0.24);
 
   /* Shadows (Light) */
   --palette-shadow-card:
@@ -203,6 +284,7 @@
 
   /* Brand stays identical */
   --color-brand: #ff385c;
+  --color-brand-admin: #ee2d50;
   --color-brand-foreground: #ffffff;
   --color-brand-hover: #e00b41;
   --color-brand-active: #c50b38;
@@ -266,10 +348,17 @@
   --palette-text-legal: #6ea8ff;
   --palette-text-primary-error: #ff6b5e;
 
+  --color-disabled: rgba(255, 255, 255, 0.3);
+
   --palette-shadow-card:
     0px 0px 0px 1px rgba(255, 255, 255, 0.02),
     0px 6px 16px rgba(0, 0, 0, 0.6);
   --palette-shadow-hover: 0px 8px 24px rgba(0, 0, 0, 0.8);
+
+  /* === Component Animations ============================================== */
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-float: float 6s ease-in-out infinite;
 }
 
 /* =========================================================================
@@ -296,12 +385,8 @@
    Utility Animations
    ========================================================================= */
 @keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 @keyframes fade-in {
@@ -337,4 +422,41 @@
 @keyframes counter-pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
+}
+
+@keyframes accordion-down {
+  from { height: 0; }
+  to { height: var(--radix-accordion-content-height); }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height); }
+  to { height: 0; }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+/* =========================================================================
+   Component-Specific Utility Classes
+   ========================================================================= */
+
+/* Rating star — uses CSS variable for theming */
+.rating-star {
+  color: var(--color-rating-star);
+}
+
+/* Skeleton shimmer */
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-muted) 0%,
+    var(--color-muted-foreground) 50%,
+    var(--color-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
 }

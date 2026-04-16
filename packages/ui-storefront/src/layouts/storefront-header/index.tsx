@@ -48,7 +48,7 @@ function StorefrontHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 w-full transition-all duration-[300ms]',
+        'sticky top-0 z-40 w-full transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-out)]',
         isScrolled ? 'bg-background/80 backdrop-blur-md shadow-sm py-2' : 'bg-background py-4',
         className,
       )}
@@ -139,7 +139,7 @@ function StorefrontHeader({
 
         {/* Categories Nav (Hidden on scroll for compact view) */}
         {!isScrolled && categories.length > 0 && (
-          <div className="hidden md:flex items-center justify-center gap-8 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div className="hidden md:flex items-center justify-center gap-8 animate-in fade-in slide-in-from-top-2 duration-[var(--motion-normal)]">
             {categories.map((cat, i) => (
               <a
                 key={i}

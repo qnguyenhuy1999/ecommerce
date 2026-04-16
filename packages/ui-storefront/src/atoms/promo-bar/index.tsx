@@ -2,7 +2,7 @@ import React from 'react'
 
 import { X } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn, IconButton } from '@ecom/ui'
 
 export interface PromoBarProps extends React.HTMLAttributes<HTMLDivElement> {
   message: React.ReactNode
@@ -55,15 +55,15 @@ function PromoBar({
         {content}
         <div className="w-6 shrink-0 flex justify-end">
           {dismissible && (
-            <button
+            <IconButton
+              icon={<X className="w-4 h-4" />}
+              label="Dismiss promo"
+              variant="ghost"
+              className="p-1 rounded-full"
               onClick={() => {
                 setIsVisible(false)
               }}
-              className="p-1 rounded-full hover:bg-black/10 transition-colors focus:outline-none focus:ring-2 focus:ring-current focus:ring-offset-1 focus:ring-offset-current"
-              aria-label="Dismiss promo"
-            >
-              <X className="w-4 h-4" />
-            </button>
+            />
           )}
         </div>
       </div>

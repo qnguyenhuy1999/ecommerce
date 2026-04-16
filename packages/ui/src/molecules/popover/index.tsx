@@ -4,22 +4,27 @@ import React from 'react'
 
 import { cn } from '../../lib/utils'
 
-/* --- Popover ------------------------------------------------------------- */
+/* --- Popover (controlled + uncontrolled) --------------------------------- */
 interface PopoverProps {
   children: React.ReactNode
+  /** Controlled open state */
+  open?: boolean
+  /** Controlled onOpenChange handler */
+  onOpenChange?: (open: boolean) => void
 }
 
-interface PopoverContextValue {
-  open: boolean
-  setOpen: (open: boolean) => void
-  triggerRef: React.RefObject<HTMLButtonElement | null>
-}
-
-const PopoverContext = React.createContext<PopoverContextValue | null>(null)
-
-function Popover({ children }: PopoverProps) {
-  const [open, setOpen] = React.useState(false)
+function Popover({ children, open: controlledOpen, onOpenChange }: PopoverProps) {
+  const [internalOpen, setInternalOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
+
+  // Controlled takes precedence over internal state
+  const isControlled = controlledOpen !== undefined
+  const open = isControlled ? controlledOpen : internalOpen
+
+  function setOpen(value: boolean) {
+    if (!isControlled) setInternalOpen(value)
+    onOpenChange?.(value)
+  }
 
   return (
     <PopoverContext.Provider value={{ open, setOpen, triggerRef }}>
@@ -28,7 +33,13 @@ function Popover({ children }: PopoverProps) {
   )
 }
 
-/* --- Trigger ------------------------------------------------------------- */
+const PopoverContext = React.createContext<{
+  open: boolean
+  setOpen: (open: boolean) => void
+  triggerRef: React.RefObject<HTMLButtonElement | null>
+} | null>(null)
+
+/* --- Trigger ---------------------------------------------------------------- */
 interface PopoverTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean
 }
@@ -43,9 +54,7 @@ const PopoverTrigger = React.forwardRef<HTMLButtonElement, PopoverTriggerProps>(
         ref={(node) => {
           if (typeof ref === 'function') ref(node)
           else if (ref) ref.current = node
-          if (ctx.triggerRef.current !== node) {
-            ctx.triggerRef.current = node
-          }
+          if (ctx.triggerRef.current !== node) ctx.triggerRef.current = node
         }}
         className={className}
         onClick={(e) => {
@@ -63,7 +72,7 @@ const PopoverTrigger = React.forwardRef<HTMLButtonElement, PopoverTriggerProps>(
 )
 PopoverTrigger.displayName = 'PopoverTrigger'
 
-/* --- Content ------------------------------------------------------------- */
+/* --- Content ---------------------------------------------------------------- */
 interface PopoverContentProps extends React.HTMLAttributes<HTMLDivElement> {
   align?: 'start' | 'center' | 'end'
   side?: 'top' | 'bottom'
@@ -75,56 +84,50 @@ const PopoverContent = React.forwardRef<HTMLDivElement, PopoverContentProps>(
     const ctx = React.useContext(PopoverContext)
     if (!ctx) throw new Error('PopoverContent must be used within Popover')
 
-    const { open, setOpen, triggerRef } = ctx
     const contentRef = React.useRef<HTMLDivElement>(null)
 
-    // Close on click outside
+    // Close on outside click
     React.useEffect(() => {
-      if (!open) return
-      function handleClick(e: MouseEvent) {
-        const target = e.target as Node
+      if (!ctx.open) return
+      const { setOpen, triggerRef } = ctx
+      function handle(e: MouseEvent) {
+        const t = e.target as Node
         if (
           contentRef.current &&
-          !contentRef.current.contains(target) &&
+          !contentRef.current.contains(t) &&
           triggerRef.current &&
-          !triggerRef.current.contains(target)
+          !triggerRef.current.contains(t)
         ) {
           setOpen(false)
         }
       }
-      document.addEventListener('mousedown', handleClick)
-      return () => {
-        document.removeEventListener('mousedown', handleClick)
-      }
-    }, [open, setOpen, triggerRef])
+      document.addEventListener('mousedown', handle)
+      return () => { document.removeEventListener('mousedown', handle); }
+    }, [ctx])
 
     // Close on Escape
     React.useEffect(() => {
-      if (!open) return
-      function handleKey(e: KeyboardEvent) {
+      if (!ctx.open) return
+      const { setOpen } = ctx
+      function handle(e: KeyboardEvent) {
         if (e.key === 'Escape') setOpen(false)
       }
-      document.addEventListener('keydown', handleKey)
-      return () => {
-        document.removeEventListener('keydown', handleKey)
-      }
-    }, [open, setOpen])
+      document.addEventListener('keydown', handle)
+      return () => { document.removeEventListener('keydown', handle); }
+    }, [ctx])
 
-    if (!open) return null
+    if (!ctx.open) return null
 
     return (
       <div
         ref={(node) => {
           if (typeof ref === 'function') ref(node)
           else if (ref) ref.current = node
-          if (contentRef.current !== node) {
-            contentRef.current = node
-          }
+          contentRef.current = node
         }}
         className={cn(
           'absolute z-50 min-w-[8rem] rounded-[8px] border bg-popover p-4 text-popover-foreground',
-          'shadow-[var(--elevation-dropdown)]',
-          'animate-[scale-in_150ms_ease-out]',
+          'shadow-[var(--elevation-dropdown)] animate-[scale-in_150ms_ease-out]',
           side === 'bottom' && 'top-full mt-2',
           side === 'top' && 'bottom-full mb-2',
           align === 'start' && 'left-0',

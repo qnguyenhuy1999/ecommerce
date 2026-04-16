@@ -97,23 +97,23 @@ function ToastItem({ toast }: { toast: ToastData }) {
   return (
     <div
       className={cn(
-        'relative flex w-full items-start gap-3 rounded-[8px] border p-4 shadow-[var(--elevation-dropdown)]',
-        'transition-all duration-200',
-        exiting ? 'opacity-0 translate-x-4' : 'opacity-100 translate-x-0',
-        'animate-[slide-up_250ms_ease-out]',
+        'relative flex w-full items-start gap-3 rounded-[var(--radius-lg)] border p-4 shadow-[var(--elevation-dropdown)] overflow-hidden',
+        'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-out)]',
+        exiting ? 'opacity-0 translate-x-4 scale-95' : 'opacity-100 translate-x-0 scale-100',
+        'animate-in fade-in slide-in-from-right-8 duration-[var(--motion-normal)]',
         variantStyles[toast.variant || 'default'],
       )}
       role="alert"
     >
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold leading-tight">{toast.title}</p>
+        <p className="text-[var(--text-sm)] font-semibold leading-tight">{toast.title}</p>
         {toast.description && (
-          <p className="mt-1 text-sm text-muted-foreground">{toast.description}</p>
+          <p className="mt-1 text-[var(--text-sm)] text-muted-foreground">{toast.description}</p>
         )}
         {toast.action && (
           <button
             onClick={toast.action.onClick}
-            className="mt-2 text-sm font-medium text-brand hover:text-brand-hover transition-colors"
+            className="mt-2 text-[var(--text-sm)] font-medium text-brand hover:text-brand-hover transition-colors duration-[var(--motion-fast)]"
           >
             {toast.action.label}
           </button>
@@ -123,11 +123,18 @@ function ToastItem({ toast }: { toast: ToastData }) {
         onClick={() => {
           setExiting(true)
         }}
-        className="shrink-0 rounded-[4px] p-0.5 opacity-60 hover:opacity-100 transition-opacity"
+        className="shrink-0 rounded-[var(--radius-xs)] p-1 opacity-60 hover:opacity-100 hover:bg-foreground/5 transition-all duration-[var(--motion-fast)]"
         aria-label="Dismiss"
       >
         <X className="h-3.5 w-3.5" />
       </button>
+      {/* Progress countdown bar */}
+      <div
+        className="absolute bottom-0 left-0 h-[2px] bg-current opacity-20"
+        style={{
+          animation: `toast-countdown ${String(toast.duration ?? 5000)}ms linear forwards`,
+        }}
+      />
     </div>
   )
 }
@@ -139,16 +146,23 @@ function Toaster() {
   if (toasts.length === 0) return null
 
   return (
-    <div
-      className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2 w-full max-w-sm pointer-events-none"
-      aria-live="polite"
-    >
-      {toasts.map((toast) => (
-        <div key={toast.id} className="pointer-events-auto">
-          <ToastItem toast={toast} />
-        </div>
-      ))}
-    </div>
+    <>
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `@keyframes toast-countdown { from { width: 100%; } to { width: 0%; } }`,
+        }}
+      />
+      <div
+        className="fixed bottom-4 right-4 z-[100] flex flex-col gap-2.5 w-full max-w-sm pointer-events-none"
+        aria-live="polite"
+      >
+        {toasts.map((toast) => (
+          <div key={toast.id} className="pointer-events-auto">
+            <ToastItem toast={toast} />
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 

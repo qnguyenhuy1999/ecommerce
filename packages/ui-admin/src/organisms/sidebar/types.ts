@@ -6,7 +6,8 @@ export interface SidebarNavItem {
   icon?: React.ReactNode
   badge?: string | number
   onClick?: () => void
-  children?: { label: string; href: string }[]
+  isActive?: boolean
+  children?: { label: string; href: string; isActive?: boolean }[]
 }
 
 export interface SidebarNavGroup {
@@ -19,4 +20,6 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   navGroups?: SidebarNavGroup[]
   footer?: React.ReactNode
   collapsed?: boolean
+  onNavigate?: (href: string) => void
+  currentPath?: string
 }

@@ -139,20 +139,20 @@ export class CreateProductDto {
   @IsString()
   @MinLength(1)
   @MaxLength(255)
-  name: string;
+  name: string
 
   @IsNumber()
   @Min(0.01)
-  price: number;
+  price: number
 
   @IsString()
   @IsUUID()
-  categoryId: string;
+  categoryId: string
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  images: string[];
+  images: string[]
 }
 ```
 

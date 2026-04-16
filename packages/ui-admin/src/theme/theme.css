@@ -27,7 +27,7 @@
     border-right: 1px solid var(--color-border);
     display: flex;
     flex-direction: column;
-    transition: width var(--motion-duration-normal) var(--motion-ease-default);
+    transition: width var(--motion-normal) var(--motion-ease-default);
     z-index: 30;
   }
 
@@ -45,8 +45,8 @@
     font-weight: 500;
     color: var(--color-foreground);
     transition:
-      background-color var(--motion-duration-fast) var(--motion-ease-default),
-      color var(--motion-duration-fast) var(--motion-ease-default);
+      background-color var(--motion-fast) var(--motion-ease-default),
+      color var(--motion-fast) var(--motion-ease-default);
     cursor: pointer;
     text-decoration: none;
     border-left: 2px solid transparent;
@@ -77,7 +77,7 @@
     align-items: center;
     padding: 0 1.5rem;
     z-index: 20;
-    transition: left var(--motion-duration-normal) var(--motion-ease-default);
+    transition: left var(--motion-normal) var(--motion-ease-default);
   }
 
   .admin-header--sidebar-collapsed {
@@ -89,7 +89,7 @@
     margin-left: var(--admin-sidebar-width);
     padding-top: var(--admin-header-height);
     min-height: 100vh;
-    transition: margin-left var(--motion-duration-normal) var(--motion-ease-default);
+    transition: margin-left var(--motion-normal) var(--motion-ease-default);
   }
 
   .admin-content--sidebar-collapsed {
@@ -101,8 +101,8 @@
     border-radius: var(--radius-lg);
     box-shadow: var(--elevation-card);
     transition:
-      box-shadow var(--motion-duration-normal) var(--motion-ease-default),
-      transform var(--motion-duration-normal) var(--motion-ease-default);
+      box-shadow var(--motion-normal) var(--motion-ease-default),
+      transform var(--motion-normal) var(--motion-ease-default);
   }
 
   .admin-stat-card:hover {
@@ -132,6 +132,18 @@
     padding: 0.5rem 1rem;
     background-color: var(--color-brand-muted);
     border-bottom: 1px solid var(--color-brand);
-    animation: slide-down var(--motion-duration-fast) var(--motion-ease-out);
+    animation: slide-down var(--motion-fast) var(--motion-ease-out);
+  }
+
+  @keyframes indeterminate {
+    0% {
+      transform: translateX(-100%) scaleX(0.2);
+    }
+    50% {
+      transform: translateX(0%) scaleX(0.5);
+    }
+    100% {
+      transform: translateX(200%) scaleX(0.2);
+    }
   }
 }

@@ -49,7 +49,7 @@ function NewsletterSignup({
       <p className="text-muted-foreground max-w-md mx-auto mb-8">{description}</p>
 
       {status === 'success' ? (
-        <div className="flex flex-col items-center justify-center p-4 animate-in slide-in-from-bottom-2 duration-300">
+        <div className="flex flex-col items-center justify-center p-4 animate-in slide-in-from-bottom-2 fade-in duration-[var(--motion-normal)] fill-mode-both">
           <div className="w-12 h-12 bg-success-muted rounded-full flex items-center justify-center mb-3">
             <CheckCircle2 className="w-6 h-6 text-success" />
           </div>

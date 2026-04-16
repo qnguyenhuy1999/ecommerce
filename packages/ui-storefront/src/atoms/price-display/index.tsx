@@ -23,9 +23,9 @@ function PriceDisplay({
   const hasSale = originalPrice !== undefined && originalPrice > price
 
   const textSizes = {
-    sm: { price: 'text-sm', original: 'text-xs' },
-    default: { price: 'text-base', original: 'text-sm' },
-    lg: { price: 'text-xl', original: 'text-base' },
+    sm: { price: 'text-[var(--text-sm)]', original: 'text-[var(--text-micro)]' },
+    default: { price: 'text-[var(--text-base)]', original: 'text-[var(--text-sm)]' },
+    lg: { price: 'text-[var(--text-xl)]', original: 'text-[var(--text-base)]' },
   }[size]
 
   return (
@@ -39,18 +39,26 @@ function PriceDisplay({
       >
         {formatter.format(price)}
       </span>
+
       {hasSale && (
         <>
           <span
             className={cn(
-              'text-muted-foreground line-through decoration-muted-foreground/50 font-medium translate-y-[1px]',
+              'text-muted-foreground line-through decoration-muted-foreground/50 font-medium tabular-nums',
               textSizes.original,
             )}
           >
             {formatter.format(originalPrice)}
           </span>
+          {/* Discount badge — token-based radius + text */}
           {size !== 'sm' && (
-            <span className="text-[10px] font-bold text-brand uppercase tracking-wider bg-brand-muted px-1.5 py-0.5 rounded-[4px] ml-1">
+            <span
+              className={cn(
+                'font-bold text-[var(--text-micro)] uppercase tracking-wider',
+                'bg-brand-muted text-brand',
+                'px-1.5 py-0.5 rounded-[var(--radius-xs)]',
+              )}
+            >
               {Math.round(((originalPrice - price) / originalPrice) * 100)}% Off
             </span>
           )}
