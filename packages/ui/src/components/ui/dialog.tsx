@@ -12,4 +12,4 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from '../../molecules/dialog'
+} from '../../molecules/Dialog/Dialog'

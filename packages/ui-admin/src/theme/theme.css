@@ -1,17 +1,41 @@
-@import '@ecom/ui/styles';
+@import "tailwindcss";
+@import '@ecom/design-tokens/styles';
 
 @layer base {
   :root {
+    /* Admin Density Override */
+    --density-active: var(--density-compact);
+
     /* Admin Layout */
     --admin-sidebar-width: 16rem;
     --admin-sidebar-collapsed-width: 4rem;
     --admin-header-height: 3.5rem;
     --admin-content-max-width: 80rem;
 
-    /* Admin Active State */
-    --admin-active-bg: var(--color-brand-muted);
-    --admin-active-border: var(--color-brand);
-    --admin-active-text: var(--color-brand);
+    /* Tier 3 — Admin Component Tokens */
+    --stat-card-bg: var(--surface-base);
+    --stat-card-text: var(--text-primary);
+    --stat-card-radius: var(--radius-lg);
+    --stat-card-shadow: var(--elevation-surface);
+    --stat-card-shadow-hover: var(--elevation-floating);
+    --stat-card-icon-bg: var(--surface-muted);
+    --stat-card-trend-bg-success: var(--intent-success-muted);
+    --stat-card-trend-bg-danger: var(--intent-danger-muted);
+    
+    --metric-card-bg: var(--surface-base);
+    --metric-card-text: var(--text-primary);
+    --metric-card-radius: var(--radius-lg);
+    --metric-card-shadow: var(--elevation-surface);
+    --metric-card-shadow-hover: var(--elevation-floating);
+    
+    --data-table-radius: var(--radius-sm);
+    --data-table-shadow: var(--elevation-surface);
+    --data-table-toolbar-bg: var(--surface-base);
+    --data-table-toolbar-border: var(--border-default);
+    --data-table-bulk-bg: var(--action-muted);
+    --data-table-bulk-border: var(--action-primary);
+    
+    --status-badge-radius: var(--radius-full);
   }
 }
 
@@ -23,12 +47,12 @@
     position: fixed;
     left: 0;
     top: 0;
-    background-color: var(--color-background);
-    border-right: 1px solid var(--color-border);
+    background-color: var(--surface-base);
+    border-right: var(--border-width-1) solid var(--border-default);
     display: flex;
     flex-direction: column;
-    transition: width var(--motion-normal) var(--motion-ease-default);
-    z-index: 30;
+    transition: width var(--duration-normal) var(--ease-in-out);
+    z-index: var(--layer-overlay);
   }
 
   .admin-sidebar--collapsed {
@@ -38,30 +62,43 @@
   .admin-sidebar__nav-item {
     display: flex;
     align-items: center;
-    gap: 0.625rem;
-    padding: 0.5rem 0.75rem;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
     border-radius: var(--radius-sm);
-    font-size: var(--font-size-body);
-    font-weight: 500;
-    color: var(--color-foreground);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-secondary);
     transition:
-      background-color var(--motion-fast) var(--motion-ease-default),
-      color var(--motion-fast) var(--motion-ease-default);
+      background-color var(--duration-fast) var(--ease-in-out),
+      color var(--duration-fast) var(--ease-in-out);
     cursor: pointer;
     text-decoration: none;
-    border-left: 2px solid transparent;
+    position: relative;
   }
 
   .admin-sidebar__nav-item:hover {
-    background-color: var(--color-accent);
-    color: var(--color-accent-foreground);
+    background-color: var(--state-hover);
+    color: var(--text-primary);
   }
 
   .admin-sidebar__nav-item--active {
-    background-color: var(--admin-active-bg);
-    color: var(--admin-active-text);
-    border-left-color: var(--admin-active-border);
-    font-weight: 600;
+    background-color: var(--state-selected);
+    color: var(--text-primary);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  /* Dot indicator for active state */
+  .admin-sidebar__nav-item--active::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--space-3) + var(--border-width-1));
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3px;
+    height: 60%;
+    min-height: 1.25rem;
+    border-radius: var(--radius-full);
+    background-color: var(--action-primary);
   }
 
   /* Header ----------------------------------------------------------------- */
@@ -71,13 +108,11 @@
     top: 0;
     left: var(--admin-sidebar-width);
     right: 0;
-    background-color: var(--color-background);
-    border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
-    padding: 0 1.5rem;
-    z-index: 20;
-    transition: left var(--motion-normal) var(--motion-ease-default);
+    padding: 0 var(--space-6);
+    z-index: var(--layer-dropdown);
+    transition: left var(--duration-normal) var(--ease-in-out);
   }
 
   .admin-header--sidebar-collapsed {
@@ -89,7 +124,7 @@
     margin-left: var(--admin-sidebar-width);
     padding-top: var(--admin-header-height);
     min-height: 100vh;
-    transition: margin-left var(--motion-normal) var(--motion-ease-default);
+    transition: margin-left var(--duration-normal) var(--ease-in-out);
   }
 
   .admin-content--sidebar-collapsed {
@@ -98,41 +133,58 @@
 
   /* Stat Card -------------------------------------------------------------- */
   .admin-stat-card {
-    border-radius: var(--radius-lg);
-    box-shadow: var(--elevation-card);
+    background-color: var(--stat-card-bg);
+    color: var(--stat-card-text);
+    border-radius: var(--stat-card-radius);
+    box-shadow: var(--stat-card-shadow);
     transition:
-      box-shadow var(--motion-normal) var(--motion-ease-default),
-      transform var(--motion-normal) var(--motion-ease-default);
+      box-shadow var(--duration-normal) var(--ease-in-out),
+      transform var(--duration-normal) var(--ease-in-out);
   }
 
   .admin-stat-card:hover {
-    box-shadow: var(--elevation-hover);
+    box-shadow: var(--stat-card-shadow-hover);
+  }
+
+  /* Metric Card -------------------------------------------------------------- */
+  .admin-metric-card {
+    background-color: var(--metric-card-bg);
+    color: var(--metric-card-text);
+    border-radius: var(--metric-card-radius);
+    box-shadow: var(--metric-card-shadow);
+    transition:
+      box-shadow var(--duration-normal) var(--ease-in-out),
+      transform var(--duration-normal) var(--ease-in-out);
+  }
+
+  .admin-metric-card:hover {
+    box-shadow: var(--metric-card-shadow-hover);
   }
 
   /* Data Table ------------------------------------------------------------- */
   .admin-data-table {
-    border-radius: var(--radius-sm);
+    border-radius: var(--data-table-radius);
     overflow: hidden;
-    box-shadow: var(--elevation-card);
+    box-shadow: var(--data-table-shadow);
   }
 
   .admin-data-table__toolbar {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid var(--color-border);
-    background-color: var(--color-background);
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: var(--border-width-1) solid var(--data-table-toolbar-border);
+    background-color: var(--data-table-toolbar-bg);
   }
 
   .admin-data-table__bulk-bar {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 1rem;
-    background-color: var(--color-brand-muted);
-    border-bottom: 1px solid var(--color-brand);
-    animation: slide-down var(--motion-fast) var(--motion-ease-out);
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-4);
+    background-color: var(--data-table-bulk-bg);
+    border-bottom: var(--border-width-1) solid var(--data-table-bulk-border);
+    animation: slide-down var(--duration-fast) var(--ease-out);
   }
 
   @keyframes indeterminate {

@@ -41,9 +41,11 @@
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-unused-imports": "^4.4.1",
+    "madge": "^8.0.0",
     "prettier": "^3.2.0",
     "turbo": "^2.0.0",
-    "typescript": "^5.4.0"
+    "typescript": "^5.4.0",
+    "vite": "^7.1.12"
   },
   "prettier": "./.prettierrc.mjs",
   "engines": {

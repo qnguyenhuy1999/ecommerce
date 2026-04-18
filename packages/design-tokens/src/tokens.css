@@ -1,0 +1,747 @@
+/* =========================================================================
+   @ecom/design-tokens — Design Token System
+   Single Source of Truth for all ECOM packages
+   ========================================================================= */
+
+/* =========================================================================
+   TIER 1 — PRIMITIVES
+   Raw values only. No semantic meaning. No component references.
+   ========================================================================= */
+:root {
+  /* --- Colors — Neutral Scale --- */
+  --gray-0: #ffffff;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-850: #1c1c1c; /* Deep surface */
+  --gray-900: #121212; /* Near black */
+  --gray-950: #000000;
+
+  /* Primitive RGB values for opacity mixing */
+  --gray-0-rgb: 255 255 255;
+  --gray-50-rgb: 249 250 251;
+  --gray-100-rgb: 243 244 246;
+  --gray-200-rgb: 229 231 235;
+  --gray-300-rgb: 209 213 219;
+  --gray-400-rgb: 156 163 175;
+  --gray-500-rgb: 107 114 128;
+  --gray-600-rgb: 75 85 99;
+  --gray-700-rgb: 55 65 81;
+  --gray-800-rgb: 31 41 55;
+  --gray-850-rgb: 28 28 28;
+  --gray-900-rgb: 18 18 18;
+  --gray-950-rgb: 0 0 0;
+
+  /* Basic Shadow Base (neutral) */
+  --shadow-base-rgb: 0 0 0;
+
+  /* --- Colors — Brand Scale --- */
+  --brand-300: #ff6b87;
+  --brand-400: #ee2d50;
+  --brand-500: #ff385c;
+  --brand-600: #e00b41;
+  --brand-700: #c50b38;
+  --brand-800: #92174d;
+  --brand-900: #460479;
+
+  --brand-500-rgb: 255 56 92;
+
+  /* --- Colors — Chart Extensions --- */
+  --purple-500: #a855f7;
+  --pink-400: #f472b6;
+  --purple-500-rgb: 168 85 247;
+  --pink-400-rgb: 244 114 182;
+
+  /* --- Colors — Status Scale --- */
+  /* Success */
+  --success-400: #34d399;
+  --success-500: #00a67e;
+  --success-400-rgb: 52 211 153;
+  --success-500-rgb: 0 166 126;
+
+  /* Warning */
+  --warning-400: #fbbf24;
+  --warning-500: #f5a623;
+  --warning-400-rgb: 251 191 36;
+  --warning-500-rgb: 245 166 35;
+
+  /* Error / Destructive */
+  --error-400: #ff6b5e;
+  --error-500: #c13515;
+  --error-400-rgb: 255 107 94;
+  --error-500-rgb: 193 53 21;
+
+  /* Info */
+  --info-400: #6ea8ff;
+  --info-500: #428bff;
+  --info-400-rgb: 110 168 255;
+  --info-500-rgb: 66 139 255;
+
+  /* --- Typography Scale --- */
+  --font-sans:
+    'Airbnb Cereal VF', 'Circular', -apple-system, system-ui, 'Roboto', 'Helvetica Neue', sans-serif;
+
+  --text-micro: 0.6875rem; /* 11px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* --- Spacing Scale --- */
+  --space-0: 0px;
+  --space-1: 0.25rem; /* 4px  */
+  --space-2: 0.5rem; /* 8px  */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+
+  /* --- Border Width Scale --- */
+  --border-width-0: 0px;
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+
+  /* --- Radius Scale --- */
+  --radius-0: 0px;
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-full: 9999px;
+
+  /* --- Opacity Scale --- */
+  --opacity-0: 0;
+  --opacity-5: 0.05;
+  --opacity-10: 0.1;
+  --opacity-15: 0.15;
+  --opacity-24: 0.24;
+  --opacity-30: 0.3;
+  --opacity-40: 0.4;
+  --opacity-60: 0.6;
+  --opacity-70: 0.7;
+  --opacity-80: 0.8;
+  --opacity-90: 0.9;
+  --opacity-100: 1;
+
+  /* --- Layout Width Scale --- */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+  --container-2xl: 1536px;
+
+  /* --- Density Scale (Base Multipliers) --- */
+  --density-scale-compact: 0.75;
+  --density-scale-default: 1;
+  --density-scale-comfortable: 1.25;
+
+  /* --- Elevation Raw --- */
+  --shadow-raw-xs: 0px 2px 6px;
+  --shadow-raw-sm: 0px 4px 8px;
+  --shadow-raw-md: 0px 4px 12px;
+  --shadow-raw-lg: 0px 4px 16px;
+  --shadow-raw-xl: 0px 16px 48px;
+
+  /* --- Motion Raw --- */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --scale-press: 0.98;
+  --scale-hover: 1.02;
+
+  /* --- Z-Index Scale --- */
+  --z-0: 0;
+  --z-10: 10;
+  --z-20: 20;
+  --z-30: 30;
+  --z-40: 40;
+  --z-50: 50;
+  --z-60: 60;
+  --z-max: 9999;
+}
+
+/* =========================================================================
+   TIER 2 — SEMANTIC TOKENS (Light Theme Default)
+   Meaning-based. Must reference primitives ONLY.
+   ========================================================================= */
+:root {
+  color-scheme: light;
+
+  /* --- Background --- */
+  --color-background: var(--gray-0);
+  --color-foreground: var(--gray-900);
+
+  /* --- Surface Hierarchy --- */
+  --surface-base: var(--gray-0);
+  --surface-elevated: var(--gray-0);
+  --surface-overlay: var(--gray-0);
+  --surface-muted: var(--gray-50);
+  --surface-subtle: var(--gray-100);
+  --surface-inverse: var(--gray-900);
+  --surface-inverse-foreground: var(--gray-0);
+
+  /* --- State Model (Tier 2.1) Opacity overlays --- */
+  --state-hover: rgb(var(--gray-950-rgb) / var(--opacity-5));
+  --state-active: rgb(var(--gray-950-rgb) / var(--opacity-10));
+  --state-selected: rgb(var(--brand-500-rgb) / var(--opacity-10));
+  --state-focus: var(--brand-500);
+  --state-disabled: rgb(var(--gray-950-rgb) / var(--opacity-10));
+
+  /* --- Generic Interactive Surfaces --- */
+  --interactive-bg: transparent;
+  --interactive-hover: var(--gray-50);
+  --interactive-active: var(--gray-100);
+
+  /* --- Surface States --- */
+  --surface-hover: var(--gray-50);
+  --surface-active: var(--gray-100);
+  --surface-disabled: rgb(var(--gray-950-rgb) / var(--opacity-5));
+
+  /* --- Text --- */
+  --text-primary: var(--gray-900);
+  --text-secondary: var(--gray-500);
+  --text-tertiary: var(--gray-400);
+  --text-disabled: rgb(var(--gray-950-rgb) / var(--opacity-24));
+  --text-inverse: var(--gray-0);
+
+  --text-link: var(--brand-500);
+  --text-link-hover: var(--brand-600);
+
+  --text-success: var(--success-500);
+  --text-danger: var(--error-500);
+  --text-warning: var(--warning-500);
+  --text-info: var(--info-500);
+
+  /* --- Border --- */
+  --border-subtle: var(--gray-200);
+  --border-default: var(--gray-300);
+  --border-strong: var(--gray-400);
+  --border-disabled: rgb(var(--gray-950-rgb) / var(--opacity-10));
+
+  /* --- Interactive States (Buttons/Actions) --- */
+  --action-primary: var(--gray-900);
+  --action-primary-hover: var(--gray-800);
+  --action-primary-active: var(--gray-700);
+  --action-primary-foreground: var(--gray-0);
+
+  --action-secondary: var(--gray-100);
+  --action-secondary-hover: var(--gray-200);
+  --action-secondary-active: var(--gray-300);
+  --action-secondary-foreground: var(--gray-900);
+
+  --action-muted: rgb(var(--brand-500-rgb) / var(--opacity-10));
+  --action-disabled-bg: rgb(var(--gray-950-rgb) / var(--opacity-10));
+  --action-disabled-fg: rgb(var(--gray-950-rgb) / var(--opacity-24));
+
+  /* --- Intent (Success / Warning / Danger / Info) --- */
+  --intent-success: var(--success-500);
+  --intent-success-foreground: var(--gray-0);
+  --intent-success-muted: rgb(var(--success-500-rgb) / var(--opacity-10));
+
+  --intent-warning: var(--warning-500);
+  --intent-warning-foreground: var(--gray-900);
+  --intent-warning-muted: rgb(var(--warning-500-rgb) / var(--opacity-10));
+
+  --intent-danger: var(--error-500);
+  --intent-danger-foreground: var(--gray-0);
+  --intent-danger-muted: rgb(var(--error-500-rgb) / var(--opacity-10));
+
+  --intent-info: var(--info-500);
+  --intent-info-foreground: var(--gray-0);
+  --intent-info-muted: rgb(var(--info-500-rgb) / var(--opacity-10));
+
+  /* --- Focus Ring --- */
+  --focus-ring-color: var(--brand-500);
+  --focus-ring-width: var(--border-width-2);
+  --focus-ring-offset: var(--border-width-2);
+
+  /* --- Overlay --- */
+  --overlay-bg: rgb(var(--gray-950-rgb) / var(--opacity-60));
+
+  /* --- Shadow Colors --- */
+  --shadow-opacity-1: var(--opacity-10);
+  --shadow-opacity-2: var(--opacity-15);
+  --shadow-opacity-3: var(--opacity-24);
+  --shadow-color-1: rgb(var(--shadow-base-rgb) / var(--shadow-opacity-1));
+  --shadow-color-2: rgb(var(--shadow-base-rgb) / var(--shadow-opacity-2));
+  --shadow-color-3: rgb(var(--shadow-base-rgb) / var(--shadow-opacity-3));
+
+  /* --- Elevation --- */
+  --elevation-surface:
+    0px 0px 0px var(--border-width-1) rgb(var(--shadow-base-rgb) / var(--opacity-5)),
+    var(--shadow-raw-xs) var(--shadow-color-1), var(--shadow-raw-sm) var(--shadow-color-2);
+  --elevation-floating: var(--shadow-raw-md) var(--shadow-color-2);
+  --elevation-dropdown: var(--shadow-raw-lg) var(--shadow-color-3);
+  --elevation-modal: var(--shadow-raw-xl) var(--shadow-color-3);
+
+  /* --- Z-Index Layer --- */
+  --layer-base: var(--z-0);
+  --layer-sticky: var(--z-10);
+  --layer-dropdown: var(--z-20);
+  --layer-overlay: var(--z-30);
+  --layer-modal: var(--z-40);
+  --layer-toast: var(--z-50);
+
+  /* --- NEW: Color Rating Star --- */
+  --color-rating-star: var(--intent-warning);
+
+  /* --- NEW: Motion Lift --- */
+  --motion-lift: translateY(-4px);
+}
+
+/* =========================================================================
+   TIER 2 — SEMANTIC TOKENS (Dark Theme Override)
+   Override ONLY semantic tokens here.
+   ========================================================================= */
+.dark {
+  color-scheme: dark;
+
+  /* --- Background --- */
+  --color-background: var(--gray-900);
+  --color-foreground: var(--gray-50);
+
+  /* --- Surface Hierarchy --- */
+  --surface-base: var(--gray-900);
+  --surface-elevated: var(--gray-850);
+  --surface-overlay: var(--gray-800);
+  --surface-muted: var(--gray-800);
+  --surface-subtle: var(--gray-700);
+  --surface-inverse: var(--gray-0);
+  --surface-inverse-foreground: var(--gray-900);
+
+  /* --- State Model (Tier 2.1) Opacity overlays --- */
+  --state-hover: rgb(var(--gray-0-rgb) / var(--opacity-10));
+  --state-active: rgb(var(--gray-0-rgb) / var(--opacity-15));
+  --state-selected: rgb(var(--brand-500-rgb) / var(--opacity-15));
+  --state-focus: var(--brand-400);
+  --state-disabled: rgb(var(--gray-0-rgb) / var(--opacity-10));
+
+  /* --- Generic Interactive Surfaces --- */
+  --interactive-bg: transparent;
+  --interactive-hover: var(--gray-800);
+  --interactive-active: var(--gray-700);
+
+  /* --- Surface States --- */
+  --surface-hover: var(--gray-800);
+  --surface-active: var(--gray-700);
+  --surface-disabled: rgb(var(--gray-0-rgb) / var(--opacity-10));
+
+  /* --- Text --- */
+  --text-primary: var(--gray-50);
+  --text-secondary: var(--gray-400);
+  --text-tertiary: var(--gray-500);
+  --text-disabled: rgb(var(--gray-0-rgb) / var(--opacity-30));
+  --text-inverse: var(--gray-900);
+
+  --text-success: var(--success-400);
+  --text-danger: var(--error-400);
+  --text-warning: var(--warning-400);
+  --text-info: var(--info-400);
+
+  /* --- Border --- */
+  --border-subtle: rgb(var(--gray-0-rgb) / var(--opacity-5));
+  --border-default: rgb(var(--gray-0-rgb) / var(--opacity-10));
+  --border-strong: rgb(var(--gray-0-rgb) / var(--opacity-15));
+  --border-disabled: rgb(var(--gray-0-rgb) / var(--opacity-5));
+
+  /* --- Interactive States --- */
+  --action-secondary: var(--gray-800);
+  --action-secondary-hover: var(--gray-700);
+  --action-secondary-active: var(--gray-600);
+  --action-secondary-foreground: var(--gray-50);
+
+  --action-muted: rgb(var(--brand-500-rgb) / var(--opacity-15));
+  --action-disabled-bg: rgb(var(--gray-0-rgb) / var(--opacity-10));
+  --action-disabled-fg: rgb(var(--gray-0-rgb) / var(--opacity-30));
+
+  /* --- Intent (Success / Warning / Danger / Info) --- */
+  --intent-success: var(--success-400);
+  --intent-success-foreground: var(--gray-900);
+  --intent-success-muted: rgb(var(--success-400-rgb) / var(--opacity-15));
+
+  --intent-warning: var(--warning-400);
+  --intent-warning-foreground: var(--gray-900);
+  --intent-warning-muted: rgb(var(--warning-400-rgb) / var(--opacity-15));
+
+  --intent-danger: var(--error-400);
+  --intent-danger-foreground: var(--gray-900);
+  --intent-danger-muted: rgb(var(--error-400-rgb) / var(--opacity-15));
+
+  --intent-info: var(--info-400);
+  --intent-info-foreground: var(--gray-900);
+  --intent-info-muted: rgb(var(--info-400-rgb) / var(--opacity-15));
+
+  /* --- Overlay --- */
+  --overlay-bg: rgb(var(--gray-950-rgb) / var(--opacity-80));
+
+  /* --- Shadow Colors (Dark Mode Overrides) --- */
+  --shadow-opacity-1: var(--opacity-60);
+  --shadow-opacity-2: var(--opacity-80);
+  --shadow-opacity-3: var(--opacity-90);
+  --shadow-color-1: rgb(var(--shadow-base-rgb) / var(--shadow-opacity-1));
+  --shadow-color-2: rgb(var(--shadow-base-rgb) / var(--shadow-opacity-2));
+  --shadow-color-3: rgb(var(--shadow-base-rgb) / var(--shadow-opacity-3));
+
+  /* Keep --elevation-surface var(--border-width-1) override for dark mode */
+  --elevation-surface:
+    0px 0px 0px var(--border-width-1) rgb(var(--gray-0-rgb) / var(--opacity-5)),
+    var(--shadow-raw-xs) var(--shadow-color-1), var(--shadow-raw-sm) var(--shadow-color-2);
+}
+
+/* =========================================================================
+   TIER 2.3 — DENSITY MODEL
+   Scale-aware spacing and sizing multipliers.
+   ========================================================================= */
+:root {
+  --density-scale: 1;
+  --density-multiplier: 1;
+  --density-compact-multiplier: 0.875;
+  --density-default-multiplier: 1;
+  --density-comfortable-multiplier: 1.125;
+}
+
+/* =========================================================================
+   TIER 3 — COMPONENT TOKENS
+   Usage-based. Must reference meaning-based or primitive tokens only.
+   ========================================================================= */
+:root {
+  /* --- Layout --- */
+  --layout-max-width: var(--container-xl);
+  --section-gap: var(--space-10);
+  --header-height: calc(var(--space-12) + var(--space-4));
+
+  /* --- Card --- */
+  --card-bg: var(--surface-base);
+  --card-fg: var(--text-primary);
+  --card-border: var(--border-default);
+  --card-padding: var(--space-6);
+  --card-gap: var(--space-4);
+  --card-radius: var(--radius-lg);
+  --card-elevation: var(--elevation-surface);
+  --card-elevation-hover: var(--elevation-floating);
+
+  /* --- Button Sizes --- */
+  --button-radius: var(--radius-sm);
+  --button-font-weight: var(--font-weight-semibold);
+  --button-transition-duration: var(--duration-fast);
+  --button-transition-ease: var(--ease-in-out);
+
+  --button-size-sm-padding-x: var(--space-3);
+  --button-size-sm-padding-y: var(--space-1);
+  --button-size-sm-font-size: var(--text-sm);
+
+  --button-size-md-padding-x: var(--space-4);
+  --button-size-md-padding-y: var(--space-2);
+  --button-size-md-font-size: var(--text-base);
+
+  --button-size-lg-padding-x: var(--space-6);
+  --button-size-lg-padding-y: var(--space-3);
+  --button-size-lg-font-size: var(--text-lg);
+
+  /* --- Input Sizes --- */
+  --input-bg: var(--surface-base);
+  --input-fg: var(--text-primary);
+  --input-border: var(--border-default);
+  --input-placeholder: var(--text-secondary);
+  --input-radius: var(--radius-sm);
+  --input-focus-ring: var(--focus-ring-color);
+
+  --input-size-sm-padding-x: var(--space-2);
+  --input-size-sm-padding-y: var(--space-1);
+  --input-size-sm-font-size: var(--text-sm);
+
+  --input-size-md-padding-x: var(--space-3);
+  --input-size-md-padding-y: var(--space-2);
+  --input-size-md-font-size: var(--text-base);
+
+  --input-size-lg-padding-x: var(--space-4);
+  --input-size-lg-padding-y: var(--space-3);
+  --input-size-lg-font-size: var(--text-lg);
+
+  /* --- Badge --- */
+  --badge-padding-x: var(--space-2);
+  --badge-padding-y: var(--space-1);
+  --badge-radius: var(--radius-md);
+  --badge-font-size: var(--text-micro);
+  --badge-font-weight: var(--font-weight-medium);
+
+  /* --- Modal --- */
+  --modal-bg: var(--color-background);
+  --modal-overlay: var(--overlay-bg);
+  --modal-elevation: var(--elevation-modal);
+  --modal-radius: var(--radius-xl);
+  --modal-z-index: var(--layer-modal);
+
+  /* --- Dropdown --- */
+  --dropdown-bg: var(--surface-base);
+  --dropdown-border: var(--border-default);
+  --dropdown-elevation: var(--elevation-dropdown);
+  --dropdown-radius: var(--radius-md);
+  --dropdown-z-index: var(--layer-dropdown);
+
+  /* --- Charts (Admin Data Viz) --- */
+  --chart-1: var(--brand-500);
+  --chart-2: var(--info-500);
+  --chart-3: var(--success-500);
+  --chart-4: var(--warning-500);
+  --chart-5: var(--brand-900);
+  --chart-6: var(--brand-800);
+}
+
+.dark {
+  --chart-1: var(--brand-300);
+  --chart-2: var(--info-400);
+  --chart-3: var(--success-400);
+  --chart-4: var(--warning-400);
+  --chart-5: var(--purple-500);
+  --chart-6: var(--pink-400);
+}
+
+/* =========================================================================
+   TIER 4 — COMPOSITION TOKENS
+   Layout-level tokens. Reference Tier 1–3 tokens.
+   ========================================================================= */
+:root {
+  --layout-max-width: 80rem;
+  --layout-section-gap: var(--space-6);
+  --layout-header-height: 3.5rem;
+  --layout-sidebar-width: 16rem;
+}
+
+/* =========================================================================
+   Base Layer & Utility Layer
+   ========================================================================= */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--border-default);
+  }
+
+  html {
+    font-feature-settings: 'salt';
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms !important;
+    --duration-normal: 0ms !important;
+    --duration-slow: 0ms !important;
+    --scale-press: 1 !important;
+    --scale-hover: 1 !important;
+  }
+}
+
+/* =========================================================================
+   ANIMATION UTILITIES
+   ========================================================================= */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(4px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes accordion-down {
+  from {
+    height: 0;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--surface-muted) 0%,
+    var(--surface-subtle) 50%,
+    var(--surface-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* =========================================================================
+   COMPONENT ALIASES (Bridging components to tokens)
+   ========================================================================= */
+:root {
+  --motion-fast: var(--duration-fast);
+  --motion-normal: var(--duration-normal);
+  --motion-slow: var(--duration-slow);
+
+  --motion-ease-default: var(--ease-in-out);
+  --motion-ease-out: var(--ease-out);
+  --motion-ease-in-out: var(--ease-in-out);
+  --motion-ease-bounce: var(--ease-bounce);
+
+  --motion-scale-press: var(--scale-press);
+
+  --elevation-card: var(--elevation-surface);
+  --elevation-hover: var(--elevation-floating);
+
+  --space-0-5: 0.125rem;
+  --space-9: 2.25rem;
+  --space-16: 4rem;
+  --space-48: 12rem;
+  --space-96: 24rem;
+  --padding-card: var(--space-6);
+  --padding-card-content: var(--space-4);
+
+  --admin-sidebar-width: 16rem;
+  --admin-sidebar-collapsed-width: 4rem;
+  --admin-header-height: 4rem;
+
+  --storefront-content-max-width: 80rem;
+  --storefront-grid-gap: var(--space-6);
+}
+
+@theme {
+  --color-background: var(--color-background);
+  --color-foreground: var(--color-foreground);
+  --color-card: var(--surface-base);
+  --color-card-foreground: var(--text-primary);
+  --color-popover: var(--surface-elevated);
+  --color-popover-foreground: var(--text-primary);
+  --color-primary: var(--action-primary);
+  --color-primary-foreground: var(--action-primary-foreground);
+  --color-secondary: var(--action-secondary);
+  --color-secondary-foreground: var(--action-secondary-foreground);
+  --color-muted: var(--surface-muted);
+  --color-muted-foreground: var(--text-secondary);
+  --color-accent: var(--surface-active);
+  --color-accent-foreground: var(--text-primary);
+  --color-destructive: var(--intent-danger);
+  --color-destructive-foreground: var(--intent-danger-foreground);
+  --color-border: var(--border-default);
+  --color-input: var(--border-default);
+  --color-ring: var(--focus-ring-color);
+
+  --color-brand: var(--brand-500);
+  --color-brand-foreground: var(--gray-0);
+
+  --color-success: var(--intent-success);
+  --color-warning: var(--intent-warning);
+  --color-error: var(--intent-danger);
+  --color-info: var(--intent-info);
+
+  --radius-lg: var(--radius-lg);
+  --radius-md: var(--radius-md);
+  --radius-sm: var(--radius-sm);
+
+  --font-sans: var(--font-sans);
+}

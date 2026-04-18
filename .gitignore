@@ -3,6 +3,7 @@ dist/
 .next/
 .turbo/
 .cache/
+storybook-static/
 
 # Environment
 .env

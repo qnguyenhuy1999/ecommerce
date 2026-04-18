@@ -7,6 +7,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import unusedImports from 'eslint-plugin-unused-imports'
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import tokensPlugin from './packages/design-tokens/eslint-plugin-tokens.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -173,6 +174,166 @@ export default [
     rules: {
       'no-console': 'warn',
       'no-debugger': 'error',
+    },
+  },
+
+  // ─── Design token enforcement ──────────────────────────────────────────────
+  // Blocks raw hex colors, bare px values, and raw Tailwind palette utilities
+  // in all component files across ui, ui-admin, and ui-storefront.
+  // Does NOT apply to packages/design-tokens/ (the token source itself).
+  {
+    files: [
+      'packages/ui/src/**/*.ts',
+      'packages/ui/src/**/*.tsx',
+      'packages/ui-admin/src/**/*.ts',
+      'packages/ui-admin/src/**/*.tsx',
+      'packages/ui-storefront/src/**/*.ts',
+      'packages/ui-storefront/src/**/*.tsx',
+    ],
+    plugins: {
+      '@ecom/tokens': tokensPlugin,
+    },
+    rules: {
+      '@ecom/tokens/no-raw-design-values': 'error',
+    },
+  },
+
+  // ─── Tier-boundary enforcement ──────────────────────────────────────────────
+  // Catches raw Tailwind palette utilities in JSX className attributes
+  // within UI component files — atoms, molecules, and organisms.
+  {
+    files: [
+      'packages/ui/src/**/*.tsx',
+      'packages/ui/src/components/ui/**/*.tsx',
+      'packages/ui-admin/src/**/*.tsx',
+      'packages/ui-storefront/src/**/*.tsx',
+    ],
+    plugins: {
+      '@ecom/tokens': tokensPlugin,
+    },
+    rules: {
+      '@ecom/tokens/tier-boundary': 'error',
+    },
+  },
+
+  // ─── ui-storefront: import boundary enforcement ────────────────────────────
+  {
+    files: ['packages/ui-storefront/src/**/*'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/no-restricted-paths': ['error', {
+        zones: [
+          {
+            target: ['packages/ui-storefront/src/**/*'],
+            from: '@ecom/ui/components/ui',
+            message: 'components/ui is internal. Import from @ecom/ui or @ecom/ui/atoms/X instead.',
+          },
+          {
+            target: ['packages/ui-storefront/src/**/*'],
+            from: '@ecom/ui/src/',
+            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui or @ecom/ui/atoms/X instead.',
+          },
+          {
+            target: ['packages/ui-storefront/src/**/*'],
+            from: '@ecom/ui-storefront/src/',
+            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui-storefront or relative paths.',
+          },
+        ],
+      }],
+    },
+  },
+
+  // ─── ui-admin: import boundary enforcement ──────────────────────────────
+  {
+    files: ['packages/ui-admin/src/**/*'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/no-restricted-paths': ['error', {
+        zones: [
+          {
+            target: ['packages/ui-admin/src/**/*'],
+            from: '@ecom/ui/components/ui',
+            message: 'components/ui is internal. Import from @ecom/ui or @ecom/ui/atoms/X instead.',
+          },
+          {
+            target: ['packages/ui-admin/src/**/*'],
+            from: '@ecom/ui/src/',
+            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui or @ecom/ui/atoms/X instead.',
+          },
+          {
+            target: ['packages/ui-admin/src/**/*'],
+            from: '@ecom/ui-admin/src/',
+            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui-admin or relative paths.',
+          },
+        ],
+      }],
+    },
+  },
+
+  // ─── @ecom/ui: atomic-layer enforcement ────────────────────────────────────
+  // Atoms cannot import molecules or organisms
+  {
+    files: ['packages/ui/src/atoms/**/*'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/no-restricted-paths': ['error', {
+        zones: [
+          {
+            target: ['packages/ui/src/atoms/**/*'],
+            from: 'packages/ui/src/molecules/',
+            message: 'Atoms cannot import molecules.',
+          },
+          {
+            target: ['packages/ui/src/atoms/**/*'],
+            from: 'packages/ui/src/organisms/',
+            message: 'Atoms cannot import organisms.',
+          },
+        ],
+      }],
+    },
+  },
+
+  // Molecules cannot import organisms
+  {
+    files: ['packages/ui/src/molecules/**/*'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/no-restricted-paths': ['error', {
+        zones: [
+          {
+            target: ['packages/ui/src/molecules/**/*'],
+            from: 'packages/ui/src/organisms/',
+            message: 'Molecules cannot import organisms.',
+          },
+        ],
+      }],
+    },
+  },
+
+  // No direct access to shadcn primitives (components/ui is internal)
+  {
+    files: ['packages/ui/src/**/*'],
+    plugins: {
+      import: importPlugin,
+    },
+    rules: {
+      'import/no-restricted-paths': ['error', {
+        zones: [
+          {
+            target: ['packages/ui/src/**/*'],
+            from: 'packages/ui/src/components/ui/',
+            message: 'components/ui is internal. Use atoms or molecules instead.',
+          },
+        ],
+      }],
     },
   },
 ]
