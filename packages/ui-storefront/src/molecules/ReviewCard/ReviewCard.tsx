@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { CheckCircle2, Quote } from 'lucide-react'
+import { CheckCircle2 } from 'lucide-react'
 
 import { cn } from '@ecom/ui'
 
@@ -64,11 +64,7 @@ function ReviewCard({
 
       {/* Content with decorative quote */}
       <div className="relative flex-1">
-        <Quote
-          className="absolute -top-1 -left-1 w-6 h-6 text-muted-foreground/20 fill-current"
-          aria-hidden
-        />
-        <p className="text-sm text-foreground/80 leading-relaxed pl-5">{displayContent}</p>
+        <p className="text-sm text-foreground/80 leading-relaxed">{displayContent}</p>
         {isLong && (
           <button
             type="button"
@@ -108,4 +104,3 @@ function ReviewCard({
 }
 
 export { ReviewCard }
-

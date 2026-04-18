@@ -16,6 +16,35 @@ const meta: Meta<typeof Sidebar> = {
 export default meta
 type Story = StoryObj<typeof Sidebar>
 
+function Frame({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen w-full bg-muted/30 p-6">
+      <div className="mx-auto grid max-w-6xl grid-cols-[auto_1fr] gap-6">
+        {children}
+      </div>
+    </div>
+  )
+}
+
+function PlaceholderContent() {
+  return (
+    <div className="rounded-xl border bg-background p-6 shadow-sm">
+      <div className="space-y-2">
+        <h2 className="text-lg font-semibold leading-none">Content</h2>
+        <p className="text-sm text-muted-foreground">
+          This area simulates the main page so the sidebar preview looks correct in Storybook.
+        </p>
+      </div>
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="h-20 rounded-lg bg-muted" />
+        <div className="h-20 rounded-lg bg-muted" />
+        <div className="h-20 rounded-lg bg-muted" />
+        <div className="h-20 rounded-lg bg-muted" />
+      </div>
+    </div>
+  )
+}
+
 const FULL_NAV: SidebarProps['navGroups'] = [
   {
     label: 'Dashboard',
@@ -46,6 +75,12 @@ const FULL_NAV: SidebarProps['navGroups'] = [
 ]
 
 export const Default: Story = {
+  render: (args) => (
+    <Frame>
+      <Sidebar {...args} variant="embedded" />
+      <PlaceholderContent />
+    </Frame>
+  ),
   args: {
     logo: <span className="font-bold text-base">ShopAdmin</span>,
     navGroups: FULL_NAV,
@@ -58,12 +93,24 @@ export const Default: Story = {
 }
 
 export const WithoutLogo: Story = {
+  render: (args) => (
+    <Frame>
+      <Sidebar {...args} variant="embedded" />
+      <PlaceholderContent />
+    </Frame>
+  ),
   args: {
     navGroups: FULL_NAV,
   } as SidebarProps,
 }
 
 export const Collapsed: Story = {
+  render: (args) => (
+    <Frame>
+      <Sidebar {...args} variant="embedded" />
+      <PlaceholderContent />
+    </Frame>
+  ),
   args: {
     logo: <span className="font-bold text-base">SA</span>,
     navGroups: FULL_NAV,
@@ -72,6 +119,12 @@ export const Collapsed: Story = {
 }
 
 export const WithActiveRoute: Story = {
+  render: (args) => (
+    <Frame>
+      <Sidebar {...args} variant="embedded" />
+      <PlaceholderContent />
+    </Frame>
+  ),
   args: {
     logo: <span className="font-bold text-base">ShopAdmin</span>,
     navGroups: FULL_NAV,
@@ -81,6 +134,12 @@ export const WithActiveRoute: Story = {
 }
 
 export const WithNestedChildren: Story = {
+  render: (args) => (
+    <Frame>
+      <Sidebar {...args} variant="embedded" />
+      <PlaceholderContent />
+    </Frame>
+  ),
   args: {
     logo: <span className="font-bold text-base">ShopAdmin</span>,
     navGroups: [
@@ -113,6 +172,12 @@ export const WithNestedChildren: Story = {
 }
 
 export const NoBadge: Story = {
+  render: (args) => (
+    <Frame>
+      <Sidebar {...args} variant="embedded" />
+      <PlaceholderContent />
+    </Frame>
+  ),
   args: {
     logo: <span className="font-bold text-base">ShopAdmin</span>,
     navGroups: [

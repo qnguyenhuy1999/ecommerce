@@ -53,20 +53,22 @@ function ActivityFeed({ items, showTimeline = true, className, ...props }: Activ
             {/* Avatar with optional pulse for latest */}
             <div className="relative shrink-0 z-10">
               <Avatar className="w-8 h-8 ring-2 ring-background">
-                {item.user.avatar && <AvatarImage src={item.user.avatar} alt={item.user.name} />}
+                {item.user?.avatar && (
+                  <AvatarImage src={item.user.avatar} alt={item.user?.name || 'User'} />
+                )}
                 <AvatarFallback className="text-xs font-semibold bg-gradient-to-br from-muted to-muted/60">
-                  {item.user.name.charAt(0).toUpperCase()}
+                  {(item.user?.name || 'U').charAt(0).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               {(item.isLatest || isFirst) && (
-                <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-brand border-2 border-background" />
+                <span className="absolute bottom-1 right-0.5 w-2.5 h-2.5 rounded-full bg-brand border-2 border-background" />
               )}
             </div>
 
             {/* Content */}
             <div className="flex-1 min-w-0 pt-0.5">
               <p className="text-sm leading-snug text-foreground">
-                <span className="font-semibold">{item.user.name}</span>{' '}
+                <span className="font-semibold">{item.user?.name || 'Unknown User'}</span>{' '}
                 <span className="text-muted-foreground">{item.action}</span>
                 {item.target && (
                   <>

@@ -15,14 +15,17 @@ export interface StatusBadgeProps extends Omit<UiBadgeProps, 'variant'> {
   label?: string
 }
 
-const statusMap: Record<StatusValue, { variant: UiBadgeProps['variant']; defaultLabel: string }> = {
-  pending: { variant: 'warning', defaultLabel: 'Pending' },
-  processing: { variant: 'info', defaultLabel: 'Processing' },
-  shipped: { variant: 'info', defaultLabel: 'Shipped' },
-  delivered: { variant: 'success', defaultLabel: 'Delivered' },
-  cancelled: { variant: 'destructive', defaultLabel: 'Cancelled' },
-  refunded: { variant: 'secondary', defaultLabel: 'Refunded' },
-  failed: { variant: 'destructive', defaultLabel: 'Failed' },
+const statusMap: Record<
+  StatusValue,
+  { variant: UiBadgeProps['variant']; defaultLabel: string; dotColor: string }
+> = {
+  pending: { variant: 'warning', defaultLabel: 'Pending', dotColor: 'var(--warning-500)' },
+  processing: { variant: 'info', defaultLabel: 'Processing', dotColor: 'var(--info-500)' },
+  shipped: { variant: 'info', defaultLabel: 'Shipped', dotColor: 'var(--info-500)' },
+  delivered: { variant: 'success', defaultLabel: 'Delivered', dotColor: 'var(--success-500)' },
+  cancelled: { variant: 'destructive', defaultLabel: 'Cancelled', dotColor: 'var(--error-500)' },
+  refunded: { variant: 'secondary', defaultLabel: 'Refunded', dotColor: 'var(--gray-500)' },
+  failed: { variant: 'destructive', defaultLabel: 'Failed', dotColor: 'var(--error-500)' },
 }
 
 function StatusBadge({ status, label, className, ...props }: StatusBadgeProps) {
@@ -30,11 +33,12 @@ function StatusBadge({ status, label, className, ...props }: StatusBadgeProps) {
 
   return (
     <UiBadge
+      dot
+      dotColor={config.dotColor}
       variant={config.variant}
       className={cn('capitalize whitespace-nowrap', className)}
       {...props}
     >
-      <span className="w-1.5 h-1.5 rounded-full bg-current mr-1.5 opacity-75" />
       {label || config.defaultLabel}
     </UiBadge>
   )

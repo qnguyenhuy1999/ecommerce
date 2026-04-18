@@ -1,5 +1,6 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 @import '@ecom/design-tokens/styles';
+@source "../../../ui/src";
 
 @layer base {
   :root {
@@ -21,21 +22,21 @@
     --stat-card-icon-bg: var(--surface-muted);
     --stat-card-trend-bg-success: var(--intent-success-muted);
     --stat-card-trend-bg-danger: var(--intent-danger-muted);
-    
+
     --metric-card-bg: var(--surface-base);
     --metric-card-text: var(--text-primary);
     --metric-card-radius: var(--radius-lg);
     --metric-card-shadow: var(--elevation-surface);
     --metric-card-shadow-hover: var(--elevation-floating);
-    
+
     --data-table-radius: var(--radius-sm);
     --data-table-shadow: var(--elevation-surface);
     --data-table-toolbar-bg: var(--surface-base);
     --data-table-toolbar-border: var(--border-default);
     --data-table-bulk-bg: var(--action-muted);
     --data-table-bulk-border: var(--action-primary);
-    
-    --status-badge-radius: var(--radius-full);
+
+    --status-badge-radius: var(--radius-sm);
   }
 }
 

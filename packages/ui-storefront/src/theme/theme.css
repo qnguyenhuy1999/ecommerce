@@ -1,4 +1,6 @@
-@import '@ecom/ui/styles';
+@import 'tailwindcss';
+@import '@ecom/design-tokens/styles';
+@source "../../../ui/src";
 
 @layer base {
   :root {

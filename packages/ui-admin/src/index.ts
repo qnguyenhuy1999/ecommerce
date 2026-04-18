@@ -16,6 +16,9 @@ export {
   DataTableCell,
   DataTableFilter,
   DataTableEmpty,
+  DataTablePagination,
+  DataTableSkeletonRow,
+  DataTableStatusBadge,
   useDataTable,
 } from './molecules/DataTable/DataTable'
 export { FileUpload } from './molecules/FileUpload/FileUpload'

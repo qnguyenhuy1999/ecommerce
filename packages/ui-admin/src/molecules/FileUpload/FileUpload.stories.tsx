@@ -43,6 +43,33 @@ export const Disabled: Story = {
   },
 }
 
+export const WithProgress: Story = {
+  args: {
+    accept: 'image/*,.pdf',
+    multiple: true,
+    upload: async (_file, { onProgress, signal }) => {
+      await new Promise<void>((resolve, reject) => {
+        let progress = 0
+        const interval = setInterval(() => {
+          if (signal.aborted) {
+            clearInterval(interval)
+            reject(new DOMException('Aborted', 'AbortError'))
+            return
+          }
+
+          progress += 8
+          onProgress(progress)
+
+          if (progress >= 100) {
+            clearInterval(interval)
+            setTimeout(resolve, 200)
+          }
+        }, 120)
+      })
+    },
+  },
+}
+
 export const AllVariants: Story = {
   render: () => (
     <div className="space-y-6 max-w-lg">

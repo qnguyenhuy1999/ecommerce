@@ -4,14 +4,31 @@ import React from 'react'
 
 import { UploadCloud, X, File as FileIcon, ImageIcon } from 'lucide-react'
 
-import { cn, Button } from '@ecom/ui'
+import { cn, Button, Progress } from '@ecom/ui'
 
 export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   accept?: string
   maxSize?: number // in bytes
   multiple?: boolean
   onUpload?: (files: File[]) => void
+  upload?: (
+    file: File,
+    ctx: { onProgress: (progress: number) => void; signal: AbortSignal },
+  ) => Promise<void>
+  uploadOnSelect?: boolean
+  onUploadComplete?: (file: File) => void
+  onUploadError?: (file: File, error: unknown) => void
   disabled?: boolean
+}
+
+type UploadStatus = 'queued' | 'uploading' | 'success' | 'error' | 'canceled'
+
+type UploadItem = {
+  id: string
+  file: File
+  progress: number
+  status: UploadStatus
+  error?: string
 }
 
 function FileUpload({
@@ -19,15 +36,78 @@ function FileUpload({
   maxSize = 10485760, // 10MB
   multiple = false,
   onUpload,
+  upload,
+  uploadOnSelect = true,
+  onUploadComplete,
+  onUploadError,
   disabled = false,
   className,
   ...props
 }: FileUploadProps) {
   const [isDragging, setIsDragging] = React.useState(false)
-  const [files, setFiles] = React.useState<File[]>([])
+  const [items, setItems] = React.useState<UploadItem[]>([])
   const fileInputRef = React.useRef<HTMLInputElement>(null)
-  const filesRef = React.useRef<File[]>(files)
-  filesRef.current = files
+  const itemsRef = React.useRef<UploadItem[]>(items)
+  itemsRef.current = items
+  const controllersRef = React.useRef<Record<string, AbortController>>({})
+
+  const createId = React.useCallback(() => {
+    if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
+    return `${Date.now()}-${Math.random().toString(16).slice(2)}`
+  }, [])
+
+  const abortUpload = React.useCallback((id: string) => {
+    const controller = controllersRef.current[id]
+    if (controller) controller.abort()
+  }, [])
+
+  const startUpload = React.useCallback(
+    async (item: UploadItem) => {
+      if (!upload || disabled || !uploadOnSelect) return
+      if (item.status === 'uploading' || item.status === 'success') return
+
+      const controller = new AbortController()
+      controllersRef.current[item.id] = controller
+
+      setItems((prev) =>
+        prev.map((it) => (it.id === item.id ? { ...it, status: 'uploading', progress: 0 } : it)),
+      )
+
+      const onProgress = (progress: number) => {
+        const clamped = Math.max(0, Math.min(100, progress))
+        setItems((prev) =>
+          prev.map((it) => (it.id === item.id ? { ...it, progress: clamped } : it)),
+        )
+      }
+
+      try {
+        await upload(item.file, { onProgress, signal: controller.signal })
+        setItems((prev) =>
+          prev.map((it) =>
+            it.id === item.id ? { ...it, status: 'success', progress: 100 } : it,
+          ),
+        )
+        onUploadComplete?.(item.file)
+      } catch (error) {
+        const isCanceled = controller.signal.aborted
+        setItems((prev) =>
+          prev.map((it) =>
+            it.id === item.id
+              ? {
+                  ...it,
+                  status: isCanceled ? 'canceled' : 'error',
+                  error: isCanceled ? undefined : (error instanceof Error ? error.message : 'Upload failed'),
+                }
+              : it,
+          ),
+        )
+        if (!isCanceled) onUploadError?.(item.file, error)
+      } finally {
+        delete controllersRef.current[item.id]
+      }
+    },
+    [disabled, onUploadComplete, onUploadError, upload, uploadOnSelect],
+  )
 
   const handleDragOver = React.useCallback(
     (e: React.DragEvent) => {
@@ -45,18 +125,30 @@ function FileUpload({
   const processFiles = React.useCallback(
     (newFiles: File[]) => {
       const validFiles = newFiles.filter((f) => f.size <= maxSize)
+      const newItems: UploadItem[] = validFiles.map((file) => ({
+        id: createId(),
+        file,
+        progress: 0,
+        status: upload ? 'queued' : 'success',
+      }))
 
       if (multiple) {
-        const merged = [...filesRef.current, ...validFiles]
-        setFiles(merged)
-        if (onUpload) onUpload(merged)
+        const merged = [...itemsRef.current, ...newItems]
+        setItems(merged)
+        if (onUpload) onUpload(merged.map((it) => it.file))
+        if (upload && uploadOnSelect && !disabled) {
+          for (const item of newItems) void startUpload(item)
+        }
       } else {
-        const selected = validFiles.slice(0, 1)
-        setFiles(selected)
-        if (onUpload) onUpload(selected)
+        const selected = newItems.slice(0, 1)
+        const removed = itemsRef.current.filter((it) => !selected.some((s) => s.id === it.id))
+        for (const it of removed) abortUpload(it.id)
+        setItems(selected)
+        if (onUpload) onUpload(selected.map((it) => it.file))
+        if (upload && uploadOnSelect && !disabled && selected[0]) void startUpload(selected[0])
       }
     },
-    [maxSize, multiple, onUpload],
+    [abortUpload, createId, disabled, maxSize, multiple, onUpload, startUpload, upload, uploadOnSelect],
   )
 
   const handleDrop = React.useCallback(
@@ -75,6 +167,7 @@ function FileUpload({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
         processFiles(Array.from(e.target.files))
+        e.target.value = ''
       }
     },
     [processFiles],
@@ -82,18 +175,26 @@ function FileUpload({
 
   const removeFile = React.useCallback(
     (indexToRemove: number) => {
-      setFiles((prev) => {
-        const newFiles = prev.filter((_, i) => i !== indexToRemove)
-        if (onUpload) onUpload(newFiles)
-        return newFiles
+      setItems((prev) => {
+        const toRemove = prev[indexToRemove]
+        if (toRemove) abortUpload(toRemove.id)
+        const next = prev.filter((_, i) => i !== indexToRemove)
+        if (onUpload) onUpload(next.map((it) => it.file))
+        return next
       })
     },
-    [onUpload],
+    [abortUpload, onUpload],
   )
 
   const openFilePicker = React.useCallback(() => {
     if (!disabled) fileInputRef.current?.click()
   }, [disabled])
+
+  React.useEffect(() => {
+    return () => {
+      for (const controller of Object.values(controllersRef.current)) controller.abort()
+    }
+  }, [])
 
   return (
     <div className={cn('space-y-4', className)} {...props}>
@@ -135,26 +236,53 @@ function FileUpload({
         </p>
       </div>
 
-      {files.length > 0 && (
+      {items.length > 0 && (
         <div className="space-y-2">
-          {files.map((file, i) => (
+          {items.map((item, i) => (
             <div
-              key={i}
+              key={item.id}
               className="flex items-center justify-between p-3 border rounded-[var(--space-2)] bg-background"
             >
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="w-10 h-10 shrink-0 bg-muted rounded-[var(--space-2)] flex items-center justify-center">
-                  {file.type.startsWith('image/') ? (
+                  {item.file.type.startsWith('image/') ? (
                     <ImageIcon className="w-5 h-5 text-muted-foreground" />
                   ) : (
                     <FileIcon className="w-5 h-5 text-muted-foreground" />
                   )}
                 </div>
                 <div className="flex-1 min-w-0 pr-4">
-                  <p className="text-sm font-medium truncate">{file.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {(file.size / 1024).toFixed(1)} KB
-                  </p>
+                  <p className="text-sm font-medium truncate">{item.file.name}</p>
+                  <div className="space-y-1.5">
+                    <p className="text-xs text-muted-foreground">
+                      {(item.file.size / 1024).toFixed(1)} KB
+                      {upload && (
+                        <>
+                          {' '}
+                          •{' '}
+                          {item.status === 'queued' && 'Queued'}
+                          {item.status === 'uploading' && `Uploading… ${Math.round(item.progress)}%`}
+                          {item.status === 'success' && 'Uploaded'}
+                          {item.status === 'canceled' && 'Canceled'}
+                          {item.status === 'error' && (item.error ?? 'Upload failed')}
+                        </>
+                      )}
+                    </p>
+                    {upload && item.status !== 'queued' && (
+                      <Progress
+                        value={item.progress}
+                        max={100}
+                        size="sm"
+                        variant={
+                          item.status === 'error'
+                            ? 'destructive'
+                            : item.status === 'success'
+                              ? 'success'
+                              : 'brand'
+                        }
+                      />
+                    )}
+                  </div>
                 </div>
               </div>
               <Button

@@ -4,7 +4,7 @@ import React from 'react'
 
 import { ShoppingBag, Check } from 'lucide-react'
 
-import { cn , Button } from '@ecom/ui'
+import { cn, Button } from '@ecom/ui'
 
 export interface AddToCartButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Current state of the button */
@@ -82,6 +82,11 @@ function AddToCartButton({
       }
       {...props}
     >
+      <span className="opacity-0 pointer-events-none flex items-center justify-center gap-2">
+        <ShoppingBag className={iconSize} />
+        <span>{label}</span>
+      </span>
+
       {/* Idle: shopping bag icon + label */}
       <span
         className={cn(

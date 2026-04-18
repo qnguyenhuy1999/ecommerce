@@ -1,7 +1,6 @@
 import type { Meta } from '@storybook/react'
 
 import { CartItem } from './CartItem'
-import type { CartItemProps } from './types'
 
 const meta = {
   title: 'atoms/CartItem',
@@ -12,43 +11,37 @@ const meta = {
 
 export default meta
 
-const SAMPLE_ITEM: CartItemProps['item'] = {
-  id: 'item-1',
-  name: 'Wireless Bluetooth Headphones',
-  price: 89.99,
-  quantity: 2,
-  image: 'https://picsum.photos/seed/headphones/200',
-}
-
 export const Default = {
   args: {
-    item: SAMPLE_ITEM,
-    onQuantityChange: () => {},
+    id: 'item-1',
+    title: 'Wireless Bluetooth Headphones',
+    price: 89.99,
+    quantity: 2,
+    image: 'https://picsum.photos/seed/headphones/200',
+    onUpdateQuantity: () => {},
     onRemove: () => {},
   },
 }
 
 export const SingleQuantity = {
   args: {
-    item: { ...SAMPLE_ITEM, quantity: 1 },
-    onQuantityChange: () => {},
-    onRemove: () => {},
+    ...Default.args,
+    quantity: 1,
   },
 }
 
 export const HighQuantity = {
   args: {
-    item: { ...SAMPLE_ITEM, quantity: 10, price: 29.99 },
-    onQuantityChange: () => {},
-    onRemove: () => {},
+    ...Default.args,
+    quantity: 10,
+    price: 29.99,
   },
 }
 
 export const WithoutImage = {
   args: {
-    item: { ...SAMPLE_ITEM, image: undefined },
-    onQuantityChange: () => {},
-    onRemove: () => {},
+    ...Default.args,
+    image: '',
   },
 }
 
@@ -58,8 +51,12 @@ export const Interactive = {
     return (
       <div className="w-96 border rounded-lg p-4">
         <CartItem
-          item={{ ...SAMPLE_ITEM, quantity }}
-          onQuantityChange={(qty) => {
+          id="item-1"
+          title="Wireless Bluetooth Headphones"
+          price={89.99}
+          quantity={quantity}
+          image="https://picsum.photos/seed/headphones/200"
+          onUpdateQuantity={(qty) => {
             quantity = qty
           }}
           onRemove={() => {}}

@@ -23,6 +23,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.0",
     "lucide-react": "^0.454.0",
+    "recharts": "2.15.0",
     "tailwind-merge": "^2.3.0"
   },
   "peerDependencies": {
@@ -37,13 +38,13 @@
     "@storybook/react-vite": "^8.6.18",
     "@storybook/test": "^8.6.18",
     "@tailwindcss/vite": "^4.2.2",
-    "tailwindcss": "^4.0.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "storybook": "^8.6.18",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.4.0"
   }
 }

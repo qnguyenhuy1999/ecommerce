@@ -20,6 +20,7 @@ export interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   navGroups?: SidebarNavGroup[]
   footer?: React.ReactNode
   collapsed?: boolean
+  variant?: 'fixed' | 'embedded'
   onNavigate?: (href: string) => void
   currentPath?: string
 }

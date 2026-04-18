@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react'
 
 import { FilterSidebar } from './FilterSidebar'
-import type { FilterConfig } from './types'
+import type { FilterGroup } from './FilterSidebar'
 
 const meta = {
   title: 'molecules/FilterSidebar',
@@ -12,9 +12,9 @@ const meta = {
 
 export default meta
 
-const CATEGORY_FILTER: FilterConfig = {
+const CATEGORY_FILTER: FilterGroup = {
   id: 'category',
-  label: 'Category',
+  title: 'Category',
   type: 'checkbox',
   options: [
     { value: 'electronics', label: 'Electronics', count: 124 },
@@ -24,9 +24,9 @@ const CATEGORY_FILTER: FilterConfig = {
   ],
 }
 
-const BRAND_FILTER: FilterConfig = {
+const BRAND_FILTER: FilterGroup = {
   id: 'brand',
-  label: 'Brand',
+  title: 'Brand',
   type: 'checkbox',
   options: [
     { value: 'apple', label: 'Apple', count: 45 },
@@ -35,24 +35,40 @@ const BRAND_FILTER: FilterConfig = {
   ],
 }
 
-const SORT_FILTER: FilterConfig = {
-  id: 'sort',
-  label: 'Sort By',
-  type: 'radio',
+const SIZE_FILTER: FilterGroup = {
+  id: 'size',
+  title: 'Size',
+  type: 'size',
   options: [
-    { value: 'price-asc', label: 'Price: Low to High' },
-    { value: 'price-desc', label: 'Price: High to Low' },
-    { value: 'newest', label: 'Newest First' },
+    { value: 'xs', label: 'XS' },
+    { value: 's', label: 'S' },
+    { value: 'm', label: 'M' },
+    { value: 'l', label: 'L' },
+    { value: 'xl', label: 'XL' },
+  ],
+}
+
+const COLOR_FILTER: FilterGroup = {
+  id: 'color',
+  title: 'Color',
+  type: 'color',
+  options: [
+    { value: 'black', label: 'Black', color: '#111827' },
+    { value: 'white', label: 'White', color: '#f9fafb' },
+    { value: 'red', label: 'Red', color: '#ef4444' },
+    { value: 'blue', label: 'Blue', color: '#3b82f6' },
+    { value: 'green', label: 'Green', color: '#22c55e' },
+    { value: 'yellow', label: 'Yellow', color: '#eab308' },
   ],
 }
 
 export const Default = {
   render: () => (
-    <div className="border rounded-lg overflow-hidden">
+    <div className="p-6 border border-border-subtle rounded-[var(--radius-lg)] shadow-[var(--elevation-surface)] max-w-sm">
       <FilterSidebar
-        filters={[CATEGORY_FILTER, BRAND_FILTER, SORT_FILTER]}
+        groups={[CATEGORY_FILTER, BRAND_FILTER, SIZE_FILTER, COLOR_FILTER]}
         onFilterChange={() => {}}
-        onClear={() => {}}
+        onClearAll={() => {}}
       />
     </div>
   ),
@@ -60,25 +76,54 @@ export const Default = {
 
 export const SingleFilter = {
   render: () => (
-    <div className="border rounded-lg overflow-hidden">
-      <FilterSidebar filters={[CATEGORY_FILTER]} onFilterChange={() => {}} onClear={() => {}} />
+    <div className="p-6 border border-border-subtle rounded-[var(--radius-lg)] shadow-[var(--elevation-surface)] max-w-sm">
+      <FilterSidebar groups={[CATEGORY_FILTER]} onFilterChange={() => {}} onClearAll={() => {}} />
     </div>
   ),
 }
 
 export const PriceRange = {
   render: () => (
-    <div className="border rounded-lg overflow-hidden">
+    <div className="p-6 border border-border-subtle rounded-[var(--radius-lg)] shadow-[var(--elevation-surface)] max-w-sm">
       <FilterSidebar
-        filters={[
+        groups={[
           {
             id: 'price',
-            label: 'Price Range',
-            type: 'price-range',
+            title: 'Price Range',
+            type: 'range',
+            range: {
+              min: 0,
+              max: 1000,
+              step: 10,
+              current: [100, 700],
+            },
           },
         ]}
         onFilterChange={() => {}}
-        onClear={() => {}}
+        onClearAll={() => {}}
+      />
+    </div>
+  ),
+}
+
+export const FullFeatured = {
+  render: () => (
+    <div className="p-6 border border-border-subtle rounded-[var(--radius-lg)] shadow-[var(--elevation-surface)] max-w-sm">
+      <FilterSidebar
+        groups={[
+          CATEGORY_FILTER,
+          BRAND_FILTER,
+          {
+            id: 'price',
+            title: 'Price Range',
+            type: 'range',
+            range: { min: 0, max: 1000, step: 10, current: [100, 700] },
+          },
+          SIZE_FILTER,
+          COLOR_FILTER,
+        ]}
+        onFilterChange={(groupId, value) => console.log({ groupId, value })}
+        onClearAll={() => console.log('cleared')}
       />
     </div>
   ),

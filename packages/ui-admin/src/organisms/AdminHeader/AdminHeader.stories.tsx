@@ -9,6 +9,13 @@ const meta: Meta<typeof Header> = {
   component: Header,
   tags: ['autodocs'],
   parameters: { layout: 'fullscreen' },
+  decorators: [
+    (Story) => (
+      <div className="min-h-[150px] w-full bg-muted/30">
+        <Story />
+      </div>
+    ),
+  ],
 }
 
 export default meta
@@ -22,20 +29,19 @@ export const Default: Story = {
 }
 
 export const WithActions: Story = {
-  render: () => (
-    <Header
-      title="Products"
-      subtitle="Manage your product catalog"
-      actions={
-        <>
-          <Button variant="outline" size="sm">
-            Import
-          </Button>
-          <Button size="sm">Add Product</Button>
-        </>
-      }
-    />
-  ),
+  render: (args) => <Header {...args} />,
+  args: {
+    title: 'Products',
+    subtitle: 'Manage your product catalog',
+    actions: (
+      <>
+        <Button variant="outline" size="sm">
+          Import
+        </Button>
+        <Button size="sm">Add Product</Button>
+      </>
+    ),
+  },
 }
 
 export const WithSubtitle: Story = {
@@ -52,41 +58,41 @@ export const NoSubtitle: Story = {
 }
 
 export const ManyActions: Story = {
-  render: () => (
-    <Header
-      title="Customers"
-      subtitle="3,892 active customers"
-      actions={
-        <>
-          <Button variant="outline" size="sm">
-            Export
-          </Button>
-          <Button variant="outline" size="sm">
-            Filter
-          </Button>
-          <Button size="sm">Add Customer</Button>
-        </>
-      }
-    />
-  ),
+  render: (args) => <Header {...args} />,
+  args: {
+    title: 'Customers',
+    subtitle: '3,892 active customers',
+    actions: (
+      <>
+        <Button variant="outline" size="sm">
+          Export
+        </Button>
+        <Button variant="outline" size="sm">
+          Filter
+        </Button>
+        <Button size="sm">Add Customer</Button>
+      </>
+    ),
+  },
 }
 
 export const WithUserMenu: Story = {
-  render: () => (
-    <Header title="Settings" actions={<HeaderUserMenu userName="Sarah Chen" userEmail="sarah@shop.com" />} />
-  ),
+  render: (args) => <Header {...args} />,
+  args: {
+    title: 'Settings',
+    actions: <HeaderUserMenu userName="Sarah Chen" userEmail="sarah@shop.com" />,
+  },
 }
 
 export const WithNotificationsAndUser: Story = {
-  render: () => (
-    <Header
-      title="Dashboard"
-      subtitle="Overview of your store performance"
-      actions={
-        <div className="flex items-center gap-4">
-          <HeaderUserMenu userName="Marcus Johnson" userEmail="marcus@shop.com" />
-        </div>
-      }
-    />
-  ),
+  render: (args) => <Header {...args} />,
+  args: {
+    title: 'Dashboard',
+    subtitle: 'Overview of your store performance',
+    actions: (
+      <div className="flex items-center gap-4">
+        <HeaderUserMenu userName="Marcus Johnson" userEmail="marcus@shop.com" />
+      </div>
+    ),
+  },
 }

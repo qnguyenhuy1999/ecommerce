@@ -1,5 +1,7 @@
 'use client'
 
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+
 import {
   cn,
   Card,
@@ -24,6 +26,7 @@ export interface RevenueChartProps extends React.HTMLAttributes<HTMLDivElement> 
 function RevenueChart({
   title = 'Revenue Overview',
   totalRevenue,
+  data = [],
   period = '30d',
   onPeriodChange,
   className,
@@ -57,19 +60,46 @@ function RevenueChart({
         </div>
       </CardHeader>
       <CardContent>
-        {/* Placeholder for actual chart implementation like Recharts */}
-        <div className="h-[var(--space-12)] w-full flex items-center justify-center border-2 border-dashed border-border rounded-[var(--space-2)] bg-muted/20">
-          <div className="text-center text-muted-foreground flex flex-col items-center">
-            <div className="flex items-end gap-2 h-16 mb-4 opacity-50">
-              <div className="w-8 bg-chart-1 rounded-t-sm h-[40%]" />
-              <div className="w-8 bg-chart-2 rounded-t-sm h-[70%]" />
-              <div className="w-8 bg-chart-3 rounded-t-sm h-[50%]" />
-              <div className="w-8 bg-chart-4 rounded-t-sm h-[90%]" />
-              <div className="w-8 bg-chart-5 rounded-t-sm h-[60%]" />
-            </div>
-            <p className="text-sm">Chart Visualization Area</p>
-            <p className="text-xs">Inject Recharts or Chart.js here</p>
-          </div>
+        <div className="h-[250px] w-full mt-4">
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data || []} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                vertical={false}
+                stroke="hsl(var(--border))"
+                opacity={0.5}
+              />
+              <XAxis
+                dataKey="name"
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12, fill: 'currentColor', opacity: 0.6 }}
+                dy={10}
+              />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 12, fill: 'currentColor', opacity: 0.6 }}
+                tickFormatter={(val) => `$${val}`}
+                width={60}
+              />
+              <Tooltip
+                cursor={{ fill: 'hsl(var(--muted))', opacity: 0.4 }}
+                contentStyle={{
+                  borderRadius: '8px',
+                  border: '1px solid hsl(var(--border))',
+                  backgroundColor: 'hsl(var(--background))',
+                }}
+              />
+              <Bar
+                dataKey="total"
+                fill="currentColor"
+                radius={[4, 4, 0, 0]}
+                className="fill-primary"
+                maxBarSize={48}
+              />
+            </BarChart>
+          </ResponsiveContainer>
         </div>
       </CardContent>
     </Card>

@@ -1,3 +1,4 @@
+import * as React from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
 import { Slider } from './Slider'
 
@@ -34,16 +35,34 @@ export const WithLabel: Story = {
 }
 
 export const PriceRange: Story = {
-  render: () => (
-    <div className="flex flex-col gap-3 max-w-xs">
-      <h3 className="text-sm font-semibold">Price Range</h3>
-      <Slider min={0} max={500} defaultValue={49} step={1} formatLabel={(v: number) => `$${String(v)}`} />
-      <div className="flex justify-between text-xs text-muted-foreground">
-        <span>$0</span>
-        <span>$500</span>
+  render: () => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [price, setPrice] = React.useState(49)
+    return (
+      <div className="flex flex-col gap-3 max-w-xs">
+        <h3 className="text-sm font-semibold">Price Range</h3>
+        <div className="relative">
+          <Slider
+            min={0}
+            max={500}
+            value={price}
+            step={1}
+            formatLabel={(v: number) => `$${String(v)}`}
+            showTooltip={true}
+            onChange={(val) => {
+              setPrice(val[0])
+            }}
+            className="[&_[data-radix-slider-thumb]]:z-20"
+          />
+          {/* Min/Max labels */}
+          <div className="flex justify-between text-xs text-muted-foreground mt-1.5 px-0.5">
+            <span>$0</span>
+            <span>$500</span>
+          </div>
+        </div>
       </div>
-    </div>
-  ),
+    )
+  },
 }
 
 export const Disabled: Story = {

@@ -21,26 +21,34 @@ const badgeVariants = cva(
     variants: {
       variant: {
         // --- Core ---
-        primary: 'border-transparent bg-primary text-primary-foreground shadow-[var(--shadow-sm)] hover:brightness-110',
-        secondary: 'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
-        outline: 'border-border text-foreground bg-transparent hover:bg-accent hover:text-accent-foreground',
-        ghost: 'border-transparent bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground',
+        primary:
+          'border-transparent bg-primary text-primary-foreground shadow-[var(--shadow-sm)] hover:brightness-110',
+        secondary:
+          'border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80',
+        outline:
+          'border-border text-foreground bg-transparent hover:bg-accent hover:text-accent-foreground',
+        ghost:
+          'border-transparent bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground',
 
-        // --- Status (map raw Tailwind to intent tokens) ---
-        // Map emerald-500 → intent-success, amber-500 → intent-warning, blue-500 → intent-info, rose-500 → intent-danger
-        success: 'border-[var(--intent-success-muted)] bg-[var(--intent-success-muted)] text-[var(--intent-success)] dark:text-[var(--intent-success)] hover:bg-[var(--intent-success-muted)]',
-        warning: 'border-[var(--intent-warning-muted)] bg-[var(--intent-warning-muted)] text-[var(--intent-warning)] dark:text-[var(--intent-warning)] hover:bg-[var(--intent-warning-muted)]',
+        success:
+          'border-[var(--intent-success-muted)] bg-[var(--intent-success-muted)] text-[var(--intent-success)] dark:text-[var(--intent-success)] hover:bg-[var(--intent-success-muted)]',
+        warning:
+          'border-[var(--intent-warning-muted)] bg-[var(--intent-warning-muted)] text-[var(--intent-warning)] dark:text-[var(--intent-warning)] hover:bg-[var(--intent-warning-muted)]',
         info: 'border-[var(--intent-info-muted)] bg-[var(--intent-info-muted)] text-[var(--intent-info)] dark:text-[var(--intent-info)] hover:bg-[var(--intent-info-muted)]',
-        destructive: 'border-[var(--intent-danger-muted)] bg-[var(--intent-danger-muted)] text-[var(--intent-danger)] dark:text-[var(--intent-danger)] hover:bg-[var(--intent-danger-muted)]',
+        destructive:
+          'border-[var(--intent-danger-muted)] bg-[var(--intent-danger-muted)] text-[var(--intent-danger)] dark:text-[var(--intent-danger)] hover:bg-[var(--intent-danger-muted)]',
 
         // --- Ecommerce (decorative gradients — use token shadows, drop palette colors) ---
-        discount: 'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
+        discount:
+          'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
         new: 'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
-        limited: 'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
-        'out-of-stock': 'border-transparent bg-[var(--surface-muted)] text-[var(--text-tertiary)] backdrop-blur-sm hover:bg-[var(--surface-subtle)]',
+        limited:
+          'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
+        'out-of-stock':
+          'border-transparent bg-[var(--surface-muted)] text-[var(--text-tertiary)] backdrop-blur-sm hover:bg-[var(--surface-subtle)]',
 
         // --- Legacy Fallbacks ---
-        default: 'border-transparent bg-primary text-primary-foreground shadow-[var(--shadow-sm)] hover:brightness-110',
+        default: 'border-border bg-muted text-foreground',
         soft: 'border-transparent bg-accent text-accent-foreground hover:bg-accent/80',
         sale: 'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
       },
@@ -63,6 +71,7 @@ export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof badgeVariants> {
   dot?: boolean
   pulse?: boolean
+  dotColor?: string
   icon?: React.ReactNode
   iconRight?: React.ReactNode
   removable?: boolean
@@ -75,6 +84,7 @@ function Badge({
   size,
   dot,
   pulse,
+  dotColor,
   icon,
   iconRight,
   removable,
@@ -85,11 +95,29 @@ function Badge({
   return (
     <div className={cn(badgeVariants({ variant, size }), className)} {...props}>
       {(dot || pulse) && (
-        <span className="relative flex h-1.5 w-1.5 shrink-0">
-          {pulse && (
-            <span className="absolute inline-flex w-full h-full bg-current rounded-full opacity-75 animate-ping" />
+        <span
+          className={cn(
+            'relative flex h-2 w-2 shrink-0 items-center justify-center rounded-full',
+            !dotColor && 'bg-current',
           )}
-          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-current opacity-90" />
+          style={dotColor ? { backgroundColor: dotColor } : undefined}
+        >
+          {pulse && (
+            <span
+              className={cn(
+                'absolute inline-flex w-full h-full rounded-full animate-ping',
+                !dotColor && 'bg-current opacity-75',
+              )}
+              style={dotColor ? { backgroundColor: dotColor, opacity: 0.75 } : undefined}
+            />
+          )}
+          <span
+            className={cn(
+              'relative inline-flex h-2 w-2 rounded-full opacity-90',
+              !dotColor && 'bg-current',
+            )}
+            style={dotColor ? { backgroundColor: dotColor, opacity: 0.9 } : undefined}
+          />
         </span>
       )}
       {icon && <span className="shrink-0">{icon}</span>}

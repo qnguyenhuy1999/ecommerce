@@ -25,7 +25,6 @@ function AdminLayout({
   ...props
 }: AdminLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const hasSidebar = Boolean(sidebar)
 
   // Close mobile menu on resize to desktop
   useEffect(() => {
@@ -90,17 +89,7 @@ function AdminLayout({
       )}
 
       {/* Main Content Area */}
-      <div
-        className={cn(
-          'flex-1 flex flex-col min-w-0',
-          hasSidebar && 'lg:pl-[var(--admin-layout-sidebar-width)]',
-        )}
-        style={
-          hasSidebar
-            ? ({ ['--admin-layout-sidebar-width' as string]: sidebarWidth } as React.CSSProperties)
-            : undefined
-        }
-      >
+      <div className={cn('flex-1 flex flex-col min-w-0')}>
         {header && (
           <div className="hidden lg:block sticky top-0 z-30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
             {header}

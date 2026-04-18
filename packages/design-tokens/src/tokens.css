@@ -1,9 +1,4 @@
 /* =========================================================================
-   @ecom/design-tokens — Design Token System
-   Single Source of Truth for all ECOM packages
-   ========================================================================= */
-
-/* =========================================================================
    TIER 1 — PRIMITIVES
    Raw values only. No semantic meaning. No component references.
    ========================================================================= */
@@ -503,6 +498,21 @@
   --dropdown-radius: var(--radius-md);
   --dropdown-z-index: var(--layer-dropdown);
 
+  /* --- Toast --- */
+  --toast-bg: var(--surface-base);
+  --toast-border: var(--border-subtle);
+  --toast-foreground: var(--text-primary);
+  --toast-description: var(--text-secondary);
+  --toast-radius: var(--radius-md);
+  --toast-padding: var(--space-4);
+  --toast-elevation: var(--elevation-dropdown);
+  --toast-z-index: var(--layer-toast);
+  --toast-max-width: 24rem;
+  --toast-gap: var(--space-3);
+  --toast-icon-size: 1.125rem;
+  --toast-progress-height: 3px;
+  --toast-accent-width: 3px;
+
   /* --- Charts (Admin Data Viz) --- */
   --chart-1: var(--brand-500);
   --chart-2: var(--info-500);
@@ -513,6 +523,8 @@
 }
 
 .dark {
+  --toast-bg: var(--surface-elevated);
+  --toast-border: var(--border-subtle);
   --chart-1: var(--brand-300);
   --chart-2: var(--info-400);
   --chart-3: var(--success-400);
@@ -626,12 +638,32 @@
   }
 }
 
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin var(--motion-slow, 0.7s) linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation-duration: 2s !important;
   }
 }
 
@@ -653,6 +685,16 @@
   }
 }
 
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
 @keyframes float {
   0% {
     transform: translateY(0px);
@@ -662,6 +704,55 @@
   }
   100% {
     transform: translateY(0px);
+  }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgb(var(--info-500-rgb) / 0);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgb(var(--info-500-rgb) / 0.15);
+  }
+}
+
+@keyframes step-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgb(var(--brand-500-rgb) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgb(var(--brand-500-rgb) / 0);
+  }
+}
+
+@keyframes toast-slide-in {
+  from {
+    transform: translateX(calc(100% + var(--space-4)));
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-slide-out {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(calc(100% + var(--space-4)));
+    opacity: 0;
+  }
+}
+
+@keyframes toast-progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
   }
 }
 
@@ -744,4 +835,20 @@
   --radius-sm: var(--radius-sm);
 
   --font-sans: var(--font-sans);
+
+  --animate-accordion-down: accordion-down var(--motion-normal) var(--motion-ease-out);
+  --animate-accordion-up: accordion-up var(--motion-normal) var(--motion-ease-out);
+  --animate-fade-in: fade-in var(--motion-normal) var(--motion-ease-out);
+  --animate-fade-out: fade-out var(--motion-normal) var(--motion-ease-out);
+  --animate-slide-up: slide-up var(--motion-normal) var(--motion-ease-out);
+  --animate-slide-down: slide-down var(--motion-normal) var(--motion-ease-out);
+  --animate-scale-in: scale-in var(--motion-normal) var(--motion-ease-out);
+  --animate-spin: spin var(--motion-slow, 0.7s) linear infinite;
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-float: float;
+  --animate-pulse-subtle: pulse-subtle 2s ease-in-out infinite;
+  --animate-pulse-soft: pulse-soft 2.5s ease-in-out infinite;
+  --animate-step-pulse: step-pulse 2s ease-in-out infinite;
+  --animate-toast-slide-in: toast-slide-in 300ms ease-out;
+  --animate-toast-slide-out: toast-slide-out 300ms ease-in;
 }

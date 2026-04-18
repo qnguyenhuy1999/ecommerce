@@ -8,15 +8,7 @@ export interface KbdProps extends React.HTMLAttributes<HTMLElement> {
   /** Display keys in a combo, e.g. ['⌘', 'K'] */
   keys?: string[]
 }
-
-/**
- * Keyboard shortcut indicator.
- * Renders a single key or a combination of keys in a visually distinct style.
- *
- * Usage:
- *   <Kbd>⌘K</Kbd>
- *   <Kbd keys={['⌘', 'Shift', 'P']} />
- */
+              
 function Kbd({ keys, children, className, ...props }: KbdProps) {
   if (keys && keys.length > 0) {
     return (

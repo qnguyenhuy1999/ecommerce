@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { Search, FileText, Settings, User, Package, ShoppingCart } from 'lucide-react'
 
-import { Dialog, DialogContent, Input, ScrollArea, cn } from '@ecom/ui'
+import { Dialog, DialogContent, DialogTitle, Input, ScrollArea, cn } from '@ecom/ui'
 
 export interface CommandItem {
   id: string
@@ -23,6 +23,7 @@ export interface CommandPaletteProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   groups: CommandGroup[]
+  disableShortcut?: boolean
 }
 
 const defaultIcons = {
@@ -33,7 +34,12 @@ const defaultIcons = {
   order: <ShoppingCart className="w-4 h-4" />,
 }
 
-export function CommandPalette({ open, onOpenChange, groups }: CommandPaletteProps) {
+export function CommandPalette({
+  open,
+  onOpenChange,
+  groups,
+  disableShortcut = false,
+}: CommandPaletteProps) {
   const [search, setSearch] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -42,17 +48,24 @@ export function CommandPalette({ open, onOpenChange, groups }: CommandPalettePro
   const filteredGroups = groups
     .map((group) => ({
       ...group,
-      items: group.items.filter((item) => item.label.toLowerCase().includes(search.toLowerCase())),
+      items: group.items.filter((item) => {
+        const label = item.label ?? ''
+        return label.toLowerCase().includes(search.toLowerCase())
+      }),
     }))
     .filter((group) => group.items.length > 0)
 
-  const flatItems = filteredGroups.flatMap((g) => g.items)
+  const flatItems = filteredGroups.reduce<CommandItem[]>(
+    (acc, group) => [...acc, ...group.items],
+    [],
+  )
 
   useEffect(() => {
     setSelectedIndex(0)
   }, [search])
 
   useEffect(() => {
+    if (disableShortcut) return
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
         e.preventDefault()
@@ -62,7 +75,7 @@ export function CommandPalette({ open, onOpenChange, groups }: CommandPalettePro
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [open, onOpenChange])
+  }, [open, onOpenChange, disableShortcut])
 
   useEffect(() => {
     if (open) {
@@ -83,8 +96,8 @@ export function CommandPalette({ open, onOpenChange, groups }: CommandPalettePro
       setSelectedIndex((i) => (i - 1 + flatItems.length) % Math.max(flatItems.length, 1))
     } else if (e.key === 'Enter') {
       e.preventDefault()
-      if (flatItems.length > 0 && selectedIndex >= 0) {
-        flatItems[selectedIndex].onSelect()
+      if (flatItems.length > 0 && selectedIndex >= 0 && selectedIndex < flatItems.length) {
+        flatItems[selectedIndex]?.onSelect()
         onOpenChange(false)
       }
     }
@@ -93,6 +106,7 @@ export function CommandPalette({ open, onOpenChange, groups }: CommandPalettePro
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="p-0 overflow-hidden max-w-2xl border-none shadow-[var(--elevation-modal)] bg-background/95 backdrop-blur-md [&>button:last-child]:hidden">
+        <DialogTitle className="sr-only">Command Palette</DialogTitle>
         <div role="search" className="flex items-center px-3 border-b" onKeyDown={handleKeyDown}>
           <Search className="w-5 h-5 text-muted-foreground shrink-0 ml-1" />
           <Input
@@ -100,7 +114,7 @@ export function CommandPalette({ open, onOpenChange, groups }: CommandPalettePro
             placeholder="Search commands..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="flex-1 h-14 border-0 shadow-none focus-visible:ring-0 text-base bg-transparent"
+            className="flex-1 h-14 border-0 shadow-none focus:shadow-none focus:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none text-base bg-transparent"
           />
           <kbd className="hidden lg:inline-flex items-center gap-1 bg-muted px-1.5 rounded-[var(--radius-xs)] text-[var(--space-3)] font-medium text-muted-foreground">
             ESC

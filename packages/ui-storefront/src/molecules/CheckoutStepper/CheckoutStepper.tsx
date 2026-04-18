@@ -50,6 +50,7 @@ function CheckoutStepper({ steps, currentStepId, className, ...props }: Checkout
                   isCurrent && [
                     'bg-brand text-brand-foreground',
                     'ring-4 ring-brand/20 shadow-[0_0_0_1px_var(--color-brand)]',
+                    'animate-[var(--animate-step-pulse)]',
                   ],
                   isPending && 'bg-background text-muted-foreground border-2 border-border',
                 )}

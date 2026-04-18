@@ -11,8 +11,8 @@ type Story = StoryObj<typeof ScrollArea>
 
 export const Default: Story = {
   render: () => (
-    <ScrollArea className="h-48 w-80 rounded-[var(--radius-md)] border p-4">
-      <div className="flex flex-col gap-4">
+    <ScrollArea className="h-80 w-[420px] rounded-[var(--radius-md)] border p-5">
+      <div className="flex flex-col divide-y divide-border">
         {[
           'Wireless Noise Cancelling Headphones',
           'Mechanical Gaming Keyboard RGB',
@@ -25,9 +25,9 @@ export const Default: Story = {
           'Monitor Arm Dual Screen',
           'LED Desk Lamp with Wireless Charging',
         ].map((product) => (
-          <div key={product} className="flex items-center justify-between border-b pb-3 last:border-b-0">
-            <span className="text-sm">{product}</span>
-            <span className="text-sm font-medium text-muted-foreground">In Stock</span>
+          <div key={product} className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0">
+            <span className="text-sm leading-snug line-clamp-2">{product}</span>
+            <span className="text-sm font-medium text-muted-foreground shrink-0">In Stock</span>
           </div>
         ))}
       </div>

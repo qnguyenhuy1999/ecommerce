@@ -63,7 +63,7 @@ function SearchFilterPalette() {
     <div className="p-8 space-y-4">
       <p className="text-sm text-muted-foreground">Click the button, then type "order" to filter commands.</p>
       <Button onClick={() => setOpen(true)}>Open Command Palette</Button>
-      <CommandPalette open={open} onOpenChange={setOpen} groups={ALL_GROUPS} />
+      <CommandPalette disableShortcut open={open} onOpenChange={setOpen} groups={ALL_GROUPS} />
     </div>
   )
 }
@@ -73,7 +73,7 @@ function NavigationOnlyPalette() {
   return (
     <div className="p-8">
       <Button onClick={() => setOpen(true)}>Open Command Palette</Button>
-      <CommandPalette open={open} onOpenChange={setOpen} groups={[NAVIGATION_GROUP]} />
+      <CommandPalette disableShortcut open={open} onOpenChange={setOpen} groups={[NAVIGATION_GROUP]} />
     </div>
   )
 }

@@ -8,35 +8,37 @@ import type { HeaderProps, HeaderUserMenuProps } from './types'
 
 function Header({ title, subtitle, actions, className, ...props }: HeaderProps) {
   return (
-    <header className={cn('admin-header bg-background/80 backdrop-blur-md shadow-[var(--elevation-floating)]', className)} {...props}>
-      <div className="flex-1 flex items-center gap-4 pr-6 h-full mr-6">
-        {title && <h1 className="text-lg font-semibold text-foreground leading-none">{title}</h1>}
-        {subtitle && (
-          <p className="text-[var(--text-sm)] text-muted-foreground ml-2 hidden sm:block">
-            {subtitle}
-          </p>
+    <header
+      className={cn(
+        'admin-header sticky top-0 z-40 flex items-center justify-between w-full min-h-[4rem] px-6 gap-4 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border shadow-sm',
+        className,
+      )}
+      {...props}
+    >
+      <div className="flex-1 flex flex-col justify-center min-w-0 pr-4">
+        {title && (
+          <h1 className="text-xl font-semibold text-foreground tracking-tight truncate">{title}</h1>
         )}
+        {subtitle && <p className="text-sm text-muted-foreground truncate mt-0.5">{subtitle}</p>}
       </div>
 
       {/* Search Bar / Command Palette Trigger */}
       <button
         type="button"
-        className="flex-1 max-w-md hidden md:flex items-center gap-2 bg-muted/30 backdrop-blur-sm rounded-[var(--radius-sm)] px-3 py-1.5 border border-border/50 transition-all duration-[var(--motion-fast)] hover:bg-muted/60 hover:border-border hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring text-left"
+        className="hidden md:flex flex-1 max-w-md items-center gap-2 bg-muted/50 hover:bg-muted rounded-md px-3 py-1.5 border border-border/50 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         onClick={() => {
           // Command palette will be triggered here
           window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))
         }}
       >
         <Search className="w-4 h-4 text-muted-foreground shrink-0" />
-        <span className="flex-1 text-[var(--text-sm)] text-muted-foreground truncate">
-          Search everywhere...
-        </span>
-        <kbd className="hidden lg:inline-flex items-center gap-1 bg-background/80 border px-1.5 rounded-[var(--radius-xs)] text-[var(--space-3)] font-medium text-muted-foreground mr-1 h-5 shadow-sm">
+        <span className="flex-1 text-sm text-muted-foreground truncate">Search everywhere...</span>
+        <kbd className="hidden lg:inline-flex items-center gap-1 bg-background border px-1.5 rounded text-[10px] font-medium text-muted-foreground h-5 shadow-sm">
           <span className="text-xs">⌘</span>K
         </kbd>
       </button>
 
-      <div className="flex-1 flex items-center justify-end gap-3">{actions}</div>
+      <div className="flex-1 flex items-center justify-end gap-3 min-w-0">{actions}</div>
     </header>
   )
 }

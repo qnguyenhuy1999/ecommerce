@@ -20,9 +20,12 @@ function ShippingProgressBar({
   className,
   ...props
 }: ShippingProgressBarProps) {
-  const remaining = Math.max(0, threshold - current)
-  const percent = Math.min((current / threshold) * 100, 100)
-  const isUnlocked = current >= threshold
+  const normalizedCurrent = Math.max(0, current)
+  const normalizedThreshold = Math.max(0, threshold)
+  const isUnlocked = normalizedThreshold === 0 || normalizedCurrent >= normalizedThreshold
+  const remaining = Math.max(0, normalizedThreshold - normalizedCurrent)
+  const percent =
+    normalizedThreshold === 0 ? 100 : Math.min((normalizedCurrent / normalizedThreshold) * 100, 100)
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -31,49 +34,55 @@ function ShippingProgressBar({
   })
 
   return (
-    <div className={cn('space-y-3', className)} {...props}>
-      {/* Status message */}
-      <p className={cn('text-[var(--text-sm)] font-medium flex items-center gap-2')}>
-        {isUnlocked ? (
-          <span className="text-success flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4" />
-            Free shipping unlocked!
-          </span>
-        ) : (
-          <span className="text-muted-foreground">
-            You're{' '}
-            <strong className="text-foreground font-semibold">{formatter.format(remaining)}</strong>{' '}
-            away from free shipping.
-          </span>
-        )}
-      </p>
-
-      {/* Progress bar */}
-      <Progress value={percent} variant={isUnlocked ? 'success' : 'brand'} className="h-1.5" />
-
-      {/* Milestone markers */}
-      {!isUnlocked && (
-        <div className="flex items-center justify-between text-[var(--text-micro)] text-muted-foreground">
-          <span>0</span>
-          <div className="relative flex-1 mx-2">
-            {/* "Free" milestone at 100% */}
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5">
-              <div
-                className={cn(
-                  'w-1.5 h-1.5 rounded-full border transition-colors',
-                  isUnlocked
-                    ? 'bg-success border-success'
-                    : 'bg-muted-foreground/30 border-muted-foreground/30',
-                )}
-              />
-              <span className="text-[var(--text-micro)] font-medium whitespace-nowrap">
-                Free shipping
-              </span>
-            </div>
-          </div>
-          <span>{formatter.format(threshold)}</span>
-        </div>
+    <div
+      className={cn(
+        'rounded-[var(--radius-lg)] border border-border/70 bg-gradient-to-r from-muted/40 via-card to-muted/20',
+        'p-4 shadow-[var(--elevation-card)] space-y-3',
+        className,
       )}
+      {...props}
+    >
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-[var(--text-sm)] font-medium leading-relaxed">
+          {isUnlocked ? (
+            <span className="text-success flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4" />
+              Free shipping unlocked!
+            </span>
+          ) : (
+            <span className="text-muted-foreground">
+              You're{' '}
+              <strong className="text-foreground font-semibold">
+                {formatter.format(remaining)}
+              </strong>{' '}
+              away from free shipping.
+            </span>
+          )}
+        </p>
+
+        <span
+          className={cn(
+            'inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-[var(--text-micro)] font-semibold',
+            isUnlocked ? 'bg-success/15 text-success' : 'bg-brand/10 text-brand',
+          )}
+        >
+          {Math.round(percent)}%
+        </span>
+      </div>
+
+      <Progress
+        value={percent}
+        size="sm"
+        variant={isUnlocked ? 'success' : 'brand'}
+        className="gap-0"
+      />
+
+      <div className="flex items-center justify-between text-[var(--text-micro)] text-muted-foreground">
+        <span>{formatter.format(0)}</span>
+        <span className={cn('font-medium', isUnlocked && 'text-success')}>
+          Free shipping at {formatter.format(normalizedThreshold)}
+        </span>
+      </div>
     </div>
   )
 }

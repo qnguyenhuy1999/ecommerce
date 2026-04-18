@@ -16,7 +16,7 @@ type Story = StoryObj<typeof Badge>
 export const Default: Story = {
   render: () => (
     <div className="flex flex-wrap gap-3">
-      <Badge>Default</Badge>
+      <Badge variant="default">Default</Badge>
     </div>
   ),
 }

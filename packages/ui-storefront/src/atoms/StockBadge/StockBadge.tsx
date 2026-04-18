@@ -2,7 +2,7 @@
 
 import { CheckCircle2, AlertTriangle, XCircle } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { Badge, cn } from '@ecom/ui'
 
 export interface StockBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: 'in-stock' | 'low-stock' | 'out-of-stock'
@@ -15,16 +15,19 @@ const statusConfig = {
     label: 'In Stock',
     icon: CheckCircle2,
     variant: 'success' as const,
+    className: 'bg-success/18 text-success border-success/35 shadow-[var(--shadow-xs)]',
   },
   'low-stock': {
     label: undefined, // label derived from count
     icon: AlertTriangle,
     variant: 'warning' as const,
+    className: 'bg-warning/20 text-warning border-warning/40 shadow-[var(--shadow-xs)]',
   },
   'out-of-stock': {
     label: 'Out of Stock',
     icon: XCircle,
     variant: 'destructive' as const,
+    className: 'bg-destructive/18 text-destructive border-destructive/35 shadow-[var(--shadow-xs)]',
   },
 }
 
@@ -38,21 +41,14 @@ function StockBadge({ status, count, className, ...props }: StockBadgeProps) {
   if (!label) return null
 
   return (
-    <div
-      className={cn(
-        'inline-flex items-center gap-1.5',
-        // Use semantic colors from the Badge system
-        status === 'in-stock' && 'text-success',
-        status === 'low-stock' && 'text-warning',
-        status === 'out-of-stock' && 'text-destructive',
-        'text-[var(--text-micro)] font-medium',
-        className,
-      )}
+    <Badge
+      variant={config.variant}
+      icon={<Icon className="w-3.5 h-3.5" />}
+      className={cn('font-semibold', config.className, className)}
       {...props}
     >
-      <Icon className="w-3 h-3 shrink-0" />
-      <span>{label}</span>
-    </div>
+      {label}
+    </Badge>
   )
 }
 
