@@ -5,10 +5,10 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.build.json",
+    "build": "pnpm run generate && tsc --build tsconfig.build.json",
     "clean": "tsc --build tsconfig.build.json --clean",
     "lint": "eslint src --ext .ts,.tsx",
-    "type-check": "tsc --noEmit",
+    "type-check": "pnpm run generate && tsc --noEmit",
     "generate": "prisma generate",
     "migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",

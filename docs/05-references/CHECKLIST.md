@@ -193,7 +193,7 @@
 
 ### Pre-Merge
 
-- [ ] All CI checks passing (lint, typecheck, tests)
+- [ ] All CI checks passing (lint, type-check, tests)
 - [ ] Branch is up to date with `main` (rebased or merged)
 - [ ] PR description accurately describes changes
 - [ ] PR linked to relevant issue/ticket

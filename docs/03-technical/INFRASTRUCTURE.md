@@ -350,7 +350,7 @@ jobs:
         with: { node-version: '20', cache: 'npm' }
       - run: npm ci
       - run: npm run lint
-      - run: npm run typecheck
+      - run: npm run type-check
 
   unit-tests:
     runs-on: ubuntu-latest

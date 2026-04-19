@@ -102,7 +102,7 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
         <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted group-hover:h-2.5 transition-all duration-200">
           <SliderPrimitive.Range
             className="absolute h-full bg-brand w-[var(--slider-range-width,0%)]"
-            style={{ '--slider-range-width': `${percentage}%` } as React.CSSProperties}
+            style={{ '--slider-range-width': `${String(percentage)}%` } as React.CSSProperties}
           />
         </SliderPrimitive.Track>
 
@@ -114,7 +114,9 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
               <div
                 key={i}
                 className="absolute top-1/2 h-1 w-px bg-muted-foreground/30 left-[var(--slider-tick-position,0%)]"
-                style={{ '--slider-tick-position': `${tickPercent}%` } as React.CSSProperties}
+                style={
+                  { '--slider-tick-position': `${String(tickPercent)}%` } as React.CSSProperties
+                }
               />
             )
           })}
@@ -131,7 +133,11 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
                 ? 'animate-in fade-in-0 zoom-in-95 duration-150'
                 : 'opacity-0 transition-opacity duration-200',
             )}
-            style={{ '--slider-tooltip-position': `calc(${percentage}% + (var(--slider-thumb-offset, 0px)))` } as React.CSSProperties}
+            style={
+              {
+                '--slider-tooltip-position': `calc(${String(percentage)}% + (var(--slider-thumb-offset, 0px)))`,
+              } as React.CSSProperties
+            }
           >
             {tooltipValue}
             <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-foreground rotate-45" />

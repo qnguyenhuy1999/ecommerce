@@ -19,8 +19,8 @@ export const DEFAULT_STATUS_MAPPING: StatusMapping = {
   DELETED: { label: 'Deleted', variant: 'danger' },
 }
 
-export function mapStatus<T extends string>(
-  status: T,
+export function mapStatus(
+  status: string,
   mapping: StatusMapping = DEFAULT_STATUS_MAPPING,
 ): { label: string; variant: StatusVariant } {
   return mapping[status] ?? { label: status, variant: 'default' }

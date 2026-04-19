@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build": "echo done",
-    "typecheck": "echo done"
+    "type-check": "echo done"
   },
   "dependencies": {}
 }

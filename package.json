@@ -12,7 +12,7 @@
     "lint": "turbo lint",
     "format": "pnpm -w exec prettier --write \"**/*.{ts,tsx,md,stories.tsx}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
     "format:check": "pnpm -w exec prettier --check \"**/*.{ts,tsx,md,stories.tsx}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
-    "type-check": "turbo typecheck",
+    "type-check": "turbo type-check",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
     "db:generate": "cd packages/database && npx prisma generate",
@@ -46,7 +46,7 @@
     "madge": "^8.0.0",
     "prettier": "^3.2.0",
     "turbo": "^2.0.0",
-    "typescript": "^5.4.0",
+    "typescript": "^5.4.5",
     "typescript-eslint": "^8.58.2",
     "vite": "^7.1.12"
   },

@@ -11,24 +11,7 @@ import tokensPlugin from './packages/design-tokens/eslint-plugin-tokens.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const tsProject = ['./tsconfig.eslint.json']
-const tsResolverProjects = [
-  './tsconfig.eslint.json',
-  './apps/api/tsconfig.json',
-  './apps/worker/tsconfig.json',
-  './apps/admin/tsconfig.json',
-  './apps/storefront/tsconfig.json',
-  './packages/ui/tsconfig.json',
-  './packages/ui-admin/tsconfig.json',
-  './packages/ui-storefront/tsconfig.json',
-  './packages/api-client/tsconfig.json',
-  './packages/api-types/tsconfig.json',
-  './packages/constants/tsconfig.json',
-  './packages/database/tsconfig.json',
-  './packages/design-tokens/tsconfig.json',
-  './packages/email/tsconfig.json',
-  './packages/redis/tsconfig.json',
-  './packages/shared/tsconfig.json',
-]
+const tsResolverProjects = ['./tsconfig.eslint.json']
 
 /** @type {import("eslint").Linter.FlatConfig[]} */
 export default [

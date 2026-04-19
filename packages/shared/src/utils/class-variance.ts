@@ -3,12 +3,13 @@
  * Simplified implementation for variant merging
  */
 
+import { clsx, type ClassValue } from 'clsx'
+
 type ClassDictionary = Record<string, boolean | undefined | null>
 type ClassArray = (string | ClassDictionary | undefined | null | false)[]
-type ClassValue = string | ClassDictionary | ClassArray
 
 function _join(arr: (string | undefined | null | false)[]): string {
-  return arr.filter(Boolean).join(' ')
+  return clsx(arr)
 }
 
 function _clsxDictionary(dict: ClassDictionary): string {
@@ -21,25 +22,30 @@ function _clsxDictionary(dict: ClassDictionary): string {
 export function cva(
   base: string | ClassArray,
   config: {
-    variants?: Record<string, Record<string, string | ClassArray>>
+    variants?: Partial<Record<string, Partial<Record<string, string | ClassArray>>>>
     compoundVariants?: Array<Record<string, string> & { class: string | ClassArray }>
-    defaultVariants?: Record<string, string>
+    defaultVariants?: Partial<Record<string, string>>
   },
 ) {
   return (props?: Record<string, string | undefined>) => {
     const { variants = {}, compoundVariants = [], defaultVariants = {} } = config
 
     // Resolve base classes
-    const baseClasses = Array.isArray(base) ? base.filter(Boolean).join(' ') : base
+    const baseClasses = clsx(base)
 
     // Resolve variant classes
     const variantClasses: string[] = []
     for (const [key, value] of Object.entries(props ?? {})) {
-      if (variants[key]) {
+      const variantMap = variants[key]
+      if (variantMap) {
         const resolved = value ?? defaultVariants[key]
-        if (resolved && variants[key][resolved]) {
-          const v = variants[key][resolved]
-          variantClasses.push(Array.isArray(v) ? v.filter(Boolean).join(' ') : v)
+        if (resolved === undefined) {
+          continue
+        }
+
+        const v = variantMap[resolved]
+        if (v !== undefined) {
+          variantClasses.push(clsx(v as ClassValue))
         }
       }
     }
@@ -48,15 +54,13 @@ export function cva(
     const compoundClasses: string[] = []
     for (const cv of compoundVariants) {
       const { class: cvClass, ...cvProps } = cv
-      const matches = Object.entries(cvProps).every(
-        ([k, v]) => props?.[k] === v,
-      )
+      const matches = Object.entries(cvProps).every(([k, v]) => props?.[k] === v)
       if (matches) {
-        compoundClasses.push(Array.isArray(cvClass) ? cvClass.filter(Boolean).join(' ') : cvClass)
+        compoundClasses.push(clsx(cvClass as ClassValue))
       }
     }
 
-    return [baseClasses, ...variantClasses, ...compoundClasses].filter(Boolean).join(' ')
+    return clsx(baseClasses, variantClasses, compoundClasses)
   }
 }
 

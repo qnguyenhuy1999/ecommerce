@@ -1,12 +1,12 @@
-import nodemailer from 'nodemailer'
+import { createTransport, type Transporter } from 'nodemailer'
 
 import { emailConfig } from './index'
 
 export * from './index'
 export { emailConfig }
 
-export function createTransporter() {
-  return nodemailer.createTransport({
+export function createTransporter(): Transporter {
+  return createTransport({
     host: emailConfig.host,
     port: emailConfig.port,
     secure: emailConfig.secure,

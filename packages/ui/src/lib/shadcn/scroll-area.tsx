@@ -1,16 +1,22 @@
 'use client'
 
-import React from 'react'
+import { forwardRef } from 'react'
+import type { CSSProperties, HTMLAttributes } from 'react'
 
 import { cn } from '../../lib/utils'
 
-interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
+interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
   orientation?: 'vertical' | 'horizontal' | 'both'
   maxHeight?: string
 }
 
-const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
+const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
   ({ orientation = 'vertical', maxHeight, className, children, style, ...props }, ref) => {
+    const mergedStyle: CSSProperties & { '--scroll-area-max-height'?: string } = {
+      ...(style ?? {}),
+      ...(maxHeight ? { '--scroll-area-max-height': maxHeight } : {}),
+    }
+
     return (
       <div
         ref={ref}
@@ -27,13 +33,7 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
           maxHeight && 'max-[var(--scroll-area-max-height)]',
           className,
         )}
-        style={
-          Object.assign(
-            {},
-            style,
-            maxHeight ? ({ '--scroll-area-max-height': maxHeight } as React.CSSProperties) : {},
-          ) as React.CSSProperties
-        }
+        style={mergedStyle}
         {...props}
       >
         {children}

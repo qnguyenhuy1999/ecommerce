@@ -394,7 +394,7 @@ npm run dev:all          # Start all apps in dev mode
 npm run build            # Build all apps
 npm run test             # Run all tests
 npm run lint             # Lint all code
-npm run typecheck        # TypeScript type checking
+npm run type-check       # TypeScript type checking
 npm run db:migrate        # Run migrations
 npm run db:rollback       # Rollback last migration
 npm run db:seed          # Seed database
