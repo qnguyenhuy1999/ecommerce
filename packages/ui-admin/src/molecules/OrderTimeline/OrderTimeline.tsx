@@ -1,5 +1,6 @@
-import { cn } from '@ecom/ui'
 import { Check } from 'lucide-react'
+
+import { cn } from '@ecom/ui'
 
 export interface TimelineStep {
   label: string
@@ -51,16 +52,16 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
     <div className={cn('relative', className)} {...props}>
       {/* Filled progress line (shows completed portion) */}
       <div
-        className="absolute left-[0.5625rem] top-4 w-0.5 bg-[var(--intent-success)] max-md:left-[0.4375rem] max-md:top-3"
+        className="absolute left-[var(--timeline-connector-offset)] top-4 w-[var(--timeline-connector-width)] bg-[var(--intent-success)] max-md:left-[var(--timeline-connector-offset-sm)] max-md:top-3"
         style={{
           height: `calc((100% - 2rem) * ${completedCount / (steps.length - 1)})`,
-          opacity: 0.35,
+          opacity: 'var(--opacity-timeline-connector)',
         }}
       />
 
       {/* Base connector line */}
       <div
-        className="absolute left-[0.5625rem] top-4 bottom-4 w-px bg-[var(--border-subtle)] max-md:left-[0.4375rem] max-md:top-3 max-md:bottom-3"
+        className="absolute left-[var(--timeline-connector-offset)] top-4 bottom-4 w-[var(--timeline-connector-width)] bg-[var(--border-subtle)] max-md:left-[var(--timeline-connector-offset-sm)] max-md:top-3 max-md:bottom-3"
         style={{ zIndex: 0 }}
       />
 
@@ -77,8 +78,8 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
               {/* Node */}
               <div
                 className={cn(
-                  'relative z-10 flex shrink-0 items-center justify-center mt-[3px]',
-                  'w-[1.125rem] h-[1.125rem] rounded-full border-2 max-md:w-[0.9375rem] max-md:h-[0.9375rem]',
+                  'relative z-10 flex shrink-0 items-center justify-center mt-[var(--timeline-node-margin-top)]',
+                  'w-[var(--timeline-node-size)] h-[var(--timeline-node-size)] rounded-full border-2 max-md:w-[var(--timeline-node-size-sm)] max-md:h-[var(--timeline-node-size-sm)]',
                   'transition-all duration-200',
                   cfg.dotBg,
                   cfg.dotBorder,
@@ -91,7 +92,7 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
                   <div className="w-1 h-1 rounded-full bg-[var(--border-strong)]" />
                 )}
                 {step.status === 'error' && (
-                  <span className="text-[8px] font-bold text-white leading-none -mt-px">!</span>
+                  <span className="text-[var(--text-timeline-error-label)] font-bold text-white leading-none -mt-px">!</span>
                 )}
                 {step.status === 'current' && (
                   <span className="relative flex h-1.5 w-1.5">
@@ -104,18 +105,18 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
               {/* Content */}
               <div className="flex flex-col flex-1 min-w-0 mt-0.5">
                 {/* Label row */}
-                <p className={cn('text-[13px] font-medium leading-snug', cfg.labelColor)}>
+                <p className={cn('text-[var(--text-timeline-label)] font-medium leading-snug', cfg.labelColor)}>
                   {step.label}
                 </p>
 
                 {/* Timestamp */}
                 {step.timestamp && (
-                  <p className={cn('mt-0.5 text-[11px]', cfg.timeColor)}>{step.timestamp}</p>
+                  <p className={cn('mt-0.5 text-[var(--text-timeline-timestamp)]', cfg.timeColor)}>{step.timestamp}</p>
                 )}
 
                 {/* Description */}
                 {step.description && (
-                  <p className={cn('mt-0.5 text-[12px] leading-relaxed', cfg.descColor)}>
+                  <p className={cn('mt-0.5 text-[var(--text-timeline-description)] leading-relaxed', cfg.descColor)}>
                     {step.description}
                   </p>
                 )}
@@ -124,8 +125,8 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
                 {step.status === 'current' && (
                   <div className="mt-1.5 inline-flex items-center gap-1.5">
                     <span
-                      className="inline-block w-4 h-px bg-[var(--intent-info)]"
-                      style={{ opacity: 0.5 }}
+                      className="inline-block w-[var(--timeline-indicator-width)] h-px bg-[var(--intent-info)]"
+                      style={{ opacity: 'var(--opacity-indicator-bar)' }}
                     />
                     <span className="text-[10px] font-medium text-[var(--intent-info)] tracking-widest uppercase">
                       In Progress
@@ -135,8 +136,8 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
                 {step.status === 'error' && (
                   <div className="mt-1.5 inline-flex items-center gap-1.5">
                     <span
-                      className="inline-block w-4 h-px bg-[var(--intent-danger)]"
-                      style={{ opacity: 0.5 }}
+                      className="inline-block w-[var(--timeline-indicator-width)] h-px bg-[var(--intent-danger)]"
+                      style={{ opacity: 'var(--opacity-indicator-bar)' }}
                     />
                     <span className="text-[10px] font-medium text-[var(--intent-danger)] tracking-widest uppercase">
                       Issue Detected

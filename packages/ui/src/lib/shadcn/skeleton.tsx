@@ -9,7 +9,7 @@ import { cn } from '../../lib/utils'
 const skeletonVariants = cva(
   [
     'bg-muted bg-[length:200%_100%] bg-gradient-to-r from-muted via-muted/60 to-muted',
-    'motion-safe:animate-[shimmer_2s]',
+    'motion-safe:animate-[shimmer_var(--animate-duration-shimmer-skeleton)_linear_infinite]',
   ].join(' '),
   {
     variants: {

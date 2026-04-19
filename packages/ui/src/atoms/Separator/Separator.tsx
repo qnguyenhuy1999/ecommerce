@@ -1,2 +1,2 @@
-export { Separator } from '../../components/ui/separator'
-export type { SeparatorProps } from '../../components/ui/separator'
+export { Separator } from '../../lib/shadcn/separator'
+export type { SeparatorProps } from '../../lib/shadcn/separator'

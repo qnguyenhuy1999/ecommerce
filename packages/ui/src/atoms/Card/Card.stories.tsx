@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { ShoppingCart, Heart, Star } from 'lucide-react'
-import { Badge } from '../../components/ui/badge'
-import { Button } from '../../components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../../components/ui/card'
+import { Badge } from '../../lib/shadcn/badge'
+import { Button } from '../../lib/shadcn/button'
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '../../lib/shadcn/card'
 
 const meta: Meta<typeof Card> = {
   title: 'atoms/Card',

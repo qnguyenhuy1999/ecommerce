@@ -1,1 +1,1 @@
-export { Textarea } from '../../components/ui/textarea'
+export { Textarea } from '../../lib/shadcn/textarea'

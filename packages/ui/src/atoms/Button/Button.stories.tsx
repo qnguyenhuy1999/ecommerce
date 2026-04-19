@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { ShoppingCart, Plus, Trash2, Download, ArrowRight, Mail, Search } from 'lucide-react'
 
-import { Button } from '../../components/ui/button'
+import { Button } from '../../lib/shadcn/button'
 
 const meta: Meta<typeof Button> = {
   title: 'atoms/Button',

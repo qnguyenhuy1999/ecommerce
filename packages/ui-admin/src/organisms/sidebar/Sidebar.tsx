@@ -79,17 +79,17 @@ function NavItem({
         'group flex items-center font-medium transition-all relative',
         isCurrent
           ? 'bg-brand text-white shadow-md'
-          : 'text-slate-500 hover:bg-slate-50/80 hover:text-slate-900',
+          : 'text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
         collapsed
           ? 'justify-center w-10 h-10 p-0 mx-auto rounded-full'
-          : 'w-full gap-3 px-3 py-2 rounded-full text-[13px]',
+          : 'w-full gap-3 px-3 py-2 rounded-full text-[var(--text-nav-label)]',
       )}
     >
       {item.icon && (
         <span
           className={cn(
             'shrink-0 transition-colors',
-            isCurrent ? 'text-white' : 'text-slate-400 group-hover:text-slate-600',
+            isCurrent ? 'text-white' : 'text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]',
           )}
         >
           {item.icon}
@@ -99,7 +99,7 @@ function NavItem({
         <>
           <span className="flex-1 truncate">{item.label}</span>
           {item.badge !== undefined && (
-            <span className="inline-flex items-center justify-center min-w-[1.25rem] h-[18px] px-1.5 text-[10px] font-bold rounded-full bg-brand/10 text-brand">
+            <span className="inline-flex items-center justify-center min-w-[var(--space-5)] h-[18px] px-1.5 text-[var(--text-micro)] font-bold rounded-full bg-brand/10 text-brand">
               {item.badge}
             </span>
           )}
@@ -148,7 +148,7 @@ function NavItem({
                   }
                 }}
                 className={cn(
-                  'block py-1.5 text-[13px] transition-colors',
+                  'block py-1.5 text-[var(--text-nav-label)] transition-colors',
                   child.isActive || (currentPath && child.href === currentPath)
                     ? 'text-foreground font-medium'
                     : 'text-muted-foreground hover:text-foreground',
@@ -189,10 +189,10 @@ function Sidebar({
         {logo && (
           <div
             className={cn(
-              'h-14 flex items-center shrink-0 border-b border-slate-100',
+              'h-14 flex items-center shrink-0 border-b border-subtle',
               collapsed
-                ? 'justify-center px-0 text-lg font-extrabold tracking-tight text-slate-900'
-                : 'px-5 text-[18px] font-extrabold tracking-tight text-slate-900',
+                ? 'justify-center px-0 text-lg font-extrabold tracking-tight text-foreground'
+                : 'px-5 text-[var(--text-sidebar-logo)] font-extrabold tracking-tight text-foreground',
             )}
           >
             {logo}
@@ -202,12 +202,12 @@ function Sidebar({
           {navGroups.map((group, gi) => (
             <div key={gi} className={cn(collapsed ? 'flex flex-col items-center w-full' : '')}>
               {group.label && !collapsed && (
-                <p className="px-3 mb-2 text-[9px] font-extrabold uppercase tracking-widest text-[#A0AAB8]">
+                <p className="px-3 mb-2 text-[var(--text-sidebar-group-label)] font-extrabold uppercase tracking-widest text-[var(--text-tertiary)]">
                   {group.label}
                 </p>
               )}
               {group.label && collapsed && (
-                <div className="w-3.5 h-[1.5px] bg-slate-200 mx-auto mb-2" />
+                <div className="w-3.5 h-px bg-[var(--border-subtle)] mx-auto mb-2" />
               )}
               <ul
                 className={cn(

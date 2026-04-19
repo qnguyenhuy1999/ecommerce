@@ -36,7 +36,9 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
+    "eslint-plugin-boundaries": "^6.0.2",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-jsx-a11y": "^6.10.0",
     "eslint-plugin-react": "^7.37.0",
     "eslint-plugin-react-hooks": "^5.0.0",
@@ -45,6 +47,7 @@
     "prettier": "^3.2.0",
     "turbo": "^2.0.0",
     "typescript": "^5.4.0",
+    "typescript-eslint": "^8.58.2",
     "vite": "^7.1.12"
   },
   "prettier": "./.prettierrc.mjs",

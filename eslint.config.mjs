@@ -10,6 +10,25 @@ import { fileURLToPath } from 'node:url'
 import tokensPlugin from './packages/design-tokens/eslint-plugin-tokens.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+const tsProject = ['./tsconfig.eslint.json']
+const tsResolverProjects = [
+  './tsconfig.eslint.json',
+  './apps/api/tsconfig.json',
+  './apps/worker/tsconfig.json',
+  './apps/admin/tsconfig.json',
+  './apps/storefront/tsconfig.json',
+  './packages/ui/tsconfig.json',
+  './packages/ui-admin/tsconfig.json',
+  './packages/ui-storefront/tsconfig.json',
+  './packages/api-client/tsconfig.json',
+  './packages/api-types/tsconfig.json',
+  './packages/constants/tsconfig.json',
+  './packages/database/tsconfig.json',
+  './packages/design-tokens/tsconfig.json',
+  './packages/email/tsconfig.json',
+  './packages/redis/tsconfig.json',
+  './packages/shared/tsconfig.json',
+]
 
 /** @type {import("eslint").Linter.FlatConfig[]} */
 export default [
@@ -39,12 +58,31 @@ export default [
       parserOptions: {
         ecmaVersion: 'latest',
         sourceType: 'module',
+        tsconfigRootDir: __dirname,
+      },
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: tsResolverProjects,
+        },
+        node: {
+          extensions: ['.js', '.cjs', '.mjs', '.ts', '.cts', '.mts', '.tsx', '.d.ts', '.json'],
+        },
       },
     },
     plugins: {
       '@typescript-eslint': tseslint,
       import: importPlugin,
       'unused-imports': unusedImports,
+      react,
+      'react-hooks': reactHooks,
+      'jsx-a11y': jsxA11y,
+      '@ecom/tokens': tokensPlugin,
     },
     rules: {
       ...tseslint.configs.recommended.rules,
@@ -60,71 +98,7 @@ export default [
           argsIgnorePattern: '^_',
         },
       ],
-    },
-  },
 
-  // ─── TypeScript (type-aware) ───────────────────────────────────────────────
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
-    ignores: [
-      'apps/storefront/**',
-      'apps/admin/**',
-      'packages/ui-admin/**',
-      'packages/ui-storefront/**',
-      '.storybook/**',
-    ],
-    languageOptions: {
-      parser: tsparser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        sourceType: 'module',
-        project: true,
-        tsconfigRootDir: process.cwd(),
-      },
-    },
-    plugins: {
-      '@typescript-eslint': tseslint,
-    },
-    rules: {
-      ...tseslint.configs['recommended-type-checked'].rules,
-      ...tseslint.configs['strict-type-checked'].rules,
-    },
-  },
-
-  // ─── React / JSX ───────────────────────────────────────────────────────────
-  {
-    files: ['**/*.tsx', '**/*.stories.tsx'],
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'jsx-a11y': jsxA11y,
-    },
-    languageOptions: {
-      parserOptions: {
-        ecmaFeatures: { jsx: true },
-      },
-    },
-    rules: {
-      'react-hooks/rules-of-hooks': 'error',
-      'react-hooks/exhaustive-deps': 'warn',
-
-      'react/jsx-uses-react': 'off',
-      'react/react-in-jsx-scope': 'off',
-
-      'jsx-a11y/alt-text': 'warn',
-      'jsx-a11y/anchor-has-content': 'warn',
-      'jsx-a11y/click-events-have-key-events': 'warn',
-      'jsx-a11y/no-static-element-interactions': 'warn',
-    },
-  },
-
-  // ─── Import sorting & structure (MAIN LOGIC) ───────────────────────────────
-  {
-    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
-    plugins: {
-      import: importPlugin,
-    },
-    rules: {
       'import/order': [
         'error',
         {
@@ -136,29 +110,80 @@ export default [
           },
           pathGroupsExcludedImportTypes: [],
           pathGroups: [
-            { pattern: 'react', group: 'builtin', position: 'before' },
+            { pattern: 'react', group: 'external', position: 'before' },
             { pattern: 'reflect-metadata', group: 'builtin', position: 'before' },
-            { pattern: 'lucide-react', group: 'external', position: 'after' },
             { pattern: '@ecom/**', group: 'internal', position: 'after' },
             { pattern: '@/**', group: 'internal', position: 'after' },
           ],
         },
       ],
-
       'import/no-duplicates': 'error',
       'import/newline-after-import': 'error',
       'import/first': 'error',
+      'import/no-unresolved': [
+        'error',
+        {
+          commonjs: true,
+          caseSensitive: true,
+        },
+      ],
+      'import/no-cycle': ['error', { ignoreExternal: true }],
 
-      'import/no-default-export': 'off',
+      'react/jsx-uses-react': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react-hooks/rules-of-hooks': 'error',
+      'react-hooks/exhaustive-deps': 'warn',
+
+      'jsx-a11y/alt-text': 'warn',
+      'jsx-a11y/anchor-has-content': 'warn',
+      'jsx-a11y/click-events-have-key-events': 'warn',
+      'jsx-a11y/no-static-element-interactions': 'warn',
+    },
+  },
+
+  // ─── TypeScript (type-aware) ───────────────────────────────────────────────
+  {
+    files: ['**/*.ts', '**/*.tsx', '**/*.mts', '**/*.cts'],
+    ignores: [
+      'apps/storefront/**',
+      'apps/admin/**',
+      'packages/ui-admin/**',
+      'packages/ui-storefront/**',
+      '**/*.stories.tsx',
+      '.storybook/**',
+    ],
+    languageOptions: {
+      parser: tsparser,
+      parserOptions: {
+        ecmaVersion: 'latest',
+        sourceType: 'module',
+        project: tsProject,
+        tsconfigRootDir: __dirname,
+      },
+    },
+    rules: {
+      ...tseslint.configs['recommended-type-checked'].rules,
+      ...tseslint.configs['strict-type-checked'].rules,
+    },
+  },
+
+  // ─── React / JSX ───────────────────────────────────────────────────────────
+  {
+    files: ['**/*.tsx', '**/*.stories.tsx'],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    rules: {
+      // Storybook stories often intentionally deviate from strict import ordering.
+      'import/order': 'off',
     },
   },
 
   // ─── Stories import order (Prettier handles it) ────────────────────────────
   {
     files: ['**/*.stories.tsx'],
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
       'import/order': 'off',
       'import/no-duplicates': 'error',
@@ -190,9 +215,6 @@ export default [
       'packages/ui-storefront/src/**/*.ts',
       'packages/ui-storefront/src/**/*.tsx',
     ],
-    plugins: {
-      '@ecom/tokens': tokensPlugin,
-    },
     rules: {
       '@ecom/tokens/no-raw-design-values': 'error',
     },
@@ -208,9 +230,6 @@ export default [
       'packages/ui-admin/src/**/*.tsx',
       'packages/ui-storefront/src/**/*.tsx',
     ],
-    plugins: {
-      '@ecom/tokens': tokensPlugin,
-    },
     rules: {
       '@ecom/tokens/tier-boundary': 'error',
     },
@@ -219,58 +238,64 @@ export default [
   // ─── ui-storefront: import boundary enforcement ────────────────────────────
   {
     files: ['packages/ui-storefront/src/**/*'],
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
-      'import/no-restricted-paths': ['error', {
-        zones: [
-          {
-            target: ['packages/ui-storefront/src/**/*'],
-            from: '@ecom/ui/components/ui',
-            message: 'components/ui is internal. Import from @ecom/ui or @ecom/ui/atoms/X instead.',
-          },
-          {
-            target: ['packages/ui-storefront/src/**/*'],
-            from: '@ecom/ui/src/',
-            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui or @ecom/ui/atoms/X instead.',
-          },
-          {
-            target: ['packages/ui-storefront/src/**/*'],
-            from: '@ecom/ui-storefront/src/',
-            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui-storefront or relative paths.',
-          },
-        ],
-      }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: ['packages/ui-storefront/src/**/*'],
+              from: '@ecom/ui/components/ui',
+              message:
+                'components/ui is internal. Import from @ecom/ui or @ecom/ui/atoms/X instead.',
+            },
+            {
+              target: ['packages/ui-storefront/src/**/*'],
+              from: '@ecom/ui/src/',
+              message:
+                'Do not import from internal src/ paths. Use the package root @ecom/ui or @ecom/ui/atoms/X instead.',
+            },
+            {
+              target: ['packages/ui-storefront/src/**/*'],
+              from: '@ecom/ui-storefront/src/',
+              message:
+                'Do not import from internal src/ paths. Use the package root @ecom/ui-storefront or relative paths.',
+            },
+          ],
+        },
+      ],
     },
   },
 
   // ─── ui-admin: import boundary enforcement ──────────────────────────────
   {
     files: ['packages/ui-admin/src/**/*'],
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
-      'import/no-restricted-paths': ['error', {
-        zones: [
-          {
-            target: ['packages/ui-admin/src/**/*'],
-            from: '@ecom/ui/components/ui',
-            message: 'components/ui is internal. Import from @ecom/ui or @ecom/ui/atoms/X instead.',
-          },
-          {
-            target: ['packages/ui-admin/src/**/*'],
-            from: '@ecom/ui/src/',
-            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui or @ecom/ui/atoms/X instead.',
-          },
-          {
-            target: ['packages/ui-admin/src/**/*'],
-            from: '@ecom/ui-admin/src/',
-            message: 'Do not import from internal src/ paths. Use the package root @ecom/ui-admin or relative paths.',
-          },
-        ],
-      }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: ['packages/ui-admin/src/**/*'],
+              from: '@ecom/ui/components/ui',
+              message:
+                'components/ui is internal. Import from @ecom/ui or @ecom/ui/atoms/X instead.',
+            },
+            {
+              target: ['packages/ui-admin/src/**/*'],
+              from: '@ecom/ui/src/',
+              message:
+                'Do not import from internal src/ paths. Use the package root @ecom/ui or @ecom/ui/atoms/X instead.',
+            },
+            {
+              target: ['packages/ui-admin/src/**/*'],
+              from: '@ecom/ui-admin/src/',
+              message:
+                'Do not import from internal src/ paths. Use the package root @ecom/ui-admin or relative paths.',
+            },
+          ],
+        },
+      ],
     },
   },
 
@@ -278,62 +303,101 @@ export default [
   // Atoms cannot import molecules or organisms
   {
     files: ['packages/ui/src/atoms/**/*'],
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
-      'import/no-restricted-paths': ['error', {
-        zones: [
-          {
-            target: ['packages/ui/src/atoms/**/*'],
-            from: 'packages/ui/src/molecules/',
-            message: 'Atoms cannot import molecules.',
-          },
-          {
-            target: ['packages/ui/src/atoms/**/*'],
-            from: 'packages/ui/src/organisms/',
-            message: 'Atoms cannot import organisms.',
-          },
-        ],
-      }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: ['packages/ui/src/atoms/**/*'],
+              from: 'packages/ui/src/molecules/',
+              message: 'Atoms cannot import molecules.',
+            },
+            {
+              target: ['packages/ui/src/atoms/**/*'],
+              from: 'packages/ui/src/organisms/',
+              message: 'Atoms cannot import organisms.',
+            },
+          ],
+        },
+      ],
+      // Prevent atomic-layer bypass through aliases as well as relative paths.
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@ecom/ui/molecules', '@ecom/ui/molecules/*'],
+              message: 'Atoms cannot import molecules.',
+            },
+            {
+              group: ['@ecom/ui/organisms', '@ecom/ui/organisms/*'],
+              message: 'Atoms cannot import organisms.',
+            },
+            {
+              group: ['../molecules', '../molecules/*', '../../molecules', '../../molecules/*'],
+              message: 'Atoms cannot import molecules.',
+            },
+            {
+              group: ['../organisms', '../organisms/*', '../../organisms', '../../organisms/*'],
+              message: 'Atoms cannot import organisms.',
+            },
+          ],
+        },
+      ],
     },
   },
 
   // Molecules cannot import organisms
   {
     files: ['packages/ui/src/molecules/**/*'],
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
-      'import/no-restricted-paths': ['error', {
-        zones: [
-          {
-            target: ['packages/ui/src/molecules/**/*'],
-            from: 'packages/ui/src/organisms/',
-            message: 'Molecules cannot import organisms.',
-          },
-        ],
-      }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: ['packages/ui/src/molecules/**/*'],
+              from: 'packages/ui/src/organisms/',
+              message: 'Molecules cannot import organisms.',
+            },
+          ],
+        },
+      ],
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@ecom/ui/organisms', '@ecom/ui/organisms/*'],
+              message: 'Molecules cannot import organisms.',
+            },
+            {
+              group: ['../organisms', '../organisms/*', '../../organisms', '../../organisms/*'],
+              message: 'Molecules cannot import organisms.',
+            },
+          ],
+        },
+      ],
     },
   },
 
   // No direct access to shadcn primitives (components/ui is internal)
   {
     files: ['packages/ui/src/**/*'],
-    plugins: {
-      import: importPlugin,
-    },
     rules: {
-      'import/no-restricted-paths': ['error', {
-        zones: [
-          {
-            target: ['packages/ui/src/**/*'],
-            from: 'packages/ui/src/components/ui/',
-            message: 'components/ui is internal. Use atoms or molecules instead.',
-          },
-        ],
-      }],
+      'import/no-restricted-paths': [
+        'error',
+        {
+          zones: [
+            {
+              target: ['packages/ui/src/**/*'],
+              from: 'packages/ui/src/components/ui/',
+              message: 'components/ui is internal. Use atoms or molecules instead.',
+            },
+          ],
+        },
+      ],
     },
   },
 ]

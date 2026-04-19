@@ -1,2 +1,2 @@
-export { ScrollArea } from '../../components/ui/scroll-area'
-export type { ScrollAreaProps } from '../../components/ui/scroll-area'
+export { ScrollArea } from '../../lib/shadcn/scroll-area'
+export type { ScrollAreaProps } from '../../lib/shadcn/scroll-area'

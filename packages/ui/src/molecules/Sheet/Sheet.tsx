@@ -14,4 +14,4 @@ export {
   SheetTitle,
   SheetDescription,
   SheetFooter,
-} from '../../components/ui/sheet'
+} from '../../lib/shadcn/sheet'

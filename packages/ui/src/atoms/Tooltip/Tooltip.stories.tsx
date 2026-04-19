@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '../../components/ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '../../lib/shadcn/tooltip'
 import { IconButton } from '../IconButton/IconButton'
 import { Search, Bookmark, Bell, Settings } from 'lucide-react'
 

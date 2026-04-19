@@ -1,1 +1,1 @@
-export { Skeleton } from '../../components/ui/skeleton'
+export { Skeleton } from '../../lib/shadcn/skeleton'

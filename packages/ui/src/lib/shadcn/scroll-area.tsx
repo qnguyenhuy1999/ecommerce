@@ -24,9 +24,16 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
           '[&::-webkit-scrollbar-thumb]:rounded-full [&::webkit-scrollbar-thumb]:bg-border',
           'hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/30',
           'scrollbar-width-thin scrollbar-color-[var(--color-border)_transparent]',
+          maxHeight && 'max-[var(--scroll-area-max-height)]',
           className,
         )}
-        style={{ maxHeight, ...style }}
+        style={
+          Object.assign(
+            {},
+            style,
+            maxHeight ? ({ '--scroll-area-max-height': maxHeight } as React.CSSProperties) : {},
+          ) as React.CSSProperties
+        }
         {...props}
       >
         {children}

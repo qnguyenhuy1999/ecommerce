@@ -53,12 +53,14 @@ const COLOR_FILTER: FilterGroup = {
   title: 'Color',
   type: 'color',
   options: [
+    /* eslint-disable @ecom/tokens/no-raw-design-values -- color swatch data props, not inline styles */
     { value: 'black', label: 'Black', color: '#111827' },
     { value: 'white', label: 'White', color: '#f9fafb' },
     { value: 'red', label: 'Red', color: '#ef4444' },
     { value: 'blue', label: 'Blue', color: '#3b82f6' },
     { value: 'green', label: 'Green', color: '#22c55e' },
     { value: 'yellow', label: 'Yellow', color: '#eab308' },
+    /* eslint-enable @ecom/tokens/no-raw-design-values */
   ],
 }
 

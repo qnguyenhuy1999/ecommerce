@@ -50,7 +50,7 @@
     left: 0;
     right: 0;
     padding: var(--space-3);
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+    background: linear-gradient(to top, rgb(var(--gray-950-rgb) / 0.4), transparent);
     opacity: 0;
     transition: opacity var(--duration-fast) var(--ease-in-out);
     display: flex;
@@ -177,7 +177,7 @@
   .category-card__overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent 60%);
+    background: linear-gradient(to top, rgb(var(--gray-950-rgb) / 0.4), transparent 60%);
     display: flex;
     align-items: flex-end;
     padding: var(--space-5);
@@ -196,9 +196,9 @@
     /* Richer cinematic gradient for premium feel */
     background: linear-gradient(
       160deg,
-      rgba(0, 0, 0, 0.65) 0%,
-      rgba(0, 0, 0, 0.35) 55%,
-      rgba(0, 0, 0, 0.1) 100%
+      rgb(var(--gray-950-rgb) / 0.65) 0%,
+      rgb(var(--gray-950-rgb) / 0.35) 55%,
+      rgb(var(--gray-950-rgb) / 0.1) 100%
     );
     display: flex;
     flex-direction: column;
@@ -238,7 +238,7 @@
     overflow: hidden;
     /* Layered gradient: dark background with a brand color ambient glow */
     background:
-      radial-gradient(ellipse 60% 50% at 50% 0%, rgba(255, 56, 92, 0.08) 0%, transparent 80%),
+      radial-gradient(ellipse 60% 50% at 50% 0%, rgb(var(--brand-500-rgb) / 0.08) 0%, transparent 80%),
       var(--surface-muted);
     padding: var(--space-12);
     text-align: center;
@@ -262,11 +262,11 @@
     left: 0;
     right: 0;
     padding: var(--space-2) var(--space-3);
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.72), transparent);
+    background: linear-gradient(to top, rgb(var(--gray-950-rgb) / 0.72), transparent);
     display: flex;
     justify-content: center;
     opacity: 0;
-    transform: translateY(4px);
+    transform: translateY(var(--product-card-quickadd-offset, 4px));
     transition:
       opacity var(--duration-fast) var(--ease-out),
       transform var(--duration-fast) var(--ease-out);

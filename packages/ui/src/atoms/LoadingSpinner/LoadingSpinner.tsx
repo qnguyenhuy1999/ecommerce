@@ -1,2 +1,2 @@
-export { LoadingSpinner, spinnerCva } from '../../components/ui/loading-spinner'
-export type { LoadingSpinnerProps } from '../../components/ui/loading-spinner'
+export { LoadingSpinner, spinnerCva } from '../../lib/shadcn/loading-spinner'
+export type { LoadingSpinnerProps } from '../../lib/shadcn/loading-spinner'

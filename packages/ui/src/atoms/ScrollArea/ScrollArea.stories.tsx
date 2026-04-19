@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { ScrollArea } from '../../components/ui/scroll-area'
+import { ScrollArea } from '../../lib/shadcn/scroll-area'
 
 const meta: Meta<typeof ScrollArea> = {
   title: 'atoms/ScrollArea',

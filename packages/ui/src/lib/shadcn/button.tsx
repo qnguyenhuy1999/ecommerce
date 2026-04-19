@@ -4,7 +4,7 @@ import React from 'react'
 
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { LoadingSpinner } from '../../components/ui/loading-spinner'
+import { LoadingSpinner } from '../../lib/shadcn/loading-spinner'
 import { cn } from '../../lib/utils'
 
 const buttonVariants = cva(
@@ -25,7 +25,7 @@ const buttonVariants = cva(
         destructive:
           'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         brand:
-          'relative overflow-hidden bg-brand text-brand-foreground shadow-sm hover:shadow-md hover:transform hover:[transform:var(--motion-lift)] after:absolute after:inset-0 after:-translate-x-full hover:after:animate-[shimmer_1_5s] after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent',
+          'relative overflow-hidden bg-brand text-brand-foreground shadow-sm hover:shadow-md hover:transform hover:[transform:var(--motion-lift)] after:absolute after:inset-0 after:-translate-x-full hover:after:animate-[shimmer_var(--animate-duration-shimmer-progress)_linear_infinite] after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
         secondary:
           'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',

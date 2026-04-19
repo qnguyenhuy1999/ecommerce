@@ -77,8 +77,8 @@ function NotificationPanel({
                   !notification.read ? 'bg-accent/30' : 'opacity-75',
                   !notification.read &&
                     'animate-in slide-in-from-right-4 fade-in duration-[var(--motion-normal)]',
-                  `style={{ animationDelay: '${idx * 50}ms', animationFillMode: 'both' }}`,
                 )}
+                style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'both' }}
               >
                 {!notification.read && (
                   <span className="absolute left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-brand"></span>
@@ -153,7 +153,7 @@ function NotificationPanel({
       <PopoverContent
         align="end"
         className={cn(
-          'w-80 p-0 overflow-hidden shadow-[var(--elevation-modal)] rounded-[var(--radius-lg)] border',
+          'w-[var(--notification-panel-width)] p-0 overflow-hidden shadow-[var(--elevation-modal)] rounded-[var(--radius-lg)] border',
           className,
         )}
         {...props}

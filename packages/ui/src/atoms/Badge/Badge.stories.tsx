@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 import { Tag, AlertCircle, Star, Zap, Package } from 'lucide-react'
 
-import { Badge } from '../../components/ui/badge'
+import { Badge } from '../../lib/shadcn/badge'
 
 const meta: Meta<typeof Badge> = {
   title: 'atoms/Badge',

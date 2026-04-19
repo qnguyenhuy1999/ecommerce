@@ -42,16 +42,16 @@ function EmptyState({
   return (
     <div className={cn(emptyStateVariants({ variant }), className)} {...props}>
       {icon && (
-        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-8 [&_svg]:w-8 animate-[float_6s_ease-in-out_infinite]">
+        <div className="flex h-[var(--space-16)] w-[var(--space-16)] items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-[var(--space-8)] [&_svg]:w-[var(--space-8)] [&_svg]:animate-[float_var(--animate-duration-float-empty-state)_ease-in-out_infinite]">
           {icon}
         </div>
       )}
-      <div className="space-y-1.5">
-        <h3 className="text-lg font-semibold text-foreground">{title}</h3>
-        {description && <p className="text-sm text-muted-foreground max-w-md">{description}</p>}
+      <div className="space-y-[var(--space-1-5)]">
+        <h3 className="text-[var(--text-lg)] font-semibold text-foreground">{title}</h3>
+        {description && <p className="text-[var(--text-sm)] text-muted-foreground max-w-[var(--space-96)]">{description}</p>}
       </div>
       {action && (
-        <Button variant={action.variant || 'outline'} onClick={action.onClick} className="mt-2">
+        <Button variant={action.variant || 'outline'} onClick={action.onClick} className="mt-[var(--space-2)]">
           {action.label}
         </Button>
       )}

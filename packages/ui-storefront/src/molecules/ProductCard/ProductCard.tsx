@@ -2,6 +2,7 @@
 
 import React from 'react'
 
+import { formatCurrency } from '@ecom/shared/utils/formatters'
 import { cn } from '@ecom/ui'
 
 import { Rating } from '../../atoms/Rating/Rating'
@@ -236,36 +237,17 @@ interface ProductCardPriceProps extends React.HTMLAttributes<HTMLDivElement> {
 function ProductCardPrice({
   price,
   originalPrice,
-  currency = '$',
+  currency = 'USD',
   currencyCode,
   locale,
   className,
   ...props
 }: ProductCardPriceProps) {
   const isDiscounted = originalPrice && originalPrice > price
-  const effectiveCurrencyCode = currencyCode || (/^[A-Z]{3}$/.test(currency) ? currency : undefined)
-
-  const formatMoney = React.useCallback(
-    (value: number) => {
-      if (effectiveCurrencyCode) {
-        return new Intl.NumberFormat(locale, {
-          style: 'currency',
-          currency: effectiveCurrencyCode,
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        }).format(value)
-      }
-
-      return `${currency}${value.toLocaleString(undefined, {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      })}`
-    },
-    [currency, effectiveCurrencyCode, locale],
-  )
-
   const discountPercent =
     isDiscounted && originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0
+  // Resolve effective currency: prefer explicit currencyCode (ISO 4217), fallback to currency symbol
+  const effectiveCurrency = currencyCode || (/^[A-Z]{3}$/.test(currency) ? currency : 'USD')
 
   return (
     <div className={cn('mt-auto space-y-1.5 pt-3', className)} {...props}>
@@ -273,15 +255,15 @@ function ProductCardPrice({
         <span
           className={cn('font-semibold text-xl', isDiscounted ? 'text-brand' : 'text-foreground')}
         >
-          {formatMoney(price)}
+          {formatCurrency(price, effectiveCurrency, locale)}
         </span>
         {isDiscounted && originalPrice && (
           <span className="text-[var(--text-sm)] text-muted-foreground line-through opacity-80 font-medium">
-            {formatMoney(originalPrice)}
+            {formatCurrency(originalPrice, effectiveCurrency, locale)}
           </span>
         )}
         {discountPercent > 0 && (
-          <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[10px] font-semibold text-brand">
+          <span className="rounded-full bg-brand/10 px-2 py-0.5 text-[var(--text-micro)] font-semibold text-brand">
             -{discountPercent}%
           </span>
         )}
@@ -330,7 +312,7 @@ function ProductCardSwatches({ colors, max = 3, className, ...props }: ProductCa
         <div
           key={i}
           className="h-4 w-4 rounded-full border border-border/50 shadow-sm transition-transform hover:scale-110"
-          style={{ backgroundColor: color }}
+          style={{ backgroundColor: color as string }}
         />
       ))}
       {remaining > 0 && (
@@ -357,7 +339,7 @@ function ProductCardHighlights({
       {highlights.map((item) => (
         <span
           key={item}
-          className="rounded-full border border-border/60 bg-muted/40 px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+          className="rounded-full border border-border/60 bg-muted/40 px-2 py-0.5 text-[var(--text-micro)] font-medium text-muted-foreground"
         >
           {item}
         </span>

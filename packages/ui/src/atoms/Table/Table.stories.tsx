@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
-import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from '../../components/ui/table'
-import { Badge } from '../../components/ui/badge'
+import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from '../../lib/shadcn/table'
+import { Badge } from '../../lib/shadcn/badge'
 
 const meta: Meta<typeof Table> = {
   title: 'atoms/Table',

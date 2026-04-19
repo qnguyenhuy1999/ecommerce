@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { Input } from '../Input/Input'
 import { Checkbox } from '../Checkbox/Checkbox'
-import { Label } from '../../components/ui/label'
+import { Label } from '../../lib/shadcn/label'
 
 const meta: Meta<typeof Label> = {
   title: 'atoms/Label',

@@ -28,7 +28,7 @@ function CheckoutStepper({ steps, currentStepId, className, ...props }: Checkout
         {/* Progress Track */}
         <div
           className="absolute left-0 top-4 -translate-y-1/2 h-px bg-brand transition-all duration-[var(--motion-slow)] ease-[var(--motion-ease-in-out)]"
-          style={{ width: `${(currentIndex / (steps.length - 1)) * 100}%` }}
+          style={{ width: `calc(${(currentIndex / (steps.length - 1)) * 100}% * var(--checkout-stepper-progress-scale, 1))` }}
         />
 
         {steps.map((step, index) => {

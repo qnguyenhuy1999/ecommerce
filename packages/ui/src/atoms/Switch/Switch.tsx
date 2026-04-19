@@ -1,1 +1,1 @@
-export { Switch } from '../../components/ui/switch'
+export { Switch } from '../../lib/shadcn/switch'

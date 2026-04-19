@@ -1,3 +1,4 @@
+import { formatCurrency } from '@ecom/shared/utils/formatters'
 import { cn } from '@ecom/ui'
 
 export interface PriceDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,11 +16,6 @@ function PriceDisplay({
   className,
   ...props
 }: PriceDisplayProps) {
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-  })
-
   const hasSale = originalPrice !== undefined && originalPrice > price
 
   const textSizes = {
@@ -37,7 +33,7 @@ function PriceDisplay({
           textSizes.price,
         )}
       >
-        {formatter.format(price)}
+        {formatCurrency(price, currency)}
       </span>
 
       {hasSale && (
@@ -48,7 +44,7 @@ function PriceDisplay({
               textSizes.original,
             )}
           >
-            {formatter.format(originalPrice)}
+            {formatCurrency(originalPrice, currency)}
           </span>
           {/* Discount badge — token-based radius + text */}
           {size !== 'sm' && (

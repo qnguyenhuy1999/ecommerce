@@ -51,13 +51,12 @@ const LoadingSpinner = React.forwardRef<SVGSVGElement, LoadingSpinnerProps>(
     return (
       <svg
         ref={ref}
-        className={cn(spinnerCva({ variant, size }), 'animate-spin', className)}
+        className={cn(spinnerCva({ variant, size }), 'animate-[spin_var(--motion-slow,0.7s)_linear_infinite]', className)}
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         role="status"
         aria-label={label}
-        style={{ animationDuration: 'var(--motion-slow, 0.7s)' }}
         {...props}
       >
         {/* ── Track (background ring) ── */}

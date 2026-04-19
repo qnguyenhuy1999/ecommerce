@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { StorefrontFooter } from './StorefrontFooter'
+import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
 
 const meta = {
   title: 'layouts/StorefrontFooter',
@@ -55,7 +56,7 @@ export const Default: Story = {
     <StorefrontFooter
       logo={<span style={{ fontWeight: 800, fontSize: '1.25rem' }}>StyleShop</span>}
       description="Premium products curated for modern living. Quality you can trust, prices you'll love."
-      showNewsletter={true}
+      newsletter={<NewsletterSignup />}
       columns={COLUMNS}
       socials={[
         { platform: 'instagram' as const, href: 'https://instagram.com' },
@@ -82,7 +83,7 @@ export const WithoutNewsletter: Story = {
     <StorefrontFooter
       logo={<span style={{ fontWeight: 800, fontSize: '1.25rem' }}>StyleShop</span>}
       description="Premium products for modern living."
-      showNewsletter={false}
+      newsletter={undefined}
       columns={COLUMNS}
       socials={[
         { platform: 'instagram' as const, href: '#' },

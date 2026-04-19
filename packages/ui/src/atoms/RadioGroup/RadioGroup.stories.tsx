@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
-import { RadioGroup, RadioGroupItem } from '../../components/ui/radio-group'
+import { RadioGroup, RadioGroupItem } from '../../lib/shadcn/radio-group'
 
 const meta: Meta<typeof RadioGroup> = {
   title: 'atoms/RadioGroup',

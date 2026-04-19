@@ -26,8 +26,8 @@ const meta = {
 
 export default meta
 
-const renderProductCard = (args: any) => (
-  <div className="w-[320px]">
+const renderProductCard = (args: { [key: string]: unknown }) => (
+  <div className="w-[20rem]">
     <ProductCard id={args.id} title={args.title} loading={args.loading} href={args.href}>
       {args.image && <ProductCardImage src={args.image} alt={args.title} />}
       {args.badge && <ProductCardBadge>{args.badge}</ProductCardBadge>}
@@ -78,7 +78,7 @@ export const Default = {
       </>
     ),
     highlights: ['Fast shipping', 'Best seller'],
-    colors: ['#000000', '#ffffff', '#e00b41'],
+    colors: ['#000000', '#ffffff', '#e00b41'], // eslint-disable-line @ecom/tokens/no-raw-design-values -- color swatches are data props, not style values
     onAddToCart: () => console.log('added'),
   },
 }

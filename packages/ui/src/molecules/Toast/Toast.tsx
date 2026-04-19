@@ -141,7 +141,7 @@ function ToastItem({ toast }: { toast: ToastData }) {
     <div
       className={cn(
         'relative flex w-full overflow-hidden rounded-[var(--toast-radius)] border bg-[var(--toast-bg)] shadow-[var(--toast-elevation)]',
-        'transition-all duration-300 ease-[var(--ease-out)]',
+        'transition-all duration-[var(--transition-toast)] ease-[var(--motion-ease-out)]',
         exiting ? 'opacity-0 translate-x-full scale-95' : 'opacity-100 translate-x-0 scale-100',
       )}
       role="alert"
@@ -156,23 +156,23 @@ function ToastItem({ toast }: { toast: ToastData }) {
       />
 
       {/* Content */}
-      <div className="flex flex-1 items-start gap-[var(--toast-gap)] px-[var(--toast-padding)] py-[var(--toast-padding)]">
+      <div className="flex flex-1 items-start gap-[var(--toast-gap)] p-[var(--toast-padding)]">
         {/* Icon */}
-        <div className={cn('mt-0.5 shrink-0', iconClass)}>
+        <div className={cn('shrink-0', iconClass)}>
           {IconComponent ? (
             <IconComponent size={20} strokeWidth={2} />
           ) : (
-            <div className="h-5 w-5 rounded-full bg-[var(--surface-subtle)]" />
+            <div className="h-[var(--toast-icon-size)] w-[var(--toast-icon-size)] rounded-full bg-[var(--surface-subtle)]" />
           )}
         </div>
 
         {/* Text block */}
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold leading-tight text-[var(--text-primary)]">
+          <p className="text-[var(--text-sm)] font-semibold leading-tight text-[var(--text-primary)]">
             {toast.title}
           </p>
           {toast.description && (
-            <p className="mt-1 text-sm leading-snug text-[var(--text-secondary)]">
+            <p className="mt-[var(--space-1)] text-[var(--text-sm)] leading-snug text-[var(--text-secondary)]">
               {toast.description}
             </p>
           )}
@@ -184,9 +184,9 @@ function ToastItem({ toast }: { toast: ToastData }) {
                 setExiting(true)
               }}
               className={cn(
-                'mt-2 text-sm font-medium transition-all duration-[var(--motion-fast)]',
+                'mt-[var(--space-2)] text-[var(--text-sm)] font-medium transition-all duration-[var(--motion-fast)]',
                 'hover:opacity-80 active:scale-95',
-                'rounded-[var(--radius-xs)] px-1 py-0.5 -ml-1',
+                'rounded-[var(--radius-xs)] px-[var(--space-1)] py-[var(--space-0-5)] -ml-[var(--space-1)]',
                 variant === 'default'
                   ? 'text-[var(--text-link)] hover:text-[var(--text-link-hover)]'
                   : iconClass,
@@ -207,7 +207,7 @@ function ToastItem({ toast }: { toast: ToastData }) {
             setExiting(true)
           }}
           className={cn(
-            'shrink-0 rounded-[var(--radius-xs)] p-1.5 transition-all duration-[var(--motion-fast)]',
+            'shrink-0 rounded-[var(--radius-xs)] p-[var(--space-0-5)] transition-all duration-[var(--motion-fast)]',
             'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]',
             'hover:bg-[var(--surface-subtle)] active:scale-95',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-1',
@@ -219,9 +219,9 @@ function ToastItem({ toast }: { toast: ToastData }) {
       </div>
 
       {/* Progress bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-[var(--toast-progress-height)] bg-[var(--border-subtle)] overflow-hidden">
+      <div className="absolute bottom-[var(--space-0)] left-[var(--space-0)] right-[var(--space-0)] h-[var(--toast-progress-height)] bg-[var(--border-subtle)] overflow-hidden">
         <div
-          className={cn('h-full origin-left transition-none', progressClass)}
+          className={cn('h-full origin-left transition-none overflow-hidden', progressClass)}
           style={{ width: `${String(progress)}%` }}
         />
       </div>
@@ -236,7 +236,7 @@ function Toaster() {
 
   return (
     <div
-      className="fixed bottom-4 right-4 z-[var(--toast-z-index)] flex flex-col gap-2.5 w-full max-w-[var(--toast-max-width)] pointer-events-none"
+      className="fixed bottom-[var(--space-4)] right-[var(--space-4)] z-[var(--toast-z-index)] flex flex-col gap-[var(--space-2-5)] w-full max-w-[var(--toast-max-width)] pointer-events-none"
       aria-live="polite"
       aria-label="Notifications"
     >

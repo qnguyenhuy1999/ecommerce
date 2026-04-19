@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { Skeleton } from '../../components/ui/skeleton'
+import { Skeleton } from '../../lib/shadcn/skeleton'
 
 const meta: Meta<typeof Skeleton> = {
   title: 'atoms/Skeleton',

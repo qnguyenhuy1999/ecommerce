@@ -33,7 +33,7 @@ function Header({ title, subtitle, actions, className, ...props }: HeaderProps) 
       >
         <Search className="w-4 h-4 text-muted-foreground shrink-0" />
         <span className="flex-1 text-sm text-muted-foreground truncate">Search everywhere...</span>
-        <kbd className="hidden lg:inline-flex items-center gap-1 bg-background border px-1.5 rounded text-[10px] font-medium text-muted-foreground h-5 shadow-sm">
+        <kbd className="hidden lg:inline-flex items-center gap-1 bg-background border px-1.5 rounded text-[var(--text-micro)] font-medium text-muted-foreground h-5 shadow-sm">
           <span className="text-xs">⌘</span>K
         </kbd>
       </button>

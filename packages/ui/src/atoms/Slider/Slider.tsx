@@ -101,8 +101,8 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
       >
         <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted group-hover:h-2.5 transition-all duration-200">
           <SliderPrimitive.Range
-            className="absolute h-full bg-brand"
-            style={{ width: `${String(percentage)}%` }}
+            className="absolute h-full bg-brand w-[var(--slider-range-width,0%)]"
+            style={{ '--slider-range-width': `${percentage}%` } as React.CSSProperties}
           />
         </SliderPrimitive.Track>
 
@@ -113,8 +113,8 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
             return (
               <div
                 key={i}
-                className="absolute top-1/2 h-1 w-px bg-muted-foreground/30"
-                style={{ left: `${String(tickPercent)}%` }}
+                className="absolute top-1/2 h-1 w-px bg-muted-foreground/30 left-[var(--slider-tick-position,0%)]"
+                style={{ '--slider-tick-position': `${tickPercent}%` } as React.CSSProperties}
               />
             )
           })}
@@ -125,12 +125,13 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
             className={cn(
               'absolute bottom-7 left-1/2 -translate-x-1/2 pointer-events-none z-10',
               'bg-foreground text-background text-xs font-semibold px-2 py-1 rounded-md whitespace-nowrap',
-              'shadow-lg',
+              'shadow-lg left-[var(--slider-tooltip-position,50%)]',
+              'max-md:left-[calc(var(--slider-tooltip-position,50%)+var(--slider-thumb-offset,0px))]',
               isDragging
                 ? 'animate-in fade-in-0 zoom-in-95 duration-150'
                 : 'opacity-0 transition-opacity duration-200',
             )}
-            style={{ left: `calc(${String(percentage)}% + (var(--slider-thumb-offset, 0px)))` }}
+            style={{ '--slider-tooltip-position': `calc(${percentage}% + (var(--slider-thumb-offset, 0px)))` } as React.CSSProperties}
           >
             {tooltipValue}
             <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-foreground rotate-45" />
@@ -146,15 +147,15 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
           }}
           className={cn(
             'relative block h-5 w-5 rounded-full border-2 border-brand bg-background',
-            'shadow-[0_1px_4px_rgba(0,0,0,0.15),0_0_0_0_rgba(239,68,68,0)]',
-            'transition-all duration-200 ease-out',
-            'hover:shadow-[0_2px_8px_rgba(0,0,0,0.2),0_0_0_4px_rgba(239,68,68,0.2)] hover:scale-110',
-            'active:shadow-[0_1px_3px_rgba(0,0,0,0.15),0_0_0_6px_rgba(239,68,68,0.3)] active:scale-105 active:cursor-grabbing',
+            'shadow-[var(--slider-thumb-shadow-rest)]',
+            'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+            'hover:shadow-[var(--slider-thumb-shadow-hover)] hover:scale-[1.10]',
+            'active:shadow-[var(--slider-thumb-shadow-active)] active:scale-[1.05] active:cursor-grabbing',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
             'disabled:pointer-events-none disabled:opacity-50',
             'cursor-grab',
             (isDragging || tooltipVisible) &&
-              'scale-110 shadow-[0_2px_8px_rgba(0,0,0,0.2),0_0_0_4px_rgba(239,68,68,0.3)]',
+              'scale-[1.10] shadow-[var(--slider-thumb-shadow-dragging)]',
           )}
           aria-label={formatLabel ? formatLabel(controlledValue[0]) : undefined}
           style={

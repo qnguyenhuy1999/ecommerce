@@ -60,7 +60,7 @@ function RevenueChart({
         </div>
       </CardHeader>
       <CardContent>
-        <div className="h-[250px] w-full mt-4">
+        <div className="h-[var(--chart-height)] w-full mt-4">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data || []} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <CartesianGrid
@@ -86,7 +86,7 @@ function RevenueChart({
               <Tooltip
                 cursor={{ fill: 'hsl(var(--muted))', opacity: 0.4 }}
                 contentStyle={{
-                  borderRadius: '8px',
+                  borderRadius: 'var(--radius-md)',
                   border: '1px solid hsl(var(--border))',
                   backgroundColor: 'hsl(var(--background))',
                 }}

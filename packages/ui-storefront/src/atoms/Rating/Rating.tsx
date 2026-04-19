@@ -44,7 +44,7 @@ function Rating({
               {(isFilled || isHalf) && (
                 <div
                   className="absolute inset-0 overflow-hidden"
-                  style={{ width: isHalf ? '50%' : '100%' }}
+                  style={{ width: isHalf ? 'var(--rating-half-width, 50%)' : 'var(--rating-full-width, 100%)' }}
                 >
                   <Star
                     className={cn(

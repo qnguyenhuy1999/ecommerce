@@ -4,6 +4,7 @@ import React from 'react'
 
 import { Sparkles } from 'lucide-react'
 
+import { formatCurrency } from '@ecom/shared/utils/formatters'
 import { cn, Progress } from '@ecom/ui'
 
 export interface ShippingProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,12 +28,6 @@ function ShippingProgressBar({
   const percent =
     normalizedThreshold === 0 ? 100 : Math.min((normalizedCurrent / normalizedThreshold) * 100, 100)
 
-  const formatter = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 2,
-  })
-
   return (
     <div
       className={cn(
@@ -53,7 +48,7 @@ function ShippingProgressBar({
             <span className="text-muted-foreground">
               You're{' '}
               <strong className="text-foreground font-semibold">
-                {formatter.format(remaining)}
+                {formatCurrency(remaining, currency)}
               </strong>{' '}
               away from free shipping.
             </span>
@@ -78,9 +73,9 @@ function ShippingProgressBar({
       />
 
       <div className="flex items-center justify-between text-[var(--text-micro)] text-muted-foreground">
-        <span>{formatter.format(0)}</span>
+        <span>{formatCurrency(0, currency)}</span>
         <span className={cn('font-medium', isUnlocked && 'text-success')}>
-          Free shipping at {formatter.format(normalizedThreshold)}
+          Free shipping at {formatCurrency(normalizedThreshold, currency)}
         </span>
       </div>
     </div>

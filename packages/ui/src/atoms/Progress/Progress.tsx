@@ -69,10 +69,12 @@ const Progress = React.forwardRef<HTMLDivElement, ProgressProps>(
             className={cn(
               fillVariants({ variant }),
               indeterminate &&
-                'animate-[shimmer_1.5s_infinite_linear] bg-[length:200%_100%] bg-gradient-to-r from-transparent via-white/20 to-transparent',
-              isComplete && 'animate-[pulse_1s_ease-in-out_1]',
+                'bg-[length:200%_100%] bg-gradient-to-r from-transparent via-white/20 to-transparent [&_animate-shimmer-progress]:animate-[shimmer_var(--animate-duration-shimmer-progress)_linear_infinite]',
+              isComplete &&
+                'animate-[pulse-soft_var(--animate-duration-shimmer-progress)_ease-in-out_infinite]',
+              'w-[var(--progress-width,0%)]',
             )}
-            style={{ width: `${String(percentage)}%` }}
+            style={{ '--progress-width': `${String(percentage)}%` } as React.CSSProperties}
           />
         </div>
         {showLabel && !indeterminate && (

@@ -11,7 +11,7 @@ const meta: Meta<typeof Header> = {
   parameters: { layout: 'fullscreen' },
   decorators: [
     (Story) => (
-      <div className="min-h-[150px] w-full bg-muted/30">
+      <div className="min-h-[var(--story-container-min-height)] w-full bg-muted/30">
         <Story />
       </div>
     ),

@@ -2,12 +2,11 @@ import { Instagram, Twitter, Facebook, Youtube } from 'lucide-react'
 
 import { cn } from '@ecom/ui'
 
-import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
-
 export interface StorefrontFooterProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode
   description?: string
-  showNewsletter?: boolean
+  /** Newsletter slot — pass <NewsletterSignup /> from the consumer. Layouts must not import organisms. */
+  newsletter?: React.ReactNode
   columns?: {
     title: string
     links: { label: string; href: string }[]
@@ -19,7 +18,7 @@ export interface StorefrontFooterProps extends React.HTMLAttributes<HTMLElement>
 function StorefrontFooter({
   logo,
   description,
-  showNewsletter = true,
+  newsletter,
   columns = [],
   socials = [],
   copyright = `© ${new Date().getFullYear()} Ecommerce Inc. All rights reserved.`,
@@ -38,9 +37,9 @@ function StorefrontFooter({
       className={cn('bg-surface-muted border-t border-border/50 pt-16 pb-8', className)}
       {...props}
     >
-      {showNewsletter && (
+      {newsletter && (
         <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8 mb-16 border-b border-border/50 pb-16">
-          <NewsletterSignup />
+          {newsletter}
         </div>
       )}
 

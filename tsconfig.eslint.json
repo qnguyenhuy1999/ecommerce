@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@ecom/ui": ["packages/ui/src/index.ts"],
+      "@ecom/ui/*": ["packages/ui/src/*"],
+      "@ecom/ui-admin": ["packages/ui-admin/src/index.ts"],
+      "@ecom/ui-admin/*": ["packages/ui-admin/src/*"],
+      "@ecom/ui-storefront": ["packages/ui-storefront/src/index.ts"],
+      "@ecom/ui-storefront/*": ["packages/ui-storefront/src/*"],
+      "@ecom/api-client": ["packages/api-client/src/index.ts"],
+      "@ecom/api-client/*": ["packages/api-client/src/*"],
+      "@ecom/api-types": ["packages/api-types/src/index.ts"],
+      "@ecom/api-types/*": ["packages/api-types/src/*"],
+      "@ecom/constants": ["packages/constants/src/index.ts"],
+      "@ecom/constants/*": ["packages/constants/src/*"],
+      "@ecom/database": ["packages/database/src/index.ts"],
+      "@ecom/database/*": ["packages/database/src/*"],
+      "@ecom/design-tokens": ["packages/design-tokens/src/index.ts"],
+      "@ecom/design-tokens/*": ["packages/design-tokens/src/*"],
+      "@ecom/email": ["packages/email/src/index.ts"],
+      "@ecom/email/*": ["packages/email/src/*"],
+      "@ecom/redis": ["packages/redis/src/index.ts"],
+      "@ecom/redis/*": ["packages/redis/src/*"],
+      "@ecom/shared": ["packages/shared/src/index.ts"],
+      "@ecom/shared/*": ["packages/shared/src/*"]
+    }
+  },
+  "include": [
+    "apps/*/src/**/*.ts",
+    "apps/*/src/**/*.tsx",
+    "apps/*/next-env.d.ts",
+    "packages/*/src/**/*.ts",
+    "packages/*/src/**/*.tsx",
+    "packages/design-tokens/eslint-plugin-tokens.js"
+  ],
+  "exclude": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/.turbo/**",
+    "**/.next/**",
+    "**/storybook-static/**",
+    "**/*.stories.tsx"
+  ]
+}
