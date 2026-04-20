@@ -4,9 +4,9 @@ import React from 'react'
 
 import { cn } from '@ecom/ui'
 
-import type { AdminSidebarProps } from '../../organisms/sidebar/AdminSidebar'
+import type { AdminSidebarProps } from '../../organisms/Sidebar/AdminSidebar'
 import type { AdminHeaderProps } from '../../organisms/AdminHeader/Header'
-import { AdminSidebar } from '../../organisms/sidebar/AdminSidebar'
+import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
 import { AdminHeader } from '../../organisms/AdminHeader/Header'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -58,7 +58,7 @@ function AdminLayout({
 
         {/* Content Area */}
         <main className="relative flex-1">
-          <div className="px-6 pb-6 md:px-8 md:pb-8 lg:px-10 lg:pb-10 w-full max-w-[var(--container-2xl)] mx-auto animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
+          <div className="px-6 pb-8 w-full max-w-[var(--container-2xl)] mx-auto animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
             {children}
           </div>
         </main>

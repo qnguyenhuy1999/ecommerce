@@ -9,13 +9,13 @@ import {
   Tag,
   BarChart3,
   Zap,
+  Bell,
+  Mail,
 } from 'lucide-react'
-
-import { Bell, Mail } from 'lucide-react'
 
 import { AdminLayout } from './AdminLayout'
 import type { AdminLayoutProps } from './AdminLayout'
-import { AdminSidebar } from '../../organisms/sidebar/AdminSidebar'
+import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar';
 import { AdminHeader } from '../../organisms/AdminHeader/Header'
 
 const meta: Meta<typeof AdminLayout> = {
@@ -35,34 +35,34 @@ const MAIN_NAV = [
       {
         label: 'Dashboard',
         href: '/admin',
-        icon: <LayoutDashboard className="w-5 h-5" />,
+        icon: <LayoutDashboard className="w-[var(--space-4)] h-[var(--space-4)]" />,
         isActive: true,
       },
       {
         label: 'Orders',
         href: '/admin/orders',
-        icon: <ShoppingCart className="w-5 h-5" />,
+        icon: <ShoppingCart className="w-4 h-4" />,
         badge: 12,
       },
       {
         label: 'Products',
         href: '/admin/products',
-        icon: <Package className="w-5 h-5" />,
+        icon: <Package className="w-4 h-4" />,
       },
       {
         label: 'Customers',
         href: '/admin/customers',
-        icon: <Users className="w-5 h-5" />,
+        icon: <Users className="w-4 h-4" />,
       },
       {
         label: 'Promotions',
         href: '/admin/promotions',
-        icon: <Tag className="w-5 h-5" />,
+        icon: <Tag className="w-4 h-4" />,
       },
       {
         label: 'Analytics',
         href: '/admin/analytics',
-        icon: <BarChart3 className="w-5 h-5" />,
+        icon: <BarChart3 className="w-4 h-4" />,
       },
     ],
   },
@@ -72,7 +72,7 @@ const MAIN_NAV = [
       {
         label: 'Integrations',
         href: '/admin/integrations',
-        icon: <Zap className="w-5 h-5" />,
+        icon: <Zap className="w-4 h-4" />,
       },
     ],
   },
@@ -143,8 +143,11 @@ function PlaceholderContent() {
 
 export const Default: Story = {
   render: (args) => {
-    const { children: _ignored, ...rest } = args as AdminLayoutProps & { children?: React.ReactNode }
-    return <AdminLayout {...rest}><PlaceholderContent /></AdminLayout>
+    return (
+      <AdminLayout {...(args as AdminLayoutProps & { children?: React.ReactNode })}>
+        <PlaceholderContent />
+      </AdminLayout>
+    )
   },
   args: {
     currentPath: '/admin',
@@ -154,6 +157,7 @@ export const Default: Story = {
       footerNav: FOOTER_NAV,
     },
     headerProps: {
+      title: 'Dashboard',
       search: {
         placeholder: 'Search anything...',
         onChange: (v) => console.log('Search:', v),
@@ -165,8 +169,12 @@ export const Default: Story = {
         avatarUrl: 'https://i.pravatar.cc/150?img=12',
       },
       iconButtons: [
-        { label: 'Messages', icon: <Mail className="w-5 h-5" /> },
-        { label: 'Notifications', icon: <Bell className="w-5 h-5" />, hasNotification: true },
+        { label: 'Messages', icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" /> },
+        {
+          label: 'Notifications',
+          icon: <Bell className="w-[var(--space-4)] h-[var(--space-4)]" />,
+          hasNotification: true,
+        },
       ],
     },
   },
@@ -174,8 +182,7 @@ export const Default: Story = {
 
 export const WithCurrentPath: Story = {
   render: (args) => {
-    const { children: _ignored, ...rest } = args as AdminLayoutProps & { children?: React.ReactNode }
-    return <AdminLayout {...rest}><PlaceholderContent /></AdminLayout>
+    return <AdminLayout {...(args as AdminLayoutProps & { children?: React.ReactNode })}><PlaceholderContent /></AdminLayout>
   },
   args: {
     currentPath: '/admin/orders',
@@ -199,8 +206,7 @@ export const WithCurrentPath: Story = {
 
 export const SearchDisabled: Story = {
   render: (args) => {
-    const { children: _ignored, ...rest } = args as AdminLayoutProps & { children?: React.ReactNode }
-    return <AdminLayout {...rest}><PlaceholderContent /></AdminLayout>
+    return <AdminLayout {...(args as AdminLayoutProps & { children?: React.ReactNode })}><PlaceholderContent /></AdminLayout>
   },
   args: {
     sidebarProps: {
@@ -220,8 +226,7 @@ export const SearchDisabled: Story = {
 
 export const CustomSidebarAndHeader: Story = {
   render: (args) => {
-    const { children: _ignored, ...rest } = args as AdminLayoutProps & { children?: React.ReactNode }
-    return <AdminLayout {...rest}><PlaceholderContent /></AdminLayout>
+    return <AdminLayout {...(args as AdminLayoutProps & { children?: React.ReactNode })}><PlaceholderContent /></AdminLayout>
   },
   args: {
     sidebar: (
@@ -233,7 +238,7 @@ export const CustomSidebarAndHeader: Story = {
               {
                 label: 'Custom Page',
                 href: '/custom',
-                icon: <LayoutDashboard className="w-5 h-5" />,
+                icon: <LayoutDashboard className="w-4 h-4" />,
               },
             ],
           },
@@ -254,8 +259,7 @@ export const CustomSidebarAndHeader: Story = {
 
 export const Minimal: Story = {
   render: (args) => {
-    const { children: _ignored, ...rest } = args as AdminLayoutProps & { children?: React.ReactNode }
-    return <AdminLayout {...rest}><PlaceholderContent /></AdminLayout>
+    return <AdminLayout {...(args as AdminLayoutProps & { children?: React.ReactNode })}><PlaceholderContent /></AdminLayout>
   },
   args: {
     sidebarProps: {

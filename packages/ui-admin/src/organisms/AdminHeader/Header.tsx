@@ -48,7 +48,7 @@ function AdminHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 flex h-24 w-full items-center gap-6 px-6 md:px-8 lg:px-10 bg-[var(--surface-subtle)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--surface-subtle)]/60',
+        'sticky top-0 z-40 flex h-16 w-full items-center gap-6 px-6 lg:px-8 bg-[var(--surface-subtle)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--surface-subtle)]/60',
         className,
       )}
       {...props}
@@ -66,7 +66,7 @@ function AdminHeader({
 
       {/* Search Input (White Pill) */}
       {search !== false && (
-        <div className="hidden lg:block w-full max-w-[280px]">
+        <div className="hidden lg:block w-full max-w-80">
           <div className="relative">
             <input
               type="search"
@@ -76,9 +76,7 @@ function AdminHeader({
                 if (e.key === 'Enter') search?.onSearch?.(e.currentTarget.value)
               }}
               className={cn(
-                'h-10 w-full rounded-full border-none bg-background shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] pl-4 pr-10 text-sm text-primary transition-shadow',
-                'placeholder:text-muted-foreground',
-                'focus:outline-none focus:ring-2 focus:ring-brand-500',
+                'h-9 w-full rounded-full border-none bg-background pl-4 pr-10 text-sm text-primary shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] transition-shadow placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand',
               )}
             />
             <Search className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -87,12 +85,21 @@ function AdminHeader({
       )}
 
       {/* Utility Actions (Right) */}
-      <div className="flex shrink-0 items-center gap-1 md:gap-2">
+      <div className="flex shrink-0 items-center gap-2">
         {/* Render standard dummy Message/Bell if no iconButtons passed, else map props */}
         {(
           iconButtons ?? [
-            { label: 'Messages', icon: <Mail className="w-[18px] h-[18px]" />, onClick: undefined },
-            { label: 'Notifications', icon: <Bell className="w-[18px] h-[18px]" />, hasNotification: true, onClick: undefined },
+            {
+              label: 'Messages',
+              icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" />,
+              onClick: undefined,
+            },
+            {
+              label: 'Notifications',
+              icon: <Bell className="w-[var(--space-4)] h-[var(--space-4)]" />,
+              hasNotification: true,
+              onClick: undefined,
+            },
           ]
         ).map((btn, i) => (
           <button
@@ -100,11 +107,11 @@ function AdminHeader({
             type="button"
             aria-label={btn.label}
             onClick={btn.onClick}
-            className="relative flex h-10 w-10 items-center justify-center rounded-full text-secondary hover:text-foreground transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full text-tertiary hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-brand"
           >
             {btn.icon}
             {btn.hasNotification && (
-              <span className="absolute right-[9px] top-[9px] h-[7px] w-[7px] rounded-full bg-rose-500" />
+              <span className="absolute right-[var(--space-2)] top-[var(--space-2)] h-[7px] w-[7px] rounded-full bg-destructive" />
             )}
           </button>
         ))}
@@ -114,23 +121,23 @@ function AdminHeader({
           <button
             type="button"
             onClick={onUserClick}
-            className="ml-2 flex items-center gap-3 rounded-full py-1 pl-1 pr-2 hover:bg-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="ml-2 flex items-center gap-2 rounded-full py-1 pl-1 pr-2 hover:bg-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500"
           >
-            <Avatar className="h-9 w-9 border border-border shadow-sm">
+            <Avatar className="h-9 w-9 border border-border shadow-xs">
               {user?.avatarUrl && <AvatarImage src={user.avatarUrl} alt={user?.name ?? 'Admin'} />}
               <AvatarFallback className="bg-primary text-primary-foreground font-semibold text-xs">
                 {user?.initials ?? user?.name?.charAt(0).toUpperCase() ?? 'A'}
               </AvatarFallback>
             </Avatar>
-            <div className="hidden md:flex flex-col items-start min-w-[100px]">
-              <span className="text-[13px] font-semibold text-foreground leading-none">
+            <div className="hidden md:flex flex-col items-start min-w-[var(--space-4)]">
+              <span className="text-[length:var(--text-sm)] font-semibold text-foreground leading-none">
                 {user?.name ?? 'Marcus George'}
               </span>
-              <span className="text-[11px] font-medium text-muted-foreground leading-none mt-[3px]">
+              <span className="text-[length:var(--text-micro)] font-medium text-muted-foreground leading-none mt-1">
                 {user?.role ?? 'Admin'}
               </span>
             </div>
-            <ChevronDown className="w-3.5 h-3.5 text-muted-foreground hidden md:block ml-1" />
+            <ChevronDown className="w-[var(--space-3)] h-[var(--space-3)] text-muted-foreground hidden md:block" />
           </button>
         )}
       </div>

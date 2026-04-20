@@ -185,7 +185,7 @@ function NotificationPanel({
                     </div>
 
                     <div className="shrink-0 pt-0.5">
-                      <ChevronRight className="w-[18px] h-[18px] text-[var(--text-tertiary)]" />
+                      <ChevronRight className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
                     </div>
                   </div>
                 )

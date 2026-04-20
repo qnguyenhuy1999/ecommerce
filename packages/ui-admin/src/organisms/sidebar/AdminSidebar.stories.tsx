@@ -60,34 +60,34 @@ const MAIN_NAV_GROUPS = [
       {
         label: 'Dashboard',
         href: '/admin',
-        icon: <LayoutDashboard className="w-5 h-5" />,
+        icon: <LayoutDashboard className="w-[var(--space-4)] h-[var(--space-4)]" />,
         isActive: true,
       },
       {
         label: 'Orders',
         href: '/admin/orders',
-        icon: <ShoppingCart className="w-5 h-5" />,
+        icon: <ShoppingCart className="w-[var(--space-4)] h-[var(--space-4)]" />,
         badge: 12,
       },
       {
         label: 'Products',
         href: '/admin/products',
-        icon: <Package className="w-5 h-5" />,
+        icon: <Package className="w-[var(--space-4)] h-[var(--space-4)]" />,
       },
       {
         label: 'Customers',
         href: '/admin/customers',
-        icon: <Users className="w-5 h-5" />,
+        icon: <Users className="w-[var(--space-4)] h-[var(--space-4)]" />,
       },
       {
         label: 'Promotions',
         href: '/admin/promotions',
-        icon: <Tag className="w-5 h-5" />,
+        icon: <Tag className="w-[var(--space-4)] h-[var(--space-4)]" />,
       },
       {
         label: 'Analytics',
         href: '/admin/analytics',
-        icon: <BarChart3 className="w-5 h-5" />,
+        icon: <BarChart3 className="w-[var(--space-4)] h-[var(--space-4)]" />,
       },
     ],
   },
@@ -97,7 +97,7 @@ const MAIN_NAV_GROUPS = [
       {
         label: 'Integrations',
         href: '/admin/integrations',
-        icon: <Zap className="w-5 h-5" />,
+        icon: <Zap className="w-[var(--space-4)] h-[var(--space-4)]" />,
       },
     ],
   },
@@ -110,8 +110,8 @@ const FOOTER_NAV = [
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -132,8 +132,8 @@ const FOOTER_NAV = [
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="20"
-        height="20"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -257,17 +257,17 @@ export const NoBadge: Story = {
           {
             label: 'Dashboard',
             href: '/admin',
-            icon: <LayoutDashboard className="w-5 h-5" />,
+            icon: <LayoutDashboard className="w-[var(--space-4)] h-[var(--space-4)]" />,
           },
           {
             label: 'Orders',
             href: '/admin/orders',
-            icon: <ShoppingCart className="w-5 h-5" />,
+            icon: <ShoppingCart className="w-[var(--space-4)] h-[var(--space-4)]" />,
           },
           {
             label: 'Products',
             href: '/admin/products',
-            icon: <Package className="w-5 h-5" />,
+            icon: <Package className="w-[var(--space-4)] h-[var(--space-4)]" />,
           },
         ],
       },

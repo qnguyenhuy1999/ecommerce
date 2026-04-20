@@ -56,16 +56,15 @@ export const Default: Story = {
     iconButtons: [
       {
         label: 'Messages',
-        icon: <Mail className="w-5 h-5" />,
+        icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" />,
       },
       {
         label: 'Notifications',
-        icon: <Bell className="w-5 h-5" />,
+        icon: <Bell className="w-4 h-4" />,
         hasNotification: true,
       },
     ],
     onUserClick: () => console.log('User clicked'),
-    onSignOut: () => console.log('Sign out'),
   } as Partial<AdminHeaderProps>,
 }
 
@@ -118,11 +117,11 @@ export const NoUser: Story = {
     iconButtons: [
       {
         label: 'Messages',
-        icon: <Mail className="w-5 h-5" />,
+        icon: <Mail className="w-4 h-4" />,
       },
       {
         label: 'Notifications',
-        icon: <Bell className="w-5 h-5" />,
+        icon: <Bell className="w-4 h-4" />,
         hasNotification: true,
       },
     ],
