@@ -97,7 +97,7 @@ function Badge({
       {(dot || pulse) && (
         <span
           className={cn(
-            'relative flex h-2 w-2 shrink-0 items-center justify-center rounded-full',
+            'relative flex h-2 w-2 shrink-0 items-center justify-center rounded-full mt-0.5',
             !dotColor && 'bg-current',
           )}
           style={dotColor ? { backgroundColor: dotColor } : undefined}
@@ -120,9 +120,9 @@ function Badge({
           />
         </span>
       )}
-      {icon && <span className="shrink-0">{icon}</span>}
+      {icon && <span className="inline-flex items-center shrink-0 mt-0.5">{icon}</span>}
       <span className="truncate">{children}</span>
-      {iconRight && <span className="shrink-0">{iconRight}</span>}
+      {iconRight && <span className="inline-flex items-center shrink-0 mt-0.5">{iconRight}</span>}
       {removable && (
         <button
           type="button"

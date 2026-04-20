@@ -15,7 +15,7 @@ export const Default: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = React.useState(1)
-    return <Pagination page={page} totalPages={10} onPageChange={setPage} />
+    return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
 }
 
@@ -23,7 +23,7 @@ export const FirstPage: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = React.useState(1)
-    return <Pagination page={page} totalPages={10} onPageChange={setPage} />
+    return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
 }
 
@@ -31,7 +31,7 @@ export const MiddlePage: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = React.useState(4)
-    return <Pagination page={page} totalPages={10} onPageChange={setPage} />
+    return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
 }
 
@@ -39,7 +39,7 @@ export const LastPage: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = React.useState(10)
-    return <Pagination page={page} totalPages={10} onPageChange={setPage} />
+    return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
 }
 
@@ -47,7 +47,7 @@ export const FewPages: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = React.useState(2)
-    return <Pagination page={page} totalPages={5} onPageChange={setPage} />
+    return <Pagination currentPage={page} totalPages={5} onPageChange={setPage} />
   },
 }
 
@@ -55,7 +55,7 @@ export const ManyPages: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [page, setPage] = React.useState(7)
-    return <Pagination page={page} totalPages={25} onPageChange={setPage} />
+    return <Pagination currentPage={page} totalPages={25} onPageChange={setPage} />
   },
 }
 
@@ -66,7 +66,7 @@ export const Interactive: Story = {
     return (
       <div className="flex flex-col gap-4">
         <p className="text-sm text-muted-foreground">Page {page} of 12 — click any button to interact</p>
-        <Pagination page={page} totalPages={12} onPageChange={setPage} />
+        <Pagination currentPage={page} totalPages={12} onPageChange={setPage} />
       </div>
     )
   },

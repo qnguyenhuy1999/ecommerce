@@ -1,13 +1,21 @@
-import { Bell, Check, Info, AlertTriangle, CheckCircle, Package } from 'lucide-react'
+import {
+  AlertTriangle,
+  Bell,
+  CheckCircle,
+  ChevronRight,
+  Info,
+  Package,
+  Settings,
+} from 'lucide-react'
 
 import {
+  Button,
   cn,
+  EmptyState,
   Popover,
   PopoverContent,
   PopoverTrigger,
-  Button,
   ScrollArea,
-  EmptyState,
 } from '@ecom/ui'
 
 export interface NotificationItem {
@@ -27,11 +35,23 @@ export interface NotificationPanelProps extends React.HTMLAttributes<HTMLDivElem
 }
 
 const typeConfig = {
-  info: { icon: Info, color: 'text-info', bg: 'bg-info-muted' },
-  success: { icon: CheckCircle, color: 'text-success', bg: 'bg-success-muted' },
-  warning: { icon: AlertTriangle, color: 'text-warning', bg: 'bg-warning-muted' },
-  error: { icon: AlertTriangle, color: 'text-destructive', bg: 'bg-destructive/10' },
-  order: { icon: Package, color: 'text-brand', bg: 'bg-brand-muted' },
+  info: { icon: Info, color: 'text-[var(--intent-info)]', bg: 'bg-[var(--intent-info-muted)]' },
+  success: {
+    icon: CheckCircle,
+    color: 'text-[var(--intent-success)]',
+    bg: 'bg-[var(--intent-success-muted)]',
+  },
+  warning: {
+    icon: AlertTriangle,
+    color: 'text-[var(--intent-warning)]',
+    bg: 'bg-[var(--intent-warning-muted)]',
+  },
+  error: {
+    icon: AlertTriangle,
+    color: 'text-[var(--intent-danger)]',
+    bg: 'bg-[var(--intent-danger-muted)]',
+  },
+  order: { icon: Package, color: 'text-[var(--action-primary)]', bg: 'bg-[var(--action-muted)]' },
 }
 
 function NotificationPanel({
@@ -43,97 +63,6 @@ function NotificationPanel({
   ...props
 }: NotificationPanelProps) {
   const unreadCount = notifications.filter((n) => !n.read).length
-
-  // Group notifications by date (naive approach for demo)
-  const today = notifications.slice(0, Math.ceil(notifications.length / 2))
-  const earlier = notifications.slice(Math.ceil(notifications.length / 2))
-
-  const renderGroup = (label: string, items: NotificationItem[]) => {
-    if (items.length === 0) return null
-    return (
-      <div className="mb-4 last:mb-0">
-        <h4 className="px-4 py-1 text-xs font-semibold text-muted-foreground bg-muted/20 sticky top-0 z-10 backdrop-blur-sm">
-          {label}
-        </h4>
-        <div className="flex flex-col">
-          {items.map((notification, idx) => {
-            const Config = typeConfig[notification.type]
-            const Icon = Config.icon
-
-            return (
-              <div
-                key={notification.id}
-                role="button"
-                tabIndex={0}
-                onClick={() => !notification.read && onMarkRead?.(notification.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    if (!notification.read) onMarkRead?.(notification.id)
-                  }
-                }}
-                className={cn(
-                  'group flex gap-3 p-4 border-b last:border-0 hover:bg-muted/50 transition-colors cursor-pointer relative overflow-hidden',
-                  !notification.read ? 'bg-accent/30' : 'opacity-75',
-                  !notification.read &&
-                    'animate-in slide-in-from-right-4 fade-in duration-[var(--motion-normal)]',
-                )}
-                style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'both' }}
-              >
-                {!notification.read && (
-                  <span className="absolute left-1 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-brand"></span>
-                )}
-                <div
-                  className={cn(
-                    'shrink-0 w-8 h-8 rounded-full flex items-center justify-center mt-0.5',
-                    Config.bg,
-                    Config.color,
-                  )}
-                >
-                  <Icon className="w-4 h-4" />
-                </div>
-                <div className="flex-1 min-w-0 pr-6">
-                  <p
-                    className={cn(
-                      'text-[var(--text-sm)] mb-0.5',
-                      !notification.read
-                        ? 'font-semibold text-foreground'
-                        : 'font-medium text-foreground/80',
-                    )}
-                  >
-                    {notification.title}
-                  </p>
-                  <p className="text-[var(--text-micro)] text-muted-foreground leading-snug line-clamp-2">
-                    {notification.message}
-                  </p>
-                  <p className="text-[var(--space-3)] text-muted-foreground/70 mt-1.5">
-                    {notification.timestamp}
-                  </p>
-                </div>
-
-                {/* Swipe/Hover actions */}
-                <div className="absolute right-0 top-0 bottom-0 flex items-center
-                  translate-x-full group-hover:translate-x-0 transition-transform
-                  duration-[var(--motion-fast)] bg-gradient-to-l from-background via-background to-transparent pr-4 pl-8">
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-7 w-7 rounded-full hover:bg-muted"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      // Dismiss logic
-                    }}
-                  >
-                    <Check className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      </div>
-    )
-  }
 
   const defaultTrigger = (
     <Button variant="ghost" size="icon" className="relative h-9 w-9">
@@ -153,29 +82,47 @@ function NotificationPanel({
       <PopoverContent
         align="end"
         className={cn(
-          'w-[var(--notification-panel-width)] p-0 overflow-hidden shadow-[var(--elevation-modal)] rounded-[var(--radius-lg)] border',
+          'w-[24rem] sm:w-[28rem] p-0 overflow-hidden shadow-[var(--elevation-modal)] rounded-[var(--radius-xl)] border',
           className,
         )}
         {...props}
       >
-        <div className="flex items-center justify-between px-4 py-3 border-b bg-muted/30">
-          <h3 className="font-semibold text-[var(--text-sm)]">Notifications</h3>
-          {unreadCount > 0 && onMarkAllRead && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-[var(--text-micro)] h-auto p-0 text-brand hover:text-brand-hover font-medium flex items-center gap-1 transition-colors"
-              onClick={(e) => {
-                e.stopPropagation()
-                onMarkAllRead()
-              }}
-            >
-              <Check className="w-3 h-3" /> Mark all read
-            </Button>
-          )}
+        <div className="px-5 pt-5 pb-4 border-b">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-[length:var(--text-xl)] text-[var(--text-primary)]">
+              Notifications
+            </h3>
+            {unreadCount > 0 && onMarkAllRead && (
+              <button
+                className="text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border-strong)] hover:text-[var(--text-secondary)] transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  onMarkAllRead()
+                }}
+              >
+                Mark all as read
+              </button>
+            )}
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2">
+              <button className="flex items-center gap-2 px-3 py-1.5 bg-[var(--gray-800)] text-[var(--gray-0)] rounded-md text-[length:var(--text-sm)] font-medium">
+                All
+                <span className="flex items-center justify-center bg-[var(--gray-0)] text-[var(--gray-900)] text-[0.625rem] font-bold rounded-[4px] px-1.5 py-0.5 leading-none">
+                  {notifications.length}
+                </span>
+              </button>
+              <button className="px-4 py-1.5 bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md text-[length:var(--text-sm)] font-medium transition-colors">
+                Archived
+              </button>
+            </div>
+            <button className="text-[var(--text-tertiary)] hover:text-[var(--text-primary)] transition-colors">
+              <Settings className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        <ScrollArea className="h-[var(--space-12)]">
+        <ScrollArea maxHeight="32rem">
           {notifications.length === 0 ? (
             <EmptyState
               icon={<Bell />}
@@ -185,20 +132,67 @@ function NotificationPanel({
               className="h-full mt-10"
             />
           ) : (
-            <div className="flex flex-col py-2">
-              {renderGroup('Today', today)}
-              {renderGroup('Earlier', earlier)}
+            <div className="flex flex-col">
+              {notifications.map((notification, idx) => {
+                const Config = typeConfig[notification.type]
+                const Icon = Config.icon
+
+                return (
+                  <div
+                    key={notification.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => !notification.read && onMarkRead?.(notification.id)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        if (!notification.read) onMarkRead?.(notification.id)
+                      }
+                    }}
+                    className={cn(
+                      'group flex gap-4 px-5 py-4 border-b border-[var(--border-subtle)] last:border-0 transition-colors cursor-pointer relative items-start',
+                      !notification.read
+                        ? 'bg-[var(--action-muted)] hover:bg-[var(--action-muted)]/80'
+                        : 'bg-[var(--surface-base)] hover:bg-[var(--surface-hover)]',
+                    )}
+                    style={{ animationDelay: `${idx * 50}ms`, animationFillMode: 'both' }}
+                  >
+                    {!notification.read && (
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--brand-500)] rounded-r-full"></div>
+                    )}
+                    <div
+                      className={cn(
+                        'shrink-0 w-11 h-11 rounded-full flex items-center justify-center',
+                        Config.bg,
+                        Config.color,
+                      )}
+                    >
+                      <Icon className="w-5 h-5" />
+                    </div>
+                    <div className="flex-1 min-w-0 pr-2 pt-0.5">
+                      <p className="text-[length:var(--text-base)] font-medium text-[var(--text-primary)] leading-[1.2] mb-1">
+                        {notification.title}
+                      </p>
+                      <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mb-1.5">
+                        {notification.timestamp} •{' '}
+                        <span className="capitalize">{notification.type}</span>
+                      </p>
+                      {notification.message && (
+                        <p className="text-[length:var(--text-sm)] text-[var(--text-primary)] leading-snug line-clamp-2">
+                          {notification.message}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="shrink-0 pt-0.5">
+                      <ChevronRight className="w-[18px] h-[18px] text-[var(--text-tertiary)]" />
+                    </div>
+                  </div>
+                )
+              })}
             </div>
           )}
         </ScrollArea>
-        <div className="p-2 border-t bg-muted/30">
-          <Button
-            variant="ghost"
-            className="w-full text-[var(--text-micro)] h-8 text-muted-foreground hover:bg-muted/50 transition-colors"
-          >
-            View all notifications
-          </Button>
-        </div>
       </PopoverContent>
     </Popover>
   )

@@ -42,7 +42,7 @@ function QuantityStepper({
   }
 
   const sizes = {
-    sm: { h: 'h-8', w: 'w-8', text: 'text-[var(--text-micro)]', icon: 'w-3 h-3' },
+    sm: { h: 'h-8', w: 'w-8', text: 'text-[length:var(--text-micro)]', icon: 'w-3 h-3' },
     default: { h: 'h-10', w: 'w-10', text: 'text-[var(--text-sm)]', icon: 'w-4 h-4' },
   }[size]
 

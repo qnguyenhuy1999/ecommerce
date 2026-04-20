@@ -48,7 +48,7 @@ function CartItem({
               {title}
             </h4>
             {(variant || options) && (
-              <p className="text-[var(--text-micro)] text-muted-foreground mt-1 line-clamp-1">
+              <p className="text-[length:var(--text-micro)] text-muted-foreground mt-1 line-clamp-1">
                 {variant || Object.values(options!).join(' / ')}
               </p>
             )}

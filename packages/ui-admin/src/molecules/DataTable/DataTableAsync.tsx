@@ -1,0 +1,58 @@
+import React, { Suspense } from 'react'
+
+import { DataTableSkeleton } from './DataTableSkeleton'
+
+/**
+ * Streaming-ready DataTable variant.
+ * Accepts a server-side data fetcher and wraps the result in a Suspense boundary.
+ * Enables fast initial paint with skeleton fallback while data loads.
+ *
+ * @example
+ * ```tsx
+ * async function getProducts() {
+ *   const products = await db.product.findMany()
+ *   return products
+ * }
+ *
+ * // In a server component:
+ * <DataTableAsync fetcher={getProducts}>
+ *   {(data) => (
+ *     <DataTable data={data}>
+ *       ...columns
+ *     </DataTable>
+ *   )}
+ * </DataTableAsync>
+ * ```
+ */
+export function DataTableAsync({
+  fetcher,
+  skeletonProps,
+  children,
+}: {
+  /** Async function that returns table data */
+  fetcher: () => Promise<unknown[]>
+  /** Props passed to the skeleton fallback */
+  skeletonProps?: {
+    rowCount?: number
+    columnCount?: number
+  }
+  /** Render function receiving the fetched data */
+  children: (data: unknown[]) => React.ReactNode
+}) {
+  return (
+    <Suspense fallback={<DataTableSkeleton {...skeletonProps} />}>
+      <DataTableAsyncInner fetcher={fetcher} children={children} />
+    </Suspense>
+  )
+}
+
+async function DataTableAsyncInner({
+  fetcher,
+  children,
+}: {
+  fetcher: () => Promise<unknown[]>
+  children: (data: unknown[]) => React.ReactNode
+}) {
+  const data = await fetcher()
+  return <>{children(data)}</>
+}

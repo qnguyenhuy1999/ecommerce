@@ -135,7 +135,9 @@ export const CartSheet: Story = {
               className="shrink-0">
               <polyline points="20 6 9 17 4 12" />
             </svg>
-            <span className="text-xs font-medium text-[var(--intent-success)]">You have free shipping on this order!</span>
+            <span className="text-xs font-medium text-[var(--intent-success)]">
+              You have free shipping on this order!
+            </span>
           </div>
           <div className="mt-2 h-1 rounded-full bg-[var(--intent-success)]/15 overflow-hidden">
             <div className="h-full w-3/4 rounded-full bg-[var(--intent-success)] transition-all" />
@@ -180,8 +182,7 @@ export const CartSheet: Story = {
                 {/* Product image placeholder */}
                 <div
                   className="w-[68px] h-[68px] shrink-0 rounded-[var(--radius-sm)] flex items-center justify-center text-2xl"
-                  style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}
-                >
+                  style={{ background: `linear-gradient(135deg, ${gradientFrom}, ${gradientTo})` }}>
                   <span className="opacity-80">{label}</span>
                 </div>
 
@@ -189,7 +190,7 @@ export const CartSheet: Story = {
                 <div className="flex-1 min-w-0 flex flex-col justify-between">
                   <div>
                     <p className="text-sm font-medium text-foreground leading-tight">{name}</p>
-                    <p className="text-micro text-muted-foreground mt-0.5">{variant}</p>
+                    <p className="text-[length:var(--text-micro)] text-muted-foreground mt-0.5">{variant}</p>
                   </div>
 
                   <div className="flex items-end justify-between mt-2">
@@ -304,7 +305,7 @@ export const CartSheet: Story = {
 
           {/* Trust signals */}
           <div className="flex items-center justify-center gap-4 pt-1 text-[var(--text-secondary)]">
-            <span className="text-[var(--text-micro)] flex items-center gap-1 font-medium">
+            <span className="text-[length:var(--text-micro)] flex items-center gap-1 font-medium">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="11"
@@ -320,7 +321,7 @@ export const CartSheet: Story = {
               </svg>
               Secure
             </span>
-            <span className="text-[var(--text-micro)] flex items-center gap-1 font-medium">
+            <span className="text-[length:var(--text-micro)] flex items-center gap-1 font-medium">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="11"
@@ -337,7 +338,7 @@ export const CartSheet: Story = {
               </svg>
               Free returns
             </span>
-            <span className="text-[var(--text-micro)] flex items-center gap-1 font-medium">
+            <span className="text-[length:var(--text-micro)] flex items-center gap-1 font-medium">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="11"

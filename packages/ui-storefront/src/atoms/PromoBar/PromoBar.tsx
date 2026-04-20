@@ -1,9 +1,10 @@
-import React from 'react'
-
-import { X } from 'lucide-react'
+import React, { useState } from 'react'
 
 import { cn } from '@ecom/ui'
 
+import { PromoBarClient } from './PromoBarClient'
+
+// ─── Server: promo bar content, client handles dismiss ────────────────────────
 export interface PromoBarProps extends React.HTMLAttributes<HTMLDivElement> {
   message: React.ReactNode
   link?: string
@@ -19,7 +20,7 @@ function PromoBar({
   className,
   ...props
 }: PromoBarProps) {
-  const [isVisible, setIsVisible] = React.useState(true)
+  const [isVisible, setIsVisible] = useState(true)
 
   if (!isVisible) {
     return (
@@ -55,19 +56,10 @@ function PromoBar({
       ) : null}
 
       <div className="relative z-10 flex items-center w-full max-w-7xl mx-auto px-4">
-        <div className="w-6 shrink-0" /> {/* Spacer for centered text */}
+        <div className="w-6 shrink-0" />
         {content}
         <div className="w-6 shrink-0 flex justify-end">
-          {dismissible && (
-            <button
-              type="button"
-              onClick={() => setIsVisible(false)}
-              aria-label="Dismiss promotion"
-              className="p-1 rounded-full hover:bg-white/10 text-white/60 hover:text-white transition-all"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          )}
+          {dismissible && <PromoBarClient onDismiss={() => setIsVisible(false)} />}
         </div>
       </div>
     </div>

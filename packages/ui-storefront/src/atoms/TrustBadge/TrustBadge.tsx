@@ -1,9 +1,8 @@
-'use client'
-
 import { BadgeCheck, Truck, ShieldCheck, RotateCcw, Lock } from 'lucide-react'
 
 import { cn } from '@ecom/ui'
 
+// ─── Server: trust badge (trust state is static) ─────────────────────────────
 export type TrustBadgeType =
   | 'verified-seller'
   | 'free-shipping'
@@ -13,40 +12,16 @@ export type TrustBadgeType =
 
 export interface TrustBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   type: TrustBadgeType
-  /** Override the default label */
   label?: string
   size?: 'sm' | 'default'
 }
 
-const trustConfig: Record<
-  TrustBadgeType,
-  { icon: React.ElementType; label: string; iconColor: string }
-> = {
-  'verified-seller': {
-    icon: BadgeCheck,
-    label: 'Verified Seller',
-    iconColor: 'text-info',
-  },
-  'free-shipping': {
-    icon: Truck,
-    label: 'Free Shipping',
-    iconColor: 'text-success',
-  },
-  'secure-checkout': {
-    icon: Lock,
-    label: 'Secure Checkout',
-    iconColor: 'text-success',
-  },
-  'free-returns': {
-    icon: RotateCcw,
-    label: 'Free Returns',
-    iconColor: 'text-info',
-  },
-  authentic: {
-    icon: ShieldCheck,
-    label: '100% Authentic',
-    iconColor: 'text-success',
-  },
+const trustConfig: Record<TrustBadgeType, { icon: React.ElementType; label: string }> = {
+  'verified-seller': { icon: BadgeCheck, label: 'Verified Seller' },
+  'free-shipping': { icon: Truck, label: 'Free Shipping' },
+  'secure-checkout': { icon: Lock, label: 'Secure Checkout' },
+  'free-returns': { icon: RotateCcw, label: 'Free Returns' },
+  authentic: { icon: ShieldCheck, label: '100% Authentic' },
 }
 
 function TrustBadge({ type, label, size = 'default', className, ...props }: TrustBadgeProps) {
@@ -54,7 +29,7 @@ function TrustBadge({ type, label, size = 'default', className, ...props }: Trus
   const Icon = config.icon
 
   const iconSize = size === 'sm' ? 'w-3 h-3' : 'w-4 h-4'
-  const textSize = size === 'sm' ? 'text-[var(--text-micro)]' : 'text-[var(--text-sm)]'
+  const textSize = size === 'sm' ? 'text-[length:var(--text-micro)]' : 'text-[var(--text-sm)]'
 
   return (
     <div
@@ -66,13 +41,13 @@ function TrustBadge({ type, label, size = 'default', className, ...props }: Trus
       )}
       {...props}
     >
-      <Icon className={cn(iconSize, config.iconColor, 'shrink-0')} />
+      <Icon className={cn(iconSize, 'shrink-0')} />
       <span>{label ?? config.label}</span>
     </div>
   )
 }
 
-// ─── TrustBadgeGroup — renders multiple badges compactly ──────────────────────
+// ─── TrustBadgeGroup ─────────────────────────────────────────────────────────
 export interface TrustBadgeGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   types: TrustBadgeType[]
   size?: 'sm' | 'default'

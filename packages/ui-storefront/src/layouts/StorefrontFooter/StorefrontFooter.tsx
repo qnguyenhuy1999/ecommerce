@@ -107,7 +107,7 @@ function StorefrontFooter({
             {['VISA', 'MC', 'AMEX', 'PAYPAL'].map((method) => (
               <div
                 key={method}
-                className="h-6 px-2 bg-background border border-border rounded flex items-center justify-center text-[var(--text-micro)] font-bold text-muted-foreground tracking-wide"
+                className="h-6 px-2 bg-background border border-border rounded flex items-center justify-center text-[length:var(--text-micro)] font-bold text-muted-foreground tracking-wide"
               >
                 {method}
               </div>
@@ -120,4 +120,3 @@ function StorefrontFooter({
 }
 
 export { StorefrontFooter }
-

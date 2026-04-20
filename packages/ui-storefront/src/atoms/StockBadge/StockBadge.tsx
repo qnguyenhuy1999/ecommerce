@@ -1,50 +1,36 @@
-'use client'
+// Server: renders stock badge from props.
+// All animation/threshold logic is delegated to StockBadgeClient (client leaf).
+// This file stays server-only (no 'use client').
 
-import { CheckCircle2, AlertTriangle, XCircle } from 'lucide-react'
+import React from 'react'
 
-import { Badge, cn } from '@ecom/ui'
+import { Badge } from '@ecom/ui'
 
 export interface StockBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: 'in-stock' | 'low-stock' | 'out-of-stock'
   count?: number
-  threshold?: number
-}
-
-const statusConfig = {
-  'in-stock': {
-    label: 'In Stock',
-    icon: CheckCircle2,
-    variant: 'success' as const,
-    className: 'bg-success/18 text-success border-success/35 shadow-[var(--shadow-xs)]',
-  },
-  'low-stock': {
-    label: undefined, // label derived from count
-    icon: AlertTriangle,
-    variant: 'warning' as const,
-    className: 'bg-warning/20 text-warning border-warning/40 shadow-[var(--shadow-xs)]',
-  },
-  'out-of-stock': {
-    label: 'Out of Stock',
-    icon: XCircle,
-    variant: 'destructive' as const,
-    className: 'bg-destructive/18 text-destructive border-destructive/35 shadow-[var(--shadow-xs)]',
-  },
 }
 
 function StockBadge({ status, count, className, ...props }: StockBadgeProps) {
-  const config = statusConfig[status]
-  const Icon = config.icon
-
-  // For low-stock, derive label from count
-  const label = status === 'low-stock' && count !== undefined ? `Only ${count} left` : config.label
+  // Static rendering — animation is handled by StockBadgeClient if needed
+  const label = status === 'low-stock' && count !== undefined
+    ? `Only ${count} left`
+    : status === 'in-stock' ? 'In Stock'
+    : status === 'out-of-stock' ? 'Out of Stock'
+    : null
 
   if (!label) return null
 
+  const variantMap = {
+    'in-stock': 'success',
+    'low-stock': 'warning',
+    'out-of-stock': 'destructive',
+  } as const
+
   return (
     <Badge
-      variant={config.variant}
-      icon={<Icon className="w-3.5 h-3.5" />}
-      className={cn('font-semibold', config.className, className)}
+      variant={variantMap[status]}
+      className={className}
       {...props}
     >
       {label}

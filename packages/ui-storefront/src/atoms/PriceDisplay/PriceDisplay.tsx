@@ -19,7 +19,7 @@ function PriceDisplay({
   const hasSale = originalPrice !== undefined && originalPrice > price
 
   const textSizes = {
-    sm: { price: 'text-[var(--text-sm)]', original: 'text-[var(--text-micro)]' },
+    sm: { price: 'text-[var(--text-sm)]', original: 'text-[length:var(--text-micro)]' },
     default: { price: 'text-[var(--text-base)]', original: 'text-[var(--text-sm)]' },
     lg: { price: 'text-[var(--text-xl)]', original: 'text-[var(--text-base)]' },
   }[size]
@@ -50,7 +50,7 @@ function PriceDisplay({
           {size !== 'sm' && (
             <span
               className={cn(
-                'font-bold text-[var(--text-micro)] uppercase tracking-wider',
+                'font-bold text-[length:var(--text-micro)] uppercase tracking-wider',
                 'bg-brand-muted text-brand',
                 'px-1.5 py-0.5 rounded-[var(--radius-xs)]',
               )}

@@ -30,7 +30,7 @@ const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
           '[&::-webkit-scrollbar-thumb]:rounded-full [&::webkit-scrollbar-thumb]:bg-border',
           'hover:[&::-webkit-scrollbar-thumb]:bg-muted-foreground/30',
           'scrollbar-width-thin scrollbar-color-[var(--color-border)_transparent]',
-          maxHeight && 'max-[var(--scroll-area-max-height)]',
+          maxHeight && 'max-h-[var(--scroll-area-max-height)]',
           className,
         )}
         style={mergedStyle}

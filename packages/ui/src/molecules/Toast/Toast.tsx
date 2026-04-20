@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { CheckCircle, AlertTriangle, XCircle, Info, X } from 'lucide-react'
+import { CheckCircle, AlertTriangle, XCircle, Info, X, Bell } from 'lucide-react'
 
 import { cn } from '../../lib/utils'
 
@@ -64,10 +64,10 @@ type ToastVariantConfig = {
 
 const VARIANT_CONFIG: Record<ToastVariant, ToastVariantConfig> = {
   default: {
-    IconComponent: null,
+    IconComponent: Bell,
     progressClass: 'bg-[var(--text-tertiary)]',
     accentClass: 'bg-[var(--surface-subtle)]',
-    iconClass: 'text-[var(--text-tertiary)]',
+    iconClass: 'text-[var(--intent-info)]',
   },
   success: {
     IconComponent: CheckCircle,

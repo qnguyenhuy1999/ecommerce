@@ -5,6 +5,7 @@ import { CheckCircle2 } from 'lucide-react'
 import { cn } from '@ecom/ui'
 
 import { Rating } from '../../atoms/Rating/Rating'
+import { ReviewCardExpand } from './ReviewCardExpand'
 
 export interface ReviewCardProps extends React.HTMLAttributes<HTMLDivElement> {
   author: string
@@ -27,11 +28,10 @@ function ReviewCard({
   className,
   ...props
 }: ReviewCardProps) {
-  const [expanded, setExpanded] = React.useState(false)
   const isLong = content.length > 220
-  const displayContent = !expanded && isLong ? content.slice(0, 220) + '…' : content
+  const displayContent = isLong ? content.slice(0, 220) + '…' : content
 
-  // Generate a stable color from the author's initial for the avatar fallback
+  // Generate initials for avatar fallback
   const initials = author
     .split(' ')
     .map((n) => n[0])
@@ -57,22 +57,20 @@ function ReviewCard({
           <Rating value={rating} size="sm" />
           {title && <p className="text-sm font-semibold text-foreground leading-tight">{title}</p>}
         </div>
-        <span className="text-[var(--text-micro)] text-muted-foreground whitespace-nowrap mt-0.5">
+        <span className="text-[length:var(--text-micro)] text-muted-foreground whitespace-nowrap mt-0.5">
           {date}
         </span>
       </div>
 
-      {/* Content with decorative quote */}
+      {/* Content with expand toggle */}
       <div className="relative flex-1">
         <p className="text-sm text-foreground/80 leading-relaxed">{displayContent}</p>
         {isLong && (
-          <button
-            type="button"
-            onClick={() => setExpanded(!expanded)}
-            className="mt-1.5 text-xs font-semibold text-brand hover:text-brand/80 transition-colors duration-[var(--motion-fast)]"
-          >
-            {expanded ? 'Show less' : 'Read more'}
-          </button>
+          <ReviewCardExpand
+            content={content}
+            truncatedContent={displayContent}
+            onToggle={() => {}}
+          />
         )}
       </div>
 
@@ -92,7 +90,7 @@ function ReviewCard({
         <div className="flex flex-col min-w-0">
           <span className="text-sm font-semibold leading-tight truncate">{author}</span>
           {verified && (
-            <span className="flex items-center gap-1 text-[var(--text-micro)] text-[var(--text-success)] font-medium mt-0.5">
+            <span className="flex items-center gap-1 text-[length:var(--text-micro)] text-[var(--text-success)] font-medium mt-0.5">
               <CheckCircle2 className="w-3 h-3 shrink-0" />
               Verified Buyer
             </span>

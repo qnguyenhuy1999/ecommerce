@@ -100,7 +100,7 @@ Header.displayName = 'DialogHeader'
 
 const Footer = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-3', className)}
+    className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-3 mt-4', className)}
     {...props}
   />
 )

@@ -57,7 +57,7 @@ function ShippingProgressBar({
 
         <span
           className={cn(
-            'inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-[var(--text-micro)] font-semibold',
+            'inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-[length:var(--text-micro)] font-semibold',
             isUnlocked ? 'bg-success/15 text-success' : 'bg-brand/10 text-brand',
           )}
         >
@@ -72,7 +72,7 @@ function ShippingProgressBar({
         className="gap-0"
       />
 
-      <div className="flex items-center justify-between text-[var(--text-micro)] text-muted-foreground">
+      <div className="flex items-center justify-between text-[length:var(--text-micro)] text-muted-foreground">
         <span>{formatCurrency(0, currency)}</span>
         <span className={cn('font-medium', isUnlocked && 'text-success')}>
           Free shipping at {formatCurrency(normalizedThreshold, currency)}

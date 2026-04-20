@@ -44,7 +44,11 @@ function Rating({
               {(isFilled || isHalf) && (
                 <div
                   className="absolute inset-0 overflow-hidden"
-                  style={{ width: isHalf ? 'var(--rating-half-width, 50%)' : 'var(--rating-full-width, 100%)' }}
+                  style={{
+                    width: isHalf
+                      ? 'var(--rating-half-width, 50%)'
+                      : 'var(--rating-full-width, 100%)',
+                  }}
                 >
                   <Star
                     className={cn(
@@ -60,7 +64,7 @@ function Rating({
       </div>
 
       {showCount && count !== undefined && (
-        <span className="text-[var(--text-micro)] text-muted-foreground font-medium ml-1 tabular-nums">
+        <span className="text-[length:var(--text-micro)] text-muted-foreground font-medium ml-1 tabular-nums">
           ({count.toLocaleString()})
         </span>
       )}

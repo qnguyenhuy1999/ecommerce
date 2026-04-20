@@ -1,12 +1,10 @@
-'use client'
+import React, { useCallback, useState } from 'react'
 
-import React from 'react'
+import { cn } from '@ecom/ui'
 
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ProductGalleryClient } from './ProductGalleryClient'
 
-import { cn, IconButton } from '@ecom/ui'
-
-// ─── Context ─────────────────────────────────────────────────────────────────
+// ─── Compound Component Context ─────────────────────────────────────────────
 interface ProductGalleryContextValue {
   images: { id: string; src: string; alt: string }[]
   activeIndex: number
@@ -25,7 +23,7 @@ export function useProductGallery() {
   return context
 }
 
-// ─── Root ────────────────────────────────────────────────────────────────────
+// ─── Root (server — state lives here, delegating to client leafs) ──────────
 export interface ProductGalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   images: { id: string; src: string; alt: string }[]
   initialIndex?: number
@@ -38,25 +36,15 @@ function ProductGallery({
   children,
   ...props
 }: ProductGalleryProps) {
-  const [activeIndex, setActiveIndex] = React.useState(initialIndex)
+  const [activeIndex, setActiveIndex] = useState(initialIndex)
 
-  const nextImage = React.useCallback(() => {
+  const nextImage = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % images.length)
   }, [images.length])
 
-  const prevImage = React.useCallback(() => {
+  const prevImage = useCallback(() => {
     setActiveIndex((prev) => (prev - 1 + images.length) % images.length)
   }, [images.length])
-
-  // Keyboard navigation
-  React.useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') prevImage()
-      if (e.key === 'ArrowRight') nextImage()
-    }
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [nextImage, prevImage])
 
   return (
     <ProductGalleryContext.Provider
@@ -95,32 +83,12 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
         className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110 animate-in fade-in"
       />
 
-      {showControls && images.length > 1 && (
-        <>
-          <div className="absolute inset-y-0 left-4 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-[var(--motion-normal)]">
-            <IconButton
-              icon={<ChevronLeft className="w-5 h-5" />}
-              label="Previous image"
-              onClick={(e) => {
-                e.stopPropagation()
-                prevImage()
-              }}
-              className="bg-background/80 backdrop-blur shadow-[var(--elevation-floating)] hover:bg-background transition-all"
-            />
-          </div>
-          <div className="absolute inset-y-0 right-4 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-[var(--motion-normal)]">
-            <IconButton
-              icon={<ChevronRight className="w-5 h-5" />}
-              label="Next image"
-              onClick={(e) => {
-                e.stopPropagation()
-                nextImage()
-              }}
-              className="bg-background/80 backdrop-blur shadow-[var(--elevation-floating)] hover:bg-background transition-all"
-            />
-          </div>
-        </>
-      )}
+      <ProductGalleryClient
+        imageCount={images.length}
+        onNext={nextImage}
+        onPrev={prevImage}
+        showControls={showControls}
+      />
     </div>
   )
 }

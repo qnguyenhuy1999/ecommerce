@@ -56,33 +56,39 @@ function CartDrawer({
   onRemoveItem,
 }: CartDrawerProps) {
   const [localItems, setLocalItems] = React.useState(items)
-  React.useEffect(() => { setLocalItems(items) }, [items])
+  React.useEffect(() => {
+    setLocalItems(items)
+  }, [items])
 
   const percentToFreeShipping = Math.min((subtotal / freeShippingThreshold) * 100, 100)
   const remainingForFreeShipping = freeShippingThreshold - subtotal
   const isFreeShippingUnlocked = percentToFreeShipping >= 100
 
   function handleUpdateQuantity(id: string, qty: number) {
-    setLocalItems(prev => prev.map(item => item.id === id ? { ...item, quantity: qty } : item))
+    setLocalItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, quantity: qty } : item)),
+    )
     onUpdateQuantity?.(id, qty)
   }
 
   function handleRemoveItem(id: string) {
-    setLocalItems(prev => prev.filter(item => item.id !== id))
+    setLocalItems((prev) => prev.filter((item) => item.id !== id))
     onRemoveItem?.(id)
   }
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full sm:max-w-md flex flex-col p-0 border-l border-border bg-background sm:rounded-l-[var(--radius-xl)]
-        shadow-[var(--elevation-modal)]">
+      <SheetContent
+        className="w-full sm:max-w-md flex flex-col p-0 border-l border-border bg-background sm:rounded-l-[var(--radius-xl)]
+        shadow-[var(--elevation-modal)]"
+      >
         {/* Header with item count badge */}
         <SheetHeader className="p-[var(--padding-card)] border-b text-left">
           <SheetTitle className="text-[var(--text-lg)] font-semibold flex items-center gap-2 tracking-tight">
             <ShoppingBag className="w-5 h-5" />
             Your Cart
             {localItems.length > 0 && (
-              <Badge variant="sale" className="ml-1 text-[var(--text-micro)]">
+              <Badge variant="sale" className="ml-1 text-[length:var(--text-micro)]">
                 {items.length}
               </Badge>
             )}

@@ -3,7 +3,12 @@
 import React from 'react'
 
 import { Avatar, AvatarImage, AvatarFallback } from '../../atoms/Avatar/Avatar'
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '../../atoms/Tooltip/Tooltip'
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from '../../atoms/Tooltip/Tooltip'
 import { cn } from '../../lib/utils'
 
 export interface AvatarGroupItem {
@@ -74,14 +79,14 @@ function AvatarGroup({
 
     if (showTooltips) {
       return (
-        <TooltipTrigger key={index} asChild>
-          <span className="cursor-default">
-            {avatar}
-            <TooltipContent side="bottom" className="text-xs font-medium">
-              {item.name}
-            </TooltipContent>
-          </span>
-        </TooltipTrigger>
+        <Tooltip key={index}>
+          <TooltipTrigger asChild>
+            <span className="cursor-default">{avatar}</span>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="text-xs font-medium">
+            {item.name}
+          </TooltipContent>
+        </Tooltip>
       )
     }
     return avatar
@@ -106,11 +111,7 @@ function AvatarGroup({
   )
 
   if (showTooltips) {
-    return (
-      <TooltipProvider delayDuration={200}>
-        <Tooltip>{content}</Tooltip>
-      </TooltipProvider>
-    )
+    return <TooltipProvider delayDuration={200}>{content}</TooltipProvider>
   }
 
   return content

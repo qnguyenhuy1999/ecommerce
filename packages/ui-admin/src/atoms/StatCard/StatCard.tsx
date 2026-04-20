@@ -1,10 +1,6 @@
-'use client'
-
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { cva, type VariantProps } from 'class-variance-authority'
-
-import { TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
 import {
   cn,
@@ -16,68 +12,22 @@ import {
   Skeleton,
 } from '@ecom/ui'
 
+import { StatCardTrend } from './StatCardTrend'
+import { NumberCounter } from './StatCardTrend'
+
 const statCardVariants = cva('admin-stat-card', {
   variants: {
     variant: {
       default: 'p-[var(--space-5)]',
       compact: 'p-[var(--space-3)]',
-      prominent: 'p-[var(--space-6)] ring-1 ring-[var(--border-default)] shadow-[var(--elevation-surface)]',
+      prominent:
+        'p-[var(--space-6)] ring-1 ring-[var(--border-default)] shadow-[var(--elevation-surface)]',
     },
   },
   defaultVariants: {
     variant: 'default',
   },
 })
-
-function NumberCounter({ value, duration = 1000 }: { value: string | number; duration?: number }) {
-  const [displayValue, setDisplayValue] = useState(0)
-
-  // Try to extract a pure number from strings like "$1,234.50"
-  const stringVal = String(value)
-  const isNumeric = /^[\d.,$€£]+$/.test(stringVal)
-  const numericVal = isNumeric ? parseFloat(stringVal.replace(/[^\d.-]/g, '')) : NaN
-
-  useEffect(() => {
-    if (isNaN(numericVal)) return
-
-    let startTime: number
-    let animationFrame: number
-
-    const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime
-      const progress = Math.min((currentTime - startTime) / duration, 1)
-      const easeProgress = 1 - Math.pow(1 - progress, 3) // easeOutCubic
-
-      setDisplayValue(numericVal * easeProgress)
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate)
-      }
-    }
-
-    animationFrame = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationFrame)
-  }, [numericVal, duration])
-
-  if (isNaN(numericVal)) return <>{value}</>
-
-  // Try to preserve original formatting
-  const formatted = new Intl.NumberFormat('en-US', {
-    maximumFractionDigits: stringVal.includes('.') ? 2 : 0,
-  }).format(displayValue)
-
-  // Keep original prefix/suffix if present
-  const prefix = stringVal.match(/^[^\d]+/) ? stringVal.match(/^[^\d]+/)?.[0] : ''
-  const suffix = stringVal.match(/[^\d]+$/) ? stringVal.match(/[^\d]+$/)?.[0] : ''
-
-  return (
-    <>
-      {prefix}
-      {formatted}
-      {suffix}
-    </>
-  )
-}
 
 interface StatCardProps
   extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof statCardVariants> {
@@ -112,7 +62,7 @@ function StatCard({
       <div className={cn(statCardVariants({ variant }), className)} {...props}>
         <div className="flex flex-col h-full gap-4">
           <div className="flex items-start justify-between">
-            <div className="space-y-2 flex-1">
+            <div className="space-y-2 flex-1 mr-4">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-8 w-32" />
             </div>
@@ -129,36 +79,16 @@ function StatCard({
       <div className="flex flex-col h-full">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-muted-foreground tracking-wide">
-              {label}
-            </p>
+            <p className="text-sm font-medium text-muted-foreground tracking-wide">{label}</p>
             <p className="mt-1.5 text-2xl font-bold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)]">
               <NumberCounter value={value} />
             </p>
             {(description || trend) && (
               <div className="mt-2 flex items-center gap-2 flex-wrap">
-                {trend && (
-                  <span
-                    className={cn(
-                      'inline-flex items-center text-[var(--text-micro)] font-semibold px-1.5 py-0.5 rounded-[var(--radius-sm)]',
-                      trend.positive === true
-                        ? 'bg-[var(--intent-success-muted)] text-[var(--intent-success)]'
-                        : trend.positive === false
-                          ? 'bg-[var(--intent-danger-muted)] text-[var(--intent-danger)]'
-                          : 'bg-muted text-muted-foreground',
-                    )}
-                  >
-                    {trend.positive === true ? (
-                      <TrendingUp className="w-3 h-3 mr-1" />
-                    ) : trend.positive === false ? (
-                      <TrendingDown className="w-3 h-3 mr-1" />
-                    ) : (
-                      <Minus className="w-3 h-3 mr-1" />
-                    )}
-                    {trend.value}
-                  </span>
+                {trend && <StatCardTrend value={trend.value} positive={trend.positive} />}
+                {description && (
+                  <p className="text-[var(--text-sm)] text-muted-foreground">{description}</p>
                 )}
-                {description && <p className="text-[var(--text-sm)] text-muted-foreground">{description}</p>}
               </div>
             )}
           </div>
