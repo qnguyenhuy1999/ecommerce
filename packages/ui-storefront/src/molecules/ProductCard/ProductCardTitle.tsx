@@ -2,8 +2,7 @@ import { cn } from '@ecom/ui'
 
 import { useProductCard } from './ProductCard'
 
-
-interface ProductCardTitleProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+type ProductCardTitleProps = React.HTMLAttributes<HTMLHeadingElement>
 
 export function ProductCardTitle({ className, ...props }: ProductCardTitleProps) {
   const { title } = useProductCard()

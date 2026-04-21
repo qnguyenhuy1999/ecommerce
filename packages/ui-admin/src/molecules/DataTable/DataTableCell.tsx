@@ -1,13 +1,13 @@
 import React from 'react'
 
-import {
-  TableCell as BaseTableCell,
-  cn,
-} from '@ecom/ui'
+import { TableCell as BaseTableCell, cn } from '@ecom/ui'
 
 import { useDataTable } from './DataTableContext'
 
-export interface DataTableCellProps extends Omit<React.TdHTMLAttributes<HTMLTableCellElement>, 'align'> {
+export interface DataTableCellProps extends Omit<
+  React.TdHTMLAttributes<HTMLTableCellElement>,
+  'align'
+> {
   align?: 'left' | 'center' | 'right' | 'numeric'
   truncate?: boolean
   muted?: boolean

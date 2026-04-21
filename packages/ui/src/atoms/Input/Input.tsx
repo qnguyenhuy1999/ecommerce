@@ -80,7 +80,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           // Padding left
           prefixIcon ? 'pl-10' : 'pl-3',
           // Padding right
-          (suffixIcon || loading) ? 'pr-10' : 'pr-3',
+          suffixIcon || loading ? 'pr-10' : 'pr-3',
           label && 'pt-4 pb-1', // Extra top padding for floating label
           // Shadow only on focus — not at rest
           'focus:shadow-[var(--elevation-card)] focus:bg-background',

@@ -20,15 +20,12 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
-        destructive:
-          'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
+        default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
+        destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         brand:
           'relative overflow-hidden bg-brand text-brand-foreground shadow-sm hover:shadow-md hover:transform hover:[transform:var(--motion-lift)] after:absolute after:inset-0 after:-translate-x-full hover:after:animate-[shimmer_var(--animate-duration-shimmer-progress)_linear_infinite] after:bg-gradient-to-r after:from-transparent after:via-white/20 after:to-transparent',
         outline: 'border border-input bg-background hover:bg-accent hover:text-accent-foreground',
-        secondary:
-          'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         soft: 'bg-accent text-accent-foreground hover:bg-accent/80',

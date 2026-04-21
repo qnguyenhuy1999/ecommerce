@@ -144,7 +144,9 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
           <div
             className={cn(
               'hidden md:flex items-center justify-center gap-1 transition-all duration-[var(--motion-normal)]',
-              isScrolled ? 'animate-none' : 'animate-in fade-in slide-in-from-top-2 duration-[var(--motion-normal)]',
+              isScrolled
+                ? 'animate-none'
+                : 'animate-in fade-in slide-in-from-top-2 duration-[var(--motion-normal)]',
             )}
           >
             {categories.map((cat, i) => (

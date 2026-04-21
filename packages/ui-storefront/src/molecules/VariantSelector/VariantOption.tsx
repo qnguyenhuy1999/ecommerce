@@ -97,7 +97,8 @@ export function VariantOption({
         isSelected
           ? 'bg-foreground text-background border-foreground shadow-[var(--elevation-card)] ring-2 ring-foreground/20 ring-offset-1'
           : 'bg-background text-foreground border-border hover:border-foreground hover:bg-muted/30',
-        isDisabled && 'opacity-50 cursor-not-allowed hover:border-border hover:bg-transparent bg-muted/50',
+        isDisabled &&
+          'opacity-50 cursor-not-allowed hover:border-border hover:bg-transparent bg-muted/50',
       )}
     >
       {label}

@@ -1,6 +1,6 @@
 import { cn } from '@ecom/ui'
 
-interface ProductCardBadgeProps extends React.HTMLAttributes<HTMLDivElement> {}
+type ProductCardBadgeProps = React.HTMLAttributes<HTMLDivElement>
 
 export function ProductCardBadge({ className, ...props }: ProductCardBadgeProps) {
   return (

@@ -28,9 +28,7 @@ export function DataTableSkeleton({
             rowIdx === rowCount - 1 && 'border-b-0',
           )}
         >
-          {selectable && (
-            <Skeleton className="h-4 w-4 shrink-0" />
-          )}
+          {selectable && <Skeleton className="h-4 w-4 shrink-0" />}
           {Array.from({ length: columnCount }).map((_, colIdx) => (
             <Skeleton
               key={colIdx}

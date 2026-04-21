@@ -31,7 +31,8 @@ const DATA_TABLE_STATUS_CONFIG = {
 } as const
 
 export function DataTableStatusBadge({ status, className }: DataTableStatusBadgeProps) {
-  const { label, variant, icon } = DATA_TABLE_STATUS_CONFIG[status] ?? DATA_TABLE_STATUS_CONFIG.draft
+  const { label, variant, icon } =
+    DATA_TABLE_STATUS_CONFIG[status] ?? DATA_TABLE_STATUS_CONFIG.draft
   return (
     <Badge variant={variant} size="sm" icon={icon} className={cn('shrink-0', className)}>
       {label}

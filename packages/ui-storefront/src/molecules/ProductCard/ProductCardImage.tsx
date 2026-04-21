@@ -4,8 +4,7 @@ import { cn } from '@ecom/ui'
 
 import { useProductCard } from './ProductCard'
 
-
-interface ProductCardImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {}
+type ProductCardImageProps = React.ImgHTMLAttributes<HTMLImageElement>
 
 export function ProductCardImage({ src, alt, className, ...props }: ProductCardImageProps) {
   const { title, href } = useProductCard()

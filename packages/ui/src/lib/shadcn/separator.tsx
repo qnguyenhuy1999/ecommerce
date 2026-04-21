@@ -18,21 +18,28 @@ export interface SeparatorProps extends React.ComponentProps<typeof SeparatorPri
 
 const Separator = React.forwardRef<
   React.ComponentRef<typeof SeparatorPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> & { size?: 'sm' | 'default' | 'lg' }
->(({ size = 'default', className, orientation = 'horizontal', decorative = true, ...props }, ref) => (
-  <SeparatorPrimitive.Root
-    ref={ref}
-    decorative={decorative}
-    orientation={orientation}
-    className={cn(
-      'shrink-0 bg-border',
-      thicknessMap[size],
-      orientation === 'horizontal' ? 'w-full' : 'h-full',
-      className,
-    )}
-    {...props}
-  />
-))
+  React.ComponentPropsWithoutRef<typeof SeparatorPrimitive.Root> & {
+    size?: 'sm' | 'default' | 'lg'
+  }
+>(
+  (
+    { size = 'default', className, orientation = 'horizontal', decorative = true, ...props },
+    ref,
+  ) => (
+    <SeparatorPrimitive.Root
+      ref={ref}
+      decorative={decorative}
+      orientation={orientation}
+      className={cn(
+        'shrink-0 bg-border',
+        thicknessMap[size],
+        orientation === 'horizontal' ? 'w-full' : 'h-full',
+        className,
+      )}
+      {...props}
+    />
+  ),
+)
 Separator.displayName = SeparatorPrimitive.Root.displayName
 
 export { Separator }

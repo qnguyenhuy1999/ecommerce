@@ -2,7 +2,6 @@ import { cn } from '@ecom/ui'
 
 import { Rating } from '../../atoms/Rating/Rating'
 
-
 interface ProductCardRatingProps extends React.HTMLAttributes<HTMLDivElement> {
   value: number
   count?: number

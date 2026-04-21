@@ -34,7 +34,7 @@ const AccordionItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> &
     VariantProps<typeof accordionItemVariants>
 >(({ className, variant = 'default', ...props }, ref) => {
-  const resolvedVariant = (variant || 'default')
+  const resolvedVariant = variant || 'default'
   return (
     <AccordionItemContext.Provider value={{ variant: resolvedVariant }}>
       <AccordionPrimitive.Item

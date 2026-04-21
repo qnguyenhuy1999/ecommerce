@@ -1,6 +1,5 @@
 'use client'
 
-
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { cn } from '../../lib/utils'
@@ -20,11 +19,19 @@ const buttonBase = [
   'disabled:pointer-events-none disabled:opacity-50',
 ].join(' ')
 
-export function PaginationClient({ page, pages, totalPages, onPageChange, className }: PaginationClientProps) {
+export function PaginationClient({
+  page,
+  pages,
+  totalPages,
+  onPageChange,
+  className,
+}: PaginationClientProps) {
   return (
     <nav className={cn('flex items-center gap-1', className)} aria-label="pagination">
       <button
-        onClick={() => { onPageChange(page - 1); }}
+        onClick={() => {
+          onPageChange(page - 1)
+        }}
         disabled={page <= 1}
         className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Previous page"
@@ -44,7 +51,9 @@ export function PaginationClient({ page, pages, totalPages, onPageChange, classN
         ) : (
           <button
             key={p}
-            onClick={() => { onPageChange(p); }}
+            onClick={() => {
+              onPageChange(p)
+            }}
             className={cn(
               buttonBase,
               'h-9 w-9',
@@ -61,7 +70,9 @@ export function PaginationClient({ page, pages, totalPages, onPageChange, classN
       )}
 
       <button
-        onClick={() => { onPageChange(page + 1); }}
+        onClick={() => {
+          onPageChange(page + 1)
+        }}
         disabled={page >= totalPages}
         className={cn(buttonBase, 'h-9 w-9 hover:bg-accent hover:text-accent-foreground')}
         aria-label="Next page"

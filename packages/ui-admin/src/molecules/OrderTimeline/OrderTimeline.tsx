@@ -92,7 +92,9 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
                   <div className="w-1 h-1 rounded-full bg-[var(--border-strong)]" />
                 )}
                 {step.status === 'error' && (
-                  <span className="text-[var(--text-timeline-error-label)] font-bold text-white leading-none -mt-px">!</span>
+                  <span className="text-[var(--text-timeline-error-label)] font-bold text-white leading-none -mt-px">
+                    !
+                  </span>
                 )}
                 {step.status === 'current' && (
                   <span className="relative flex h-1.5 w-1.5">
@@ -105,18 +107,30 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
               {/* Content */}
               <div className="flex flex-col flex-1 min-w-0 mt-0.5">
                 {/* Label row */}
-                <p className={cn('text-[var(--text-timeline-label)] font-medium leading-snug', cfg.labelColor)}>
+                <p
+                  className={cn(
+                    'text-[var(--text-timeline-label)] font-medium leading-snug',
+                    cfg.labelColor,
+                  )}
+                >
                   {step.label}
                 </p>
 
                 {/* Timestamp */}
                 {step.timestamp && (
-                  <p className={cn('mt-0.5 text-[var(--text-timeline-timestamp)]', cfg.timeColor)}>{step.timestamp}</p>
+                  <p className={cn('mt-0.5 text-[var(--text-timeline-timestamp)]', cfg.timeColor)}>
+                    {step.timestamp}
+                  </p>
                 )}
 
                 {/* Description */}
                 {step.description && (
-                  <p className={cn('mt-0.5 text-[var(--text-timeline-description)] leading-relaxed', cfg.descColor)}>
+                  <p
+                    className={cn(
+                      'mt-0.5 text-[var(--text-timeline-description)] leading-relaxed',
+                      cfg.descColor,
+                    )}
+                  >
                     {step.description}
                   </p>
                 )}

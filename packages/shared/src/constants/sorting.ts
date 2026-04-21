@@ -17,10 +17,7 @@ export const DEFAULT_SORT_OPTIONS: SortOption[] = [
   { field: 'name', label: 'Name', direction: SORT_ASC },
 ]
 
-export function getSortParam(
-  field: string,
-  direction: SortDirection = SORT_DESC,
-): string {
+export function getSortParam(field: string, direction: SortDirection = SORT_DESC): string {
   return direction === SORT_ASC ? field : `-${field}`
 }
 

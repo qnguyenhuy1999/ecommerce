@@ -1,6 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
-import { Table, TableHeader, TableBody, TableFooter, TableHead, TableRow, TableCell, TableCaption } from '../../lib/shadcn/table'
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+} from '../../lib/shadcn/table'
 import { Badge } from '../../lib/shadcn/badge'
 
 const meta: Meta<typeof Table> = {
@@ -105,7 +114,9 @@ export const SelectableRows: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [selected, setSelected] = React.useState<string[]>([])
-    const toggle = (id: string) => { setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id])) }
+    const toggle = (id: string) => {
+      setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))
+    }
     return (
       <Table>
         <TableHeader>
@@ -137,7 +148,9 @@ export const SelectableRows: Story = {
                   type="checkbox"
                   className="h-4 w-4 rounded border-input accent-brand"
                   checked={selected.includes(p.id)}
-                  onChange={() => { toggle(p.id) }}
+                  onChange={() => {
+                    toggle(p.id)
+                  }}
                 />
               </TableCell>
               <TableCell className="font-medium">{p.name}</TableCell>

@@ -20,9 +20,7 @@ function Frame({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen w-full bg-background">
       {/* Render header inside a sticky context */}
-      <div className="sticky top-0 z-40">
-        {children}
-      </div>
+      <div className="sticky top-0 z-40">{children}</div>
       {/* Page placeholder */}
       <div className="p-8 space-y-4">
         <div className="h-24 rounded-xl border bg-background shadow-sm" />
@@ -137,8 +135,7 @@ export const WithLeading: Story = {
           <button
             type="button"
             className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-muted transition-colors"
-            aria-label="Toggle sidebar"
-          >
+            aria-label="Toggle sidebar">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -148,8 +145,7 @@ export const WithLeading: Story = {
               stroke="currentColor"
               strokeWidth="2"
               strokeLinecap="round"
-              strokeLinejoin="round"
-            >
+              strokeLinejoin="round">
               <line x1="4" x2="20" y1="12" y2="12" />
               <line x1="4" x2="20" y1="6" y2="6" />
               <line x1="4" x2="20" y1="18" y2="18" />

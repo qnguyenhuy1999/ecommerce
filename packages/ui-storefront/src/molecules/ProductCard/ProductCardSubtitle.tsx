@@ -1,7 +1,6 @@
 import { cn } from '@ecom/ui'
 
-
-interface ProductCardSubtitleProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+type ProductCardSubtitleProps = React.HTMLAttributes<HTMLParagraphElement>
 
 export function ProductCardSubtitle({ className, ...props }: ProductCardSubtitleProps) {
   return (

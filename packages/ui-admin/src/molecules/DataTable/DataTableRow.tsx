@@ -122,7 +122,7 @@ export function DataTableRow({
                 onClick={(e) => e.stopPropagation()}
                 onCheckedChange={(next) => {
                   if (rowKey === undefined) return
-                  toggleRow(rowKey, Boolean(next));
+                  toggleRow(rowKey, Boolean(next))
                 }}
               />
             </BaseTableCell>

@@ -62,13 +62,7 @@ export const WithCharacterCount: Story = {
     maxLength: 150,
     defaultValue: 'Premium wireless headphones with active noise cancellation...',
   },
-  render: (args) => (
-    <Input
-      {...args}
-      value={String(args.defaultValue ?? '')}
-      onChange={() => {}}
-    />
-  ),
+  render: (args) => <Input {...args} value={String(args.defaultValue ?? '')} onChange={() => {}} />,
 }
 
 export const Sizes: Story = {
@@ -96,13 +90,7 @@ export const PriceInput: Story = {
     type: 'number',
     defaultValue: 29.99,
   },
-  render: (args) => (
-    <Input
-      {...args}
-      value={String(args.defaultValue ?? '')}
-      onChange={() => {}}
-    />
-  ),
+  render: (args) => <Input {...args} value={String(args.defaultValue ?? '')} onChange={() => {}} />,
 }
 
 export const FullFeatured: Story = {
@@ -115,7 +103,9 @@ export const FullFeatured: Story = {
           label="Product Title"
           placeholder=" "
           value={value}
-          onChange={(e) => { setValue(e.target.value) }}
+          onChange={(e) => {
+            setValue(e.target.value)
+          }}
           showCount
           maxLength={80}
         />

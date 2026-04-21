@@ -83,9 +83,7 @@ function FileUpload({
       try {
         await upload(item.file, { onProgress, signal: controller.signal })
         setItems((prev) =>
-          prev.map((it) =>
-            it.id === item.id ? { ...it, status: 'success', progress: 100 } : it,
-          ),
+          prev.map((it) => (it.id === item.id ? { ...it, status: 'success', progress: 100 } : it)),
         )
         onUploadComplete?.(item.file)
       } catch (error) {
@@ -96,7 +94,11 @@ function FileUpload({
               ? {
                   ...it,
                   status: isCanceled ? 'canceled' : 'error',
-                  error: isCanceled ? undefined : (error instanceof Error ? error.message : 'Upload failed'),
+                  error: isCanceled
+                    ? undefined
+                    : error instanceof Error
+                      ? error.message
+                      : 'Upload failed',
                 }
               : it,
           ),
@@ -148,7 +150,17 @@ function FileUpload({
         if (upload && uploadOnSelect && !disabled && selected[0]) void startUpload(selected[0])
       }
     },
-    [abortUpload, createId, disabled, maxSize, multiple, onUpload, startUpload, upload, uploadOnSelect],
+    [
+      abortUpload,
+      createId,
+      disabled,
+      maxSize,
+      multiple,
+      onUpload,
+      startUpload,
+      upload,
+      uploadOnSelect,
+    ],
   )
 
   const handleDrop = React.useCallback(
@@ -191,8 +203,10 @@ function FileUpload({
   }, [disabled])
 
   React.useEffect(() => {
+    const controllers = controllersRef.current
+
     return () => {
-      for (const controller of Object.values(controllersRef.current)) controller.abort()
+      for (const controller of Object.values(controllers)) controller.abort()
     }
   }, [])
 
@@ -259,9 +273,9 @@ function FileUpload({
                       {upload && (
                         <>
                           {' '}
-                          •{' '}
-                          {item.status === 'queued' && 'Queued'}
-                          {item.status === 'uploading' && `Uploading… ${Math.round(item.progress)}%`}
+                          • {item.status === 'queued' && 'Queued'}
+                          {item.status === 'uploading' &&
+                            `Uploading… ${Math.round(item.progress)}%`}
                           {item.status === 'success' && 'Uploaded'}
                           {item.status === 'canceled' && 'Canceled'}
                           {item.status === 'error' && (item.error ?? 'Upload failed')}

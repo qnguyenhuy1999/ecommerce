@@ -48,10 +48,18 @@ function EmptyState({
       )}
       <div className="space-y-[var(--space-1-5)]">
         <h3 className="text-[var(--text-lg)] font-semibold text-foreground">{title}</h3>
-        {description && <p className="text-[var(--text-sm)] text-muted-foreground max-w-[var(--space-96)]">{description}</p>}
+        {description && (
+          <p className="text-[var(--text-sm)] text-muted-foreground max-w-[var(--space-96)]">
+            {description}
+          </p>
+        )}
       </div>
       {action && (
-        <Button variant={action.variant || 'outline'} onClick={action.onClick} className="mt-[var(--space-2)]">
+        <Button
+          variant={action.variant || 'outline'}
+          onClick={action.onClick}
+          className="mt-[var(--space-2)]"
+        >
           {action.label}
         </Button>
       )}

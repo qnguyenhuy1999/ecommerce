@@ -2,8 +2,7 @@ import { cn } from '@ecom/ui'
 
 import { useProductCard } from './ProductCard'
 
-
-interface ProductCardContentProps extends React.HTMLAttributes<HTMLDivElement> {}
+type ProductCardContentProps = React.HTMLAttributes<HTMLDivElement>
 
 export function ProductCardContent({ className, children, ...props }: ProductCardContentProps) {
   const { href } = useProductCard()

@@ -19,17 +19,11 @@ function buildPageList(
     Array.from({ length: to - from + 1 }, (_, i) => from + i)
 
   const leftRange = range(1, Math.min(boundaries, totalPages))
-  const rightRange = range(
-    Math.max(totalPages - boundaries + 1, 1),
-    totalPages,
-  )
+  const rightRange = range(Math.max(totalPages - boundaries + 1, 1), totalPages)
 
   const middleStart = page - siblings
   const middleEnd = page + siblings
-  const middleRange = range(
-    Math.max(2, middleStart),
-    Math.min(totalPages - 1, middleEnd),
-  )
+  const middleRange = range(Math.max(2, middleStart), Math.min(totalPages - 1, middleEnd))
 
   const segments: (number | 'ellipsis')[] = []
 
@@ -45,8 +39,8 @@ function buildPageList(
   if (rightRange.length > 0) {
     const lastMiddle =
       middleRange.length > 0
-        ? middleRange[middleRange.length - 1] ?? 0
-        : leftRange[leftRange.length - 1] ?? 0
+        ? (middleRange[middleRange.length - 1] ?? 0)
+        : (leftRange[leftRange.length - 1] ?? 0)
     const firstRight = rightRange[0] ?? 0
     if (firstRight - lastMiddle > 1) segments.push('ellipsis')
     segments.push(...rightRange)

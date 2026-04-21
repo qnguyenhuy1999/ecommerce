@@ -1,6 +1,6 @@
 import { cn } from '@ecom/ui'
 
-interface ProductCardActionsProps extends React.HTMLAttributes<HTMLDivElement> {}
+type ProductCardActionsProps = React.HTMLAttributes<HTMLDivElement>
 
 export function ProductCardActions({ className, children, ...props }: ProductCardActionsProps) {
   return (

@@ -1,10 +1,5 @@
 // Explicit named exports only — NO barrel export
-export {
-  DEFAULT_STATUS_MAPPING,
-  mapStatus,
-  type StatusVariant,
-  type StatusMapping,
-} from './status'
+export { DEFAULT_STATUS_MAPPING, mapStatus, type StatusVariant, type StatusMapping } from './status'
 export {
   DEFAULT_PAGE_SIZE,
   MIN_PAGE_SIZE,

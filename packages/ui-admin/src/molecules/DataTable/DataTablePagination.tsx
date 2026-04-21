@@ -78,15 +78,22 @@ export function DataTablePagination({
 
       {/* Page navigation */}
       <div className="flex items-center gap-1 shrink-0">
-        {([
-          { icon: 'first', aria: 'First page', disabled: page <= 1, action: () => onPageChange(1) },
-          {
-            icon: 'prev',
-            aria: 'Previous page',
-            disabled: page <= 1,
-            action: () => onPageChange(page - 1),
-          },
-        ] as const).map(({ icon, aria, disabled, action }) => (
+        {(
+          [
+            {
+              icon: 'first',
+              aria: 'First page',
+              disabled: page <= 1,
+              action: () => onPageChange(1),
+            },
+            {
+              icon: 'prev',
+              aria: 'Previous page',
+              disabled: page <= 1,
+              action: () => onPageChange(page - 1),
+            },
+          ] as const
+        ).map(({ icon, aria, disabled, action }) => (
           <button
             key={icon}
             type="button"
@@ -152,20 +159,22 @@ export function DataTablePagination({
           )
         })}
 
-        {([
-          {
-            icon: 'next',
-            aria: 'Next page',
-            disabled: page >= totalPages,
-            action: () => onPageChange(page + 1),
-          },
-          {
-            icon: 'last',
-            aria: 'Last page',
-            disabled: page >= totalPages,
-            action: () => onPageChange(totalPages),
-          },
-        ] as const).map(({ icon, aria, disabled, action }) => (
+        {(
+          [
+            {
+              icon: 'next',
+              aria: 'Next page',
+              disabled: page >= totalPages,
+              action: () => onPageChange(page + 1),
+            },
+            {
+              icon: 'last',
+              aria: 'Last page',
+              disabled: page >= totalPages,
+              action: () => onPageChange(totalPages),
+            },
+          ] as const
+        ).map(({ icon, aria, disabled, action }) => (
           <button
             key={icon}
             type="button"

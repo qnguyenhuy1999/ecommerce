@@ -7,6 +7,7 @@ import { cn } from '@ecom/ui'
 import { FilterCheckbox } from './FilterCheckbox'
 import { FilterCollapse } from './FilterCollapse'
 import { FilterRange } from './FilterRange'
+
 interface FilterGroupContextValue {
   groupId: string
   selected: Set<string>
@@ -85,7 +86,8 @@ export function FilterGroup({
                       isSelected
                         ? 'bg-[var(--text-primary)] text-[var(--surface-base)] border-[var(--text-primary)] shadow-sm'
                         : 'bg-[var(--surface-base)] text-[var(--text-secondary)] border-[var(--border-default)] hover:bg-[var(--surface-hover)]',
-                      !isSelected && 'hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]',
+                      !isSelected &&
+                        'hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]',
                     )}
                   >
                     {opt.label}

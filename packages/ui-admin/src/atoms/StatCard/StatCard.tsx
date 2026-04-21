@@ -12,8 +12,7 @@ import {
   Skeleton,
 } from '@ecom/ui'
 
-import { StatCardTrend } from './StatCardTrend'
-import { NumberCounter } from './StatCardTrend'
+import { StatCardTrend , NumberCounter } from './StatCardTrend'
 
 const statCardVariants = cva('admin-stat-card', {
   variants: {

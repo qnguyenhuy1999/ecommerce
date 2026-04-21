@@ -170,11 +170,7 @@ function FormFieldClient({
             hasError ? 'text-[var(--intent-danger)]' : 'text-[var(--intent-success)]',
           )}
         >
-          {hasError ? (
-            <AlertCircle className="w-4 h-4" />
-          ) : (
-            <CheckCircle2 className="w-4 h-4" />
-          )}
+          {hasError ? <AlertCircle className="w-4 h-4" /> : <CheckCircle2 className="w-4 h-4" />}
         </span>
       )}
 

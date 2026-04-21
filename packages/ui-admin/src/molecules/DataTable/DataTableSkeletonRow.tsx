@@ -1,8 +1,4 @@
-import {
-  TableCell as BaseTableCell,
-  TableRow as BaseTableRow,
-  cn,
-} from '@ecom/ui'
+import { TableCell as BaseTableCell, TableRow as BaseTableRow, cn } from '@ecom/ui'
 
 import { useDataTable } from './DataTableContext'
 

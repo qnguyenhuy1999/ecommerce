@@ -6,8 +6,10 @@ import * as SwitchPrimitive from '@radix-ui/react-switch'
 
 import { cn } from '../../lib/utils'
 
-export interface SwitchProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>, 'onChange'> {
+export interface SwitchProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>,
+  'onChange'
+> {
   checked?: boolean
   onCheckedChange?: (checked: boolean) => void
   size?: 'sm' | 'default' | 'lg'

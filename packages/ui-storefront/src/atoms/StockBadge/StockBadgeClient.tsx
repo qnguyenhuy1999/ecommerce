@@ -35,8 +35,7 @@ export function StockBadgeClient({ status, count }: StockBadgeClientProps) {
   const config = statusConfig[status]
   const Icon = config.icon
 
-  const label =
-    status === 'low-stock' && count !== undefined ? `Only ${count} left` : config.label
+  const label = status === 'low-stock' && count !== undefined ? `Only ${count} left` : config.label
 
   if (!label) return null
 

@@ -13,13 +13,20 @@ export type { RatingProps } from './atoms/Rating/Rating'
 export { StockBadge } from './atoms/StockBadge/StockBadge'
 export { StockBadgeClient } from './atoms/StockBadge/StockBadgeClient'
 export { TrustBadge } from './atoms/TrustBadge/TrustBadge'
-export type { TrustBadgeType, TrustBadgeProps, TrustBadgeGroupProps } from './atoms/TrustBadge/TrustBadge'
+export type {
+  TrustBadgeType,
+  TrustBadgeProps,
+  TrustBadgeGroupProps,
+} from './atoms/TrustBadge/TrustBadge'
 export { WishlistButton } from './atoms/WishlistButton/WishlistButton'
 
 // Molecules
 export { CategoryCard } from './molecules/CategoryCard/CategoryCard'
 export { CheckoutStepper } from './molecules/CheckoutStepper/CheckoutStepper'
-export type { CheckoutStep, CheckoutStepperProps } from './molecules/CheckoutStepper/CheckoutStepper'
+export type {
+  CheckoutStep,
+  CheckoutStepperProps,
+} from './molecules/CheckoutStepper/CheckoutStepper'
 export {
   FilterSidebar,
   FilterGroup,
@@ -28,7 +35,11 @@ export {
   FilterRange,
   FilterClear,
 } from './molecules/FilterSidebar/FilterSidebar'
-export type { FilterGroupSpec, FilterOption, FilterSidebarProps } from './molecules/FilterSidebar/FilterSidebar'
+export type {
+  FilterGroupSpec,
+  FilterOption,
+  FilterSidebarProps,
+} from './molecules/FilterSidebar/FilterSidebar'
 export { FilterSidebarClient } from './molecules/FilterSidebar/FilterSidebarClient'
 export {
   ProductCard,

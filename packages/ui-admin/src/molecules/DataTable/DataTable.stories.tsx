@@ -319,8 +319,7 @@ export const Selectable: Story = {
             selectedKeys={selectedKeys}
             onSelectionChange={setSelectedKeys}
             allRowKeys={paginated.map((p) => p.id)}
-            zebraStriping
-          >
+            zebraStriping>
             <DataTableToolbar
               heading="Products"
               right={

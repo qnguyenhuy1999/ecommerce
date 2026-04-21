@@ -12,8 +12,10 @@ interface RadioGroupProps extends React.ComponentPropsWithoutRef<typeof RadioGro
   orientation?: 'horizontal' | 'vertical'
 }
 
-interface RadioGroupItemProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>, 'value'> {
+interface RadioGroupItemProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item>,
+  'value'
+> {
   value: string
   label?: string
 }

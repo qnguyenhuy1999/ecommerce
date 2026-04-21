@@ -63,7 +63,9 @@ export const Settings: Story = {
       sms: false,
       marketing: false,
     })
-    const toggle = (key: string) => { setSettings((s) => ({ ...s, [key]: !s[key as keyof typeof s] })) }
+    const toggle = (key: string) => {
+      setSettings((s) => ({ ...s, [key]: !s[key as keyof typeof s] }))
+    }
     return (
       <div className="flex flex-col gap-4 p-5 border rounded-[var(--radius-lg)] max-w-sm">
         <h3 className="text-sm font-semibold">Notification Preferences</h3>
@@ -79,7 +81,12 @@ export const Settings: Story = {
                 <span className="text-sm font-medium">{label}</span>
                 <span className="text-xs text-muted-foreground">{desc}</span>
               </div>
-              <Switch checked={settings[key as keyof typeof settings]} onCheckedChange={() => { toggle(key) }} />
+              <Switch
+                checked={settings[key as keyof typeof settings]}
+                onCheckedChange={() => {
+                  toggle(key)
+                }}
+              />
             </div>
           ))}
         </div>

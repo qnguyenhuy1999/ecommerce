@@ -14,8 +14,10 @@ const SelectValue = SelectPrimitive.Value
 const SelectGroup = SelectPrimitive.Group
 
 /* ── Trigger (with forwardRef) ───────────────────────────────────────── */
-export interface SelectTriggerProps
-  extends Omit<React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>, 'size'> {
+export interface SelectTriggerProps extends Omit<
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
+  'size'
+> {
   /** Visual size variant */
   size?: 'sm' | 'default' | 'lg'
   /** Error state */

@@ -77,9 +77,7 @@ function HeroBanner({
         )}
       >
         {eyebrow && (
-          <p
-            className="text-sm sm:text-base font-semibold tracking-[0.15em] uppercase text-white/70 mb-4 animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both"
-          >
+          <p className="text-sm sm:text-base font-semibold tracking-[0.15em] uppercase text-white/70 mb-4 animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both">
             {eyebrow}
           </p>
         )}
@@ -107,7 +105,7 @@ function HeroBanner({
                 href={ctaHref}
                 className={cn(
                   buttonVariants({ size: 'xl' }),
-                  'shadow-[var(--elevation-modal)] hover:shadow-[var(--elevation-dropdown)] transition-shadow'
+                  'shadow-[var(--elevation-modal)] hover:shadow-[var(--elevation-dropdown)] transition-shadow',
                 )}
               >
                 {ctaLabel}
@@ -118,7 +116,7 @@ function HeroBanner({
                 href={secondaryCtaHref}
                 className={cn(
                   buttonVariants({ variant: 'outline', size: 'xl' }),
-                  'border-white/30 text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 hover:border-white/50 shadow-sm'
+                  'border-white/30 text-white bg-white/10 backdrop-blur-sm hover:bg-white/20 hover:border-white/50 shadow-sm',
                 )}
               >
                 {secondaryCtaLabel}
@@ -130,7 +128,10 @@ function HeroBanner({
 
       {/* Scroll indicator — only on full-height banners */}
       {size === 'full' && (
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 animate-in fade-in duration-[var(--motion-slow)] fill-mode-both" style={{ animationDelay: '600ms' }}>
+        <div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 animate-in fade-in duration-[var(--motion-slow)] fill-mode-both"
+          style={{ animationDelay: '600ms' }}
+        >
           <span className="text-white/50 text-xs tracking-widest uppercase">Scroll</span>
           <div className="w-5 h-8 rounded-full border border-white/30 flex items-start justify-center p-1">
             <div className="w-1 h-1.5 rounded-full bg-white/70 animate-bounce" />

@@ -175,7 +175,6 @@ function RevenueChart({
                   isAnimationActive={true}
                   animationDuration={600}
                   animationEasing="ease-out"
-                  
                   fill="var(--brand-500)"
                 />
               </BarChart>

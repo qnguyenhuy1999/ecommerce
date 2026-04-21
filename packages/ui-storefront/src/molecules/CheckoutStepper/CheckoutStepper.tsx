@@ -28,7 +28,9 @@ function CheckoutStepper({ steps, currentStepId, className, ...props }: Checkout
         {/* Progress Track */}
         <div
           className="absolute left-0 top-4 -translate-y-1/2 h-px bg-brand transition-all duration-[var(--motion-slow)] ease-[var(--motion-ease-in-out)]"
-          style={{ width: `calc(${(currentIndex / (steps.length - 1)) * 100}% * var(--checkout-stepper-progress-scale, 1))` }}
+          style={{
+            width: `calc(${(currentIndex / (steps.length - 1)) * 100}% * var(--checkout-stepper-progress-scale, 1))`,
+          }}
         />
 
         {steps.map((step, index) => {
@@ -58,7 +60,9 @@ function CheckoutStepper({ steps, currentStepId, className, ...props }: Checkout
                 {isCompleted ? (
                   <Check className="w-4 h-4 animate-in zoom-in duration-[var(--motion-fast)]" />
                 ) : (
-                  <span className={cn(isCurrent && 'scale-110 transition-transform')}>{index + 1}</span>
+                  <span className={cn(isCurrent && 'scale-110 transition-transform')}>
+                    {index + 1}
+                  </span>
                 )}
               </div>
               <span

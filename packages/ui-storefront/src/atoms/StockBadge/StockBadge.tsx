@@ -13,11 +13,14 @@ export interface StockBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function StockBadge({ status, count, className, ...props }: StockBadgeProps) {
   // Static rendering — animation is handled by StockBadgeClient if needed
-  const label = status === 'low-stock' && count !== undefined
-    ? `Only ${count} left`
-    : status === 'in-stock' ? 'In Stock'
-    : status === 'out-of-stock' ? 'Out of Stock'
-    : null
+  const label =
+    status === 'low-stock' && count !== undefined
+      ? `Only ${count} left`
+      : status === 'in-stock'
+        ? 'In Stock'
+        : status === 'out-of-stock'
+          ? 'Out of Stock'
+          : null
 
   if (!label) return null
 
@@ -28,11 +31,7 @@ function StockBadge({ status, count, className, ...props }: StockBadgeProps) {
   } as const
 
   return (
-    <Badge
-      variant={variantMap[status]}
-      className={className}
-      {...props}
-    >
+    <Badge variant={variantMap[status]} className={className} {...props}>
       {label}
     </Badge>
   )

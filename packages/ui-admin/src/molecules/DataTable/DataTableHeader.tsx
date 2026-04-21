@@ -2,15 +2,14 @@ import React from 'react'
 
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react'
 
-import {
-  TableHead as BaseTableHead,
-  TableHeader as BaseTableHeader,
-  cn,
-} from '@ecom/ui'
+import { TableHead as BaseTableHead, TableHeader as BaseTableHeader, cn } from '@ecom/ui'
 
 import { DataTableSectionContext, useDataTable } from './DataTableContext'
 
-export interface DataTableColumnProps extends Omit<React.ThHTMLAttributes<HTMLTableCellElement>, 'align'> {
+export interface DataTableColumnProps extends Omit<
+  React.ThHTMLAttributes<HTMLTableCellElement>,
+  'align'
+> {
   sortable?: boolean
   sortDirection?: 'asc' | 'desc' | null
   onSort?: () => void

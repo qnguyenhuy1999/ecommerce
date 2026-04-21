@@ -2,9 +2,7 @@ import React from 'react'
 
 import { cn, Table } from '@ecom/ui'
 
-import {
-  DataTableContext,
-} from './DataTableContext'
+import { DataTableContext } from './DataTableContext'
 
 import { DataTableToolbar } from './DataTableToolbar'
 import { DataTableBulkActions } from './DataTableBulkActions'
@@ -92,14 +90,12 @@ function DataTableRoot({
 
   const bulkActionsChild = childArray.find(
     (c) =>
-      React.isValidElement(c) &&
-      (c.type as React.ComponentType<unknown>) === DataTableBulkActions,
+      React.isValidElement(c) && (c.type as React.ComponentType<unknown>) === DataTableBulkActions,
   ) as React.ReactElement<React.HTMLAttributes<HTMLDivElement>> | undefined
 
   const paginationChild = childArray.find(
     (c) =>
-      React.isValidElement(c) &&
-      (c.type as React.ComponentType<unknown>) === DataTablePagination,
+      React.isValidElement(c) && (c.type as React.ComponentType<unknown>) === DataTablePagination,
   ) as React.ReactElement<DataTablePaginationProps> | undefined
 
   const tableChildren = childArray.filter((c) => {

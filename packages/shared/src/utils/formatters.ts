@@ -60,10 +60,7 @@ export function formatDate(
 /**
  * Relative time formatter (e.g., "2 hours ago", "in 3 days")
  */
-export function formatRelativeTime(
-  date: Date | string,
-  locale: string = 'en-US',
-): string {
+export function formatRelativeTime(date: Date | string, locale: string = 'en-US'): string {
   const d = typeof date === 'string' ? new Date(date) : date
   const now = new Date()
   const diffMs = d.getTime() - now.getTime()

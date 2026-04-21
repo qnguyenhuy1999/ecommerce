@@ -1,6 +1,6 @@
 import { cn } from '@ecom/ui'
 
-interface ProductCardMetaProps extends React.HTMLAttributes<HTMLDivElement> {}
+type ProductCardMetaProps = React.HTMLAttributes<HTMLDivElement>
 
 export function ProductCardMeta({ className, ...props }: ProductCardMetaProps) {
   return (

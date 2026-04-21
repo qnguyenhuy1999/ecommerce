@@ -19,8 +19,9 @@ const Popover = PopoverPrimitive.Root
 const PopoverTrigger = PopoverPrimitive.Trigger
 
 /* ── Content ──────────────────────────────────────────────────────────── */
-export interface PopoverContentProps
-  extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
+export interface PopoverContentProps extends React.ComponentPropsWithoutRef<
+  typeof PopoverPrimitive.Content
+> {
   /** Alignment of content relative to trigger */
   align?: 'start' | 'center' | 'end'
   /** Which side of the trigger to render content */
