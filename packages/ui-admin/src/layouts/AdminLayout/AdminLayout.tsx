@@ -40,7 +40,7 @@ function AdminLayout({
   return (
     <div
       className={cn(
-        'min-h-screen bg-[var(--surface-subtle)] text-foreground flex flex-col',
+        'min-h-screen flex flex-col text-foreground bg-[var(--surface-subtle)]',
         className,
       )}
       {...props}
@@ -51,14 +51,14 @@ function AdminLayout({
           <AdminSidebar currentPath={currentPath} onNavigate={onNavigate} {...sidebarProps} />
         ))}
 
-      {/* Main Column */}
-      <div className="flex flex-1 flex-col min-w-0 lg:pl-64 transition-all duration-[var(--duration-normal)]">
-        {/* Header - Transparent and floating above content per design */}
+      {/* Main Column — offset by sidebar width */}
+      <div className="flex flex-1 flex-col min-w-0 pl-[var(--admin-sidebar-width)] transition-all duration-[var(--duration-normal)]">
+        {/* Header */}
         {header !== false && (header ?? <AdminHeader {...headerProps} />)}
 
         {/* Content Area */}
         <main className="relative flex-1">
-          <div className="px-6 pb-8 w-full max-w-[var(--container-2xl)] mx-auto animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
+          <div className="w-full mx-auto p-[var(--space-6)] pb-[var(--space-8)] max-w-[var(--admin-content-max-width)] animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
             {children}
           </div>
         </main>

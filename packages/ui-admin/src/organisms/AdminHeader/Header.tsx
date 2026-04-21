@@ -48,23 +48,28 @@ function AdminHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 flex h-16 w-full items-center gap-6 px-6 lg:px-8 bg-[var(--surface-subtle)]/90 backdrop-blur supports-[backdrop-filter]:bg-[var(--surface-subtle)]/60',
+        'sticky top-0 z-40 flex w-full items-center',
+        'h-[var(--admin-header-height)] bg-[var(--surface-base)]',
+        'border-b border-[var(--border-subtle)]',
+        'px-[var(--space-6)] gap-[var(--space-4)]',
         className,
       )}
       {...props}
     >
-      {/* Leading space / Title */}
-      <div className="flex min-w-0 shrink-0 items-center gap-4">
+      {/* Leading / Title */}
+      <div className="flex min-w-0 shrink-0 items-center gap-[var(--space-4)]">
         {leading && <div className="shrink-0">{leading}</div>}
         {title && !leading && (
-          <h1 className="text-2xl font-bold tracking-tight text-foreground truncate">{title}</h1>
+          <h1 className="truncate text-[length:var(--text-2xl)] font-bold leading-tight tracking-[-0.01em] text-[var(--text-primary)]">
+            {title}
+          </h1>
         )}
       </div>
 
-      {/* spacer to push search and actions right */}
+      {/* Spacer */}
       <div className="flex-1" />
 
-      {/* Search Input (White Pill) */}
+      {/* Search Input */}
       {search !== false && (
         <div className="hidden lg:block w-full max-w-80">
           <div className="relative">
@@ -76,17 +81,20 @@ function AdminHeader({
                 if (e.key === 'Enter') search?.onSearch?.(e.currentTarget.value)
               }}
               className={cn(
-                'h-9 w-full rounded-full border-none bg-background pl-4 pr-10 text-sm text-primary shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] transition-shadow placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-brand',
+                'h-9 w-full rounded-full',
+                'border border-[var(--border-subtle)] bg-[var(--surface-muted)]',
+                'pl-[var(--space-4)] pr-[var(--space-10)]',
+                'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
+                'focus:outline-none focus:ring-2 focus:ring-[var(--action-primary)]',
               )}
             />
-            <Search className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
           </div>
         </div>
       )}
 
-      {/* Utility Actions (Right) */}
-      <div className="flex shrink-0 items-center gap-2">
-        {/* Render standard dummy Message/Bell if no iconButtons passed, else map props */}
+      {/* Utility Actions */}
+      <div className="flex shrink-0 items-center gap-[var(--space-1)]">
         {(
           iconButtons ?? [
             {
@@ -107,37 +115,49 @@ function AdminHeader({
             type="button"
             aria-label={btn.label}
             onClick={btn.onClick}
-            className="relative flex h-9 w-9 items-center justify-center rounded-full text-tertiary hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-brand"
+            className={cn(
+              'relative flex items-center justify-center cursor-pointer',
+              'w-9 h-9 rounded-full',
+              'text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+              'transition-colors duration-[var(--duration-fast)]',
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--action-primary)]',
+            )}
           >
             {btn.icon}
             {btn.hasNotification && (
-              <span className="absolute right-[var(--space-2)] top-[var(--space-2)] h-[7px] w-[7px] rounded-full bg-destructive" />
+              <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
             )}
           </button>
         ))}
 
-        {/* User Avatar & Drodown indicator */}
+        {/* User Avatar & Dropdown */}
         {user !== false && (
           <button
             type="button"
             onClick={onUserClick}
-            className="ml-2 flex items-center gap-2 rounded-full py-1 pl-1 pr-2 hover:bg-black/5 transition-colors focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className={cn(
+              'flex items-center gap-[var(--space-2)] cursor-pointer',
+              'rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
+              'hover:bg-[var(--state-hover)]',
+              'transition-colors duration-[var(--duration-fast)]',
+              'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--action-primary)]',
+            )}
           >
-            <Avatar className="h-9 w-9 border border-border shadow-xs">
+            <Avatar className="w-9 h-9 shrink-0 border border-[var(--border-default)] shadow-xs">
               {user?.avatarUrl && <AvatarImage src={user.avatarUrl} alt={user?.name ?? 'Admin'} />}
-              <AvatarFallback className="bg-primary text-primary-foreground font-semibold text-xs">
+              <AvatarFallback className="bg-[var(--action-primary)] text-[var(--action-primary-foreground)] font-semibold text-[length:var(--text-micro)]">
                 {user?.initials ?? user?.name?.charAt(0).toUpperCase() ?? 'A'}
               </AvatarFallback>
             </Avatar>
             <div className="hidden md:flex flex-col items-start min-w-[var(--space-4)]">
-              <span className="text-[length:var(--text-sm)] font-semibold text-foreground leading-none">
+              <span className="text-[length:var(--text-sm)] font-semibold leading-tight text-[var(--text-primary)]">
                 {user?.name ?? 'Marcus George'}
               </span>
-              <span className="text-[length:var(--text-micro)] font-medium text-muted-foreground leading-none mt-1">
+              <span className="text-[length:var(--text-micro)] font-medium leading-tight mt-0.5 text-[var(--text-secondary)]">
                 {user?.role ?? 'Admin'}
               </span>
             </div>
-            <ChevronDown className="w-[var(--space-3)] h-[var(--space-3)] text-muted-foreground hidden md:block" />
+            <ChevronDown className="hidden md:block w-[var(--space-3)] h-[var(--space-3)] text-[var(--text-tertiary)]" />
           </button>
         )}
       </div>

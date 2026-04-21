@@ -21,17 +21,18 @@ interface AdminSidebarProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 const DEFAULT_LOGO = (
-  <div className="flex items-center gap-3">
-    <div className="h-9 w-9 shrink-0 flex items-center justify-center rounded-[var(--radius-sm)] bg-brand shadow-sm">
-      <LayoutGrid className="w-[var(--space-4)] h-[var(--space-4)] text-brand-foreground" />
+  <div className="flex items-center gap-[var(--space-3)]">
+    <div className="shrink-0 flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--action-primary)] w-[var(--space-9)] h-[var(--space-9)]">
+      <LayoutGrid className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--action-primary-foreground)]" />
     </div>
-    <span className="text-xl font-bold tracking-tight text-foreground">EzMart</span>
+    <span className="text-[length:var(--text-sidebar-logo)] font-bold tracking-[-0.01em] text-[var(--text-primary)]">
+      EzMart
+    </span>
   </div>
 )
 
 const FALLBACK_NAV: SidebarNavGroup[] = [
   {
-    label: 'MAIN',
     items: [
       {
         label: 'Dashboard',
@@ -59,15 +60,24 @@ const FALLBACK_NAV: SidebarNavGroup[] = [
         icon: <BarChart3 className="w-[var(--space-4)] h-[var(--space-4)]" />,
         href: '/reports',
       },
+      {
+        label: 'Discounts',
+        icon: <Tag className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        href: '/discounts',
+      },
     ],
   },
   {
-    label: 'SYSTEM',
     items: [
       {
-        label: 'Promotions',
-        icon: <Tag className="w-[var(--space-4)] h-[var(--space-4)]" />,
-        href: '/promotions',
+        label: 'Integrations',
+        icon: <Network className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        href: '/integrations',
+      },
+      {
+        label: 'Help',
+        icon: <HelpCircle className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        href: '/help',
       },
       {
         label: 'Settings',
@@ -78,18 +88,7 @@ const FALLBACK_NAV: SidebarNavGroup[] = [
   },
 ]
 
-const FALLBACK_FOOTER: SidebarNavItem[] = [
-  {
-    label: 'Integrations',
-    icon: <Network className="w-[var(--space-4)] h-[var(--space-4)]" />,
-    href: '/integrations',
-  },
-  {
-    label: 'Help & Support',
-    icon: <HelpCircle className="w-[var(--space-4)] h-[var(--space-4)]" />,
-    href: '/help',
-  },
-]
+const FALLBACK_FOOTER: SidebarNavItem[] = []
 
 function AdminSidebar({
   logo,
@@ -101,77 +100,88 @@ function AdminSidebar({
   ...props
 }: AdminSidebarProps) {
   const isCurrent = (href?: string) => href === currentPath
+  const isActive = (item: SidebarNavItem) => item.isActive || isCurrent(item.href)
 
-  const navItemClasses = (item: SidebarNavItem) => {
-    const active = item.isActive || isCurrent(item.href)
-    return cn(
-      'group flex items-center gap-3 rounded-[var(--radius-md)] px-3 py-2.5 text-[15px] font-medium no-underline transition-all duration-[var(--motion-fast)] tracking-wide',
-      active
-        ? 'bg-brand text-brand-foreground shadow-sm'
-        : 'text-muted-foreground hover:bg-interactive-hover hover:text-foreground',
+  const renderNavItem = (item: SidebarNavItem, key: number | string) => {
+    const active = isActive(item)
+    return (
+      <li key={key}>
+        <a
+          href={item.href || '#'}
+          onClick={(e) => {
+            if (onNavigate && item.href) {
+              e.preventDefault()
+              onNavigate(item.href)
+            }
+            item.onClick?.()
+          }}
+          className={cn(
+            'flex items-center gap-[var(--space-3)] rounded-[var(--radius-md)]',
+            'px-[var(--space-3)] py-[var(--space-2)]',
+            'text-[length:var(--text-nav-label)] no-underline',
+            'transition-colors duration-[var(--duration-fast)] cursor-pointer',
+            active
+              ? 'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] font-semibold'
+              : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+          )}
+        >
+          {item.icon && (
+            <span className="shrink-0 flex items-center justify-center w-[var(--space-4)] h-[var(--space-4)]">
+              {item.icon}
+            </span>
+          )}
+          <span className="flex-1 truncate">{item.label}</span>
+        </a>
+      </li>
     )
   }
-
-  const iconClasses = (item: SidebarNavItem) =>
-    cn(
-      'shrink-0 w-[var(--space-4)] h-[var(--space-4)] transition-colors',
-      item.isActive || isCurrent(item.href)
-        ? 'text-brand-foreground'
-        : 'text-muted-foreground group-hover:text-foreground',
-    )
-
-  const renderNavItem = (item: SidebarNavItem, key: number | string) => (
-    <li key={key}>
-      <a
-        href={item.href || '#'}
-        onClick={(e) => {
-          if (onNavigate && item.href) {
-            e.preventDefault()
-            onNavigate(item.href)
-          }
-          item.onClick?.()
-        }}
-        className={navItemClasses(item)}
-      >
-        {item.icon && <span className={iconClasses(item)}>{item.icon}</span>}
-        <span className="flex-1 truncate">{item.label}</span>
-      </a>
-    </li>
-  )
 
   return (
     <aside
       className={cn(
-        'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-64 bg-background border-r border-subtle',
+        'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-64',
+        'bg-[var(--surface-base)] border-r border-[var(--border-subtle)]',
         className,
       )}
       {...props}
     >
-      {/* Brand logo area */}
-      <div className="flex h-[4.5rem] shrink-0 items-center px-6">{logo ?? DEFAULT_LOGO}</div>
+      {/* Brand logo area — height matches header */}
+      <div className="flex shrink-0 items-center h-[var(--admin-header-height)] px-[var(--space-6)]">
+        {logo ?? DEFAULT_LOGO}
+      </div>
 
       {/* Main Navigation */}
-      <nav className="flex-1 overflow-y-auto px-3 py-3 custom-scrollbar">
+      <nav className="flex-1 overflow-y-auto p-[var(--space-3)] custom-scrollbar">
         {(navGroups ?? FALLBACK_NAV).map((group, gi) => (
-          <div key={gi} className={cn(gi > 0 && 'mt-3 pt-3 border-t border-subtle')}>
+          <div
+            key={gi}
+            className={cn(
+              gi > 0 &&
+                'mt-[var(--space-3)] pt-[var(--space-3)] border-t border-[var(--border-subtle)]',
+            )}
+          >
             {group.label && (
-              <p className="px-3 mb-1.5 text-micro font-semibold text-muted-foreground uppercase tracking-widest">
+              <p className="px-[var(--space-3)] mb-[var(--space-2)] text-[length:var(--text-sidebar-group-label)] font-semibold text-[var(--text-tertiary)] uppercase tracking-widest">
                 {group.label}
               </p>
             )}
-            <ul className="space-y-1">{group.items.map((item, ii) => renderNavItem(item, ii))}</ul>
+            <ul className="flex flex-col gap-[var(--space-1)]">
+              {group.items.map((item, ii) => renderNavItem(item, ii))}
+            </ul>
           </div>
         ))}
       </nav>
 
       {/* Footer Navigation */}
-      <div className="mt-auto px-3 pb-6 pt-3">
-        <div className="border-t border-subtle pt-3">
-          <ul className="space-y-1">
-            {(footerNav ?? FALLBACK_FOOTER).map((item, ii) => renderNavItem(item, ii))}
-          </ul>
+      {(footerNav ?? FALLBACK_FOOTER).length > 0 && (
+        <div className="mt-auto px-[var(--space-3)] pb-[var(--space-6)] pt-[var(--space-3)]">
+          <div className="border-t border-[var(--border-subtle)] pt-[var(--space-3)]">
+            <ul className="flex flex-col gap-[var(--space-1)]">
+              {(footerNav ?? FALLBACK_FOOTER).map((item, ii) => renderNavItem(item, ii))}
+            </ul>
+          </div>
         </div>
-      </div>
+      )}
     </aside>
   )
 }
