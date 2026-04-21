@@ -16,6 +16,8 @@ export type {
   AdminHeaderProps,
   AdminHeaderUser,
   AdminHeaderIconButton,
+  AdminHeaderUserMenuItem,
+  AdminHeaderNotificationPanel,
 } from './organisms/AdminHeader/Header'
 
 export {

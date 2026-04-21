@@ -7,6 +7,7 @@ import { AdminLayout } from './AdminLayout'
 import type { AdminLayoutProps } from './AdminLayout'
 import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
 import { AdminHeader } from '../../organisms/AdminHeader/Header'
+import type { NotificationItem } from '../../organisms/NotificationPanel/NotificationPanel'
 
 const meta: Meta<typeof AdminLayout> = {
   title: 'layouts/AdminLayout',
@@ -17,6 +18,25 @@ const meta: Meta<typeof AdminLayout> = {
 
 export default meta
 type Story = StoryObj<typeof AdminLayout>
+
+const SAMPLE_NOTIFICATIONS: NotificationItem[] = [
+  {
+    id: 'layout-notif-1',
+    title: 'Payout processed',
+    message: "Today's seller payout has been completed.",
+    read: true,
+    timestamp: '6 min ago',
+    type: 'success',
+  },
+  {
+    id: 'layout-notif-2',
+    title: 'New return request',
+    message: 'Order #ORD-7712 has a pending return review.',
+    read: false,
+    timestamp: '34 min ago',
+    type: 'order',
+  },
+]
 
 const MAIN_NAV = [
   {
@@ -156,14 +176,10 @@ export const Default: Story = {
         role: 'Admin',
         avatarUrl: 'https://i.pravatar.cc/150?img=12',
       },
-      iconButtons: [
-        { label: 'Messages', icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" /> },
-        {
-          label: 'Notifications',
-          icon: <Bell className="w-[var(--space-4)] h-[var(--space-4)]" />,
-          hasNotification: true,
-        },
-      ],
+      iconButtons: [{ label: 'Messages', icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" /> }],
+      notificationPanel: {
+        notifications: SAMPLE_NOTIFICATIONS,
+      },
     },
   },
 }

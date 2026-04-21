@@ -82,7 +82,7 @@ function NotificationPanel({
       <PopoverContent
         align="end"
         className={cn(
-          'w-[24rem] sm:w-[28rem] p-0 overflow-hidden shadow-[var(--elevation-modal)] rounded-[var(--radius-xl)] border',
+          'w-[24rem] sm:w-[28rem] p-0 overflow-hidden shadow-[var(--elevation-modal)] rounded-[var(--radius-md)] border',
           className,
         )}
         {...props}

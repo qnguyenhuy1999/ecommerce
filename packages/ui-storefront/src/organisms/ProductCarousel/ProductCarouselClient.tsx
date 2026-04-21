@@ -119,7 +119,7 @@ function ProductCarouselClient({
         <div
           ref={scrollRef}
           className={cn(
-            'flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory py-4 px-4 md:px-8',
+            'flex gap-4 md:gap-5 overflow-x-auto snap-x snap-mandatory py-4 px-4 md:px-8 scroll-pl-4 md:scroll-pl-8',
             '[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]',
           )}
         >

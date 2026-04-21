@@ -25,7 +25,7 @@ export function ProductCardPrice({
   const effectiveCurrency = currencyCode || (/^[A-Z]{3}$/.test(currency) ? currency : 'USD')
 
   return (
-    <div className={cn('mt-auto space-y-1.5 pt-3', className)} {...props}>
+    <div className={cn('mt-auto space-y-1.5', className)} {...props}>
       <div className="flex items-center gap-2">
         <span
           className={cn('font-semibold text-xl', isDiscounted ? 'text-brand' : 'text-foreground')}

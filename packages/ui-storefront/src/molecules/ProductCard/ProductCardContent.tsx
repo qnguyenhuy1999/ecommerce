@@ -11,7 +11,7 @@ export function ProductCardContent({ className, children, ...props }: ProductCar
       <a
         href={href}
         className={cn(
-          'flex min-h-[170px] flex-1 flex-col gap-2 p-[var(--padding-card-content)]',
+          'flex min-h-[100px] flex-1 flex-col gap-2 p-[var(--padding-card-content)] pb-12',
           className,
         )}
       >
@@ -22,7 +22,7 @@ export function ProductCardContent({ className, children, ...props }: ProductCar
   return (
     <div
       className={cn(
-        'flex min-h-[170px] flex-1 flex-col gap-2 p-[var(--padding-card-content)]',
+        'flex min-h-[100px] flex-1 flex-col gap-2 p-[var(--padding-card-content)] pb-12',
         className,
       )}
       {...props}

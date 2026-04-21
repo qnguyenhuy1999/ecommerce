@@ -5,6 +5,7 @@ import { Bell, Mail } from 'lucide-react'
 
 import { AdminHeader } from './Header'
 import type { AdminHeaderProps } from './Header'
+import type { NotificationItem } from '../NotificationPanel/NotificationPanel'
 
 const meta: Meta<typeof AdminHeader> = {
   title: 'organisms/AdminHeader',
@@ -15,6 +16,25 @@ const meta: Meta<typeof AdminHeader> = {
 
 export default meta
 type Story = StoryObj<typeof AdminHeader>
+
+const SAMPLE_NOTIFICATIONS: NotificationItem[] = [
+  {
+    id: 'notif-1',
+    title: 'New order received',
+    message: 'Order #ORD-8921 was placed by Alex Morgan.',
+    read: false,
+    timestamp: '3 min ago',
+    type: 'order',
+  },
+  {
+    id: 'notif-2',
+    title: 'Inventory warning',
+    message: 'Premium Hoodie is running low (4 left).',
+    read: false,
+    timestamp: '21 min ago',
+    type: 'warning',
+  },
+]
 
 function Frame({ children }: { children: React.ReactNode }) {
   return (
@@ -47,21 +67,17 @@ export const Default: Story = {
       onSearch: (v) => console.log('Submit:', v),
     },
     user: {
-      name: 'Marcus George',
+      name: 'Sophie Bennett',
+      email: 'sophie@ui.live',
       role: 'Admin',
       avatarUrl: 'https://i.pravatar.cc/150?img=12',
     },
-    iconButtons: [
-      {
-        label: 'Messages',
-        icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" />,
-      },
-      {
-        label: 'Notifications',
-        icon: <Bell className="w-4 h-4" />,
-        hasNotification: true,
-      },
-    ],
+    iconButtons: [{ label: 'Messages', icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" /> }],
+    notificationPanel: {
+      notifications: SAMPLE_NOTIFICATIONS,
+      onMarkRead: (id) => console.log('Mark notification as read:', id),
+      onMarkAllRead: () => console.log('Mark all notifications as read'),
+    },
     onUserClick: () => console.log('User clicked'),
   } as Partial<AdminHeaderProps>,
 }

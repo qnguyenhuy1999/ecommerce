@@ -67,7 +67,7 @@ export const Kitchen: Story = {
 export const Sports: Story = {
   args: {
     title: 'Sports & Outdoors',
-    image: 'https://images.unsplash.com/photo-1461896836934- voices?w=600&h=400&fit=crop',
+    image: 'https://images.unsplash.com/photo-1461896836934-cfe2d90a5b9d?w=600&h=400&fit=crop',
     href: '/category/sports',
     itemCount: 94,
   },
