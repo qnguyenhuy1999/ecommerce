@@ -62,7 +62,7 @@ export const Default: Story = {
             <TableCell>{p.category}</TableCell>
             <TableCell className="font-medium">{p.price}</TableCell>
             <TableCell>
-              <Badge variant={p.stock === 0 ? 'out-of-stock' : p.stock < 50 ? 'warning' : 'success'} size="sm">
+              <Badge variant={p.stock === 0 ? 'default' : p.stock < 50 ? 'warning' : 'success'} size="sm">
                 {p.status}
               </Badge>
             </TableCell>

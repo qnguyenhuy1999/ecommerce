@@ -56,7 +56,7 @@ export const ProductCard: Story = {
             <CardTitle>Wireless Noise-Cancelling Headphones</CardTitle>
             <CardDescription>Premium audio experience</CardDescription>
           </div>
-          <Badge variant="new">New</Badge>
+          <Badge variant="primary">New</Badge>
         </div>
       </CardHeader>
       <CardContent>

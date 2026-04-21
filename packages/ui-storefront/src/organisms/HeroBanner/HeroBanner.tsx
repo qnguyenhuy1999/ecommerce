@@ -82,7 +82,7 @@ function HeroBanner({
           </p>
         )}
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-4xl leading-[1.05] mb-5 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both [text-shadow:0_2px_20px_rgba(0,0,0,0.4)]">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-4xl leading-[1.05] mb-5 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both [text-shadow:var(--text-shadow-md)]">
           {title}
         </h1>
 

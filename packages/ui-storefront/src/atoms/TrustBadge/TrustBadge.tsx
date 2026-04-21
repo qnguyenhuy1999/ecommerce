@@ -16,12 +16,12 @@ export interface TrustBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: 'sm' | 'default'
 }
 
-const trustConfig: Record<TrustBadgeType, { icon: React.ElementType; label: string }> = {
-  'verified-seller': { icon: BadgeCheck, label: 'Verified Seller' },
-  'free-shipping': { icon: Truck, label: 'Free Shipping' },
-  'secure-checkout': { icon: Lock, label: 'Secure Checkout' },
-  'free-returns': { icon: RotateCcw, label: 'Free Returns' },
-  authentic: { icon: ShieldCheck, label: '100% Authentic' },
+const trustConfig: Record<TrustBadgeType, { icon: React.ElementType; label: string; iconColor: string }> = {
+  'verified-seller': { icon: BadgeCheck, label: 'Verified Seller', iconColor: 'text-info' },
+  'free-shipping': { icon: Truck, label: 'Free Shipping', iconColor: 'text-success' },
+  'secure-checkout': { icon: Lock, label: 'Secure Checkout', iconColor: 'text-[var(--brand-500)]' },
+  'free-returns': { icon: RotateCcw, label: 'Free Returns', iconColor: 'text-info' },
+  authentic: { icon: ShieldCheck, label: '100% Authentic', iconColor: 'text-success' },
 }
 
 function TrustBadge({ type, label, size = 'default', className, ...props }: TrustBadgeProps) {
@@ -41,7 +41,7 @@ function TrustBadge({ type, label, size = 'default', className, ...props }: Trus
       )}
       {...props}
     >
-      <Icon className={cn(iconSize, 'shrink-0')} />
+      <Icon className={cn(iconSize, 'shrink-0', config.iconColor)} />
       <span>{label ?? config.label}</span>
     </div>
   )

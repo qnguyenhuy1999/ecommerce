@@ -32,10 +32,10 @@ export const AllVariants: Story = {
       <Badge variant="warning">Warning</Badge>
       <Badge variant="info">Info</Badge>
       <Badge variant="soft">Soft</Badge>
-      <Badge variant="sale">40% OFF</Badge>
-      <Badge variant="new">New Arrival</Badge>
-      <Badge variant="limited">Limited Stock</Badge>
-      <Badge variant="out-of-stock">Out of Stock</Badge>
+      <Badge variant="soft">40% OFF</Badge>
+      <Badge variant="primary">New Arrival</Badge>
+      <Badge variant="warning">Limited Stock</Badge>
+      <Badge variant="default">Out of Stock</Badge>
     </div>
   ),
 }
@@ -43,16 +43,16 @@ export const AllVariants: Story = {
 export const MarketplaceBadges: Story = {
   render: () => (
     <div className="flex flex-wrap gap-3 items-center">
-      <Badge variant="sale" size="lg">
+      <Badge variant="soft" size="lg">
         Save 40%
       </Badge>
-      <Badge variant="sale">Flash Sale</Badge>
-      <Badge variant="new" size="lg">
+      <Badge variant="soft">Flash Sale</Badge>
+      <Badge variant="primary" size="lg">
         New
       </Badge>
-      <Badge variant="new">Just In</Badge>
-      <Badge variant="limited">Only 3 left</Badge>
-      <Badge variant="out-of-stock">Sold Out</Badge>
+      <Badge variant="primary">Just In</Badge>
+      <Badge variant="warning">Only 3 left</Badge>
+      <Badge variant="default">Sold Out</Badge>
       <Badge variant="warning">Low Stock</Badge>
       <Badge variant="info">Pre-order</Badge>
     </div>
@@ -71,10 +71,10 @@ export const WithIcons: Story = {
       <Badge variant="warning" icon={<AlertCircle className="h-3 w-3" />}>
         Almost Gone
       </Badge>
-      <Badge variant="sale" icon={<Tag className="h-3 w-3" />}>
+      <Badge variant="soft" icon={<Tag className="h-3 w-3" />}>
         Extra 20% Off
       </Badge>
-      <Badge variant="new" icon={<Package className="h-3 w-3" />}>
+      <Badge variant="primary" icon={<Package className="h-3 w-3" />}>
         Incoming
       </Badge>
     </div>
@@ -129,13 +129,13 @@ export const Removable: Story = {
 export const Sizes: Story = {
   render: () => (
     <div className="flex flex-wrap gap-3 items-center">
-      <Badge size="sm" variant="sale">
+      <Badge size="sm" variant="soft">
         Small
       </Badge>
-      <Badge size="default" variant="sale">
+      <Badge size="default" variant="soft">
         Default
       </Badge>
-      <Badge size="lg" variant="sale">
+      <Badge size="lg" variant="soft">
         Large
       </Badge>
     </div>
@@ -146,9 +146,9 @@ export const OnProductCard: Story = {
   render: () => (
     <div className="flex flex-col gap-3">
       <div className="flex gap-3">
-        <Badge variant="sale">-40%</Badge>
-        <Badge variant="new">New</Badge>
-        <Badge variant="limited" icon={<AlertCircle className="h-3 w-3" />}>
+        <Badge variant="soft">-40%</Badge>
+        <Badge variant="primary">New</Badge>
+        <Badge variant="warning" icon={<AlertCircle className="h-3 w-3" />}>
           2 left
         </Badge>
       </div>

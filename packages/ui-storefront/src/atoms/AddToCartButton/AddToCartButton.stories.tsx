@@ -58,7 +58,10 @@ export const Disabled: Story = {
 }
 
 export const OutOfStock: Story = {
-  render: () => <AddToCartButton label="Out of Stock" disabled className="opacity-50 cursor-not-allowed" />,
+  args: {
+    state: 'out-of-stock',
+    label: 'Out of Stock',
+  },
 }
 
 export const CustomLabel: Story = {

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react'
 
-import { cn } from '@ecom/ui'
+import { Button, cn } from '@ecom/ui'
 
 import { ProductGalleryClient } from './ProductGalleryClient'
 
@@ -117,10 +117,15 @@ function ProductGalleryThumbnails({
       {images.map((image, idx) => {
         const isActive = activeIndex === idx
         return (
-          <button
+          <Button
             key={image.id}
+            type="button"
+            variant="ghost"
+            size="icon"
             className={cn(
-              'relative snap-start shrink-0 aspect-square rounded-[var(--radius-md)] overflow-hidden transition-all duration-[var(--motion-fast)]',
+              'relative snap-start shrink-0 aspect-square rounded-[var(--radius-md)] overflow-hidden',
+              'h-auto min-h-0 min-w-0 p-0 bg-transparent hover:bg-transparent',
+              'transition-all duration-[var(--motion-fast)]',
               direction === 'vertical' ? 'w-20 md:w-full' : 'w-20',
               isActive
                 ? 'ring-2 ring-brand ring-offset-2 ring-offset-background'
@@ -131,7 +136,7 @@ function ProductGalleryThumbnails({
             aria-pressed={isActive}
           >
             <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
-          </button>
+          </Button>
         )
       })}
     </div>

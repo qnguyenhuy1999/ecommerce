@@ -1,10 +1,9 @@
-'use client'
-
 import React from 'react'
 
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 
 import { cn } from '../../lib/utils'
+import { IconButton } from '../IconButton/IconButton'
 
 interface BreadcrumbItem {
   label: string
@@ -14,21 +13,28 @@ interface BreadcrumbItem {
 interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
   items: BreadcrumbItem[]
   separator?: React.ReactNode
+  /**
+   * If true, the breadcrumb will render a collapsed view when not expanded.
+   * This component is intentionally stateless; pass `expanded` and `onExpand`
+   * from a parent (molecule) to control the collapsed state.
+   */
   collapsible?: boolean
+  expanded?: boolean
+  onExpand?: () => void
 }
 
 function Breadcrumb({
   items,
   separator = <ChevronRight className="w-4 h-4" />,
   collapsible = false,
+  expanded = false,
+  onExpand,
   className,
   ...props
 }: BreadcrumbProps) {
-  const [expanded, setExpanded] = React.useState(false)
-
   const showCollapsible = collapsible && items.length > 3 && !expanded
   const visibleItems = showCollapsible
-    ? [items[0], { label: '...', isEllipsis: true }, items[items.length - 1]]
+    ? [items[0], { label: '...' }, items[items.length - 1]]
     : items
 
   return (
@@ -40,7 +46,7 @@ function Breadcrumb({
       aria-label="breadcrumb"
       {...props}
     >
-      {visibleItems.map((item: BreadcrumbItem & { isEllipsis?: boolean }, i) => {
+      {visibleItems.map((item: BreadcrumbItem, i) => {
         const isLast = i === visibleItems.length - 1
         return (
           <React.Fragment key={i}>
@@ -49,17 +55,15 @@ function Breadcrumb({
                 {separator}
               </span>
             )}
-            {item.isEllipsis ? (
-              <button
-                type="button"
-                onClick={() => {
-                  setExpanded(true)
-                }}
-                className="flex items-center justify-center w-6 h-6 rounded hover:bg-muted transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                aria-label="Show hidden breadcrumbs"
-              >
-                <MoreHorizontal className="w-4 h-4" />
-              </button>
+            {item.label === '...' ? (
+              <IconButton
+                icon={<MoreHorizontal className="w-4 h-4" />}
+                label="Show hidden breadcrumbs"
+                variant="ghost"
+                size="sm"
+                onClick={onExpand}
+                className="h-6 w-6"
+              />
             ) : isLast || !item.href ? (
               <span
                 className="font-medium text-foreground max-w-[var(--space-16)] truncate"

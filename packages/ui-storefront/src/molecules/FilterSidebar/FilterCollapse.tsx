@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn, Button } from '@ecom/ui'
 
 interface FilterCollapseProps {
   title: string
@@ -22,18 +22,20 @@ export function FilterCollapse({
   const [collapsed, setCollapsed] = useState(defaultCollapsed)
 
   return (
-    <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-4 shadow-[0_10px_30px_-24px_rgba(15,23,42,0.65)]">
-      <button
+    <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-4 shadow-[var(--elevation-filter-md)]">
+      <Button
         type="button"
+        variant="ghost"
+        size="sm"
         onClick={() => setCollapsed((c) => !c)}
         className={cn(
           'filter-group__header w-full flex items-center justify-between',
-          'py-4 px-0',
+          'h-auto min-h-0 py-4 px-0',
           collapsed ? 'border-b-0' : 'border-b border-[var(--border-subtle)]',
-          'bg-transparent cursor-pointer',
+          'bg-transparent',
           'transition-colors duration-[var(--motion-fast)]',
           'hover:text-[var(--action-primary)] hover:border-[var(--border-default)]',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2 rounded-[var(--radius-xs)]',
+          'focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2 rounded-[var(--radius-xs)]',
         )}
       >
         <span className="flex items-center gap-2">
@@ -51,7 +53,7 @@ export function FilterCollapse({
         ) : (
           <ChevronUp className="w-4 h-4 text-[var(--text-secondary)] transition-transform duration-[var(--motion-fast)]" />
         )}
-      </button>
+      </Button>
 
       {!collapsed && (
         <div className="filter-group__content pt-5 pb-6 animate-[slide-down_var(--motion-normal)_var(--motion-ease-out)]">

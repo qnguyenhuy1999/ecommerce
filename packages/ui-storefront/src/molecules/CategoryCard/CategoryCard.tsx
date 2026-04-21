@@ -11,7 +11,7 @@ function CategoryCard({ title, image, href, itemCount, className, ...props }: Ca
   return (
     <a
       href={href}
-      className={cn('category-card block bg-muted group relative overflow-hidden', className)}
+      className={cn('category-card group bg-muted', className)}
       {...props}
     >
       {/* Image with subtle zoom on hover */}
@@ -19,16 +19,10 @@ function CategoryCard({ title, image, href, itemCount, className, ...props }: Ca
         src={image}
         alt={title}
         loading="lazy"
-        className={cn(
-          'w-full h-full object-cover',
-          // Zoom on hover using token duration
-          'group-hover:scale-105',
-          'transition-transform duration-[var(--motion-normal)] ease-[var(--motion-ease-out)]',
-        )}
       />
 
       {/* Overlay — dark gradient for text legibility */}
-      <div className="category-card__overlay absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/70 via-black/30 to-transparent">
+      <div className="category-card__overlay">
         <div className="flex flex-col">
           {/* Title: token-based size + scale on hover */}
           <h3

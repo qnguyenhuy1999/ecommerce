@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn, Button } from '@ecom/ui'
 
 import { FilterCheckbox } from './FilterCheckbox'
 import { FilterCollapse } from './FilterCollapse'
@@ -72,26 +72,27 @@ export function FilterGroup({
               {options.map((opt) => {
                 const isSelected = selected.has(opt.value)
                 return (
-                  <button
+                  <Button
                     key={opt.value}
                     type="button"
+                    variant={isSelected ? 'default' : 'outline'}
+                    size="sm"
                     onClick={() => onOptionToggle(groupId, opt.value, !isSelected)}
                     className={cn(
-                      'inline-flex items-center justify-center',
-                      'min-w-[var(--space-10)] h-10 px-3',
+                      'min-w-[var(--space-10)] h-10',
+                      'min-h-0 px-3',
                       'text-[var(--text-sm)] font-semibold',
-                      'rounded-[var(--radius-sm)]',
-                      'border transition-all duration-[var(--motion-fast)]',
-                      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-1',
+                      'transition-all duration-[var(--motion-fast)]',
+                      'focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-1',
                       isSelected
-                        ? 'bg-[var(--text-primary)] text-[var(--surface-base)] border-[var(--text-primary)] shadow-sm'
+                        ? 'bg-[var(--text-primary)] text-[var(--surface-base)] border-[var(--text-primary)] shadow-sm hover:bg-[var(--text-primary)]'
                         : 'bg-[var(--surface-base)] text-[var(--text-secondary)] border-[var(--border-default)] hover:bg-[var(--surface-hover)]',
                       !isSelected &&
                         'hover:border-[var(--text-primary)] hover:text-[var(--text-primary)]',
                     )}
                   >
                     {opt.label}
-                  </button>
+                  </Button>
                 )
               })}
             </div>

@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react'
 
-import { Badge } from '@ecom/ui'
+import { Badge } from '@ecom/ui-storefront'
 
 import { ProductGrid } from './ProductGrid'
 import type { Product } from './types'

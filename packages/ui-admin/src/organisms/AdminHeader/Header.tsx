@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Search, ChevronDown, Mail, Bell } from 'lucide-react'
 
-import { cn, Avatar, AvatarImage, AvatarFallback } from '@ecom/ui'
+import { cn, Avatar, AvatarImage, AvatarFallback, Input, IconButton, Button } from '@ecom/ui'
 
 export interface AdminHeaderUser {
   name: string
@@ -72,24 +72,23 @@ function AdminHeader({
       {/* Search Input */}
       {search !== false && (
         <div className="hidden lg:block w-full max-w-80">
-          <div className="relative">
-            <input
-              type="search"
-              placeholder={search?.placeholder ?? 'Search stock, order, etc'}
-              onChange={(e) => search?.onChange?.(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') search?.onSearch?.(e.currentTarget.value)
-              }}
-              className={cn(
-                'h-9 w-full rounded-full',
-                'border border-[var(--border-subtle)] bg-[var(--surface-muted)]',
-                'pl-[var(--space-4)] pr-[var(--space-10)]',
-                'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
-                'focus:outline-none focus:ring-2 focus:ring-[var(--action-primary)]',
-              )}
-            />
-            <Search className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
-          </div>
+          <Input
+            type="search"
+            placeholder={search?.placeholder ?? 'Search stock, order, etc'}
+            onChange={(e) => search?.onChange?.(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') search?.onSearch?.(e.currentTarget.value)
+            }}
+            suffixIcon={
+              <Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
+            }
+            className={cn(
+              'h-9 rounded-full',
+              'border-[var(--border-subtle)] bg-[var(--surface-muted)]',
+              'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
+              'focus-visible:ring-[var(--action-primary)]',
+            )}
+          />
         </div>
       )}
 
@@ -110,37 +109,34 @@ function AdminHeader({
             },
           ]
         ).map((btn, i) => (
-          <button
-            key={i}
-            type="button"
-            aria-label={btn.label}
-            onClick={btn.onClick}
-            className={cn(
-              'relative flex items-center justify-center cursor-pointer',
-              'w-9 h-9 rounded-full',
-              'text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
-              'transition-colors duration-[var(--duration-fast)]',
-              'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--action-primary)]',
-            )}
-          >
-            {btn.icon}
+          <div key={i} className="relative">
+            <IconButton
+              icon={btn.icon}
+              label={btn.label}
+              onClick={btn.onClick}
+              className={cn(
+                'rounded-full text-[var(--text-secondary)]',
+                'hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+                'focus-visible:ring-[var(--action-primary)]',
+              )}
+            />
             {btn.hasNotification && (
               <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
             )}
-          </button>
+          </div>
         ))}
 
         {/* User Avatar & Dropdown */}
         {user !== false && (
-          <button
+          <Button
             type="button"
+            variant="ghost"
             onClick={onUserClick}
             className={cn(
-              'flex items-center gap-[var(--space-2)] cursor-pointer',
-              'rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
+              'h-auto min-h-0 min-w-0 justify-start',
+              'gap-[var(--space-2)] rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
               'hover:bg-[var(--state-hover)]',
-              'transition-colors duration-[var(--duration-fast)]',
-              'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--action-primary)]',
+              'focus-visible:ring-[var(--action-primary)]',
             )}
           >
             <Avatar className="w-9 h-9 shrink-0 border border-[var(--border-default)] shadow-xs">
@@ -158,7 +154,7 @@ function AdminHeader({
               </span>
             </div>
             <ChevronDown className="hidden md:block w-[var(--space-3)] h-[var(--space-3)] text-[var(--text-tertiary)]" />
-          </button>
+          </Button>
         )}
       </div>
     </header>

@@ -15,9 +15,10 @@ const spinnerCva = cva([], {
       ].join(' '),
       /** White arc — for use on dark / brand-tinted backgrounds */
       white: [
-        '[&_.spinner-track]:stroke-white/20',
-        '[&_.spinner-arc]:stroke-white',
-        '[&_.spinner-glow]:fill-white',
+        '[&_.spinner-track]:stroke-[var(--foreground)]',
+        '[&_.spinner-track]:stroke-opacity-[0.2]',
+        '[&_.spinner-arc]:stroke-[var(--foreground)]',
+        '[&_.spinner-glow]:fill-[var(--foreground)]',
       ].join(' '),
       /** Neutral muted arc — minimal UI contexts */
       neutral: [

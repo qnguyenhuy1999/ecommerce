@@ -38,19 +38,9 @@ const badgeVariants = cva(
         destructive:
           'border-[var(--intent-danger-muted)] bg-[var(--intent-danger-muted)] text-[var(--intent-danger)] dark:text-[var(--intent-danger)] hover:bg-[var(--intent-danger-muted)]',
 
-        // --- Ecommerce (decorative gradients — use token shadows, drop palette colors) ---
-        discount:
-          'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
-        new: 'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
-        limited:
-          'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
-        'out-of-stock':
-          'border-transparent bg-[var(--surface-muted)] text-[var(--text-tertiary)] backdrop-blur-sm hover:bg-[var(--surface-subtle)]',
-
-        // --- Legacy Fallbacks ---
+        // --- Legacy / Core ---
         default: 'border-border bg-muted text-foreground',
         soft: 'border-transparent bg-accent text-accent-foreground hover:bg-accent/80',
-        sale: 'border-transparent bg-[var(--surface-elevated)] text-foreground shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] hover:-translate-y-px',
       },
       size: {
         xs: 'px-1.5 py-0.5 text-[var(--space-3)] leading-[calc(var(--space-3)+2px)]',

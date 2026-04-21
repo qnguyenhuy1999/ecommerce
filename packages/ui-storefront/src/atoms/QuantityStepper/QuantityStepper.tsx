@@ -2,7 +2,7 @@
 
 import { Plus, Minus } from 'lucide-react'
 
-import { cn, IconButton } from '@ecom/ui'
+import { cn, IconButton, Input } from '@ecom/ui'
 
 export interface QuantityStepperProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,
@@ -72,8 +72,9 @@ function QuantityStepper({
         disabled={disabled || atMin}
       />
 
-      <input
+      <Input
         type="number"
+        size={size === 'sm' ? 'sm' : 'default'}
         value={value}
         onChange={(e) => {
           const val = parseInt(e.target.value, 10)
@@ -91,10 +92,12 @@ function QuantityStepper({
           if (value > max) onChange(max)
         }}
         className={cn(
-          'flex items-center justify-center font-medium w-10 text-center border-l border-r border-border/30 bg-transparent tabular-nums',
-          'focus:outline-none focus:bg-muted/30 transition-colors',
+          'font-medium text-center border-l border-r border-border/30 bg-transparent tabular-nums px-0',
+          'rounded-none border-y-0 shadow-none focus:shadow-none',
+          'focus:bg-muted/30 transition-colors',
           // hide arrows
           '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+          size === 'sm' ? 'w-8' : 'w-12',
           sizes.text,
         )}
         aria-live="polite"

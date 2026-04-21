@@ -15,8 +15,16 @@ function buildPageList(
   siblings: number,
   boundaries: number,
 ): (number | 'ellipsis')[] {
+  if (totalPages <= 0) return []
+  if (totalPages === 1) return [1]
+
   const range = (from: number, to: number): number[] =>
     Array.from({ length: to - from + 1 }, (_, i) => from + i)
+
+  const fullRangeThreshold = boundaries * 2 + siblings * 2 + 1
+  if (totalPages <= fullRangeThreshold) {
+    return range(1, totalPages)
+  }
 
   const leftRange = range(1, Math.min(boundaries, totalPages))
   const rightRange = range(Math.max(totalPages - boundaries + 1, 1), totalPages)
@@ -46,7 +54,26 @@ function buildPageList(
     segments.push(...rightRange)
   }
 
-  return segments
+  const normalized: (number | 'ellipsis')[] = []
+
+  for (const segment of segments) {
+    const last = normalized[normalized.length - 1]
+
+    if (segment === 'ellipsis') {
+      if (last === 'ellipsis') continue
+      normalized.push(segment)
+      continue
+    }
+
+    if (normalized.includes(segment)) continue
+    normalized.push(segment)
+  }
+
+  if (normalized[normalized.length - 1] === 'ellipsis') {
+    normalized.pop()
+  }
+
+  return normalized
 }
 
 function Pagination({

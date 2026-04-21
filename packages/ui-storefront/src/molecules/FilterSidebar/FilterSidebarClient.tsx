@@ -139,13 +139,13 @@ export function FilterSidebarClient({
         'filter-sidebar w-full md:w-80 shrink-0 flex flex-col gap-5 p-5',
         'rounded-[28px] border border-[var(--border-default)]',
         'bg-[linear-gradient(180deg,var(--surface-base)_0%,var(--surface-subtle)_100%)]',
-        'shadow-[0_22px_48px_-30px_rgba(15,23,42,0.55)]',
+        'shadow-[var(--elevation-strong)]',
         className,
       )}
       {...props}
     >
       {/* Header panel */}
-      <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[0_14px_24px_-22px_rgba(15,23,42,0.9)]">
+      <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--elevation-sticky)]">
         <div className="flex items-center justify-between">
           <h2 className="text-[var(--text-lg)] font-bold text-[var(--text-primary)] flex items-center gap-2.5 tracking-tight">
             <Filter className="w-5 h-5 text-[var(--action-primary)]" />

@@ -2,7 +2,7 @@
 
 import { CheckCircle2, AlertTriangle, XCircle } from 'lucide-react'
 
-import { Badge } from '@ecom/ui'
+import { Badge } from '../Badge/Badge'
 
 // ─── Client leaf: animated low-stock badge ──────────────────────────────────
 interface StockBadgeClientProps {

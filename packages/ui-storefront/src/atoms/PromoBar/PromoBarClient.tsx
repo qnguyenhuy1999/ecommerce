@@ -2,6 +2,8 @@
 
 import { X } from 'lucide-react'
 
+import { IconButton } from '@ecom/ui'
+
 // ─── Client leaf: dismiss functionality ──────────────────────────────────────
 interface PromoBarClientProps {
   onDismiss: () => void
@@ -9,13 +11,13 @@ interface PromoBarClientProps {
 
 export function PromoBarClient({ onDismiss }: PromoBarClientProps) {
   return (
-    <button
+    <IconButton
       type="button"
       onClick={onDismiss}
-      aria-label="Dismiss promotion"
-      className="p-1 rounded-full hover:bg-white/10 text-white/60 hover:text-white transition-all"
-    >
-      <X className="w-4 h-4" />
-    </button>
+      icon={<X className="w-4 h-4" />}
+      label="Dismiss promotion"
+      size="sm"
+      className="h-6 w-6 rounded-full hover:bg-white/10 text-white/60 hover:text-white"
+    />
   )
 }

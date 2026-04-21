@@ -16,7 +16,7 @@ const trustConfig: Record<
 > = {
   'verified-seller': { icon: BadgeCheck, label: 'Verified Seller', iconColor: 'text-info' },
   'free-shipping': { icon: Truck, label: 'Free Shipping', iconColor: 'text-success' },
-  'secure-checkout': { icon: Lock, label: 'Secure Checkout', iconColor: 'text-success' },
+  'secure-checkout': { icon: Lock, label: 'Secure Checkout', iconColor: 'text-[var(--brand-500)]' },
   'free-returns': { icon: RotateCcw, label: 'Free Returns', iconColor: 'text-info' },
   authentic: { icon: ShieldCheck, label: '100% Authentic', iconColor: 'text-success' },
 }
@@ -32,7 +32,7 @@ export function TrustBadgeClient({ type, label }: TrustBadgeClientProps) {
 
   return (
     <span className="inline-flex items-center gap-1.5 text-[var(--text-sm)] font-medium text-muted-foreground">
-      <Icon className="w-4 h-4 shrink-0" style={{ color: undefined }} />
+      <Icon className={`w-4 h-4 shrink-0 ${config.iconColor}`} />
       <span>{label ?? config.label}</span>
     </span>
   )

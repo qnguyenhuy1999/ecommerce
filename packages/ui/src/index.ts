@@ -80,11 +80,8 @@ export {
   AccordionTrigger,
   AccordionContent,
 } from './molecules/Accordion/Accordion'
-export {
-  Breadcrumb,
-  type BreadcrumbItem,
-  type BreadcrumbProps,
-} from './atoms/Breadcrumb/Breadcrumb'
+export { Breadcrumb } from './molecules/Breadcrumb/Breadcrumb'
+export type { BreadcrumbItem, BreadcrumbProps } from './atoms/Breadcrumb/Breadcrumb'
 export {
   ToastProvider,
   Toaster,

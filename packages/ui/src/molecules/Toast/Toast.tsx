@@ -5,6 +5,8 @@ import React from 'react'
 import { CheckCircle, AlertTriangle, XCircle, Info, X, Bell } from 'lucide-react'
 
 import { cn } from '../../lib/utils'
+import { Button } from '../../atoms/Button/Button'
+import { IconButton } from '../../atoms/IconButton/IconButton'
 
 export type ToastVariant = 'default' | 'success' | 'warning' | 'error' | 'info'
 
@@ -177,45 +179,49 @@ function ToastItem({ toast }: { toast: ToastData }) {
             </p>
           )}
           {toast.action && (
-            <button
+            <Button
+              type="button"
+              variant="link"
+              size="sm"
               onClick={(e) => {
                 e.stopPropagation()
                 toast.action?.onClick()
                 setExiting(true)
               }}
               className={cn(
-                'mt-[var(--space-2)] text-[var(--text-sm)] font-medium transition-all duration-[var(--motion-fast)]',
-                'hover:opacity-80 active:scale-95',
-                'rounded-[var(--radius-xs)] px-[var(--space-1)] py-[var(--space-0-5)] -ml-[var(--space-1)]',
+                'mt-[var(--space-2)] h-auto min-h-0',
+                '-ml-[var(--space-1)] px-[var(--space-1)] py-[var(--space-0-5)]',
                 variant === 'default'
                   ? 'text-[var(--text-link)] hover:text-[var(--text-link-hover)]'
                   : iconClass,
-                'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1',
+                'focus-visible:ring-2 focus-visible:ring-offset-1',
                 variant === 'default'
                   ? 'focus-visible:ring-[var(--focus-ring-color)]'
                   : 'focus-visible:ring-current',
               )}
             >
               {toast.action.label}
-            </button>
+            </Button>
           )}
         </div>
 
         {/* Dismiss */}
-        <button
+        <IconButton
+          type="button"
+          icon={<X size={14} strokeWidth={2.5} />}
+          label="Dismiss"
+          variant="ghost"
+          size="sm"
           onClick={() => {
             setExiting(true)
           }}
           className={cn(
-            'shrink-0 rounded-[var(--radius-xs)] p-[var(--space-0-5)] transition-all duration-[var(--motion-fast)]',
+            'shrink-0 rounded-[var(--radius-xs)] h-auto w-auto p-[var(--space-0-5)] transition-all duration-[var(--motion-fast)]',
             'text-[var(--text-tertiary)] hover:text-[var(--text-secondary)]',
-            'hover:bg-[var(--surface-subtle)] active:scale-95',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-1',
+            'hover:bg-[var(--surface-subtle)]',
+            'focus-visible:ring-2 focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-1',
           )}
-          aria-label="Dismiss"
-        >
-          <X size={14} strokeWidth={2.5} />
-        </button>
+        />
       </div>
 
       {/* Progress bar */}

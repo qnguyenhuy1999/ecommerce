@@ -4,7 +4,7 @@
 
 import React from 'react'
 
-import { Badge } from '@ecom/ui'
+import { Badge } from '../Badge/Badge'
 
 export interface StockBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: 'in-stock' | 'low-stock' | 'out-of-stock'

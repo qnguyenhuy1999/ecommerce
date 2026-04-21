@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@ecom/ui'
+import { Button, cn } from '@ecom/ui'
 
 // ─── Client leaf: single variant option (pill/color/image) ───────────────────
 export interface VariantOptionProps {
@@ -26,14 +26,18 @@ export function VariantOption({
 }: VariantOptionProps) {
   if (type === 'color') {
     return (
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         role="radio"
         aria-checked={isSelected}
         disabled={isDisabled}
         onClick={() => !isDisabled && onClick(value)}
         className={cn(
-          'relative w-10 h-10 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'relative min-h-0 min-w-0 w-10 h-10 p-0 rounded-full',
+          'bg-transparent hover:bg-transparent',
+          'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
           isSelected
             ? 'ring-2 ring-brand ring-offset-2 ring-offset-background scale-110 shadow-sm'
@@ -51,20 +55,24 @@ export function VariantOption({
             <span className="w-full h-px bg-muted-foreground rotate-45 transform origin-center" />
           </span>
         )}
-      </button>
+      </Button>
     )
   }
 
   if (type === 'image') {
     return (
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         role="radio"
         aria-checked={isSelected}
         disabled={isDisabled}
         onClick={() => !isDisabled && onClick(value)}
         className={cn(
-          'relative w-16 h-16 rounded-[var(--radius-md)] overflow-hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'relative min-h-0 min-w-0 w-16 h-16 p-0 rounded-[var(--radius-md)] overflow-hidden',
+          'bg-transparent hover:bg-transparent',
+          'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
           isSelected
             ? 'ring-2 ring-brand ring-offset-2 ring-offset-background shadow-sm'
@@ -79,29 +87,32 @@ export function VariantOption({
             <span className="text-[var(--space-3)] font-bold text-foreground">N/A</span>
           </div>
         )}
-      </button>
+      </Button>
     )
   }
 
   // Default pill
   return (
-    <button
+    <Button
       type="button"
+      variant={isSelected ? 'default' : 'outline'}
+      size="sm"
       role="radio"
       aria-checked={isSelected}
       disabled={isDisabled}
       onClick={() => !isDisabled && onClick(value)}
       className={cn(
-        'min-w-[3rem] h-10 px-4 rounded-[var(--radius-sm)] border text-[var(--text-sm)] font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'min-w-[3rem] h-10 min-h-0 px-4 text-[var(--text-sm)] font-medium',
+        'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
         isSelected
-          ? 'bg-foreground text-background border-foreground shadow-[var(--elevation-card)] ring-2 ring-foreground/20 ring-offset-1'
+          ? 'bg-foreground text-background border-foreground shadow-[var(--elevation-card)] ring-2 ring-foreground/20 ring-offset-1 hover:bg-foreground'
           : 'bg-background text-foreground border-border hover:border-foreground hover:bg-muted/30',
         isDisabled &&
           'opacity-50 cursor-not-allowed hover:border-border hover:bg-transparent bg-muted/50',
       )}
     >
       {label}
-    </button>
+    </Button>
   )
 }
