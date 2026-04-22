@@ -336,4 +336,259 @@ function AdminHeader({
   )
 }
 
-export { AdminHeader }
+// (legacy export removed — export replaced by compound export at end)
+
+// Compound subcomponents for composition
+function AdminHeaderLeading({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div
+      className={cn('flex min-w-0 shrink-0 items-center gap-[var(--space-4)]', className)}
+      {...props}
+    >
+      {children}
+    </div>
+  )
+}
+;(AdminHeaderLeading as unknown as { displayName?: string }).displayName = 'AdminHeader.Leading'
+
+function AdminHeaderTitle({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+  return (
+    <h1
+      className={cn(
+        'truncate text-[length:var(--text-2xl)] font-bold leading-tight tracking-[-0.01em] text-[var(--text-primary)]',
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </h1>
+  )
+}
+;(AdminHeaderTitle as unknown as { displayName?: string }).displayName = 'AdminHeader.Title'
+
+type AdminHeaderSearchProps = {
+  placeholder?: string
+  onChange?: (value: string) => void
+  onSearch?: (value: string) => void
+  className?: string
+} & Omit<React.ComponentProps<typeof Input>, 'onChange'>
+
+function AdminHeaderSearch({ placeholder, onChange, onSearch, className, ...props }: AdminHeaderSearchProps) {
+  return (
+    <div className={cn('hidden lg:block w-full max-w-80', className)}>
+      <Input
+        type="search"
+        placeholder={placeholder ?? 'Search stock, order, etc'}
+        onChange={(e) => onChange?.((e.target as HTMLInputElement).value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') onSearch?.((e.currentTarget as HTMLInputElement).value)
+        }}
+        suffixIcon={<Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />}
+        className={cn(
+          'h-9 rounded-full',
+          'border-[var(--border-subtle)] bg-[var(--surface-muted)]',
+          'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
+          'focus-visible:ring-[var(--action-primary)]',
+        )}
+        {...(props as Omit<React.ComponentProps<typeof Input>, 'onChange'>)}
+      />
+    </div>
+  )
+}
+;(AdminHeaderSearch as unknown as { displayName?: string }).displayName = 'AdminHeader.Search'
+
+function AdminHeaderActions({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn('flex shrink-0 items-center gap-[var(--space-1)]', className)} {...props}>
+      {children}
+    </div>
+  )
+}
+;(AdminHeaderActions as unknown as { displayName?: string }).displayName = 'AdminHeader.Actions'
+
+function AdminHeaderIconButton({
+  icon,
+  label,
+  hasNotification,
+  onClick,
+  className,
+  ...props
+}: {
+  icon: React.ReactNode
+  label: string
+  hasNotification?: boolean
+  onClick?: () => void
+  className?: string
+} & Omit<React.ComponentProps<typeof IconButton>, 'icon' | 'label' | 'onClick' | 'className'>) {
+  return (
+    <div className="relative">
+      <IconButton
+        icon={icon}
+        label={label}
+        onClick={onClick}
+        className={cn(
+          'rounded-full text-[var(--text-secondary)]',
+          'hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+          'focus-visible:ring-[var(--action-primary)]',
+          className,
+        )}
+        {...(props as Omit<React.ComponentProps<typeof IconButton>, 'icon' | 'label' | 'onClick' | 'className'>)}
+      />
+      {hasNotification && (
+        <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
+      )}
+    </div>
+  )
+}
+;(AdminHeaderIconButton as unknown as { displayName?: string }).displayName = 'AdminHeader.IconButton'
+
+function AdminHeaderUser({
+  user: userProp,
+  userMenuItems: userMenuItemsProp,
+  onUserClick: onUserClickProp,
+}: {
+  user?: AdminHeaderUser | false
+  userMenuItems?: AdminHeaderUserMenuItem[] | false
+  onUserClick?: () => void
+}) {
+  const resolvedUser = userProp === false ? undefined : userProp
+  const resolvedUserMenuItems = userMenuItemsProp === false ? [] : (userMenuItemsProp ?? DEFAULT_USER_MENU_ITEMS)
+
+  const userTrigger = (
+    <Button
+      type="button"
+      variant="ghost"
+      onClick={onUserClickProp}
+      className={cn(
+        'h-auto min-h-0 min-w-0 justify-start',
+        'gap-[var(--space-2)] rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
+        'hover:bg-[var(--state-hover)]',
+        'focus-visible:ring-[var(--action-primary)]',
+      )}
+    >
+      <Avatar className="w-9 h-9 shrink-0 border border-[var(--border-default)] shadow-xs">
+        {resolvedUser?.avatarUrl && (
+          <AvatarImage src={resolvedUser.avatarUrl} alt={resolvedUser?.name ?? 'Admin'} />
+        )}
+        <AvatarFallback className="bg-[var(--action-primary)] text-[var(--action-primary-foreground)] font-semibold text-[length:var(--text-micro)]">
+          {resolvedUser?.initials ?? resolvedUser?.name?.charAt(0).toUpperCase() ?? 'A'}
+        </AvatarFallback>
+      </Avatar>
+      <div className="hidden md:flex flex-col items-start min-w-[var(--space-4)]">
+        <span className="text-[length:var(--text-sm)] font-semibold leading-tight text-[var(--text-primary)]">
+          {resolvedUser?.name ?? 'Marcus George'}
+        </span>
+        <span className="text-[length:var(--text-micro)] font-medium leading-tight mt-0.5 text-[var(--text-secondary)]">
+          {resolvedUser?.role ?? 'Admin'}
+        </span>
+      </div>
+      <ChevronDown className="hidden md:block w-[var(--space-3)] h-[var(--space-3)] text-[var(--text-tertiary)]" />
+    </Button>
+  )
+
+  if (resolvedUserMenuItems.length > 0) {
+    return (
+      <Dropdown>
+        <DropdownTrigger asChild>{userTrigger}</DropdownTrigger>
+        <DropdownContent
+          align="end"
+          sideOffset={10}
+          className={cn(
+            'w-[21rem] rounded-[var(--radius-md)] p-[var(--space-2)]',
+            'border-[var(--border-subtle)] bg-[var(--surface-base)]',
+            'shadow-[var(--elevation-dropdown)]',
+          )}
+        >
+          <div
+            className={cn(
+              'mb-[var(--space-2)] flex items-center gap-[var(--space-3)]',
+              'rounded-[var(--radius-lg)] border border-[var(--border-subtle)]',
+              'px-[var(--space-3)] py-[var(--space-2)]',
+            )}
+          >
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[length:var(--text-lg)] font-semibold leading-tight text-[var(--text-primary)]">
+                {resolvedUser?.name ?? 'Sophie Bennett'}
+              </p>
+              <p className="truncate text-[length:var(--text-sm)] leading-tight text-[var(--text-secondary)] mt-1">
+                {resolvedUser?.email ?? resolvedUser?.role ?? 'sophie@ui.live'}
+              </p>
+            </div>
+            <Avatar className="h-11 w-11 shrink-0 border border-[var(--border-default)]">
+              {resolvedUser?.avatarUrl && (
+                <AvatarImage src={resolvedUser.avatarUrl} alt={resolvedUser?.name ?? 'Admin'} />
+              )}
+              <AvatarFallback className="bg-[var(--action-primary)] text-[var(--action-primary-foreground)] font-semibold">
+                {resolvedUser?.initials ?? resolvedUser?.name?.charAt(0).toUpperCase() ?? 'A'}
+              </AvatarFallback>
+            </Avatar>
+          </div>
+
+          {resolvedUserMenuItems.map((item, index) => {
+            const previousItem = resolvedUserMenuItems[index - 1]
+            const previousSection = previousItem?.section ?? 'primary'
+            const currentSection = item.section ?? 'primary'
+            const showSectionDivider = index > 0 && previousSection !== currentSection
+
+            return (
+              <React.Fragment key={item.id}>
+                {showSectionDivider && (
+                  <div className="my-[var(--space-2)] h-px bg-[var(--border-subtle)]" aria-hidden="true" />
+                )}
+                <DropdownItem
+                  onSelect={() => item.onSelect?.()}
+                  className={cn(
+                    'h-11 rounded-[var(--radius-md)] px-[var(--space-3)]',
+                    'text-[length:var(--text-base)] text-[var(--text-primary)]',
+                    'focus:bg-[var(--surface-muted)] focus:text-[var(--text-primary)]',
+                    item.highlighted && 'bg-[var(--surface-muted)]',
+                    item.destructive && 'text-[var(--intent-danger)] focus:text-[var(--intent-danger)]',
+                  )}
+                >
+                  <span className="text-current">{item.icon}</span>
+                  <span className="font-medium">{item.label}</span>
+
+                  {item.badge ? (
+                    <Badge
+                      variant={item.badge.variant ?? 'secondary'}
+                      size="sm"
+                      icon={item.badge.icon}
+                      className="ml-auto h-6 rounded-[var(--radius-sm)] px-[var(--space-2)] text-[length:var(--text-micro)]"
+                    >
+                      {item.badge.label}
+                    </Badge>
+                  ) : (
+                    item.rightSlot
+                  )}
+                </DropdownItem>
+              </React.Fragment>
+            )
+          })}
+        </DropdownContent>
+      </Dropdown>
+    )
+  }
+
+  return userTrigger
+}
+;(AdminHeaderUser as unknown as { displayName?: string }).displayName = 'AdminHeader.User'
+
+type AdminHeaderCompound = typeof AdminHeader & {
+  Leading: typeof AdminHeaderLeading
+  Title: typeof AdminHeaderTitle
+  Search: typeof AdminHeaderSearch
+  Actions: typeof AdminHeaderActions
+  IconButton: typeof AdminHeaderIconButton
+  User: typeof AdminHeaderUser
+}
+
+const AdminHeaderCompound = Object.assign(AdminHeader, {
+  Leading: AdminHeaderLeading,
+  Title: AdminHeaderTitle,
+  Search: AdminHeaderSearch,
+  Actions: AdminHeaderActions,
+  IconButton: AdminHeaderIconButton,
+  User: AdminHeaderUser,
+}) as AdminHeaderCompound
+
+export { AdminHeaderCompound as AdminHeader }
