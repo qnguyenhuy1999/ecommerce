@@ -122,9 +122,8 @@ function DataTableRoot({
           'admin-data-table group',
           card && [
             'flex flex-col',
-            'rounded-[var(--radius-md)] border border-border bg-background',
-            'shadow-[var(--elevation-card)] transition-shadow duration-[var(--motion-normal)]',
-            'hover:shadow-[var(--elevation-hover)]',
+            'rounded-[var(--data-table-radius)] border border-[var(--data-table-toolbar-border)] bg-[var(--data-table-toolbar-bg)]',
+            'shadow-[var(--data-table-shadow)]',
           ],
           !card && 'flex flex-col',
           className,
@@ -133,7 +132,7 @@ function DataTableRoot({
       >
         {/* Card header */}
         {(title || description) && card && (
-          <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-border/60 shrink-0">
+          <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-[var(--border-subtle)] shrink-0">
             <div>
               {title && (
                 <h2 className="text-[var(--text-lg)] font-semibold text-foreground leading-tight">
@@ -166,7 +165,7 @@ function DataTableRoot({
 
         {/* Footer info bar — only rendered when NOT using Pagination sub-component */}
         {!paginationChild && props.totalRows !== undefined && (
-          <div className="px-4 py-3 border-t border-border/60 text-[var(--text-xs)] text-muted-foreground shrink-0">
+          <div className="px-4 py-3 border-t border-[var(--border-subtle)] text-[var(--text-xs)] text-[var(--text-secondary)] shrink-0">
             {props.totalRows} {props.totalRows === 1 ? 'item' : 'items'}
           </div>
         )}

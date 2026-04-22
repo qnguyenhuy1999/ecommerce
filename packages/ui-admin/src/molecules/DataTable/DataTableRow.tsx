@@ -87,8 +87,8 @@ export function DataTableRow({
       tabIndex={interactive ? 0 : undefined}
       className={cn(
         section === 'header'
-          ? 'border-b border-border/60'
-          : 'border-b border-border/60 transition-colors duration-[var(--motion-fast)] group/row',
+          ? ''
+          : 'border-b border-[var(--border-subtle)] transition-colors duration-[var(--duration-fast)] group/row',
         section === 'body' && zebraStriping && 'even:bg-muted/10',
         section === 'body' &&
           (selected

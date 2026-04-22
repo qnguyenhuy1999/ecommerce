@@ -34,13 +34,13 @@ export function DataTableCell({
       className={cn(
         paddingX,
         paddingY,
-        'align-middle text-[var(--text-sm)] text-foreground',
+        'align-middle text-[var(--text-sm)]',
+        muted ? 'text-[var(--text-secondary)]' : 'text-[var(--text-primary)]',
         align === 'center' && 'text-center',
         align === 'right' && 'text-right',
         align === 'numeric' && 'text-right tabular-nums',
         truncate && 'max-w-[var(--space-48)] truncate overflow-hidden',
         noWrap && 'whitespace-nowrap',
-        muted && 'text-muted-foreground',
         className,
       )}
       {...props}

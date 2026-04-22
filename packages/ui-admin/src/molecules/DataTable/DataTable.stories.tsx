@@ -152,7 +152,7 @@ export const Default: Story = {
             <DataTableRow key={product.id} rowKey={product.id}>
               <DataTableCell className="font-semibold">{product.name}</DataTableCell>
               <DataTableCell muted noWrap>
-                <code className="text-[var(--text-xs)] font-mono">{product.sku}</code>
+                <code className="text-[var(--text-xs)]">{product.sku}</code>
               </DataTableCell>
               <DataTableCell muted>{product.category}</DataTableCell>
               <DataTableCell align="right" className="font-medium tabular-nums">
@@ -268,7 +268,7 @@ export const WithSortingAndSearch: Story = {
                   <DataTableRow key={product.id} rowKey={product.id}>
                     <DataTableCell className="font-semibold">{product.name}</DataTableCell>
                     <DataTableCell muted>
-                      <code className="text-[var(--text-xs)] font-mono">{product.sku}</code>
+                      <code className="text-[var(--text-xs)]">{product.sku}</code>
                     </DataTableCell>
                     <DataTableCell muted>{product.category}</DataTableCell>
                     <DataTableCell align="right" className="font-medium tabular-nums">
@@ -361,7 +361,7 @@ export const Selectable: Story = {
                 <DataTableRow key={product.id} rowKey={product.id}>
                   <DataTableCell className="font-semibold">{product.name}</DataTableCell>
                   <DataTableCell muted>
-                    <code className="text-[var(--text-xs)] font-mono">{product.sku}</code>
+                    <code className="text-[var(--text-xs)]">{product.sku}</code>
                   </DataTableCell>
                   <DataTableCell align="right" className="font-medium tabular-nums">
                     ${product.price.toFixed(2)}

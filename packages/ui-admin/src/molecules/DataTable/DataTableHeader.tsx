@@ -77,12 +77,14 @@ export function DataTableColumn({
     <BaseTableHead
       className={cn(
         headerHeight,
-        'px-4 text-left align-middle font-medium text-muted-foreground select-none',
+        'px-4 text-left align-middle font-medium select-none',
+        'text-[var(--text-micro)] text-[var(--text-secondary)] uppercase tracking-[0.05em]',
         stickyHeader && [
           'sticky top-0 z-20',
-          'bg-background/95 backdrop-blur',
-          'supports-[backdrop-filter]:bg-background/60',
+          'backdrop-blur',
+          'supports-[backdrop-filter]:bg-[var(--surface-elevated)]/60',
         ],
+        !stickyHeader && 'bg-[var(--surface-elevated)]',
         align === 'center' && 'text-center',
         (align === 'right' || align === 'numeric') && 'text-right',
         indent > 0 && 'pl-4',
@@ -105,7 +107,10 @@ type DataTableHeaderProps = React.HTMLAttributes<HTMLTableSectionElement>
 export function DataTableHeader({ className, children, ...props }: DataTableHeaderProps) {
   return (
     <DataTableSectionContext.Provider value="header">
-      <BaseTableHeader className={cn('border-b border-border/60', className)} {...props}>
+      <BaseTableHeader
+        className={cn('border-b border-[var(--border-subtle)]', className)}
+        {...props}
+      >
         {children}
       </BaseTableHeader>
     </DataTableSectionContext.Provider>

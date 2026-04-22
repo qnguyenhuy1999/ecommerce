@@ -2,16 +2,9 @@
 
 import React from 'react'
 
-import {
-  cn,
-  Kbd,
-  Pagination,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@ecom/ui'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+
+import { cn, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ecom/ui'
 
 export interface DataTablePaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   page: number
@@ -25,6 +18,23 @@ export interface DataTablePaginationProps extends React.HTMLAttributes<HTMLDivEl
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100]
 
+function getPageRange(current: number, total: number): (number | '...')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
+
+  const range: (number | '...')[] = []
+  let prev: number | null = null
+
+  for (let i = 1; i <= total; i++) {
+    if (i === 1 || i === total || (i >= current - 1 && i <= current + 1)) {
+      if (prev !== null && i - prev > 1) range.push('...')
+      range.push(i)
+      prev = i
+    }
+  }
+
+  return range
+}
+
 export function DataTablePagination({
   page,
   pageSize,
@@ -37,67 +47,99 @@ export function DataTablePagination({
   ...props
 }: DataTablePaginationProps) {
   const totalPages = Math.max(1, Math.ceil(totalRows / pageSize))
-  const start = Math.min((page - 1) * pageSize + 1, totalRows)
-  const end = Math.min(page * pageSize, totalRows)
+  const pages = getPageRange(page, totalPages)
 
   return (
     <div
       className={cn(
-        'flex flex-wrap items-center justify-between gap-4 px-4 py-3',
-        'border-t border-border/60 bg-muted/20',
-        'text-[var(--text-sm)] shrink-0',
+        'flex items-center justify-between gap-4 px-4 py-3',
+        'border-t border-[var(--border-subtle)] shrink-0',
         className,
       )}
       {...props}
     >
-      {/* Page size */}
-      {showPageSizeSelect && onPageSizeChange && (
-        <div className="flex items-center gap-2 text-muted-foreground shrink-0">
-          <span className="whitespace-nowrap text-[var(--text-xs)]">Rows per page</span>
+      {/* ← Previous */}
+      <button
+        type="button"
+        onClick={() => onPageChange(page - 1)}
+        disabled={page <= 1}
+        className={cn(
+          'inline-flex items-center gap-1.5 rounded-full border border-primary text-primary',
+          'px-4 py-1.5 text-[var(--text-sm)] font-medium',
+          'hover:bg-primary/10 transition-colors duration-[var(--duration-fast)]',
+          'disabled:opacity-40 disabled:cursor-not-allowed',
+        )}
+      >
+        <ChevronLeft className="w-4 h-4" />
+        Previous
+      </button>
+
+      {/* Page numbers */}
+      <div className="flex items-center gap-1">
+        {pages.map((p, i) =>
+          p === '...' ? (
+            <span
+              key={`ellipsis-${i}`}
+              className="w-8 h-8 flex items-center justify-center text-[var(--text-sm)] text-[var(--text-secondary)] select-none"
+            >
+              …
+            </span>
+          ) : (
+            <button
+              key={p}
+              type="button"
+              onClick={() => onPageChange(p as number)}
+              className={cn(
+                'w-8 h-8 rounded-full flex items-center justify-center text-[var(--text-sm)] font-medium transition-colors duration-[var(--duration-fast)]',
+                p === page
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-[var(--text-primary)] hover:bg-[var(--state-hover)]',
+              )}
+            >
+              {p}
+            </button>
+          ),
+        )}
+      </div>
+
+      {/* Next → and optional items select */}
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={() => onPageChange(page + 1)}
+          disabled={page >= totalPages}
+          className={cn(
+            'inline-flex items-center gap-1.5 rounded-full border border-primary text-primary',
+            'px-4 py-1.5 text-[var(--text-sm)] font-medium',
+            'hover:bg-primary/10 transition-colors duration-[var(--duration-fast)]',
+            'disabled:opacity-40 disabled:cursor-not-allowed',
+          )}
+        >
+          Next
+          <ChevronRight className="w-4 h-4" />
+        </button>
+
+        {showPageSizeSelect && onPageSizeChange && (
           <Select
             value={String(pageSize)}
-            onValueChange={(nextValue) => {
-              onPageSizeChange(Number(nextValue))
+            onValueChange={(v) => {
+              onPageSizeChange(Number(v))
               onPageChange(1)
             }}
           >
-            <SelectTrigger size="sm" className="w-[5rem]">
+            <SelectTrigger size="sm" className="rounded-full min-w-[6.5rem]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {pageSizeOptions.map((size) => (
                 <SelectItem key={size} value={String(size)}>
-                  {size}
+                  {size} Items
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-        </div>
-      )}
-
-      {/* Summary */}
-      <span className="text-muted-foreground tabular-nums shrink-0 text-[var(--text-xs)]">
-        Showing <span className="font-medium text-foreground">{start}</span>
-        {' - '}
-        <span className="font-medium text-foreground">{end}</span>
-        {' of '}
-        <span className="font-medium text-foreground">{totalRows.toLocaleString()}</span>
-      </span>
-
-      {/* Page navigation */}
-      <Pagination
-        currentPage={page}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-        className="shrink-0"
-      />
-
-      {/* Keyboard shortcut */}
-      <Kbd className="hidden lg:inline-flex items-center gap-1 text-[var(--text-xs)] text-muted-foreground">
-        <span>←</span>
-        <span>→</span>
-        <span>navigate</span>
-      </Kbd>
+        )}
+      </div>
     </div>
   )
 }

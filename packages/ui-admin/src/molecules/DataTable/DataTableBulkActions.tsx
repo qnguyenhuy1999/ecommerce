@@ -19,16 +19,16 @@ export function DataTableBulkActions({
     <div
       className={cn(
         'flex items-center gap-3 px-4 py-2.5',
-        'bg-[var(--intent-info-muted)] border-b border-border/60',
+        'bg-[var(--data-table-bulk-bg)] border-b border-[var(--data-table-bulk-border)]',
         'animate-in slide-in-from-top-2 fade-in duration-200',
         className,
       )}
       {...props}
     >
-      <span className="text-[var(--text-sm)] font-medium text-[var(--intent-info)]">
+      <span className="text-[var(--text-sm)] font-medium text-[var(--text-primary)]">
         {selectedKeys.length} selected
       </span>
-      <span className="h-4 w-px bg-[var(--intent-info)]/20" />
+      <span className="h-4 w-px bg-[var(--border-subtle)]" />
       {children}
     </div>
   )

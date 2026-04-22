@@ -11,19 +11,19 @@ import { FilterRange } from './FilterRange'
 import { FilterClear } from './FilterClear'
 
 type FilterSidebarComponent = typeof FilterSidebarClient & {
-	Group: typeof FilterGroup
-	Collapse: typeof FilterCollapse
-	Checkbox: typeof FilterCheckbox
-	Range: typeof FilterRange
-	Clear: typeof FilterClear
+  Group: typeof FilterGroup
+  Collapse: typeof FilterCollapse
+  Checkbox: typeof FilterCheckbox
+  Range: typeof FilterRange
+  Clear: typeof FilterClear
 }
 
 const FilterSidebar = Object.assign(FilterSidebarClient, {
-	Group: FilterGroup,
-	Collapse: FilterCollapse,
-	Checkbox: FilterCheckbox,
-	Range: FilterRange,
-	Clear: FilterClear,
+  Group: FilterGroup,
+  Collapse: FilterCollapse,
+  Checkbox: FilterCheckbox,
+  Range: FilterRange,
+  Clear: FilterClear,
 }) as FilterSidebarComponent
 
 export { FilterSidebar }

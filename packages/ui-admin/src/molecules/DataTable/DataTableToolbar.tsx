@@ -34,7 +34,7 @@ export function DataTableToolbar({
       className={cn(
         'flex flex-wrap items-center justify-between gap-3 px-4',
         paddingY,
-        'border-b border-border/60 shrink-0',
+        'border-b border-[var(--border-subtle)] shrink-0',
         className,
       )}
       {...props}
