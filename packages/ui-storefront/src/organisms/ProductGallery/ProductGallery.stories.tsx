@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { ProductGallery, ProductGalleryMain, ProductGalleryThumbnails } from './ProductGallery'
+import { ProductGallery } from './ProductGallery'
 
 const meta: Meta<typeof ProductGallery> = {
   title: 'organisms/ProductGallery',
@@ -38,8 +38,8 @@ export const Default: Story = {
   render: () => (
     <div className="max-w-2xl p-4">
       <ProductGallery images={GALLERY_IMAGES}>
-        <ProductGalleryMain />
-        <ProductGalleryThumbnails direction="vertical" />
+        <ProductGallery.Main />
+        <ProductGallery.Thumbnails direction="vertical" />
       </ProductGallery>
     </div>
   ),
@@ -49,8 +49,8 @@ export const HorizontalThumbnails: Story = {
   render: () => (
     <div className="max-w-2xl p-4">
       <ProductGallery images={GALLERY_IMAGES}>
-        <ProductGalleryMain />
-        <ProductGalleryThumbnails direction="horizontal" />
+        <ProductGallery.Main />
+        <ProductGallery.Thumbnails direction="horizontal" />
       </ProductGallery>
     </div>
   ),
@@ -67,7 +67,7 @@ export const SingleImage: Story = {
             alt: 'Single view',
           },
         ]}>
-        <ProductGalleryMain showControls={false} />
+        <ProductGallery.Main showControls={false} />
       </ProductGallery>
     </div>
   ),
@@ -109,8 +109,8 @@ export const ManyImages: Story = {
             alt: 'View 6',
           },
         ]}>
-        <ProductGalleryMain />
-        <ProductGalleryThumbnails direction="vertical" />
+        <ProductGallery.Main />
+        <ProductGallery.Thumbnails direction="vertical" />
       </ProductGallery>
     </div>
   ),
@@ -120,8 +120,8 @@ export const InitialIndex2: Story = {
   render: () => (
     <div className="max-w-2xl p-4">
       <ProductGallery images={GALLERY_IMAGES} initialIndex={2}>
-        <ProductGalleryMain />
-        <ProductGalleryThumbnails direction="vertical" />
+        <ProductGallery.Main />
+        <ProductGallery.Thumbnails direction="vertical" />
       </ProductGallery>
     </div>
   ),
@@ -131,8 +131,8 @@ export const NoControls: Story = {
   render: () => (
     <div className="max-w-2xl p-4">
       <ProductGallery images={GALLERY_IMAGES}>
-        <ProductGalleryMain showControls={false} />
-        <ProductGalleryThumbnails direction="vertical" />
+        <ProductGallery.Main showControls={false} />
+        <ProductGallery.Thumbnails direction="vertical" />
       </ProductGallery>
     </div>
   ),

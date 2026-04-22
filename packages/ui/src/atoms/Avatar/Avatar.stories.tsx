@@ -59,11 +59,11 @@ export const FallbackOnly: Story = {
           .join('')
           .toUpperCase()
         const colors = [
-          'bg-[var(--intent-info)] text-[var(--foreground)]',
-          'bg-[var(--intent-success)] text-[var(--foreground)]',
-          'bg-[var(--intent-warning)] text-[var(--foreground)]',
+          'bg-[var(--intent-info)] text-primary-foreground',
+          'bg-[var(--intent-success)] text-primary-foreground',
+          'bg-[var(--intent-warning)] text-primary-foreground',
           'bg-primary text-primary-foreground',
-          'bg-[var(--intent-danger)] text-[var(--foreground)]',
+          'bg-[var(--intent-danger)] text-primary-foreground',
         ]
         const colorIndex = name.charCodeAt(0) % colors.length
         return (
