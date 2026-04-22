@@ -17,10 +17,21 @@ import {
 
 import { PERIOD_OPTIONS } from './RevenueChart.fixtures'
 
+export interface RevenueChartDatum {
+  name: string
+  total: number
+  [key: string]: string | number
+}
+
+function setDisplayName<T>(component: T, name: string): T {
+  (component as { displayName?: string }).displayName = name
+  return component
+}
+
 export interface RevenueChartProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   totalRevenue?: string
-  data?: unknown[]
+  data?: RevenueChartDatum[]
   period?: string
   onPeriodChange?: (period: string) => void
 }
@@ -62,7 +73,7 @@ function CustomTooltip({
 type RevenueChartContextValue = {
   title?: string
   totalRevenue?: string
-  data: unknown[]
+  data: RevenueChartDatum[]
   period?: string
   onPeriodChange?: (period: string) => void
 }
@@ -175,17 +186,16 @@ function RevenueChartHeader({ className, ...props }: React.HTMLAttributes<HTMLDi
     </CardHeader>
   )
 }
-;(RevenueChartHeader as unknown as { displayName?: string }).displayName = 'RevenueChart.Header'
+setDisplayName(RevenueChartHeader, 'RevenueChart.Header')
 
 function RevenueChartChart({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { data } = useRevenueChart()
-  type ChartDatum = { name?: string; total?: number | string }
   return (
     <CardContent className={cn('pb-5 px-6', className)} {...props}>
       <div className="mt-2 w-full" style={{ height: 'var(--chart-height)' }}>
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
-            data={(data as ChartDatum[]) || []}
+            data={data || []}
             margin={{ top: 8, right: 4, left: -16, bottom: 0 }}
           >
             <XAxis
@@ -224,7 +234,7 @@ function RevenueChartChart({ className, ...props }: React.HTMLAttributes<HTMLDiv
     </CardContent>
   )
 }
-;(RevenueChartChart as unknown as { displayName?: string }).displayName = 'RevenueChart.Chart'
+setDisplayName(RevenueChartChart, 'RevenueChart.Chart')
 
 function RevenueChartPeriod({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { period, onPeriodChange } = useRevenueChart()
@@ -261,7 +271,7 @@ function RevenueChartPeriod({ className, ...props }: React.HTMLAttributes<HTMLDi
     </div>
   )
 }
-;(RevenueChartPeriod as unknown as { displayName?: string }).displayName = 'RevenueChart.Period'
+setDisplayName(RevenueChartPeriod, 'RevenueChart.Period')
 
 type RevenueChartComponent = typeof RevenueChartRoot & {
   Header: typeof RevenueChartHeader

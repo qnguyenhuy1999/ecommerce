@@ -4,32 +4,51 @@
 
 @layer base {
   :root {
+    /* RGB channel helper — slate-900 equivalent for elevation shadows */
+    --gray-900-rgb: 15 23 42;
+
     --storefront-header-height: 5rem;
     --storefront-footer-min-height: 20rem;
     --storefront-content-max-width: 80rem;
     --storefront-grid-gap: var(--space-6);
+
+    /* Missing component token */
+    --padding-card-content: var(--space-4);
+
     /* Additional elevation and shadow tokens for storefront-specific visuals */
-    --elevation-overlay: 0 10px 30px rgba(15, 23, 42, 0.06);
-    --elevation-filter-md: 0 10px 30px -24px rgba(15, 23, 42, 0.65);
-    --elevation-strong: 0 22px 48px -30px rgba(15, 23, 42, 0.55);
-    --elevation-stripe: 0 1px 0 rgba(0, 0, 0, 0.03);
-    --text-shadow-md: 0 2px 20px rgba(0, 0, 0, 0.4);
+    --elevation-overlay: 0 10px 30px rgb(var(--gray-900-rgb) / 0.06);
+    --elevation-filter-md: 0 10px 30px -24px rgb(var(--gray-900-rgb) / 0.65);
+    --elevation-strong: 0 22px 48px -30px rgb(var(--gray-900-rgb) / 0.55);
+    --elevation-stripe: 0 1px 0 rgb(0 0 0 / 0.03);
+    --text-shadow-md: 0 2px 20px rgb(0 0 0 / 0.4);
     /* Repeating stripe gradients for passive/disabled states */
     --stripe-gradient: repeating-linear-gradient(
       45deg,
       transparent,
       transparent 8px,
-      rgba(0, 0, 0, 0.03) 8px,
-      rgba(0, 0, 0, 0.03) 16px
+      rgb(0 0 0 / 0.03) 8px,
+      rgb(0 0 0 / 0.03) 16px
     );
     --stripe-gradient-dark: repeating-linear-gradient(
       45deg,
       transparent,
       transparent 8px,
-      rgba(255, 255, 255, 0.03) 8px,
-      rgba(255, 255, 255, 0.03) 16px
+      rgb(255 255 255 / 0.03) 8px,
+      rgb(255 255 255 / 0.03) 16px
     );
-    --elevation-sticky: 0 14px 24px -22px rgba(15, 23, 42, 0.9);
+    --elevation-sticky: 0 14px 24px -22px rgb(var(--gray-900-rgb) / 0.9);
+  }
+
+  /* Dark-mode overrides for storefront-specific elevation tokens.
+     In dark mode, heavy dark shadows become invisible; use reduced opacity
+     or white-tinted shadows to maintain perceived depth. */
+  .dark {
+    --elevation-overlay: 0 10px 30px rgb(0 0 0 / 0.25);
+    --elevation-filter-md: 0 10px 30px -24px rgb(0 0 0 / 0.8);
+    --elevation-strong: 0 22px 48px -30px rgb(0 0 0 / 0.7);
+    --elevation-stripe: 0 1px 0 rgb(255 255 255 / 0.05);
+    --elevation-sticky: 0 14px 24px -22px rgb(0 0 0 / 0.95);
+    --text-shadow-md: 0 2px 20px rgb(0 0 0 / 0.6);
   }
 }
 

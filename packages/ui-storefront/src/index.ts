@@ -81,7 +81,10 @@ export {
   ProductGallery,
   ProductGalleryMain,
   ProductGalleryThumbnails,
+  useProductGallery,
 } from './organisms/ProductGallery/ProductGallery'
+export { useProductCard } from './molecules/ProductCard/ProductCard'
+export { StorefrontSection } from './layouts/shared/StorefrontSection'
 export { ProductGrid } from './organisms/ProductGrid/ProductGrid'
 export type { Product, ProductGridProps } from './organisms/ProductGrid/ProductGrid'
 

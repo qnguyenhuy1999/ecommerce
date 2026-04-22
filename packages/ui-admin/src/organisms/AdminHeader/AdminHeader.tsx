@@ -25,6 +25,11 @@ import { DEFAULT_USER_MENU_ITEMS, type AdminHeaderUserMenuItem } from './AdminHe
 
 export type { AdminHeaderUserMenuItem }
 
+// ─── Shared internal element ─────────────────────────────────────────────────
+const NotificationDot = () => (
+  <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
+)
+
 export interface AdminHeaderUser {
   name: string
   email?: string
@@ -33,7 +38,7 @@ export interface AdminHeaderUser {
   initials?: string
 }
 
-export interface AdminHeaderIconButton {
+export interface AdminHeaderIconButtonProps {
   label: string
   icon: React.ReactNode
   onClick?: () => void
@@ -56,7 +61,7 @@ export interface AdminHeaderProps extends React.HTMLAttributes<HTMLElement> {
       }
     | false
   leading?: React.ReactNode
-  iconButtons?: AdminHeaderIconButton[]
+  iconButtons?: AdminHeaderIconButtonProps[]
   user?: AdminHeaderUser | false
   userMenuItems?: AdminHeaderUserMenuItem[] | false
   notificationPanel?: AdminHeaderNotificationPanel | false
@@ -202,9 +207,7 @@ function AdminHeader({
                 'focus-visible:ring-[var(--action-primary)]',
               )}
             />
-            {btn.hasNotification && (
-              <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
-            )}
+            {btn.hasNotification && <NotificationDot />}
           </div>
         ))}
 
@@ -224,9 +227,7 @@ function AdminHeader({
                     'focus-visible:ring-[var(--action-primary)]',
                   )}
                 />
-                {unreadCount > 0 && (
-                  <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
-                )}
+                {unreadCount > 0 && <NotificationDot />}
               </div>
             }
           />
@@ -449,9 +450,7 @@ function AdminHeaderIconButton({
           'icon' | 'label' | 'onClick' | 'className'
         >)}
       />
-      {hasNotification && (
-        <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
-      )}
+      {hasNotification && <NotificationDot />}
     </div>
   )
 }

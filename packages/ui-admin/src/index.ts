@@ -11,14 +11,14 @@ export type { AdminLayoutProps } from './layouts/AdminLayout/AdminLayout'
 export { AdminSidebar } from './organisms/Sidebar/AdminSidebar'
 export type { AdminSidebarProps } from './organisms/Sidebar/AdminSidebar'
 
-export { AdminHeader } from './organisms/AdminHeader/Header'
+export { AdminHeader } from './organisms/AdminHeader/AdminHeader'
 export type {
   AdminHeaderProps,
   AdminHeaderUser,
-  AdminHeaderIconButton,
+  AdminHeaderIconButtonProps,
   AdminHeaderUserMenuItem,
   AdminHeaderNotificationPanel,
-} from './organisms/AdminHeader/Header'
+} from './organisms/AdminHeader/AdminHeader'
 
 export {
   DataTable,
@@ -71,6 +71,7 @@ export type {
 } from './organisms/NotificationPanel/NotificationPanel'
 
 export { RevenueChart } from './organisms/RevenueChart/RevenueChart'
+export type { RevenueChartDatum, RevenueChartProps } from './organisms/RevenueChart/RevenueChart'
 
 export { CommandPalette } from './organisms/CommandPalette/CommandPalette'
 export type {

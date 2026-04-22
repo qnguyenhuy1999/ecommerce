@@ -8,9 +8,6 @@ import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
 import { StorefrontSection } from '../shared/StorefrontSection'
 import { FilterSidebar } from '../../molecules/FilterSidebar/FilterSidebar'
 import type { FilterGroupSpec } from '../../molecules/FilterSidebar/FilterSidebar'
-import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
-import { ProductGrid } from '../../organisms/ProductGrid/ProductGrid'
-import type { Product } from '../../organisms/ProductGrid/ProductGrid'
 
 export interface CollectionPageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   promoBar?: React.ReactNode
@@ -25,11 +22,8 @@ export interface CollectionPageLayoutProps extends React.HTMLAttributes<HTMLDivE
   filters: FilterGroupSpec[]
   onFilterChange?: (groupId: string, value: unknown) => void
   onClearAll?: () => void
-  products: Product[]
-  onAddToCart?: (id: string) => void
-  loading?: boolean
-  emptyMessage?: string
   aside?: React.ReactNode
+  grid: React.ReactNode
   newsletter?: React.ReactNode
 }
 
@@ -46,17 +40,12 @@ function CollectionPageLayout({
   filters,
   onFilterChange,
   onClearAll,
-  products,
-  onAddToCart,
-  loading,
-  emptyMessage,
   aside,
+  grid,
   newsletter,
   className,
   ...props
 }: CollectionPageLayoutProps) {
-  const resolvedResultsLabel = resultsLabel ?? `${products.length} products`
-
   return (
     <StorefrontShell
       className={className}
@@ -75,7 +64,7 @@ function CollectionPageLayout({
         eyebrow="Collection"
         title={title}
         description={description}
-        action={<p className="text-sm font-medium text-muted-foreground">{resolvedResultsLabel}</p>}
+        action={resultsLabel ? <p className="text-sm font-medium text-muted-foreground">{resultsLabel}</p> : undefined}
       >
         {breadcrumb && <div className="mb-6 text-sm text-muted-foreground">{breadcrumb}</div>}
 
@@ -91,19 +80,14 @@ function CollectionPageLayout({
               'md:p-6',
             )}
           >
-            <ProductGrid
-              products={products}
-              loading={loading}
-              emptyMessage={emptyMessage}
-              onAddToCart={onAddToCart}
-            />
+            {grid}
           </div>
         </div>
       </StorefrontSection>
 
-      {newsletter && footer && (
+      {newsletter && (
         <StorefrontSection>
-          {newsletter ?? <NewsletterSignup />}
+          {newsletter}
         </StorefrontSection>
       )}
     </StorefrontShell>

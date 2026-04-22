@@ -3,6 +3,7 @@ import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import { Button } from '../../atoms/Button/Button'
+import { createStrictContext } from '../../lib/createStrictContext'
 import { cn } from '../../lib/utils'
 
 const emptyStateVariants = cva('flex flex-col items-center justify-center text-center', {
@@ -37,13 +38,7 @@ interface EmptyStateProps
   children?: React.ReactNode
 }
 
-const EmptyStateContext = React.createContext<{ variant: EmptyStateVariant } | null>(null)
-
-function useEmptyState() {
-  const ctx = React.useContext(EmptyStateContext)
-  if (!ctx) throw new Error('useEmptyState must be used within <EmptyState>')
-  return ctx
-}
+const [EmptyStateProvider, useEmptyState] = createStrictContext<{ variant: EmptyStateVariant }>('EmptyState')
 
 function EmptyStateRoot({
   icon,
@@ -93,9 +88,9 @@ function EmptyStateRoot({
   )
 
   return (
-    <EmptyStateContext.Provider value={{ variant: variant ?? 'default' }}>
+    <EmptyStateProvider value={{ variant: variant ?? 'default' }}>
       {content}
-    </EmptyStateContext.Provider>
+    </EmptyStateProvider>
   )
 }
 
@@ -155,11 +150,10 @@ function EmptyStateAction({
   children,
   className,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: React.HTMLAttributes<HTMLDivElement>) {
   useEmptyState()
-  const rest = props as unknown as React.HTMLAttributes<HTMLDivElement>
   return (
-    <div className={cn('mt-[var(--space-2)]', className)} {...rest}>
+    <div className={cn('mt-[var(--space-2)]', className)} {...props}>
       {children}
     </div>
   )

@@ -24,20 +24,20 @@ import { DataTableSkeleton } from './DataTableSkeleton'
  * </DataTableAsync>
  * ```
  */
-export function DataTableAsync({
+export function DataTableAsync<TRow extends object = Record<string, unknown>>({
   fetcher,
   skeletonProps,
   children,
 }: {
   /** Async function that returns table data */
-  fetcher: () => Promise<unknown[]>
+  fetcher: () => Promise<TRow[]>
   /** Props passed to the skeleton fallback */
   skeletonProps?: {
     rowCount?: number
     columnCount?: number
   }
   /** Render function receiving the fetched data */
-  children: (data: unknown[]) => React.ReactNode
+  children: (data: TRow[]) => React.ReactNode
 }) {
   return (
     <Suspense fallback={<DataTableSkeleton {...skeletonProps} />}>
@@ -46,12 +46,12 @@ export function DataTableAsync({
   )
 }
 
-async function DataTableAsyncInner({
+async function DataTableAsyncInner<TRow extends object = Record<string, unknown>>({
   fetcher,
   children,
 }: {
-  fetcher: () => Promise<unknown[]>
-  children: (data: unknown[]) => React.ReactNode
+  fetcher: () => Promise<TRow[]>
+  children: (data: TRow[]) => React.ReactNode
 }) {
   const data = await fetcher()
   return <>{children(data)}</>

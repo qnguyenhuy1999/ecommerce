@@ -9,6 +9,7 @@ import {
   TooltipContent,
   TooltipProvider,
 } from '../../atoms/Tooltip/Tooltip'
+import { createStrictContext } from '../../lib/createStrictContext'
 import { cn } from '../../lib/utils'
 
 // Data shape kept for backwards compatibility when callers supply `items`.
@@ -47,13 +48,7 @@ type AvatarGroupContextValue = {
   showTooltips: boolean
 }
 
-const AvatarGroupContext = React.createContext<AvatarGroupContextValue | null>(null)
-
-function useAvatarGroup() {
-  const ctx = React.useContext(AvatarGroupContext)
-  if (!ctx) throw new Error('useAvatarGroup must be used within <AvatarGroup>')
-  return ctx
-}
+const [AvatarGroupProvider, useAvatarGroup] = createStrictContext<AvatarGroupContextValue>('AvatarGroup')
 
 // ─── Item subcomponent (public) ─────────────────────────────────────────────
 export function AvatarGroupItemComponent({
@@ -183,9 +178,9 @@ function AvatarGroupRoot({
   )
 
   return (
-    <AvatarGroupContext.Provider value={providerValue}>
+    <AvatarGroupProvider value={providerValue}>
       {showTooltips ? <TooltipProvider delayDuration={200}>{content}</TooltipProvider> : content}
-    </AvatarGroupContext.Provider>
+    </AvatarGroupProvider>
   )
 }
 

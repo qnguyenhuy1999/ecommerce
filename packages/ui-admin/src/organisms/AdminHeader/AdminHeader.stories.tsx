@@ -3,8 +3,8 @@ import React from 'react'
 
 import { Bell, Mail } from 'lucide-react'
 
-import { AdminHeader } from './Header'
-import type { AdminHeaderProps } from './Header'
+import { AdminHeader } from './AdminHeader'
+import type { AdminHeaderProps } from './AdminHeader'
 import type { NotificationItem } from '../NotificationPanel/NotificationPanel'
 
 const meta: Meta<typeof AdminHeader> = {

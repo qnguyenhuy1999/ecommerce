@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn, Card } from '@ecom/ui'
 
 export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
@@ -44,8 +44,8 @@ function MetricCard({
   const isPositive = percentChange !== null && percentChange >= 0
 
   return (
-    <div className={cn('admin-metric-card p-[var(--space-5)]', className)} {...props}>
-      <div className="flex items-center justify-between text-muted-foreground pb-2">
+    <Card className={cn('admin-metric-card p-[var(--space-5)]', className)} {...props}>
+      <div className="flex items-center justify-between text-[var(--text-secondary)] pb-2">
         <span className="text-sm font-medium">{label}</span>
         {icon && <span className="[&>svg]:w-4 [&>svg]:h-4 opacity-70">{icon}</span>}
       </div>
@@ -68,9 +68,9 @@ function MetricCard({
         )}
       </div>
       {previousValue !== undefined && (
-        <p className="text-[var(--text-sm)] text-muted-foreground mt-1">vs previous period</p>
+        <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mt-1">vs previous period</p>
       )}
-    </div>
+    </Card>
   )
 }
 

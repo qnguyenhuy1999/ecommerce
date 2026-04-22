@@ -34,6 +34,11 @@ export interface NotificationPanelProps extends React.HTMLAttributes<HTMLDivElem
 
 type TabValue = 'all' | 'archived'
 
+function setDisplayName<T>(component: T, name: string): T {
+  (component as { displayName?: string }).displayName = name
+  return component
+}
+
 function NotificationPanel({
   notifications,
   onMarkRead,
@@ -115,12 +120,12 @@ function NotificationPanel({
                       className={cn(
                         'flex items-center gap-2 px-3 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
                         activeTab === 'all'
-                          ? 'bg-[var(--gray-800)] text-[var(--gray-0)]'
+                          ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                           : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
                       )}
                     >
                       All
-                      <span className="flex items-center justify-center bg-[var(--gray-0)] text-[var(--gray-900)] text-[0.625rem] font-bold rounded-[4px] px-1.5 py-0.5 leading-none">
+                      <span className="flex items-center justify-center bg-[var(--text-inverse)] text-[var(--text-primary)] text-[0.625rem] font-bold rounded-[4px] px-1.5 py-0.5 leading-none">
                         {notifications.length}
                       </span>
                     </button>
@@ -129,7 +134,7 @@ function NotificationPanel({
                       className={cn(
                         'px-4 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
                         activeTab === 'archived'
-                          ? 'bg-[var(--gray-800)] text-[var(--gray-0)]'
+                          ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                           : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
                       )}
                     >
@@ -275,12 +280,12 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
             className={cn(
               'flex items-center gap-2 px-3 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
               activeTab === 'all'
-                ? 'bg-[var(--gray-800)] text-[var(--gray-0)]'
+                ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                 : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
             )}
           >
             All
-            <span className="flex items-center justify-center bg-[var(--gray-0)] text-[var(--gray-900)] text-[0.625rem] font-bold rounded-[4px] px-1.5 py-0.5 leading-none">
+            <span className="flex items-center justify-center bg-[var(--text-inverse)] text-[var(--text-primary)] text-[0.625rem] font-bold rounded-[4px] px-1.5 py-0.5 leading-none">
               {notifications.length}
             </span>
           </button>
@@ -289,7 +294,7 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
             className={cn(
               'px-4 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
               activeTab === 'archived'
-                ? 'bg-[var(--gray-800)] text-[var(--gray-0)]'
+                ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                 : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
             )}
           >
@@ -303,8 +308,7 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
     </div>
   )
 }
-;(NotificationPanelHeader as unknown as { displayName?: string }).displayName =
-  'NotificationPanel.Header'
+setDisplayName(NotificationPanelHeader, 'NotificationPanel.Header')
 
 function NotificationPanelList({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { filteredNotifications } = useNotificationPanel()
@@ -318,8 +322,7 @@ function NotificationPanelList({ className, ...props }: React.HTMLAttributes<HTM
     </ScrollArea>
   )
 }
-;(NotificationPanelList as unknown as { displayName?: string }).displayName =
-  'NotificationPanel.List'
+setDisplayName(NotificationPanelList, 'NotificationPanel.List')
 
 function NotificationPanelItem({
   notification,
@@ -382,8 +385,7 @@ function NotificationPanelItem({
     </div>
   )
 }
-;(NotificationPanelItem as unknown as { displayName?: string }).displayName =
-  'NotificationPanel.Item'
+setDisplayName(NotificationPanelItem, 'NotificationPanel.Item')
 
 function NotificationPanelEmpty(props: React.HTMLAttributes<HTMLDivElement>) {
   const { activeTab } = useNotificationPanel()
@@ -403,8 +405,7 @@ function NotificationPanelEmpty(props: React.HTMLAttributes<HTMLDivElement>) {
     </div>
   )
 }
-;(NotificationPanelEmpty as unknown as { displayName?: string }).displayName =
-  'NotificationPanel.Empty'
+setDisplayName(NotificationPanelEmpty, 'NotificationPanel.Empty')
 
 type NotificationPanelComponent = typeof NotificationPanel & {
   Header: typeof NotificationPanelHeader

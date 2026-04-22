@@ -287,7 +287,7 @@ function CartDrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivE
 
       {/* Checkout CTA */}
       <Button
-        className="w-full group h-12 rounded-[var(--radius-md)] bg-[var(--action-primary)] hover:bg-[var(--action-primary-hover)] text-white shadow-md hover:shadow-lg transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-out)] active:scale-[0.98]"
+        className="w-full group h-12 rounded-[var(--radius-md)] bg-[var(--action-primary)] hover:bg-[var(--action-primary-hover)] text-[var(--action-primary-foreground)] shadow-md hover:shadow-lg transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-out)] active:scale-[0.98]"
         size="lg"
         onClick={onCheckout}
       >

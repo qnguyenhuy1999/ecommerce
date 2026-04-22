@@ -81,7 +81,7 @@ export {
   AccordionContent,
 } from './molecules/Accordion/Accordion'
 export { Breadcrumb } from './molecules/Breadcrumb/Breadcrumb'
-export type { BreadcrumbItem, BreadcrumbProps } from './atoms/Breadcrumb/Breadcrumb'
+export type { BreadcrumbItem, BreadcrumbProps } from './molecules/Breadcrumb/Breadcrumb'
 export {
   ToastProvider,
   Toaster,
@@ -97,4 +97,6 @@ export {
 export { Kbd, type KbdProps } from './atoms/Kbd/Kbd'
 export { Pagination } from './organisms/Pagination/Pagination'
 export { ThemeProvider, useTheme } from './providers'
+export { createStrictContext } from './lib/createStrictContext'
+export { useCSSVarStyle } from './lib/useCSSVarStyle'
 export { cn } from './lib/utils'

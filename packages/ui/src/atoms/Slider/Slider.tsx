@@ -99,7 +99,7 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
         )}
         {...props}
       >
-        <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted group-hover:h-2.5 transition-all duration-200">
+        <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted group-hover:h-2.5 transition-all duration-[var(--motion-normal)]">
           <SliderPrimitive.Range
             className="absolute h-full bg-brand w-[var(--slider-range-width,0%)]"
             style={{ '--slider-range-width': `${String(percentage)}%` } as React.CSSProperties}
@@ -130,8 +130,8 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
               'shadow-lg left-[var(--slider-tooltip-position,50%)]',
               'max-md:left-[calc(var(--slider-tooltip-position,50%)+var(--slider-thumb-offset,0px))]',
               isDragging
-                ? 'animate-in fade-in-0 zoom-in-95 duration-150'
-                : 'opacity-0 transition-opacity duration-200',
+                ? 'animate-in fade-in-0 zoom-in-95 duration-[var(--motion-fast)]'
+                : 'opacity-0 transition-opacity duration-[var(--motion-normal)]',
             )}
             style={
               {

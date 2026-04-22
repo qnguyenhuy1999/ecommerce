@@ -83,7 +83,7 @@ function DataTableRoot({
 }: DataTableProps) {
   const resolvedDensity = density ?? (compact ? 'compact' : 'default')
 
-  const childArray = React.Children.toArray(children)
+  const childArray = React.useMemo(() => React.Children.toArray(children), [children])
   const toolbarChild = childArray.find(
     (c) => React.isValidElement(c) && (c.type as React.ComponentType<unknown>) === DataTableToolbar,
   ) as React.ReactElement<DataTableToolbarProps> | undefined

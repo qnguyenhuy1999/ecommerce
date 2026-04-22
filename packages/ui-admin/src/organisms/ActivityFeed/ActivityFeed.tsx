@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { cn, Avatar, AvatarFallback, AvatarImage } from '@ecom/ui'
+import { cn, Avatar, AvatarFallback, AvatarImage, EmptyState } from '@ecom/ui'
+import { Activity } from 'lucide-react'
 
 export interface ActivityItem {
   id: string
@@ -22,9 +23,13 @@ export interface ActivityFeedProps extends React.HTMLAttributes<HTMLDivElement> 
 function ActivityFeed({ items, showTimeline = true, className, ...props }: ActivityFeedProps) {
   if (items.length === 0) {
     return (
-      <div className={cn('py-8 text-center text-sm text-muted-foreground', className)} {...props}>
-        No recent activity
-      </div>
+      <EmptyState
+        variant="compact"
+        icon={<Activity />}
+        title="No recent activity"
+        className={className}
+        {...props}
+      />
     )
   }
 
@@ -37,7 +42,7 @@ function ActivityFeed({ items, showTimeline = true, className, ...props }: Activ
         return (
           <div
             key={item.id}
-            className="group flex gap-3 py-3 px-3 rounded-[var(--radius-sm)] hover:bg-muted/40 transition-colors duration-[var(--motion-fast)] relative"
+            className="group flex gap-3 py-3 px-3 rounded-[var(--radius-sm)] hover:bg-[var(--state-hover)] transition-colors duration-[var(--motion-fast)] relative"
           >
             {/* Timeline track */}
             {showTimeline && (
@@ -67,9 +72,9 @@ function ActivityFeed({ items, showTimeline = true, className, ...props }: Activ
 
             {/* Content */}
             <div className="flex-1 min-w-0 pt-0.5">
-              <p className="text-sm leading-snug text-foreground">
+              <p className="text-sm leading-snug text-[var(--text-primary)]">
                 <span className="font-semibold">{item.user?.name || 'Unknown User'}</span>{' '}
-                <span className="text-muted-foreground">{item.action}</span>
+                <span className="text-[var(--text-secondary)]">{item.action}</span>
                 {item.target && (
                   <>
                     {' '}
@@ -77,7 +82,7 @@ function ActivityFeed({ items, showTimeline = true, className, ...props }: Activ
                   </>
                 )}
               </p>
-              <p className="text-xs text-muted-foreground mt-0.5">{item.timestamp}</p>
+              <p className="text-xs text-[var(--text-secondary)] mt-0.5">{item.timestamp}</p>
             </div>
           </div>
         )

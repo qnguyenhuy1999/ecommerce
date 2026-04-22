@@ -13,10 +13,6 @@ import type { VariantSelectorProps } from '../../molecules/VariantSelector/Varia
 import { ShippingProgressBar } from '../../molecules/ShippingProgressBar/ShippingProgressBar'
 import type { ReviewCardProps } from '../../molecules/ReviewCard/ReviewCard'
 import { ReviewCard } from '../../molecules/ReviewCard/ReviewCard'
-import type { Product } from '../../organisms/ProductGrid/ProductGrid'
-import { ProductCarousel } from '../../organisms/ProductCarousel/ProductCarousel'
-import { ProductGallery } from '../../organisms/ProductGallery/ProductGallery'
-import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
 import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
@@ -29,14 +25,6 @@ interface ProductVariantGroup extends Pick<VariantSelectorProps, 'name' | 'optio
 interface ShippingProgressConfig {
   current: number
   threshold: number
-}
-
-interface RelatedProductsSection {
-  title: string
-  subtitle?: string
-  viewAllHref?: string
-  products: Product[]
-  onAddToCart?: (id: string) => void
 }
 
 export interface ProductDetailLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -55,7 +43,10 @@ export interface ProductDetailLayoutProps extends React.HTMLAttributes<HTMLDivEl
   reviewCount?: number
   status?: React.ComponentProps<typeof StockBadge>['status']
   statusCount?: number
-  galleryImages: React.ComponentProps<typeof ProductGallery>['images']
+  gallery?: React.ReactNode
+  details?: React.ReactNode
+  related?: React.ReactNode
+  newsletter?: React.ReactNode
   shippingProgress?: ShippingProgressConfig
   trustBadges?: TrustBadgeType[]
   variants?: ProductVariantGroup[]
@@ -63,8 +54,6 @@ export interface ProductDetailLayoutProps extends React.HTMLAttributes<HTMLDivEl
   description?: React.ReactNode
   actions?: React.ReactNode
   reviews?: ReviewCardProps[]
-  relatedProducts?: RelatedProductsSection
-  newsletter?: React.ReactNode
   onAddToCart?: (id: string) => void
 }
 
@@ -84,7 +73,10 @@ function ProductDetailLayout({
   reviewCount,
   status,
   statusCount,
-  galleryImages,
+  gallery,
+  details,
+  related,
+  newsletter,
   shippingProgress,
   trustBadges = [],
   variants = [],
@@ -92,8 +84,6 @@ function ProductDetailLayout({
   description,
   actions,
   reviews = [],
-  relatedProducts,
-  newsletter,
   onAddToCart,
   className,
   ...props
@@ -116,86 +106,85 @@ function ProductDetailLayout({
         {breadcrumb && <div className="mb-6 text-sm text-muted-foreground">{breadcrumb}</div>}
 
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)]">
-          <ProductGallery images={galleryImages}>
-            <ProductGallery.Thumbnails />
-            <ProductGallery.Main />
-          </ProductGallery>
+          {gallery}
 
-          <div className="space-y-6">
-            <div className="space-y-4">
-              {brand && (
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">
-                  {brand}
-                </p>
+          {details ?? (
+            <div className="space-y-6">
+              <div className="space-y-4">
+                {brand && (
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">
+                    {brand}
+                  </p>
+                )}
+                <div className="space-y-3">
+                  <h1 className="text-4xl font-bold tracking-tight text-foreground">{title}</h1>
+                  {subtitle && (
+                    <p className="text-base leading-relaxed text-muted-foreground">{subtitle}</p>
+                  )}
+                </div>
+                <div className="flex flex-wrap items-center gap-3">
+                  <PriceDisplay price={price} originalPrice={originalPrice} size="lg" />
+                  {typeof rating === 'number' && (
+                    <Rating value={rating} count={reviewCount} showCount size="default" />
+                  )}
+                  {status && <StockBadge status={status} count={statusCount} />}
+                </div>
+                {trustBadges.length > 0 && <TrustBadgeGroup types={trustBadges} />}
+              </div>
+
+              {shippingProgress && (
+                <ShippingProgressBar
+                  current={shippingProgress.current}
+                  threshold={shippingProgress.threshold}
+                />
               )}
-              <div className="space-y-3">
-                <h1 className="text-4xl font-bold tracking-tight text-foreground">{title}</h1>
-                {subtitle && (
-                  <p className="text-base leading-relaxed text-muted-foreground">{subtitle}</p>
-                )}
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <PriceDisplay price={price} originalPrice={originalPrice} size="lg" />
-                {typeof rating === 'number' && (
-                  <Rating value={rating} count={reviewCount} showCount size="default" />
-                )}
-                {status && <StockBadge status={status} count={statusCount} />}
-              </div>
-              {trustBadges.length > 0 && <TrustBadgeGroup types={trustBadges} />}
+
+              {variants.length > 0 && (
+                <div className="space-y-5 rounded-[var(--radius-xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
+                  {variants.map((variant) => (
+                    <VariantSelector
+                      key={variant.name}
+                      name={variant.name}
+                      options={variant.options}
+                      value={variant.value}
+                      type={variant.type}
+                      error={variant.error}
+                      onChange={variant.onChange}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {actions ?? (
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <AddToCartButton size="lg" className="flex-1" />
+                  <Button variant="outline" size="lg" className="sm:w-auto">
+                    Save for later
+                  </Button>
+                </div>
+              )}
+
+              {(highlights.length > 0 || description) && (
+                <div className="rounded-[var(--radius-xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
+                  {highlights.length > 0 && (
+                    <ul className="space-y-2 text-sm text-foreground/85">
+                      {highlights.map((highlight) => (
+                        <li key={highlight} className="flex gap-2">
+                          <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                          <span>{highlight}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {description && (
+                    <div className={cn('text-sm leading-relaxed text-muted-foreground', highlights.length > 0 && 'mt-5 border-t border-border/60 pt-5')}>
+                      {description}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-
-            {shippingProgress && (
-              <ShippingProgressBar
-                current={shippingProgress.current}
-                threshold={shippingProgress.threshold}
-              />
-            )}
-
-            {variants.length > 0 && (
-              <div className="space-y-5 rounded-[var(--radius-xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
-                {variants.map((variant) => (
-                  <VariantSelector
-                    key={variant.name}
-                    name={variant.name}
-                    options={variant.options}
-                    value={variant.value}
-                    type={variant.type}
-                    error={variant.error}
-                    onChange={variant.onChange}
-                  />
-                ))}
-              </div>
-            )}
-
-            {actions ?? (
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <AddToCartButton size="lg" className="flex-1" />
-                <Button variant="outline" size="lg" className="sm:w-auto">
-                  Save for later
-                </Button>
-              </div>
-            )}
-
-            {(highlights.length > 0 || description) && (
-              <div className="rounded-[var(--radius-xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
-                {highlights.length > 0 && (
-                  <ul className="space-y-2 text-sm text-foreground/85">
-                    {highlights.map((highlight) => (
-                      <li key={highlight} className="flex gap-2">
-                        <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {description && (
-                  <div className={cn('text-sm leading-relaxed text-muted-foreground', highlights.length > 0 && 'mt-5 border-t border-border/60 pt-5')}>
-                    {description}
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+          )}
         </div>
       </StorefrontSection>
 
@@ -213,21 +202,15 @@ function ProductDetailLayout({
         </StorefrontSection>
       )}
 
-      {relatedProducts && (
-        <StorefrontSection title={relatedProducts.title} description={relatedProducts.subtitle} contentClassName="max-w-none">
-          <ProductCarousel
-            title={relatedProducts.title}
-            subtitle={relatedProducts.subtitle}
-            viewAllHref={relatedProducts.viewAllHref}
-            products={relatedProducts.products}
-            onAddToCart={relatedProducts.onAddToCart ?? onAddToCart}
-          />
+      {related && (
+        <StorefrontSection contentClassName="max-w-none">
+          {related}
         </StorefrontSection>
       )}
 
-      {newsletter && footer && (
+      {newsletter && (
         <StorefrontSection>
-          {newsletter ?? <NewsletterSignup />}
+          {newsletter}
         </StorefrontSection>
       )}
     </StorefrontShell>
@@ -235,4 +218,11 @@ function ProductDetailLayout({
 }
 
 export { ProductDetailLayout }
-export type { ProductVariantGroup, ShippingProgressConfig, RelatedProductsSection }
+export type { ProductVariantGroup, ShippingProgressConfig }
+
+// Kept for backward compatibility with root index.ts public API
+export interface RelatedProductsSection {
+  title: string
+  subtitle?: string
+  viewAllHref?: string
+}

@@ -74,7 +74,7 @@ function AddToCartButton({
 
   return (
     <Button
-      variant={state === 'success' ? 'success' : 'brand'}
+      variant="brand"
       size={size}
       className={cn(
         'relative overflow-hidden transition-all',

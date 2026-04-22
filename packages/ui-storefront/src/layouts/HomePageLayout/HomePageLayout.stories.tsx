@@ -2,6 +2,10 @@ import type { Meta } from '@storybook/react'
 
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
 import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
+import { HeroBanner } from '../../organisms/HeroBanner/HeroBanner'
+import { CategoryGrid } from '../../organisms/CategoryGrid/CategoryGrid'
+import { ProductCarousel } from '../../organisms/ProductCarousel/ProductCarousel'
+import { StorefrontSection } from '../shared/StorefrontSection'
 import { HomePageLayout } from './HomePageLayout'
 import { STOREFRONT_FOOTER_WITH_SOCIALS_PROPS } from '../StorefrontFooter/StorefrontFooter.fixtures'
 
@@ -58,6 +62,33 @@ const products = [
   },
 ]
 
+const categories = [
+  {
+    title: 'Running',
+    image: 'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=900&h=700&fit=crop',
+    href: '/running',
+    itemCount: 124,
+  },
+  {
+    title: 'Travel',
+    image: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=700&fit=crop',
+    href: '/travel',
+    itemCount: 86,
+  },
+  {
+    title: 'Audio',
+    image: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=900&h=700&fit=crop',
+    href: '/audio',
+    itemCount: 48,
+  },
+  {
+    title: 'Home Office',
+    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&h=700&fit=crop',
+    href: '/office',
+    itemCount: 63,
+  },
+]
+
 export const Default = {
   args: {
     promoBar: <PromoBar message="Free 2-day shipping on orders over $100" variant="brand" />,
@@ -75,64 +106,45 @@ export const Default = {
     footerProps: {
       ...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS,
     },
-    hero: {
-      eyebrow: 'Spring collection',
-      title: 'Compose a polished home page from the existing storefront blocks',
-      subtitle:
-        'Hero, categories, curated rails, and newsletter all come from the current package inventory.',
-      ctaLabel: 'Shop new arrivals',
-      secondaryCtaLabel: 'View lookbook',
-      backgroundImage:
-        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&h=900&fit=crop',
-      align: 'left',
-      size: 'lg',
-    },
-    categories: [
-      {
-        title: 'Running',
-        image:
-          'https://images.unsplash.com/photo-1460353581641-37baddab0fa2?w=900&h=700&fit=crop',
-        href: '/running',
-        itemCount: 124,
-      },
-      {
-        title: 'Travel',
-        image:
-          'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=900&h=700&fit=crop',
-        href: '/travel',
-        itemCount: 86,
-      },
-      {
-        title: 'Audio',
-        image:
-          'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=900&h=700&fit=crop',
-        href: '/audio',
-        itemCount: 48,
-      },
-      {
-        title: 'Home Office',
-        image:
-          'https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&h=700&fit=crop',
-        href: '/office',
-        itemCount: 63,
-      },
-    ],
-    featuredCollections: [
-      {
-        title: 'Fresh this week',
-        subtitle: 'Carousel sections can be driven by product arrays.',
-        viewAllHref: '/fresh',
-        products,
-        onAddToCart: () => {},
-      },
-      {
-        title: 'Editor picks',
-        subtitle: 'The layout builds product cards internally for the carousel.',
-        viewAllHref: '/editors-picks',
-        products: products.slice(0, 3),
-        onAddToCart: () => {},
-      },
-    ],
+    hero: (
+      <HeroBanner
+        eyebrow="Spring collection"
+        title="Compose a polished home page from the existing storefront blocks"
+        subtitle="Hero, categories, curated rails, and newsletter all come from the current package inventory."
+        ctaLabel="Shop new arrivals"
+        secondaryCtaLabel="View lookbook"
+        backgroundImage="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600&h=900&fit=crop"
+        align="left"
+        size="lg"
+      />
+    ),
+    categories: (
+      <StorefrontSection
+        eyebrow="Shop by category"
+        title="Built around how customers actually browse"
+        description="Use the existing category cards and hero to assemble a storefront landing page with minimal custom wiring."
+      >
+        <CategoryGrid categories={categories} columns={4} />
+      </StorefrontSection>
+    ),
+    featured: (
+      <>
+        <ProductCarousel
+          title="Fresh this week"
+          subtitle="Carousel sections can be driven by product arrays."
+          viewAllHref="/fresh"
+          products={products}
+          onAddToCart={() => {}}
+        />
+        <ProductCarousel
+          title="Editor picks"
+          subtitle="The layout builds product cards internally for the carousel."
+          viewAllHref="/editors-picks"
+          products={products.slice(0, 3)}
+          onAddToCart={() => {}}
+        />
+      </>
+    ),
     newsletter: <NewsletterSignup />,
     onAddToCart: () => {},
   },

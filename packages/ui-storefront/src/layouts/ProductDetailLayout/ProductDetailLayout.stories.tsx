@@ -2,6 +2,8 @@ import type { Meta } from '@storybook/react'
 
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
 import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
+import { ProductCarousel } from '../../organisms/ProductCarousel/ProductCarousel'
+import { ProductGallery } from '../../organisms/ProductGallery/ProductGallery'
 import { ProductDetailLayout } from './ProductDetailLayout'
 import { STOREFRONT_FOOTER_WITH_SOCIALS_PROPS } from '../StorefrontFooter/StorefrontFooter.fixtures'
 
@@ -13,6 +15,54 @@ const meta = {
 } satisfies Meta<typeof ProductDetailLayout>
 
 export default meta
+
+const galleryImages = [
+  {
+    id: 'g1',
+    src: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=1400&fit=crop',
+    alt: 'Front view',
+  },
+  {
+    id: 'g2',
+    src: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=1200&h=1400&fit=crop',
+    alt: 'Side view',
+  },
+  {
+    id: 'g3',
+    src: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?w=1200&h=1400&fit=crop',
+    alt: 'Lifestyle view',
+  },
+]
+
+const relatedProducts = [
+  {
+    id: 'r1',
+    title: 'Travel Audio Case',
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=900&fit=crop',
+    price: 48,
+    rating: 4.6,
+    ratingCount: 182,
+    buyCount: 5400,
+  },
+  {
+    id: 'r2',
+    title: 'Portable DAC',
+    image: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?w=800&h=900&fit=crop',
+    price: 99,
+    rating: 4.7,
+    ratingCount: 94,
+    buyCount: 2100,
+  },
+  {
+    id: 'r3',
+    title: 'Over-ear Stand',
+    image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&h=900&fit=crop',
+    price: 36,
+    rating: 4.5,
+    ratingCount: 201,
+    buyCount: 7800,
+  },
+]
 
 export const Default = {
   args: {
@@ -35,23 +85,12 @@ export const Default = {
     rating: 4.8,
     reviewCount: 2891,
     status: 'in-stock',
-    galleryImages: [
-      {
-        id: 'g1',
-        src: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1200&h=1400&fit=crop',
-        alt: 'Front view',
-      },
-      {
-        id: 'g2',
-        src: 'https://images.unsplash.com/photo-1484704849700-f032a568e944?w=1200&h=1400&fit=crop',
-        alt: 'Side view',
-      },
-      {
-        id: 'g3',
-        src: 'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?w=1200&h=1400&fit=crop',
-        alt: 'Lifestyle view',
-      },
-    ],
+    gallery: (
+      <ProductGallery images={galleryImages}>
+        <ProductGallery.Thumbnails />
+        <ProductGallery.Main />
+      </ProductGallery>
+    ),
     shippingProgress: {
       current: 219,
       threshold: 250,
@@ -117,44 +156,15 @@ export const Default = {
           'Setup took seconds and multipoint pairing has been reliable across laptop and phone. The sound remains detailed without becoming harsh, even on longer listening sessions.',
       },
     ],
-    relatedProducts: {
-      title: 'Pairs well with',
-      subtitle: 'Reuse the existing product card stack for recommendation rails.',
-      viewAllHref: '/audio',
-      onAddToCart: () => {},
-      products: [
-        {
-          id: 'r1',
-          title: 'Travel Audio Case',
-          image:
-            'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&h=900&fit=crop',
-          price: 48,
-          rating: 4.6,
-          ratingCount: 182,
-          buyCount: 5400,
-        },
-        {
-          id: 'r2',
-          title: 'Portable DAC',
-          image:
-            'https://images.unsplash.com/photo-1518444065439-e933c06ce9cd?w=800&h=900&fit=crop',
-          price: 99,
-          rating: 4.7,
-          ratingCount: 94,
-          buyCount: 2100,
-        },
-        {
-          id: 'r3',
-          title: 'Over-ear Stand',
-          image:
-            'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=800&h=900&fit=crop',
-          price: 36,
-          rating: 4.5,
-          ratingCount: 201,
-          buyCount: 7800,
-        },
-      ],
-    },
+    related: (
+      <ProductCarousel
+        title="Pairs well with"
+        subtitle="Reuse the existing product card stack for recommendation rails."
+        viewAllHref="/audio"
+        products={relatedProducts}
+        onAddToCart={() => {}}
+      />
+    ),
     newsletter: <NewsletterSignup />,
     onAddToCart: () => {},
   },

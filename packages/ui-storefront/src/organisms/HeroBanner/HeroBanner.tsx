@@ -72,7 +72,7 @@ function HeroBanner({
 
       <div
         className={cn(
-          'relative z-10 w-full max-w-7xl mx-auto flex-1 flex justify-center flex-col px-6 md:px-12 py-12 md:py-20',
+          'relative z-10 w-full max-w-[var(--storefront-content-max-width)] mx-auto flex-1 flex justify-center flex-col px-6 md:px-12 py-12 md:py-20',
           alignClass,
         )}
       >

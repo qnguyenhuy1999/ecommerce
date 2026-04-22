@@ -1,6 +1,46 @@
 import type { SidebarNavGroup, SidebarNavItem } from './types'
+import React from 'react'
 import { cn } from '@ecom/ui'
 import { DEFAULT_LOGO, FALLBACK_NAV, FALLBACK_FOOTER } from './AdminSidebar.fixtures'
+
+interface NavItemProps {
+  item: SidebarNavItem
+  active: boolean
+  onNavigate?: (href: string) => void
+}
+
+const NavItem = React.memo(function NavItem({ item, active, onNavigate }: NavItemProps) {
+  return (
+    <li>
+      <a
+        href={item.href || '#'}
+        onClick={(e) => {
+          if (onNavigate && item.href) {
+            e.preventDefault()
+            onNavigate(item.href)
+          }
+          item.onClick?.()
+        }}
+        className={cn(
+          'flex items-center gap-[var(--space-3)] rounded-[var(--radius-md)]',
+          'px-[var(--space-3)] py-[var(--space-2)]',
+          'text-[length:var(--text-nav-label)] no-underline',
+          'transition-colors duration-[var(--duration-fast)] cursor-pointer',
+          active
+            ? 'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] font-semibold'
+            : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+        )}
+      >
+        {item.icon && (
+          <span className="shrink-0 flex items-center justify-center w-[var(--space-4)] h-[var(--space-4)]">
+            {item.icon}
+          </span>
+        )}
+        <span className="flex-1 truncate">{item.label}</span>
+      </a>
+    </li>
+  )
+})
 
 interface AdminSidebarProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode
@@ -22,44 +62,10 @@ function AdminSidebar({
   const isCurrent = (href?: string) => href === currentPath
   const isActive = (item: SidebarNavItem) => item.isActive || isCurrent(item.href)
 
-  const renderNavItem = (item: SidebarNavItem, key: number | string) => {
-    const active = isActive(item)
-    return (
-      <li key={key}>
-        <a
-          href={item.href || '#'}
-          onClick={(e) => {
-            if (onNavigate && item.href) {
-              e.preventDefault()
-              onNavigate(item.href)
-            }
-            item.onClick?.()
-          }}
-          className={cn(
-            'flex items-center gap-[var(--space-3)] rounded-[var(--radius-md)]',
-            'px-[var(--space-3)] py-[var(--space-2)]',
-            'text-[length:var(--text-nav-label)] no-underline',
-            'transition-colors duration-[var(--duration-fast)] cursor-pointer',
-            active
-              ? 'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] font-semibold'
-              : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
-          )}
-        >
-          {item.icon && (
-            <span className="shrink-0 flex items-center justify-center w-[var(--space-4)] h-[var(--space-4)]">
-              {item.icon}
-            </span>
-          )}
-          <span className="flex-1 truncate">{item.label}</span>
-        </a>
-      </li>
-    )
-  }
-
   return (
     <aside
       className={cn(
-        'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-64',
+        'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 lg:w-[var(--admin-sidebar-width)]',
         'bg-[var(--surface-base)] border-r border-[var(--border-subtle)]',
         className,
       )}
@@ -86,7 +92,9 @@ function AdminSidebar({
               </p>
             )}
             <ul className="flex flex-col gap-[var(--space-1)]">
-              {group.items.map((item, ii) => renderNavItem(item, ii))}
+              {group.items.map((item, ii) => (
+                <NavItem key={ii} item={item} active={isActive(item)} onNavigate={onNavigate} />
+              ))}
             </ul>
           </div>
         ))}
@@ -97,7 +105,9 @@ function AdminSidebar({
         <div className="mt-auto px-[var(--space-3)] pb-[var(--space-6)] pt-[var(--space-3)]">
           <div className="border-t border-[var(--border-subtle)] pt-[var(--space-3)]">
             <ul className="flex flex-col gap-[var(--space-1)]">
-              {(footerNav ?? FALLBACK_FOOTER).map((item, ii) => renderNavItem(item, ii))}
+              {(footerNav ?? FALLBACK_FOOTER).map((item, ii) => (
+                <NavItem key={ii} item={item} active={isActive(item)} onNavigate={onNavigate} />
+              ))}
             </ul>
           </div>
         </div>

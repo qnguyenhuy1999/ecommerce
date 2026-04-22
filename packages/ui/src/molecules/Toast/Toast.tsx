@@ -4,6 +4,7 @@ import React from 'react'
 
 import { X } from 'lucide-react'
 
+import { createStrictContext } from '../../lib/createStrictContext'
 import { cn } from '../../lib/utils'
 import { Button } from '../../atoms/Button/Button'
 import { IconButton } from '../../atoms/IconButton/IconButton'
@@ -29,13 +30,8 @@ interface ToastContextValue {
   removeToast: (id: string) => void
 }
 
-const ToastContext = React.createContext<ToastContextValue | null>(null)
-
-export function useToast() {
-  const ctx = React.useContext(ToastContext)
-  if (!ctx) throw new Error('useToast must be used within a ToastProvider')
-  return ctx
-}
+const [ToastContextProvider, useToast] = createStrictContext<ToastContextValue>('Toast')
+export { useToast }
 
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = React.useState<ToastData[]>([])
@@ -51,10 +47,10 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+    <ToastContextProvider value={{ toasts, addToast, removeToast }}>
       {children}
       <Toaster />
-    </ToastContext.Provider>
+    </ToastContextProvider>
   )
 }
 
