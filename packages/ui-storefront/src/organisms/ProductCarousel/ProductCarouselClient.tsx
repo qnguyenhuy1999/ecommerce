@@ -5,13 +5,16 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { Button, cn } from '@ecom/ui'
+import type { Product } from '../ProductGrid/types'
+import { ProductCardItem } from '../../molecules/ProductCard/ProductCardItem'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 export interface ProductCarouselClientProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
   subtitle?: string
-  products: React.ReactNode[]
+  products: Product[]
   viewAllHref?: string
+  onAddToCart?: (id: string) => void
 }
 
 // ─── Client leaf ──────────────────────────────────────────────────────────────
@@ -20,6 +23,7 @@ function ProductCarouselClient({
   subtitle,
   products,
   viewAllHref,
+  onAddToCart,
   className,
   ...props
 }: ProductCarouselClientProps) {
@@ -123,12 +127,23 @@ function ProductCarouselClient({
             '[&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]',
           )}
         >
-          {products.map((product, idx) => (
+          {products.map((product) => (
             <div
-              key={idx}
+              key={product.id}
               className="shrink-0 w-[min(82vw,17rem)] sm:w-[15.5rem] md:w-[17rem] lg:w-[18.5rem] snap-start"
             >
-              {product}
+              <ProductCardItem
+                id={product.id}
+                title={product.title}
+                image={product.image}
+                badge={product.badge}
+                price={product.price}
+                originalPrice={product.originalPrice}
+                rating={product.rating}
+                ratingCount={product.ratingCount}
+                buyCount={product.buyCount}
+                onAddToCart={onAddToCart}
+              />
             </div>
           ))}
           <div className="shrink-0 w-4 md:w-8 snap-end" aria-hidden />

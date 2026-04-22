@@ -1,13 +1,15 @@
 import React from 'react'
 
 import { ProductCarouselClient } from './ProductCarouselClient'
+import type { Product } from '../ProductGrid/types'
 
 // ─── Root (server — accepts same props, delegates to client leaf) ─────────────
 export interface ProductCarouselProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
   subtitle?: string
-  products: React.ReactNode[]
+  products: Product[]
   viewAllHref?: string
+  onAddToCart?: (id: string) => void
 }
 
 function ProductCarousel({
@@ -15,6 +17,7 @@ function ProductCarousel({
   subtitle,
   products,
   viewAllHref,
+  onAddToCart,
   className,
   ...props
 }: ProductCarouselProps) {
@@ -24,6 +27,7 @@ function ProductCarousel({
       subtitle={subtitle}
       products={products}
       viewAllHref={viewAllHref}
+      onAddToCart={onAddToCart}
       className={className}
       {...props}
     />

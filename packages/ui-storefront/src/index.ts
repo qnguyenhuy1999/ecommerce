@@ -57,6 +57,8 @@ export {
   ProductCardHighlights,
 } from './molecules/ProductCard/ProductCard'
 export type { ProductCardProps } from './molecules/ProductCard/ProductCard'
+export { ProductCardItem } from './molecules/ProductCard/ProductCardItem'
+export type { ProductCardItemProps } from './molecules/ProductCard/ProductCardItem'
 export { ReviewCard } from './molecules/ReviewCard/ReviewCard'
 export type { ReviewCardProps } from './molecules/ReviewCard/ReviewCard'
 export { SearchBar } from './molecules/SearchBar/SearchBar'
@@ -87,3 +89,17 @@ export type { Product, ProductGridProps } from './organisms/ProductGrid/ProductG
 export { StorefrontFooter } from './layouts/StorefrontFooter/StorefrontFooter'
 export { StorefrontHeader } from './layouts/StorefrontHeader/StorefrontHeader'
 export { StorefrontShell } from './layouts/StorefrontShell/StorefrontShell'
+export { HomePageLayout } from './layouts/HomePageLayout/HomePageLayout'
+export type {
+  HomePageLayoutProps,
+  HomeProductRail,
+} from './layouts/HomePageLayout/HomePageLayout'
+export { CollectionPageLayout } from './layouts/CollectionPageLayout/CollectionPageLayout'
+export type { CollectionPageLayoutProps } from './layouts/CollectionPageLayout/CollectionPageLayout'
+export { ProductDetailLayout } from './layouts/ProductDetailLayout/ProductDetailLayout'
+export type {
+  ProductDetailLayoutProps,
+  ProductVariantGroup,
+  ShippingProgressConfig,
+  RelatedProductsSection,
+} from './layouts/ProductDetailLayout/ProductDetailLayout'

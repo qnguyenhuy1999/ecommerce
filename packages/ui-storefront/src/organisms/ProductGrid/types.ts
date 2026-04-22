@@ -7,6 +7,7 @@ export interface Product {
   badge?: React.ReactNode
   rating?: number
   ratingCount?: number
+  buyCount?: number
 }
 
 export interface ProductGridProps {

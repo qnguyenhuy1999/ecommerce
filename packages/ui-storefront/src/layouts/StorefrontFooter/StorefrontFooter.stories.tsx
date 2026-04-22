@@ -2,6 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { StorefrontFooter } from './StorefrontFooter'
 import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
+import {
+  STOREFRONT_FOOTER_COLUMNS,
+  STOREFRONT_FOOTER_WITH_SOCIALS_PROPS,
+} from './StorefrontFooter.fixtures'
 
 const meta = {
   title: 'layouts/StorefrontFooter',
@@ -13,56 +17,17 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof StorefrontFooter>
 
-const COLUMNS = [
-  {
-    title: 'Shop',
-    links: [
-      { label: 'New Arrivals', href: '/new' },
-      { label: 'Best Sellers', href: '/bestsellers' },
-      { label: 'Sale', href: '/sale' },
-      { label: 'Gift Cards', href: '/gift-cards' },
-    ],
-  },
-  {
-    title: 'Help',
-    links: [
-      { label: 'Track Order', href: '/track' },
-      { label: 'Returns & Exchanges', href: '/returns' },
-      { label: 'Shipping Info', href: '/shipping' },
-      { label: 'Contact Us', href: '/contact' },
-    ],
-  },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press', href: '/press' },
-      { label: 'Sustainability', href: '/sustainability' },
-    ],
-  },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Cookie Policy', href: '/cookies' },
-    ],
-  },
-]
-
 export const Default: Story = {
   render: () => (
     <StorefrontFooter
-      logo={<span style={{ fontWeight: 800, fontSize: '1.25rem' }}>StyleShop</span>}
+      {...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS}
       description="Premium products curated for modern living. Quality you can trust, prices you'll love."
       newsletter={<NewsletterSignup />}
-      columns={COLUMNS}
       socials={[
-        { platform: 'instagram' as const, href: 'https://instagram.com' },
-        { platform: 'twitter' as const, href: 'https://twitter.com' },
-        { platform: 'facebook' as const, href: 'https://facebook.com' },
-        { platform: 'youtube' as const, href: 'https://youtube.com' },
+        { platform: 'instagram', href: 'https://instagram.com' },
+        { platform: 'twitter', href: 'https://twitter.com' },
+        { platform: 'facebook', href: 'https://facebook.com' },
+        { platform: 'youtube', href: 'https://youtube.com' },
       ]}
     />
   ),
@@ -71,9 +36,9 @@ export const Default: Story = {
 export const WithLogo: Story = {
   render: () => (
     <StorefrontFooter
-      logo={<span style={{ fontWeight: 900, fontSize: '1.5rem', color: 'var(--brand)' }}>BRAND</span>}
+      logo={<span className="text-2xl font-black tracking-tight text-brand">QHStore</span>}
       description="Your go-to destination for premium lifestyle products."
-      columns={COLUMNS.slice(0, 2)}
+      columns={STOREFRONT_FOOTER_COLUMNS.slice(0, 2)}
     />
   ),
 }
@@ -81,13 +46,12 @@ export const WithLogo: Story = {
 export const WithoutNewsletter: Story = {
   render: () => (
     <StorefrontFooter
-      logo={<span style={{ fontWeight: 800, fontSize: '1.25rem' }}>StyleShop</span>}
+      {...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS}
       description="Premium products for modern living."
       newsletter={undefined}
-      columns={COLUMNS}
       socials={[
-        { platform: 'instagram' as const, href: '#' },
-        { platform: 'twitter' as const, href: '#' },
+        { platform: 'instagram', href: '#' },
+        { platform: 'twitter', href: '#' },
       ]}
     />
   ),
@@ -112,16 +76,6 @@ export const Minimal: Story = {
 
 export const WithSocials: Story = {
   render: () => (
-    <StorefrontFooter
-      logo={<span style={{ fontWeight: 800, fontSize: '1.25rem' }}>StyleShop</span>}
-      description="Follow us for the latest drops and exclusive offers."
-      columns={COLUMNS}
-      socials={[
-        { platform: 'instagram' as const, href: '#' },
-        { platform: 'twitter' as const, href: '#' },
-        { platform: 'facebook' as const, href: '#' },
-        { platform: 'youtube' as const, href: '#' },
-      ]}
-    />
+    <StorefrontFooter {...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS} />
   ),
 }

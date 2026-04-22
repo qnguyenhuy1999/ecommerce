@@ -2,19 +2,10 @@ import React from 'react'
 
 import { ShoppingBag } from 'lucide-react'
 
-import { cn, Button } from '@ecom/ui'
+import { cn } from '@ecom/ui'
 
 import type { ProductGridProps, Product } from './types'
-import {
-  ProductCard,
-  ProductCardImage,
-  ProductCardContent,
-  ProductCardTitle,
-  ProductCardBadge,
-  ProductCardPrice,
-  ProductCardActions,
-  ProductCardRating,
-} from '../../molecules/ProductCard/ProductCard'
+import { ProductCardItem } from '../../molecules/ProductCard/ProductCardItem'
 
 const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
   ({ products, loading, onAddToCart, emptyMessage = 'No products found.', className }, ref) => {
@@ -28,10 +19,7 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
           )}
         >
           {Array.from({ length: 8 }).map((_, i) => (
-            <ProductCard key={i} id="" title="" loading>
-              <ProductCardImage src="" alt="" />
-              <ProductCardContent />
-            </ProductCard>
+            <ProductCardItem key={i} loading />
           ))}
         </div>
       )
@@ -66,24 +54,19 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
         )}
       >
         {products.map((product) => (
-          <ProductCard key={product.id} id={product.id} title={product.title}>
-            <ProductCardImage src={product.image} alt={product.title} />
-            {product.badge && <ProductCardBadge>{product.badge}</ProductCardBadge>}
-            <ProductCardContent>
-              <ProductCardTitle />
-              {typeof product.rating === 'number' && (
-                <ProductCardRating value={product.rating} count={product.ratingCount} />
-              )}
-              <ProductCardPrice price={product.price} originalPrice={product.originalPrice} />
-            </ProductCardContent>
-            {onAddToCart && (
-              <ProductCardActions>
-                <Button size="sm" onClick={() => onAddToCart(product.id)}>
-                  Add to Cart
-                </Button>
-              </ProductCardActions>
-            )}
-          </ProductCard>
+          <ProductCardItem
+            key={product.id}
+            id={product.id}
+            title={product.title}
+            image={product.image}
+            badge={product.badge}
+            price={product.price}
+            originalPrice={product.originalPrice}
+            rating={product.rating}
+            ratingCount={product.ratingCount}
+            buyCount={product.buyCount}
+            onAddToCart={onAddToCart}
+          />
         ))}
       </div>
     )
