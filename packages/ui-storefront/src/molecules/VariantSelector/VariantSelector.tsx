@@ -78,4 +78,13 @@ function VariantSelector({
   )
 }
 
-export { VariantSelector }
+// Attach Option as a compound subcomponent for convenience
+type VariantSelectorComponent = typeof VariantSelector & {
+  Option: typeof VariantOption
+}
+
+const VariantSelectorComposite = Object.assign(VariantSelector, {
+  Option: VariantOption,
+}) as VariantSelectorComponent
+
+export { VariantSelectorComposite as VariantSelector }
