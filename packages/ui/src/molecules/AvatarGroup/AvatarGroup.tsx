@@ -131,7 +131,7 @@ export function AvatarGroupOverflow({
       )}
       aria-label={count ? `${String(count)} more` : undefined}
     >
-      {children ?? (count ? `+${count}` : null)}
+      {children ?? (count ? `+${String(count)}` : null)}
     </div>
   )
 }
@@ -155,17 +155,25 @@ function AvatarGroupRoot({
   const totalCount = items ? items.length : childArray.length
   const overflowCount = Math.max(0, totalCount - max)
 
-  const providerValue = React.useMemo(() => ({ avatarSize, overlap, showTooltips }), [avatarSize, overlap, showTooltips])
+  const providerValue = React.useMemo(
+    () => ({ avatarSize, overlap, showTooltips }),
+    [avatarSize, overlap, showTooltips],
+  )
 
   const content = (
     <div className={cn('flex items-center', className)} {...props}>
       {items
-        ? items.slice(0, max).map((it, i) => (
-            <AvatarGroupItemComponent key={i} name={it.name} src={it.src} index={i} />
-          ))
+        ? items
+            .slice(0, max)
+            .map((it, i) => (
+              <AvatarGroupItemComponent key={i} name={it.name} src={it.src} index={i} />
+            ))
         : childArray.slice(0, max).map((child, i) => {
             if (React.isValidElement(child)) {
-              return React.cloneElement(child as React.ReactElement<any>, { key: i, index: i })
+              return React.cloneElement(child as React.ReactElement<{ index?: number }>, {
+                key: i,
+                index: i,
+              })
             }
             return child
           })}
