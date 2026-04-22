@@ -130,21 +130,46 @@ function RevenueChartRoot({
 function RevenueChartHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { title, totalRevenue } = useRevenueChart()
   return (
-    <CardHeader className={cn('flex flex-row items-start justify-between pb-1 pt-5 px-6', className)} {...props}>
+    <CardHeader
+      className={cn('flex flex-row items-start justify-between pb-1 pt-5 px-6', className)}
+      {...props}
+    >
       <div className="space-y-0.5">
-        <CardTitle className="text-sm font-semibold tracking-wide uppercase" style={{ color: 'var(--text-secondary)' }}>
+        <CardTitle
+          className="text-sm font-semibold tracking-wide uppercase"
+          style={{ color: 'var(--text-secondary)' }}
+        >
           {title}
         </CardTitle>
         {totalRevenue && (
-          <p className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
+          <p
+            className="text-3xl font-bold tracking-tight"
+            style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1.1 }}
+          >
             {totalRevenue}
           </p>
         )}
       </div>
 
-      <div className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full" style={{ background: 'var(--action-muted)' }} aria-hidden>
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M7 11V3M3.5 6.5L7 3l3.5 3.5" stroke="var(--brand-500)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <div
+        className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full"
+        style={{ background: 'var(--action-muted)' }}
+        aria-hidden
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 14 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 11V3M3.5 6.5L7 3l3.5 3.5"
+            stroke="var(--brand-500)"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       </div>
     </CardHeader>
@@ -159,8 +184,17 @@ function RevenueChartChart({ className, ...props }: React.HTMLAttributes<HTMLDiv
     <CardContent className={cn('pb-5 px-6', className)} {...props}>
       <div className="mt-2 w-full" style={{ height: 'var(--chart-height)' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={(data as ChartDatum[]) || []} margin={{ top: 8, right: 4, left: -16, bottom: 0 }}>
-            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: 'var(--text-tertiary)', fontWeight: 500 }} dy={8} />
+          <BarChart
+            data={(data as ChartDatum[]) || []}
+            margin={{ top: 8, right: 4, left: -16, bottom: 0 }}
+          >
+            <XAxis
+              dataKey="name"
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 12, fill: 'var(--text-tertiary)', fontWeight: 500 }}
+              dy={8}
+            />
             <YAxis
               axisLine={false}
               tickLine={false}
@@ -171,8 +205,19 @@ function RevenueChartChart({ className, ...props }: React.HTMLAttributes<HTMLDiv
               }}
               width={48}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--surface-muted)', opacity: 0.5, radius: 8 }} />
-            <Bar dataKey="total" radius={[6, 6, 0, 0]} maxBarSize={56} isAnimationActive animationDuration={600} animationEasing="ease-out" fill="var(--brand-500)" />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ fill: 'var(--surface-muted)', opacity: 0.5, radius: 8 }}
+            />
+            <Bar
+              dataKey="total"
+              radius={[6, 6, 0, 0]}
+              maxBarSize={56}
+              isAnimationActive
+              animationDuration={600}
+              animationEasing="ease-out"
+              fill="var(--brand-500)"
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -187,12 +232,26 @@ function RevenueChartPeriod({ className, ...props }: React.HTMLAttributes<HTMLDi
     <div className={cn('mt-4 flex items-center justify-end', className)} {...props}>
       {onPeriodChange && (
         <Select value={period} onValueChange={(v) => onPeriodChange(v)}>
-          <SelectTrigger className="h-7 text-xs" style={{ backgroundColor: 'var(--surface-muted)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)', borderRadius: 'var(--radius-sm)' }}>
+          <SelectTrigger
+            className="h-7 text-xs"
+            style={{
+              backgroundColor: 'var(--surface-muted)',
+              borderColor: 'var(--border-subtle)',
+              color: 'var(--text-secondary)',
+              borderRadius: 'var(--radius-sm)',
+            }}
+          >
             <SelectValue />
           </SelectTrigger>
-          <SelectContent style={{ backgroundColor: 'var(--surface-base)', borderColor: 'var(--border-subtle)' }}>
+          <SelectContent
+            style={{ backgroundColor: 'var(--surface-base)', borderColor: 'var(--border-subtle)' }}
+          >
             {PERIOD_OPTIONS.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value} style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}>
+              <SelectItem
+                key={opt.value}
+                value={opt.value}
+                style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}
+              >
                 {opt.label}
               </SelectItem>
             ))}

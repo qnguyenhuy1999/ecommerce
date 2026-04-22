@@ -6,8 +6,14 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@ecom/ui": ["../../packages/ui/src"],
       "@ecom/ui-storefront": ["../../packages/ui-storefront/src"],
-      "@ecom/shared": ["../../packages/shared/src"]
+      "@ecom/api-client": ["../../packages/api-client/src"],
+      "@ecom/api-types": ["../../packages/api-types/src"],
+      "@ecom/constants": ["../../packages/constants/src"],
+      "@ecom/shared": ["../../packages/shared/src"],
+      "@ecom/shared/*": ["../../packages/shared/src/*"],
+      "@ecom/design-tokens": ["../../packages/design-tokens/src"]
     }
   },
   "include": ["next.config.js", "src/**/*"],

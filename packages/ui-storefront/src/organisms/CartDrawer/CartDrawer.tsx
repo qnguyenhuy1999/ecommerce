@@ -140,10 +140,7 @@ function CartDrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivE
           <span className="tracking-tight text-[var(--text-primary)]">Your Cart</span>
         </div>
         {localItems.length > 0 && (
-          <Badge
-            variant="success"
-            className="rounded-[var(--radius-full)] px-2 mr-8 font-medium"
-          >
+          <Badge variant="success" className="rounded-[var(--radius-full)] px-2 mr-8 font-medium">
             {localItems.length} {localItems.length === 1 ? 'item' : 'items'}
           </Badge>
         )}

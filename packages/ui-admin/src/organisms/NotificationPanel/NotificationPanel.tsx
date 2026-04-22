@@ -146,7 +146,9 @@ function NotificationPanel({
                 {filteredNotifications.length === 0 ? (
                   <EmptyState
                     icon={<Bell />}
-                    title={activeTab === 'archived' ? 'No archived notifications' : 'All caught up!'}
+                    title={
+                      activeTab === 'archived' ? 'No archived notifications' : 'All caught up!'
+                    }
                     description={
                       activeTab === 'archived'
                         ? 'Read notifications will appear here.'
@@ -246,11 +248,14 @@ function useNotificationPanel() {
 
 // Subcomponents for composition
 function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const { unreadCount, onMarkAllRead, activeTab, setActiveTab, notifications } = useNotificationPanel()
+  const { unreadCount, onMarkAllRead, activeTab, setActiveTab, notifications } =
+    useNotificationPanel()
   return (
     <div className={cn('px-5 pt-5 pb-4 border-b', className)} {...props}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-[length:var(--text-xl)] text-[var(--text-primary)]">Notifications</h3>
+        <h3 className="font-semibold text-[length:var(--text-xl)] text-[var(--text-primary)]">
+          Notifications
+        </h3>
         {unreadCount > 0 && onMarkAllRead && (
           <button
             className="text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border-strong)] hover:text-[var(--text-secondary)] transition-colors"
@@ -298,7 +303,8 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
     </div>
   )
 }
-;(NotificationPanelHeader as unknown as { displayName?: string }).displayName = 'NotificationPanel.Header'
+;(NotificationPanelHeader as unknown as { displayName?: string }).displayName =
+  'NotificationPanel.Header'
 
 function NotificationPanelList({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { filteredNotifications } = useNotificationPanel()
@@ -312,9 +318,16 @@ function NotificationPanelList({ className, ...props }: React.HTMLAttributes<HTM
     </ScrollArea>
   )
 }
-;(NotificationPanelList as unknown as { displayName?: string }).displayName = 'NotificationPanel.List'
+;(NotificationPanelList as unknown as { displayName?: string }).displayName =
+  'NotificationPanel.List'
 
-function NotificationPanelItem({ notification, idx }: { notification: NotificationItem; idx?: number }) {
+function NotificationPanelItem({
+  notification,
+  idx,
+}: {
+  notification: NotificationItem
+  idx?: number
+}) {
   const { onMarkRead } = useNotificationPanel()
   const Config = NOTIFICATION_TYPE_CONFIG[notification.type]
   const Icon = Config.icon
@@ -332,18 +345,36 @@ function NotificationPanelItem({ notification, idx }: { notification: Notificati
       }}
       className={cn(
         'group flex gap-4 px-5 py-4 border-b border-[var(--border-subtle)] last:border-0 transition-colors cursor-pointer relative items-start',
-        !notification.read ? 'bg-[var(--action-muted)] hover:bg-[var(--action-muted)]/80' : 'bg-[var(--surface-base)] hover:bg-[var(--surface-hover)]',
+        !notification.read
+          ? 'bg-[var(--action-muted)] hover:bg-[var(--action-muted)]/80'
+          : 'bg-[var(--surface-base)] hover:bg-[var(--surface-hover)]',
       )}
       style={{ animationDelay: `${(idx ?? 0) * 50}ms`, animationFillMode: 'both' }}
     >
-      {!notification.read && <div className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--brand-500)] rounded-r-full"></div>}
-      <div className={cn('shrink-0 w-11 h-11 rounded-full flex items-center justify-center', Config.bg, Config.color)}>
+      {!notification.read && (
+        <div className="absolute left-0 top-0 bottom-0 w-1 bg-[var(--brand-500)] rounded-r-full"></div>
+      )}
+      <div
+        className={cn(
+          'shrink-0 w-11 h-11 rounded-full flex items-center justify-center',
+          Config.bg,
+          Config.color,
+        )}
+      >
         <Icon className="w-5 h-5" />
       </div>
       <div className="flex-1 min-w-0 pr-2 pt-0.5">
-        <p className="text-[length:var(--text-base)] font-medium text-[var(--text-primary)] leading-[1.2] mb-1">{notification.title}</p>
-        <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mb-1.5">{notification.timestamp} • <span className="capitalize">{notification.type}</span></p>
-        {notification.message && <p className="text-[length:var(--text-sm)] text-[var(--text-primary)] leading-snug line-clamp-2">{notification.message}</p>}
+        <p className="text-[length:var(--text-base)] font-medium text-[var(--text-primary)] leading-[1.2] mb-1">
+          {notification.title}
+        </p>
+        <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mb-1.5">
+          {notification.timestamp} • <span className="capitalize">{notification.type}</span>
+        </p>
+        {notification.message && (
+          <p className="text-[length:var(--text-sm)] text-[var(--text-primary)] leading-snug line-clamp-2">
+            {notification.message}
+          </p>
+        )}
       </div>
       <div className="shrink-0 pt-0.5">
         <ChevronRight className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
@@ -351,7 +382,8 @@ function NotificationPanelItem({ notification, idx }: { notification: Notificati
     </div>
   )
 }
-;(NotificationPanelItem as unknown as { displayName?: string }).displayName = 'NotificationPanel.Item'
+;(NotificationPanelItem as unknown as { displayName?: string }).displayName =
+  'NotificationPanel.Item'
 
 function NotificationPanelEmpty(props: React.HTMLAttributes<HTMLDivElement>) {
   const { activeTab } = useNotificationPanel()
@@ -360,14 +392,19 @@ function NotificationPanelEmpty(props: React.HTMLAttributes<HTMLDivElement>) {
       <EmptyState
         icon={<Bell />}
         title={activeTab === 'archived' ? 'No archived notifications' : 'All caught up!'}
-        description={activeTab === 'archived' ? 'Read notifications will appear here.' : 'No new notifications to show.'}
+        description={
+          activeTab === 'archived'
+            ? 'Read notifications will appear here.'
+            : 'No new notifications to show.'
+        }
         variant="compact"
         className="h-full mt-10"
       />
     </div>
   )
 }
-;(NotificationPanelEmpty as unknown as { displayName?: string }).displayName = 'NotificationPanel.Empty'
+;(NotificationPanelEmpty as unknown as { displayName?: string }).displayName =
+  'NotificationPanel.Empty'
 
 type NotificationPanelComponent = typeof NotificationPanel & {
   Header: typeof NotificationPanelHeader

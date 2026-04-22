@@ -2,12 +2,7 @@
 
 import React from 'react'
 
-import {
-  Search,
-  ChevronDown,
-  Mail,
-  Bell,
-} from 'lucide-react'
+import { Search, ChevronDown, Mail, Bell } from 'lucide-react'
 
 import {
   cn,
@@ -26,10 +21,7 @@ import {
 
 import { NotificationPanel } from '../NotificationPanel/NotificationPanel'
 import type { NotificationItem } from '../NotificationPanel/NotificationPanel'
-import {
-  DEFAULT_USER_MENU_ITEMS,
-  type AdminHeaderUserMenuItem,
-} from './AdminHeader.fixtures'
+import { DEFAULT_USER_MENU_ITEMS, type AdminHeaderUserMenuItem } from './AdminHeader.fixtures'
 
 export type { AdminHeaderUserMenuItem }
 
@@ -339,7 +331,11 @@ function AdminHeader({
 // (legacy export removed — export replaced by compound export at end)
 
 // Compound subcomponents for composition
-function AdminHeaderLeading({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function AdminHeaderLeading({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn('flex min-w-0 shrink-0 items-center gap-[var(--space-4)]', className)}
@@ -351,7 +347,11 @@ function AdminHeaderLeading({ children, className, ...props }: React.HTMLAttribu
 }
 ;(AdminHeaderLeading as unknown as { displayName?: string }).displayName = 'AdminHeader.Leading'
 
-function AdminHeaderTitle({ children, className, ...props }: React.HTMLAttributes<HTMLHeadingElement>) {
+function AdminHeaderTitle({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
     <h1
       className={cn(
@@ -373,7 +373,13 @@ type AdminHeaderSearchProps = {
   className?: string
 } & Omit<React.ComponentProps<typeof Input>, 'onChange'>
 
-function AdminHeaderSearch({ placeholder, onChange, onSearch, className, ...props }: AdminHeaderSearchProps) {
+function AdminHeaderSearch({
+  placeholder,
+  onChange,
+  onSearch,
+  className,
+  ...props
+}: AdminHeaderSearchProps) {
   return (
     <div className={cn('hidden lg:block w-full max-w-80', className)}>
       <Input
@@ -383,7 +389,9 @@ function AdminHeaderSearch({ placeholder, onChange, onSearch, className, ...prop
         onKeyDown={(e) => {
           if (e.key === 'Enter') onSearch?.((e.currentTarget as HTMLInputElement).value)
         }}
-        suffixIcon={<Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />}
+        suffixIcon={
+          <Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
+        }
         className={cn(
           'h-9 rounded-full',
           'border-[var(--border-subtle)] bg-[var(--surface-muted)]',
@@ -397,7 +405,11 @@ function AdminHeaderSearch({ placeholder, onChange, onSearch, className, ...prop
 }
 ;(AdminHeaderSearch as unknown as { displayName?: string }).displayName = 'AdminHeader.Search'
 
-function AdminHeaderActions({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+function AdminHeaderActions({
+  children,
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div className={cn('flex shrink-0 items-center gap-[var(--space-1)]', className)} {...props}>
       {children}
@@ -432,7 +444,10 @@ function AdminHeaderIconButton({
           'focus-visible:ring-[var(--action-primary)]',
           className,
         )}
-        {...(props as Omit<React.ComponentProps<typeof IconButton>, 'icon' | 'label' | 'onClick' | 'className'>)}
+        {...(props as Omit<
+          React.ComponentProps<typeof IconButton>,
+          'icon' | 'label' | 'onClick' | 'className'
+        >)}
       />
       {hasNotification && (
         <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
@@ -440,7 +455,8 @@ function AdminHeaderIconButton({
     </div>
   )
 }
-;(AdminHeaderIconButton as unknown as { displayName?: string }).displayName = 'AdminHeader.IconButton'
+;(AdminHeaderIconButton as unknown as { displayName?: string }).displayName =
+  'AdminHeader.IconButton'
 
 function AdminHeaderUser({
   user: userProp,
@@ -452,7 +468,8 @@ function AdminHeaderUser({
   onUserClick?: () => void
 }) {
   const resolvedUser = userProp === false ? undefined : userProp
-  const resolvedUserMenuItems = userMenuItemsProp === false ? [] : (userMenuItemsProp ?? DEFAULT_USER_MENU_ITEMS)
+  const resolvedUserMenuItems =
+    userMenuItemsProp === false ? [] : (userMenuItemsProp ?? DEFAULT_USER_MENU_ITEMS)
 
   const userTrigger = (
     <Button
@@ -533,7 +550,10 @@ function AdminHeaderUser({
             return (
               <React.Fragment key={item.id}>
                 {showSectionDivider && (
-                  <div className="my-[var(--space-2)] h-px bg-[var(--border-subtle)]" aria-hidden="true" />
+                  <div
+                    className="my-[var(--space-2)] h-px bg-[var(--border-subtle)]"
+                    aria-hidden="true"
+                  />
                 )}
                 <DropdownItem
                   onSelect={() => item.onSelect?.()}
@@ -542,7 +562,8 @@ function AdminHeaderUser({
                     'text-[length:var(--text-base)] text-[var(--text-primary)]',
                     'focus:bg-[var(--surface-muted)] focus:text-[var(--text-primary)]',
                     item.highlighted && 'bg-[var(--surface-muted)]',
-                    item.destructive && 'text-[var(--intent-danger)] focus:text-[var(--intent-danger)]',
+                    item.destructive &&
+                      'text-[var(--intent-danger)] focus:text-[var(--intent-danger)]',
                   )}
                 >
                   <span className="text-current">{item.icon}</span>

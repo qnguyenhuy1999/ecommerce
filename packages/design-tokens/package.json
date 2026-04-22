@@ -3,10 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "sideEffects": false,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js",
     "./styles": "./src/tokens.css"
   },
   "scripts": {

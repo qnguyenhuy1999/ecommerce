@@ -16,7 +16,10 @@ export interface TrustBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: 'sm' | 'default'
 }
 
-const trustConfig: Record<TrustBadgeType, { icon: React.ElementType; label: string; iconColor: string }> = {
+const trustConfig: Record<
+  TrustBadgeType,
+  { icon: React.ElementType; label: string; iconColor: string }
+> = {
   'verified-seller': { icon: BadgeCheck, label: 'Verified Seller', iconColor: 'text-info' },
   'free-shipping': { icon: Truck, label: 'Free Shipping', iconColor: 'text-success' },
   'secure-checkout': { icon: Lock, label: 'Secure Checkout', iconColor: 'text-[var(--brand-500)]' },

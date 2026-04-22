@@ -98,8 +98,28 @@ export const AllVariants: Story = {
   render: () => (
     <div className="w-72 space-y-4">
       <CartItem {...BASE} rxStatus="rx-needed" />
-      <CartItem {...BASE} id="2" rxStatus="otc" variant="250mg" title="Amoxicillin 500mg Capsule R5" price={7.99} originalPrice={3.99} quantity={1} image="https://picsum.photos/seed/amoxicillin/200" />
-      <CartItem {...BASE} id="3" rxStatus="rx-free" variant="999kg" title="Claritin Allergy Relief Syrup DX-2" price={1500.99} originalPrice={1154.99} quantity={400} image="https://picsum.photos/seed/claritin/200" />
+      <CartItem
+        {...BASE}
+        id="2"
+        rxStatus="otc"
+        variant="250mg"
+        title="Amoxicillin 500mg Capsule R5"
+        price={7.99}
+        originalPrice={3.99}
+        quantity={1}
+        image="https://picsum.photos/seed/amoxicillin/200"
+      />
+      <CartItem
+        {...BASE}
+        id="3"
+        rxStatus="rx-free"
+        variant="999kg"
+        title="Claritin Allergy Relief Syrup DX-2"
+        price={1500.99}
+        originalPrice={1154.99}
+        quantity={400}
+        image="https://picsum.photos/seed/claritin/200"
+      />
     </div>
   ),
 }

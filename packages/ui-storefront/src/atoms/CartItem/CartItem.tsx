@@ -35,7 +35,7 @@ export interface CartItemProps extends React.HTMLAttributes<HTMLDivElement> {
 
 // ─── Rx badge config (maps status → label + Badge variant token) ──────────────
 const RX_BADGE = {
-  'rx-needed': { label: 'RX Needed', variant: 'sale' },
+  'rx-needed': { label: 'RX Needed', variant: 'destructive' },
   otc: { label: 'OTC', variant: 'warning' },
   'rx-free': { label: 'Rx Free', variant: 'success' },
 } as const
@@ -119,12 +119,7 @@ function CartItem({
           )}
         >
           {image ? (
-            <img
-              src={image}
-              alt={title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
+            <img src={image} alt={title} className="w-full h-full object-cover" loading="lazy" />
           ) : (
             <div className="w-full h-full bg-[var(--surface-elevated)]" aria-hidden="true" />
           )}
@@ -202,11 +197,7 @@ function CartItem({
             </div>
 
             {/* Quantity stepper */}
-            <QuantityStepper
-              value={quantity}
-              onChange={onUpdateQuantity ?? (() => {})}
-              size="sm"
-            />
+            <QuantityStepper value={quantity} onChange={onUpdateQuantity ?? (() => {})} size="sm" />
           </div>
         </div>
       </div>
