@@ -2,47 +2,20 @@ import { Check } from 'lucide-react'
 
 import { cn } from '@ecom/ui'
 
+import { type TimelineStepStatus, TIMELINE_STATUS_CONFIG } from './OrderTimeline.fixtures'
+
+export type { TimelineStepStatus }
+
 export interface TimelineStep {
   label: string
   description?: string
   timestamp?: string
-  status: 'completed' | 'current' | 'upcoming' | 'error'
+  status: TimelineStepStatus
   icon?: React.ReactNode
 }
 
 export interface OrderTimelineProps extends React.HTMLAttributes<HTMLDivElement> {
   steps: TimelineStep[]
-}
-
-const statusConfig = {
-  completed: {
-    dotBg: 'bg-[var(--intent-success)]',
-    dotBorder: 'border-transparent',
-    labelColor: 'text-[var(--text-primary)]',
-    descColor: 'text-[var(--text-secondary)]',
-    timeColor: 'text-[var(--text-secondary)]',
-  },
-  current: {
-    dotBg: 'bg-[var(--intent-info)]',
-    dotBorder: 'border-transparent',
-    labelColor: 'text-[var(--text-primary)]',
-    descColor: 'text-[var(--text-secondary)]',
-    timeColor: 'text-[var(--text-secondary)]',
-  },
-  error: {
-    dotBg: 'bg-[var(--intent-danger)]',
-    dotBorder: 'border-transparent',
-    labelColor: 'text-[var(--intent-danger)]',
-    descColor: 'text-[var(--text-secondary)]',
-    timeColor: 'text-[var(--text-secondary)]',
-  },
-  upcoming: {
-    dotBg: 'bg-[var(--surface-base)]',
-    dotBorder: 'border-[var(--border-default)]',
-    labelColor: 'text-[var(--text-secondary)]',
-    descColor: 'text-[var(--text-tertiary)]',
-    timeColor: 'text-[var(--text-tertiary)]',
-  },
 }
 
 function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
@@ -67,7 +40,7 @@ function OrderTimeline({ steps, className, ...props }: OrderTimelineProps) {
 
       <div className="space-y-0">
         {steps.map((step, idx) => {
-          const cfg = statusConfig[step.status]
+          const cfg = TIMELINE_STATUS_CONFIG[step.status]
           const isLast = idx === steps.length - 1
 
           return (

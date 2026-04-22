@@ -1,12 +1,8 @@
-import {
-  AlertTriangle,
-  Bell,
-  CheckCircle,
-  ChevronRight,
-  Info,
-  Package,
-  Settings,
-} from 'lucide-react'
+'use client'
+
+import React, { useState } from 'react'
+
+import { Bell, ChevronRight, Settings } from 'lucide-react'
 
 import {
   Button,
@@ -17,6 +13,8 @@ import {
   PopoverTrigger,
   ScrollArea,
 } from '@ecom/ui'
+
+import { NOTIFICATION_TYPE_CONFIG } from './NotificationPanel.fixtures'
 
 export interface NotificationItem {
   id: string
@@ -34,25 +32,7 @@ export interface NotificationPanelProps extends React.HTMLAttributes<HTMLDivElem
   trigger?: React.ReactNode
 }
 
-const typeConfig = {
-  info: { icon: Info, color: 'text-[var(--intent-info)]', bg: 'bg-[var(--intent-info-muted)]' },
-  success: {
-    icon: CheckCircle,
-    color: 'text-[var(--intent-success)]',
-    bg: 'bg-[var(--intent-success-muted)]',
-  },
-  warning: {
-    icon: AlertTriangle,
-    color: 'text-[var(--intent-warning)]',
-    bg: 'bg-[var(--intent-warning-muted)]',
-  },
-  error: {
-    icon: AlertTriangle,
-    color: 'text-[var(--intent-danger)]',
-    bg: 'bg-[var(--intent-danger-muted)]',
-  },
-  order: { icon: Package, color: 'text-[var(--action-primary)]', bg: 'bg-[var(--action-muted)]' },
-}
+type TabValue = 'all' | 'archived'
 
 function NotificationPanel({
   notifications,
@@ -62,7 +42,12 @@ function NotificationPanel({
   className,
   ...props
 }: NotificationPanelProps) {
+  const [activeTab, setActiveTab] = useState<TabValue>('all')
+
   const unreadCount = notifications.filter((n) => !n.read).length
+
+  const filteredNotifications =
+    activeTab === 'archived' ? notifications.filter((n) => n.read) : notifications
 
   const defaultTrigger = (
     <Button variant="ghost" size="icon" className="relative h-9 w-9">
@@ -106,13 +91,29 @@ function NotificationPanel({
           </div>
           <div className="flex items-center justify-between">
             <div className="flex gap-2">
-              <button className="flex items-center gap-2 px-3 py-1.5 bg-[var(--gray-800)] text-[var(--gray-0)] rounded-md text-[length:var(--text-sm)] font-medium">
+              <button
+                onClick={() => setActiveTab('all')}
+                className={cn(
+                  'flex items-center gap-2 px-3 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
+                  activeTab === 'all'
+                    ? 'bg-[var(--gray-800)] text-[var(--gray-0)]'
+                    : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
+                )}
+              >
                 All
                 <span className="flex items-center justify-center bg-[var(--gray-0)] text-[var(--gray-900)] text-[0.625rem] font-bold rounded-[4px] px-1.5 py-0.5 leading-none">
                   {notifications.length}
                 </span>
               </button>
-              <button className="px-4 py-1.5 bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-md text-[length:var(--text-sm)] font-medium transition-colors">
+              <button
+                onClick={() => setActiveTab('archived')}
+                className={cn(
+                  'px-4 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
+                  activeTab === 'archived'
+                    ? 'bg-[var(--gray-800)] text-[var(--gray-0)]'
+                    : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
+                )}
+              >
                 Archived
               </button>
             </div>
@@ -123,18 +124,22 @@ function NotificationPanel({
         </div>
 
         <ScrollArea maxHeight="32rem">
-          {notifications.length === 0 ? (
+          {filteredNotifications.length === 0 ? (
             <EmptyState
               icon={<Bell />}
-              title="All caught up!"
-              description="No new notifications to show."
+              title={activeTab === 'archived' ? 'No archived notifications' : 'All caught up!'}
+              description={
+                activeTab === 'archived'
+                  ? 'Read notifications will appear here.'
+                  : 'No new notifications to show.'
+              }
               variant="compact"
               className="h-full mt-10"
             />
           ) : (
             <div className="flex flex-col">
-              {notifications.map((notification, idx) => {
-                const Config = typeConfig[notification.type]
+              {filteredNotifications.map((notification, idx) => {
+                const Config = NOTIFICATION_TYPE_CONFIG[notification.type]
                 const Icon = Config.icon
 
                 return (

@@ -14,6 +14,8 @@ import {
   SelectValue,
 } from '@ecom/ui'
 
+import { PERIOD_OPTIONS } from './RevenueChart.fixtures'
+
 export interface RevenueChartProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   totalRevenue?: string
@@ -207,24 +209,15 @@ function RevenueChart({
                     borderColor: 'var(--border-subtle)',
                   }}
                 >
-                  <SelectItem
-                    value="7d"
-                    style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}
-                  >
-                    Last 7 days
-                  </SelectItem>
-                  <SelectItem
-                    value="30d"
-                    style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}
-                  >
-                    Last 30 days
-                  </SelectItem>
-                  <SelectItem
-                    value="90d"
-                    style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}
-                  >
-                    Last 90 days
-                  </SelectItem>
+                  {PERIOD_OPTIONS.map((opt) => (
+                    <SelectItem
+                      key={opt.value}
+                      value={opt.value}
+                      style={{ color: 'var(--text-primary)', fontSize: '0.8125rem' }}
+                    >
+                      {opt.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             )}

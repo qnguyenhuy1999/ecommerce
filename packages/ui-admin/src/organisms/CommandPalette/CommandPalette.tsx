@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState, useRef } from 'react'
 
-import { Search, FileText, Settings, User, Package, ShoppingCart } from 'lucide-react'
+import { Search } from 'lucide-react'
 
 import { Dialog, DialogContent, DialogTitle, Input, ScrollArea, cn } from '@ecom/ui'
+
+import { COMMAND_PALETTE_DEFAULT_ICONS } from './CommandPalette.fixtures'
 
 export interface CommandItem {
   id: string
@@ -24,14 +26,6 @@ export interface CommandPaletteProps {
   onOpenChange: (open: boolean) => void
   groups: CommandGroup[]
   disableShortcut?: boolean
-}
-
-const defaultIcons = {
-  page: <FileText className="w-4 h-4" />,
-  action: <Settings className="w-4 h-4" />,
-  user: <User className="w-4 h-4" />,
-  product: <Package className="w-4 h-4" />,
-  order: <ShoppingCart className="w-4 h-4" />,
 }
 
 export function CommandPalette({
@@ -161,7 +155,7 @@ export function CommandPalette({
                           >
                             <div className="flex items-center gap-2">
                               <span className={cn('opacity-70', isSelected && 'opacity-100')}>
-                                {item.icon || defaultIcons.page}
+                                {item.icon || COMMAND_PALETTE_DEFAULT_ICONS.page}
                               </span>
                               <span>{item.label}</span>
                             </div>

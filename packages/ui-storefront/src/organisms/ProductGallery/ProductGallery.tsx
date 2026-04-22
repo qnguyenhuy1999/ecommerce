@@ -29,7 +29,7 @@ export interface ProductGalleryProps extends React.HTMLAttributes<HTMLDivElement
   initialIndex?: number
 }
 
-function ProductGallery({
+function ProductGalleryRoot({
   images,
   initialIndex = 0,
   className,
@@ -142,5 +142,10 @@ function ProductGalleryThumbnails({
     </div>
   )
 }
+
+const ProductGallery = Object.assign(ProductGalleryRoot, {
+  Main: ProductGalleryMain,
+  Thumbnails: ProductGalleryThumbnails,
+})
 
 export { ProductGallery, ProductGalleryMain, ProductGalleryThumbnails }

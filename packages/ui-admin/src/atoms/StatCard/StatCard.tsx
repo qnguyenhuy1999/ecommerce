@@ -12,17 +12,12 @@ import {
   Skeleton,
 } from '@ecom/ui'
 
-import { StatCardTrend , NumberCounter } from './StatCardTrend'
+import { StatCardTrend, NumberCounter } from './StatCardTrend'
+
+import { STAT_CARD_VARIANTS } from './StatCard.fixtures'
 
 const statCardVariants = cva('admin-stat-card', {
-  variants: {
-    variant: {
-      default: 'p-[var(--space-5)]',
-      compact: 'p-[var(--space-3)]',
-      prominent:
-        'p-[var(--space-6)] ring-1 ring-[var(--border-default)] shadow-[var(--elevation-surface)]',
-    },
-  },
+  variants: STAT_CARD_VARIANTS,
   defaultVariants: {
     variant: 'default',
   },
@@ -43,7 +38,7 @@ interface StatCardProps
   loading?: boolean
 }
 
-function StatCard({
+function StatCardRoot({
   label,
   value,
   description,
@@ -123,6 +118,8 @@ function StatCard({
     </div>
   )
 }
+
+const StatCard = Object.assign(StatCardRoot, { Trend: StatCardTrend })
 
 export { StatCard }
 export type { StatCardProps }
