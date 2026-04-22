@@ -10,7 +10,7 @@
     "start:prod": "node dist/main",
     "lint": "eslint src --ext .ts",
     "type-check": "tsc --noEmit",
-    "test": "jest"
+    "test": "jest --passWithNoTests"
   },
   "dependencies": {
     "@ecom/api-types": "workspace:*",
