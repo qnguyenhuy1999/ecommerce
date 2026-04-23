@@ -77,28 +77,30 @@ Format: `v{MAJOR}.{MINOR}.{PATCH}`
 
 ```bash
 # Build API image
-docker build -f apps/api/Dockerfile -t marketplace-api:latest ./apps/api
+docker build -f apps/api-storefront/Dockerfile -t marketplace-api-storefront:latest ./apps/api-storefront
+docker build -f apps/api-admin/Dockerfile -t marketplace-api-admin:latest ./apps/api-admin
 
 # Build with specific version
-docker build -f apps/api/Dockerfile \
-  -t marketplace-api:v1.0.0 \
-  -t marketplace-api:latest \
-  ./apps/api
+docker build -f apps/api-storefront/Dockerfile \
+  -t marketplace-api-storefront:v1.0.0 \
+  -t marketplace-api-storefront:latest \
+  ./apps/api-storefront
 
 # Build all images
 docker compose build
 
 # Multi-stage build (production)
-docker build --target production -f apps/api/Dockerfile -t marketplace-api:v1.0.0 ./apps/api
+docker build --target production -f apps/api-storefront/Dockerfile -t marketplace-api-storefront:v1.0.0 ./apps/api-storefront
+docker build --target production -f apps/api-admin/Dockerfile -t marketplace-api-admin:v1.0.0 ./apps/api-admin
 ```
 
 ### Image Tags Strategy
 
 ```
-marketplace-api:v1.0.0       # Specific version (immutable)
-marketplace-api:latest         # Latest (mutable)
-marketplace-api:develop        # Staging build
-marketplace-api:sha-abc1234    # Git SHA for rollback tracking
+marketplace-api-storefront:v1.0.0       # Specific version (immutable)
+marketplace-api-storefront:latest         # Latest (mutable)
+marketplace-api-storefront:develop        # Staging build
+marketplace-api-storefront:sha-abc1234    # Git SHA for rollback tracking
 ```
 
 ### Health Check
@@ -124,16 +126,16 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
 
 ```bash
 # Development
-npm run db:migrate --workspace=apps/api
+npm run db:migrate --workspace=apps/api-storefront
 
 # Staging / Production (with explicit env)
-DATABASE_URL=$PROD_DATABASE_URL npm run db:migrate --workspace=apps/api
+DATABASE_URL=$PROD_DATABASE_URL npm run db:migrate --workspace=apps/api-storefront
 
 # Check migration status
-npm run db:status --workspace=apps/api
+npm run db:status --workspace=apps/api-storefront
 
 # Rollback last migration (if needed)
-npm run db:rollback --workspace=apps/api
+npm run db:rollback --workspace=apps/api-storefront
 ```
 
 ### Migration Best Practices
@@ -171,10 +173,10 @@ await db.query(`
 
 ```bash
 # Verify all tables exist
-npm run db:validate --workspace=apps/api
+npm run db:validate --workspace=apps/api-storefront
 
 # Check for data integrity issues
-npm run db:check --workspace=apps/api
+npm run db:check --workspace=apps/api-storefront
 ```
 
 ---
@@ -185,16 +187,16 @@ npm run db:check --workspace=apps/api
 
 ```bash
 # 1. Identify the previous working version
-docker images | grep marketplace-api
+docker images | grep marketplace-api-storefront
 
 # 2. Stop current deployment
 docker compose down
 
 # 3. Pull/load previous image
-docker pull marketplace-api:v1.0.0
+docker pull marketplace-api-storefront:v1.0.0
 
 # 4. Update image tag reference
-sed -i 's/marketplace-api:current/marketplace-api:v1.0.0/' docker-compose.yml
+sed -i 's/marketplace-api-storefront:current/marketplace-api-storefront:v1.0.0/' docker-compose.yml
 
 # 5. Restart
 docker compose up -d
@@ -202,8 +204,8 @@ docker compose up -d
 # Or via ECS:
 aws ecs update-service \
   --cluster marketplace-prod \
-  --service marketplace-api \
-  --task-definition marketplace-api:42  # previous task def
+  --service marketplace-api-storefront \
+  --task-definition marketplace-api-storefront:42  # previous task def
 ```
 
 ### Database Rollback
@@ -212,7 +214,7 @@ aws ecs update-service \
 
 ```bash
 # Rollback last migration
-npm run db:rollback --workspace=apps/api
+npm run db:rollback --workspace=apps/api-storefront
 ```
 
 **If migration is not reversible (data changes):**

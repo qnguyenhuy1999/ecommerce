@@ -628,12 +628,12 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: 'npm' }
       - run: npm ci
-      - run: npm test --workspace=apps/api -- --coverage --ci
+      - run: npm test --workspace=apps/api-storefront -- --coverage --ci
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: coverage
-          path: apps/api/coverage
+          path: apps/api-storefront/coverage
 
   integration:
     runs-on: ubuntu-latest
@@ -655,7 +655,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: 'npm' }
       - run: npm ci
-      - run: npm run test:integration --workspace=apps/api -- --ci
+      - run: npm run test:integration --workspace=apps/api-storefront -- --ci
 ```
 
 ### Coverage Enforcement
