@@ -187,7 +187,14 @@ export function FilterSidebarClient({
             title={group.title}
             type={group.type}
             options={group.options}
-            range={group.range}
+            range={
+              group.range
+                ? {
+                    ...group.range,
+                    current: rangeValues[group.id] ?? group.range.current,
+                  }
+                : undefined
+            }
             selected={selectedOptions[group.id] ?? new Set()}
             onOptionToggle={handleOptionToggle}
             onRangeChange={handleRangeChange}

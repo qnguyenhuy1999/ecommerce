@@ -49,10 +49,6 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
     },
     ref,
   ) => {
-    const [isDragging, setIsDragging] = React.useState(false)
-    const [isHovered, setIsHovered] = React.useState(false)
-    const [tooltipVisible, setTooltipVisible] = React.useState(false)
-
     // Normalize to array: single numbers become [number]
     const toArray = (v: number | number[] | undefined) =>
       v === undefined ? [min] : Array.isArray(v) ? v : [v]
@@ -65,11 +61,22 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
       onChange?.(newValue)
     }
 
-    const percentage = ((controlledValue[0] - min) / (max - min)) * 100
-    const displayValue = formatLabel ? formatLabel(controlledValue[0]) : String(controlledValue[0])
-    const tooltipValue = formatLabel ? formatLabel(controlledValue[0]) : String(controlledValue[0])
+    // We keep this overall slider pointer drag state for any visual parent needs,
+    // but the actual tooltip hover states are handled per thumb
+    const [sliderDragging, setSliderDragging] = React.useState(false)
 
-    const showThumbTooltip = showTooltip && (isDragging || isHovered)
+    // For display at the end of track, just join the values
+    const displayValue = controlledValue
+      .map((v) => (formatLabel ? formatLabel(v) : String(v)))
+      .join(' - ')
+
+    // calculate standard percentage for range track
+    const trackStart =
+      controlledValue.length > 1 ? ((controlledValue[0] - min) / (max - min)) * 100 : 0
+    const trackEnd =
+      controlledValue.length > 1
+        ? ((controlledValue[1] - min) / (max - min)) * 100
+        : ((controlledValue[0] - min) / (max - min)) * 100
 
     return (
       <SliderPrimitive.Root
@@ -80,16 +87,13 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
         value={controlledValue}
         onValueChange={handleValueChange}
         onPointerDown={() => {
-          setIsDragging(true)
-          setTooltipVisible(true)
+          setSliderDragging(true)
         }}
         onPointerUp={() => {
-          setIsDragging(false)
-          setTooltipVisible(false)
+          setSliderDragging(false)
         }}
         onPointerLeave={() => {
-          setIsDragging(false)
-          setTooltipVisible(false)
+          setSliderDragging(false)
         }}
         disabled={disabled}
         className={cn(
@@ -101,8 +105,11 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
       >
         <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted group-hover:h-2.5 transition-all duration-[var(--motion-normal)]">
           <SliderPrimitive.Range
-            className="absolute h-full bg-brand w-[var(--slider-range-width,0%)]"
-            style={{ '--slider-range-width': `${String(percentage)}%` } as React.CSSProperties}
+            className="absolute h-full bg-brand"
+            style={{
+              left: `${String(trackStart)}%`,
+              right: `${String(100 - trackEnd)}%`,
+            }}
           />
         </SliderPrimitive.Track>
 
@@ -121,59 +128,15 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
             )
           })}
 
-        {/* Tooltip bubble */}
-        {showThumbTooltip && (
-          <div
-            className={cn(
-              'absolute bottom-7 left-1/2 -translate-x-1/2 pointer-events-none z-10',
-              'bg-foreground text-background text-xs font-semibold px-2 py-1 rounded-md whitespace-nowrap',
-              'shadow-lg left-[var(--slider-tooltip-position,50%)]',
-              'max-md:left-[calc(var(--slider-tooltip-position,50%)+var(--slider-thumb-offset,0px))]',
-              isDragging
-                ? 'animate-in fade-in-0 zoom-in-95 duration-[var(--motion-fast)]'
-                : 'opacity-0 transition-opacity duration-[var(--motion-normal)]',
-            )}
-            style={
-              {
-                '--slider-tooltip-position': `calc(${String(percentage)}% + (var(--slider-thumb-offset, 0px)))`,
-              } as React.CSSProperties
-            }
-          >
-            {tooltipValue}
-            <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-foreground rotate-45" />
-          </div>
-        )}
-
-        <SliderPrimitive.Thumb
-          onMouseEnter={() => {
-            setIsHovered(true)
-          }}
-          onMouseLeave={() => {
-            setIsHovered(false)
-          }}
-          className={cn(
-            'relative block h-5 w-5 rounded-full border-2 border-brand bg-background',
-            'shadow-[var(--slider-thumb-shadow-rest)]',
-            'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
-            'hover:shadow-[var(--slider-thumb-shadow-hover)] hover:scale-[1.10]',
-            'active:shadow-[var(--slider-thumb-shadow-active)] active:scale-[1.05] active:cursor-grabbing',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-            'disabled:pointer-events-none disabled:opacity-50',
-            'cursor-grab',
-            (isDragging || tooltipVisible) &&
-              'scale-[1.10] shadow-[var(--slider-thumb-shadow-dragging)]',
-          )}
-          aria-label={formatLabel ? formatLabel(controlledValue[0]) : undefined}
-          style={
-            {
-              // Offset the tooltip to center over the thumb visually
-              '--slider-thumb-offset': '0',
-            } as React.CSSProperties
-          }
-        >
-          {/* Inner dot for visual polish */}
-          <span className="absolute inset-0 m-auto block h-1.5 w-1.5 rounded-full bg-brand opacity-60" />
-        </SliderPrimitive.Thumb>
+        {controlledValue.map((val, index) => (
+          <SliderThumb
+            key={index}
+            value={val}
+            formatLabel={formatLabel}
+            showTooltip={showTooltip}
+            sliderDragging={sliderDragging}
+          />
+        ))}
 
         {showValueLabel && (
           <span className="ml-3 text-sm text-muted-foreground font-medium tabular-nums shrink-0">
@@ -185,5 +148,78 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
   },
 )
 Slider.displayName = SliderPrimitive.Root.displayName
+
+// Extracted thumb component to handle independent hover states without re-rendering everything
+function SliderThumb({
+  value,
+  formatLabel,
+  showTooltip,
+  sliderDragging,
+}: {
+  value: number
+  formatLabel?: (value: number) => string
+  showTooltip: boolean
+  sliderDragging: boolean
+}) {
+  const [isHovered, setIsHovered] = React.useState(false)
+  const [isDragging, setIsDragging] = React.useState(false)
+
+  const tooltipValue = formatLabel ? formatLabel(value) : String(value)
+  const showThumbTooltip = showTooltip && (isDragging || isHovered || sliderDragging)
+
+  return (
+    <SliderPrimitive.Thumb
+      onMouseEnter={() => {
+        setIsHovered(true)
+      }}
+      onMouseLeave={() => {
+        setIsHovered(false)
+      }}
+      onPointerDown={() => {
+        setIsDragging(true)
+      }}
+      onPointerUp={() => {
+        setIsDragging(false)
+      }}
+      onPointerCancel={() => {
+        setIsDragging(false)
+      }}
+      className={cn(
+        'relative block h-6 w-6 rounded-full border-[2.5px] border-brand bg-[var(--surface-base)]',
+        'shadow-[var(--slider-thumb-shadow-rest)]',
+        'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+        'hover:shadow-[var(--slider-thumb-shadow-hover)] hover:scale-[1.10]',
+        'active:shadow-[var(--slider-thumb-shadow-active)] active:scale-[1.05] active:cursor-grabbing',
+        'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand/20',
+        'disabled:pointer-events-none disabled:opacity-50',
+        'cursor-grab flex items-center justify-center',
+        (isDragging || isHovered) && 'scale-[1.10] shadow-[var(--slider-thumb-shadow-dragging)]',
+      )}
+      aria-label={formatLabel ? formatLabel(value) : undefined}
+    >
+      {/* Premium minimal grip lines */}
+      <div className="flex gap-1">
+        <div className="h-2 w-0.5 rounded-full bg-brand/40" />
+        <div className="h-2 w-0.5 rounded-full bg-brand/40" />
+      </div>
+
+      {showThumbTooltip && (
+        <div
+          className={cn(
+            'absolute bottom-9 left-1/2 -translate-x-1/2 pointer-events-none z-10',
+            'bg-[var(--text-primary)] text-[var(--surface-base)] text-xs font-semibold px-2.5 py-1 rounded-md whitespace-nowrap',
+            'shadow-[var(--elevation-floating)]',
+            isDragging || isHovered
+              ? 'animate-in fade-in-0 zoom-in-95 duration-[var(--motion-fast)]'
+              : 'opacity-0 transition-opacity duration-[var(--motion-normal)]',
+          )}
+        >
+          {tooltipValue}
+          <div className="absolute -bottom-[3px] left-1/2 -translate-x-1/2 w-2 h-2 bg-[var(--text-primary)] rotate-45" />
+        </div>
+      )}
+    </SliderPrimitive.Thumb>
+  )
+}
 
 export { Slider }

@@ -218,8 +218,6 @@ function ProductDetailLayout({
       )}
 
       {related && <StorefrontSection contentClassName="max-w-none">{related}</StorefrontSection>}
-
-      {newsletter && <StorefrontSection>{newsletter}</StorefrontSection>}
     </StorefrontShell>
   )
 }

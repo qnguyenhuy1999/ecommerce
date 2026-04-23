@@ -33,17 +33,14 @@ function StorefrontFooter({
   }
 
   return (
-    <footer
-      className={cn('bg-surface-muted border-t border-border/50 pt-16 pb-8', className)}
-      {...props}
-    >
+    <footer className={cn('bg-surface-muted pt-16 pb-8', className)} {...props}>
       {newsletter && (
-        <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8 mb-16 border-b border-border/50 pb-16">
+        <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8 mb-16 pb-16">
           {newsletter}
         </div>
       )}
 
-      <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8">
+      <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8 border-t border-border/50 pt-16">
         <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-12">
           {/* Brand Column */}
           <div className="col-span-2 lg:col-span-2">

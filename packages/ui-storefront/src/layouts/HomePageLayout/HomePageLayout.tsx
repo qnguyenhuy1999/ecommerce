@@ -47,17 +47,9 @@ function HomePageLayout({
       <div className="space-y-2 pb-10">
         {hero}
 
-        {categories && (
-          <StorefrontSection>
-            {categories}
-          </StorefrontSection>
-        )}
+        {categories && <StorefrontSection>{categories}</StorefrontSection>}
 
         {featured}
-
-        {newsletter && (
-          <StorefrontSection>{newsletter}</StorefrontSection>
-        )}
       </div>
     </StorefrontShell>
   )

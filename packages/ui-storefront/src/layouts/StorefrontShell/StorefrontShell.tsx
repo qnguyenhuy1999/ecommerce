@@ -22,7 +22,7 @@ const StorefrontShell = React.forwardRef<HTMLDivElement, StorefrontShellProps>(
           </header>
         )}
         <main className="flex-1">{children}</main>
-        {footer && <footer className="border-t bg-background">{footer}</footer>}
+        {footer && <footer className="bg-background">{footer}</footer>}
       </div>
     )
   },

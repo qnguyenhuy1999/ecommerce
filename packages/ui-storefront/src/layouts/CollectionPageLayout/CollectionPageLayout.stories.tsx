@@ -2,7 +2,6 @@ import type { Meta } from '@storybook/react'
 
 import { Badge } from '../../atoms/Badge/Badge'
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
-import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
 import { ProductGrid } from '../../organisms/ProductGrid/ProductGrid'
 import { CollectionPageLayout } from './CollectionPageLayout'
 import { STOREFRONT_FOOTER_WITH_SOCIALS_PROPS } from '../StorefrontFooter/StorefrontFooter.fixtures'
@@ -105,6 +104,5 @@ export const Default = {
       },
     ],
     grid: <ProductGrid products={products} />,
-    newsletter: <NewsletterSignup />,
   },
 }

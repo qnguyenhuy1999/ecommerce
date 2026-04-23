@@ -64,13 +64,21 @@ function CollectionPageLayout({
         eyebrow="Collection"
         title={title}
         description={description}
-        action={resultsLabel ? <p className="text-sm font-medium text-muted-foreground">{resultsLabel}</p> : undefined}
+        action={
+          resultsLabel ? (
+            <p className="text-sm font-medium text-muted-foreground">{resultsLabel}</p>
+          ) : undefined
+        }
       >
         {breadcrumb && <div className="mb-6 text-sm text-muted-foreground">{breadcrumb}</div>}
 
         <div className="grid gap-8 lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start">
           <aside className="space-y-4 lg:sticky lg:top-28">
-            <FilterSidebar groups={filters} onFilterChange={onFilterChange} onClearAll={onClearAll} />
+            <FilterSidebar
+              groups={filters}
+              onFilterChange={onFilterChange}
+              onClearAll={onClearAll}
+            />
             {aside}
           </aside>
 
@@ -84,12 +92,6 @@ function CollectionPageLayout({
           </div>
         </div>
       </StorefrontSection>
-
-      {newsletter && (
-        <StorefrontSection>
-          {newsletter}
-        </StorefrontSection>
-      )}
     </StorefrontShell>
   )
 }

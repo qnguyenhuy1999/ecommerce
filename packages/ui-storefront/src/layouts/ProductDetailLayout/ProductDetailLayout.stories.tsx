@@ -1,7 +1,6 @@
 import type { Meta } from '@storybook/react'
 
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
-import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
 import { ProductCarousel } from '../../organisms/ProductCarousel/ProductCarousel'
 import { ProductGallery } from '../../organisms/ProductGallery/ProductGallery'
 import { ProductDetailLayout } from './ProductDetailLayout'
@@ -124,8 +123,8 @@ export const Default = {
     ],
     description: (
       <p>
-        This section is intentionally free-form so consuming apps can pass plain text or richer
-        product content without replacing the packaged layout.
+        This section is intentionally free-form so consuming apps can pass plain text or richer product content without
+        replacing the packaged layout.
       </p>
     ),
     reviews: [
@@ -165,7 +164,6 @@ export const Default = {
         onAddToCart={() => {}}
       />
     ),
-    newsletter: <NewsletterSignup />,
     onAddToCart: () => {},
   },
 }
