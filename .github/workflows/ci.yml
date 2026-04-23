@@ -74,6 +74,28 @@ jobs:
           path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
           key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
 
+      # Library packages (@ecom/ui, @ecom/ui-admin, @ecom/ui-storefront,
+      # @ecom/api-client, @ecom/design-tokens, …) expose their `main`/`types`
+      # fields from `dist/`. Every downstream consumer (apps/admin, apps/storefront)
+      # will fail lint/type-check with "Cannot find module '@ecom/ui'" unless
+      # these packages are built first. Build once here and cache the dist/
+      # folders; downstream jobs restore from the cache.
+      - name: Build library packages
+        run: >-
+          pnpm --filter '@ecom/design-tokens' --filter '@ecom/ui'
+          --filter '@ecom/ui-admin' --filter '@ecom/ui-storefront'
+          --filter '@ecom/api-client' --filter '@ecom/redis'
+          --filter '@ecom/shared' --filter '@ecom/database'
+          build
+
+      - name: Cache built library dists
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -97,6 +119,14 @@ jobs:
             apps/*/node_modules
             packages/*/node_modules
           key: ${{ needs.setup.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
           fail-on-cache-miss: true
 
       - name: ESLint (+ TODO comment audit)
@@ -138,6 +168,14 @@ jobs:
           path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
           key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
 
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
+          fail-on-cache-miss: true
+
       # Fallback: if the Prisma cache missed (schema changed in this PR),
       # regenerate on the spot so `tsc --noEmit` can resolve @prisma/client.
       - name: Ensure Prisma client is generated
@@ -175,6 +213,13 @@ jobs:
         with:
           path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
           key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
 
       - name: Ensure Prisma client is generated
         run: pnpm db:generate
