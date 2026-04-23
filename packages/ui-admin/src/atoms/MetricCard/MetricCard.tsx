@@ -68,7 +68,9 @@ function MetricCard({
         )}
       </div>
       {previousValue !== undefined && (
-        <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mt-1">vs previous period</p>
+        <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mt-1">
+          vs previous period
+        </p>
       )}
     </Card>
   )

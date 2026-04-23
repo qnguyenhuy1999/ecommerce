@@ -15,7 +15,8 @@ interface ProductGalleryContextValue {
   prevImage: () => void
 }
 
-const [ProductGalleryProvider, useProductGallery] = createStrictContext<ProductGalleryContextValue>('ProductGallery')
+const [ProductGalleryProvider, useProductGallery] =
+  createStrictContext<ProductGalleryContextValue>('ProductGallery')
 export { useProductGallery }
 
 // ─── Root (server — state lives here, delegating to client leafs) ──────────
@@ -42,9 +43,7 @@ function ProductGalleryRoot({
   }, [images.length])
 
   return (
-    <ProductGalleryProvider
-      value={{ images, activeIndex, setActiveIndex, nextImage, prevImage }}
-    >
+    <ProductGalleryProvider value={{ images, activeIndex, setActiveIndex, nextImage, prevImage }}>
       <div className={cn('flex flex-col md:flex-row gap-4', className)} {...props}>
         {children}
       </div>

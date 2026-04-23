@@ -103,5 +103,16 @@ export function useCarousel({
     }
   }, [isPlaying, total, loop, autoPlayInterval])
 
-  return { activeIndex, isPlaying, canScrollLeft, canScrollRight, goTo, prev, next, pause, resume, scrollRef }
+  return {
+    activeIndex,
+    isPlaying,
+    canScrollLeft,
+    canScrollRight,
+    goTo,
+    prev,
+    next,
+    pause,
+    resume,
+    scrollRef,
+  }
 }

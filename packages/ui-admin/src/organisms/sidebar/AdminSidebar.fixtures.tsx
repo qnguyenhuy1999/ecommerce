@@ -16,7 +16,7 @@ import type { SidebarNavGroup, SidebarNavItem } from './types'
 
 // Exported for consumers and tests
 export const DefaultLogo = ({ collapsed }: { collapsed?: boolean }) => (
-  <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-[var(--space-3)]")}>
+  <div className={cn('flex items-center', collapsed ? 'justify-center' : 'gap-[var(--space-3)]')}>
     <div className="shrink-0 flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--action-primary)] w-[var(--space-9)] h-[var(--space-9)]">
       <LayoutGrid className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--action-primary-foreground)]" />
     </div>
@@ -52,8 +52,8 @@ export const FALLBACK_NAV: SidebarNavGroup[] = [
         children: [
           { label: 'All Products', href: '/products' },
           { label: 'Categories', href: '/products/categories' },
-          { label: 'Inventory', href: '/products/inventory', isActive: true }
-        ]
+          { label: 'Inventory', href: '/products/inventory', isActive: true },
+        ],
       },
       {
         label: 'Customers',

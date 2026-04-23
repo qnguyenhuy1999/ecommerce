@@ -62,7 +62,7 @@ const MAIN_NAV = [
           { label: 'All Products', href: '/admin/products' },
           { label: 'Categories', href: '/admin/products/categories' },
           { label: 'Inventory', href: '/admin/products/inventory' },
-        ]
+        ],
       },
       {
         label: 'Customers',

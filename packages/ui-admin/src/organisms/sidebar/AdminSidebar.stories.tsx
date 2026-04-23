@@ -65,7 +65,7 @@ const MAIN_NAV_GROUPS = [
           { label: 'All Products', href: '/admin/products' },
           { label: 'Categories', href: '/admin/products/categories' },
           { label: 'Inventory', href: '/admin/products/inventory' },
-        ]
+        ],
       },
       {
         label: 'Customers',

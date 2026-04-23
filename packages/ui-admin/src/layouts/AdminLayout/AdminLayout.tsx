@@ -62,8 +62,8 @@ function AdminLayout({
       {/* Main Column — offset by sidebar width (or 80px if collapsed) */}
       <div
         className={cn(
-          "flex flex-1 flex-col min-w-0 transition-all duration-[var(--duration-normal)]",
-          isSidebarCollapsed ? "pl-16" : "pl-[var(--admin-sidebar-width)]"
+          'flex flex-1 flex-col min-w-0 transition-all duration-[var(--duration-normal)]',
+          isSidebarCollapsed ? 'pl-16' : 'pl-[var(--admin-sidebar-width)]',
         )}
       >
         {/* Header */}

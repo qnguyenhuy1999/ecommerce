@@ -1,13 +1,6 @@
 // ─── Atoms Layer Barrel ──────────────────────────────────────────────────────
 export { Button, buttonVariants } from './Button/Button'
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from './Card/Card'
+export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent } from './Card/Card'
 export { Badge, badgeVariants, type BadgeProps } from './Badge/Badge'
 export { Input } from './Input/Input'
 export { Label } from './Label/Label'

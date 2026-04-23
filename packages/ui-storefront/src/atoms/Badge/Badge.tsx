@@ -36,7 +36,8 @@ function ProductBadge({ variant, className, children, ...props }: ProductBadgePr
       break
     case 'limited':
       coreVariant = 'warning' as CoreVariant
-      extraClass = 'border-transparent bg-gradient-to-r from-[var(--warning-400)] to-[var(--warning-500)] text-white shadow-sm hover:-translate-y-[1px] font-bold tracking-wide uppercase text-[0.65rem]'
+      extraClass =
+        'border-transparent bg-gradient-to-r from-[var(--warning-400)] to-[var(--warning-500)] text-white shadow-sm hover:-translate-y-[1px] font-bold tracking-wide uppercase text-[0.65rem]'
       defaultText = 'Limited'
       break
     case 'out-of-stock':

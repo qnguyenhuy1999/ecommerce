@@ -106,12 +106,14 @@ const Slider = React.forwardRef<React.ComponentRef<typeof SliderPrimitive.Root>,
         <SliderPrimitive.Track className="relative h-2 w-full grow overflow-hidden rounded-full bg-muted group-hover:h-2.5 transition-all duration-[var(--motion-normal)]">
           <SliderPrimitive.Range
             className="absolute h-full bg-brand"
-            style={{
-              left: 'var(--slider-range-start)',
-              right: 'var(--slider-range-end)',
-              '--slider-range-start': `${String(trackStart)}%`,
-              '--slider-range-end': `${String(100 - trackEnd)}%`,
-            } as React.CSSProperties}
+            style={
+              {
+                left: 'var(--slider-range-start)',
+                right: 'var(--slider-range-end)',
+                '--slider-range-start': `${String(trackStart)}%`,
+                '--slider-range-end': `${String(100 - trackEnd)}%`,
+              } as React.CSSProperties
+            }
           />
         </SliderPrimitive.Track>
 

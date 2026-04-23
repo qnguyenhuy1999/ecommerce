@@ -71,4 +71,3 @@ Disable directives must be narrowly scoped and include a reason:
 
 - Prefer: `// eslint-disable-next-line <rule> -- <reason tied to a constraint>`
 - Avoid blanket disables (`/* eslint-disable */`) unless the file truly requires it; include a reason if used.
-

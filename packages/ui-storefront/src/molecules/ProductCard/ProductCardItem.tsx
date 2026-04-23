@@ -66,7 +66,9 @@ function ProductCardItem({
 
       {(badge !== undefined || badgeVariant !== undefined) && (
         <ProductCardBadge>
-          {typeof badge === 'string' || typeof badge === 'number' || (badge === undefined && badgeVariant) ? (
+          {typeof badge === 'string' ||
+          typeof badge === 'number' ||
+          (badge === undefined && badgeVariant) ? (
             <ProductBadge variant={badgeVariant || 'new'}>{badge}</ProductBadge>
           ) : (
             badge

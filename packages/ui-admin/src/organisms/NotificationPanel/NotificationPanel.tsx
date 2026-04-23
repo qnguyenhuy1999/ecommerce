@@ -35,7 +35,7 @@ export interface NotificationPanelProps extends React.HTMLAttributes<HTMLDivElem
 type TabValue = 'all' | 'archived'
 
 function setDisplayName<T>(component: T, name: string): T {
-  (component as { displayName?: string }).displayName = name
+  ;(component as { displayName?: string }).displayName = name
   return component
 }
 

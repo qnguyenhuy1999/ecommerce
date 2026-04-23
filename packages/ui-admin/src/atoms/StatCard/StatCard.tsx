@@ -74,7 +74,9 @@ function StatCardRoot({
       <div className="flex flex-col h-full">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <p className="text-[length:var(--text-sm)] font-[var(--font-weight-medium)] text-[var(--text-secondary)] tracking-wide">{label}</p>
+            <p className="text-[length:var(--text-sm)] font-[var(--font-weight-medium)] text-[var(--text-secondary)] tracking-wide">
+              {label}
+            </p>
             <p className="mt-1.5 text-2xl font-bold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)]">
               <NumberCounter value={value} />
             </p>
@@ -82,7 +84,9 @@ function StatCardRoot({
               <div className="mt-2 flex items-center gap-2 flex-wrap">
                 {trend && <StatCardTrend value={trend.value} positive={trend.positive} />}
                 {description && (
-                  <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">{description}</p>
+                  <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+                    {description}
+                  </p>
                 )}
               </div>
             )}

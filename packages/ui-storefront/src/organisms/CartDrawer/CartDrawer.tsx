@@ -55,7 +55,8 @@ interface CartDrawerContextValue {
   handleRemoveItem: (id: string) => void
 }
 
-const [CartDrawerProvider, useCartDrawer] = createStrictContext<CartDrawerContextValue>('CartDrawer')
+const [CartDrawerProvider, useCartDrawer] =
+  createStrictContext<CartDrawerContextValue>('CartDrawer')
 
 // Root
 function CartDrawerRoot({

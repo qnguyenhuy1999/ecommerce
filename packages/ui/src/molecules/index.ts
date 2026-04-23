@@ -23,22 +23,7 @@ export {
   DialogDescription,
   DialogFooter,
 } from './Dialog/Dialog'
-export {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from './Accordion/Accordion'
+export { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from './Accordion/Accordion'
 export { Breadcrumb } from './Breadcrumb/Breadcrumb'
-export {
-  ToastProvider,
-  Toaster,
-  useToast,
-  type ToastData,
-  type ToastVariant,
-} from './Toast/Toast'
-export {
-  AvatarGroup,
-  type AvatarGroupItem,
-  type AvatarGroupProps,
-} from './AvatarGroup/AvatarGroup'
+export { ToastProvider, Toaster, useToast, type ToastData, type ToastVariant } from './Toast/Toast'
+export { AvatarGroup, type AvatarGroupItem, type AvatarGroupProps } from './AvatarGroup/AvatarGroup'

@@ -60,7 +60,10 @@ export function FilterCollapse({
       </Button>
 
       {!collapsed && (
-        <div id={contentId} className="filter-group__content pt-5 pb-6 animate-[slide-down_var(--motion-normal)_var(--motion-ease-out)]">
+        <div
+          id={contentId}
+          className="filter-group__content pt-5 pb-6 animate-[slide-down_var(--motion-normal)_var(--motion-ease-out)]"
+        >
           {children}
         </div>
       )}

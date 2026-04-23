@@ -39,11 +39,7 @@ export function ProductCardPrice({
             {formatCurrency(originalPrice, effectiveCurrency, locale)}
           </span>
         )}
-        {discountPercent > 0 && (
-          <ProductBadge variant="discount">
-            -{discountPercent}%
-          </ProductBadge>
-        )}
+        {discountPercent > 0 && <ProductBadge variant="discount">-{discountPercent}%</ProductBadge>}
       </div>
       <p className="text-[length:var(--text-micro)] text-muted-foreground">
         Taxes and shipping calculated at checkout

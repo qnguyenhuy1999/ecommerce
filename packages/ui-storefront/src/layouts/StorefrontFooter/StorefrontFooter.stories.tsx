@@ -2,10 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react'
 
 import { StorefrontFooter } from './StorefrontFooter'
 import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
-import {
-  STOREFRONT_FOOTER_COLUMNS,
-  STOREFRONT_FOOTER_WITH_SOCIALS_PROPS,
-} from './StorefrontFooter.fixtures'
+import { STOREFRONT_FOOTER_COLUMNS, STOREFRONT_FOOTER_WITH_SOCIALS_PROPS } from './StorefrontFooter.fixtures'
 
 const meta = {
   title: 'layouts/StorefrontFooter',
@@ -75,7 +72,5 @@ export const Minimal: Story = {
 }
 
 export const WithSocials: Story = {
-  render: () => (
-    <StorefrontFooter {...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS} />
-  ),
+  render: () => <StorefrontFooter {...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS} />,
 }

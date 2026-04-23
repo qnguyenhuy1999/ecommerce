@@ -11,9 +11,5 @@ export type { RatingProps } from './Rating/Rating'
 export { StockBadge } from './StockBadge/StockBadge'
 export { StockBadgeClient } from './StockBadge/StockBadgeClient'
 export { TrustBadge } from './TrustBadge/TrustBadge'
-export type {
-  TrustBadgeType,
-  TrustBadgeProps,
-  TrustBadgeGroupProps,
-} from './TrustBadge/TrustBadge'
+export type { TrustBadgeType, TrustBadgeProps, TrustBadgeGroupProps } from './TrustBadge/TrustBadge'
 export { WishlistButton } from './WishlistButton/WishlistButton'

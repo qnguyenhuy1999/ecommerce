@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 import { StorefrontShell } from '../StorefrontShell/StorefrontShell'

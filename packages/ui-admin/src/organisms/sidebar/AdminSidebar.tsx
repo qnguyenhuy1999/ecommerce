@@ -160,7 +160,9 @@ function AdminSidebar({
         )}
       >
         <div className="truncate shrink-0">
-          {typeof logo === 'function' ? logo(collapsed ?? false) : (logo ?? <DefaultLogo collapsed={collapsed} />)}
+          {typeof logo === 'function'
+            ? logo(collapsed ?? false)
+            : (logo ?? <DefaultLogo collapsed={collapsed} />)}
         </div>
       </div>
 
@@ -237,7 +239,9 @@ function AdminSidebar({
             onClick={onToggleCollapse}
             className={cn(
               'flex w-full items-center rounded-[var(--radius-md)] p-[var(--space-2)] text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)] transition-all outline-none focus-visible:ring-[var(--action-primary)]',
-              collapsed ? 'justify-center w-10 h-10 mx-auto' : 'justify-start gap-3 px-[var(--space-3)]',
+              collapsed
+                ? 'justify-center w-10 h-10 mx-auto'
+                : 'justify-start gap-3 px-[var(--space-3)]',
             )}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >

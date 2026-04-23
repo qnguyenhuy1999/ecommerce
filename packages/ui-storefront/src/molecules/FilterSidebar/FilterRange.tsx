@@ -99,4 +99,3 @@ export function FilterRange({ min, max, step, current, onChange }: FilterRangePr
     </div>
   )
 }
-

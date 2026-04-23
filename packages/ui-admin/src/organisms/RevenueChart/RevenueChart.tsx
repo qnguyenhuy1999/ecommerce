@@ -24,7 +24,7 @@ export interface RevenueChartDatum {
 }
 
 function setDisplayName<T>(component: T, name: string): T {
-  (component as { displayName?: string }).displayName = name
+  ;(component as { displayName?: string }).displayName = name
   return component
 }
 
@@ -194,10 +194,7 @@ function RevenueChartChart({ className, ...props }: React.HTMLAttributes<HTMLDiv
     <CardContent className={cn('pb-5 px-6', className)} {...props}>
       <div className="mt-2 w-full" style={{ height: 'var(--chart-height)' }}>
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart
-            data={data || []}
-            margin={{ top: 8, right: 4, left: -16, bottom: 0 }}
-          >
+          <BarChart data={data || []} margin={{ top: 8, right: 4, left: -16, bottom: 0 }}>
             <XAxis
               dataKey="name"
               axisLine={false}

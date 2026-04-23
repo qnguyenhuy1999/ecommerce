@@ -48,7 +48,8 @@ type AvatarGroupContextValue = {
   showTooltips: boolean
 }
 
-const [AvatarGroupProvider, useAvatarGroup] = createStrictContext<AvatarGroupContextValue>('AvatarGroup')
+const [AvatarGroupProvider, useAvatarGroup] =
+  createStrictContext<AvatarGroupContextValue>('AvatarGroup')
 
 // ─── Item subcomponent (public) ─────────────────────────────────────────────
 export function AvatarGroupItemComponent({

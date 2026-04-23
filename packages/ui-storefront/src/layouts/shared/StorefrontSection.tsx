@@ -30,7 +30,9 @@ function StorefrontSection({
                 {eyebrow}
               </p>
             )}
-            {title && <h2 className="text-3xl font-bold tracking-tight text-foreground">{title}</h2>}
+            {title && (
+              <h2 className="text-3xl font-bold tracking-tight text-foreground">{title}</h2>
+            )}
             {description && (
               <p className="text-base leading-relaxed text-muted-foreground">{description}</p>
             )}

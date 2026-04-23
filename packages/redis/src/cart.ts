@@ -3,11 +3,7 @@ export function getCartRedis(_key: string): Promise<Record<string, unknown> | nu
   return Promise.resolve(null)
 }
 
-export function setCartRedis(
-  _key: string,
-  _data: unknown,
-  _ttlSeconds = 86400,
-): Promise<void> {
+export function setCartRedis(_key: string, _data: unknown, _ttlSeconds = 86400): Promise<void> {
   // TODO(@platform, 2026-04-23): Implement Redis SETEX for cart data (with TTL).
   return Promise.resolve()
 }

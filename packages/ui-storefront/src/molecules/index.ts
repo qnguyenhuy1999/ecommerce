@@ -1,9 +1,6 @@
 export { CategoryCard } from './CategoryCard/CategoryCard'
 export { CheckoutStepper } from './CheckoutStepper/CheckoutStepper'
-export type {
-  CheckoutStep,
-  CheckoutStepperProps,
-} from './CheckoutStepper/CheckoutStepper'
+export type { CheckoutStep, CheckoutStepperProps } from './CheckoutStepper/CheckoutStepper'
 export {
   FilterSidebar,
   FilterGroup,

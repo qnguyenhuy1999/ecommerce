@@ -1,7 +1,10 @@
 import { cn } from '@ecom/ui'
 import { TrustBadgeGroup, TrustBadgeType } from '../../atoms/TrustBadge/TrustBadge'
 
-export interface TrustBannerSectionProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+export interface TrustBannerSectionProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'children'
+> {
   badges?: TrustBadgeType[]
 }
 

@@ -22,7 +22,7 @@ function TrendingSearchSection({ keywords, className, ...props }: TrendingSearch
           <TrendingUp className="w-5 h-5 text-brand" />
           <span>Trending Searches</span>
         </div>
-        
+
         <div className="flex-1 overflow-x-auto pb-2 sm:pb-0 scrollbar-hide">
           <div className="flex flex-nowrap sm:flex-wrap items-center gap-2 md:gap-3 pr-4 sm:pr-0 min-w-max sm:min-w-0">
             {keywords.map((keyword, index) => (

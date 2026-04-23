@@ -38,7 +38,9 @@ interface EmptyStateProps
   children?: React.ReactNode
 }
 
-const [EmptyStateProvider, useEmptyState] = createStrictContext<{ variant: EmptyStateVariant }>('EmptyState')
+const [EmptyStateProvider, useEmptyState] = createStrictContext<{ variant: EmptyStateVariant }>(
+  'EmptyState',
+)
 
 function EmptyStateRoot({
   icon,
@@ -88,9 +90,7 @@ function EmptyStateRoot({
   )
 
   return (
-    <EmptyStateProvider value={{ variant: variant ?? 'default' }}>
-      {content}
-    </EmptyStateProvider>
+    <EmptyStateProvider value={{ variant: variant ?? 'default' }}>{content}</EmptyStateProvider>
   )
 }
 
@@ -146,11 +146,7 @@ function EmptyStateDescription({
 }
 EmptyStateDescription.displayName = 'EmptyState.Description'
 
-function EmptyStateAction({
-  children,
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function EmptyStateAction({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   useEmptyState()
   return (
     <div className={cn('mt-[var(--space-2)]', className)} {...props}>

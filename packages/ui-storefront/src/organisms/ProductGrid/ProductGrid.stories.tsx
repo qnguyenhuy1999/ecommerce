@@ -43,17 +43,17 @@ const SAMPLE_PRODUCTS: Product[] = [
     price: 34.99,
     badgeVariant: 'discount',
   },
-  { 
-    id: '5', 
-    image: 'https://picsum.photos/seed/pg5/400/400', 
-    title: 'Webcam HD', 
+  {
+    id: '5',
+    image: 'https://picsum.photos/seed/pg5/400/400',
+    title: 'Webcam HD',
     price: 59.99,
     badgeVariant: 'limited',
   },
-  { 
-    id: '6', 
-    image: 'https://picsum.photos/seed/pg6/400/400', 
-    title: 'Desk Lamp', 
+  {
+    id: '6',
+    image: 'https://picsum.photos/seed/pg6/400/400',
+    title: 'Desk Lamp',
     price: 24.99,
     badgeVariant: 'out-of-stock',
   },
