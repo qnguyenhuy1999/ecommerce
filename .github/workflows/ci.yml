@@ -1,0 +1,277 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Silence Turbo telemetry noise in CI logs.
+  TURBO_TELEMETRY_DISABLED: 1
+  # Keep pnpm output minimal in CI.
+  PNPM_PROGRESS: 0
+
+jobs:
+  # Single "setup" job that installs dependencies once and shares node_modules
+  # via a cache key tied to the lockfile. All downstream jobs restore from the
+  # same key so they don't each pay a full `pnpm install` cost.
+  setup:
+    name: Install
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      cache-key: ${{ steps.cache-key.outputs.value }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.0
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Compute cache key
+        id: cache-key
+        run: echo "value=pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        # `--no-frozen-lockfile` is a workaround for pnpm/pnpm#10258 /
+        # pnpm/pnpm#10551: lockfiles that include `patchedDependencies` (we
+        # patch @prisma/dev) trip ERR_PNPM_LOCKFILE_CONFIG_MISMATCH under
+        # `--frozen-lockfile` even when the lockfile is byte-identical to what
+        # pnpm would regenerate. Revisit once the upstream fix ships. To still
+        # catch drift, the `lint` job runs `pnpm install --lockfile-only` in a
+        # follow-up step and `git diff --exit-code pnpm-lock.yaml` would detect
+        # out-of-sync lockfiles (not wired yet — safer to add in a follow-up).
+        run: pnpm install --no-frozen-lockfile
+
+      - name: Cache node_modules
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ steps.cache-key.outputs.value }}
+
+      # Prisma client is generated into node_modules; cache it alongside so
+      # downstream jobs don't need to re-run `prisma generate`.
+      - name: Generate Prisma client
+        run: pnpm db:generate
+
+      - name: Cache Prisma client
+        uses: actions/cache/save@v4
+        with:
+          path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
+          key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
+
+      # Library packages (@ecom/ui, @ecom/ui-admin, @ecom/ui-storefront,
+      # @ecom/api-client, @ecom/design-tokens, …) expose their `main`/`types`
+      # fields from `dist/`. Every downstream consumer (apps/admin, apps/storefront)
+      # will fail lint/type-check with "Cannot find module '@ecom/ui'" unless
+      # these packages are built first. Build once here and cache the dist/
+      # folders; downstream jobs restore from the cache.
+      - name: Build library packages
+        run: >-
+          pnpm --filter '@ecom/design-tokens' --filter '@ecom/ui'
+          --filter '@ecom/ui-admin' --filter '@ecom/ui-storefront'
+          --filter '@ecom/api-client' --filter '@ecom/redis'
+          --filter '@ecom/shared' --filter '@ecom/database'
+          build
+
+      - name: Cache built library dists
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ github.sha }}
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ github.sha }}
+          fail-on-cache-miss: true
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
+          key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
+
+      - name: Ensure Prisma client is generated
+        run: pnpm db:generate
+
+      - name: ESLint (+ TODO comment audit)
+        run: pnpm lint
+
+      - name: Prettier
+        run: pnpm format:check
+
+      - name: Stylelint
+        run: pnpm stylelint:check
+
+  type-check:
+    name: Type-check
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
+          key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ github.sha }}
+          fail-on-cache-miss: true
+
+      # Fallback: if the Prisma cache missed (schema changed in this PR),
+      # regenerate on the spot so `tsc --noEmit` can resolve @prisma/client.
+      - name: Ensure Prisma client is generated
+        run: pnpm db:generate
+
+      - name: tsc --noEmit across workspace
+        run: pnpm type-check
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [setup, type-check]
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
+          key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            packages/*/dist
+            packages/database/generated
+          key: dist-${{ runner.os }}-${{ github.sha }}
+
+      - name: Ensure Prisma client is generated
+        run: pnpm db:generate
+
+      - name: turbo build
+        run: pnpm build
+
+  # Syntactic + referential validation of the Prisma schema. Once a
+  # `packages/database/prisma/migrations` folder exists, add a second step:
+  #
+  #   prisma migrate diff \
+  #     --from-migrations prisma/migrations \
+  #     --to-schema-datamodel prisma/schema.prisma \
+  #     --shadow-database-url "postgresql://shadow:shadow@postgres:5432/shadow" \
+  #     --exit-code
+  #
+  # (it needs a shadow Postgres service — add it under `services:`.) The
+  # `--exit-code` flag fails the job if the schema diverges from the migrations
+  # folder, catching "forgot to generate a migration" bugs.
+  prisma-validate:
+    name: Prisma schema
+    runs-on: ubuntu-latest
+    needs: setup
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.17.0
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ needs.setup.outputs.cache-key }}
+          fail-on-cache-miss: true
+
+      - name: prisma validate
+        working-directory: packages/database
+        run: npx prisma validate
