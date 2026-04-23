@@ -15,6 +15,7 @@ import { PaymentModule } from './modules/payment/payment.module';
 import { ProductModule } from './modules/product/product.module';
 import { SellerModule } from './modules/seller/seller.module';
 import { UserModule } from './modules/user/user.module';
+import { ObservabilityModule } from './observability/observability.module';
 
 
 @Module({
@@ -28,6 +29,7 @@ import { UserModule } from './modules/user/user.module';
       },
     }),
     PrismaModule,
+    ObservabilityModule,
     AuthModule,
     UserModule,
     SellerModule,
