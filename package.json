@@ -78,7 +78,7 @@
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
   },
-  "packageManager": "pnpm@10.12.1",
+  "packageManager": "pnpm@10.17.0",
   "pnpm": {
     "overrides": {
       "zeptomatch": "^1.2.2"
