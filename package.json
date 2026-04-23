@@ -17,6 +17,7 @@
     "stylelint:check": "stylelint 'packages/ui*/src/**/*.css'",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
+    "prepare": "husky",
     "db:generate": "cd packages/database && npx prisma generate",
     "db:migrate": "cd packages/database && npx prisma migrate dev",
     "db:seed": "cd packages/database && npx prisma db seed",
@@ -38,6 +39,8 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.2.10",
     "eslint-import-resolver-typescript": "^3.10.1",
     "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-boundaries": "^6.0.2",
@@ -57,6 +60,20 @@
     "vite": "^7.1.12"
   },
   "prettier": "./.prettierrc.mjs",
+  "lint-staged": {
+    "*.{ts,tsx,mts,cts}": [
+      "eslint --fix --max-warnings 0"
+    ],
+    "*.{ts,tsx,md,mdx,json,yml,yaml}": [
+      "prettier --write --ignore-unknown"
+    ],
+    "packages/ui*/src/**/*.css": [
+      "stylelint --fix"
+    ],
+    "packages/database/prisma/schema.prisma": [
+      "prisma format --schema"
+    ]
+  },
   "engines": {
     "node": ">=20.0.0",
     "npm": ">=10.0.0"

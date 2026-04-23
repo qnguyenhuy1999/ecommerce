@@ -71,14 +71,14 @@ npm run dev
 
 ### Services
 
-| Service                       | URL                         |
-| ----------------------------- | --------------------------- |
-| API (Storefront)              | http://localhost:3000        |
-| API Storefront Docs (Swagger) | http://localhost:3000/docs   |
-| API (Admin)                   | http://localhost:3001        |
-| API Admin Docs (Swagger)      | http://localhost:3001/docs   |
-| Storefront                    | http://localhost:8000        |
-| Admin                         | http://localhost:8001        |
+| Service                       | URL                        |
+| ----------------------------- | -------------------------- |
+| API (Storefront)              | http://localhost:3000      |
+| API Storefront Docs (Swagger) | http://localhost:3000/docs |
+| API (Admin)                   | http://localhost:3001      |
+| API Admin Docs (Swagger)      | http://localhost:3001/docs |
+| Storefront                    | http://localhost:8000      |
+| Admin                         | http://localhost:8001      |
 
 ## Documentation
 
