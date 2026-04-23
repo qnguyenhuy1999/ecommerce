@@ -94,7 +94,7 @@ jobs:
           path: |
             packages/*/dist
             packages/database/generated
-          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
+          key: dist-${{ runner.os }}-${{ github.sha }}
 
   lint:
     name: Lint
@@ -126,7 +126,7 @@ jobs:
           path: |
             packages/*/dist
             packages/database/generated
-          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
+          key: dist-${{ runner.os }}-${{ github.sha }}
           fail-on-cache-miss: true
 
       - name: ESLint (+ TODO comment audit)
@@ -173,7 +173,7 @@ jobs:
           path: |
             packages/*/dist
             packages/database/generated
-          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
+          key: dist-${{ runner.os }}-${{ github.sha }}
           fail-on-cache-miss: true
 
       # Fallback: if the Prisma cache missed (schema changed in this PR),
@@ -219,7 +219,7 @@ jobs:
           path: |
             packages/*/dist
             packages/database/generated
-          key: dist-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml', 'packages/*/src/**', 'packages/database/prisma/schema.prisma') }}
+          key: dist-${{ runner.os }}-${{ github.sha }}
 
       - name: Ensure Prisma client is generated
         run: pnpm db:generate
