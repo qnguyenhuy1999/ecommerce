@@ -32,11 +32,11 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
+  api-storefront:
     build:
-      context: ./apps/api
+      context: ./apps/api-storefront
       dockerfile: Dockerfile
-    container_name: ecommerce-api
+    container_name: ecommerce-api-storefront
     restart: unless-stopped
     ports:
       - '3000:3000'
@@ -46,7 +46,28 @@ services:
       REDIS_PORT: '6379'
       NODE_ENV: production
     env_file:
-      - apps/api/.env
+      - apps/api-storefront/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  api-admin:
+    build:
+      context: ./apps/api-admin
+      dockerfile: Dockerfile
+    container_name: ecommerce-api-admin
+    restart: unless-stopped
+    ports:
+      - '3001:3001'
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/ecommerce
+      REDIS_HOST: redis
+      REDIS_PORT: '6379'
+      NODE_ENV: production
+    env_file:
+      - apps/api-admin/.env
     depends_on:
       postgres:
         condition: service_healthy
@@ -81,11 +102,11 @@ services:
     ports:
       - '8000:3000'
     environment:
-      NEXT_PUBLIC_API_URL: http://api:3000
+      NEXT_PUBLIC_API_URL: http://api-storefront:3000
     env_file:
       - apps/storefront/.env
     depends_on:
-      - api
+      - api-storefront
 
   admin:
     build:
@@ -96,11 +117,11 @@ services:
     ports:
       - '8001:3000'
     environment:
-      NEXT_PUBLIC_API_URL: http://api:3000
+      NEXT_PUBLIC_API_URL: http://api-storefront:3000
     env_file:
       - apps/admin/.env
     depends_on:
-      - api
+      - api-storefront
 
 volumes:
   postgres_data:

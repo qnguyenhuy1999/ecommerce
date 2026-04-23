@@ -1,7 +1,8 @@
 {
   "files": [],
   "references": [
-    { "path": "./apps/api" },
+    { "path": "./apps/api-storefront" },
+    { "path": "./apps/api-admin" },
     { "path": "./apps/worker" },
     { "path": "./apps/storefront" },
     { "path": "./apps/admin" },

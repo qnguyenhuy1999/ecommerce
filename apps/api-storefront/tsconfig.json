@@ -1,0 +1,19 @@
+{
+  "extends": "../../packages/tsconfig/nestjs.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "rootDir": "../..",
+    "paths": {
+      "@ecom/constants": ["../../packages/constants/src"],
+      "@ecom/api-types": ["../../packages/api-types/src"],
+      "@ecom/database": ["../../packages/database/src"],
+      "@ecom/email": ["../../packages/email/src"],
+      "@ecom/redis": ["../../packages/redis/src"],
+      "@ecom/shared": ["../../packages/shared/src"],
+      "@ecom/shared/*": ["../../packages/shared/src/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "test"]
+}

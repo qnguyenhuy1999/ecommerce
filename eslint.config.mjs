@@ -186,7 +186,7 @@ export default [
 
   // ─── NestJS specific ──────────────────────────────────────────────────────
   {
-    files: ['apps/api/**/*.ts', 'apps/worker/**/*.ts'],
+    files: ['apps/api-storefront/**/*.ts', 'apps/api-admin/**/*.ts', 'apps/worker/**/*.ts'],
     rules: {
       'no-console': 'warn',
       'no-debugger': 'error',
