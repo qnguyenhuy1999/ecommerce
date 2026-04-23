@@ -1,4 +1,3 @@
-// TODO: implement
 import type { ProductResponse, ProductListRequest } from '@ecom/api-types'
 
 import { getApiClient } from './client'

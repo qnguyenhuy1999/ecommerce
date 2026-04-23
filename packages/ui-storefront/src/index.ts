@@ -1,6 +1,4 @@
-// ============================================================
-// @ecom/ui-storefront — Public API (explicit named exports only)
-// ============================================================
+// @ecom/ui-storefront public API (named exports only)
 // Atoms
 export { AddToCartButton } from './atoms/AddToCartButton/AddToCartButton'
 export { CartItem } from './atoms/CartItem/CartItem'
@@ -24,10 +22,7 @@ export { WishlistButton } from './atoms/WishlistButton/WishlistButton'
 // Molecules
 export { CategoryCard } from './molecules/CategoryCard/CategoryCard'
 export { CheckoutStepper } from './molecules/CheckoutStepper/CheckoutStepper'
-export type {
-  CheckoutStep,
-  CheckoutStepperProps,
-} from './molecules/CheckoutStepper/CheckoutStepper'
+export type { CheckoutStep, CheckoutStepperProps } from './molecules/CheckoutStepper/CheckoutStepper'
 export {
   FilterSidebar,
   FilterGroup,
@@ -36,11 +31,7 @@ export {
   FilterRange,
   FilterClear,
 } from './molecules/FilterSidebar/FilterSidebar'
-export type {
-  FilterGroupSpec,
-  FilterOption,
-  FilterSidebarProps,
-} from './molecules/FilterSidebar/FilterSidebar'
+export type { FilterGroupSpec, FilterOption, FilterSidebarProps } from './molecules/FilterSidebar/FilterSidebar'
 export { FilterSidebarClient } from './molecules/FilterSidebar/FilterSidebarClient'
 export {
   ProductCard,
@@ -93,10 +84,7 @@ export { StorefrontFooter } from './layouts/StorefrontFooter/StorefrontFooter'
 export { StorefrontHeader } from './layouts/StorefrontHeader/StorefrontHeader'
 export { StorefrontShell } from './layouts/StorefrontShell/StorefrontShell'
 export { HomePageLayout } from './layouts/HomePageLayout/HomePageLayout'
-export type {
-  HomePageLayoutProps,
-  HomeProductRail,
-} from './layouts/HomePageLayout/HomePageLayout'
+export type { HomePageLayoutProps, HomeProductRail } from './layouts/HomePageLayout/HomePageLayout'
 export { CollectionPageLayout } from './layouts/CollectionPageLayout/CollectionPageLayout'
 export type { CollectionPageLayoutProps } from './layouts/CollectionPageLayout/CollectionPageLayout'
 export { ProductDetailLayout } from './layouts/ProductDetailLayout/ProductDetailLayout'

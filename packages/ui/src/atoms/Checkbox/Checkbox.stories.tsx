@@ -59,7 +59,7 @@ export const Error: Story = {
 
 export const CheckboxGroup: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [checked, setChecked] = React.useState(['shipping'])
     const options = [
       { id: 'shipping', label: 'Standard Shipping — Free' },
@@ -88,7 +88,7 @@ export const CheckboxGroup: Story = {
 
 export const FilterList: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [selected, setSelected] = React.useState(['electronics', 'clothing'])
     const filters = ['Electronics', 'Clothing', 'Home & Garden', 'Sports', 'Books', 'Toys']
     return (

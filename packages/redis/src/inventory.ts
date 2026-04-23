@@ -1,6 +1,5 @@
 import { getRedis } from './index'
 
-// TODO: implement
 export async function reserveStock(productId: string, quantity: number): Promise<number> {
   const redis = getRedis()
   const key = `stock:${productId}`
@@ -12,24 +11,19 @@ export async function reserveStock(productId: string, quantity: number): Promise
   return remaining
 }
 
-// TODO: implement
 export async function confirmStockReservation(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _productId: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _quantity: number,
 ): Promise<void> {
-  // Stock already reserved, mark as confirmed in DB
+  // TODO(@platform, 2026-04-23): Persist reservation confirmation in the DB (idempotent).
 }
 
-// TODO: implement
 export async function restoreStock(productId: string, quantity: number): Promise<void> {
   const redis = getRedis()
   const key = `stock:${productId}`
   await redis.incrby(key, quantity)
 }
 
-// TODO: implement
 export async function getStock(productId: string): Promise<number> {
   const redis = getRedis()
   const key = `stock:${productId}`

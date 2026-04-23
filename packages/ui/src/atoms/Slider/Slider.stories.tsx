@@ -36,7 +36,7 @@ export const WithLabel: Story = {
 
 export const PriceRange: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [price, setPrice] = React.useState(49)
     return (
       <div className="flex flex-col gap-3 max-w-xs">

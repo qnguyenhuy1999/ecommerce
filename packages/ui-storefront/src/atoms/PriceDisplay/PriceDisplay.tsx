@@ -1,5 +1,6 @@
 import { formatCurrency } from '@ecom/shared/utils/formatters'
 import { cn } from '@ecom/ui'
+import { Badge } from '../../atoms/Badge/Badge'
 
 export interface PriceDisplayProps extends React.HTMLAttributes<HTMLDivElement> {
   price: number
@@ -46,18 +47,10 @@ function PriceDisplay({
           >
             {formatCurrency(originalPrice, currency)}
           </span>
-          {/* Discount badge — token-based radius + text */}
-          {size !== 'sm' && (
-            <span
-              className={cn(
-                'font-bold text-[length:var(--text-micro)] uppercase tracking-wider',
-                'bg-brand-muted text-brand',
-                'px-1.5 py-0.5 rounded-[var(--radius-xs)]',
-              )}
-            >
-              {Math.round(((originalPrice - price) / originalPrice) * 100)}% Off
-            </span>
-          )}
+          {/* Discount badge */}
+          <Badge variant="discount">
+            {Math.round(((originalPrice - price) / originalPrice) * 100)}% Off
+          </Badge>
         </>
       )}
     </div>

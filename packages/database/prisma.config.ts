@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable -- Prisma config uses dynamic imports and Node globals; revisit for narrower disables. */
 import { defineConfig } from 'prisma/config'
 import path from 'node:path'
 

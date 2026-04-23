@@ -1,4 +1,6 @@
-import React from 'react'
+'use client'
+
+import React, { useState } from 'react'
 
 import { cn } from '@ecom/ui'
 
@@ -35,6 +37,8 @@ function AdminLayout({
   className,
   ...props
 }: AdminLayoutProps) {
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+
   return (
     <div
       className={cn(
@@ -46,11 +50,22 @@ function AdminLayout({
       {/* Sidebar */}
       {sidebar !== false &&
         (sidebar ?? (
-          <AdminSidebar currentPath={currentPath} onNavigate={onNavigate} {...sidebarProps} />
+          <AdminSidebar
+            currentPath={currentPath}
+            onNavigate={onNavigate}
+            collapsed={isSidebarCollapsed}
+            onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            {...sidebarProps}
+          />
         ))}
 
-      {/* Main Column — offset by sidebar width */}
-      <div className="flex flex-1 flex-col min-w-0 pl-[var(--admin-sidebar-width)] transition-all duration-[var(--duration-normal)]">
+      {/* Main Column — offset by sidebar width (or 80px if collapsed) */}
+      <div
+        className={cn(
+          "flex flex-1 flex-col min-w-0 transition-all duration-[var(--duration-normal)]",
+          isSidebarCollapsed ? "pl-16" : "pl-[var(--admin-sidebar-width)]"
+        )}
+      >
         {/* Header */}
         {header !== false && (header ?? <AdminHeader {...headerProps} />)}
 

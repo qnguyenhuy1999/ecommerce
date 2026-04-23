@@ -1,11 +1,7 @@
-// TODO: implement auth controller
-// Routes: POST /auth/register, POST /auth/login, POST /auth/refresh, POST /auth/logout
-import { Controller } from '@nestjs/common';
+import { Controller } from '@nestjs/common'
 
+// TODO(@platform, 2026-04-23): Implement auth endpoints (register/login/refresh/logout) using AuthService.
+// Keep routes aligned with docs/03-technical/API_DESIGN.md.
 @Controller('auth')
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class AuthController {
-  // TODO: implement endpoints using AuthService
-}
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder controller; endpoints added later.
+export class AuthController {}

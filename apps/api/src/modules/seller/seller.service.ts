@@ -1,14 +1,6 @@
-// TODO: implement seller service
-// - createSeller: create seller after user signs up as seller
-// - submitKyc: submit KYC documents
-// - approveSeller/RejectSeller: admin actions
-// - getSellerProfile: get seller with store info
-// - updateSeller: update store info
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
- 
+// TODO(@platform, 2026-04-23): Implement seller onboarding + profile management (KYC submission, approval workflow).
 @Injectable()
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder service kept for module wiring.
 export class SellerService {}

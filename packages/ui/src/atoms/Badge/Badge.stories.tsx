@@ -105,7 +105,7 @@ export const WithDot: Story = {
 
 export const Removable: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [tags, setTags] = useState(['Electronics', 'Under $50', 'Free Returns', 'Prime'])
 
     return (

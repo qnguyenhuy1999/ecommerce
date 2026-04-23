@@ -1,4 +1,4 @@
-import React from 'react'
+import { cn } from '@ecom/ui'
 
 import {
   BarChart3,
@@ -15,16 +15,21 @@ import {
 import type { SidebarNavGroup, SidebarNavItem } from './types'
 
 // Exported for consumers and tests
-export const DEFAULT_LOGO: React.ReactNode = (
-  <div className="flex items-center gap-[var(--space-3)]">
+export const DefaultLogo = ({ collapsed }: { collapsed?: boolean }) => (
+  <div className={cn("flex items-center", collapsed ? "justify-center" : "gap-[var(--space-3)]")}>
     <div className="shrink-0 flex items-center justify-center rounded-[var(--radius-sm)] bg-[var(--action-primary)] w-[var(--space-9)] h-[var(--space-9)]">
       <LayoutGrid className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--action-primary-foreground)]" />
     </div>
-    <span className="text-[length:var(--text-sidebar-logo)] font-bold tracking-[-0.01em] text-[var(--text-primary)]">
-      EzMart
-    </span>
+    {!collapsed && (
+      <span className="text-[length:var(--text-sidebar-logo)] font-bold tracking-[-0.01em] text-[var(--text-primary)]">
+        EzMart
+      </span>
+    )}
   </div>
 )
+
+// Maintained for backward compatibility if any old files used it
+export const DEFAULT_LOGO = <DefaultLogo />
 
 export const FALLBACK_NAV: SidebarNavGroup[] = [
   {
@@ -43,7 +48,12 @@ export const FALLBACK_NAV: SidebarNavGroup[] = [
       {
         label: 'Products',
         icon: <Box className="w-[var(--space-4)] h-[var(--space-4)]" />,
-        href: '/products',
+        href: '#', // using # to prevent standard navigation and just expand
+        children: [
+          { label: 'All Products', href: '/products' },
+          { label: 'Categories', href: '/products/categories' },
+          { label: 'Inventory', href: '/products/inventory', isActive: true }
+        ]
       },
       {
         label: 'Customers',

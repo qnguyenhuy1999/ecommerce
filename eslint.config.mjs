@@ -1,6 +1,7 @@
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsparser from '@typescript-eslint/parser'
 import importPlugin from 'eslint-plugin-import'
+import eslintComments from 'eslint-plugin-eslint-comments'
 import jsxA11y from 'eslint-plugin-jsx-a11y'
 import react from 'eslint-plugin-react'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -60,6 +61,7 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tseslint,
+      'eslint-comments': eslintComments,
       import: importPlugin,
       'unused-imports': unusedImports,
       react,
@@ -69,6 +71,11 @@ export default [
     },
     rules: {
       ...tseslint.configs.recommended.rules,
+
+      '@typescript-eslint/no-unused-vars': 'off',
+
+      'eslint-comments/require-description': 'error',
+      'eslint-comments/no-unused-disable': 'error',
 
       'unused-imports/no-unused-imports': 'error',
 
@@ -147,6 +154,7 @@ export default [
     rules: {
       ...tseslint.configs['recommended-type-checked'].rules,
       ...tseslint.configs['strict-type-checked'].rules,
+      '@typescript-eslint/no-unused-vars': 'off',
     },
   },
 

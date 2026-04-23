@@ -112,7 +112,7 @@ export const WithFooter: Story = {
 
 export const SelectableRows: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [selected, setSelected] = React.useState<string[]>([])
     const toggle = (id: string) => {
       setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]))

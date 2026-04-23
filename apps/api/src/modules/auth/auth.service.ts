@@ -1,14 +1,6 @@
-// TODO: implement auth service
-// - Register: validate, hash password (bcrypt), create user, generate tokens
-// - Login: validate, compare password, generate tokens
-// - Refresh: verify refresh token, issue new access token
-// - Logout: invalidate token (blacklist in Redis)
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
+// TODO(@platform, 2026-04-23): Implement authentication (register/login/refresh/logout) and token rotation rules.
 @Injectable()
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
-export class AuthService {
-  // TODO: implement all auth methods
-}
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder service kept for module wiring.
+export class AuthService {}

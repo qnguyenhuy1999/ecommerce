@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React from 'react'
 
-import { LayoutDashboard, ShoppingCart, Package, Users, Tag, BarChart3, Zap, Bell, Mail } from 'lucide-react'
+import { BarChart3, Bell, LayoutDashboard, Mail, Package, ShoppingCart, Tag, Users, Zap } from 'lucide-react'
 
-import { AdminLayout } from './AdminLayout'
-import type { AdminLayoutProps } from './AdminLayout'
-import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
-import { AdminHeader } from '../../organisms/AdminHeader/Header'
+import { AdminHeader } from '../../organisms/AdminHeader/AdminHeader'
 import type { NotificationItem } from '../../organisms/NotificationPanel/NotificationPanel'
+import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
+import type { AdminLayoutProps } from './AdminLayout'
+import { AdminLayout } from './AdminLayout'
 
 const meta: Meta<typeof AdminLayout> = {
   title: 'layouts/AdminLayout',
@@ -56,8 +56,13 @@ const MAIN_NAV = [
       },
       {
         label: 'Products',
-        href: '/admin/products',
+        href: '#',
         icon: <Package className="w-4 h-4" />,
+        children: [
+          { label: 'All Products', href: '/admin/products' },
+          { label: 'Categories', href: '/admin/products/categories' },
+          { label: 'Inventory', href: '/admin/products/inventory' },
+        ]
       },
       {
         label: 'Customers',

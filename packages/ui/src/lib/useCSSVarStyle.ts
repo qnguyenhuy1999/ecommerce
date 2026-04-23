@@ -12,7 +12,6 @@ import * as React from 'react'
 export function useCSSVarStyle(
   vars: Record<string, string | number | undefined>,
 ): React.CSSProperties {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   return React.useMemo(() => {
     const style: Record<string, string> = {}
     for (const [key, val] of Object.entries(vars)) {
@@ -22,6 +21,6 @@ export function useCSSVarStyle(
     }
     return style as React.CSSProperties
     // JSON.stringify gives a stable dep for the object contents
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Intentionally depend on JSON.stringify(vars) for deep-ish compare.
   }, [JSON.stringify(vars)])
 }

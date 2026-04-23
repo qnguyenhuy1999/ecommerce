@@ -7,16 +7,13 @@ import { AppModule } from './app.module'
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
-  // Global prefix
   app.setGlobalPrefix('api/v1')
 
-  // CORS
   app.enableCors({
     origin: process.env.CORS_ORIGIN || 'http://localhost:8000',
     credentials: true,
   })
 
-  // Global validation pipe
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -25,7 +22,6 @@ async function bootstrap() {
     }),
   )
 
-  // Swagger docs
   const config = new DocumentBuilder()
     .setTitle('Ecommerce API')
     .setDescription('Multi-vendor ecommerce marketplace API')
@@ -37,9 +33,9 @@ async function bootstrap() {
 
   const port = parseInt(process.env.PORT ?? '3000', 10)
   await app.listen(port)
-  // eslint-disable-next-line no-console
+  // eslint-disable-next-line no-console -- Startup log is useful in local/dev and containers.
   console.log(`[API] Running on http://localhost:${String(port)}`)
 }
 
-// eslint-disable-next-line no-console
+// eslint-disable-next-line no-console -- Ensure startup errors are surfaced.
 bootstrap().catch(console.error)

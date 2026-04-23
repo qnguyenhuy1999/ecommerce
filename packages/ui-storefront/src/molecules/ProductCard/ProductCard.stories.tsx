@@ -1,20 +1,22 @@
 import type { Meta } from '@storybook/react'
 
-import { Badge, Button } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+
+import { Badge } from '../../atoms/Badge/Badge'
 
 import {
   ProductCard,
-  ProductCardImage,
-  ProductCardContent,
-  ProductCardTitle,
-  ProductCardSubtitle,
-  ProductCardMeta,
-  ProductCardRating,
-  ProductCardBadge,
-  ProductCardPrice,
   ProductCardActions,
-  ProductCardSwatches,
+  ProductCardBadge,
+  ProductCardContent,
   ProductCardHighlights,
+  ProductCardImage,
+  ProductCardMeta,
+  ProductCardPrice,
+  ProductCardRating,
+  ProductCardSubtitle,
+  ProductCardSwatches,
+  ProductCardTitle,
 } from './ProductCard'
 
 const meta = {
@@ -26,7 +28,24 @@ const meta = {
 
 export default meta
 
-const renderProductCard = (args: { [key: string]: unknown }) => (
+type ProductCardStoryArgs = Omit<React.ComponentProps<typeof ProductCard>, 'children'> & {
+  image?: string
+  badge?: React.ReactNode
+  subtitle?: string
+  rating?: number
+  reviews?: number
+  meta?: React.ReactNode
+  highlights?: string[]
+  colors?: string[]
+  price?: number
+  originalPrice?: number
+  currencyCode?: string
+  locale?: string
+  currency?: string
+  onAddToCart?: () => void
+}
+
+const renderProductCard = (args: ProductCardStoryArgs) => (
   <div className="w-[20rem]">
     <ProductCard id={args.id} title={args.title} loading={args.loading} href={args.href}>
       {args.image && <ProductCardImage src={args.image} alt={args.title} />}
@@ -190,7 +209,7 @@ export const AllVariants = {
         title: 'Quilted Crossbody Bag',
         price: 249,
         currencyCode: 'USD',
-        badge: <Badge variant="destructive">-30%</Badge>,
+        badge: <Badge variant="sale">-30%</Badge>,
         rating: 4.9,
         reviews: 740,
         highlights: ['Trending', 'Gift ready'],

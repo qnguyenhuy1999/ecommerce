@@ -1,15 +1,6 @@
-// TODO: implement order service
-// Critical path: event-driven, NO direct import from inventory/payment modules
-// - createOrder: split cart by seller, create parent Order + SubOrders
-// - emit ORDER_CREATED event → BullMQ (NOT import InventoryModule)
-// - listOrders: paginated with filters
-// - updateStatus: validate state transition, update sub-order status
-// - requestRefund: update status to PENDING_REFUND
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
- 
+// TODO(@platform, 2026-04-23): Implement order lifecycle rules (checkout, status transitions, refunds).
 @Injectable()
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder service kept for module wiring.
 export class OrderService {}

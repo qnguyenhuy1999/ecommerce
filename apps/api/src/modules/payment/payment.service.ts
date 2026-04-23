@@ -1,13 +1,7 @@
-// TODO: implement payment service
-// Uses PaymentGateway abstraction, NOT Stripe directly
-// - createPaymentIntent: create intent via gateway, save Payment record
-// - handleWebhook: verify signature, idempotency check, emit PAYMENT_SUCCESS
-// - refund: call gateway refund method
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
- 
+// TODO(@platform, 2026-04-23): Implement PaymentService using PaymentGateway (not Stripe directly).
+// Responsibilities: create payment intents, verify webhooks (signature + idempotency), and process refunds.
 @Injectable()
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder service kept for module wiring.
 export class PaymentService {}

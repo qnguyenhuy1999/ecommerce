@@ -18,7 +18,7 @@ import React from 'react'
 import { CartItem } from '../../atoms/CartItem/CartItem'
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// Types
 export interface CartItemData {
   id: string
   title: string
@@ -41,7 +41,7 @@ export interface CartDrawerProps {
   onRemoveItem?: (id: string) => void
 }
 
-// ─── Context ─────────────────────────────────────────────────────────────────
+// Context
 interface CartDrawerContextValue {
   localItems: CartItemData[]
   subtotal: number
@@ -62,7 +62,7 @@ function useCartDrawer() {
   return ctx
 }
 
-// ─── Root ─────────────────────────────────────────────────────────────────────
+// Root
 function CartDrawerRoot({
   open,
   onOpenChange,
@@ -123,7 +123,7 @@ function CartDrawerRoot({
   )
 }
 
-// ─── Header ──────────────────────────────────────────────────────────────────
+// Header
 function CartDrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { localItems } = useCartDrawer()
   return (
@@ -150,7 +150,7 @@ function CartDrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivE
 }
 CartDrawerHeader.displayName = 'CartDrawer.Header'
 
-// ─── Shipping Progress ────────────────────────────────────────────────────────
+// Shipping progress
 function CartDrawerShippingProgress({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { localItems, percentToFreeShipping, remainingForFreeShipping, isFreeShippingUnlocked } =
     useCartDrawer()
@@ -194,7 +194,7 @@ function CartDrawerShippingProgress({ className, ...props }: React.HTMLAttribute
 }
 CartDrawerShippingProgress.displayName = 'CartDrawer.ShippingProgress'
 
-// ─── Items ────────────────────────────────────────────────────────────────────
+// Items
 function CartDrawerItems({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { localItems, onOpenChange, handleUpdateQuantity, handleRemoveItem } = useCartDrawer()
 
@@ -235,7 +235,7 @@ function CartDrawerItems({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 }
 CartDrawerItems.displayName = 'CartDrawer.Items'
 
-// ─── Footer ───────────────────────────────────────────────────────────────────
+// Footer
 function CartDrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   const { localItems, subtotal, isFreeShippingUnlocked, onCheckout } = useCartDrawer()
 
@@ -303,7 +303,7 @@ function CartDrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivE
 }
 CartDrawerFooter.displayName = 'CartDrawer.Footer'
 
-// ─── Compound export ──────────────────────────────────────────────────────────
+// Compound export
 const CartDrawer = Object.assign(CartDrawerRoot, {
   Header: CartDrawerHeader,
   ShippingProgress: CartDrawerShippingProgress,

@@ -1,10 +1,7 @@
-// TODO: implement product controller
-// Routes: GET /products, GET /products/:id, POST /products, PATCH /products/:id, DELETE /products/:id
-import { Controller } from '@nestjs/common';
+import { Controller } from '@nestjs/common'
 
- 
+// TODO(@platform, 2026-04-23): Implement product endpoints (list, details, create/update).
+// Keep routes aligned with docs/03-technical/API_DESIGN.md.
 @Controller('products')
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder controller; endpoints added later.
 export class ProductController {}

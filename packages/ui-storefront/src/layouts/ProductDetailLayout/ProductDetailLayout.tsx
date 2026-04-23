@@ -6,19 +6,22 @@ import { AddToCartButton } from '../../atoms/AddToCartButton/AddToCartButton'
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { Rating } from '../../atoms/Rating/Rating'
 import { StockBadge } from '../../atoms/StockBadge/StockBadge'
-import { TrustBadgeGroup } from '../../atoms/TrustBadge/TrustBadge'
 import type { TrustBadgeType } from '../../atoms/TrustBadge/TrustBadge'
-import { VariantSelector } from '../../molecules/VariantSelector/VariantSelector'
-import type { VariantSelectorProps } from '../../molecules/VariantSelector/VariantSelector'
-import { ShippingProgressBar } from '../../molecules/ShippingProgressBar/ShippingProgressBar'
+import { TrustBadgeGroup } from '../../atoms/TrustBadge/TrustBadge'
 import type { ReviewCardProps } from '../../molecules/ReviewCard/ReviewCard'
 import { ReviewCard } from '../../molecules/ReviewCard/ReviewCard'
+import { ShippingProgressBar } from '../../molecules/ShippingProgressBar/ShippingProgressBar'
+import type { VariantSelectorProps } from '../../molecules/VariantSelector/VariantSelector'
+import { VariantSelector } from '../../molecules/VariantSelector/VariantSelector'
 import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
 import { StorefrontSection } from '../shared/StorefrontSection'
 
-interface ProductVariantGroup extends Pick<VariantSelectorProps, 'name' | 'options' | 'value' | 'type' | 'error'> {
+interface ProductVariantGroup extends Pick<
+  VariantSelectorProps,
+  'name' | 'options' | 'value' | 'type' | 'error'
+> {
   onChange?: (value: string) => void
 }
 
@@ -157,7 +160,14 @@ function ProductDetailLayout({
 
               {actions ?? (
                 <div className="flex flex-col gap-3 sm:flex-row">
-                  <AddToCartButton size="lg" className="flex-1" />
+                  <AddToCartButton
+                    size="lg"
+                    className="flex-1"
+                    onAddToCart={() => {
+                      // TODO(@platform, 2026-04-23): Wire a real product id into `onAddToCart`.
+                      onAddToCart?.('')
+                    }}
+                  />
                   <Button variant="outline" size="lg" className="sm:w-auto">
                     Save for later
                   </Button>
@@ -177,7 +187,12 @@ function ProductDetailLayout({
                     </ul>
                   )}
                   {description && (
-                    <div className={cn('text-sm leading-relaxed text-muted-foreground', highlights.length > 0 && 'mt-5 border-t border-border/60 pt-5')}>
+                    <div
+                      className={cn(
+                        'text-sm leading-relaxed text-muted-foreground',
+                        highlights.length > 0 && 'mt-5 border-t border-border/60 pt-5',
+                      )}
+                    >
                       {description}
                     </div>
                   )}
@@ -202,17 +217,9 @@ function ProductDetailLayout({
         </StorefrontSection>
       )}
 
-      {related && (
-        <StorefrontSection contentClassName="max-w-none">
-          {related}
-        </StorefrontSection>
-      )}
+      {related && <StorefrontSection contentClassName="max-w-none">{related}</StorefrontSection>}
 
-      {newsletter && (
-        <StorefrontSection>
-          {newsletter}
-        </StorefrontSection>
-      )}
+      {newsletter && <StorefrontSection>{newsletter}</StorefrontSection>}
     </StorefrontShell>
   )
 }

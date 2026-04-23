@@ -40,7 +40,7 @@ import { UserModule } from './modules/user/user.module';
     AdminModule,
   ],
 })
- 
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.
 export class AppModule {}

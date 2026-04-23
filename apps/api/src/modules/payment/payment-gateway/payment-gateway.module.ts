@@ -7,5 +7,5 @@ import { StripeGateway } from './stripe.gateway'
   providers: [{ provide: PAYMENT_GATEWAY, useClass: StripeGateway }],
   exports: [PAYMENT_GATEWAY],
 })
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.
 export class PaymentGatewayModule {}

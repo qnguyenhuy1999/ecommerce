@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "turbo dev",
     "build": "turbo build",
-    "lint": "turbo lint",
+    "lint:comments": "node scripts/check-todos.mjs",
+    "lint": "turbo lint && pnpm -w run lint:comments",
     "format": "pnpm -w exec prettier --write \"**/*.{ts,tsx,md,stories.tsx}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
     "format:check": "pnpm -w exec prettier --check \"**/*.{ts,tsx,md,stories.tsx}\" --ignore-path .prettierignore \"!apps/api/**\" \"!apps/worker/**\" \"!packages/database/**\"",
     "type-check": "turbo type-check",
@@ -38,6 +39,7 @@
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.10.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
     "eslint-plugin-boundaries": "^6.0.2",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-jsx-a11y": "^6.10.0",

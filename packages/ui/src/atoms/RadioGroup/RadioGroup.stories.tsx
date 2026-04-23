@@ -43,7 +43,7 @@ export const Horizontal: Story = {
 
 export const WithDefaultValue: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [value, setValue] = React.useState('standard')
     return (
       <div className="flex flex-col gap-4">

@@ -60,7 +60,7 @@ const COLOR_FILTER: FilterGroup = {
     { value: 'blue', label: 'Blue', color: '#3b82f6' },
     { value: 'green', label: 'Green', color: '#22c55e' },
     { value: 'yellow', label: 'Yellow', color: '#eab308' },
-    /* eslint-enable @ecom/tokens/no-raw-design-values */
+    /* eslint-enable @ecom/tokens/no-raw-design-values -- end of color swatch literal data props */
   ],
 }
 

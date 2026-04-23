@@ -13,7 +13,7 @@ type Story = StoryObj<typeof Pagination>
 
 export const Default: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(1)
     return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
@@ -21,7 +21,7 @@ export const Default: Story = {
 
 export const FirstPage: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(1)
     return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
@@ -29,7 +29,7 @@ export const FirstPage: Story = {
 
 export const MiddlePage: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(4)
     return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
@@ -37,7 +37,7 @@ export const MiddlePage: Story = {
 
 export const LastPage: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(10)
     return <Pagination currentPage={page} totalPages={10} onPageChange={setPage} />
   },
@@ -45,7 +45,7 @@ export const LastPage: Story = {
 
 export const FewPages: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(2)
     return <Pagination currentPage={page} totalPages={5} onPageChange={setPage} />
   },
@@ -53,7 +53,7 @@ export const FewPages: Story = {
 
 export const ManyPages: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(7)
     return <Pagination currentPage={page} totalPages={25} onPageChange={setPage} />
   },
@@ -61,7 +61,7 @@ export const ManyPages: Story = {
 
 export const Interactive: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [page, setPage] = React.useState(3)
     return (
       <div className="flex flex-col gap-4">

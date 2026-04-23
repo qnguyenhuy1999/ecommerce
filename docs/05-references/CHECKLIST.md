@@ -133,7 +133,8 @@
 - [ ] No hardcoded secrets, credentials, or environment-specific values
 - [ ] No debug code or console.log statements left in
 - [ ] No commented-out code (delete instead)
-- [ ] No TODO comments without associated issue
+- [ ] Comments explain why/constraints (no narration of obvious code)
+- [ ] No TODO/FIXME/HACK comments unless traceable (see docs/04-processes/COMMENTING_GUIDELINES.md)
 - [ ] Files have appropriate copyright/license headers if needed
 
 ### TypeScript / NestJS

@@ -1,4 +1,4 @@
-// TODO: implement admin dashboard
+// TODO(@platform, 2026-04-23): Replace placeholder with real admin dashboard.
 export default function AdminPage() {
   return (
     <main className="min-h-screen">

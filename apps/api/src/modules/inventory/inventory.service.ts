@@ -1,13 +1,6 @@
-// TODO: implement inventory service
-// Uses Redis for atomic stock operations + DB for persistence
-// - reserveStock: Redis DECR, create InventoryReservation record
-// - confirmReservation: mark CONFIRMED, decrement stock
-// - restoreStock: Redis INCR on expiry/cancellation
-// - getStock: Redis GET fallback to DB
-import { Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common'
 
+// TODO(@platform, 2026-04-23): Implement inventory rules (reservation, decrement-on-pay, restore-on-cancel).
 @Injectable()
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder service kept for module wiring.
 export class InventoryService {}

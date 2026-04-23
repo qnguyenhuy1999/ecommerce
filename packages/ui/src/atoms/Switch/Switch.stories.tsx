@@ -12,7 +12,7 @@ type Story = StoryObj<typeof Switch>
 
 export const Default: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [checked, setChecked] = React.useState(false)
     return (
       <div className="flex items-center gap-3">
@@ -56,7 +56,7 @@ export const Sizes: Story = {
 
 export const Settings: Story = {
   render: () => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
+    // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
     const [settings, setSettings] = React.useState({
       email: true,
       push: false,

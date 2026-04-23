@@ -137,6 +137,7 @@ function ProductCarouselClient({
                 title={product.title}
                 image={product.image}
                 badge={product.badge}
+                badgeVariant={product.badgeVariant}
                 price={product.price}
                 originalPrice={product.originalPrice}
                 rating={product.rating}

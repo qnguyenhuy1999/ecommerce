@@ -1,4 +1,3 @@
-// TODO: implement
 import type { OrderResponse, CheckoutRequest, OrderListRequest } from '@ecom/api-types'
 
 import { getApiClient } from './client'

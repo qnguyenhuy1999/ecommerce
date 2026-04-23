@@ -1,4 +1,4 @@
-// TODO: implement storefront homepage
+// TODO(@platform, 2026-04-23): Replace placeholder with real storefront homepage.
 export default function HomePage() {
   return (
     <main className="min-h-screen">

@@ -1,4 +1,3 @@
-// TODO: implement
 import { getApiClient } from './client'
 
 export const cartClient = {
