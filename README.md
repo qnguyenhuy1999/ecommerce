@@ -17,10 +17,11 @@ A production-grade multi-vendor marketplace built with NestJS, Next.js, Prisma, 
 
 ```
 apps/
-├── api/          # NestJS REST API
-├── worker/       # BullMQ background processors
-├── storefront/  # Customer-facing Next.js app
-└── admin/        # Admin dashboard Next.js app
+├── api-storefront/  # NestJS REST API (customer-facing, port 3000)
+├── api-admin/       # NestJS REST API (admin/platform management, port 3001)
+├── worker/          # BullMQ background processors
+├── storefront/      # Customer-facing Next.js app
+└── admin/           # Admin dashboard Next.js app
 
 packages/
 ├── database/     # Prisma schema + client
@@ -46,7 +47,8 @@ packages/
 ```bash
 # 1. Copy environment files
 cp .env.example .env
-cp apps/api/.env.example apps/api/.env
+cp apps/api-storefront/.env.example apps/api-storefront/.env
+cp apps/api-admin/.env.example apps/api-admin/.env
 cp apps/worker/.env.example apps/worker/.env
 cp apps/storefront/.env.example apps/storefront/.env
 cp apps/admin/.env.example apps/admin/.env
@@ -69,12 +71,14 @@ npm run dev
 
 ### Services
 
-| Service            | URL                        |
-| ------------------ | -------------------------- |
-| API                | http://localhost:3000      |
-| API Docs (Swagger) | http://localhost:3000/docs |
-| Storefront         | http://localhost:8000      |
-| Admin              | http://localhost:8001      |
+| Service                       | URL                         |
+| ----------------------------- | --------------------------- |
+| API (Storefront)              | http://localhost:3000        |
+| API Storefront Docs (Swagger) | http://localhost:3000/docs   |
+| API (Admin)                   | http://localhost:3001        |
+| API Admin Docs (Swagger)      | http://localhost:3001/docs   |
+| Storefront                    | http://localhost:8000        |
+| Admin                         | http://localhost:8001        |
 
 ## Documentation
 

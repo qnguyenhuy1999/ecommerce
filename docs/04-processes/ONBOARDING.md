@@ -42,7 +42,8 @@ cd ecommerce
 npm install
 
 # 3. Configure environment
-cp apps/api/.env.example apps/api/.env
+cp apps/api-storefront/.env.example apps/api-storefront/.env
+cp apps/api-admin/.env.example apps/api-admin/.env
 cp apps/web/.env.example apps/web/.env
 # Edit .env files — see INFRASTRUCTURE.md for required variables
 
@@ -50,16 +51,17 @@ cp apps/web/.env.example apps/web/.env
 docker compose up -d postgres redis
 
 # 5. Run migrations
-npm run db:migrate --workspace=apps/api
+npm run db:migrate --workspace=apps/api-storefront
 
 # 6. Seed test data (optional)
-npm run db:seed --workspace=apps/api
+npm run db:seed --workspace=apps/api-storefront
 
 # 7. Start development servers
 npm run dev:all
 # Or individually:
-npm run dev --workspace=apps/api   # API on :3000
-npm run dev --workspace=apps/web    # Web on :3001
+npm run dev --workspace=apps/api-storefront   # Storefront API on :3000
+npm run dev --workspace=apps/api-admin          # Admin API on :3001
+npm run dev --workspace=apps/web                # Web on :3001
 ```
 
 ### Verify Setup
@@ -84,7 +86,7 @@ npm run dev --workspace=apps/web    # Web on :3001
 ```
 ecommerce/
 ├── apps/
-│   ├── api/                    # NestJS backend
+│   ├── api-storefront/          # NestJS backend (customer-facing)
 │   │   ├── src/
 │   │   │   ├── modules/        # Feature modules (DDD)
 │   │   │   │   ├── auth/
@@ -104,8 +106,7 @@ ecommerce/
 │   │   │   │   ├── cart/
 │   │   │   │   ├── order/
 │   │   │   │   ├── payment/
-│   │   │   │   ├── notification/
-│   │   │   │   └── admin/
+│   │   │   │   └── notification/
 │   │   │   ├── common/          # Shared utilities, decorators, filters
 │   │   │   ├── prisma/          # Prisma client, migrations
 │   │   │   └── main.ts
@@ -113,6 +114,13 @@ ecommerce/
 │   │   │   ├── schema.prisma
 │   │   │   ├── migrations/
 │   │   │   └── seed.ts
+│   │   └── Dockerfile
+│   ├── api-admin/               # NestJS backend (admin/platform management)
+│   │   ├── src/
+│   │   │   ├── modules/
+│   │   │   │   └── admin/
+│   │   │   ├── common/
+│   │   │   └── main.ts
 │   │   └── Dockerfile
 │   └── web/                     # Next.js frontend
 │       ├── src/
@@ -155,19 +163,19 @@ module-name/
 
 ```bash
 # Create module directory
-mkdir -p apps/api/src/modules/notification
-mkdir -p apps/api/src/modules/notification/dto
+mkdir -p apps/api-storefront/src/modules/notification
+mkdir -p apps/api-storefront/src/modules/notification/dto
 
 # Or use the NestJS CLI
-npm run nest:module notification --workspace=apps/api
-npm run nest:controller notification --workspace=apps/api
-npm run nest:service notification --workspace=apps/api
+npm run nest:module notification --workspace=apps/api-storefront
+npm run nest:controller notification --workspace=apps/api-storefront
+npm run nest:service notification --workspace=apps/api-storefront
 ```
 
 ### Step 2: Define the Module
 
 ```typescript
-// apps/api/src/modules/notification/notification.module.ts
+// apps/api-storefront/src/modules/notification/notification.module.ts
 import { Module } from '@nestjs/common'
 import { NotificationService } from './notification.service'
 import { NotificationController } from './notification.controller'
@@ -185,7 +193,7 @@ export class NotificationModule {}
 ### Step 3: Register in App Module
 
 ```typescript
-// apps/api/src/app.module.ts
+// apps/api-storefront/src/app.module.ts
 @Module({
   imports: [
     // ... existing modules
@@ -202,7 +210,7 @@ export class AppModule {}
 ### Step 1: Define DTO with Validation
 
 ```typescript
-// apps/api/src/modules/notification/dto/get-notifications.dto.ts
+// apps/api-storefront/src/modules/notification/dto/get-notifications.dto.ts
 import { IsOptional, IsBoolean, IsInt, Min, Max } from 'class-validator'
 import { Type } from 'class-transformer'
 
@@ -230,7 +238,7 @@ export class GetNotificationsDto {
 ### Step 2: Add Controller Method
 
 ```typescript
-// apps/api/src/modules/notification/notification.controller.ts
+// apps/api-storefront/src/modules/notification/notification.controller.ts
 import { Controller, Get, Patch, Param, Body, Query, UseGuards, Request } from '@nestjs/common'
 import { NotificationService } from './notification.service'
 import { GetNotificationsDto } from './dto/get-notifications.dto'
@@ -256,7 +264,7 @@ export class NotificationController {
 ### Step 3: Add Service Method
 
 ```typescript
-// apps/api/src/modules/notification/notification.service.ts
+// apps/api-storefront/src/modules/notification/notification.service.ts
 async findAll(userId: string, dto: GetNotificationsDto) {
   const { page, limit, isRead } = dto;
   const where = { userId };
@@ -404,10 +412,15 @@ npm run db:studio        # Open Prisma Studio
 ### NPM Scripts (Workspace-specific)
 
 ```bash
-npm run dev --workspace=apps/api        # Start API
-npm run build --workspace=apps/api      # Build API
-npm run test --workspace=apps/api       # Test API
-npm run lint --workspace=apps/api       # Lint API
+npm run dev --workspace=apps/api-storefront        # Start Storefront API
+npm run build --workspace=apps/api-storefront      # Build Storefront API
+npm run test --workspace=apps/api-storefront       # Test Storefront API
+npm run lint --workspace=apps/api-storefront       # Lint Storefront API
+
+npm run dev --workspace=apps/api-admin              # Start Admin API
+npm run build --workspace=apps/api-admin            # Build Admin API
+npm run test --workspace=apps/api-admin             # Test Admin API
+npm run lint --workspace=apps/api-admin             # Lint Admin API
 
 npm run dev --workspace=apps/web        # Start web
 npm run build --workspace=apps/web      # Build web

@@ -62,12 +62,12 @@ services:
       timeout: 5s
       retries: 5
 
-  # NestJS Backend API
-  api:
+  # NestJS Backend API (Storefront)
+  api-storefront:
     build:
-      context: ./apps/api
+      context: ./apps/api-storefront
       dockerfile: Dockerfile
-    container_name: marketplace-api
+    container_name: marketplace-api-storefront
     environment:
       DATABASE_URL: postgresql://marketplace:${POSTGRES_PASSWORD}@postgres:5432/marketplace_dev
       REDIS_URL: redis://redis:6379
@@ -81,14 +81,37 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - ./apps/api:/app
+      - ./apps/api-storefront:/app
+      - /app/node_modules
+    command: npm run start:dev
+
+  # NestJS Backend API (Admin)
+  api-admin:
+    build:
+      context: ./apps/api-admin
+      dockerfile: Dockerfile
+    container_name: marketplace-api-admin
+    environment:
+      DATABASE_URL: postgresql://marketplace:${POSTGRES_PASSWORD}@postgres:5432/marketplace_dev
+      REDIS_URL: redis://redis:6379
+      NODE_ENV: development
+      # ... other env vars from .env
+    ports:
+      - '3001:3001'
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ./apps/api-admin:/app
       - /app/node_modules
     command: npm run start:dev
 
   # BullMQ Worker
   worker:
     build:
-      context: ./apps/api
+      context: ./apps/worker
       dockerfile: Dockerfile
     container_name: marketplace-worker
     environment:
@@ -101,7 +124,7 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - ./apps/api:/app
+      - ./apps/worker:/app
       - /app/node_modules
     command: npm run start:worker:dev
 
@@ -116,7 +139,7 @@ services:
     ports:
       - '3001:3000'
     depends_on:
-      - api
+      - api-storefront
     volumes:
       - ./apps/web:/app
       - /app/node_modules
@@ -241,7 +264,8 @@ RESERVATION_TIMEOUT_SECONDS=900
 2. **Configure environment:**
 
    ```bash
-   cp apps/api/.env.example apps/api/.env
+   cp apps/api-storefront/.env.example apps/api-storefront/.env
+   cp apps/api-admin/.env.example apps/api-admin/.env
    cp apps/web/.env.example apps/web/.env
    # Edit .env files with local values
    ```
@@ -255,15 +279,16 @@ RESERVATION_TIMEOUT_SECONDS=900
 4. **Run database migrations:**
 
    ```bash
-   npm run db:migrate --workspace=apps/api
-   npm run db:seed --workspace=apps/api   # Optional: seed test data
+   npm run db:migrate --workspace=apps/api-storefront
+   npm run db:seed --workspace=apps/api-storefront   # Optional: seed test data
    ```
 
 5. **Start development servers:**
 
    ```bash
    # In separate terminals, or use concurrently:
-   npm run dev --workspace=apps/api
+   npm run dev --workspace=apps/api-storefront
+   npm run dev --workspace=apps/api-admin
    npm run dev --workspace=apps/web
    ```
 
@@ -359,7 +384,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20', cache: 'npm' }
       - run: npm ci
-      - run: npm test --workspace=apps/api -- --coverage
+      - run: npm test --workspace=apps/api-storefront -- --coverage
       - uses: codecov/codecov-action@v3
 
   build:
@@ -452,7 +477,7 @@ import { JaegerExporter } from '@opentelemetry/exporter-jaeger'
 import { NodeSDK } from '@opentelemetry/sdk-node'
 
 const sdk = new NodeSDK({
-  serviceName: 'marketplace-api',
+  serviceName: 'marketplace-api-storefront',
   traceExporter: new JaegerExporter({
     endpoint: process.env.JAEGER_ENDPOINT || 'http://localhost:14268/api/traces',
   }),
