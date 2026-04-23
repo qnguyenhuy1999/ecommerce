@@ -5,6 +5,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 
 import { PrismaModule } from '@ecom/database';
 
+import { CommonModule } from './common/common.module';
 import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CartModule } from './modules/cart/cart.module';
@@ -28,6 +29,7 @@ import { UserModule } from './modules/user/user.module';
       },
     }),
     PrismaModule,
+    CommonModule,
     AuthModule,
     UserModule,
     SellerModule,
