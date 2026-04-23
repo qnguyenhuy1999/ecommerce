@@ -129,6 +129,14 @@ jobs:
           key: dist-${{ runner.os }}-${{ github.sha }}
           fail-on-cache-miss: true
 
+      - uses: actions/cache/restore@v4
+        with:
+          path: node_modules/.pnpm/@prisma+client*/node_modules/.prisma
+          key: prisma-${{ runner.os }}-${{ hashFiles('packages/database/prisma/schema.prisma') }}
+
+      - name: Ensure Prisma client is generated
+        run: pnpm db:generate
+
       - name: ESLint (+ TODO comment audit)
         run: pnpm lint
 
