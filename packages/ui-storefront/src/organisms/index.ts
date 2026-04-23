@@ -14,3 +14,8 @@ export {
 } from './ProductGallery/ProductGallery'
 export { ProductGrid } from './ProductGrid/ProductGrid'
 export type { Product, ProductGridProps } from './ProductGrid/ProductGrid'
+export { QuickNavSection } from './QuickNavSection/QuickNavSection'
+export { FlashSaleSection } from './FlashSaleSection/FlashSaleSection'
+export { TrendingSearchSection } from './TrendingSearchSection/TrendingSearchSection'
+export { BrandShowcaseSection } from './BrandShowcaseSection/BrandShowcaseSection'
+export { TrustBannerSection } from './TrustBannerSection/TrustBannerSection'

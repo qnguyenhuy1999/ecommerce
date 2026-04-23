@@ -3,7 +3,6 @@ import React from 'react'
 import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
-import { StorefrontSection } from '../shared/StorefrontSection'
 
 export interface HomePageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   promoBar?: React.ReactNode
@@ -11,9 +10,16 @@ export interface HomePageLayoutProps extends React.HTMLAttributes<HTMLDivElement
   footer?: React.ReactNode
   headerProps?: React.ComponentProps<typeof StorefrontHeader>
   footerProps?: React.ComponentProps<typeof StorefrontFooter>
+  trustBanner?: React.ReactNode
+  quickNav?: React.ReactNode
   hero?: React.ReactNode
   categories?: React.ReactNode
-  featured?: React.ReactNode
+  flashSale?: React.ReactNode
+  trending?: React.ReactNode
+  bestSellers?: React.ReactNode
+  recommended?: React.ReactNode
+  brands?: React.ReactNode
+  newArrivals?: React.ReactNode
   newsletter?: React.ReactNode
 }
 
@@ -23,9 +29,16 @@ function HomePageLayout({
   footer,
   headerProps,
   footerProps,
+  trustBanner,
+  quickNav,
   hero,
   categories,
-  featured,
+  flashSale,
+  trending,
+  bestSellers,
+  recommended,
+  brands,
+  newArrivals,
   newsletter,
   className,
   ...props
@@ -44,12 +57,17 @@ function HomePageLayout({
       footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
       {...props}
     >
-      <div className="space-y-2 pb-10">
+      <div className="flex flex-col pb-12">
+        {trustBanner}
+        {quickNav}
         {hero}
-
-        {categories && <StorefrontSection>{categories}</StorefrontSection>}
-
-        {featured}
+        {categories}
+        {flashSale}
+        {trending}
+        {bestSellers}
+        {recommended}
+        {brands}
+        {newArrivals}
       </div>
     </StorefrontShell>
   )

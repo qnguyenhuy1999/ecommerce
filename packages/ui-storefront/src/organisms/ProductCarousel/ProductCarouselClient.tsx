@@ -1,12 +1,13 @@
 'use client'
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React from 'react'
 
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
 import { Button, cn } from '@ecom/ui'
 import type { Product } from '../ProductGrid/types'
 import { ProductCardItem } from '../../molecules/ProductCard/ProductCardItem'
+import { useCarousel } from '../../hooks/useCarousel'
 
 // ─── Props ────────────────────────────────────────────────────────────────────
 export interface ProductCarouselClientProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -27,29 +28,7 @@ function ProductCarouselClient({
   className,
   ...props
 }: ProductCarouselClientProps) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const [canScrollLeft, setCanScrollLeft] = useState(false)
-  const [canScrollRight, setCanScrollRight] = useState(true)
-
-  const updateScrollState = useCallback(() => {
-    const el = scrollRef.current
-    if (!el) return
-    setCanScrollLeft(el.scrollLeft > 8)
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 8)
-  }, [])
-
-  useEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    updateScrollState()
-    el.addEventListener('scroll', updateScrollState, { passive: true })
-    const ro = new ResizeObserver(updateScrollState)
-    ro.observe(el)
-    return () => {
-      el.removeEventListener('scroll', updateScrollState)
-      ro.disconnect()
-    }
-  }, [updateScrollState])
+  const { scrollRef, canScrollLeft, canScrollRight } = useCarousel({ total: products.length })
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { Heart, Menu, ShoppingBag } from 'lucide-react'
 
@@ -21,16 +21,6 @@ export interface StorefrontHeaderClientProps extends React.HTMLAttributes<HTMLDi
 }
 
 export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
-  const [isScrolled, setIsScrolled] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
   const {
     logo,
     cartCount = 0,
@@ -40,22 +30,12 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
     user,
     onLogin,
     onLogout,
-    categories = [],
     className,
     ...restProps
   } = props
 
   return (
-    <header
-      className={cn(
-        'sticky top-0 z-40 w-full transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-out)]',
-        isScrolled
-          ? 'bg-background/90 backdrop-blur-2xl shadow-[var(--elevation-sm)] py-3'
-          : 'bg-background py-5 relative after:absolute after:bottom-0 after:left-0 after:w-full after:h-px after:bg-border/40',
-        className,
-      )}
-      {...restProps}
-    >
+    <header className={cn('w-full bg-background py-5', className)} {...restProps}>
       <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 sm:px-6 md:px-8 w-full flex flex-col gap-5 md:gap-6">
         {/* Top Row */}
         <div className="flex items-center justify-between gap-6 md:gap-10">
@@ -151,26 +131,6 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
             </Button>
           </div>
         </div>
-
-        {/* Categories Nav */}
-        {categories.length > 0 && (
-          <div
-            className={cn(
-              'hidden md:flex items-center justify-center gap-1.5 transition-all duration-[var(--motion-normal)] ease-out',
-              isScrolled ? 'h-0 overflow-hidden opacity-0 m-0' : 'h-auto opacity-100',
-            )}
-          >
-            {categories.map((cat, i) => (
-              <a
-                key={i}
-                href={cat.href}
-                className="px-4 py-2 rounded-full text-[14px] font-medium text-foreground/75 hover:text-foreground hover:bg-muted/60 transition-colors duration-[var(--motion-fast)] relative after:absolute after:bottom-1.5 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-0.5 after:bg-brand after:transition-all after:duration-[var(--motion-fast)] hover:after:w-4"
-              >
-                {cat.label}
-              </a>
-            ))}
-          </div>
-        )}
       </div>
     </header>
   )

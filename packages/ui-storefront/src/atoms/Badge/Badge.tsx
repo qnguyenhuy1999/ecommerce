@@ -5,11 +5,11 @@ type CoreVariant = CoreBadgeProps['variant']
 type EcomVariant = 'sale' | 'discount' | 'new' | 'limited' | 'out-of-stock'
 type BadgeVariant = CoreVariant | EcomVariant
 
-interface StorefrontBadgeProps extends Omit<CoreBadgeProps, 'variant'> {
+interface ProductBadgeProps extends Omit<CoreBadgeProps, 'variant'> {
   variant?: BadgeVariant
 }
 
-function Badge({ variant, className, children, ...props }: StorefrontBadgeProps) {
+function ProductBadge({ variant, className, children, ...props }: ProductBadgeProps) {
   // Storefront exposes business-facing variants; translate to core variants so styling stays centralized.
   let coreVariant: CoreVariant | undefined = undefined
   let extraClass = ''
@@ -60,5 +60,5 @@ function Badge({ variant, className, children, ...props }: StorefrontBadgeProps)
   )
 }
 
-export { Badge }
-export type { StorefrontBadgeProps }
+export { ProductBadge }
+export type { ProductBadgeProps }

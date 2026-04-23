@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useId, useState } from 'react'
 
 import { ChevronDown, ChevronUp } from 'lucide-react'
 
@@ -20,6 +20,8 @@ export function FilterCollapse({
   activeCount = 0,
 }: FilterCollapseProps) {
   const [collapsed, setCollapsed] = useState(defaultCollapsed)
+  const id = useId()
+  const contentId = `filter-collapse-${id}`
 
   return (
     <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] px-4 shadow-[var(--elevation-filter-md)]">
@@ -28,6 +30,8 @@ export function FilterCollapse({
         variant="ghost"
         size="sm"
         onClick={() => setCollapsed((c) => !c)}
+        aria-expanded={!collapsed}
+        aria-controls={contentId}
         className={cn(
           'filter-group__header w-full flex items-center justify-between',
           'h-auto min-h-0 py-4 px-0',
@@ -56,7 +60,7 @@ export function FilterCollapse({
       </Button>
 
       {!collapsed && (
-        <div className="filter-group__content pt-5 pb-6 animate-[slide-down_var(--motion-normal)_var(--motion-ease-out)]">
+        <div id={contentId} className="filter-group__content pt-5 pb-6 animate-[slide-down_var(--motion-normal)_var(--motion-ease-out)]">
           {children}
         </div>
       )}

@@ -88,8 +88,7 @@ function HeroBanner({
 
         {subtitle && (
           <p
-            className="text-lg md:text-xl text-white/85 max-w-2xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both"
-            style={{ animationDelay: '100ms' }}
+            className="text-lg md:text-xl text-white/85 max-w-2xl mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both [animation-delay:100ms]"
           >
             {subtitle}
           </p>
@@ -97,8 +96,7 @@ function HeroBanner({
 
         {(ctaLabel || secondaryCtaLabel) && (
           <div
-            className="flex flex-wrap items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both"
-            style={{ animationDelay: '200ms' }}
+            className="flex flex-wrap items-center gap-4 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both [animation-delay:200ms]"
           >
             {ctaLabel && (
               <a
@@ -129,8 +127,7 @@ function HeroBanner({
       {/* Scroll indicator — only on full-height banners */}
       {size === 'full' && (
         <div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 animate-in fade-in duration-[var(--motion-slow)] fill-mode-both"
-          style={{ animationDelay: '600ms' }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-1 animate-in fade-in duration-[var(--motion-slow)] fill-mode-both [animation-delay:600ms]"
         >
           <span className="text-white/50 text-xs tracking-widest uppercase">Scroll</span>
           <div className="w-5 h-8 rounded-full border border-white/30 flex items-start justify-center p-1">

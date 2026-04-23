@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from 'react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button, cn, createStrictContext } from '@ecom/ui'
 
 import { ProductGalleryClient } from './ProductGalleryClient'
 
@@ -15,15 +15,8 @@ interface ProductGalleryContextValue {
   prevImage: () => void
 }
 
-const ProductGalleryContext = React.createContext<ProductGalleryContextValue | null>(null)
-
-export function useProductGallery() {
-  const context = React.useContext(ProductGalleryContext)
-  if (!context) {
-    throw new Error('ProductGallery components must be used within <ProductGallery>')
-  }
-  return context
-}
+const [ProductGalleryProvider, useProductGallery] = createStrictContext<ProductGalleryContextValue>('ProductGallery')
+export { useProductGallery }
 
 // ─── Root (server — state lives here, delegating to client leafs) ──────────
 export interface ProductGalleryProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -49,13 +42,13 @@ function ProductGalleryRoot({
   }, [images.length])
 
   return (
-    <ProductGalleryContext.Provider
+    <ProductGalleryProvider
       value={{ images, activeIndex, setActiveIndex, nextImage, prevImage }}
     >
       <div className={cn('flex flex-col md:flex-row gap-4', className)} {...props}>
         {children}
       </div>
-    </ProductGalleryContext.Provider>
+    </ProductGalleryProvider>
   )
 }
 

@@ -5,7 +5,8 @@ export { CartItem } from './atoms/CartItem/CartItem'
 export type { CartItemProps } from './atoms/CartItem/CartItem'
 export { PriceDisplay } from './atoms/PriceDisplay/PriceDisplay'
 export { PromoBar } from './atoms/PromoBar/PromoBar'
-export { Badge } from './atoms/Badge/Badge'
+export { ProductBadge } from './atoms/Badge/Badge'
+export type { ProductBadgeProps } from './atoms/Badge/Badge'
 export { QuantityStepper } from './atoms/QuantityStepper/QuantityStepper'
 export { Rating } from './atoms/Rating/Rating'
 export type { RatingProps } from './atoms/Rating/Rating'
@@ -79,6 +80,17 @@ export { StorefrontSection } from './layouts/shared/StorefrontSection'
 export { ProductGrid } from './organisms/ProductGrid/ProductGrid'
 export type { Product, ProductGridProps } from './organisms/ProductGrid/ProductGrid'
 
+export { QuickNavSection } from './organisms/QuickNavSection/QuickNavSection'
+export type { QuickNavItem, QuickNavSectionProps } from './organisms/QuickNavSection/QuickNavSection'
+export { FlashSaleSection } from './organisms/FlashSaleSection/FlashSaleSection'
+export type { FlashSaleSectionProps } from './organisms/FlashSaleSection/FlashSaleSection'
+export { TrendingSearchSection } from './organisms/TrendingSearchSection/TrendingSearchSection'
+export type { TrendingKeyword, TrendingSearchSectionProps } from './organisms/TrendingSearchSection/TrendingSearchSection'
+export { BrandShowcaseSection } from './organisms/BrandShowcaseSection/BrandShowcaseSection'
+export type { Brand, BrandShowcaseSectionProps } from './organisms/BrandShowcaseSection/BrandShowcaseSection'
+export { TrustBannerSection } from './organisms/TrustBannerSection/TrustBannerSection'
+export type { TrustBannerSectionProps } from './organisms/TrustBannerSection/TrustBannerSection'
+
 // Layouts
 export { StorefrontFooter } from './layouts/StorefrontFooter/StorefrontFooter'
 export { StorefrontHeader } from './layouts/StorefrontHeader/StorefrontHeader'
@@ -94,3 +106,9 @@ export type {
   ShippingProgressConfig,
   RelatedProductsSection,
 } from './layouts/ProductDetailLayout/ProductDetailLayout'
+
+// Hooks
+export { useCarousel } from './hooks'
+export type { UseCarouselOptions, UseCarouselReturn } from './hooks'
+export { useCountdown } from './hooks'
+export type { UseCountdownOptions, UseCountdownReturn } from './hooks'

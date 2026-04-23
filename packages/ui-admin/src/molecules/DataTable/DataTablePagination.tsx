@@ -4,7 +4,7 @@ import React from 'react'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-import { cn, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ecom/ui'
+import { buildPageList, cn, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ecom/ui'
 
 export interface DataTablePaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   page: number
@@ -18,23 +18,6 @@ export interface DataTablePaginationProps extends React.HTMLAttributes<HTMLDivEl
 
 const DEFAULT_PAGE_SIZES = [10, 25, 50, 100]
 
-function getPageRange(current: number, total: number): (number | '...')[] {
-  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1)
-
-  const range: (number | '...')[] = []
-  let prev: number | null = null
-
-  for (let i = 1; i <= total; i++) {
-    if (i === 1 || i === total || (i >= current - 1 && i <= current + 1)) {
-      if (prev !== null && i - prev > 1) range.push('...')
-      range.push(i)
-      prev = i
-    }
-  }
-
-  return range
-}
-
 export function DataTablePagination({
   page,
   pageSize,
@@ -47,7 +30,7 @@ export function DataTablePagination({
   ...props
 }: DataTablePaginationProps) {
   const totalPages = Math.max(1, Math.ceil(totalRows / pageSize))
-  const pages = getPageRange(page, totalPages)
+  const pages = buildPageList(page, totalPages, 1, 1)
 
   return (
     <div
@@ -77,7 +60,7 @@ export function DataTablePagination({
       {/* Page numbers */}
       <div className="flex items-center gap-1">
         {pages.map((p, i) =>
-          p === '...' ? (
+          p === 'ellipsis' ? (
             <span
               key={`ellipsis-${i}`}
               className="w-8 h-8 flex items-center justify-center text-[var(--text-sm)] text-[var(--text-secondary)] select-none"

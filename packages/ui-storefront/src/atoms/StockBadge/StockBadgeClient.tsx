@@ -2,7 +2,7 @@
 
 import { CheckCircle2, AlertTriangle, XCircle } from 'lucide-react'
 
-import { Badge } from '../Badge/Badge'
+import { ProductBadge } from '../Badge/Badge'
 
 // ─── Client leaf: animated low-stock badge ──────────────────────────────────
 interface StockBadgeClientProps {
@@ -40,12 +40,12 @@ export function StockBadgeClient({ status, count }: StockBadgeClientProps) {
   if (!label) return null
 
   return (
-    <Badge
+    <ProductBadge
       variant={config.variant}
       icon={<Icon className="w-3.5 h-3.5" />}
       className={config.className}
     >
       {label}
-    </Badge>
+    </ProductBadge>
   )
 }

@@ -1,6 +1,6 @@
 import type { Meta } from '@storybook/react'
 
-import { Badge } from '../../atoms/Badge/Badge'
+import { ProductBadge } from '../../atoms/Badge/Badge'
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
 import { ProductGrid } from '../../organisms/ProductGrid/ProductGrid'
 import { CollectionPageLayout } from './CollectionPageLayout'
@@ -25,7 +25,7 @@ const products = [
     rating: 4.8,
     ratingCount: 824,
     buyCount: 14200,
-    badge: <Badge variant="success">Popular</Badge>,
+    badge: <ProductBadge variant="success">Popular</ProductBadge>,
   },
   {
     id: 's2',

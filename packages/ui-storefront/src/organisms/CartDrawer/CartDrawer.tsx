@@ -12,6 +12,7 @@ import {
   SheetHeader,
   SheetTitle,
   cn,
+  createStrictContext,
 } from '@ecom/ui'
 import { ArrowRight, ShoppingBag, Sparkles, Tag } from 'lucide-react'
 import React from 'react'
@@ -54,13 +55,7 @@ interface CartDrawerContextValue {
   handleRemoveItem: (id: string) => void
 }
 
-const CartDrawerContext = React.createContext<CartDrawerContextValue | null>(null)
-
-function useCartDrawer() {
-  const ctx = React.useContext(CartDrawerContext)
-  if (!ctx) throw new Error('useCartDrawer must be used within <CartDrawer>')
-  return ctx
-}
+const [CartDrawerProvider, useCartDrawer] = createStrictContext<CartDrawerContextValue>('CartDrawer')
 
 // Root
 function CartDrawerRoot({
@@ -96,7 +91,7 @@ function CartDrawerRoot({
   }
 
   return (
-    <CartDrawerContext.Provider
+    <CartDrawerProvider
       value={{
         localItems,
         subtotal,
@@ -119,7 +114,7 @@ function CartDrawerRoot({
           </div>
         </SheetContent>
       </Sheet>
-    </CartDrawerContext.Provider>
+    </CartDrawerProvider>
   )
 }
 

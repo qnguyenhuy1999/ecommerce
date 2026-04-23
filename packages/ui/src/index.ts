@@ -95,7 +95,7 @@ export {
   type AvatarGroupProps,
 } from './molecules/AvatarGroup/AvatarGroup'
 export { Kbd, type KbdProps } from './atoms/Kbd/Kbd'
-export { Pagination } from './organisms/Pagination/Pagination'
+export { Pagination, buildPageList } from './organisms/Pagination/Pagination'
 export { ThemeProvider, useTheme } from './providers'
 export { createStrictContext } from './lib/createStrictContext'
 export { useCSSVarStyle } from './lib/useCSSVarStyle'

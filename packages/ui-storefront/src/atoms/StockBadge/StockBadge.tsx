@@ -4,7 +4,7 @@
 
 import React from 'react'
 
-import { Badge } from '../Badge/Badge'
+import { ProductBadge } from '../Badge/Badge'
 
 export interface StockBadgeProps extends React.HTMLAttributes<HTMLDivElement> {
   status: 'in-stock' | 'low-stock' | 'out-of-stock'
@@ -31,9 +31,9 @@ function StockBadge({ status, count, className, ...props }: StockBadgeProps) {
   } as const
 
   return (
-    <Badge variant={variantMap[status]} className={className} {...props}>
+    <ProductBadge variant={variantMap[status]} className={className} {...props}>
       {label}
-    </Badge>
+    </ProductBadge>
   )
 }
 

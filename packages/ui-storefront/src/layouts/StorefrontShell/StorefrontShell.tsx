@@ -17,7 +17,7 @@ const StorefrontShell = React.forwardRef<HTMLDivElement, StorefrontShellProps>(
         className={cn('flex flex-col min-h-screen bg-background text-foreground', className)}
       >
         {header && (
-          <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <header className="w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             {header}
           </header>
         )}

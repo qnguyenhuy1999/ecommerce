@@ -2,7 +2,7 @@ import type { Meta } from '@storybook/react'
 
 import { Button } from '@ecom/ui'
 
-import { Badge } from '../../atoms/Badge/Badge'
+import { ProductBadge } from '../../atoms/Badge/Badge'
 
 import {
   ProductCard,
@@ -131,7 +131,7 @@ export const WithBadge = {
     currencyCode: 'USD',
     reviews: 740,
     rating: 4.9,
-    badge: <Badge variant="destructive">-30%</Badge>,
+    badge: <ProductBadge variant="destructive">-30%</ProductBadge>,
     highlights: ['Trending', 'Gift ready'],
     onAddToCart: () => console.log('added'),
   },
@@ -209,7 +209,7 @@ export const AllVariants = {
         title: 'Quilted Crossbody Bag',
         price: 249,
         currencyCode: 'USD',
-        badge: <Badge variant="sale">-30%</Badge>,
+        badge: <ProductBadge variant="sale">-30%</ProductBadge>,
         rating: 4.9,
         reviews: 740,
         highlights: ['Trending', 'Gift ready'],

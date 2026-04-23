@@ -9,7 +9,7 @@ export interface PaginationProps {
   className?: string
 }
 
-function buildPageList(
+export function buildPageList(
   page: number,
   totalPages: number,
   siblings: number,

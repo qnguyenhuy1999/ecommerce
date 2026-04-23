@@ -2,8 +2,8 @@ import React from 'react'
 
 import { Button, cn } from '@ecom/ui'
 
-import type { StorefrontBadgeProps } from '../../atoms/Badge/Badge'
-import { Badge } from '../../atoms/Badge/Badge'
+import type { ProductBadgeProps } from '../../atoms/Badge/Badge'
+import { ProductBadge } from '../../atoms/Badge/Badge'
 import {
   ProductCard,
   ProductCardActions,
@@ -24,7 +24,7 @@ export interface ProductCardItemProps extends React.HTMLAttributes<HTMLDivElemen
   price?: number
   originalPrice?: number
   badge?: React.ReactNode
-  badgeVariant?: StorefrontBadgeProps['variant']
+  badgeVariant?: ProductBadgeProps['variant']
   rating?: number
   ratingCount?: number
   buyCount?: number
@@ -67,7 +67,7 @@ function ProductCardItem({
       {(badge !== undefined || badgeVariant !== undefined) && (
         <ProductCardBadge>
           {typeof badge === 'string' || typeof badge === 'number' || (badge === undefined && badgeVariant) ? (
-            <Badge variant={badgeVariant || 'new'}>{badge}</Badge>
+            <ProductBadge variant={badgeVariant || 'new'}>{badge}</ProductBadge>
           ) : (
             badge
           )}

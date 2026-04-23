@@ -1,11 +1,18 @@
 import type { Meta } from '@storybook/react'
 
+import { Flame, Ticket, Gamepad2, Gift, Gem, Zap, Shirt, Home } from 'lucide-react'
+
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
 import { NewsletterSignup } from '../../organisms/NewsletterSignup/NewsletterSignup'
 import { HeroBanner } from '../../organisms/HeroBanner/HeroBanner'
 import { CategoryGrid } from '../../organisms/CategoryGrid/CategoryGrid'
 import { ProductCarousel } from '../../organisms/ProductCarousel/ProductCarousel'
 import { StorefrontSection } from '../shared/StorefrontSection'
+import { QuickNavSection } from '../../organisms/QuickNavSection/QuickNavSection'
+import { FlashSaleSection } from '../../organisms/FlashSaleSection/FlashSaleSection'
+import { TrendingSearchSection } from '../../organisms/TrendingSearchSection/TrendingSearchSection'
+import { BrandShowcaseSection } from '../../organisms/BrandShowcaseSection/BrandShowcaseSection'
+import { TrustBannerSection } from '../../organisms/TrustBannerSection/TrustBannerSection'
 import { HomePageLayout } from './HomePageLayout'
 import { STOREFRONT_FOOTER_WITH_SOCIALS_PROPS } from '../StorefrontFooter/StorefrontFooter.fixtures'
 
@@ -95,17 +102,26 @@ export const Default = {
     headerProps: {
       cartCount: 3,
       wishlistCount: 7,
-      categories: [
-        { label: 'New', href: '/new' },
-        { label: 'Women', href: '/women' },
-        { label: 'Men', href: '/men' },
-        { label: 'Home', href: '/home' },
-      ],
       logo: <span className="text-xl font-black tracking-tight">QHStore</span>,
     },
     footerProps: {
       ...STOREFRONT_FOOTER_WITH_SOCIALS_PROPS,
     },
+    trustBanner: <TrustBannerSection />,
+    quickNav: (
+      <QuickNavSection
+        items={[
+          { icon: <Flame />, label: 'Hot Deals', href: '#' },
+          { icon: <Ticket />, label: 'Coupons', href: '#' },
+          { icon: <Gamepad2 />, label: 'Electronics', href: '#' },
+          { icon: <Gift />, label: 'Gifts', href: '#' },
+          { icon: <Gem />, label: 'Premium', href: '#' },
+          { icon: <Zap />, label: 'Flash Sale', href: '#' },
+          { icon: <Shirt />, label: 'Fashion', href: '#' },
+          { icon: <Home />, label: 'Living', href: '#' },
+        ]}
+      />
+    ),
     hero: (
       <HeroBanner
         eyebrow="Spring collection"
@@ -122,29 +138,51 @@ export const Default = {
       <StorefrontSection
         eyebrow="Shop by category"
         title="Built around how customers actually browse"
-        description="Use the existing category cards and hero to assemble a storefront landing page with minimal custom wiring."
-      >
+        description="Use the existing category cards and hero to assemble a storefront landing page with minimal custom wiring.">
         <CategoryGrid categories={categories} columns={4} />
       </StorefrontSection>
     ),
-    featured: (
-      <>
-        <ProductCarousel
-          title="Fresh this week"
-          subtitle="Carousel sections can be driven by product arrays."
-          viewAllHref="/fresh"
-          products={products}
-          onAddToCart={() => {}}
-        />
-        <ProductCarousel
-          title="Editor picks"
-          subtitle="The layout builds product cards internally for the carousel."
-          viewAllHref="/editors-picks"
-          products={products.slice(0, 3)}
-          onAddToCart={() => {}}
-        />
-      </>
+    flashSale: (
+      <FlashSaleSection
+        title="Flash Sale"
+        targetDate={new Date(new Date().getTime() + 4 * 60 * 60 * 1000)}
+        products={products}
+        viewAllHref="/flash-sale"
+        onAddToCart={() => {}}
+      />
     ),
+    trending: (
+      <TrendingSearchSection
+        keywords={[
+          { label: 'Wireless Earbuds', href: '#' },
+          { label: 'Running Shoes', href: '#' },
+          { label: 'Mechanical Keyboard', href: '#' },
+          { label: 'OLED TV', href: '#' },
+          { label: 'Protein Powder', href: '#' },
+        ]}
+      />
+    ),
+    bestSellers: (
+      <ProductCarousel title="Best Sellers" viewAllHref="/best-sellers" products={products} onAddToCart={() => {}} />
+    ),
+    recommended: <ProductCarousel title="Recommended For You" products={products.slice(0, 3)} onAddToCart={() => {}} />,
+    brands: (
+      <BrandShowcaseSection
+        brands={[
+          { name: 'Nike', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg', href: '#' },
+          { name: 'Adidas', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg', href: '#' },
+          { name: 'Puma', logo: 'https://upload.wikimedia.org/wikipedia/en/4/45/Puma_Logo.svg', href: '#' },
+          { name: 'Sony', logo: 'https://upload.wikimedia.org/wikipedia/commons/c/c4/Sony_logo.svg', href: '#' },
+          { name: 'Samsung', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg', href: '#' },
+          {
+            name: 'Apple',
+            logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg',
+            href: '#',
+          },
+        ]}
+      />
+    ),
+    newArrivals: <ProductCarousel title="New Arrivals" viewAllHref="/new" products={products} onAddToCart={() => {}} />,
     newsletter: <NewsletterSignup />,
     onAddToCart: () => {},
   },

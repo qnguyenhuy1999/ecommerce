@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { cn } from '@ecom/ui'
 
 import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
@@ -82,14 +81,7 @@ function CollectionPageLayout({
             {aside}
           </aside>
 
-          <div
-            className={cn(
-              'rounded-[var(--radius-2xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]',
-              'md:p-6',
-            )}
-          >
-            {grid}
-          </div>
+          {grid}
         </div>
       </StorefrontSection>
     </StorefrontShell>

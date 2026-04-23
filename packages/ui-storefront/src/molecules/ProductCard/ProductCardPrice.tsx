@@ -2,7 +2,7 @@ import { formatCurrency } from '@ecom/shared/utils/formatters'
 
 import { cn } from '@ecom/ui'
 
-import { Badge } from '../../atoms/Badge/Badge'
+import { ProductBadge } from '../../atoms/Badge/Badge'
 
 interface ProductCardPriceProps extends React.HTMLAttributes<HTMLDivElement> {
   price: number
@@ -40,9 +40,9 @@ export function ProductCardPrice({
           </span>
         )}
         {discountPercent > 0 && (
-          <Badge variant="discount">
+          <ProductBadge variant="discount">
             -{discountPercent}%
-          </Badge>
+          </ProductBadge>
         )}
       </div>
       <p className="text-[length:var(--text-micro)] text-muted-foreground">

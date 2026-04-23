@@ -1,5 +1,5 @@
 import { cn } from '@ecom/ui'
-import { Badge } from '../../atoms/Badge/Badge'
+import { ProductBadge } from '../../atoms/Badge/Badge'
 
 interface ProductCardHighlightsProps extends React.HTMLAttributes<HTMLDivElement> {
   items: string[]
@@ -16,9 +16,9 @@ export function ProductCardHighlights({
   return (
     <div className={cn('mt-2 flex flex-wrap items-center gap-1.5', className)} {...props}>
       {highlights.map((item) => (
-        <Badge key={item} variant="secondary">
+        <ProductBadge key={item} variant="secondary">
           {item}
-        </Badge>
+        </ProductBadge>
       ))}
     </div>
   )

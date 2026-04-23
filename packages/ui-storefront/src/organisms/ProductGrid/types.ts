@@ -1,4 +1,4 @@
-import type { StorefrontBadgeProps } from '../../atoms/Badge/Badge'
+import type { ProductBadgeProps } from '../../atoms/Badge/Badge'
 
 export interface Product {
   id: string
@@ -7,7 +7,7 @@ export interface Product {
   price: number
   originalPrice?: number
   badge?: React.ReactNode
-  badgeVariant?: StorefrontBadgeProps['variant']
+  badgeVariant?: ProductBadgeProps['variant']
   rating?: number
   ratingCount?: number
   buyCount?: number
