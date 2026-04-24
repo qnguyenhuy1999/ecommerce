@@ -1,16 +1,24 @@
+import 'reflect-metadata'
+import 'dotenv/config'
 import { ValidationPipe } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import cookieParser from 'cookie-parser'
 
 import { AppModule } from './app.module'
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule)
 
+  app.use(cookieParser())
+
   app.setGlobalPrefix('api/v1')
 
+  const configService = app.get(ConfigService)
+
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:8001',
+    origin: configService.get<string>('cors.origin') ?? 'http://localhost:8001',
     credentials: true,
   })
 
@@ -26,12 +34,15 @@ async function bootstrap() {
     .setTitle('Ecommerce Admin API')
     .setDescription('Admin API for ecommerce platform management')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addCookieAuth('access_token')
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, document)
 
-  const port = parseInt(process.env.PORT ?? '3001', 10)
+  // Flush pending logs and close Redis/Postgres connections cleanly on SIGTERM.
+  app.enableShutdownHooks()
+
+  const port = configService.get<number>('port') ?? 3001
   await app.listen(port)
   // eslint-disable-next-line no-console -- Startup log is useful in local/dev and containers.
   console.log(`[API-ADMIN] Running on http://localhost:${String(port)}`)

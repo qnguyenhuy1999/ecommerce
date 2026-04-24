@@ -4,11 +4,11 @@ import { ConfigModule } from '@nestjs/config'
 import { ThrottlerModule } from '@nestjs/throttler'
 
 import { PrismaModule } from '@ecom/database'
+import { AuthModule } from '@ecom/nest-auth'
 
 import { CommonModule } from './common/common.module'
 import configuration from './config/configuration'
 import { AdminModule } from './modules/admin/admin.module'
-import { AuthModule } from './modules/auth/auth.module'
 import { CartModule } from './modules/cart/cart.module'
 import { InventoryModule } from './modules/inventory/inventory.module'
 import { NotificationModule } from './modules/notification/notification.module'

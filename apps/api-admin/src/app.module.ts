@@ -3,13 +3,16 @@ import { ConfigModule } from '@nestjs/config'
 import { ThrottlerModule } from '@nestjs/throttler'
 
 import { PrismaModule } from '@ecom/database'
+import { AuthModule } from '@ecom/nest-auth'
 
+import configuration from './config/configuration'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
     PrismaModule,
+    AuthModule,
   ],
 })
 

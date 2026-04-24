@@ -1,45 +1,18 @@
-import 'dotenv/config'
 import { z } from 'zod'
 
-const envSchema = z.object({
-  // Application
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().default('3000'),
+import { baseEnvSchema, validateEnv } from '@ecom/nest-config'
+import 'dotenv/config'
+
+/**
+ * Storefront-specific env overlay. The shared base (DB, Redis, JWT, cookie,
+ * argon2, rate-limit, CORS, node env, port) lives in `@ecom/nest-config`.
+ * Anything below is exclusive to the customer-facing API.
+ */
+const envSchema = baseEnvSchema.extend({
+  // Application URLs (storefront-specific)
   API_URL: z.string().default('http://localhost:3000'),
   STOREFRONT_URL: z.string().default('http://localhost:8000'),
   ADMIN_URL: z.string().default('http://localhost:8001'),
-  CORS_ORIGIN: z.string().default('http://localhost:8000'),
-
-  // Database
-  DATABASE_URL: z.string(),
-
-  // Redis
-  REDIS_HOST: z.string().default('localhost'),
-  REDIS_PORT: z.string().default('6379'),
-  REDIS_PASSWORD: z.string().optional(),
-
-  // JWT
-  JWT_ACCESS_SECRET: z.string().min(32),
-  JWT_REFRESH_SECRET: z.string().min(32),
-  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
-  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
-
-  // Cookie
-  COOKIE_SECURE: z
-    .enum(['true', 'false'])
-    .default('false')
-    .transform((v) => v === 'true'),
-  COOKIE_DOMAIN: z.string().optional(),
-
-  // Security
-  BCRYPT_SALT_ROUNDS: z
-    .string()
-    .optional()
-    .transform((v) => (v ? parseInt(v, 10) : 12))
-    .pipe(z.number().int().min(1).max(31)),
-  ARGON2_MEMORY_COST: z.coerce.number().int().min(1024).default(65536),
-  ARGON2_TIME_COST: z.coerce.number().int().min(1).default(3),
-  ARGON2_PARALLELISM: z.coerce.number().int().min(1).default(4),
 
   // Stripe
   STRIPE_SECRET_KEY: z.string().optional().default(''),
@@ -49,18 +22,6 @@ const envSchema = z.object({
 
   // BullMQ
   BULLMQ_PREFIX: z.string().optional().default('ecommerce'),
-
-  // Rate Limiting
-  RATE_LIMIT_TTL: z
-    .string()
-    .optional()
-    .transform((v) => (v ? parseInt(v, 10) : 60))
-    .pipe(z.number().int().min(1)),
-  RATE_LIMIT_MAX: z
-    .string()
-    .optional()
-    .transform((v) => (v ? parseInt(v, 10) : 100))
-    .pipe(z.number().int().min(1)),
 
   // Email / SMTP
   SMTP_HOST: z.string().optional().default(''),
@@ -74,15 +35,6 @@ const envSchema = z.object({
   EMAIL_FROM: z.string().optional().default('noreply@example.com'),
 })
 
-const parsed = envSchema.safeParse(process.env)
-
-if (!parsed.success) {
-  const errors = parsed.error.errors.map((e) => `[${e.path.join('.')}] ${e.message}`).join('\n')
-  // eslint-disable-next-line no-console -- Environment schema errors must be visible during startup.
-  console.error('❌ Environment validation failed:\n', errors)
-  throw new Error(`Environment validation failed:\n${errors}`)
-}
-
-export const env = parsed.data
+export const env = validateEnv(envSchema)
 
 export type Env = z.infer<typeof envSchema>

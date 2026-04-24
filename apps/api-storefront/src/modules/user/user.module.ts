@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common'
 
+import { PrismaUserRepository, USER_REPOSITORY } from '@ecom/nest-auth'
+
 import { UserController } from './user.controller'
 import { UserService } from './user.service'
-import { USER_REPOSITORY } from '../auth/domain/ports/user.repository.port'
-import { PrismaUserRepository } from '../auth/infrastructure/repositories/prisma-user.repository'
 
 @Module({
   controllers: [UserController],
