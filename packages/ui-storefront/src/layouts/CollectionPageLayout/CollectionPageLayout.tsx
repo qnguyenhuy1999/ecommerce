@@ -23,6 +23,7 @@ export interface CollectionPageLayoutProps extends React.HTMLAttributes<HTMLDivE
   aside?: React.ReactNode
   grid: React.ReactNode
   newsletter?: React.ReactNode
+  discoveryToolbar?: React.ReactNode
 }
 
 function CollectionPageLayout({
@@ -41,6 +42,7 @@ function CollectionPageLayout({
   aside,
   grid,
   newsletter,
+  discoveryToolbar,
   className,
   ...props
 }: CollectionPageLayoutProps) {
@@ -72,15 +74,18 @@ function CollectionPageLayout({
 
         <div className="grid gap-8 lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start">
           <aside className="space-y-4 lg:sticky lg:top-28">
-            <FilterSidebar
-              groups={filters}
-              onFilterChange={onFilterChange}
-              onClearAll={onClearAll}
-            />
+            <FilterSidebar groups={filters} onFilterChange={onFilterChange} onClearAll={onClearAll} />
             {aside}
           </aside>
 
-          {grid}
+          <div className="space-y-5">
+            {discoveryToolbar && (
+              <div className="rounded-[var(--radius-xl)] border border-border/70 bg-[var(--surface-elevated)]/92 p-3 shadow-[var(--elevation-surface)] backdrop-blur-[8px]">
+                {discoveryToolbar}
+              </div>
+            )}
+            {grid}
+          </div>
         </div>
       </StorefrontSection>
     </StorefrontShell>

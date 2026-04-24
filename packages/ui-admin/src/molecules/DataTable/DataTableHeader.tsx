@@ -78,11 +78,12 @@ export function DataTableColumn({
       className={cn(
         headerHeight,
         'px-4 text-left align-middle font-medium select-none',
-        'text-[var(--text-micro)] text-[var(--text-secondary)] uppercase tracking-[0.05em]',
+        'text-[var(--text-micro)] text-[var(--text-secondary)] uppercase tracking-[0.08em]',
         stickyHeader && [
           'sticky top-0 z-20',
           'backdrop-blur',
-          'supports-[backdrop-filter]:bg-[var(--surface-elevated)]/60',
+          'supports-[backdrop-filter]:bg-[var(--surface-elevated)]/82',
+          'shadow-[0_1px_0_rgba(0,0,0,0.04)]',
         ],
         !stickyHeader && 'bg-[var(--surface-elevated)]',
         align === 'center' && 'text-center',

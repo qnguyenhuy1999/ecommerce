@@ -26,41 +26,22 @@ import type { DataTablePaginationProps } from './DataTablePagination'
 import type { DataTableSkeletonRowProps } from './DataTableSkeletonRow'
 import type { DataTableStatusBadgeProps } from './DataTableStatusBadge'
 
-/* ─── Root ────────────────────────────────────────────────────────────────── */
-
-interface DataTableProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  'title' | 'description'
-> {
-  /** Enables row selection with checkboxes. */
+interface DataTableProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'description'> {
   selectable?: boolean
   selectedKeys?: (string | number)[]
   onSelectionChange?: (keys: (string | number)[]) => void
-  /**
-   * Row keys currently rendered (ex: current page). Enables "select all on page".
-   * If omitted, the header checkbox is disabled.
-   */
   allRowKeys?: (string | number)[]
-  /** Alternating row background shading. */
   zebraStriping?: boolean
-  /** Sticky column headers during scroll. */
   stickyHeader?: boolean
-  /** Density mode for row height / padding. */
   density?: 'compact' | 'default' | 'comfortable'
-  /** @deprecated Use `density="compact"` */
   compact?: boolean
-  /** Wrap the table in a polished card with shadow and border-radius. */
   card?: boolean
-  /** Title displayed in the card header. */
   title?: React.ReactNode
-  /** Subtitle / description under the title. */
   description?: React.ReactNode
-  /** Total number of rows (used for pagination). */
   totalRows?: number
-  /** Show a loading state. */
   loading?: boolean
-  /** Table layout algorithm. */
   tableLayout?: 'auto' | 'fixed'
+  containerClassName?: string
 }
 
 function DataTableRoot({
@@ -79,6 +60,7 @@ function DataTableRoot({
   children,
   loading = false,
   tableLayout = 'auto',
+  containerClassName,
   ...props
 }: DataTableProps) {
   const resolvedDensity = density ?? (compact ? 'compact' : 'default')
@@ -120,38 +102,37 @@ function DataTableRoot({
       <div
         className={cn(
           'admin-data-table group',
-          card && [
-            'flex flex-col',
-            'rounded-[var(--data-table-radius)] border border-[var(--data-table-toolbar-border)] bg-[var(--data-table-toolbar-bg)]',
-            'shadow-[var(--data-table-shadow)]',
-          ],
+          'overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)]/96 backdrop-blur-[10px]',
+          card && 'shadow-[var(--elevation-surface)]',
           !card && 'flex flex-col',
           className,
         )}
         {...props}
       >
-        {/* Card header */}
         {(title || description) && card && (
-          <div className="flex items-center justify-between px-4 pt-4 pb-3 border-b border-[var(--border-subtle)] shrink-0">
+          <div className="shrink-0 border-b border-[var(--border-subtle)] bg-[var(--surface-elevated)]/85 px-5 pb-4 pt-5">
             <div>
               {title && (
-                <h2 className="text-[var(--text-lg)] font-semibold text-foreground leading-tight">
+                <h2 className="text-[var(--font-size-heading-sm)] font-semibold leading-tight text-foreground">
                   {title}
                 </h2>
               )}
               {description && (
-                <p className="mt-0.5 text-[var(--text-sm)] text-muted-foreground">{description}</p>
+                <p className="mt-1 text-[var(--text-sm)] text-muted-foreground">{description}</p>
               )}
             </div>
           </div>
         )}
 
-        {/* Toolbar & bulk actions sit ABOVE the table (outside <table>) */}
         {toolbarChild}
         {bulkActionsChild}
 
         <Table
-          containerClassName={cn(stickyHeader && 'max-h-[var(--space-96)]')}
+          containerClassName={cn(
+            stickyHeader && 'max-h-[var(--space-96)]',
+            'bg-transparent',
+            containerClassName,
+          )}
           className={cn(
             'w-full caption-bottom text-sm',
             tableLayout === 'fixed' ? 'table-fixed' : 'table-auto',
@@ -160,12 +141,10 @@ function DataTableRoot({
           {tableChildren}
         </Table>
 
-        {/* Pagination sits BELOW the table (outside <table>) */}
         {paginationChild}
 
-        {/* Footer info bar — only rendered when NOT using Pagination sub-component */}
         {!paginationChild && props.totalRows !== undefined && (
-          <div className="px-4 py-3 border-t border-[var(--border-subtle)] text-[var(--text-xs)] text-[var(--text-secondary)] shrink-0">
+          <div className="shrink-0 border-t border-[var(--border-subtle)] px-5 py-3 text-[var(--text-xs)] text-[var(--text-secondary)]">
             {props.totalRows} {props.totalRows === 1 ? 'item' : 'items'}
           </div>
         )}
@@ -173,8 +152,6 @@ function DataTableRoot({
     </DataTableContext.Provider>
   )
 }
-
-/* ─── Compound namespace ─────────────────────────────────────────────────── */
 
 const DataTable = Object.assign(DataTableRoot, {
   Toolbar: DataTableToolbar,

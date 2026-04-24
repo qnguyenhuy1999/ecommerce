@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
 import { randomUUID } from 'node:crypto'
@@ -22,7 +22,7 @@ export interface RefreshTokenPayload {
 export class JwtTokenService {
   constructor(
     private readonly jwt: JwtService,
-    private readonly config: ConfigService,
+    @Inject(ConfigService) private readonly config: ConfigService,
   ) {}
 
   generateAccessToken(user: UserEntity): { token: string; jti: string; expiresInSeconds: number } {

@@ -122,7 +122,7 @@ function AdminHeader({
       className={cn(
         'h-auto min-h-0 min-w-0 justify-start',
         'gap-[var(--space-2)] rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
-        'hover:bg-[var(--state-hover)]',
+        'border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)]',
         'focus-visible:ring-[var(--action-primary)]',
       )}
     >
@@ -150,8 +150,8 @@ function AdminHeader({
     <header
       className={cn(
         'sticky top-0 z-40 flex w-full items-center',
-        'h-[var(--admin-header-height)] bg-[var(--surface-base)]',
-        'border-b border-[var(--border-subtle)]',
+        'h-[var(--admin-header-height)] bg-[var(--surface-base)]/92 backdrop-blur-[14px]',
+        'border-b border-[var(--border-subtle)] shadow-[var(--elevation-xs)]',
         'px-[var(--space-6)] gap-[var(--space-4)]',
         className,
       )}
@@ -184,8 +184,8 @@ function AdminHeader({
               <Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
             }
             className={cn(
-              'h-9 rounded-full',
-              'border-[var(--border-subtle)] bg-[var(--surface-muted)]',
+              'h-10 rounded-full',
+              'border-[var(--border-subtle)] bg-[var(--surface-elevated)]/92 shadow-[var(--elevation-xs)]',
               'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
               'focus-visible:ring-[var(--action-primary)]',
             )}
@@ -194,7 +194,7 @@ function AdminHeader({
       )}
 
       {/* Utility Actions */}
-      <div className="flex shrink-0 items-center gap-[var(--space-1)]">
+      <div className="flex shrink-0 items-center gap-[var(--space-1)] rounded-full border border-[var(--border-subtle)] bg-[var(--surface-elevated)]/78 px-1 py-1 shadow-[var(--elevation-xs)]">
         {resolvedIconButtons.map((btn, i) => (
           <div key={i} className="relative">
             <IconButton
@@ -478,7 +478,7 @@ function AdminHeaderUser({
       className={cn(
         'h-auto min-h-0 min-w-0 justify-start',
         'gap-[var(--space-2)] rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
-        'hover:bg-[var(--state-hover)]',
+        'border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)]',
         'focus-visible:ring-[var(--action-primary)]',
       )}
     >

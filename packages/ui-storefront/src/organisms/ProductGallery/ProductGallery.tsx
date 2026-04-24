@@ -44,7 +44,7 @@ function ProductGalleryRoot({
 
   return (
     <ProductGalleryProvider value={{ images, activeIndex, setActiveIndex, nextImage, prevImage }}>
-      <div className={cn('flex flex-col md:flex-row gap-4', className)} {...props}>
+      <div className={cn('flex flex-col gap-4 md:flex-row', className)} {...props}>
         {children}
       </div>
     </ProductGalleryProvider>
@@ -65,7 +65,7 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
   return (
     <div
       className={cn(
-        'group relative aspect-square md:aspect-[4/5] flex-1 bg-muted rounded-[var(--radius-lg)] overflow-hidden cursor-crosshair',
+        'group relative aspect-square md:aspect-[4/5] flex-1 overflow-hidden rounded-[var(--radius-xl)] border border-border/60 bg-[var(--surface-elevated)] shadow-[var(--elevation-dropdown)] cursor-crosshair',
         className,
       )}
       {...props}
@@ -74,7 +74,7 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
         key={activeImage.id}
         src={activeImage.src}
         alt={activeImage.alt}
-        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-110 animate-in fade-in"
+        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08] animate-in fade-in"
       />
 
       <ProductGalleryClient
@@ -103,7 +103,7 @@ function ProductGalleryThumbnails({
     <div
       className={cn(
         'flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none',
-        direction === 'vertical' ? 'md:flex-col md:w-20 lg:w-24 shrink-0' : 'flex-row',
+        direction === 'vertical' ? 'md:w-24 md:flex-col shrink-0' : 'flex-row',
         className,
       )}
       {...props}

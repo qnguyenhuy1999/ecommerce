@@ -34,7 +34,7 @@ export const AllVariants: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4 items-center">
+    <div className="flex flex-wrap items-center gap-4">
       <Button size="sm">Small</Button>
       <Button size="default">Default</Button>
       <Button size="lg">Large</Button>
@@ -102,7 +102,7 @@ export const Disabled: Story = {
 
 export const IconOnly: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-4 items-center">
+    <div className="flex flex-wrap items-center gap-4">
       <div aria-label="Search">
         <Button size="icon" icon={<Search className="h-4 w-4" />} />
       </div>
@@ -137,7 +137,7 @@ export const EcommerceActions: Story = {
 
 export const FullWidth: Story = {
   render: () => (
-    <div className="flex flex-col gap-3 max-w-sm">
+    <div className="flex max-w-sm flex-col gap-3">
       <Button className="w-full">Continue to Checkout</Button>
       <Button variant="outline" className="w-full">
         View Cart

@@ -39,77 +39,23 @@ export function DataTablePagination({
 }: DataTablePaginationProps) {
   const totalPages = Math.max(1, Math.ceil(totalRows / pageSize))
   const pages = buildPageList(page, totalPages, 1, 1)
+  const startRow = totalRows === 0 ? 0 : (page - 1) * pageSize + 1
+  const endRow = Math.min(totalRows, page * pageSize)
 
   return (
     <div
       className={cn(
-        'flex items-center justify-between gap-4 px-4 py-3',
-        'border-t border-[var(--border-subtle)] shrink-0',
+        'flex flex-wrap items-center justify-between gap-4 border-t border-[var(--border-subtle)] bg-[var(--surface-elevated)]/82 px-5 py-3.5 shrink-0',
         className,
       )}
       {...props}
     >
-      {/* ← Previous */}
-      <button
-        type="button"
-        onClick={() => onPageChange(page - 1)}
-        disabled={page <= 1}
-        className={cn(
-          'inline-flex items-center gap-1.5 rounded-full border border-primary text-primary',
-          'px-4 py-1.5 text-[var(--text-sm)] font-medium',
-          'hover:bg-primary/10 transition-colors duration-[var(--duration-fast)]',
-          'disabled:opacity-40 disabled:cursor-not-allowed',
-        )}
-      >
-        <ChevronLeft className="w-4 h-4" />
-        Previous
-      </button>
-
-      {/* Page numbers */}
-      <div className="flex items-center gap-1">
-        {pages.map((p, i) =>
-          p === 'ellipsis' ? (
-            <span
-              key={`ellipsis-${i}`}
-              className="w-8 h-8 flex items-center justify-center text-[var(--text-sm)] text-[var(--text-secondary)] select-none"
-            >
-              …
-            </span>
-          ) : (
-            <button
-              key={p}
-              type="button"
-              onClick={() => onPageChange(p as number)}
-              className={cn(
-                'w-8 h-8 rounded-full flex items-center justify-center text-[var(--text-sm)] font-medium transition-colors duration-[var(--duration-fast)]',
-                p === page
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-[var(--text-primary)] hover:bg-[var(--state-hover)]',
-              )}
-            >
-              {p}
-            </button>
-          ),
-        )}
+      <div className="text-[var(--text-sm)] text-[var(--text-secondary)]">
+        Showing <span className="font-semibold text-[var(--text-primary)]">{startRow}-{endRow}</span> of{' '}
+        <span className="font-semibold text-[var(--text-primary)]">{totalRows}</span>
       </div>
 
-      {/* Next → and optional items select */}
-      <div className="flex items-center gap-3">
-        <button
-          type="button"
-          onClick={() => onPageChange(page + 1)}
-          disabled={page >= totalPages}
-          className={cn(
-            'inline-flex items-center gap-1.5 rounded-full border border-primary text-primary',
-            'px-4 py-1.5 text-[var(--text-sm)] font-medium',
-            'hover:bg-primary/10 transition-colors duration-[var(--duration-fast)]',
-            'disabled:opacity-40 disabled:cursor-not-allowed',
-          )}
-        >
-          Next
-          <ChevronRight className="w-4 h-4" />
-        </button>
-
+      <div className="flex flex-wrap items-center gap-3">
         {showPageSizeSelect && onPageSizeChange && (
           <Select
             value={String(pageSize)}
@@ -118,18 +64,75 @@ export function DataTablePagination({
               onPageChange(1)
             }}
           >
-            <SelectTrigger size="sm" className="rounded-full min-w-[6.5rem]">
+            <SelectTrigger size="sm" className="min-w-[7rem] rounded-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {pageSizeOptions.map((size) => (
                 <SelectItem key={size} value={String(size)}>
-                  {size} Items
+                  {size} / page
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         )}
+
+        <div className="flex items-center gap-1 rounded-full border border-[var(--border-subtle)] bg-background/80 p-1 shadow-[var(--elevation-xs)]">
+          <button
+            type="button"
+            onClick={() => onPageChange(page - 1)}
+            disabled={page <= 1}
+            className={cn(
+              'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[var(--text-sm)] font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)]',
+              'hover:bg-[var(--surface-hover)]',
+              'disabled:cursor-not-allowed disabled:opacity-40',
+            )}
+          >
+            <ChevronLeft className="h-4 w-4" />
+            Previous
+          </button>
+
+          <div className="flex items-center gap-1 px-1">
+            {pages.map((p, i) =>
+              p === 'ellipsis' ? (
+                <span
+                  key={`ellipsis-${i}`}
+                  className="flex h-8 w-8 select-none items-center justify-center text-[var(--text-sm)] text-[var(--text-secondary)]"
+                >
+                  …
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => onPageChange(p as number)}
+                  className={cn(
+                    'flex h-8 w-8 items-center justify-center rounded-full text-[var(--text-sm)] font-medium transition-colors duration-[var(--duration-fast)]',
+                    p === page
+                      ? 'bg-primary text-primary-foreground shadow-[var(--elevation-xs)]'
+                      : 'text-[var(--text-primary)] hover:bg-[var(--surface-hover)]',
+                  )}
+                >
+                  {p}
+                </button>
+              ),
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={() => onPageChange(page + 1)}
+            disabled={page >= totalPages}
+            className={cn(
+              'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[var(--text-sm)] font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)]',
+              'hover:bg-[var(--surface-hover)]',
+              'disabled:cursor-not-allowed disabled:opacity-40',
+            )}
+          >
+            Next
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
       </div>
     </div>
   )

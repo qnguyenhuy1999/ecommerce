@@ -59,8 +59,8 @@ function NewsletterSignup({
         </div>
       ) : status === 'success' ? (
         <div className="flex flex-col items-center justify-center p-4 animate-in slide-in-from-bottom-2 fade-in duration-[var(--motion-normal)] fill-mode-both">
-          <div className="w-12 h-12 bg-success-muted rounded-full flex items-center justify-center mb-3">
-            <CheckCircle2 className="w-6 h-6 text-success" />
+          <div className="w-12 h-12 bg-[var(--intent-success-muted)] rounded-full flex items-center justify-center mb-3">
+            <CheckCircle2 className="w-6 h-6 text-[var(--intent-success)]" />
           </div>
           <p className="font-semibold">Thanks for subscribing!</p>
           <p className="text-sm text-muted-foreground mt-1">Keep an eye on your inbox.</p>

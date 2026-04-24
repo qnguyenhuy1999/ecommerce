@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, Inject } from '@nestjs/common'
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { PassportStrategy } from '@nestjs/passport'
 import type { Request } from 'express'
@@ -13,7 +13,7 @@ export interface JwtAccessPayload {
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   constructor(
-    config: ConfigService,
+    @Inject(ConfigService) private readonly config: ConfigService,
     @Inject(TOKEN_BLACKLIST) private readonly blacklist: ITokenBlacklist,
   ) {
     super({

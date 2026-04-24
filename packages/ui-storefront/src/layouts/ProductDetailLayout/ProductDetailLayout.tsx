@@ -58,6 +58,9 @@ export interface ProductDetailLayoutProps extends React.HTMLAttributes<HTMLDivEl
   actions?: React.ReactNode
   reviews?: ReviewCardProps[]
   onAddToCart?: (id: string) => void
+  reviewSummary?: React.ReactNode
+  purchaseSupport?: React.ReactNode
+  purchaseAside?: React.ReactNode
 }
 
 function ProductDetailLayout({
@@ -88,6 +91,9 @@ function ProductDetailLayout({
   actions,
   reviews = [],
   onAddToCart,
+  reviewSummary,
+  purchaseSupport,
+  purchaseAside,
   className,
   ...props
 }: ProductDetailLayoutProps) {
@@ -108,79 +114,105 @@ function ProductDetailLayout({
       <StorefrontSection>
         {breadcrumb && <div className="mb-6 text-sm text-muted-foreground">{breadcrumb}</div>}
 
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)]">
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)] xl:gap-12">
           {gallery}
 
           {details ?? (
-            <div className="space-y-6">
-              <div className="space-y-4">
-                {brand && (
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">
-                    {brand}
-                  </p>
-                )}
-                <div className="space-y-3">
-                  <h1 className="text-4xl font-bold tracking-tight text-foreground">{title}</h1>
-                  {subtitle && (
-                    <p className="text-base leading-relaxed text-muted-foreground">{subtitle}</p>
+            <div className="space-y-6 lg:sticky lg:top-28">
+              <div className="rounded-[var(--radius-xl)] border border-border/70 bg-[var(--surface-elevated)]/92 p-6 shadow-[var(--elevation-dropdown)] backdrop-blur-[10px]">
+                <div className="space-y-5">
+                  <div className="space-y-3">
+                    {brand && (
+                      <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">
+                        {brand}
+                      </p>
+                    )}
+                    <div className="space-y-3">
+                      <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-[2.8rem]">
+                        {title}
+                      </h1>
+                      {subtitle && (
+                        <p className="max-w-[42rem] text-base leading-relaxed text-muted-foreground">
+                          {subtitle}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-3">
+                    <PriceDisplay price={price} originalPrice={originalPrice} size="lg" />
+                    {typeof rating === 'number' && (
+                      <Rating value={rating} count={reviewCount} showCount size="default" />
+                    )}
+                    {status && <StockBadge status={status} count={statusCount} />}
+                  </div>
+
+                  {(reviewSummary || trustBadges.length > 0) && (
+                    <div className="rounded-[var(--radius-lg)] border border-border/60 bg-background/75 p-4 shadow-[var(--elevation-xs)]">
+                      <div className="space-y-3">
+                        {reviewSummary}
+                        {trustBadges.length > 0 && <TrustBadgeGroup types={trustBadges} />}
+                      </div>
+                    </div>
                   )}
-                </div>
-                <div className="flex flex-wrap items-center gap-3">
-                  <PriceDisplay price={price} originalPrice={originalPrice} size="lg" />
-                  {typeof rating === 'number' && (
-                    <Rating value={rating} count={reviewCount} showCount size="default" />
+
+                  {shippingProgress && (
+                    <div className="rounded-[var(--radius-lg)] border border-brand/10 bg-brand/5 p-4">
+                      <ShippingProgressBar
+                        current={shippingProgress.current}
+                        threshold={shippingProgress.threshold}
+                      />
+                    </div>
                   )}
-                  {status && <StockBadge status={status} count={statusCount} />}
+
+                  {variants.length > 0 && (
+                    <div className="space-y-5 rounded-[var(--radius-lg)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
+                      {variants.map((variant) => (
+                        <VariantSelector
+                          key={variant.name}
+                          name={variant.name}
+                          options={variant.options}
+                          value={variant.value}
+                          type={variant.type}
+                          error={variant.error}
+                          onChange={variant.onChange}
+                        />
+                      ))}
+                    </div>
+                  )}
+
+                  {actions ?? (
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                      <AddToCartButton
+                        size="lg"
+                        className="flex-1"
+                        onAddToCart={() => {
+                          onAddToCart?.('')
+                        }}
+                      />
+                      <Button variant="outline" size="lg" className="sm:w-auto">
+                        Save for later
+                      </Button>
+                    </div>
+                  )}
+
+                  {purchaseSupport && (
+                    <div className="rounded-[var(--radius-lg)] border border-border/60 bg-background/75 p-4 shadow-[var(--elevation-xs)]">
+                      {purchaseSupport}
+                    </div>
+                  )}
+
+                  {purchaseAside}
                 </div>
-                {trustBadges.length > 0 && <TrustBadgeGroup types={trustBadges} />}
               </div>
-
-              {shippingProgress && (
-                <ShippingProgressBar
-                  current={shippingProgress.current}
-                  threshold={shippingProgress.threshold}
-                />
-              )}
-
-              {variants.length > 0 && (
-                <div className="space-y-5 rounded-[var(--radius-xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
-                  {variants.map((variant) => (
-                    <VariantSelector
-                      key={variant.name}
-                      name={variant.name}
-                      options={variant.options}
-                      value={variant.value}
-                      type={variant.type}
-                      error={variant.error}
-                      onChange={variant.onChange}
-                    />
-                  ))}
-                </div>
-              )}
-
-              {actions ?? (
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <AddToCartButton
-                    size="lg"
-                    className="flex-1"
-                    onAddToCart={() => {
-                      // TODO(@platform, 2026-04-23): Wire a real product id into `onAddToCart`.
-                      onAddToCart?.('')
-                    }}
-                  />
-                  <Button variant="outline" size="lg" className="sm:w-auto">
-                    Save for later
-                  </Button>
-                </div>
-              )}
 
               {(highlights.length > 0 || description) && (
                 <div className="rounded-[var(--radius-xl)] border border-border/70 bg-card p-5 shadow-[var(--elevation-card)]">
                   {highlights.length > 0 && (
-                    <ul className="space-y-2 text-sm text-foreground/85">
+                    <ul className="space-y-2.5 text-sm text-foreground/90">
                       {highlights.map((highlight) => (
-                        <li key={highlight} className="flex gap-2">
-                          <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
+                        <li key={highlight} className="flex gap-2.5">
+                          <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand" />
                           <span>{highlight}</span>
                         </li>
                       ))}
@@ -225,7 +257,6 @@ function ProductDetailLayout({
 export { ProductDetailLayout }
 export type { ProductVariantGroup, ShippingProgressConfig }
 
-// Kept for backward compatibility with root index.ts public API
 export interface RelatedProductsSection {
   title: string
   subtitle?: string

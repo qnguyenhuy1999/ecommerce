@@ -44,15 +44,15 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
         onClick={handleParentClick}
         title={collapsed ? item.label : undefined}
         className={cn(
-          'flex items-center rounded-[var(--radius-md)]',
+          'flex items-center rounded-[var(--radius-md)] no-underline',
           collapsed
-            ? 'justify-center w-10 h-10 mx-auto p-0 gap-0'
+            ? 'mx-auto h-10 w-10 justify-center gap-0 p-0'
             : 'gap-[var(--space-3)] px-[var(--space-3)] py-[var(--space-2)]',
-          'text-[length:var(--text-nav-label)] no-underline',
+          'text-[length:var(--text-nav-label)]',
           'transition-all duration-[var(--duration-fast)] cursor-pointer group',
           active
-            ? 'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] shadow-sm'
-            : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+            ? 'bg-[linear-gradient(135deg,var(--action-primary)_0%,var(--action-primary-hover)_100%)] text-[var(--action-primary-foreground)] shadow-[var(--elevation-floating)]'
+            : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--surface-elevated)] hover:text-[var(--text-primary)]',
         )}
       >
         {item.icon && (
@@ -102,7 +102,7 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
                     className={cn(
                       'block rounded-[var(--radius-sm)] px-[var(--space-3)] py-[var(--space-2)] text-[length:var(--text-nav-label)] transition-all',
                       isChildActive
-                        ? 'text-[var(--text-primary)] font-semibold bg-[var(--surface-sunken)] shadow-sm'
+                        ? 'text-[var(--text-primary)] font-semibold bg-[var(--surface-sunken)] shadow-[var(--elevation-xs)]'
                         : 'text-[var(--text-tertiary)] font-medium hover:text-[var(--text-primary)] hover:bg-[var(--state-hover)]',
                     )}
                   >
@@ -147,7 +147,7 @@ function AdminSidebar({
       className={cn(
         'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0',
         collapsed ? 'lg:w-16' : 'lg:w-[var(--admin-sidebar-width)]',
-        'bg-[var(--surface-base)] border-r border-[var(--border-subtle)] transition-all duration-[var(--duration-normal)]',
+        'bg-[var(--surface-base)]/96 backdrop-blur-[16px] border-r border-[var(--border-subtle)] transition-all duration-[var(--duration-normal)] shadow-[var(--elevation-surface)]',
         className,
       )}
       {...props}
@@ -238,9 +238,9 @@ function AdminSidebar({
             type="button"
             onClick={onToggleCollapse}
             className={cn(
-              'flex w-full items-center rounded-[var(--radius-md)] p-[var(--space-2)] text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)] transition-all outline-none focus-visible:ring-[var(--action-primary)]',
+              'flex w-full items-center rounded-[var(--radius-md)] border border-transparent p-[var(--space-2)] text-[var(--text-secondary)] transition-all outline-none hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)] hover:text-[var(--text-primary)] focus-visible:ring-[var(--action-primary)]',
               collapsed
-                ? 'justify-center w-10 h-10 mx-auto'
+                ? 'mx-auto h-10 w-10 justify-center'
                 : 'justify-start gap-3 px-[var(--space-3)]',
             )}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}

@@ -30,6 +30,7 @@ export interface ProductCardItemProps extends React.HTMLAttributes<HTMLDivElemen
   buyCount?: number
   onAddToCart?: (id: string) => void
   loading?: boolean
+  view?: 'grid' | 'list'
 }
 
 function formatCompactCount(value: number) {
@@ -51,6 +52,7 @@ function ProductCardItem({
   onAddToCart,
   loading,
   className,
+  view = 'grid',
   ...props
 }: ProductCardItemProps) {
   return (
@@ -60,6 +62,7 @@ function ProductCardItem({
       href={href}
       loading={loading}
       className={className}
+      view={view}
       {...props}
     >
       <ProductCardImage src={image ?? ''} alt={title} />
@@ -77,32 +80,45 @@ function ProductCardItem({
       )}
 
       <ProductCardContent>
-        <ProductCardTitle />
+        <div className="space-y-2.5">
+          <ProductCardTitle />
 
-        {(typeof rating === 'number' || typeof buyCount === 'number') && (
-          <ProductCardMeta className="mt-1">
-            {typeof rating === 'number' && <ProductCardRating value={rating} count={ratingCount} />}
-            {typeof buyCount === 'number' && (
-              <span className={cn('tabular-nums', typeof rating === 'number' && 'pl-1')}>
-                {typeof rating === 'number' ? '· ' : ''}
-                {formatCompactCount(buyCount)} bought
-              </span>
-            )}
-          </ProductCardMeta>
-        )}
+          {(typeof rating === 'number' || typeof buyCount === 'number') && (
+            <ProductCardMeta>
+              {typeof rating === 'number' && <ProductCardRating value={rating} count={ratingCount} />}
+              {typeof buyCount === 'number' && (
+                <span className={cn('tabular-nums', typeof rating === 'number' && 'pl-1')}>
+                  {typeof rating === 'number' ? '· ' : ''}
+                  {formatCompactCount(buyCount)} bought
+                </span>
+              )}
+            </ProductCardMeta>
+          )}
+        </div>
 
         {typeof price === 'number' && (
           <ProductCardPrice price={price} originalPrice={originalPrice} />
         )}
-      </ProductCardContent>
 
-      {onAddToCart && (
-        <ProductCardActions>
-          <Button size="sm" onClick={() => onAddToCart(id)} disabled={loading || !id}>
-            Add to Cart
-          </Button>
-        </ProductCardActions>
-      )}
+        {onAddToCart && (
+          <ProductCardActions>
+            <Button
+              size={view === 'list' ? 'default' : 'sm'}
+              variant="brand"
+              className={cn(view === 'list' ? 'min-w-[10rem]' : 'shadow-[var(--elevation-floating)]')}
+              onClick={() => onAddToCart(id)}
+              disabled={loading || !id}
+            >
+              Add to Cart
+            </Button>
+            {view === 'list' && (
+              <Button variant="outline" size="default">
+                View details
+              </Button>
+            )}
+          </ProductCardActions>
+        )}
+      </ProductCardContent>
     </ProductCard>
   )
 }

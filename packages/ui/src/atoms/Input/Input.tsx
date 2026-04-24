@@ -60,7 +60,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const sizeClasses = {
       sm: 'h-8 text-[var(--text-xs)]',
-      default: 'h-10 text-[var(--text-sm)]',
+      default: 'h-11 text-[var(--text-sm)]',
       lg: 'h-12 text-[var(--text-base)]',
     }[size]
 
@@ -71,7 +71,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          'peer flex w-full rounded-[var(--radius-sm)] border bg-transparent',
+          'peer flex w-full rounded-[var(--input-radius)] border bg-[var(--surface-base)]/92 backdrop-blur-[6px]',
           sizeClasses,
           // Default border: destructive for error, input color otherwise
           error ? 'border-destructive' : 'border-input',
@@ -83,11 +83,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           suffixIcon || loading ? 'pr-10' : 'pr-3',
           label && 'pt-4 pb-1', // Extra top padding for floating label
           // Shadow only on focus — not at rest
-          'focus:shadow-[var(--elevation-card)] focus:bg-background',
+          'focus:shadow-[var(--elevation-card)] focus:bg-background focus:border-[var(--border-strong)]',
           // Transitions: border + shadow for focus feedback
-          'transition-[border-color,box-shadow,padding] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+          'transition-[border-color,box-shadow,background-color,padding] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
           'file:border-0 file:bg-transparent file:font-medium file:text-foreground',
-          'placeholder:text-muted-foreground',
+          'placeholder:text-muted-foreground/95',
           label && 'placeholder:text-transparent focus:placeholder:text-muted-foreground',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'disabled:cursor-not-allowed disabled:opacity-50',

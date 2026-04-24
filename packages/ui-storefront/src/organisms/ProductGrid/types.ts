@@ -19,4 +19,6 @@ export interface ProductGridProps {
   loading?: boolean
   emptyMessage?: string
   className?: string
+  view?: 'grid' | 'list'
+  loadingCount?: number
 }

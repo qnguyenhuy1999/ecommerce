@@ -8,7 +8,7 @@ import { PrismaUserRepository } from '../auth/infrastructure/repositories/prisma
 @Module({
   controllers: [UserController],
   providers: [UserService, { provide: USER_REPOSITORY, useClass: PrismaUserRepository }],
-  exports: [UserService, USER_REPOSITORY, PrismaUserRepository],
+  exports: [UserService, USER_REPOSITORY],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS module class requires empty body
 export class UserModule {}

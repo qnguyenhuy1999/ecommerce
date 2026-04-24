@@ -8,12 +8,16 @@
   "exports": {
     ".": {
       "development": "./src/index.ts",
-      "default": "./dist/index.js"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
     },
     "./styles": "./src/theme/tokens.css",
     "./providers/ThemeProvider": {
       "development": "./src/providers/ThemeProvider.tsx",
-      "default": "./dist/providers/ThemeProvider.js"
+      "import": "./dist/providers/ThemeProvider.mjs",
+      "require": "./dist/providers/ThemeProvider.js",
+      "default": "./dist/providers/ThemeProvider.mjs"
     }
   },
   "scripts": {

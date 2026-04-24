@@ -89,14 +89,14 @@ export function DataTableRow({
         section === 'header'
           ? ''
           : 'border-b border-[var(--border-subtle)] transition-colors duration-[var(--duration-fast)] group/row',
-        section === 'body' && zebraStriping && 'even:bg-muted/10',
+        section === 'body' && zebraStriping && 'even:bg-[var(--surface-subtle)]/45',
         section === 'body' &&
           (selected
             ? 'bg-[var(--state-selected)] hover:bg-[var(--state-selected)]'
-            : 'hover:bg-[var(--state-hover)]'),
+            : 'hover:bg-[var(--surface-hover)]'),
         section === 'body' && accent && ['border-l-2', accentBorder],
         interactive &&
-          'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+          'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-[-2px]',
         className,
       )}
       {...props}

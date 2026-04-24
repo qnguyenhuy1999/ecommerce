@@ -10,20 +10,17 @@ import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
 import { AdminHeader } from '../../organisms/AdminHeader/AdminHeader'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Custom sidebar to render. */
   sidebar?: React.ReactNode
-  /** Custom header to render. */
   header?: React.ReactNode
-  /** Child page content rendered inside the main content area. */
   children: React.ReactNode
-  /** Current pathname for active nav highlighting. */
   currentPath?: string
-  /** Callback fired when a sidebar nav item with an href is clicked. */
   onNavigate?: (href: string) => void
-  /** Props forwarded directly to the default `AdminSidebar`. */
   sidebarProps?: Partial<AdminSidebarProps>
-  /** Props forwarded directly to the default `AdminHeader`. */
   headerProps?: Partial<AdminHeaderProps>
+  shellTopbar?: React.ReactNode
+  contentHeader?: React.ReactNode
+  defaultSidebarCollapsed?: boolean
+  onSidebarCollapseChange?: (collapsed: boolean) => void
 }
 
 function AdminLayout({
@@ -35,43 +32,60 @@ function AdminLayout({
   sidebarProps,
   headerProps,
   className,
+  shellTopbar,
+  contentHeader,
+  defaultSidebarCollapsed = false,
+  onSidebarCollapseChange,
   ...props
 }: AdminLayoutProps) {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false)
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(defaultSidebarCollapsed)
+
+  const handleToggleSidebar = () => {
+    setIsSidebarCollapsed((prev) => {
+      const next = !prev
+      onSidebarCollapseChange?.(next)
+      return next
+    })
+  }
 
   return (
     <div
       className={cn(
-        'min-h-screen flex flex-col text-foreground bg-[var(--surface-subtle)]',
+        'min-h-screen bg-[radial-gradient(circle_at_top_right,rgb(var(--brand-500-rgb)_/_0.07),transparent_26%),var(--surface-subtle)] text-foreground',
         className,
       )}
       {...props}
     >
-      {/* Sidebar */}
       {sidebar !== false &&
         (sidebar ?? (
           <AdminSidebar
             currentPath={currentPath}
             onNavigate={onNavigate}
             collapsed={isSidebarCollapsed}
-            onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+            onToggleCollapse={handleToggleSidebar}
             {...sidebarProps}
           />
         ))}
 
-      {/* Main Column — offset by sidebar width (or 80px if collapsed) */}
       <div
         className={cn(
-          'flex flex-1 flex-col min-w-0 transition-all duration-[var(--duration-normal)]',
+          'flex min-h-screen flex-1 flex-col min-w-0 transition-all duration-[var(--duration-normal)]',
           isSidebarCollapsed ? 'pl-16' : 'pl-[var(--admin-sidebar-width)]',
         )}
       >
-        {/* Header */}
-        {header !== false && (header ?? <AdminHeader {...headerProps} />)}
+        {shellTopbar}
 
-        {/* Content Area */}
+        {header !== false &&
+          (header ?? (
+            <AdminHeader
+              className="border-b border-[var(--border-subtle)] bg-[var(--surface-base)]/92 backdrop-blur-[14px]"
+              {...headerProps}
+            />
+          ))}
+
         <main className="relative flex-1">
-          <div className="w-full mx-auto p-[var(--space-6)] pb-[var(--space-8)] max-w-[var(--admin-content-max-width)] animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
+          <div className="mx-auto flex w-full max-w-[calc(var(--admin-content-max-width)+var(--space-12))] flex-1 flex-col gap-6 px-[var(--space-6)] pb-[var(--space-8)] pt-[var(--space-6)] animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
+            {contentHeader}
             {children}
           </div>
         </main>

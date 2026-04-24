@@ -26,7 +26,7 @@ function BrandShowcaseSection({ brands, className, ...props }: BrandShowcaseSect
               'group relative flex items-center justify-center p-6 bg-background',
               'rounded-xl border border-border shadow-sm',
               'transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-out)]',
-              'hover:shadow-[var(--elevation-md)] hover:border-brand/30 hover:-translate-y-1',
+              'hover:shadow-[var(--elevation-floating)] hover:border-brand/30 hover:-translate-y-1',
             )}
           >
             <img

@@ -1,8 +1,26 @@
 import { cn } from '@ecom/ui'
 
+import { useProductCard } from './ProductCard'
+
 type ProductCardActionsProps = React.HTMLAttributes<HTMLDivElement>
 
 export function ProductCardActions({ className, children, ...props }: ProductCardActionsProps) {
+  const { view } = useProductCard()
+
+  if (view === 'list') {
+    return (
+      <div
+        className={cn(
+          'mt-5 flex items-center justify-start gap-2 border-t border-border/60 pt-4',
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+
   return (
     <div
       className={cn(
