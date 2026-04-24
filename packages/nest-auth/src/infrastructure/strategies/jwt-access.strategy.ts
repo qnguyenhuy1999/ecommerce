@@ -13,7 +13,7 @@ export interface JwtAccessPayload {
 @Injectable()
 export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') {
   constructor(
-    @Inject(ConfigService) private readonly config: ConfigService,
+    @Inject(ConfigService) config: ConfigService,
     @Inject(TOKEN_BLACKLIST) private readonly blacklist: ITokenBlacklist,
   ) {
     super({

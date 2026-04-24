@@ -10,7 +10,7 @@ export interface JwtRefreshPayload {
 
 @Injectable()
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh') {
-  constructor(@Inject(ConfigService) private readonly config: ConfigService) {
+  constructor(@Inject(ConfigService) config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
         (req: Request) => (req.cookies as Record<string, string | undefined>)['refresh_token'] ?? null,

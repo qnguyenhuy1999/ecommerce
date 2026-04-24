@@ -4,7 +4,6 @@ import { CqrsModule } from '@nestjs/cqrs'
 import { JwtModule } from '@nestjs/jwt'
 import { PassportModule } from '@nestjs/passport'
 
-import { UserModule } from '../user/user.module'
 import { LoginHandler } from './application/commands/login/login.handler'
 import { LogoutHandler } from './application/commands/logout/logout.handler'
 import { RefreshHandler } from './application/commands/refresh/refresh.handler'
@@ -43,7 +42,6 @@ const QueryHandlers = [MeHandler]
         signOptions: { expiresIn: cfg.get('jwt.accessExpiresIn', '15m') },
       }),
     }),
-    UserModule,
   ],
   controllers: [AuthController],
   providers: [
@@ -60,7 +58,7 @@ const QueryHandlers = [MeHandler]
     { provide: COOKIE_WRITER,            useClass: ExpressCookieWriterAdapter },
     { provide: LOGIN_LIMITER,            useClass: RedisLoginLimiterAdapter },
   ],
-  exports: [],
+  exports: [USER_REPOSITORY, REFRESH_TOKEN_REPOSITORY, PASSWORD_HASHER, TOKEN_BLACKLIST, COOKIE_WRITER, LOGIN_LIMITER],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS module class requires empty body
 export class AuthModule {}

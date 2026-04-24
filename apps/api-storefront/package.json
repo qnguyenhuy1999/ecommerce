@@ -20,6 +20,8 @@
     "@ecom/constants": "workspace:*",
     "@ecom/database": "workspace:*",
     "@ecom/email": "workspace:*",
+    "@ecom/nest-auth": "workspace:*",
+    "@ecom/nest-config": "workspace:*",
     "@ecom/redis": "workspace:*",
     "@ecom/shared": "workspace:*",
     "@nestjs/bullmq": "^10.2.0",
