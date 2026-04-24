@@ -1,4 +1,4 @@
-import { Inject, UnauthorizedException } from '@nestjs/common'
+import { Inject, Logger, UnauthorizedException } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { randomUUID } from 'node:crypto'
 
@@ -7,6 +7,7 @@ import {
   InvalidCredentialsException,
   AccountSuspendedException,
 } from '../../../domain/exceptions/auth.exceptions'
+import { LOGIN_LIMITER, ILoginLimiter } from '../../../domain/ports/login-limiter.port'
 import { PASSWORD_HASHER, IPasswordHasher } from '../../../domain/ports/password-hasher.port'
 import {
   REFRESH_TOKEN_REPOSITORY,
@@ -23,23 +24,45 @@ export interface LoginResult {
 
 @CommandHandler(LoginCommand)
 export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> {
+  private readonly logger = new Logger(LoginHandler.name)
+
   constructor(
     @Inject(USER_REPOSITORY) private readonly userRepo: IUserRepository,
     @Inject(REFRESH_TOKEN_REPOSITORY) private readonly refreshTokenRepo: IRefreshTokenRepository,
     @Inject(PASSWORD_HASHER) private readonly hasher: IPasswordHasher,
+    @Inject(LOGIN_LIMITER) private readonly loginLimiter: ILoginLimiter,
     private readonly jwtTokenService: JwtTokenService,
   ) {}
 
   async execute(command: LoginCommand): Promise<LoginResult> {
+    const locked = await this.loginLimiter.isLocked(command.email)
+    if (locked) {
+      this.logger.warn(`Login blocked — account locked: ${command.email}`)
+      throw new UnauthorizedException('Too many failed attempts. Try again in 15 minutes.')
+    }
+
     const user = await this.userRepo.findByEmail(command.email)
-    if (!user) throw new UnauthorizedException(new InvalidCredentialsException().message)
+    if (!user) {
+      await this.loginLimiter.recordFailure(command.email)
+      throw new UnauthorizedException(new InvalidCredentialsException().message)
+    }
 
     const valid = await this.hasher.verify(command.password, user.passwordHash)
-    if (!valid) throw new UnauthorizedException(new InvalidCredentialsException().message)
+    if (!valid) {
+      const attempts = await this.loginLimiter.recordFailure(command.email)
+      this.logger.warn(`Failed login attempt ${String(attempts)}/5 for user: ${user.id}`)
+      throw new UnauthorizedException(new InvalidCredentialsException().message)
+    }
 
-    if (user.status === 'SUSPENDED')
+    if (user.status === 'SUSPENDED') {
+      this.logger.warn(`Login denied — suspended user: ${user.id}`)
       throw new UnauthorizedException(new AccountSuspendedException().message)
-    if (!user.canLogin()) throw new UnauthorizedException(new InvalidCredentialsException().message)
+    }
+    if (!user.canLogin()) {
+      throw new UnauthorizedException(new InvalidCredentialsException().message)
+    }
+
+    await this.loginLimiter.reset(command.email)
 
     const { token: accessToken, expiresInSeconds: accessExpiresInSeconds } =
       this.jwtTokenService.generateAccessToken(user)
@@ -54,6 +77,7 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
     const expiresAt = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     await this.refreshTokenRepo.create({ userId: user.id, tokenHash, family, expiresAt })
 
+    this.logger.log(`User logged in: ${user.id}`)
     return {
       session: {
         tokens: { accessToken, refreshToken },

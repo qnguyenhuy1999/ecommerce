@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
-import { PassportStrategy } from '@nestjs/passport'
-import { ExtractJwt, Strategy } from 'passport-jwt'
 import { ConfigService } from '@nestjs/config'
+import { PassportStrategy } from '@nestjs/passport'
 import type { Request } from 'express'
+import { ExtractJwt, Strategy } from 'passport-jwt'
 
 export interface JwtRefreshPayload {
   sub: string; family: string; jti: string
@@ -13,7 +13,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
   constructor(config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => (req?.cookies as Record<string, string>)?.['refresh_token'] ?? null,
+        (req: Request) => (req.cookies as Record<string, string | undefined>)['refresh_token'] ?? null,
       ]),
       ignoreExpiration: false,
       secretOrKey: config.get<string>('jwt.refreshSecret'),

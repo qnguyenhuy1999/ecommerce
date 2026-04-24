@@ -27,6 +27,7 @@ export class JwtTokenService {
 
   generateAccessToken(user: UserEntity): { token: string; jti: string; expiresInSeconds: number } {
     const jti = randomUUID()
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- ConfigService uses NoInfer<T>, preventing inference from the default value; explicit type arg is required
     const expiresIn = this.config.get<string>('jwt.accessExpiresIn', '15m')
     const token = this.jwt.sign(
       { sub: user.id, email: user.email, role: user.role, jti },
@@ -39,6 +40,7 @@ export class JwtTokenService {
 
   generateRefreshToken(userId: string, family: string): { token: string; jti: string; expiresInSeconds: number } {
     const jti = randomUUID()
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- ConfigService uses NoInfer<T>, preventing inference from the default value; explicit type arg is required
     const expiresIn = this.config.get<string>('jwt.refreshExpiresIn', '7d')
     const token = this.jwt.sign(
       { sub: userId, family, jti },
@@ -46,12 +48,6 @@ export class JwtTokenService {
     )
     const expiresInSeconds = this.parseExpiry(expiresIn)
     return { token, jti, expiresInSeconds }
-  }
-
-  verifyRefreshToken(token: string): RefreshTokenPayload {
-    return this.jwt.verify<RefreshTokenPayload>(token, {
-      secret: this.config.get<string>('jwt.refreshSecret'),
-    })
   }
 
   parseExpiry(expiry: string): number {

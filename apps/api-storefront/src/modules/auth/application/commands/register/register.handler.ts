@@ -1,4 +1,4 @@
-import { ConflictException, Inject } from '@nestjs/common'
+import { ConflictException, Inject, Logger } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { randomUUID } from 'node:crypto'
 
@@ -15,6 +15,8 @@ import type { LoginResult } from '../login/login.handler'
 
 @CommandHandler(RegisterCommand)
 export class RegisterHandler implements ICommandHandler<RegisterCommand, LoginResult> {
+  private readonly logger = new Logger(RegisterHandler.name)
+
   constructor(
     @Inject(USER_REPOSITORY) private readonly userRepo: IUserRepository,
     @Inject(REFRESH_TOKEN_REPOSITORY) private readonly refreshTokenRepo: IRefreshTokenRepository,
@@ -45,6 +47,7 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand, LoginRe
     const expiresAt = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     await this.refreshTokenRepo.create({ userId: user.id, tokenHash, family, expiresAt })
 
+    this.logger.log(`New user registered: ${user.id}`)
     return {
       session: {
         tokens: { accessToken, refreshToken },

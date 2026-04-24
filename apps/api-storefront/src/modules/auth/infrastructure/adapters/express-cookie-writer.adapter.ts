@@ -15,7 +15,8 @@ export class ExpressCookieWriterAdapter implements ICookieWriter {
   private get baseOptions() {
     return {
       httpOnly: true,
-      secure: this.config.get<boolean>('cookie.secure', false),
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- ConfigService uses NoInfer<T>, preventing inference from the default value; explicit type arg is required
+      secure: this.config.get<boolean>('cookie.secure', true),
       sameSite: 'strict' as const,
       domain: this.config.get<string | undefined>('cookie.domain') || undefined,
     }

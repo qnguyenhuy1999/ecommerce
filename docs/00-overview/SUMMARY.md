@@ -31,6 +31,7 @@
 | Document                                                     | Description                                              |
 | ------------------------------------------------------------ | -------------------------------------------------------- |
 | [API_DESIGN.md](./../03-technical/API_DESIGN.md)             | REST API endpoint specifications for all modules         |
+| [AUTH_FLOW.md](./../03-technical/AUTH_FLOW.md)               | Authentication flow — JWT, refresh rotation, lockout     |
 | [DATABASE_SCHEMA.md](./../03-technical/DATABASE_SCHEMA.md)   | Complete Prisma database schema                          |
 | [SECURITY.md](./../03-technical/SECURITY.md)                 | Security architecture — auth, RBAC, OWASP, PCI-DSS       |
 | [INFRASTRUCTURE.md](./../03-technical/INFRASTRUCTURE.md)     | Docker, environment setup, CI/CD, monitoring             |

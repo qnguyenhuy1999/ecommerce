@@ -1,8 +1,9 @@
-import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
 import { Inject } from '@nestjs/common'
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs'
+
 import { MeQuery } from './me.query'
-import { USER_REPOSITORY, IUserRepository } from '../../../domain/ports/user.repository.port'
 import type { UserEntity } from '../../../domain/entities/user.entity'
+import { USER_REPOSITORY, IUserRepository } from '../../../domain/ports/user.repository.port'
 
 @QueryHandler(MeQuery)
 export class MeHandler implements IQueryHandler<MeQuery, UserEntity | null> {

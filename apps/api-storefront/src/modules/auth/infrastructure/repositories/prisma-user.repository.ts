@@ -1,7 +1,8 @@
 import { Injectable, Inject } from '@nestjs/common'
-import { PrismaClient } from '@prisma/client'
-import type { IUserRepository } from '../../domain/ports/user.repository.port'
+import { $Enums, PrismaClient } from '@prisma/client'
+
 import { UserEntity, type UserRole } from '../../domain/entities/user.entity'
+import type { IUserRepository } from '../../domain/ports/user.repository.port'
 
 @Injectable()
 export class PrismaUserRepository implements IUserRepository {
@@ -31,7 +32,7 @@ export class PrismaUserRepository implements IUserRepository {
 
   async create(data: { email: string; passwordHash: string; role?: UserRole }): Promise<UserEntity> {
     const record = await this.prisma.user.create({
-      data: { email: data.email, password: data.passwordHash, role: (data.role ?? 'USER') as any },
+      data: { email: data.email, password: data.passwordHash, role: (data.role ?? 'USER') as $Enums.UserRole },
     })
     return this.toDomain(record)
   }

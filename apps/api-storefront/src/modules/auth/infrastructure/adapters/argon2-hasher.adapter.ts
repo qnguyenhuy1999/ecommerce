@@ -11,9 +11,9 @@ export class Argon2HasherAdapter implements IPasswordHasher {
   async hash(plain: string): Promise<string> {
     return argon2.hash(plain, {
       type: argon2.argon2id,
-      memoryCost: this.config.get<number>('argon2.memoryCost', 65536),
-      timeCost: this.config.get<number>('argon2.timeCost', 3),
-      parallelism: this.config.get<number>('argon2.parallelism', 4),
+      memoryCost: this.config.get('argon2.memoryCost', 65536),
+      timeCost: this.config.get('argon2.timeCost', 3),
+      parallelism: this.config.get('argon2.parallelism', 4),
     })
   }
 

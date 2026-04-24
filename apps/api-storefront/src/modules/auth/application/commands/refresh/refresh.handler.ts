@@ -1,4 +1,4 @@
-import { Inject, UnauthorizedException } from '@nestjs/common'
+import { Inject, Logger, UnauthorizedException } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { RefreshCommand } from './refresh.command'
@@ -18,6 +18,8 @@ import type { LoginResult } from '../login/login.handler'
 
 @CommandHandler(RefreshCommand)
 export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResult> {
+  private readonly logger = new Logger(RefreshHandler.name)
+
   constructor(
     @Inject(USER_REPOSITORY) private readonly userRepo: IUserRepository,
     @Inject(REFRESH_TOKEN_REPOSITORY) private readonly refreshTokenRepo: IRefreshTokenRepository,
@@ -26,8 +28,8 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
   ) {}
 
   async execute(command: RefreshCommand): Promise<LoginResult> {
-    const allFamilyTokens = await this.refreshTokenRepo.findByFamily(command.family)
-    const activeTokens = allFamilyTokens.filter((t) => !t.isRevoked() && !t.isExpired())
+    // findByFamily now returns only active (non-revoked, non-expired) tokens
+    const activeTokens = await this.refreshTokenRepo.findByFamily(command.family)
 
     let currentToken: RefreshTokenEntity | undefined
     for (const token of activeTokens) {
@@ -39,18 +41,19 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
     }
 
     if (!currentToken) {
+      // No active token matched — either reuse of a revoked token or an invalid jti.
+      // Revoke the entire family as a security response.
       await this.refreshTokenRepo.revokeFamily(command.family)
+      this.logger.warn(`Refresh token reuse detected — family revoked: ${command.family}`)
       throw new UnauthorizedException('Refresh token reuse detected')
     }
 
     const user = await this.userRepo.findById(command.userId)
     if (!user) throw new UnauthorizedException('User not found')
 
-    // Mirror LoginHandler's eligibility checks so that suspending an account
-    // immediately stops new tokens from being minted — without this, a
-    // suspended user could keep refreshing for the lifetime of the family.
     if (user.status === 'SUSPENDED') {
       await this.refreshTokenRepo.revokeFamily(currentToken.props.family)
+      this.logger.warn(`Refresh denied — suspended user: ${user.id}`)
       throw new UnauthorizedException(new AccountSuspendedException().message)
     }
     if (!user.canLogin()) {
@@ -75,6 +78,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
     })
     await this.refreshTokenRepo.revokeById(currentToken.props.id, newToken.props.id)
 
+    this.logger.log(`Tokens rotated for user: ${user.id}`)
     return {
       session: {
         tokens: { accessToken, refreshToken },

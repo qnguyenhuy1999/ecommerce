@@ -1,8 +1,9 @@
 import { Injectable, UnauthorizedException, Inject } from '@nestjs/common'
-import { PassportStrategy } from '@nestjs/passport'
-import { ExtractJwt, Strategy } from 'passport-jwt'
 import { ConfigService } from '@nestjs/config'
+import { PassportStrategy } from '@nestjs/passport'
 import type { Request } from 'express'
+import { ExtractJwt, Strategy } from 'passport-jwt'
+
 import { TOKEN_BLACKLIST, ITokenBlacklist } from '../../domain/ports/token-blacklist.port'
 
 export interface JwtAccessPayload {
@@ -17,7 +18,7 @@ export class JwtAccessStrategy extends PassportStrategy(Strategy, 'jwt-access') 
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => (req?.cookies as Record<string, string>)?.['access_token'] ?? null,
+        (req: Request) => (req.cookies as Record<string, string | undefined>)['access_token'] ?? null,
       ]),
       ignoreExpiration: false,
       secretOrKey: config.get<string>('jwt.accessSecret'),

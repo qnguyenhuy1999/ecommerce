@@ -15,18 +15,24 @@ enum UserRole {
   USER
   SELLER
   ADMIN
+
+  @@map("user_role")
 }
 
 enum UserStatus {
   UNVERIFIED
   ACTIVE
   SUSPENDED
+
+  @@map("user_status")
 }
 
 enum KycStatus {
   PENDING
   APPROVED
   REJECTED
+
+  @@map("kyc_status")
 }
 
 enum ProductStatus {
@@ -34,6 +40,8 @@ enum ProductStatus {
   ACTIVE
   INACTIVE
   DELETED
+
+  @@map("product_status")
 }
 
 enum OrderStatus {
@@ -45,6 +53,8 @@ enum OrderStatus {
   CANCELLED
   REFUNDED
   PENDING_REFUND
+
+  @@map("order_status")
 }
 
 enum PaymentStatus {
@@ -52,17 +62,23 @@ enum PaymentStatus {
   SUCCESS
   FAILED
   REFUNDED
+
+  @@map("payment_status")
 }
 
 enum ReservationStatus {
   ACTIVE
   EXPIRED
   CONFIRMED
+
+  @@map("reservation_status")
 }
 
 enum LedgerType {
   CREDIT
   DEBIT
+
+  @@map("ledger_type")
 }
 
 enum NotificationType {
@@ -77,6 +93,8 @@ enum NotificationType {
   PAYMENT_SUCCESS
   PAYMENT_FAILED
   NEW_ORDER
+
+  @@map("notification_type")
 }
 
 // Outbox pattern: durable event log written in the same transaction as the
@@ -91,6 +109,8 @@ enum OutboxStatus {
   PENDING
   PUBLISHED
   FAILED
+
+  @@map("outbox_status")
 }
 
 // Idempotency keys for at-most-once semantics on write endpoints.
@@ -103,6 +123,8 @@ enum IdempotencyStatus {
   IN_PROGRESS
   COMPLETED
   FAILED
+
+  @@map("idempotency_status")
 }
 
 // ─── Models ─────────────────────────────────────────────────
@@ -113,9 +135,9 @@ model User {
   password      String
   role          UserRole   @default(USER)
   status        UserStatus @default(UNVERIFIED)
-  emailVerified DateTime?
-  createdAt     DateTime   @default(now())
-  updatedAt     DateTime   @updatedAt
+  emailVerified DateTime?  @map("email_verified")
+  createdAt     DateTime   @default(now()) @map("created_at")
+  updatedAt     DateTime   @updatedAt @map("updated_at")
 
   seller        Seller?
   carts         Cart[]
@@ -127,24 +149,25 @@ model User {
   @@index([email])
   @@index([role])
   @@index([status])
+  @@map("users")
 }
 
 model Seller {
   id                         String    @id @default(cuid())
-  userId                     String    @unique
+  userId                     String    @unique @map("user_id")
   user                       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  storeName                  String    @unique
-  storeDescription           String?
-  kycStatus                  KycStatus @default(PENDING)
-  kycDocuments               Json?
-  commissionRate             Float     @default(0.10)
+  storeName                  String    @unique @map("store_name")
+  storeDescription           String?   @map("store_description")
+  kycStatus                  KycStatus @default(PENDING) @map("kyc_status")
+  kycDocuments               Json?     @map("kyc_documents")
+  commissionRate             Float     @default(0.10) @map("commission_rate")
   rating                     Float     @default(0)
-  totalRatings               Int       @default(0)
-  businessRegistrationNumber String?
-  bankAccountNumber          String?
-  bankCode                   String?
-  createdAt                  DateTime  @default(now())
-  updatedAt                  DateTime  @updatedAt
+  totalRatings               Int       @default(0) @map("total_ratings")
+  businessRegistrationNumber String?   @map("business_registration_number")
+  bankAccountNumber          String?   @map("bank_account_number")
+  bankCode                   String?   @map("bank_code")
+  createdAt                  DateTime  @default(now()) @map("created_at")
+  updatedAt                  DateTime  @updatedAt @map("updated_at")
 
   products    Product[]
   subOrders   SubOrder[]
@@ -156,24 +179,25 @@ model Seller {
   @@index([kycStatus])
   @@index([storeName])
   @@index([rating])
+  @@map("sellers")
 }
 
 model Product {
   id          String        @id @default(cuid())
-  sellerId    String
+  sellerId    String        @map("seller_id")
   seller      Seller        @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sku         String
   name        String
   description String?
   price       Float
   status      ProductStatus @default(DRAFT)
-  categoryId  String?
+  categoryId  String?       @map("category_id")
   images      String[]
   rating      Float         @default(0)
-  reviewCount Int           @default(0)
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-  deletedAt   DateTime?
+  reviewCount Int           @default(0) @map("review_count")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  deletedAt   DateTime?     @map("deleted_at")
 
   variants ProductVariant[]
   reviews  Review[]
@@ -185,19 +209,20 @@ model Product {
   @@index([name])
   @@index([price])
   @@index([deletedAt])
+  @@map("products")
 }
 
 model ProductVariant {
   id            String   @id @default(cuid())
-  productId     String
+  productId     String   @map("product_id")
   product       Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   sku           String
   attributes    Json
-  priceOverride Float?
+  priceOverride Float?   @map("price_override")
   stock         Int      @default(0)
-  reservedStock Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  reservedStock Int      @default(0) @map("reserved_stock")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
 
   cartItems             CartItem[]
   inventoryReservations InventoryReservation[]
@@ -206,64 +231,68 @@ model ProductVariant {
   @@unique([productId, sku])
   @@index([productId])
   @@index([sku])
+  @@map("product_variants")
 }
 
 model InventoryReservation {
   id        String            @id @default(cuid())
-  variantId String
+  variantId String            @map("variant_id")
   variant   ProductVariant    @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  orderId   String
+  orderId   String            @map("order_id")
   quantity  Int
-  expiresAt DateTime
+  expiresAt DateTime          @map("expires_at")
   status    ReservationStatus @default(ACTIVE)
-  createdAt DateTime          @default(now())
+  createdAt DateTime          @default(now()) @map("created_at")
 
   @@index([variantId])
   @@index([orderId])
   @@index([status])
   @@index([expiresAt])
   @@index([status, expiresAt])
+  @@map("inventory_reservations")
 }
 
 model Cart {
   id        String   @id @default(cuid())
-  userId    String   @unique
+  userId    String   @unique @map("user_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   items CartItem[]
 
   @@index([userId])
+  @@map("carts")
 }
 
 model CartItem {
   id        String         @id @default(cuid())
-  cartId    String
+  cartId    String         @map("cart_id")
   cart      Cart           @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  variantId String
+  variantId String         @map("variant_id")
   variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
   quantity  Int
-  createdAt DateTime       @default(now())
+  createdAt DateTime       @default(now()) @map("created_at")
 
   @@unique([cartId, variantId])
   @@index([cartId])
   @@index([variantId])
+  @@map("cart_items")
 }
 
 model Order {
   id              String      @id @default(cuid())
-  orderNumber     String      @unique
-  buyerId         String
+  orderNumber     String      @unique @map("order_number")
+  buyerId         String      @map("buyer_id")
   buyer           User        @relation("BuyerOrders", fields: [buyerId], references: [id], onDelete: Restrict)
   status          OrderStatus @default(PENDING_PAYMENT)
   subtotal        Float
-  shippingFee     Float       @default(0)
-  totalAmount     Float
-  shippingAddress Json
-  createdAt       DateTime    @default(now())
-  updatedAt       DateTime    @updatedAt
-  deletedAt       DateTime?
+  shippingFee     Float       @default(0) @map("shipping_fee")
+  totalAmount     Float       @map("total_amount")
+  shippingAddress Json        @map("shipping_address")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  updatedAt       DateTime    @updatedAt @map("updated_at")
+  deletedAt       DateTime?   @map("deleted_at")
 
   subOrders   SubOrder[]
   commissions Commission[]
@@ -275,19 +304,20 @@ model Order {
   @@index([orderNumber])
   @@index([createdAt])
   @@index([deletedAt])
+  @@map("orders")
 }
 
 model SubOrder {
   id               String      @id @default(cuid())
-  orderId          String
+  orderId          String      @map("order_id")
   order            Order       @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  sellerId         String
+  sellerId         String      @map("seller_id")
   seller           Seller      @relation(fields: [sellerId], references: [id], onDelete: Restrict)
   subtotal         Float
   status           OrderStatus @default(PENDING_PAYMENT)
-  shippingTracking Json?
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt
+  shippingTracking Json?       @map("shipping_tracking")
+  createdAt        DateTime    @default(now()) @map("created_at")
+  updatedAt        DateTime    @updatedAt @map("updated_at")
 
   items OrderItem[]
 
@@ -295,130 +325,138 @@ model SubOrder {
   @@index([orderId])
   @@index([sellerId])
   @@index([status])
+  @@map("sub_orders")
 }
 
 model OrderItem {
   id            String         @id @default(cuid())
-  subOrderId    String
+  subOrderId    String         @map("sub_order_id")
   subOrder      SubOrder       @relation(fields: [subOrderId], references: [id], onDelete: Cascade)
-  variantId     String
+  variantId     String         @map("variant_id")
   variant       ProductVariant @relation(fields: [variantId], references: [id], onDelete: Restrict)
   quantity      Int
-  unitPrice     Float
-  priceSnapshot Json
-  createdAt     DateTime       @default(now())
+  unitPrice     Float          @map("unit_price")
+  priceSnapshot Json           @map("price_snapshot")
+  createdAt     DateTime       @default(now()) @map("created_at")
 
   @@index([subOrderId])
   @@index([variantId])
+  @@map("order_items")
 }
 
 model Payment {
   id                String        @id @default(cuid())
-  orderId           String        @unique
+  orderId           String        @unique @map("order_id")
   order             Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
   provider          String
-  providerReference String?
+  providerReference String?       @map("provider_reference")
   amount            Float
   currency          String        @default("SGD")
   status            PaymentStatus @default(PENDING)
-  idempotencyKey    String        @unique
-  webhookReceivedAt DateTime?
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt
+  idempotencyKey    String        @unique @map("idempotency_key")
+  webhookReceivedAt DateTime?     @map("webhook_received_at")
+  createdAt         DateTime      @default(now()) @map("created_at")
+  updatedAt         DateTime      @updatedAt @map("updated_at")
 
   @@index([orderId])
   @@index([provider])
   @@index([status])
   @@index([idempotencyKey])
   @@index([providerReference])
+  @@map("payments")
 }
 
 model Commission {
   id        String   @id @default(cuid())
-  orderId   String
+  orderId   String   @map("order_id")
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  sellerId  String
+  sellerId  String   @map("seller_id")
   seller    Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   amount    Float
   rate      Float
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@unique([orderId, sellerId])
   @@index([orderId])
   @@index([sellerId])
   @@index([createdAt])
+  @@map("commissions")
 }
 
 model Notification {
   id        String           @id @default(cuid())
-  userId    String
+  userId    String           @map("user_id")
   user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   type      NotificationType
   title     String
   body      String
   data      Json?
-  isRead    Boolean          @default(false)
-  createdAt DateTime         @default(now())
+  isRead    Boolean          @default(false) @map("is_read")
+  createdAt DateTime         @default(now()) @map("created_at")
 
   @@index([userId])
   @@index([isRead])
   @@index([createdAt])
   @@index([userId, isRead, createdAt])
+  @@map("notifications")
 }
 
 model SellerLedger {
   id            String     @id @default(cuid())
-  sellerId      String
+  sellerId      String     @map("seller_id")
   seller        Seller     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   type          LedgerType
   amount        Float
-  referenceType String?
-  referenceId   String?
+  referenceType String?    @map("reference_type")
+  referenceId   String?    @map("reference_id")
   description   String?
-  createdAt     DateTime   @default(now())
+  createdAt     DateTime   @default(now()) @map("created_at")
 
   @@index([sellerId])
   @@index([type])
   @@index([referenceType, referenceId])
   @@index([createdAt])
   @@index([sellerId, createdAt])
+  @@map("seller_ledger")
 }
 
 model Review {
   id        String   @id @default(cuid())
-  orderId   String
+  orderId   String   @map("order_id")
   order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  sellerId  String
+  sellerId  String   @map("seller_id")
   seller    Seller   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  productId String
+  productId String   @map("product_id")
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String   @map("user_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   rating    Int
   comment   String?
-  createdAt DateTime @default(now())
+  createdAt DateTime @default(now()) @map("created_at")
 
   @@unique([orderId, productId, userId])
   @@index([sellerId])
   @@index([productId])
   @@index([userId])
   @@index([rating])
+  @@map("reviews")
 }
 
 model RefreshToken {
-  id          String    @id @default(cuid())
-  userId      String
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tokenHash   String    @unique
-  family      String
-  expiresAt   DateTime
-  revokedAt   DateTime?
-  createdAt   DateTime  @default(now())
-  replacedBy  String?
+  id         String    @id @default(cuid())
+  userId     String    @map("user_id")
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash  String    @unique @map("token_hash")
+  family     String
+  expiresAt  DateTime  @map("expires_at")
+  revokedAt  DateTime? @map("revoked_at")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  replacedBy String?   @map("replaced_by")
 
   @@index([userId])
   @@index([family])
   @@index([expiresAt])
+  @@map("refresh_tokens")
 }
 
 // Durable event record written inside the business transaction so that an
@@ -426,21 +464,22 @@ model RefreshToken {
 // polls status=PENDING rows, publishes to the queue, and marks PUBLISHED.
 model OutboxEvent {
   id            String       @id @default(cuid())
-  aggregateType String
-  aggregateId   String
-  eventType     String
+  aggregateType String       @map("aggregate_type")
+  aggregateId   String       @map("aggregate_id")
+  eventType     String       @map("event_type")
   payload       Json
   status        OutboxStatus @default(PENDING)
   attempts      Int          @default(0)
-  lastError     String?
-  availableAt   DateTime     @default(now())
-  publishedAt   DateTime?
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  lastError     String?      @map("last_error")
+  availableAt   DateTime     @default(now()) @map("available_at")
+  publishedAt   DateTime?    @map("published_at")
+  createdAt     DateTime     @default(now()) @map("created_at")
+  updatedAt     DateTime     @updatedAt @map("updated_at")
 
   @@index([status, availableAt])
   @@index([aggregateType, aggregateId])
   @@index([createdAt])
+  @@map("outbox_events")
 }
 
 // Stored idempotency record for write endpoints. The key is client-supplied via
@@ -450,19 +489,20 @@ model OutboxEvent {
 model IdempotencyKey {
   id           String            @id @default(cuid())
   key          String
-  userId       String?
+  userId       String?           @map("user_id")
   method       String
   path         String
-  requestHash  String
+  requestHash  String            @map("request_hash")
   status       IdempotencyStatus @default(IN_PROGRESS)
-  statusCode   Int?
-  responseBody Json?
-  lockedUntil  DateTime?
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  expiresAt    DateTime
+  statusCode   Int?              @map("status_code")
+  responseBody Json?             @map("response_body")
+  lockedUntil  DateTime?         @map("locked_until")
+  createdAt    DateTime          @default(now()) @map("created_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+  expiresAt    DateTime          @map("expires_at")
 
   @@unique([key, userId, method, path])
   @@index([expiresAt])
   @@index([status])
+  @@map("idempotency_keys")
 }

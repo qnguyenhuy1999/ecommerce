@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common'
+
 import { getRedis } from '@ecom/redis'
+
 import type { ITokenBlacklist } from '../../domain/ports/token-blacklist.port'
 
 @Injectable()

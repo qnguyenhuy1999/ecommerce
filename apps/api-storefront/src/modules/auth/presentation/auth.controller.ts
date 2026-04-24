@@ -80,6 +80,7 @@ export class AuthController {
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   @UseGuards(JwtRefreshGuard)
+  @Throttle({ default: { ttl: 60_000, limit: 30 } })
   @ApiOperation({ summary: 'Rotate tokens using refresh cookie' })
   async refresh(
     @CurrentUser() user: { userId: string; family: string; jti: string },
