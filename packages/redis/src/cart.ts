@@ -1,14 +1,22 @@
-export function getCartRedis(_key: string): Promise<Record<string, unknown> | null> {
-  // TODO(@platform, 2026-04-23): Implement Redis GET for cart data.
-  return Promise.resolve(null)
+import { getRedis } from './index'
+
+export async function getCartRedis(key: string): Promise<Record<string, unknown> | null> {
+  const redis = getRedis()
+  const raw = await redis.get(key)
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as Record<string, unknown>
+  } catch {
+    return null
+  }
 }
 
-export function setCartRedis(_key: string, _data: unknown, _ttlSeconds = 86400): Promise<void> {
-  // TODO(@platform, 2026-04-23): Implement Redis SETEX for cart data (with TTL).
-  return Promise.resolve()
+export async function setCartRedis(key: string, data: unknown, ttlSeconds = 86400): Promise<void> {
+  const redis = getRedis()
+  await redis.setex(key, ttlSeconds, JSON.stringify(data))
 }
 
-export function deleteCartRedis(_key: string): Promise<void> {
-  // TODO(@platform, 2026-04-23): Implement Redis DEL for cart data.
-  return Promise.resolve()
+export async function deleteCartRedis(key: string): Promise<void> {
+  const redis = getRedis()
+  await redis.del(key)
 }
