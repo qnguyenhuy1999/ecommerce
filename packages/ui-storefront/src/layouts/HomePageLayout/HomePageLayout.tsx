@@ -62,11 +62,7 @@ function HomePageLayout({
         {trustBanner}
 
         {/* Quick-access icon nav — divided from hero */}
-        {quickNav && (
-          <div className="border-b border-[var(--border-subtle)]">
-            {quickNav}
-          </div>
-        )}
+        {quickNav && <div className="border-b border-[var(--border-subtle)]">{quickNav}</div>}
 
         {/* Hero — full-width feature */}
         {hero}
@@ -75,38 +71,22 @@ function HomePageLayout({
         {categories}
 
         {/* Flash sale — accent band */}
-        {flashSale && (
-          <div className="bg-[var(--surface-subtle)]">
-            {flashSale}
-          </div>
-        )}
+        {flashSale && <div className="bg-[var(--surface-subtle)]">{flashSale}</div>}
 
         {/* Trending searches — compact divider row */}
-        {trending && (
-          <div className="border-y border-[var(--border-subtle)]">
-            {trending}
-          </div>
-        )}
+        {trending && <div className="border-y border-[var(--border-subtle)]">{trending}</div>}
 
         {/* Best sellers */}
         {bestSellers}
 
         {/* Recommended — alternating surface for visual rhythm */}
-        {recommended && (
-          <div className="bg-[var(--surface-subtle)]">
-            {recommended}
-          </div>
-        )}
+        {recommended && <div className="bg-[var(--surface-subtle)]">{recommended}</div>}
 
         {/* Brand showcase */}
         {brands}
 
         {/* New arrivals — final content section on alternating surface */}
-        {newArrivals && (
-          <div className="bg-[var(--surface-subtle)]">
-            {newArrivals}
-          </div>
-        )}
+        {newArrivals && <div className="bg-[var(--surface-subtle)]">{newArrivals}</div>}
       </div>
     </StorefrontShell>
   )

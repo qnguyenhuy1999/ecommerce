@@ -18,7 +18,14 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
       {...containerProps}
       className={cn('relative w-full overflow-auto', containerProps?.className, containerClassName)}
     >
-      <table ref={ref} className={cn('w-full caption-bottom text-sm [border-collapse:separate] [border-spacing:0]', className)} {...props} />
+      <table
+        ref={ref}
+        className={cn(
+          'w-full caption-bottom text-sm [border-collapse:separate] [border-spacing:0]',
+          className,
+        )}
+        {...props}
+      />
     </div>
   ),
 )
@@ -29,7 +36,14 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn('[&_tr]:border-b [&_tr]:border-border/70 bg-[var(--surface-elevated)]', className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn(
+      '[&_tr]:border-b [&_tr]:border-border/70 bg-[var(--surface-elevated)]',
+      className,
+    )}
+    {...props}
+  />
 ))
 TableHeader.displayName = 'TableHeader'
 
@@ -49,7 +63,10 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <tfoot
     ref={ref}
-    className={cn('border-t border-border/70 bg-muted/40 font-medium [&>tr]:last:border-b-0', className)}
+    className={cn(
+      'border-t border-border/70 bg-muted/40 font-medium [&>tr]:last:border-b-0',
+      className,
+    )}
     {...props}
   />
 ))

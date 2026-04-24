@@ -51,14 +51,21 @@ const QueryHandlers = [MeHandler]
     JwtAccessStrategy,
     JwtRefreshStrategy,
     TokenCleanupTask,
-    { provide: USER_REPOSITORY,          useClass: PrismaUserRepository },
+    { provide: USER_REPOSITORY, useClass: PrismaUserRepository },
     { provide: REFRESH_TOKEN_REPOSITORY, useClass: PrismaRefreshTokenRepository },
-    { provide: PASSWORD_HASHER,          useClass: Argon2HasherAdapter },
-    { provide: TOKEN_BLACKLIST,          useClass: RedisTokenBlacklistAdapter },
-    { provide: COOKIE_WRITER,            useClass: ExpressCookieWriterAdapter },
-    { provide: LOGIN_LIMITER,            useClass: RedisLoginLimiterAdapter },
+    { provide: PASSWORD_HASHER, useClass: Argon2HasherAdapter },
+    { provide: TOKEN_BLACKLIST, useClass: RedisTokenBlacklistAdapter },
+    { provide: COOKIE_WRITER, useClass: ExpressCookieWriterAdapter },
+    { provide: LOGIN_LIMITER, useClass: RedisLoginLimiterAdapter },
   ],
-  exports: [USER_REPOSITORY, REFRESH_TOKEN_REPOSITORY, PASSWORD_HASHER, TOKEN_BLACKLIST, COOKIE_WRITER, LOGIN_LIMITER],
+  exports: [
+    USER_REPOSITORY,
+    REFRESH_TOKEN_REPOSITORY,
+    PASSWORD_HASHER,
+    TOKEN_BLACKLIST,
+    COOKIE_WRITER,
+    LOGIN_LIMITER,
+  ],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS module class requires empty body
 export class AuthModule {}

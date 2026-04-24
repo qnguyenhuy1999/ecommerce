@@ -1,7 +1,8 @@
 import 'dotenv/config'
 
-import { baseEnvSchema, validateEnv } from '@ecom/nest-config'
 import { z } from 'zod'
+
+import { baseEnvSchema, validateEnv } from '@ecom/nest-config'
 
 // api-admin extends the shared base to override defaults aimed at the
 // storefront (PORT :3000, CORS_ORIGIN :8000). The admin API listens on

@@ -57,8 +57,6 @@ export const ManyFilters: Story = {
 
 export const SingleFilter: Story = {
   render: () => (
-    <ActiveFiltersWithState
-      initialFilters={[{ key: 'availability', label: 'Availability', value: 'In stock' }]}
-    />
+    <ActiveFiltersWithState initialFilters={[{ key: 'availability', label: 'Availability', value: 'In stock' }]} />
   ),
 }

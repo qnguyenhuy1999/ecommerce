@@ -26,7 +26,10 @@ import type { DataTablePaginationProps } from './DataTablePagination'
 import type { DataTableSkeletonRowProps } from './DataTableSkeletonRow'
 import type { DataTableStatusBadgeProps } from './DataTableStatusBadge'
 
-interface DataTableProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title' | 'description'> {
+interface DataTableProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'title' | 'description'
+> {
   selectable?: boolean
   selectedKeys?: (string | number)[]
   onSelectionChange?: (keys: (string | number)[]) => void

@@ -9,9 +9,7 @@ export function ProductCardContent({ className, children, ...props }: ProductCar
 
   const classes = cn(
     'flex flex-1 flex-col justify-between gap-2 p-[var(--padding-card-content)]',
-    view === 'list'
-      ? 'min-h-[14rem] py-5 sm:px-5 sm:py-5'
-      : 'min-h-[11rem] pb-14',
+    view === 'list' ? 'min-h-[14rem] py-5 sm:px-5 sm:py-5' : 'min-h-[11rem] pb-14',
     className,
   )
 

@@ -96,7 +96,7 @@ export function DataTableRow({
             : 'hover:bg-[var(--surface-hover)]'),
         section === 'body' && accent && ['border-l-2', accentBorder],
         interactive &&
-          'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-[-2px]',
+          'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-[var(--space-1)] data-[state=selected]:focus-visible:ring-offset-[0]',
         className,
       )}
       {...props}

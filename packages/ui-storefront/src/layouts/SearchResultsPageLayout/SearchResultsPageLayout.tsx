@@ -109,7 +109,11 @@ function SearchResultsPageLayout({
 
         <div className="grid gap-8 lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start">
           <aside className="space-y-4 lg:sticky lg:top-28">
-            <FilterSidebar groups={filters} onFilterChange={onFilterChange} onClearAll={onClearFilters} />
+            <FilterSidebar
+              groups={filters}
+              onFilterChange={onFilterChange}
+              onClearAll={onClearFilters}
+            />
             {aside}
           </aside>
 

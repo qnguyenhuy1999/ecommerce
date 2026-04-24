@@ -51,8 +51,11 @@ export function DataTablePagination({
       {...props}
     >
       <div className="text-[var(--text-sm)] text-[var(--text-secondary)]">
-        Showing <span className="font-semibold text-[var(--text-primary)]">{startRow}-{endRow}</span> of{' '}
-        <span className="font-semibold text-[var(--text-primary)]">{totalRows}</span>
+        Showing{' '}
+        <span className="font-semibold text-[var(--text-primary)]">
+          {startRow}-{endRow}
+        </span>{' '}
+        of <span className="font-semibold text-[var(--text-primary)]">{totalRows}</span>
       </div>
 
       <div className="flex flex-wrap items-center gap-3">

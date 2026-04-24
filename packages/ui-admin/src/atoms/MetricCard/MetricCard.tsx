@@ -44,7 +44,13 @@ function MetricCard({
   const isPositive = percentChange !== null && percentChange >= 0
 
   return (
-    <Card className={cn('admin-metric-card border border-border/70 bg-[var(--surface-base)]/96 p-[var(--space-5)] backdrop-blur-[10px]', className)} {...props}>
+    <Card
+      className={cn(
+        'admin-metric-card border border-border/70 bg-[var(--surface-base)]/96 p-[var(--space-5)] backdrop-blur-[10px]',
+        className,
+      )}
+      {...props}
+    >
       <div className="flex items-center justify-between pb-3 text-[var(--text-secondary)]">
         <span className="text-sm font-medium uppercase tracking-[0.08em]">{label}</span>
         {icon && (

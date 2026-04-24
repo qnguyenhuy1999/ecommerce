@@ -46,7 +46,7 @@ export const AdminNavigation: Story = {
     items: [
       { label: 'Dashboard', href: '/admin' },
       { label: 'Orders', href: '/admin/orders' },
-      { label: 'Order #1847' },
+      { label: 'Order 1847' },
     ],
   },
 }
@@ -54,10 +54,6 @@ export const AdminNavigation: Story = {
 export const CustomSeparator: Story = {
   args: {
     separator: '•',
-    items: [
-      { label: 'Women', href: '/women' },
-      { label: 'Shoes', href: '/women/shoes' },
-      { label: 'Sneakers' },
-    ],
+    items: [{ label: 'Women', href: '/women' }, { label: 'Shoes', href: '/women/shoes' }, { label: 'Sneakers' }],
   },
 }

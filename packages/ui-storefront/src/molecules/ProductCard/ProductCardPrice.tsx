@@ -29,7 +29,10 @@ export function ProductCardPrice({
   const effectiveCurrency = currencyCode || (/^[A-Z]{3}$/.test(currency) ? currency : 'USD')
 
   return (
-    <div className={cn(view === 'list' ? 'mt-4 space-y-2' : 'mt-auto space-y-1.5', className)} {...props}>
+    <div
+      className={cn(view === 'list' ? 'mt-4 space-y-2' : 'mt-auto space-y-1.5', className)}
+      {...props}
+    >
       <div className="flex flex-wrap items-center gap-2.5">
         <span
           className={cn(

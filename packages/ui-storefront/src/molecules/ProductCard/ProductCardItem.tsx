@@ -85,7 +85,9 @@ function ProductCardItem({
 
           {(typeof rating === 'number' || typeof buyCount === 'number') && (
             <ProductCardMeta>
-              {typeof rating === 'number' && <ProductCardRating value={rating} count={ratingCount} />}
+              {typeof rating === 'number' && (
+                <ProductCardRating value={rating} count={ratingCount} />
+              )}
               {typeof buyCount === 'number' && (
                 <span className={cn('tabular-nums', typeof rating === 'number' && 'pl-1')}>
                   {typeof rating === 'number' ? '· ' : ''}
@@ -105,7 +107,9 @@ function ProductCardItem({
             <Button
               size={view === 'list' ? 'default' : 'sm'}
               variant="brand"
-              className={cn(view === 'list' ? 'min-w-[10rem]' : 'shadow-[var(--elevation-floating)]')}
+              className={cn(
+                view === 'list' ? 'min-w-[10rem]' : 'shadow-[var(--elevation-floating)]',
+              )}
               onClick={() => onAddToCart(id)}
               disabled={loading || !id}
             >

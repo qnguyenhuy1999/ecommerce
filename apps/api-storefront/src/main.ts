@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import 'dotenv/config'
-import { ValidationPipe } from '@nestjs/common'
+import { ValidationPipe, type INestApplication } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
@@ -9,12 +9,20 @@ import { Logger } from 'nestjs-pino'
 
 import { AppModule } from './app.module'
 
-async function listenWithFallback(app: any, port: number, attemptsLeft = 10): Promise<number> {
+function hasErrorCode(error: unknown): error is { code: string } {
+  return typeof error === 'object' && error !== null && 'code' in error && typeof error.code === 'string'
+}
+
+async function listenWithFallback(
+  app: INestApplication,
+  port: number,
+  attemptsLeft = 10,
+): Promise<number> {
   try {
     await app.listen(port)
     return port
-  } catch (error: any) {
-    if (error?.code === 'EADDRINUSE' && attemptsLeft > 1) {
+  } catch (error: unknown) {
+    if (hasErrorCode(error) && error.code === 'EADDRINUSE' && attemptsLeft > 1) {
       return listenWithFallback(app, port + 1, attemptsLeft - 1)
     }
     throw error
@@ -27,8 +35,10 @@ async function bootstrap() {
   // discovery) fall through to the default Nest console logger and miss
   // correlation IDs / redaction.
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
-  app.useLogger(app.get(Logger))
+  const logger = app.get(Logger)
+  const configService = app.get(ConfigService)
 
+  app.useLogger(logger)
   app.use(cookieParser())
 
   app.setGlobalPrefix('api/v1', {
@@ -38,7 +48,7 @@ async function bootstrap() {
   })
 
   app.enableCors({
-    origin: app.get(ConfigService).get('cors.origin', 'http://localhost:8000'),
+    origin: configService.get<string>('cors.origin') ?? 'http://localhost:8000',
     credentials: true,
   })
 
@@ -59,8 +69,8 @@ async function bootstrap() {
       .build()
     const document = SwaggerModule.createDocument(app, config)
     SwaggerModule.setup('docs', app, document)
-  } catch (error) {
-    app.get(Logger).warn({ error }, 'Swagger docs disabled: failed to generate document')
+  } catch (error: unknown) {
+    logger.warn({ error }, 'Swagger docs disabled: failed to generate document')
   }
 
   // Flush pending logs and close Redis/Postgres connections cleanly on SIGTERM.
@@ -69,9 +79,9 @@ async function bootstrap() {
   const requestedPort = parseInt(process.env.PORT ?? '3000', 10)
   const port = await listenWithFallback(app, requestedPort)
   if (port !== requestedPort) {
-    app.get(Logger).warn(`Port ${requestedPort} is in use; listening on ${port} instead`)
+    logger.warn(`Port ${String(requestedPort)} is in use; listening on ${String(port)} instead`)
   }
-  app.get(Logger).log(`API listening on http://localhost:${String(port)}`)
+  logger.log(`API listening on http://localhost:${String(port)}`)
 }
 
 // eslint-disable-next-line no-console -- Ensure startup errors are surfaced.

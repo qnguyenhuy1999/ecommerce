@@ -63,12 +63,11 @@ export type BaseEnv = z.infer<typeof baseEnvSchema>
  * Validates `process.env` against a schema and throws a readable error on
  * failure. Returns the parsed, typed env object.
  */
-export function validateEnv<TSchema extends z.ZodTypeAny>(schema: TSchema): z.infer<TSchema> {
+export function validateEnv<TOutput>(schema: z.ZodType<TOutput>): TOutput {
   const parsed = schema.safeParse(process.env)
 
   if (!parsed.success) {
     const errors = parsed.error.errors.map((e) => `[${e.path.join('.')}] ${e.message}`).join('\n')
-    // eslint-disable-next-line no-console -- Environment schema errors must be visible during startup.
     console.error('❌ Environment validation failed:\n', errors)
     throw new Error(`Environment validation failed:\n${errors}`)
   }

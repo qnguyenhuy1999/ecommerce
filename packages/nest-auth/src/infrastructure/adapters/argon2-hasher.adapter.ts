@@ -17,7 +17,7 @@ function isArgon2Hash(hash: string): boolean {
 async function hashWithPbkdf2(plain: string): Promise<string> {
   const salt = randomBytes(16).toString('hex')
   const derived = await pbkdf2(plain, salt, PBKDF2_ITERATIONS, PBKDF2_KEYLEN, PBKDF2_DIGEST)
-  return `pbkdf2$${PBKDF2_ITERATIONS}$${salt}$${derived.toString('hex')}`
+  return `pbkdf2$${String(PBKDF2_ITERATIONS)}$${salt}$${derived.toString('hex')}`
 }
 
 async function verifyPbkdf2(plain: string, hash: string): Promise<boolean> {
