@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import type { Response } from 'express'
 
@@ -10,7 +10,7 @@ const REFRESH_COOKIE = 'refresh_token'
 
 @Injectable()
 export class ExpressCookieWriterAdapter implements ICookieWriter {
-  constructor(private readonly config: ConfigService) {}
+  constructor(@Inject(ConfigService) private readonly config: ConfigService) {}
 
   private get baseOptions() {
     return {

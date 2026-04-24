@@ -1,3 +1,5 @@
+import 'reflect-metadata'
+import 'dotenv/config'
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
@@ -6,6 +8,18 @@ import cookieParser from 'cookie-parser'
 import { Logger } from 'nestjs-pino'
 
 import { AppModule } from './app.module'
+
+async function listenWithFallback(app: any, port: number, attemptsLeft = 10): Promise<number> {
+  try {
+    await app.listen(port)
+    return port
+  } catch (error: any) {
+    if (error?.code === 'EADDRINUSE' && attemptsLeft > 1) {
+      return listenWithFallback(app, port + 1, attemptsLeft - 1)
+    }
+    throw error
+  }
+}
 
 async function bootstrap() {
   // `bufferLogs: true` queues bootstrap logs until the pino logger is resolved
@@ -36,20 +50,27 @@ async function bootstrap() {
     }),
   )
 
-  const config = new DocumentBuilder()
-    .setTitle('Ecommerce API')
-    .setDescription('Multi-vendor ecommerce marketplace API')
-    .setVersion('1.0')
-    .addCookieAuth('access_token')
-    .build()
-  const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('docs', app, document)
+  try {
+    const config = new DocumentBuilder()
+      .setTitle('Ecommerce API')
+      .setDescription('Multi-vendor ecommerce marketplace API')
+      .setVersion('1.0')
+      .addCookieAuth('access_token')
+      .build()
+    const document = SwaggerModule.createDocument(app, config)
+    SwaggerModule.setup('docs', app, document)
+  } catch (error) {
+    app.get(Logger).warn({ error }, 'Swagger docs disabled: failed to generate document')
+  }
 
   // Flush pending logs and close Redis/Postgres connections cleanly on SIGTERM.
   app.enableShutdownHooks()
 
-  const port = parseInt(process.env.PORT ?? '3000', 10)
-  await app.listen(port)
+  const requestedPort = parseInt(process.env.PORT ?? '3000', 10)
+  const port = await listenWithFallback(app, requestedPort)
+  if (port !== requestedPort) {
+    app.get(Logger).warn(`Port ${requestedPort} is in use; listening on ${port} instead`)
+  }
   app.get(Logger).log(`API listening on http://localhost:${String(port)}`)
 }
 

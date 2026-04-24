@@ -16,16 +16,18 @@ export class TokenCleanupTask implements OnModuleInit {
   ) {}
 
   onModuleInit(): void {
-    void this.cleanup()
-    setInterval(() => void this.cleanup(), CLEANUP_INTERVAL_MS)
+    void this.cleanup(true)
+    setInterval(() => void this.cleanup(false), CLEANUP_INTERVAL_MS)
   }
 
-  private async cleanup(): Promise<void> {
+  private async cleanup(initialRun: boolean): Promise<void> {
     try {
       await this.refreshTokenRepo.deleteExpired()
       this.logger.log('Expired refresh tokens cleaned up')
     } catch (err) {
-      this.logger.error('Failed to clean up expired refresh tokens', err)
+      if (!initialRun) {
+        this.logger.error('Failed to clean up expired refresh tokens', err)
+      }
     }
   }
 }
