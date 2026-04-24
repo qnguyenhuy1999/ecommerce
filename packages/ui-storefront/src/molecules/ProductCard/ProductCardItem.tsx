@@ -101,28 +101,28 @@ function ProductCardItem({
         {typeof price === 'number' && (
           <ProductCardPrice price={price} originalPrice={originalPrice} />
         )}
-
-        {onAddToCart && (
-          <ProductCardActions>
-            <Button
-              size={view === 'list' ? 'default' : 'sm'}
-              variant="brand"
-              className={cn(
-                view === 'list' ? 'min-w-[10rem]' : 'shadow-[var(--elevation-floating)]',
-              )}
-              onClick={() => onAddToCart(id)}
-              disabled={loading || !id}
-            >
-              Add to Cart
-            </Button>
-            {view === 'list' && (
-              <Button variant="outline" size="default">
-                View details
-              </Button>
-            )}
-          </ProductCardActions>
-        )}
       </ProductCardContent>
+
+      {onAddToCart && (
+        <ProductCardActions>
+          <Button
+            size={view === 'list' ? 'default' : 'sm'}
+            variant="brand"
+            className={cn(
+              view === 'list' ? 'min-w-[10rem]' : 'shadow-[var(--elevation-floating)]',
+            )}
+            onClick={() => onAddToCart(id)}
+            disabled={loading || !id}
+          >
+            Add to Cart
+          </Button>
+          {view === 'list' && (
+            <Button variant="outline" size="default">
+              View details
+            </Button>
+          )}
+        </ProductCardActions>
+      )}
     </ProductCard>
   )
 }

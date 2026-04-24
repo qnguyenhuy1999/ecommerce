@@ -323,6 +323,7 @@
   --surface-overlay: var(--color-background-muted);
   --surface-muted: var(--color-background-muted);
   --surface-subtle: var(--color-background-muted);
+  --surface-sunken: #0c0f14;
   --surface-inverse: var(--gray-0);
   --surface-inverse-fg: var(--color-background-default);
 
