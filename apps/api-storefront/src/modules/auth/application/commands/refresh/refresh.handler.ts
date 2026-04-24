@@ -3,6 +3,10 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { RefreshCommand } from './refresh.command'
 import type { RefreshTokenEntity } from '../../../domain/entities/refresh-token.entity'
+import {
+  AccountSuspendedException,
+  InvalidCredentialsException,
+} from '../../../domain/exceptions/auth.exceptions'
 import { PASSWORD_HASHER, IPasswordHasher } from '../../../domain/ports/password-hasher.port'
 import {
   REFRESH_TOKEN_REPOSITORY,
@@ -41,6 +45,18 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
 
     const user = await this.userRepo.findById(command.userId)
     if (!user) throw new UnauthorizedException('User not found')
+
+    // Mirror LoginHandler's eligibility checks so that suspending an account
+    // immediately stops new tokens from being minted — without this, a
+    // suspended user could keep refreshing for the lifetime of the family.
+    if (user.status === 'SUSPENDED') {
+      await this.refreshTokenRepo.revokeFamily(currentToken.props.family)
+      throw new UnauthorizedException(new AccountSuspendedException().message)
+    }
+    if (!user.canLogin()) {
+      await this.refreshTokenRepo.revokeFamily(currentToken.props.family)
+      throw new UnauthorizedException(new InvalidCredentialsException().message)
+    }
 
     const { token: accessToken, expiresInSeconds: accessExpiresInSeconds } =
       this.jwtTokenService.generateAccessToken(user)
