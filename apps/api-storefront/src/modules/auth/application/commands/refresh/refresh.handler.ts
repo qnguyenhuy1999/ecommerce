@@ -1,9 +1,13 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { Inject, UnauthorizedException } from '@nestjs/common'
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
+
 import { RefreshCommand } from './refresh.command'
-import { USER_REPOSITORY, IUserRepository } from '../../../domain/ports/user.repository.port'
-import { REFRESH_TOKEN_REPOSITORY, IRefreshTokenRepository } from '../../../domain/ports/refresh-token.repository.port'
 import { PASSWORD_HASHER, IPasswordHasher } from '../../../domain/ports/password-hasher.port'
+import {
+  REFRESH_TOKEN_REPOSITORY,
+  IRefreshTokenRepository,
+} from '../../../domain/ports/refresh-token.repository.port'
+import { USER_REPOSITORY, IUserRepository } from '../../../domain/ports/user.repository.port'
 import { JwtTokenService } from '../../services/jwt-token.service'
 import type { LoginResult } from '../login/login.handler'
 
@@ -25,7 +29,7 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
     }
 
     const allFamilyTokens = await this.refreshTokenRepo.findByFamily(payload.family)
-    const currentToken = allFamilyTokens.find(t => !t.isRevoked() && !t.isExpired())
+    const currentToken = allFamilyTokens.find((t) => !t.isRevoked() && !t.isExpired())
 
     if (!currentToken) {
       await this.refreshTokenRepo.revokeFamily(payload.family)
@@ -41,15 +45,29 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
     const user = await this.userRepo.findById(payload.sub)
     if (!user) throw new UnauthorizedException('User not found')
 
-    const { token: accessToken } = this.jwtTokenService.generateAccessToken(user)
-    const { token: refreshToken, rawToken: newRawToken } = this.jwtTokenService.generateRefreshToken(user.id, currentToken.props.family)
+    const { token: accessToken, expiresInSeconds: accessExpiresInSeconds } =
+      this.jwtTokenService.generateAccessToken(user)
+    const {
+      token: refreshToken,
+      rawToken: newRawToken,
+      expiresInSeconds: refreshExpiresInSeconds,
+    } = this.jwtTokenService.generateRefreshToken(user.id, currentToken.props.family)
     const newTokenHash = await this.hasher.hash(newRawToken)
-    const newExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    const newExpiry = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     const newToken = await this.refreshTokenRepo.create({
-      userId: user.id, tokenHash: newTokenHash, family: currentToken.props.family, expiresAt: newExpiry,
+      userId: user.id,
+      tokenHash: newTokenHash,
+      family: currentToken.props.family,
+      expiresAt: newExpiry,
     })
     await this.refreshTokenRepo.revokeById(currentToken.props.id, newToken.props.id)
 
-    return { accessToken, refreshToken, user: { id: user.id, email: user.email, role: user.role, status: user.status } }
+    return {
+      session: {
+        tokens: { accessToken, refreshToken },
+        expirySeconds: { access: accessExpiresInSeconds, refresh: refreshExpiresInSeconds },
+      },
+      user: { id: user.id, email: user.email, role: user.role, status: user.status },
+    }
   }
 }

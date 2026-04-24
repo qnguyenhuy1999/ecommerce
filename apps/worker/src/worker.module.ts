@@ -3,11 +3,14 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { PrismaModule } from '@ecom/database';
+import { OUTBOX_QUEUE_NAME } from '@ecom/shared';
 
+import { WorkerObservabilityModule } from './observability/observability.module';
 import { CommissionProcessor } from './processors/commission.processor';
 import { EmailProcessor } from './processors/email.processor';
 import { InventoryReconciliationProcessor } from './processors/inventory-reconciliation.processor';
 import { OrderExpirationProcessor } from './processors/order-expiration.processor';
+import { OutboxDrainerProcessor } from './processors/outbox-drainer.processor';
 
 @Module({
   imports: [
@@ -19,11 +22,13 @@ import { OrderExpirationProcessor } from './processors/order-expiration.processo
       },
     }),
     PrismaModule,
+    WorkerObservabilityModule,
     BullModule.registerQueue(
       { name: 'email' },
       { name: 'order-expiration' },
       { name: 'commission' },
       { name: 'inventory-reconciliation' },
+      { name: OUTBOX_QUEUE_NAME },
     ),
   ],
   providers: [
@@ -31,6 +36,7 @@ import { OrderExpirationProcessor } from './processors/order-expiration.processo
     OrderExpirationProcessor,
     CommissionProcessor,
     InventoryReconciliationProcessor,
+    OutboxDrainerProcessor,
   ],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.

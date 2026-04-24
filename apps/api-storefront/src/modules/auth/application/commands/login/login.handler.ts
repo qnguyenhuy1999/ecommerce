@@ -1,15 +1,23 @@
-import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { Inject, UnauthorizedException } from '@nestjs/common'
+import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { randomUUID } from 'node:crypto'
+
 import { LoginCommand } from './login.command'
-import { USER_REPOSITORY, IUserRepository } from '../../../domain/ports/user.repository.port'
-import { REFRESH_TOKEN_REPOSITORY, IRefreshTokenRepository } from '../../../domain/ports/refresh-token.repository.port'
+import {
+  InvalidCredentialsException,
+  AccountSuspendedException,
+} from '../../../domain/exceptions/auth.exceptions'
 import { PASSWORD_HASHER, IPasswordHasher } from '../../../domain/ports/password-hasher.port'
+import {
+  REFRESH_TOKEN_REPOSITORY,
+  IRefreshTokenRepository,
+} from '../../../domain/ports/refresh-token.repository.port'
+import { USER_REPOSITORY, IUserRepository } from '../../../domain/ports/user.repository.port'
 import { JwtTokenService } from '../../services/jwt-token.service'
-import { InvalidCredentialsException, AccountSuspendedException } from '../../../domain/exceptions/auth.exceptions'
+import type { AuthSessionResult } from '../../types/auth-session-result'
 
 export interface LoginResult {
-  accessToken: string; refreshToken: string
+  session: AuthSessionResult
   user: { id: string; email: string; role: string; status: string }
 }
 
@@ -29,17 +37,29 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
     const valid = await this.hasher.verify(command.password, user.passwordHash)
     if (!valid) throw new UnauthorizedException(new InvalidCredentialsException().message)
 
-    if (user.status === 'SUSPENDED') throw new UnauthorizedException(new AccountSuspendedException().message)
+    if (user.status === 'SUSPENDED')
+      throw new UnauthorizedException(new AccountSuspendedException().message)
     if (!user.canLogin()) throw new UnauthorizedException(new InvalidCredentialsException().message)
 
-    const { token: accessToken } = this.jwtTokenService.generateAccessToken(user)
+    const { token: accessToken, expiresInSeconds: accessExpiresInSeconds } =
+      this.jwtTokenService.generateAccessToken(user)
     const family = randomUUID()
-    const { token: refreshToken, rawToken } = this.jwtTokenService.generateRefreshToken(user.id, family)
+    const {
+      token: refreshToken,
+      rawToken,
+      expiresInSeconds: refreshExpiresInSeconds,
+    } = this.jwtTokenService.generateRefreshToken(user.id, family)
 
     const tokenHash = await this.hasher.hash(rawToken)
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+    const expiresAt = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     await this.refreshTokenRepo.create({ userId: user.id, tokenHash, family, expiresAt })
 
-    return { accessToken, refreshToken, user: { id: user.id, email: user.email, role: user.role, status: user.status } }
+    return {
+      session: {
+        tokens: { accessToken, refreshToken },
+        expirySeconds: { access: accessExpiresInSeconds, refresh: refreshExpiresInSeconds },
+      },
+      user: { id: user.id, email: user.email, role: user.role, status: user.status },
+    }
   }
 }

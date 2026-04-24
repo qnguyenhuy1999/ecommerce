@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import type { Response } from 'express'
+
+import type { AuthSessionResult } from '../../application/types/auth-session-result'
 import type { ICookieWriter } from '../../domain/ports/cookie-writer.port'
 
 const ACCESS_COOKIE = 'access_token'
@@ -19,17 +21,17 @@ export class ExpressCookieWriterAdapter implements ICookieWriter {
     }
   }
 
-  writeAuthCookies(response: unknown, tokens: { accessToken: string; refreshToken: string }): void {
+  writeAuthCookies(response: unknown, session: AuthSessionResult): void {
     const res = response as Response
-    res.cookie(ACCESS_COOKIE, tokens.accessToken, {
+    res.cookie(ACCESS_COOKIE, session.tokens.accessToken, {
       ...this.baseOptions,
       path: '/',
-      maxAge: 15 * 60 * 1000,
+      maxAge: session.expirySeconds.access * 1000,
     })
-    res.cookie(REFRESH_COOKIE, tokens.refreshToken, {
+    res.cookie(REFRESH_COOKIE, session.tokens.refreshToken, {
       ...this.baseOptions,
       path: '/api/v1/auth',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: session.expirySeconds.refresh * 1000,
     })
   }
 

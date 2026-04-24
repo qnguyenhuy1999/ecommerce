@@ -1,29 +1,41 @@
 import {
-  Body, Controller, Get, HttpCode, HttpStatus, Post,
-  Res, UnauthorizedException, UseGuards, Inject,
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Res,
+  UnauthorizedException,
+  UseGuards,
+  Inject,
 } from '@nestjs/common'
-import { Throttle } from '@nestjs/throttler'
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { Throttle } from '@nestjs/throttler'
 import type { Response } from 'express'
 
-import { RegisterCommand } from '../application/commands/register/register.command'
-import { LoginCommand } from '../application/commands/login/login.command'
-import { RefreshCommand } from '../application/commands/refresh/refresh.command'
-import { LogoutCommand } from '../application/commands/logout/logout.command'
-import { MeQuery } from '../application/queries/me/me.query'
-import { RegisterDto } from '../application/dtos/register.dto'
-import { LoginDto } from '../application/dtos/login.dto'
-import { AuthResponseDto } from '../application/dtos/auth-response.dto'
-import { COOKIE_WRITER, ICookieWriter } from '../domain/ports/cookie-writer.port'
+import { CurrentUser } from './decorators/current-user.decorator'
 import { JwtAccessGuard } from './guards/jwt-access.guard'
 import { JwtRefreshGuard } from './guards/jwt-refresh.guard'
-import { CurrentUser } from './decorators/current-user.decorator'
+import { LoginCommand } from '../application/commands/login/login.command'
 import type { LoginResult } from '../application/commands/login/login.handler'
+import { LogoutCommand } from '../application/commands/logout/logout.command'
+import { RefreshCommand } from '../application/commands/refresh/refresh.command'
+import { RegisterCommand } from '../application/commands/register/register.command'
+import { AuthResponseDto } from '../application/dtos/auth-response.dto'
+import { LoginDto } from '../application/dtos/login.dto'
+import { RegisterDto } from '../application/dtos/register.dto'
+import { MeQuery } from '../application/queries/me/me.query'
 import type { UserEntity } from '../domain/entities/user.entity'
+import { COOKIE_WRITER, ICookieWriter } from '../domain/ports/cookie-writer.port'
 
 interface AuthenticatedUser {
-  userId: string; email: string; role: string; jti: string; exp: number
+  userId: string
+  email: string
+  role: string
+  jti: string
+  exp: number
 }
 
 @ApiTags('auth')
@@ -49,7 +61,7 @@ export class AuthController {
     const loginResult = await this.commandBus.execute<LoginCommand, LoginResult>(
       new LoginCommand(dto.email, dto.password),
     )
-    this.cookieWriter.writeAuthCookies(res, { accessToken: loginResult.accessToken, refreshToken: loginResult.refreshToken })
+    this.cookieWriter.writeAuthCookies(res, loginResult.session)
     return { user: { id: user.id, email: user.email, role: user.role, status: user.status } }
   }
 
@@ -64,7 +76,7 @@ export class AuthController {
     const result = await this.commandBus.execute<LoginCommand, LoginResult>(
       new LoginCommand(dto.email, dto.password),
     )
-    this.cookieWriter.writeAuthCookies(res, { accessToken: result.accessToken, refreshToken: result.refreshToken })
+    this.cookieWriter.writeAuthCookies(res, result.session)
     return { user: result.user }
   }
 
@@ -79,7 +91,7 @@ export class AuthController {
     const result = await this.commandBus.execute<RefreshCommand, LoginResult>(
       new RefreshCommand(user.rawToken),
     )
-    this.cookieWriter.writeAuthCookies(res, { accessToken: result.accessToken, refreshToken: result.refreshToken })
+    this.cookieWriter.writeAuthCookies(res, result.session)
     return { user: result.user }
   }
 
@@ -103,10 +115,10 @@ export class AuthController {
   @ApiCookieAuth('access_token')
   @ApiOperation({ summary: 'Get current authenticated user' })
   async me(@CurrentUser() user: AuthenticatedUser): Promise<AuthResponseDto> {
-    const entity = await this.queryBus.execute<MeQuery, UserEntity | null>(
-      new MeQuery(user.userId),
-    )
+    const entity = await this.queryBus.execute<MeQuery, UserEntity | null>(new MeQuery(user.userId))
     if (!entity) throw new UnauthorizedException('User not found')
-    return { user: { id: entity.id, email: entity.email, role: entity.role, status: entity.status } }
+    return {
+      user: { id: entity.id, email: entity.email, role: entity.role, status: entity.status },
+    }
   }
 }

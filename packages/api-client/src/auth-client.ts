@@ -24,18 +24,13 @@ export interface LoginRequest {
 }
 
 export const authClient = {
-  register: (data: RegisterRequest) =>
-    getApiClient().post<AuthResponse>('/auth/register', data),
+  register: (data: RegisterRequest) => getApiClient().post<AuthResponse>('/auth/register', data),
 
-  login: (data: LoginRequest) =>
-    getApiClient().post<AuthResponse>('/auth/login', data),
+  login: (data: LoginRequest) => getApiClient().post<AuthResponse>('/auth/login', data),
 
-  refresh: () =>
-    getApiClient().post<AuthResponse>('/auth/refresh'),
+  refresh: () => getApiClient().post<AuthResponse>('/auth/refresh'),
 
-  logout: () =>
-    getApiClient().post<{ message: string }>('/auth/logout'),
+  logout: () => getApiClient().post<{ message: string }>('/auth/logout'),
 
-  me: () =>
-    getApiClient().get<AuthResponse>('/auth/me'),
+  me: () => getApiClient().get<AuthResponse>('/auth/me'),
 }

@@ -16,11 +16,15 @@ function createClient() {
     (res) => res,
     async (error: AxiosError) => {
       const original = error.config as InternalAxiosRequestConfig & { _retry?: boolean }
-      if (error.response?.status === 401 && !original._retry) {
+      if (
+        error.response?.status === 401 &&
+        !original._retry &&
+        !original.url?.includes('/auth/refresh')
+      ) {
         original._retry = true
         try {
           await client.post('/auth/refresh')
-          return client(original)
+          return await client(original)
         } catch {
           if (typeof window !== 'undefined') {
             window.location.href = '/login'
