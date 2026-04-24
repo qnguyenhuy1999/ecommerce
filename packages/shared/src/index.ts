@@ -134,3 +134,25 @@ export {
   type PaymentListParams,
   type PaymentStatus,
 } from './schemas/payment'
+
+// Idempotency primitives (Idempotency-Key header handling)
+export {
+  IDEMPOTENCY_HEADER,
+  MIN_KEY_LENGTH as IDEMPOTENCY_MIN_KEY_LENGTH,
+  MAX_KEY_LENGTH as IDEMPOTENCY_MAX_KEY_LENGTH,
+  DEFAULT_IDEMPOTENCY_TTL_MS,
+  IdempotencyKeyInvalidError,
+  assertValidIdempotencyKey,
+  canonicalStringify,
+  computeExpiresAt,
+} from './utils/idempotency'
+
+// Outbox event contracts (shared between API producer and worker publisher)
+export {
+  OUTBOX_QUEUE_NAME,
+  OUTBOX_DRAIN_JOB_NAME,
+  OutboxAggregateType,
+  OutboxEventType,
+  type OutboxDrainJobData,
+  type OutboxEnvelope,
+} from './outbox/types'
