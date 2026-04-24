@@ -2,6 +2,7 @@ import { Inject, UnauthorizedException } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { RefreshCommand } from './refresh.command'
+import type { RefreshTokenEntity } from '../../../domain/entities/refresh-token.entity'
 import { PASSWORD_HASHER, IPasswordHasher } from '../../../domain/ports/password-hasher.port'
 import {
   REFRESH_TOKEN_REPOSITORY,
@@ -21,38 +22,34 @@ export class RefreshHandler implements ICommandHandler<RefreshCommand, LoginResu
   ) {}
 
   async execute(command: RefreshCommand): Promise<LoginResult> {
-    let payload: ReturnType<JwtTokenService['verifyRefreshToken']>
-    try {
-      payload = this.jwtTokenService.verifyRefreshToken(command.rawRefreshToken)
-    } catch {
-      throw new UnauthorizedException('Invalid refresh token')
-    }
+    const allFamilyTokens = await this.refreshTokenRepo.findByFamily(command.family)
+    const activeTokens = allFamilyTokens.filter((t) => !t.isRevoked() && !t.isExpired())
 
-    const allFamilyTokens = await this.refreshTokenRepo.findByFamily(payload.family)
-    const currentToken = allFamilyTokens.find((t) => !t.isRevoked() && !t.isExpired())
+    let currentToken: RefreshTokenEntity | undefined
+    for (const token of activeTokens) {
+      const matches = await this.hasher.verify(command.jti, token.props.tokenHash)
+      if (matches) {
+        currentToken = token
+        break
+      }
+    }
 
     if (!currentToken) {
-      await this.refreshTokenRepo.revokeFamily(payload.family)
+      await this.refreshTokenRepo.revokeFamily(command.family)
       throw new UnauthorizedException('Refresh token reuse detected')
     }
 
-    const isValid = await this.hasher.verify(payload.rawToken, currentToken.props.tokenHash)
-    if (!isValid) {
-      await this.refreshTokenRepo.revokeFamily(payload.family)
-      throw new UnauthorizedException('Refresh token reuse detected')
-    }
-
-    const user = await this.userRepo.findById(payload.sub)
+    const user = await this.userRepo.findById(command.userId)
     if (!user) throw new UnauthorizedException('User not found')
 
     const { token: accessToken, expiresInSeconds: accessExpiresInSeconds } =
       this.jwtTokenService.generateAccessToken(user)
     const {
       token: refreshToken,
-      rawToken: newRawToken,
+      jti: newJti,
       expiresInSeconds: refreshExpiresInSeconds,
     } = this.jwtTokenService.generateRefreshToken(user.id, currentToken.props.family)
-    const newTokenHash = await this.hasher.hash(newRawToken)
+    const newTokenHash = await this.hasher.hash(newJti)
     const newExpiry = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     const newToken = await this.refreshTokenRepo.create({
       userId: user.id,

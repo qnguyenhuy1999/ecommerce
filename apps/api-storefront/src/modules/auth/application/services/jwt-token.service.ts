@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { JwtService } from '@nestjs/jwt'
-import { randomUUID, randomBytes } from 'node:crypto'
+import { randomUUID } from 'node:crypto'
 
 import type { UserEntity } from '../../domain/entities/user.entity'
 
@@ -16,7 +16,6 @@ export interface RefreshTokenPayload {
   sub: string
   family: string
   jti: string
-  rawToken: string
 }
 
 @Injectable()
@@ -38,16 +37,15 @@ export class JwtTokenService {
   }
 
 
-  generateRefreshToken(userId: string, family: string): { token: string; rawToken: string; expiresInSeconds: number } {
-    const rawToken = randomBytes(64).toString('hex')
+  generateRefreshToken(userId: string, family: string): { token: string; jti: string; expiresInSeconds: number } {
     const jti = randomUUID()
     const expiresIn = this.config.get<string>('jwt.refreshExpiresIn', '7d')
     const token = this.jwt.sign(
-      { sub: userId, family, jti, rawToken },
+      { sub: userId, family, jti },
       { secret: this.config.get<string>('jwt.refreshSecret'), expiresIn },
     )
     const expiresInSeconds = this.parseExpiry(expiresIn)
-    return { token, rawToken, expiresInSeconds }
+    return { token, jti, expiresInSeconds }
   }
 
   verifyRefreshToken(token: string): RefreshTokenPayload {

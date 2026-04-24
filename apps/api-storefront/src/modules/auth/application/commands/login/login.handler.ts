@@ -46,11 +46,11 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
     const family = randomUUID()
     const {
       token: refreshToken,
-      rawToken,
+      jti,
       expiresInSeconds: refreshExpiresInSeconds,
     } = this.jwtTokenService.generateRefreshToken(user.id, family)
 
-    const tokenHash = await this.hasher.hash(rawToken)
+    const tokenHash = await this.hasher.hash(jti)
     const expiresAt = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     await this.refreshTokenRepo.create({ userId: user.id, tokenHash, family, expiresAt })
 

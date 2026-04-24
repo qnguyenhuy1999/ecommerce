@@ -85,11 +85,11 @@ export class AuthController {
   @UseGuards(JwtRefreshGuard)
   @ApiOperation({ summary: 'Rotate tokens using refresh cookie' })
   async refresh(
-    @CurrentUser() user: { userId: string; rawToken: string },
+    @CurrentUser() user: { userId: string; family: string; jti: string },
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponseDto> {
     const result = await this.commandBus.execute<RefreshCommand, LoginResult>(
-      new RefreshCommand(user.rawToken),
+      new RefreshCommand(user.userId, user.family, user.jti),
     )
     this.cookieWriter.writeAuthCookies(res, result.session)
     return { user: result.user }

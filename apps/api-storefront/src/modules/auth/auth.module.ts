@@ -22,9 +22,6 @@ import { JwtAccessStrategy } from './infrastructure/strategies/jwt-access.strate
 import { JwtRefreshStrategy } from './infrastructure/strategies/jwt-refresh.strategy'
 
 import { AuthController } from './presentation/auth.controller'
-import { JwtAccessGuard } from './presentation/guards/jwt-access.guard'
-import { JwtRefreshGuard } from './presentation/guards/jwt-refresh.guard'
-import { RolesGuard } from './presentation/guards/roles.guard'
 
 import { USER_REPOSITORY } from './domain/ports/user.repository.port'
 import { REFRESH_TOKEN_REPOSITORY } from './domain/ports/refresh-token.repository.port'
@@ -62,6 +59,6 @@ const QueryHandlers = [MeHandler]
     { provide: TOKEN_BLACKLIST,          useClass: RedisTokenBlacklistAdapter },
     { provide: COOKIE_WRITER,            useClass: ExpressCookieWriterAdapter },
   ],
-  exports: [JwtAccessGuard, JwtRefreshGuard, RolesGuard],
+  exports: [],
 })
 export class AuthModule {}

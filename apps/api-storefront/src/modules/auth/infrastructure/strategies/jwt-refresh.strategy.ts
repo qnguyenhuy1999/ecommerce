@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config'
 import type { Request } from 'express'
 
 export interface JwtRefreshPayload {
-  sub: string; family: string; jti: string; rawToken: string
+  sub: string; family: string; jti: string
 }
 
 @Injectable()
@@ -17,16 +17,15 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
       ]),
       ignoreExpiration: false,
       secretOrKey: config.get<string>('jwt.refreshSecret'),
-      passReqToCallback: true,
+      passReqToCallback: false,
     })
   }
 
-  validate(req: Request, payload: JwtRefreshPayload) {
+  validate(payload: JwtRefreshPayload) {
     return {
       userId: payload.sub,
       family: payload.family,
       jti: payload.jti,
-      rawToken: (req.cookies as Record<string, string>)['refresh_token'] ?? '',
     }
   }
 }
