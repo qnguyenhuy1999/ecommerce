@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from '@ecom/database';
 import { OUTBOX_QUEUE_NAME } from '@ecom/shared';
 
+import { WorkerObservabilityModule } from './observability/observability.module';
 import { CommissionProcessor } from './processors/commission.processor';
 import { EmailProcessor } from './processors/email.processor';
 import { InventoryReconciliationProcessor } from './processors/inventory-reconciliation.processor';
@@ -21,6 +22,7 @@ import { OutboxDrainerProcessor } from './processors/outbox-drainer.processor';
       },
     }),
     PrismaModule,
+    WorkerObservabilityModule,
     BullModule.registerQueue(
       { name: 'email' },
       { name: 'order-expiration' },
