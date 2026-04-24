@@ -13,7 +13,7 @@ import {
 import { CommandBus, QueryBus } from '@nestjs/cqrs'
 import { ApiCookieAuth, ApiOperation, ApiTags } from '@nestjs/swagger'
 
-import { CurrentUser, JwtAccessGuard } from '@ecom/nest-auth'
+import { type AuthenticatedUser, CurrentUser, JwtAccessGuard } from '@ecom/nest-auth'
 
 import { AddCartItemCommand } from '../application/commands/add-cart-item/add-cart-item.command'
 import type { AddCartItemResult } from '../application/commands/add-cart-item/add-cart-item.handler'
@@ -24,14 +24,6 @@ import { AddCartItemDto } from '../application/dtos/add-cart-item.dto'
 import { UpdateCartItemDto } from '../application/dtos/update-cart-item.dto'
 import { GetCartQuery } from '../application/queries/get-cart/get-cart.query'
 import type { CartItemView, CartView } from '../application/views/cart.view'
-
-interface AuthenticatedUser {
-  userId: string
-  email: string
-  role: string
-  jti: string
-  exp: number
-}
 
 interface SuccessEnvelope<T> {
   success: true

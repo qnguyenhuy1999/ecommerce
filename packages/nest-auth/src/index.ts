@@ -13,6 +13,9 @@ export { RolesGuard } from './presentation/guards/roles.guard'
 export { CurrentUser } from './presentation/decorators/current-user.decorator'
 export { Roles } from './presentation/decorators/roles.decorator'
 
+// Presentation types (shape of `req.user` after JwtAccessStrategy.validate)
+export type { AuthenticatedUser } from './presentation/types/authenticated-user'
+
 // Domain entities
 export { UserEntity } from './domain/entities/user.entity'
 export type { UserRole, UserStatus, UserProps } from './domain/entities/user.entity'

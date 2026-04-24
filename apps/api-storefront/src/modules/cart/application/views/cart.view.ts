@@ -1,6 +1,7 @@
 export interface CartItemView {
   id: string
   quantity: number
+  lineSubtotal: number
   variant: {
     id: string
     sku: string

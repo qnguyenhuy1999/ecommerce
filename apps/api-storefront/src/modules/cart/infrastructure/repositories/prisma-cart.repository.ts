@@ -84,9 +84,10 @@ export class PrismaCartRepository implements ICartRepository {
   ): Promise<CartItemEntity | null> {
     const record = await this.prisma.cartItem.findUnique({
       where: { cartId_variantId: { cartId, variantId } },
+      include: cartItemInclude,
     })
     if (!record) return null
-    return this.toCartItemDomain(record)
+    return this.toCartItemDomain(record as unknown as CartItemRecord)
   }
 
   async findItemById(cartItemId: string): Promise<CartItemEntity | null> {
@@ -98,16 +99,18 @@ export class PrismaCartRepository implements ICartRepository {
   async addItem(cartId: string, variantId: string, quantity: number): Promise<CartItemEntity> {
     const record = await this.prisma.cartItem.create({
       data: { cartId, variantId, quantity },
+      include: cartItemInclude,
     })
-    return this.toCartItemDomain(record)
+    return this.toCartItemDomain(record as unknown as CartItemRecord)
   }
 
   async updateItemQuantity(itemId: string, quantity: number): Promise<CartItemEntity> {
     const record = await this.prisma.cartItem.update({
       where: { id: itemId },
       data: { quantity },
+      include: cartItemInclude,
     })
-    return this.toCartItemDomain(record)
+    return this.toCartItemDomain(record as unknown as CartItemRecord)
   }
 
   async deleteItem(itemId: string): Promise<void> {

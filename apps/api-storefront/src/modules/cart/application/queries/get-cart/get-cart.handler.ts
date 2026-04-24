@@ -7,8 +7,6 @@ import { CART_REPOSITORY, ICartRepository } from '../../../domain/ports/cart.rep
 import { CartViewService } from '../../services/cart-view.service'
 import type { CartView } from '../../views/cart.view'
 
-const CART_CACHE_TTL_SECONDS = 86400
-
 @QueryHandler(GetCartQuery)
 export class GetCartHandler implements IQueryHandler<GetCartQuery, CartView> {
   constructor(
@@ -26,7 +24,7 @@ export class GetCartHandler implements IQueryHandler<GetCartQuery, CartView> {
       (await this.cartRepo.createForUser(query.userId))
 
     const view = this.cartViewService.toView(cart)
-    await this.cartCache.set(query.userId, view, CART_CACHE_TTL_SECONDS)
+    await this.cartCache.set(query.userId, view)
     return view
   }
 }

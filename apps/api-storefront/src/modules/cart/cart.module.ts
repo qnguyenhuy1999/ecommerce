@@ -34,7 +34,6 @@ const QueryHandlers = [GetCartHandler]
     { provide: PRODUCT_VARIANT_REPOSITORY, useClass: PrismaProductVariantRepository },
     { provide: CART_CACHE, useClass: RedisCartCacheAdapter },
   ],
-  exports: [CART_REPOSITORY, PRODUCT_VARIANT_REPOSITORY, CART_CACHE],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.
 export class CartModule {}

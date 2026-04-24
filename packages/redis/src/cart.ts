@@ -1,11 +1,11 @@
 import { getRedis } from './index'
 
-export async function getCartRedis(key: string): Promise<Record<string, unknown> | null> {
+export async function getCartRedis<T = unknown>(key: string): Promise<T | null> {
   const redis = getRedis()
   const raw = await redis.get(key)
   if (!raw) return null
   try {
-    return JSON.parse(raw) as Record<string, unknown>
+    return JSON.parse(raw) as T
   } catch {
     return null
   }

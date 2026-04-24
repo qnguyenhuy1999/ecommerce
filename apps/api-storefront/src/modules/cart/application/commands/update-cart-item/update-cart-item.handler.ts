@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ForbiddenException,
   Inject,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
 } from '@nestjs/common'
@@ -13,6 +14,7 @@ import {
   InsufficientStockException,
   InvalidQuantityException,
   NotCartOwnerException,
+  VariantNotFoundException,
 } from '../../../domain/exceptions/cart.exceptions'
 import { CART_CACHE, ICartCache } from '../../../domain/ports/cart-cache.port'
 import { CART_REPOSITORY, ICartRepository } from '../../../domain/ports/cart.repository.port'
@@ -22,8 +24,6 @@ import {
 } from '../../../domain/ports/product-variant.repository.port'
 import { CartViewService } from '../../services/cart-view.service'
 import type { CartItemView } from '../../views/cart.view'
-
-const CART_CACHE_TTL_SECONDS = 86400
 
 @CommandHandler(UpdateCartItemCommand)
 export class UpdateCartItemHandler
@@ -54,8 +54,8 @@ export class UpdateCartItemHandler
       })
     }
 
-    const cart = await this.cartRepo.findCartById(item.cartId)
-    if (!cart || !cart.isOwnedBy(command.userId)) {
+    const cart = await this.cartRepo.findByUserIdWithItems(command.userId)
+    if (!cart || cart.id !== item.cartId || !cart.isOwnedBy(command.userId)) {
       throw new ForbiddenException({
         code: new NotCartOwnerException().code,
         message: new NotCartOwnerException().message,
@@ -65,8 +65,8 @@ export class UpdateCartItemHandler
     const variant = await this.variantRepo.findById(item.variantId)
     if (!variant) {
       throw new NotFoundException({
-        code: 'VARIANT_NOT_FOUND',
-        message: 'Product variant not found',
+        code: new VariantNotFoundException().code,
+        message: new VariantNotFoundException().message,
       })
     }
     if (!variant.canFulfillQuantity(command.quantity)) {
@@ -76,25 +76,24 @@ export class UpdateCartItemHandler
       })
     }
 
-    await this.cartRepo.updateItemQuantity(command.cartItemId, command.quantity)
-    this.logger.log(
-      `Cart item quantity updated: item=${command.cartItemId} qty=${String(command.quantity)}`,
-    )
+    const persisted = await this.cartRepo.updateItemQuantity(command.cartItemId, command.quantity)
+    cart.upsertItem(persisted)
 
-    const refreshed = await this.cartRepo.findByUserIdWithItems(command.userId)
-    if (!refreshed) {
-      throw new NotFoundException({ code: 'CART_NOT_FOUND', message: 'Cart not found' })
-    }
-    const view = this.cartViewService.toView(refreshed)
-    await this.cartCache.set(command.userId, view, CART_CACHE_TTL_SECONDS)
+    const view = this.cartViewService.toView(cart)
+    await this.cartCache.set(command.userId, view)
 
     const itemView = view.items.find((i) => i.id === command.cartItemId)
     if (!itemView) {
-      throw new NotFoundException({
-        code: new CartItemNotFoundException().code,
-        message: new CartItemNotFoundException().message,
+      // Unreachable: we just upserted this item into the cart we're rendering.
+      throw new InternalServerErrorException({
+        code: 'CART_VIEW_INCONSISTENT',
+        message: 'Failed to locate just-updated cart item in the rendered view',
       })
     }
+
+    this.logger.log(
+      `Cart item quantity updated: item=${command.cartItemId} qty=${String(command.quantity)}`,
+    )
     return itemView
   }
 }

@@ -1,4 +1,4 @@
-export type ProductStatus = 'DRAFT' | 'ACTIVE' | 'INACTIVE' | 'ARCHIVED'
+export type ProductStatus = 'DRAFT' | 'ACTIVE' | 'INACTIVE' | 'DELETED'
 
 export interface ProductSellerSnapshot {
   id: string

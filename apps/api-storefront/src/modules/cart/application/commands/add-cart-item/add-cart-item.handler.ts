@@ -1,4 +1,10 @@
-import { BadRequestException, Inject, Logger, NotFoundException } from '@nestjs/common'
+import {
+  BadRequestException,
+  Inject,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { AddCartItemCommand } from './add-cart-item.command'
@@ -22,8 +28,6 @@ export interface AddCartItemResult {
   quantity: number
   cart: CartView
 }
-
-const CART_CACHE_TTL_SECONDS = 86400
 
 @CommandHandler(AddCartItemCommand)
 export class AddCartItemHandler implements ICommandHandler<AddCartItemCommand, AddCartItemResult> {
@@ -55,7 +59,7 @@ export class AddCartItemHandler implements ICommandHandler<AddCartItemCommand, A
       (await this.cartRepo.findByUserIdWithItems(command.userId)) ??
       (await this.cartRepo.createForUser(command.userId))
 
-    const existing = await this.cartRepo.findItemByCartAndVariant(cart.id, command.variantId)
+    const existing = cart.findItemByVariantId(command.variantId)
     const desiredQuantity = (existing?.quantity ?? 0) + command.quantity
     if (!variant.canFulfillQuantity(desiredQuantity)) {
       throw new BadRequestException({
@@ -64,33 +68,28 @@ export class AddCartItemHandler implements ICommandHandler<AddCartItemCommand, A
       })
     }
 
-    const item = existing
+    const persisted = existing
       ? await this.cartRepo.updateItemQuantity(existing.id, desiredQuantity)
       : await this.cartRepo.addItem(cart.id, command.variantId, command.quantity)
+    cart.upsertItem(persisted)
 
-    this.logger.log(`Cart item upserted: cart=${cart.id} item=${item.id} qty=${String(item.quantity)}`)
+    const view = this.cartViewService.toView(cart)
+    await this.cartCache.set(command.userId, view)
 
-    const refreshed = await this.cartRepo.findByUserIdWithItems(command.userId)
-    if (!refreshed) {
-      // Unreachable: we just ensured the cart exists above.
-      throw new NotFoundException({ code: 'CART_NOT_FOUND', message: 'Cart not found' })
-    }
-    const view = this.cartViewService.toView(refreshed)
-    await this.cartCache.set(command.userId, view, CART_CACHE_TTL_SECONDS)
-
-    const itemView = view.items.find((i) => i.id === item.id)
+    const itemView = view.items.find((i) => i.id === persisted.id)
     if (!itemView) {
-      // Unreachable: the item was just persisted and loaded.
-      throw new NotFoundException({
-        code: 'CART_ITEM_NOT_FOUND',
-        message: 'Cart item not found after upsert',
+      // Unreachable: we just upserted this item into the cart we're rendering.
+      throw new InternalServerErrorException({
+        code: 'CART_VIEW_INCONSISTENT',
+        message: 'Failed to locate just-persisted cart item in the rendered view',
       })
     }
 
+    this.logger.log(`Cart item upserted: cart=${cart.id} item=${persisted.id} qty=${String(persisted.quantity)}`)
     return {
-      cartItemId: item.id,
+      cartItemId: persisted.id,
       variant: itemView.variant,
-      quantity: item.quantity,
+      quantity: persisted.quantity,
       cart: view,
     }
   }

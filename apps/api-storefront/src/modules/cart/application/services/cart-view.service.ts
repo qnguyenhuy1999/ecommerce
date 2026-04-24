@@ -8,9 +8,9 @@ import type { CartItemView, CartView, SellerGroupView } from '../views/cart.view
 export class CartViewService {
   toView(cart: CartEntity): CartView {
     const items = cart.items.map((item) => this.toItemView(item))
-    const subtotal = cart.subtotal()
-    const itemCount = cart.itemCount()
-    const sellerGroups = this.groupBySeller(cart.items, items)
+    const subtotal = items.reduce((sum, item) => sum + item.lineSubtotal, 0)
+    const itemCount = items.reduce((sum, item) => sum + item.quantity, 0)
+    const sellerGroups = this.groupBySeller(items)
 
     return {
       id: cart.id,
@@ -31,6 +31,7 @@ export class CartViewService {
     return {
       id: item.id,
       quantity: item.quantity,
+      lineSubtotal: item.lineSubtotal(),
       variant: {
         id: variant.props.id,
         sku: variant.props.sku,
@@ -46,21 +47,19 @@ export class CartViewService {
     }
   }
 
-  private groupBySeller(entities: CartItemEntity[], views: CartItemView[]): SellerGroupView[] {
+  private groupBySeller(views: CartItemView[]): SellerGroupView[] {
     const groups = new Map<string, SellerGroupView>()
-    for (const [index, view] of views.entries()) {
-      const entity = entities[index]
-      const lineTotal = entity.lineSubtotal()
+    for (const view of views) {
       const existing = groups.get(view.seller.id)
       if (existing) {
         existing.items.push(view)
-        existing.subtotal += lineTotal
+        existing.subtotal += view.lineSubtotal
       } else {
         groups.set(view.seller.id, {
           sellerId: view.seller.id,
           storeName: view.seller.storeName,
           items: [view],
-          subtotal: lineTotal,
+          subtotal: view.lineSubtotal,
         })
       }
     }
