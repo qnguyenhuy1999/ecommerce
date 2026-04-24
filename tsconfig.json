@@ -14,6 +14,8 @@
     { "path": "./packages/constants" },
     { "path": "./packages/database" },
     { "path": "./packages/email" },
+    { "path": "./packages/nest-auth" },
+    { "path": "./packages/nest-config" },
     { "path": "./packages/redis" },
     { "path": "./packages/design-tokens" },
     { "path": "./packages/shared" }

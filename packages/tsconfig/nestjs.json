@@ -18,6 +18,8 @@
       "@ecom/api-types": ["../api-types/src"],
       "@ecom/database": ["../database/src"],
       "@ecom/email": ["../email/src"],
+      "@ecom/nest-auth": ["../nest-auth/src"],
+      "@ecom/nest-config": ["../nest-config/src"],
       "@ecom/redis": ["../redis/src"],
       "@ecom/shared": ["../shared/src"],
       "@ecom/shared/*": ["../shared/src/*"]

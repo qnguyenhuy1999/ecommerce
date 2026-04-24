@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-import { createHash, randomBytes, pbkdf2 as pbkdf2Cb, timingSafeEqual } from 'node:crypto'
+import { randomBytes, pbkdf2 as pbkdf2Cb, timingSafeEqual } from 'node:crypto'
 import { promisify } from 'node:util'
 
 import type { IPasswordHasher } from '../../domain/ports/password-hasher.port'

@@ -9,6 +9,8 @@
       "@ecom/api-types": ["../../packages/api-types/src"],
       "@ecom/database": ["../../packages/database/src"],
       "@ecom/email": ["../../packages/email/src"],
+      "@ecom/nest-auth": ["../../packages/nest-auth/src"],
+      "@ecom/nest-config": ["../../packages/nest-config/src"],
       "@ecom/redis": ["../../packages/redis/src"],
       "@ecom/shared": ["../../packages/shared/src"],
       "@ecom/shared/*": ["../../packages/shared/src/*"]

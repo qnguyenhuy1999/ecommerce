@@ -3,6 +3,5 @@ export class LogoutCommand {
     readonly userId: string,
     readonly accessTokenJti: string,
     readonly accessTokenRemainingTtlSeconds: number,
-    readonly rawRefreshToken?: string,
   ) {}
 }
