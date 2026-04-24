@@ -193,8 +193,7 @@ export class PrismaProductRepository implements IProductRepository {
   private buildWhere(options: ProductListOptions): Prisma.ProductWhereInput {
     const where: Prisma.ProductWhereInput = {}
     if (options.notDeleted !== false) where.deletedAt = null
-    this.applyIncludeStatus(where, options.status)
-    this.applyExcludeStatus(where, options.excludeStatus)
+    this.applyStatusFilter(where, options.status, options.excludeStatus)
     if (options.categoryId) where.categoryId = options.categoryId
     if (options.sellerId) where.sellerId = options.sellerId
     if (options.q) {
@@ -213,13 +212,22 @@ export class PrismaProductRepository implements IProductRepository {
     return where
   }
 
-  private applyIncludeStatus(
+  private applyStatusFilter(
     where: Prisma.ProductWhereInput,
     status?: ProductStatus | ProductStatus[],
+    excludeStatus?: ProductStatus | ProductStatus[],
   ): void {
-    if (!status) return
-    const values = Array.isArray(status) ? status : [status]
-    where.status = { in: values as $Enums.ProductStatus[] }
+    if (!status && !excludeStatus) return
+    const filter: Prisma.EnumProductStatusFilter = {}
+    if (status) {
+      const values = Array.isArray(status) ? status : [status]
+      filter.in = values as $Enums.ProductStatus[]
+    }
+    if (excludeStatus) {
+      const values = Array.isArray(excludeStatus) ? excludeStatus : [excludeStatus]
+      filter.notIn = values as $Enums.ProductStatus[]
+    }
+    where.status = filter
   }
 
   private applyExcludeStatus(
