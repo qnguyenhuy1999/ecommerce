@@ -263,9 +263,9 @@ export class ProductService {
   private async assertSkuAvailable(sellerId: string, sku: string): Promise<void> {
     const existing = await this.prisma.product.findUnique({
       where: { sellerId_sku: { sellerId, sku } },
-      select: { id: true, deletedAt: true },
+      select: { id: true },
     })
-    if (existing && !existing.deletedAt) {
+    if (existing) {
       throw new BadRequestException({
         code: 'SKU_EXISTS',
         message: `A product with SKU "${sku}" already exists for this seller`,
