@@ -18,9 +18,17 @@ const envSchema = z.object({
   REDIS_PASSWORD: z.string().optional(),
 
   // JWT
-  JWT_SECRET: z.string().min(32),
-  JWT_EXPIRES_IN: z.string().default('7d'),
-  JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+
+  // Cookie
+  COOKIE_SECURE: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((v) => v === 'true'),
+  COOKIE_DOMAIN: z.string().optional(),
 
   // Security
   BCRYPT_SALT_ROUNDS: z
@@ -28,6 +36,9 @@ const envSchema = z.object({
     .optional()
     .transform((v) => (v ? parseInt(v, 10) : 12))
     .pipe(z.number().int().min(1).max(31)),
+  ARGON2_MEMORY_COST: z.coerce.number().int().min(1024).default(65536),
+  ARGON2_TIME_COST: z.coerce.number().int().min(1).default(3),
+  ARGON2_PARALLELISM: z.coerce.number().int().min(1).default(4),
 
   // Stripe
   STRIPE_SECRET_KEY: z.string().optional().default(''),

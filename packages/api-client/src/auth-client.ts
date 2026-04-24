@@ -1,33 +1,36 @@
-import type { LoginRequest, RegisterRequest, AuthResponse } from '@ecom/api-types'
-
 import { getApiClient } from './client'
 
+export interface AuthUser {
+  id: string
+  email: string
+  role: string
+  status: string
+}
+
+export interface AuthResponse {
+  user: AuthUser
+}
+
+export interface RegisterRequest {
+  email: string
+  password: string
+  firstName?: string
+  lastName?: string
+}
+
+export interface LoginRequest {
+  email: string
+  password: string
+}
+
 export const authClient = {
-  register: async (data: RegisterRequest): Promise<AuthResponse> => {
-    const { data: response } = await getApiClient().post<{ success: true; data: AuthResponse }>(
-      '/auth/register',
-      data,
-    )
-    return response.data
-  },
+  register: (data: RegisterRequest) => getApiClient().post<AuthResponse>('/auth/register', data),
 
-  login: async (data: LoginRequest): Promise<AuthResponse> => {
-    const { data: response } = await getApiClient().post<{ success: true; data: AuthResponse }>(
-      '/auth/login',
-      data,
-    )
-    return response.data
-  },
+  login: (data: LoginRequest) => getApiClient().post<AuthResponse>('/auth/login', data),
 
-  refresh: async (refreshToken: string): Promise<AuthResponse> => {
-    const { data: response } = await getApiClient().post<{ success: true; data: AuthResponse }>(
-      '/auth/refresh',
-      { refreshToken },
-    )
-    return response.data
-  },
+  refresh: () => getApiClient().post<AuthResponse>('/auth/refresh'),
 
-  logout: async (): Promise<void> => {
-    await getApiClient().post('/auth/logout')
-  },
+  logout: () => getApiClient().post<{ message: string }>('/auth/logout'),
+
+  me: () => getApiClient().get<AuthResponse>('/auth/me'),
 }

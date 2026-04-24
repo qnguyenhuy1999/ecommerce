@@ -4,12 +4,7 @@ import type { Params as LoggerModuleParams } from 'nestjs-pino'
 // autoLogging is disabled so we don't get spurious request logs from the tiny
 // health/metrics server. Job-level correlation is added later when processors
 // attach the triggering outbox-event id to their CLS context.
-const REDACT_PATHS = [
-  'req.headers.authorization',
-  'req.headers.cookie',
-  '*.password',
-  '*.token',
-]
+const REDACT_PATHS = ['req.headers.authorization', 'req.headers.cookie', '*.password', '*.token']
 
 export function buildWorkerLoggerParams(): LoggerModuleParams {
   const isProd = process.env.NODE_ENV === 'production'
@@ -24,7 +19,7 @@ export function buildWorkerLoggerParams(): LoggerModuleParams {
             target: 'pino-pretty',
             options: {
               singleLine: true,
-              translateTime: 'SYS:HH:MM:ss.l',
+              translateTime: 'SYS:HH:mm:ss.l',
               ignore: 'pid,hostname,req,res,responseTime',
             },
           },

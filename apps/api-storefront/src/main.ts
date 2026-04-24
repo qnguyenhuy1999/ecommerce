@@ -1,6 +1,8 @@
 import { ValidationPipe } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
+import cookieParser from 'cookie-parser'
 import { Logger } from 'nestjs-pino'
 
 import { AppModule } from './app.module'
@@ -13,6 +15,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true })
   app.useLogger(app.get(Logger))
 
+  app.use(cookieParser())
+
   app.setGlobalPrefix('api/v1', {
     // Health + metrics probes MUST be reachable without the /api/v1 prefix —
     // orchestrators and Prometheus scrapers don't know about versioned APIs.
@@ -20,7 +24,7 @@ async function bootstrap() {
   })
 
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:8000',
+    origin: app.get(ConfigService).get('cors.origin', 'http://localhost:8000'),
     credentials: true,
   })
 
@@ -36,7 +40,7 @@ async function bootstrap() {
     .setTitle('Ecommerce API')
     .setDescription('Multi-vendor ecommerce marketplace API')
     .setVersion('1.0')
-    .addBearerAuth()
+    .addCookieAuth('access_token')
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, document)

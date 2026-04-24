@@ -48,7 +48,7 @@ export function buildLoggerParams(): LoggerModuleParams {
             target: 'pino-pretty',
             options: {
               singleLine: true,
-              translateTime: 'SYS:HH:MM:ss.l',
+              translateTime: 'SYS:HH:mm:ss.l',
               ignore: 'pid,hostname,req.headers,res.headers',
             },
           },
