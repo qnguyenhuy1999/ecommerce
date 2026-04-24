@@ -18,9 +18,19 @@ const envSchema = z.object({
   REDIS_PASSWORD: z.string().optional(),
 
   // JWT
-  JWT_SECRET: z.string().min(32),
-  JWT_EXPIRES_IN: z.string().default('7d'),
-  JWT_REFRESH_EXPIRES_IN: z.string().default('30d'),
+  JWT_ACCESS_SECRET: z.string().min(32),
+  JWT_REFRESH_SECRET: z.string().min(32),
+  JWT_ACCESS_EXPIRES_IN: z.string().default('15m'),
+  JWT_REFRESH_EXPIRES_IN: z.string().default('7d'),
+
+  // Cookie
+  COOKIE_SECURE: z
+    .string()
+    .optional()
+    .transform((v) => v === 'true')
+    .pipe(z.boolean())
+    .default(false as unknown as string),
+  COOKIE_DOMAIN: z.string().optional(),
 
   // Security
   BCRYPT_SALT_ROUNDS: z

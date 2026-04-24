@@ -16,16 +16,7 @@ export const LoginRequestSchema = z.object({
 
 export type LoginRequest = z.infer<typeof LoginRequestSchema>
 
-export const RefreshTokenRequestSchema = z.object({
-  refreshToken: z.string().min(1),
-})
-
-export type RefreshTokenRequest = z.infer<typeof RefreshTokenRequestSchema>
-
 export const AuthResponseSchema = z.object({
-  accessToken: z.string(),
-  refreshToken: z.string(),
-  expiresIn: z.number(),
   user: z.object({
     id: z.string(),
     email: z.string(),

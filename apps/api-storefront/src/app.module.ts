@@ -5,6 +5,8 @@ import { ThrottlerModule } from '@nestjs/throttler';
 
 import { PrismaModule } from '@ecom/database';
 
+import configuration from './config/configuration'
+
 import { AdminModule } from './modules/admin/admin.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CartModule } from './modules/cart/cart.module';
@@ -19,7 +21,7 @@ import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 100 }]),
     BullModule.forRoot({
       connection: {

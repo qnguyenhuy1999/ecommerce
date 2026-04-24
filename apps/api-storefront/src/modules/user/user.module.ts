@@ -1,15 +1,15 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'
+import { UserController } from './user.controller'
+import { UserService } from './user.service'
+import { PrismaUserRepository } from '../auth/infrastructure/repositories/prisma-user.repository'
+import { USER_REPOSITORY } from '../auth/domain/ports/user.repository.port'
 
-import { UserController } from './user.controller';
-import { UserService } from './user.service';
-
- 
 @Module({
   controllers: [UserController],
-  providers: [UserService],
-  exports: [UserService],
+  providers: [
+    UserService,
+    { provide: USER_REPOSITORY, useClass: PrismaUserRepository },
+  ],
+  exports: [UserService, USER_REPOSITORY, PrismaUserRepository],
 })
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.
 export class UserModule {}

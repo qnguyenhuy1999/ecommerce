@@ -96,6 +96,7 @@ model User {
   orders        Order[]          @relation("BuyerOrders")
   notifications Notification[]
   reviews       Review[]
+  refreshTokens RefreshToken[]
 
   @@index([email])
   @@index([role])
@@ -376,4 +377,20 @@ model Review {
   @@index([productId])
   @@index([userId])
   @@index([rating])
+}
+
+model RefreshToken {
+  id          String    @id @default(cuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash   String    @unique
+  family      String
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdAt   DateTime  @default(now())
+  replacedBy  String?
+
+  @@index([userId])
+  @@index([family])
+  @@index([expiresAt])
 }
