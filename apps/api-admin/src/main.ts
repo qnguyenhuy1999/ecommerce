@@ -15,8 +15,10 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1')
 
+  const configService = app.get(ConfigService)
+
   app.enableCors({
-    origin: app.get(ConfigService).get('cors.origin', 'http://localhost:8001'),
+    origin: configService.get<string>('cors.origin') ?? 'http://localhost:8001',
     credentials: true,
   })
 
@@ -40,7 +42,7 @@ async function bootstrap() {
   // Flush pending logs and close Redis/Postgres connections cleanly on SIGTERM.
   app.enableShutdownHooks()
 
-  const port = parseInt(process.env.PORT ?? '3001', 10)
+  const port = configService.get<number>('port') ?? 3001
   await app.listen(port)
   // eslint-disable-next-line no-console -- Startup log is useful in local/dev and containers.
   console.log(`[API-ADMIN] Running on http://localhost:${String(port)}`)
