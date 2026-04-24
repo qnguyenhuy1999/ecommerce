@@ -55,11 +55,22 @@ export class JwtTokenService {
   }
 
   parseExpiry(expiry: string): number {
-    const match = expiry.match(/^(\d+)([smhd])$/)
-    if (!match) return 900
+    const match = expiry.match(/^(\d+)([smhdwy])$/)
+    if (!match) {
+      throw new Error(
+        `Unsupported expiry format: "${expiry}". Use a positive integer followed by one of s, m, h, d, w, y.`,
+      )
+    }
     const val = parseInt(match[1], 10)
     const unit = match[2]
-    const multipliers: Record<string, number> = { s: 1, m: 60, h: 3600, d: 86400 }
+    const multipliers: Record<string, number> = {
+      s: 1,
+      m: 60,
+      h: 3600,
+      d: 86400,
+      w: 604800,
+      y: 31536000,
+    }
     return val * (multipliers[unit] ?? 1)
   }
 }

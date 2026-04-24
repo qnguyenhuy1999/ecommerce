@@ -55,14 +55,11 @@ export class AuthController {
     @Body() dto: RegisterDto,
     @Res({ passthrough: true }) res: Response,
   ): Promise<AuthResponseDto> {
-    const user = await this.commandBus.execute<RegisterCommand, UserEntity>(
-      new RegisterCommand(dto.email, dto.password, dto.firstName, dto.lastName),
+    const result = await this.commandBus.execute<RegisterCommand, LoginResult>(
+      new RegisterCommand(dto.email, dto.password),
     )
-    const loginResult = await this.commandBus.execute<LoginCommand, LoginResult>(
-      new LoginCommand(dto.email, dto.password),
-    )
-    this.cookieWriter.writeAuthCookies(res, loginResult.session)
-    return { user: { id: user.id, email: user.email, role: user.role, status: user.status } }
+    this.cookieWriter.writeAuthCookies(res, result.session)
+    return { user: result.user }
   }
 
   @Post('login')

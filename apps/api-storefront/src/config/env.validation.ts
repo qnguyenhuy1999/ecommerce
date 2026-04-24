@@ -25,11 +25,9 @@ const envSchema = z.object({
 
   // Cookie
   COOKIE_SECURE: z
-    .string()
-    .optional()
-    .transform((v) => v === 'true')
-    .pipe(z.boolean())
-    .default(false as unknown as string),
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((v) => v === 'true'),
   COOKIE_DOMAIN: z.string().optional(),
 
   // Security
@@ -38,6 +36,9 @@ const envSchema = z.object({
     .optional()
     .transform((v) => (v ? parseInt(v, 10) : 12))
     .pipe(z.number().int().min(1).max(31)),
+  ARGON2_MEMORY_COST: z.coerce.number().int().min(1024).default(65536),
+  ARGON2_TIME_COST: z.coerce.number().int().min(1).default(3),
+  ARGON2_PARALLELISM: z.coerce.number().int().min(1).default(4),
 
   // Stripe
   STRIPE_SECRET_KEY: z.string().optional().default(''),

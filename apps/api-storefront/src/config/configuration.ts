@@ -21,6 +21,11 @@ export default () => ({
     secure: env.COOKIE_SECURE,
     domain: env.COOKIE_DOMAIN,
   },
+  argon2: {
+    memoryCost: env.ARGON2_MEMORY_COST,
+    timeCost: env.ARGON2_TIME_COST,
+    parallelism: env.ARGON2_PARALLELISM,
+  },
   stripe: {
     secretKey: env.STRIPE_SECRET_KEY,
     publishableKey: env.STRIPE_PUBLISHABLE_KEY,
