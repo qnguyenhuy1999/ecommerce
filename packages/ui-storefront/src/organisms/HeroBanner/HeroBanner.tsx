@@ -14,6 +14,11 @@ export interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
   overlay?: boolean
   align?: 'left' | 'center' | 'right'
   size?: 'sm' | 'md' | 'lg' | 'full'
+  /**
+   * Strength of the dark gradient overlay applied over a `backgroundImage`.
+   * `cinematic` is darker on the left and is recommended for left-aligned heroes.
+   */
+  overlayTone?: 'subtle' | 'standard' | 'cinematic'
 }
 
 const alignment: Record<NonNullable<HeroBannerProps['align']>, string> = {
@@ -25,8 +30,15 @@ const alignment: Record<NonNullable<HeroBannerProps['align']>, string> = {
 const sizing: Record<NonNullable<HeroBannerProps['size']>, string> = {
   sm: 'min-h-[18rem] md:min-h-[22rem]',
   md: 'min-h-[24rem] md:min-h-[30rem]',
-  lg: 'min-h-[28rem] md:min-h-[36rem] lg:min-h-[40rem]',
-  full: 'min-h-[100svh]',
+  lg: 'min-h-[28rem] md:min-h-[34rem] lg:min-h-[38rem]',
+  full: 'min-h-[80svh] lg:min-h-[88svh]',
+}
+
+const overlayClassByTone: Record<NonNullable<HeroBannerProps['overlayTone']>, string> = {
+  subtle: 'bg-gradient-to-b from-black/30 via-black/20 to-black/40',
+  standard: 'bg-gradient-to-b from-black/45 via-black/25 to-black/55',
+  cinematic:
+    'bg-gradient-to-r from-black/70 via-black/45 to-black/15 lg:from-black/80 lg:via-black/55 lg:to-black/10',
 }
 
 function HeroBanner({
@@ -41,11 +53,15 @@ function HeroBanner({
   backgroundImageMobile,
   backgroundImageAlt,
   overlay = true,
-  align = 'left',
+  align = 'center',
   size = 'lg',
+  overlayTone,
   className,
   ...props
 }: HeroBannerProps) {
+  const resolvedOverlayTone =
+    overlayTone ?? (align === 'left' ? 'cinematic' : 'standard')
+
   return (
     <section
       className={cn(
@@ -65,14 +81,24 @@ function HeroBanner({
           <img
             src={backgroundImage}
             alt={backgroundImageAlt ?? ''}
-            className="h-full w-full object-cover"
+            className={cn(
+              'h-full w-full object-cover',
+              'animate-in fade-in zoom-in-105 duration-[1200ms] fill-mode-both',
+            )}
             loading="eager"
             fetchPriority="high"
           />
         </picture>
       )}
 
-      {backgroundImage && overlay && <div className="hero-banner__overlay -z-10" />}
+      {backgroundImage && overlay && (
+        <div
+          className={cn(
+            'absolute inset-0 -z-10',
+            overlayClassByTone[resolvedOverlayTone],
+          )}
+        />
+      )}
 
       <div
         className={cn(
@@ -87,7 +113,7 @@ function HeroBanner({
           <p
             className={cn(
               'mb-[var(--space-4)] text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em]',
-              backgroundImage ? 'text-white/80' : 'text-[var(--text-brand)]',
+              backgroundImage ? 'text-white/85' : 'text-[var(--text-brand)]',
               'animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-slow)] fill-mode-both',
             )}
           >
@@ -97,7 +123,8 @@ function HeroBanner({
 
         <h1
           className={cn(
-            'max-w-3xl tracking-[-0.02em] leading-[1.05]',
+            'tracking-[-0.025em] leading-[1.02]',
+            align === 'left' ? 'max-w-xl' : 'max-w-3xl',
             'text-[length:var(--font-size-display-sm)] sm:text-[length:var(--font-size-display-md)] lg:text-[length:var(--font-size-display-lg)]',
             'font-bold',
             backgroundImage
@@ -113,7 +140,7 @@ function HeroBanner({
           <p
             className={cn(
               'mt-[var(--space-5)] max-w-xl text-[length:var(--text-base)] sm:text-[length:var(--text-lg)] leading-[var(--line-height-relaxed)]',
-              backgroundImage ? 'text-white/85' : 'text-[var(--text-secondary)]',
+              backgroundImage ? 'text-white/90' : 'text-[var(--text-secondary)]',
               'animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both [animation-delay:80ms]',
             )}
           >
@@ -136,6 +163,7 @@ function HeroBanner({
                 className={cn(
                   buttonVariants({ variant: 'brand', size: 'lg' }),
                   'rounded-full px-[var(--space-7)]',
+                  'transition-transform duration-[var(--motion-fast)] hover:scale-[1.03] active:scale-[0.98]',
                 )}
               >
                 {ctaLabel}
@@ -145,9 +173,11 @@ function HeroBanner({
               <a
                 href={secondaryCtaHref}
                 className={cn(
-                  buttonVariants({ variant: 'outline', size: 'lg' }),
+                  buttonVariants({ variant: backgroundImage ? 'ghost' : 'outline', size: 'lg' }),
                   'rounded-full px-[var(--space-7)]',
-                  backgroundImage && 'border-white/40 bg-white/10 text-white hover:bg-white/20',
+                  'transition-transform duration-[var(--motion-fast)] hover:scale-[1.03] active:scale-[0.98]',
+                  backgroundImage &&
+                    'border border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white',
                 )}
               >
                 {secondaryCtaLabel}

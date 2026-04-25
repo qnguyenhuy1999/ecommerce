@@ -11,6 +11,8 @@ export interface CategoryCardProps extends React.HTMLAttributes<HTMLAnchorElemen
   itemCount?: number
   /** Visual presentation. `feature` is taller (4/5 ratio); `default` is wide (16/10). */
   variant?: 'default' | 'feature'
+  /** Optional override for the image's alt text; defaults to `title`. */
+  imageAlt?: string
 }
 
 function CategoryCard({
@@ -19,6 +21,7 @@ function CategoryCard({
   href,
   itemCount,
   variant = 'default',
+  imageAlt,
   className,
   ...props
 }: CategoryCardProps) {
@@ -45,7 +48,7 @@ function CategoryCard({
       ) : (
         <img
           src={image}
-          alt=""
+          alt={imageAlt ?? title}
           loading="lazy"
           onError={() => setImgError(true)}
           className={cn(

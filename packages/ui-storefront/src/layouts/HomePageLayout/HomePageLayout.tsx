@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { cn } from '@ecom/ui'
+
 import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
@@ -17,10 +19,53 @@ export interface HomePageLayoutProps extends React.HTMLAttributes<HTMLDivElement
   flashSale?: React.ReactNode
   trending?: React.ReactNode
   bestSellers?: React.ReactNode
+  /** Optional full-width visual banner — used as an emotional/branding break between sections. */
+  visualBanner?: React.ReactNode
   recommended?: React.ReactNode
   brands?: React.ReactNode
   newArrivals?: React.ReactNode
   newsletter?: React.ReactNode
+}
+
+/**
+ * Wraps a section in a coloured background band so consumers don't have to
+ * remember to do it themselves. Uses subtle/muted surfaces from the design tokens
+ * to keep visual rhythm without resorting to heavy borders.
+ */
+function Band({
+  tone,
+  children,
+}: {
+  tone: 'base' | 'subtle' | 'muted'
+  children?: React.ReactNode
+}) {
+  if (!children) return null
+  return (
+    <div
+      className={cn(
+        tone === 'base' && 'bg-[var(--surface-base)]',
+        tone === 'subtle' && 'bg-[var(--surface-subtle)]',
+        tone === 'muted' && 'bg-[var(--surface-muted)]',
+      )}
+    >
+      {children}
+    </div>
+  )
+}
+
+/**
+ * Visual banner break — full-bleed within the page flow, with extra vertical
+ * breathing room and a constrained content max-width.
+ */
+function VisualBanderRow({ children }: { children?: React.ReactNode }) {
+  if (!children) return null
+  return (
+    <div className="bg-[var(--surface-base)] py-[var(--space-12)] lg:py-[var(--space-16)]">
+      <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]">
+        {children}
+      </div>
+    </div>
+  )
 }
 
 function HomePageLayout({
@@ -36,6 +81,7 @@ function HomePageLayout({
   flashSale,
   trending,
   bestSellers,
+  visualBanner,
   recommended,
   brands,
   newArrivals,
@@ -58,35 +104,38 @@ function HomePageLayout({
       {...props}
     >
       <div className="flex flex-col">
-        {/* Trust signals — flush below header, before hero */}
-        {trustBanner}
+        {/* 1. Trust signals — flush below header, before hero */}
+        <Band tone="base">{trustBanner}</Band>
 
-        {/* Hero — full bleed feature */}
+        {/* 2. Hero — full bleed feature */}
         {hero}
 
-        {/* Quick category nav */}
-        {quickNav}
+        {/* 3. Quick category nav (chips) — clean white */}
+        <Band tone="base">{quickNav}</Band>
 
-        {/* Category tiles */}
-        {categories}
+        {/* 4. Featured categories — subtle band for separation */}
+        <Band tone="subtle">{categories}</Band>
 
-        {/* Flash sale — accent surface to draw the eye */}
-        {flashSale && <div className="bg-[var(--surface-subtle)]">{flashSale}</div>}
+        {/* 5. Flash sale — distinct accent surface to draw the eye */}
+        <Band tone="muted">{flashSale}</Band>
 
-        {/* Trending searches — compact strip */}
-        {trending}
+        {/* 6. Best sellers — back to clean white */}
+        <Band tone="base">{bestSellers}</Band>
 
-        {/* Best sellers */}
-        {bestSellers}
+        {/* 7. Trending searches — compact strip on subtle band */}
+        <Band tone="subtle">{trending}</Band>
 
-        {/* Recommended — alternating surface for visual rhythm */}
-        {recommended && <div className="bg-[var(--surface-subtle)]">{recommended}</div>}
+        {/* 8. Visual banner break — emotional/branding section */}
+        <VisualBanderRow>{visualBanner}</VisualBanderRow>
 
-        {/* Brand showcase */}
-        {brands}
+        {/* 9. Recommended — clean white */}
+        <Band tone="base">{recommended}</Band>
 
-        {/* New arrivals — final accent surface */}
-        {newArrivals && <div className="bg-[var(--surface-subtle)]">{newArrivals}</div>}
+        {/* 10. Brand showcase — subtle band */}
+        <Band tone="subtle">{brands}</Band>
+
+        {/* 11. New arrivals — final clean white surface */}
+        <Band tone="base">{newArrivals}</Band>
       </div>
     </StorefrontShell>
   )

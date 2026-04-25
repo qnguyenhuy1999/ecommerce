@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Timer } from 'lucide-react'
+import { Flame, Timer } from 'lucide-react'
 
 import { cn } from '@ecom/ui'
 import { useCountdown } from '../../hooks/useCountdown'
@@ -39,40 +39,55 @@ function FlashSaleSectionClient({
   const paddedSeconds = String(seconds).padStart(2, '0')
 
   const titleWithTimer = (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-      <span className="flex items-center gap-2 text-destructive">
-        <Timer className="w-6 h-6 md:w-7 md:h-7" />
+    <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:gap-[var(--space-5)]">
+      <span className="inline-flex items-center gap-[var(--space-2)] text-[var(--text-primary)]">
+        <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[rgb(var(--brand-500-rgb)/0.12)] text-[var(--brand-600)]">
+          <Flame className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
+        </span>
         {title}
       </span>
-      <div className="flex items-center gap-1.5 font-mono text-lg tabular-nums">
-        <span className="bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-sm md:text-base font-bold shadow-sm">
-          {paddedHours}
+      <div
+        aria-label={`Ends in ${paddedHours}:${paddedMinutes}:${paddedSeconds}`}
+        className="flex items-center gap-[var(--space-2)]"
+      >
+        <span className="inline-flex items-center gap-[var(--space-1)] text-[length:var(--text-xs)] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+          <Timer className="h-3.5 w-3.5" aria-hidden="true" />
+          Ends in
         </span>
-        <span className="text-destructive font-bold">:</span>
-        <span className="bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-sm md:text-base font-bold shadow-sm">
-          {paddedMinutes}
-        </span>
-        <span className="text-destructive font-bold">:</span>
-        <span className="bg-destructive text-destructive-foreground px-2 py-1 rounded-md text-sm md:text-base font-bold shadow-sm">
-          {paddedSeconds}
-        </span>
+        <div className="flex items-center gap-1 font-mono text-[length:var(--text-base)] tabular-nums">
+          <span className="rounded-[var(--radius-md)] bg-[var(--text-primary)] px-[var(--space-2)] py-[var(--space-1)] text-[length:var(--text-sm)] font-bold text-[var(--surface-base)] shadow-[var(--elevation-card)]">
+            {paddedHours}
+          </span>
+          <span className="font-bold text-[var(--text-primary)]">:</span>
+          <span className="rounded-[var(--radius-md)] bg-[var(--text-primary)] px-[var(--space-2)] py-[var(--space-1)] text-[length:var(--text-sm)] font-bold text-[var(--surface-base)] shadow-[var(--elevation-card)]">
+            {paddedMinutes}
+          </span>
+          <span className="font-bold text-[var(--text-primary)]">:</span>
+          <span
+            className={cn(
+              'rounded-[var(--radius-md)] px-[var(--space-2)] py-[var(--space-1)] text-[length:var(--text-sm)] font-bold shadow-[var(--elevation-card)]',
+              'bg-[var(--brand-500)] text-white',
+              'animate-pulse',
+            )}
+          >
+            {paddedSeconds}
+          </span>
+        </div>
       </div>
     </div>
   )
 
   return (
     <div
-      className={cn('relative max-w-[var(--storefront-content-max-width)] mx-auto', className)}
+      className={cn('relative w-full', className)}
       {...props}
     >
-      <div className="absolute inset-x-4 inset-y-0 bg-destructive/5 rounded-3xl -z-10" />
       <ProductCarouselClient
         title={titleWithTimer as unknown as string}
         subtitle={subtitle}
         products={products}
         viewAllHref={viewAllHref}
         onAddToCart={onAddToCart}
-        className="py-10"
       />
     </div>
   )

@@ -13,9 +13,9 @@ export interface StorefrontSectionProps extends React.HTMLAttributes<HTMLElement
 }
 
 const spacingClass = {
-  compact: 'py-[var(--space-8)]',
-  default: 'py-[var(--space-10)] md:py-[var(--space-14)]',
-  comfortable: 'py-[var(--space-14)] md:py-[var(--space-20)]',
+  compact: 'py-[var(--space-10)] md:py-[var(--space-12)]',
+  default: 'py-[var(--space-12)] md:py-[var(--space-16)] lg:py-[var(--space-20)]',
+  comfortable: 'py-[var(--space-14)] md:py-[var(--space-20)] lg:py-[var(--space-24)]',
 } as const
 
 function StorefrontSection({

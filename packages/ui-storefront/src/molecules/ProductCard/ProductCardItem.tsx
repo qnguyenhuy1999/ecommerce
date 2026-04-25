@@ -31,6 +31,8 @@ export interface ProductCardItemProps extends React.HTMLAttributes<HTMLDivElemen
   onAddToCart?: (id: string) => void
   loading?: boolean
   view?: 'grid' | 'list'
+  /** On grid view, only show the action row on hover (desktop) for a cleaner card surface. */
+  hoverRevealActions?: boolean
 }
 
 function formatCompactCount(value: number) {
@@ -56,6 +58,7 @@ function ProductCardItem({
   loading,
   className,
   view = 'grid',
+  hoverRevealActions = false,
   ...props
 }: ProductCardItemProps) {
   return (
@@ -107,7 +110,7 @@ function ProductCardItem({
       </ProductCardContent>
 
       {onAddToCart && (
-        <ProductCardActions>
+        <ProductCardActions hoverReveal={hoverRevealActions}>
           <Button
             size={view === 'list' ? 'default' : 'sm'}
             variant="brand"
