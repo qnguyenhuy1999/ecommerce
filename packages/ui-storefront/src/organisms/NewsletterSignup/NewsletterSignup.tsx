@@ -2,22 +2,25 @@
 
 import React from 'react'
 
-import { Send, CheckCircle2 } from 'lucide-react'
+import { Send, CheckCircle2, Mail } from 'lucide-react'
 
-import { cn, Input, Button } from '@ecom/ui'
+import { cn, Button } from '@ecom/ui'
 
 export interface NewsletterSignupProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   description?: string
   placeholder?: string
   onSubscribe?: (email: string) => Promise<void> | void
+  /** When true, renders without a card surface (e.g. when placed inside a coloured section). */
+  bare?: boolean
 }
 
 function NewsletterSignup({
   title = 'Join our newsletter',
-  description = 'Sign up for updates, new arrivals and insider-only discounts.',
+  description = 'Get early access to new arrivals, members-only sales and styling tips. Unsubscribe anytime.',
   placeholder = 'Your email address',
   onSubscribe,
+  bare = false,
   className,
   ...props
 }: NewsletterSignupProps) {
@@ -26,7 +29,6 @@ function NewsletterSignup({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Email format validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!email || !emailRegex.test(email)) {
       setStatus('error')
@@ -38,8 +40,7 @@ function NewsletterSignup({
       if (onSubscribe) {
         await onSubscribe(email)
       } else {
-        // Simulate network request if no handler provided
-        await new Promise((r) => setTimeout(r, 1000))
+        await new Promise((r) => setTimeout(r, 800))
       }
       setStatus('success')
       setEmail('')
@@ -49,65 +50,98 @@ function NewsletterSignup({
   }
 
   return (
-    <div className={cn('newsletter max-w-4xl mx-auto', className)} {...props}>
-      <h2 className="text-3xl font-bold tracking-tight mb-3">{title}</h2>
-      <p className="text-muted-foreground max-w-md mx-auto mb-8">{description}</p>
+    <div
+      className={cn(
+        'mx-auto w-full',
+        bare
+          ? 'max-w-2xl'
+          : cn(
+              'max-w-3xl rounded-[var(--radius-2xl)]',
+              'border border-[var(--border-subtle)] bg-[var(--surface-base)]',
+              'px-[var(--space-6)] py-[var(--space-10)] sm:px-[var(--space-10)] sm:py-[var(--space-12)]',
+              'shadow-[var(--elevation-card)]',
+            ),
+        'text-center',
+        className,
+      )}
+      {...props}
+    >
+      <div className="mx-auto mb-[var(--space-4)] inline-flex h-11 w-11 items-center justify-center rounded-full bg-[rgb(var(--brand-500-rgb)/0.1)] text-[var(--brand-600)]">
+        <Mail className="h-5 w-5" aria-hidden="true" />
+      </div>
 
-      {status === 'error' ? (
-        <div className="flex items-center gap-2 text-destructive text-sm">
-          <span>Please enter a valid email address.</span>
-        </div>
-      ) : status === 'success' ? (
-        <div className="flex flex-col items-center justify-center p-4 animate-in slide-in-from-bottom-2 fade-in duration-[var(--motion-normal)] fill-mode-both">
-          <div className="w-12 h-12 bg-[var(--intent-success-muted)] rounded-full flex items-center justify-center mb-3">
-            <CheckCircle2 className="w-6 h-6 text-[var(--intent-success)]" />
+      <h2 className="text-[length:var(--font-size-heading-lg)] font-bold tracking-[-0.01em] text-[var(--text-primary)]">
+        {title}
+      </h2>
+      <p className="mx-auto mt-[var(--space-2)] max-w-md text-[length:var(--text-sm)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
+        {description}
+      </p>
+
+      {status === 'success' ? (
+        <div className="mt-[var(--space-6)] flex flex-col items-center animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)] fill-mode-both">
+          <div className="mb-[var(--space-3)] flex h-11 w-11 items-center justify-center rounded-full bg-[var(--intent-success-muted)] text-[var(--intent-success)]">
+            <CheckCircle2 className="h-5 w-5" aria-hidden="true" />
           </div>
-          <p className="font-semibold">Thanks for subscribing!</p>
-          <p className="text-sm text-muted-foreground mt-1">Keep an eye on your inbox.</p>
-          <Button
-            variant="ghost"
-            className="mt-4"
-            onClick={() => {
-              setStatus('idle')
-            }}
+          <p className="text-[length:var(--text-sm)] font-semibold text-[var(--text-primary)]">
+            Thanks for subscribing!
+          </p>
+          <p className="mt-[var(--space-1)] text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+            Keep an eye on your inbox.
+          </p>
+          <button
+            type="button"
+            className="mt-[var(--space-3)] text-[length:var(--text-xs)] font-medium text-[var(--text-link)] underline-offset-4 hover:underline"
+            onClick={() => setStatus('idle')}
           >
             Subscribe another email
-          </Button>
+          </button>
         </div>
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto relative"
+          className="mx-auto mt-[var(--space-6)] flex w-full max-w-md flex-col gap-[var(--space-2)] sm:flex-row"
         >
-          <div className="flex-1 relative">
-            <Input
-              type="email"
-              required
-              placeholder={placeholder}
-              value={email}
-              onChange={(e) => {
-                setEmail(e.target.value)
-              }}
-              className="h-12 rounded-full pl-5 pr-4 bg-background border-transparent shadow-sm focus-visible:ring-brand"
-              disabled={status === 'loading'}
-            />
-          </div>
+          <label htmlFor="newsletter-email" className="sr-only">
+            Email address
+          </label>
+          <input
+            id="newsletter-email"
+            type="email"
+            required
+            placeholder={placeholder}
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              if (status === 'error') setStatus('idle')
+            }}
+            disabled={status === 'loading'}
+            className={cn(
+              'h-11 flex-1 rounded-full px-[var(--space-5)]',
+              'border border-[var(--border-default)] bg-[var(--surface-base)]',
+              'text-[length:var(--text-sm)] text-[var(--text-primary)] placeholder:text-[var(--input-placeholder)]',
+              'transition-[border-color,box-shadow] duration-[var(--motion-fast)]',
+              'focus:outline-none focus:border-[var(--brand-500)] focus:ring-[var(--focus-ring-width)] focus:ring-[var(--focus-ring-color)]',
+              status === 'error' &&
+                'border-[var(--intent-danger)] focus:border-[var(--intent-danger)]',
+            )}
+          />
           <Button
             type="submit"
             variant="brand"
-            className="h-12 rounded-full px-8 shrink-0 font-semibold text-sm shadow-md"
-            disabled={status === 'loading' || !email.includes('@')}
+            size="lg"
+            className="h-11 rounded-full px-[var(--space-6)] shrink-0"
+            disabled={status === 'loading' || !email}
+            iconRight={status === 'loading' ? undefined : <Send className="h-4 w-4" />}
           >
-            {status === 'loading' ? (
-              'Subscribing...'
-            ) : (
-              <>
-                Subscribe
-                <Send className="w-4 h-4 ml-2" />
-              </>
-            )}
+            {status === 'loading' ? 'Subscribing…' : 'Subscribe'}
           </Button>
         </form>
+      )}
+
+      {status === 'error' && (
+        <p className="mt-[var(--space-2)] text-[length:var(--text-xs)] text-[var(--intent-danger)]">
+          Please enter a valid email address.
+        </p>
       )}
     </div>
   )

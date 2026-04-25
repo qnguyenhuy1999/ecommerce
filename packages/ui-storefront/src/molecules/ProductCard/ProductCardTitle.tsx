@@ -9,10 +9,11 @@ export function ProductCardTitle({ className, ...props }: ProductCardTitleProps)
   return (
     <h3
       className={cn(
-        'font-semibold text-foreground tracking-[-0.005em] line-clamp-2',
+        'font-semibold tracking-[-0.005em] line-clamp-2',
+        'text-[var(--text-primary)]',
         view === 'list'
           ? 'text-[length:var(--font-size-heading-sm)] leading-[var(--line-height-snug)]'
-          : 'text-[length:var(--text-base)] leading-[var(--line-height-snug)]',
+          : 'text-[length:var(--text-sm)] sm:text-[length:var(--text-base)] leading-[var(--line-height-snug)]',
         'transition-colors duration-[var(--motion-fast)]',
         'group-hover:text-[var(--text-link)]',
         className,

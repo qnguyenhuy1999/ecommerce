@@ -48,33 +48,33 @@ function HomePageLayout({
       className={className}
       header={
         header ?? (
-          <div>
+          <>
             {promoBar}
             <StorefrontHeader {...headerProps} />
-          </div>
+          </>
         )
       }
       footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
       {...props}
     >
       <div className="flex flex-col">
-        {/* Trust signal strip — sits flush below header */}
+        {/* Trust signals — flush below header, before hero */}
         {trustBanner}
 
-        {/* Quick-access icon nav — divided from hero */}
-        {quickNav && <div className="border-b border-[var(--border-subtle)]">{quickNav}</div>}
-
-        {/* Hero — full-width feature */}
+        {/* Hero — full bleed feature */}
         {hero}
 
-        {/* Category grid */}
+        {/* Quick category nav */}
+        {quickNav}
+
+        {/* Category tiles */}
         {categories}
 
-        {/* Flash sale — accent band */}
+        {/* Flash sale — accent surface to draw the eye */}
         {flashSale && <div className="bg-[var(--surface-subtle)]">{flashSale}</div>}
 
-        {/* Trending searches — compact divider row */}
-        {trending && <div className="border-y border-[var(--border-subtle)]">{trending}</div>}
+        {/* Trending searches — compact strip */}
+        {trending}
 
         {/* Best sellers */}
         {bestSellers}
@@ -85,7 +85,7 @@ function HomePageLayout({
         {/* Brand showcase */}
         {brands}
 
-        {/* New arrivals — final content section on alternating surface */}
+        {/* New arrivals — final accent surface */}
         {newArrivals && <div className="bg-[var(--surface-subtle)]">{newArrivals}</div>}
       </div>
     </StorefrontShell>

@@ -4,27 +4,7 @@ import { useRef, useState } from 'react'
 
 import { Search, X, Clock, TrendingUp, Loader2 } from 'lucide-react'
 
-import { cn, Button, Popover, PopoverContent, PopoverTrigger, IconButton, Input } from '@ecom/ui'
-
-function ArrowRightIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      {...props}
-    >
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
-    </svg>
-  )
-}
+import { cn, Popover, PopoverContent, PopoverTrigger } from '@ecom/ui'
 
 interface SearchBarClientProps {
   placeholder?: string
@@ -36,7 +16,7 @@ interface SearchBarClientProps {
 }
 
 export function SearchBarClient({
-  placeholder = 'Search for products...',
+  placeholder = 'Search for products, brands, categories…',
   onSearch,
   suggestions = [],
   recentSearches = [],
@@ -44,10 +24,11 @@ export function SearchBarClient({
   className,
 }: SearchBarClientProps) {
   const [query, setQuery] = useState('')
-  const [, setOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const hasDropdownContent = suggestions.length > 0 || recentSearches.length > 0
+  const dropdownOpen = open && hasDropdownContent
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -61,135 +42,192 @@ export function SearchBarClient({
     setQuery(text)
     onSearch?.(text)
     setOpen(false)
+    inputRef.current?.blur()
   }
 
   return (
-    <Popover open={!!(hasDropdownContent && query.length > 0)} onOpenChange={setOpen}>
+    <Popover open={dropdownOpen} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <div
+        <form
+          onSubmit={handleSubmit}
           className={cn(
-            'search-bar group relative max-w-2xl w-full rounded-full border bg-background overflow-hidden transition-all duration-[var(--motion-fast)] hover:border-brand focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 focus-within:border-brand',
+            'group relative flex w-full items-center',
+            'h-[var(--space-12)] rounded-full',
+            'bg-[var(--surface-elevated)] border border-[var(--border-subtle)]',
+            'transition-[border-color,box-shadow] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+            'hover:border-[var(--border-default)]',
+            'focus-within:border-[var(--brand-500)] focus-within:ring-[var(--focus-ring-width)] focus-within:ring-[var(--focus-ring-color)]',
             className,
           )}
         >
-          <form onSubmit={handleSubmit} className="flex relative w-full h-12">
-            <div
-              className={cn(
-                'absolute left-4 top-1/2 -translate-y-1/2',
-                'pointer-events-none transition-colors duration-[var(--motion-fast)]',
-                loading
-                  ? 'text-muted-foreground'
-                  : 'group-focus-within:text-brand text-muted-foreground',
-              )}
-              aria-hidden="true"
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <Search className="w-5 h-5" />
-              )}
-            </div>
+          <span
+            aria-hidden="true"
+            className={cn(
+              'pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2',
+              'text-[var(--text-tertiary)]',
+              'group-focus-within:text-[var(--text-primary)]',
+              'transition-colors duration-[var(--motion-fast)]',
+            )}
+          >
+            {loading ? (
+              <Loader2 className="h-[1.125rem] w-[1.125rem] animate-spin" />
+            ) : (
+              <Search className="h-[1.125rem] w-[1.125rem]" />
+            )}
+          </span>
 
-            <Input
-              ref={inputRef}
-              type="text"
-              role="combobox"
-              aria-expanded={hasDropdownContent}
-              aria-autocomplete="list"
-              aria-controls={hasDropdownContent ? 'search-suggestions' : undefined}
-              className="w-full h-full bg-transparent pl-12 pr-14 text-[var(--text-sm)] border-0 shadow-none rounded-none focus:shadow-none"
-              placeholder={placeholder}
-              value={query}
-              onChange={(e) => {
-                setQuery(e.target.value)
-                if (hasDropdownContent) setOpen(true)
-              }}
-              onFocus={() => {
-                if (hasDropdownContent) setOpen(true)
-              }}
-            />
+          <input
+            ref={inputRef}
+            type="search"
+            role="combobox"
+            aria-expanded={dropdownOpen}
+            aria-autocomplete="list"
+            aria-controls={hasDropdownContent ? 'search-suggestions' : undefined}
+            placeholder={placeholder}
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value)
+              if (hasDropdownContent) setOpen(true)
+            }}
+            onFocus={() => {
+              if (hasDropdownContent) setOpen(true)
+            }}
+            className={cn(
+              'h-full w-full bg-transparent rounded-full',
+              'pl-[var(--space-11)] pr-[var(--space-24)]',
+              'text-[length:var(--text-sm)] text-[var(--text-primary)]',
+              'placeholder:text-[var(--input-placeholder)]',
+              'outline-none border-0',
+              '[&::-webkit-search-cancel-button]:hidden',
+            )}
+          />
 
-            <div className="absolute right-1.5 top-1/2 -translate-y-1/2 flex items-center">
-              {!query && !loading && (
-                <kbd className="hidden sm:inline-flex mr-2 items-center gap-1 bg-muted border px-1.5 rounded-[var(--radius-xs)] text-[var(--space-3)] font-medium text-muted-foreground shadow-sm">
-                  <span className="text-xs">⌘</span>K
-                </kbd>
-              )}
-              {query && !loading && (
-                <IconButton
-                  icon={<X className="w-4 h-4" />}
-                  label="Clear search"
-                  variant="ghost"
-                  className="mr-1 h-8 w-8 hover:bg-muted"
-                  onClick={() => {
-                    setQuery('')
-                    inputRef.current?.focus()
-                  }}
-                />
-              )}
-              <Button
-                type="submit"
-                className="h-10 w-10 p-0 rounded-full mr-1 shadow-[var(--elevation-card)] group-focus-within:bg-brand group-focus-within:text-brand-foreground bg-muted text-muted-foreground hover:bg-brand hover:text-brand-foreground transition-all duration-[var(--motion-fast)]"
-                aria-label="Search"
+          <div className="absolute right-[var(--space-1-5)] top-1/2 flex -translate-y-1/2 items-center gap-[var(--space-1)]">
+            {!query && !loading && (
+              <kbd className="hidden sm:inline-flex items-center gap-[2px] rounded-[var(--radius-sm)] border border-[var(--border-subtle)] bg-[var(--surface-muted)] px-[var(--space-1-5)] py-[1px] text-[length:var(--text-micro)] font-medium text-[var(--text-tertiary)]">
+                <span className="text-[length:var(--text-xs)]">⌘</span>K
+              </kbd>
+            )}
+            {query && (
+              <button
+                type="button"
+                aria-label="Clear search"
+                onClick={() => {
+                  setQuery('')
+                  inputRef.current?.focus()
+                }}
+                className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[var(--text-tertiary)] hover:bg-[var(--surface-muted)] hover:text-[var(--text-primary)] transition-colors"
               >
-                <ArrowRightIcon className="w-4 h-4" />
-              </Button>
-            </div>
-          </form>
-        </div>
+                <X className="h-4 w-4" />
+              </button>
+            )}
+            <button
+              type="submit"
+              aria-label="Search"
+              className={cn(
+                'inline-flex h-9 items-center justify-center rounded-full',
+                'px-[var(--space-4)] gap-[var(--space-2)]',
+                'bg-[var(--action-primary)] text-[var(--action-primary-foreground)]',
+                'text-[length:var(--text-sm)] font-semibold tracking-[-0.005em]',
+                'transition-[background-color,transform] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+                'hover:bg-[var(--action-primary-hover)]',
+                'active:scale-[var(--motion-scale-press)]',
+                'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-base)]',
+              )}
+            >
+              <Search className="h-4 w-4" />
+              <span className="sr-only md:not-sr-only">Search</span>
+            </button>
+          </div>
+        </form>
       </PopoverTrigger>
 
       {hasDropdownContent && (
         <PopoverContent
           id="search-suggestions"
-          className="w-[var(--radix-popover-trigger-width)] p-0 rounded-[var(--radius-xl)] overflow-hidden shadow-[var(--elevation-dropdown)] transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-out)]"
           align="start"
+          sideOffset={8}
+          className={cn(
+            'w-[var(--radix-popover-trigger-width)] p-0 overflow-hidden',
+            'rounded-[var(--radius-xl)]',
+            'border border-[var(--border-subtle)] bg-[var(--surface-elevated)]',
+            'shadow-[var(--elevation-dropdown)]',
+          )}
         >
-          <div className="flex flex-col py-2">
+          <div className="py-[var(--space-2)]">
             {recentSearches.length > 0 && !query && (
-              <div className="mb-2">
-                <div className="px-4 py-1.5 text-[length:var(--text-micro)] font-semibold text-muted-foreground uppercase tracking-wider">
-                  Recent
-                </div>
-                {recentSearches.map((item, i) => (
-                  <Button
-                    key={i}
-                    variant="ghost"
-                    className="w-full justify-start px-4 py-2 text-[var(--text-sm)] gap-3 h-auto font-normal"
-                    onClick={() => handleSelect(item)}
-                  >
-                    <Clock className="w-4 h-4 text-muted-foreground/70 shrink-0" />
-                    {item}
-                  </Button>
+              <SearchSection title="Recent">
+                {recentSearches.map((item) => (
+                  <SearchSuggestionItem
+                    key={item}
+                    icon={<Clock className="h-4 w-4 text-[var(--text-tertiary)]" />}
+                    label={item}
+                    onSelect={() => handleSelect(item)}
+                  />
                 ))}
-              </div>
+              </SearchSection>
             )}
 
             {suggestions.length > 0 && (
-              <div>
-                <div className="px-4 py-1.5 text-[length:var(--text-micro)] font-semibold text-muted-foreground uppercase tracking-wider">
-                  {query ? 'Suggestions' : 'Trending'}
-                </div>
-                {suggestions.map((item, i) => (
-                  <Button
-                    key={i}
-                    variant="ghost"
-                    className="w-full justify-start px-4 py-2 text-[var(--text-sm)] gap-3 h-auto font-normal"
-                    onClick={() => handleSelect(item)}
-                  >
-                    {query ? (
-                      <Search className="w-4 h-4 text-muted-foreground/70 shrink-0" />
-                    ) : (
-                      <TrendingUp className="w-4 h-4 text-brand/70 shrink-0" />
-                    )}
-                    <span className="truncate">{item}</span>
-                  </Button>
+              <SearchSection title={query ? 'Suggestions' : 'Trending'}>
+                {suggestions.map((item) => (
+                  <SearchSuggestionItem
+                    key={item}
+                    icon={
+                      query ? (
+                        <Search className="h-4 w-4 text-[var(--text-tertiary)]" />
+                      ) : (
+                        <TrendingUp className="h-4 w-4 text-[var(--text-brand)]" />
+                      )
+                    }
+                    label={item}
+                    onSelect={() => handleSelect(item)}
+                  />
                 ))}
-              </div>
+              </SearchSection>
             )}
           </div>
         </PopoverContent>
       )}
     </Popover>
+  )
+}
+
+function SearchSection({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="pb-[var(--space-1)] last:pb-0">
+      <div className="px-[var(--space-4)] pt-[var(--space-2)] pb-[var(--space-1)] text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
+        {title}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+function SearchSuggestionItem({
+  icon,
+  label,
+  onSelect,
+}: {
+  icon: React.ReactNode
+  label: string
+  onSelect: () => void
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className={cn(
+        'flex w-full items-center gap-[var(--space-3)]',
+        'px-[var(--space-4)] py-[var(--space-2)]',
+        'text-left text-[length:var(--text-sm)] text-[var(--text-primary)]',
+        'transition-colors duration-[var(--motion-fast)]',
+        'hover:bg-[var(--surface-muted)]',
+        'focus-visible:outline-none focus-visible:bg-[var(--surface-muted)]',
+      )}
+    >
+      <span className="shrink-0">{icon}</span>
+      <span className="truncate">{label}</span>
+    </button>
   )
 }

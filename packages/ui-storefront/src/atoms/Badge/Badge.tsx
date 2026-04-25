@@ -9,54 +9,64 @@ interface ProductBadgeProps extends Omit<CoreBadgeProps, 'variant'> {
   variant?: BadgeVariant
 }
 
+const ECOM_VARIANT_CLASSES: Record<EcomVariant, { core: CoreVariant; classes: string; label: string }> = {
+  sale: {
+    core: 'soft',
+    classes: 'bg-[var(--brand-500)] text-white border-transparent',
+    label: 'Sale',
+  },
+  discount: {
+    core: 'soft',
+    classes: 'bg-[var(--warning-500)] text-white border-transparent',
+    label: 'Discount',
+  },
+  new: {
+    core: 'primary',
+    classes: 'bg-[var(--info-500)] text-white border-transparent',
+    label: 'New',
+  },
+  limited: {
+    core: 'warning',
+    classes: 'bg-[var(--warning-500)] text-white border-transparent',
+    label: 'Limited',
+  },
+  'out-of-stock': {
+    core: 'default',
+    classes:
+      'bg-[var(--surface-base)] text-[var(--text-tertiary)] border-[var(--border-subtle)]',
+    label: 'Out of stock',
+  },
+}
+
+const ECOM_KEYS = Object.keys(ECOM_VARIANT_CLASSES) as EcomVariant[]
+
 function ProductBadge({ variant, className, children, ...props }: ProductBadgeProps) {
   // Storefront exposes business-facing variants; translate to core variants so styling stays centralized.
-  let coreVariant: CoreVariant | undefined = undefined
-  let extraClass = ''
-  let defaultText = ''
-
-  switch (variant as BadgeVariant) {
-    case 'sale':
-      coreVariant = 'soft' as CoreVariant
-      extraClass =
-        'border-transparent bg-gradient-to-r from-[var(--brand-500)] to-[var(--brand-600)] text-[var(--intent-danger-fg)] shadow-sm hover:shadow-md hover:-translate-y-[1px] font-bold tracking-wide uppercase text-[0.65rem]'
-      defaultText = 'Sale'
-      break
-    case 'discount':
-      coreVariant = 'soft' as CoreVariant
-      extraClass =
-        'border-transparent bg-gradient-to-r from-[var(--warning-400)] to-[var(--warning-500)] text-white shadow-sm hover:shadow-md hover:-translate-y-[1px] font-bold tracking-wide uppercase text-[0.65rem]'
-      defaultText = 'Discount'
-      break
-    case 'new':
-      coreVariant = 'primary' as CoreVariant
-      extraClass =
-        'border-transparent bg-gradient-to-r from-[var(--info-400)] to-[var(--info-500)] text-white shadow-sm hover:-translate-y-[1px] font-bold tracking-wide uppercase text-[0.65rem]'
-      defaultText = 'New'
-      break
-    case 'limited':
-      coreVariant = 'warning' as CoreVariant
-      extraClass =
-        'border-transparent bg-gradient-to-r from-[var(--warning-400)] to-[var(--warning-500)] text-white shadow-sm hover:-translate-y-[1px] font-bold tracking-wide uppercase text-[0.65rem]'
-      defaultText = 'Limited'
-      break
-    case 'out-of-stock':
-      coreVariant = 'default' as CoreVariant
-      extraClass =
-        'border-transparent bg-[var(--surface-muted)] text-[var(--text-tertiary)] backdrop-blur-sm hover:bg-[var(--surface-subtle)] font-bold tracking-wide uppercase text-[0.65rem] shadow-none'
-      defaultText = 'Out of Stock'
-      break
-    default:
-      coreVariant = variant as CoreVariant
+  if (variant && ECOM_KEYS.includes(variant as EcomVariant)) {
+    const v = ECOM_VARIANT_CLASSES[variant as EcomVariant]
+    return (
+      <CoreBadge
+        variant={v.core}
+        size="sm"
+        className={cn(
+          'font-semibold uppercase tracking-[0.06em]',
+          v.classes,
+          className,
+        )}
+        {...(props as CoreBadgeProps)}
+      >
+        {children ?? v.label}
+      </CoreBadge>
+    )
   }
 
   return (
     <CoreBadge
-      variant={coreVariant}
-      className={cn(extraClass, className)}
+      variant={variant as CoreVariant}
+      className={cn(className)}
       {...(props as CoreBadgeProps)}
     >
-      {children ?? defaultText}
+      {children}
     </CoreBadge>
   )
 }
