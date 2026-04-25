@@ -20,19 +20,26 @@ import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
 
-export interface CollectionPageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CollectionPageLayoutProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   promoBar?: React.ReactNode
   header?: React.ReactNode
   footer?: React.ReactNode
   headerProps?: React.ComponentProps<typeof StorefrontHeader>
   footerProps?: React.ComponentProps<typeof StorefrontFooter>
   breadcrumb?: React.ReactNode
-  title: string
-  description?: string
+  title: React.ReactNode
+  description?: React.ReactNode
   /** e.g. "1,248 results" — shown in the hero meta strip and as the mobile drawer subtitle. */
   resultsLabel?: string
   /** Optional emotional/visual element placed beside the title (image, illustration, badge cluster). */
   heroAccent?: React.ReactNode
+  /**
+   * Full-width content rendered below the title cluster in the hero band — used for
+   * page-specific overlays like a persistent search refinement bar on the search
+   * results page. Renders on all breakpoints (unlike heroAccent, which is desktop-only).
+   */
+  headerExtras?: React.ReactNode
   filters: FilterGroupSpec[]
   onFilterChange?: (groupId: string, value: unknown) => void
   onClearAll?: () => void
@@ -58,6 +65,7 @@ function CollectionPageLayout({
   description,
   resultsLabel,
   heroAccent,
+  headerExtras,
   filters,
   onFilterChange,
   onClearAll,
@@ -147,6 +155,8 @@ function CollectionPageLayout({
               </div>
             )}
           </div>
+
+          {headerExtras && <div className="mt-[var(--space-5)]">{headerExtras}</div>}
         </div>
       </section>
 
