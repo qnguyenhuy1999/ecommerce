@@ -40,7 +40,9 @@ export interface OrderDetailPageLayoutProps extends React.HTMLAttributes<HTMLDiv
   estimatedArrivalCountdown?: string
   /** Cancel order action. When provided, a destructive ghost button is shown in the sidebar. */
   onCancelOrder?: () => void
-  /** Help / contact action. When provided, a ghost button is shown in the sidebar. */
+  /** Open a thread with the seller (e.g. messaging, store contact form). */
+  onContactSeller?: () => void
+  /** Reach platform-level order help / customer support. */
   onContactSupport?: () => void
 }
 
@@ -76,6 +78,7 @@ function OrderDetailPageLayout({
   estimatedArrival,
   estimatedArrivalCountdown,
   onCancelOrder,
+  onContactSeller,
   onContactSupport,
   className,
   ...props
@@ -477,8 +480,8 @@ function OrderDetailPageLayout({
                   size="default"
                   fullWidth
                   className="justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
-                  onClick={onContactSupport}
-                  disabled={!onContactSupport}
+                  onClick={onContactSeller}
+                  disabled={!onContactSeller}
                 >
                   <MessageSquare className="h-4 w-4" aria-hidden="true" />
                   Contact seller

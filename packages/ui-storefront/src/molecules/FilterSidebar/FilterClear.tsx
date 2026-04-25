@@ -19,7 +19,7 @@ export function FilterClear({ onClick }: FilterClearProps) {
         'transition-colors duration-[var(--motion-fast)] bg-transparent hover:bg-transparent',
       )}
     >
-      Reset
+      Clear all
     </Button>
   )
 }

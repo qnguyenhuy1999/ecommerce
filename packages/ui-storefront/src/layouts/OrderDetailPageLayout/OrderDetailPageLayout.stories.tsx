@@ -57,6 +57,7 @@ export const Default: Story = {
     estimatedArrival: 'April 27',
     estimatedArrivalCountdown: '3 days left',
     onCancelOrder: () => alert('cancel order'),
+    onContactSeller: () => alert('contact seller'),
     onContactSupport: () => alert('contact support'),
     orderDetail: {
       orderNumber: 'ORD-20240423-001',
