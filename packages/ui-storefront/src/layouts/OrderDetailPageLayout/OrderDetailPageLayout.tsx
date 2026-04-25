@@ -16,8 +16,10 @@ import type { BreadcrumbItem } from '@ecom/ui'
 
 import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
+import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
 import { OrderTimeline } from '../../molecules/OrderTimeline/OrderTimeline'
 import type { OrderDetailSectionProps } from '../../organisms/OrderDetailSection/OrderDetailSection'
+import { AccountDashboardShell } from '../shared/AccountDashboardShell'
 import { PageContainer } from '../shared/PageContainer'
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
@@ -29,6 +31,12 @@ export interface OrderDetailPageLayoutProps extends React.HTMLAttributes<HTMLDiv
   footer?: React.ReactNode
   headerProps?: React.ComponentProps<typeof StorefrontHeader>
   footerProps?: React.ComponentProps<typeof StorefrontFooter>
+  /**
+   * Optional account sidebar. When provided, the order detail renders inside
+   * the My Account dashboard chrome (sticky desktop rail + mobile drawer).
+   * Standalone mode (no sidebarProps) is preserved for back-compat.
+   */
+  sidebarProps?: AccountSidebarProps
   orderDetail: Omit<OrderDetailSectionProps, 'className'>
   breadcrumbItems?: BreadcrumbItem[]
   newsletter?: React.ReactNode
@@ -73,6 +81,7 @@ function OrderDetailPageLayout({
   footer,
   headerProps,
   footerProps,
+  sidebarProps,
   orderDetail,
   breadcrumbItems,
   newsletter,
@@ -119,18 +128,8 @@ function OrderDetailPageLayout({
   // Status flag — only render the live indicator on truly active states.
   const isLiveTrackable = status === 'PROCESSING' || status === 'SHIPPED' || status === 'PAID'
 
-  return (
-    <StorefrontPageShell
-      className={className}
-      promoBar={promoBar}
-      header={header}
-      footer={footer}
-      headerProps={headerProps}
-      footerProps={footerProps}
-      newsletter={newsletter}
-      {...props}
-    >
-      <PageContainer>
+  const body = (
+    <>
         {/* Breadcrumb + back */}
         <div className="mb-[var(--space-4)] flex items-center justify-between gap-[var(--space-3)]">
           <Breadcrumb items={defaultBreadcrumb} />
@@ -542,6 +541,26 @@ function OrderDetailPageLayout({
             </DashboardCard>
           </aside>
         </div>
+    </>
+  )
+
+  return (
+    <StorefrontPageShell
+      className={className}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
+      {...props}
+    >
+      <PageContainer>
+        {sidebarProps ? (
+          <AccountDashboardShell sidebarProps={sidebarProps}>{body}</AccountDashboardShell>
+        ) : (
+          body
+        )}
       </PageContainer>
     </StorefrontPageShell>
   )

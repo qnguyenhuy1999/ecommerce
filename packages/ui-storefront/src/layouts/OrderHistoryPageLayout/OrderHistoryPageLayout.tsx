@@ -14,8 +14,10 @@ import {
 
 import { useOrderHistoryFilter } from '../../hooks/useOrderHistoryFilter'
 import type { OrderHistoryTab } from '../../hooks/useOrderHistoryFilter'
+import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
 import { OrderCard } from '../../molecules/OrderCard/OrderCard'
 import type { OrderCardProps } from '../../molecules/OrderCard/OrderCard'
+import { AccountDashboardShell } from '../shared/AccountDashboardShell'
 import { EmptyStateCard } from '../shared/EmptyStateCard'
 import { PageContainer } from '../shared/PageContainer'
 import { PageHeader } from '../shared/PageHeader'
@@ -39,6 +41,12 @@ export interface OrderHistoryPageLayoutProps
   footer?: React.ReactNode
   headerProps?: React.ComponentProps<typeof StorefrontHeader>
   footerProps?: React.ComponentProps<typeof StorefrontFooter>
+  /**
+   * Optional account sidebar. When provided, the order history renders inside
+   * the My Account dashboard chrome (sticky desktop rail + mobile drawer).
+   * Standalone mode (no sidebarProps) is preserved for back-compat.
+   */
+  sidebarProps?: AccountSidebarProps
   orders: OrderCardProps[]
   /**
    * Coarse intent filter. Defaults to 'all'. The layout filters orders
@@ -77,6 +85,7 @@ function OrderHistoryPageLayout({
   footer,
   headerProps,
   footerProps,
+  sidebarProps,
   orders,
   activeTab = 'all',
   onTabChange,
@@ -96,29 +105,15 @@ function OrderHistoryPageLayout({
     orders,
     tab: activeTab,
     searchQuery,
+    onSearchChange,
     dateRange,
   })
 
-  const handleSearchChange = (value: string) => {
-    setQuery(value)
-    onSearchChange?.(value)
-  }
-
   const totalCount = orders.length
 
-  return (
-    <StorefrontPageShell
-      className={className}
-      promoBar={promoBar}
-      header={header}
-      footer={footer}
-      headerProps={headerProps}
-      footerProps={footerProps}
-      newsletter={newsletter}
-      {...props}
-    >
-      <PageContainer>
-        <PageHeader>
+  const body = (
+    <>
+      <PageHeader>
           <PageHeader.Eyebrow>My account</PageHeader.Eyebrow>
           <PageHeader.Title>Order history</PageHeader.Title>
           <PageHeader.Actions>
@@ -146,7 +141,7 @@ function OrderHistoryPageLayout({
               <Input
                 type="search"
                 value={query}
-                onChange={(event) => handleSearchChange(event.target.value)}
+                onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search by order # or product name"
                 className={cn(
                   'h-10 pl-[var(--space-9)] pr-[var(--space-3)]',
@@ -254,6 +249,26 @@ function OrderHistoryPageLayout({
             </TabsContent>
           ))}
         </Tabs>
+    </>
+  )
+
+  return (
+    <StorefrontPageShell
+      className={className}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
+      {...props}
+    >
+      <PageContainer>
+        {sidebarProps ? (
+          <AccountDashboardShell sidebarProps={sidebarProps}>{body}</AccountDashboardShell>
+        ) : (
+          body
+        )}
       </PageContainer>
     </StorefrontPageShell>
   )

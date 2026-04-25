@@ -2,8 +2,8 @@ import React from 'react'
 
 import { cn } from '@ecom/ui'
 
-import { AccountSidebar } from '../../molecules/AccountSidebar/AccountSidebar'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
+import { AccountDashboardShell } from '../shared/AccountDashboardShell'
 import { PageContainer } from '../shared/PageContainer'
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
@@ -56,14 +56,7 @@ function AccountPageLayout({
             {breadcrumb}
           </div>
         )}
-        <div className="grid gap-[var(--space-8)] lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-          {/* Sidebar — sticky offset uses the measured total header height so
-              it never collides with an optional category nav row. */}
-          <div className="lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]">
-            <AccountSidebar {...sidebarProps} />
-          </div>
-
-          {/* Content surface */}
+        <AccountDashboardShell sidebarProps={sidebarProps}>
           <div
             className={cn(
               'rounded-[var(--radius-xl)] border border-[var(--border-subtle)]',
@@ -73,7 +66,7 @@ function AccountPageLayout({
           >
             {children}
           </div>
-        </div>
+        </AccountDashboardShell>
       </PageContainer>
     </StorefrontPageShell>
   )

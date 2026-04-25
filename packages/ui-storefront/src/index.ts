@@ -109,7 +109,10 @@ export type {
 } from './molecules/SearchResultItem/SearchResultItem'
 export { WishlistCard } from './molecules/WishlistCard/WishlistCard'
 export type { WishlistCardProps, WishlistProduct } from './molecules/WishlistCard/WishlistCard'
-export { AccountSidebar } from './molecules/AccountSidebar/AccountSidebar'
+export {
+  AccountSidebar,
+  DEFAULT_ACCOUNT_NAV_ITEMS,
+} from './molecules/AccountSidebar/AccountSidebar'
 export type {
   AccountSidebarProps,
   AccountSidebarItem,

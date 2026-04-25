@@ -6,10 +6,10 @@ import { Button, EmptyState, cn } from '@ecom/ui'
 
 import { SortDropdown } from '../../atoms/SortDropdown/SortDropdown'
 import type { SortOption } from '../../atoms/SortDropdown/SortDropdown'
-import { AccountSidebar } from '../../molecules/AccountSidebar/AccountSidebar'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
 import { WishlistCard } from '../../molecules/WishlistCard/WishlistCard'
 import type { WishlistCardProps } from '../../molecules/WishlistCard/WishlistCard'
+import { AccountDashboardShell } from '../shared/AccountDashboardShell'
 import { EmptyStateCard } from '../shared/EmptyStateCard'
 import { PageContainer } from '../shared/PageContainer'
 import { PageHeader } from '../shared/PageHeader'
@@ -179,12 +179,7 @@ function WishlistPageLayout({
     >
       <PageContainer>
         {sidebarProps ? (
-          <div className="grid gap-[var(--space-8)] lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-            <div className="lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]">
-              <AccountSidebar {...sidebarProps} />
-            </div>
-            <div className="min-w-0">{wishlistBody}</div>
-          </div>
+          <AccountDashboardShell sidebarProps={sidebarProps}>{wishlistBody}</AccountDashboardShell>
         ) : (
           wishlistBody
         )}

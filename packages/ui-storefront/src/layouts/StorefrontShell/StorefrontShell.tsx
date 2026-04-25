@@ -76,7 +76,13 @@ const StorefrontShell = React.forwardRef<HTMLDivElement, StorefrontShellProps>(
       const ro = new ResizeObserver(apply)
       ro.observe(headerEl)
       return () => ro.disconnect()
-    }, [header, stickyHeader])
+      // The ResizeObserver on the DOM node already handles content-driven
+      // size changes, so we deliberately do NOT depend on `header` (a
+      // ReactNode that gets a fresh reference on every parent render and
+      // would otherwise tear down / recreate the observer each render).
+      // `stickyHeader` controls whether the <header> element renders at
+      // all, so we re-run the effect when it toggles.
+    }, [stickyHeader])
 
     return (
       <div

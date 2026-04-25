@@ -16,6 +16,12 @@ export interface UseOrderHistoryFilterOptions<T extends OrderHistoryFilterableOr
   tab?: OrderHistoryTab
   /** Optional controlled search query. When omitted, the hook manages its own. */
   searchQuery?: string
+  /**
+   * Notified whenever `setQuery` is called. In controlled mode this is the
+   * only way the consumer learns about user keystrokes — without it, a
+   * `searchQuery` prop with no callback would silently swallow input.
+   */
+  onSearchChange?: (next: string) => void
   /** Date-range key. The hook itself does not filter by date (consumer-driven), but tracks the value for `isFiltered`. */
   dateRange?: string
 }
@@ -45,16 +51,30 @@ export function useOrderHistoryFilter<T extends OrderHistoryFilterableOrder>({
   orders,
   tab = 'all',
   searchQuery,
+  onSearchChange,
   dateRange = 'all',
 }: UseOrderHistoryFilterOptions<T>): UseOrderHistoryFilterReturn<T> {
   const [internalQuery, setInternalQuery] = React.useState('')
-  const query = searchQuery ?? internalQuery
+  const isControlled = searchQuery !== undefined
+  const query = isControlled ? (searchQuery as string) : internalQuery
+
+  if (process.env.NODE_ENV !== 'production' && isControlled && !onSearchChange) {
+    console.warn(
+      '[useOrderHistoryFilter] `searchQuery` was provided without `onSearchChange`. ' +
+        'The search input will be frozen because the hook cannot update a controlled value. ' +
+        'Either provide `onSearchChange` or omit `searchQuery` to use uncontrolled mode.',
+    )
+  }
 
   const setQuery = React.useCallback(
     (next: string) => {
-      if (searchQuery === undefined) setInternalQuery(next)
+      if (!isControlled) setInternalQuery(next)
+      // Always notify the consumer — in controlled mode this is required for
+      // the input to actually update; in uncontrolled mode it lets consumers
+      // observe the query change without taking ownership of the state.
+      onSearchChange?.(next)
     },
-    [searchQuery],
+    [isControlled, onSearchChange],
   )
 
   const visibleOrders = React.useMemo(() => {
