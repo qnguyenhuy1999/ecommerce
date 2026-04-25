@@ -76,6 +76,7 @@ function OrderTimeline({ steps, trackingInfo, className }: OrderTimelineProps) {
             status={step.status}
             icon={step.icon}
             isLast={index === steps.length - 1}
+            nextStatus={steps[index + 1]?.status}
           />
         ))}
       </div>

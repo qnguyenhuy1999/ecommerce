@@ -13,6 +13,8 @@ export interface OrderTimelineStepProps {
   status: TimelineStepStatus
   icon?: React.ReactNode
   isLast?: boolean
+  /** Status of the *next* step. Drives the connector line styling between this step and the next. */
+  nextStatus?: TimelineStepStatus
   className?: string
 }
 
@@ -23,74 +25,114 @@ function OrderTimelineStep({
   status,
   icon,
   isLast = false,
+  nextStatus,
   className,
 }: OrderTimelineStepProps) {
   const isComplete = status === 'complete'
   const isCurrent = status === 'current'
   const isPending = status === 'pending'
 
+  // Solid line below a completed step; dashed when the next step is pending.
+  const connectorClass = isComplete
+    ? 'bg-[var(--action-primary)]'
+    : isCurrent
+      ? nextStatus === 'pending'
+        ? 'border-l-2 border-dashed border-[var(--border-default)] !bg-transparent'
+        : 'bg-[var(--border-default)]'
+      : 'border-l-2 border-dashed border-[var(--border-default)] !bg-transparent'
+
   return (
-    <div className={cn('relative flex gap-4', className)}>
+    <div className={cn('relative flex gap-[var(--space-4)]', className)}>
       {/* Connector line */}
       {!isLast && (
         <div
           className={cn(
             'absolute left-[0.9375rem] top-8 bottom-0 w-px',
-            isComplete ? 'bg-[var(--action-primary)]' : 'bg-[var(--border-subtle)]',
+            connectorClass,
           )}
           aria-hidden="true"
         />
       )}
 
       {/* Step indicator */}
-      <div
-        className={cn(
-          'relative z-10 flex h-[1.875rem] w-[1.875rem] shrink-0 items-center justify-center rounded-full',
-          'transition-all duration-[var(--motion-normal)]',
-          isComplete &&
-            'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] shadow-sm',
-          isCurrent && [
-            'bg-[var(--action-primary)] text-[var(--action-primary-foreground)]',
-            'ring-4 ring-[var(--action-primary)]/20 shadow-sm',
-          ],
-          isPending &&
-            'bg-[var(--surface-muted)] border-2 border-[var(--border-default)] text-[var(--text-tertiary)]',
+      <div className="relative z-10 shrink-0">
+        {isCurrent && (
+          <span
+            aria-hidden="true"
+            className={cn(
+              'absolute inset-0 rounded-full',
+              'bg-[var(--action-primary)] opacity-30 animate-ping',
+            )}
+          />
         )}
-        aria-current={isCurrent ? 'step' : undefined}
-      >
-        {isComplete ? (
-          <Check className="w-3.5 h-3.5" strokeWidth={2.5} />
-        ) : (
-          (icon ?? (
-            <div
+        <div
+          className={cn(
+            'relative flex h-[1.875rem] w-[1.875rem] items-center justify-center rounded-full',
+            'transition-all duration-[var(--motion-normal)]',
+            isComplete &&
+              'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] shadow-sm',
+            isCurrent && [
+              'bg-[var(--action-primary)] text-[var(--action-primary-foreground)] shadow-sm',
+              'ring-4 ring-[rgb(var(--brand-500-rgb)/0.18)]',
+            ],
+            isPending &&
+              'border-2 border-dashed border-[var(--border-default)] bg-[var(--surface-base)] text-[var(--text-tertiary)]',
+          )}
+          aria-current={isCurrent ? 'step' : undefined}
+        >
+          {isComplete ? (
+            <Check className="h-3.5 w-3.5" strokeWidth={2.5} />
+          ) : icon ? (
+            <span className="flex h-3.5 w-3.5 items-center justify-center">{icon}</span>
+          ) : (
+            <span
               className={cn(
-                'w-2 h-2 rounded-full',
+                'h-2 w-2 rounded-full',
                 isCurrent ? 'bg-white' : 'bg-[var(--border-default)]',
               )}
             />
-          ))
-        )}
+          )}
+        </div>
       </div>
 
       {/* Step content */}
-      <div className="pb-8 pt-0.5 flex-1 min-w-0">
-        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+      <div className="min-w-0 flex-1 pb-[var(--space-8)] pt-0.5">
+        <div className="flex flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
           <p
             className={cn(
-              'text-[var(--text-sm)] font-semibold',
+              'text-[length:var(--text-sm)] font-semibold',
               isComplete && 'text-[var(--text-primary)]',
-              isCurrent && 'text-[var(--action-primary)]',
+              isCurrent && 'text-[var(--text-primary)]',
               isPending && 'text-[var(--text-tertiary)]',
             )}
           >
             {label}
           </p>
+          {isCurrent && (
+            <span
+              className={cn(
+                'inline-flex items-center gap-[var(--space-1)] rounded-full',
+                'bg-[rgb(var(--brand-500-rgb)/0.12)] px-[var(--space-2)] py-0.5',
+                'text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em] text-[var(--action-primary)]',
+              )}
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-[var(--action-primary)] animate-pulse" />
+              In progress
+            </span>
+          )}
           {date && (
-            <time className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">{date}</time>
+            <time className="text-[length:var(--text-xs)] text-[var(--text-tertiary)] tabular-nums">
+              {date}
+            </time>
           )}
         </div>
         {description && (
-          <p className="mt-1 text-[length:var(--text-xs)] text-[var(--text-secondary)] leading-relaxed">
+          <p
+            className={cn(
+              'mt-[var(--space-1)] text-[length:var(--text-xs)] leading-[var(--line-height-relaxed)]',
+              isPending ? 'text-[var(--text-tertiary)]' : 'text-[var(--text-secondary)]',
+            )}
+          >
             {description}
           </p>
         )}

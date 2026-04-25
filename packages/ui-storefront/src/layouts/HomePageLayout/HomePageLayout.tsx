@@ -57,7 +57,7 @@ function Band({
  * Visual banner break — full-bleed within the page flow, with extra vertical
  * breathing room and a constrained content max-width.
  */
-function VisualBanderRow({ children }: { children?: React.ReactNode }) {
+function VisualBannerRow({ children }: { children?: React.ReactNode }) {
   if (!children) return null
   return (
     <div className="bg-[var(--surface-base)] py-[var(--space-12)] lg:py-[var(--space-16)]">
@@ -126,7 +126,7 @@ function HomePageLayout({
         <Band tone="subtle">{trending}</Band>
 
         {/* 8. Visual banner break — emotional/branding section */}
-        <VisualBanderRow>{visualBanner}</VisualBanderRow>
+        <VisualBannerRow>{visualBanner}</VisualBannerRow>
 
         {/* 9. Recommended — clean white */}
         <Band tone="base">{recommended}</Band>
