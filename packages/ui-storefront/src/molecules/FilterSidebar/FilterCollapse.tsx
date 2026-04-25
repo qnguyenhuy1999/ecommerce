@@ -2,9 +2,9 @@
 
 import { useId, useState } from 'react'
 
-import { ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 
-import { cn, Button, Badge } from '@ecom/ui'
+import { cn } from '@ecom/ui'
 
 interface FilterCollapseProps {
   title: string
@@ -13,6 +13,11 @@ interface FilterCollapseProps {
   activeCount?: number
 }
 
+/**
+ * Lightweight, borderless filter section.
+ * Renders as a list-style item with a separator on top so multiple groups
+ * stack cleanly inside the sidebar without the "boxed form" feeling.
+ */
 export function FilterCollapse({
   title,
   defaultCollapsed = false,
@@ -24,45 +29,51 @@ export function FilterCollapse({
   const contentId = `filter-collapse-${id}`
 
   return (
-    <div className="rounded-md border border-[var(--border-subtle)] bg-[var(--surface-elevated)] shadow-[var(--elevation-filter-md)]">
-      <Button
+    <div className="border-t border-[var(--border-subtle)] first:border-t-0">
+      <button
         type="button"
-        variant="ghost"
-        size="sm"
         onClick={() => setCollapsed((c) => !c)}
         aria-expanded={!collapsed}
         aria-controls={contentId}
         className={cn(
-          'filter-group__header w-full flex items-center justify-between',
-          'h-auto min-h-0 py-4 px-4',
-          collapsed ? 'border-b-0' : 'border-b border-[var(--border-subtle)]',
-          'bg-transparent',
+          'group flex w-full items-center justify-between gap-[var(--space-2)]',
+          'py-[var(--space-4)]',
+          'text-left',
           'transition-colors duration-[var(--motion-fast)]',
-          'hover:text-[var(--action-primary)] hover:border-[var(--border-default)]',
-          'focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2 rounded-t-md rounded-b-none',
+          'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] rounded-[var(--radius-sm)]',
         )}
       >
-        <span className="flex items-center gap-2">
-          <span className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] tracking-tight">
+        <span className="flex items-center gap-[var(--space-2)]">
+          <span className="text-[length:var(--text-sm)] font-semibold tracking-[-0.005em] text-[var(--text-primary)]">
             {title}
           </span>
           {activeCount > 0 && (
-            <Badge variant="destructive" className="ml-1 font-bold border-0">
+            <span
+              className={cn(
+                'inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full',
+                'bg-[rgb(var(--brand-500-rgb)/0.12)] px-[var(--space-1-5)] text-[length:var(--text-micro)] font-semibold text-[var(--action-primary)]',
+              )}
+              aria-label={`${activeCount} active`}
+            >
               {activeCount}
-            </Badge>
+            </span>
           )}
         </span>
-        {collapsed ? (
-          <ChevronDown className="w-4 h-4 text-current transition-transform duration-[var(--motion-fast)]" />
-        ) : (
-          <ChevronUp className="w-4 h-4 text-current transition-transform duration-[var(--motion-fast)]" />
-        )}
-      </Button>
+        <ChevronDown
+          className={cn(
+            'h-4 w-4 shrink-0 text-[var(--text-tertiary)]',
+            'transition-transform duration-[var(--motion-fast)]',
+            'group-hover:text-[var(--text-primary)]',
+            !collapsed && 'rotate-180',
+          )}
+          aria-hidden="true"
+        />
+      </button>
 
       {!collapsed && (
         <div
           id={contentId}
-          className="filter-group__content pt-5 pb-6 px-4 animate-[slide-down_var(--motion-normal)_var(--motion-ease-out)]"
+          className="pb-[var(--space-5)] pt-[var(--space-1)]"
         >
           {children}
         </div>

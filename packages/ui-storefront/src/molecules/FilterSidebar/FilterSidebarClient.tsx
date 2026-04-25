@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 
 import { Filter, Search } from 'lucide-react'
 
-import { Badge, Button, cn } from '@ecom/ui'
+import { cn } from '@ecom/ui'
 
 import { FilterGroup } from './FilterGroup'
 import { FilterClear } from './FilterClear'
@@ -101,11 +101,6 @@ export function FilterSidebarClient({
     [activeCountByGroup],
   )
 
-  const activeGroups = useMemo(
-    () => groups.filter((group) => (activeCountByGroup[group.id] ?? 0) > 0),
-    [groups, activeCountByGroup],
-  )
-
   const handleOptionToggle = useCallback(
     (groupId: string, value: string, checked: boolean) => {
       setSelectedOptions((prev) => {
@@ -136,47 +131,30 @@ export function FilterSidebarClient({
   return (
     <div
       className={cn(
-        'filter-sidebar w-full md:w-80 shrink-0 flex flex-col gap-5 p-5',
-        'rounded-[28px] border border-[var(--border-default)]',
-        'bg-[linear-gradient(180deg,var(--surface-base)_0%,var(--surface-subtle)_100%)]',
-        'shadow-[var(--elevation-strong)]',
+        'filter-sidebar w-full flex flex-col',
         className,
       )}
       {...props}
     >
-      {/* Header panel */}
-      <div className="rounded-md border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--elevation-sticky)]">
-        <div className="flex items-center justify-between">
-          <h2 className="text-[var(--text-lg)] font-bold text-[var(--text-primary)] flex items-center gap-2.5 tracking-tight">
-            <Filter className="w-5 h-5 text-[var(--action-primary)]" />
-            Refine Results
-            {activeCount > 0 && (
-              <Badge variant="destructive" className="ml-1 font-bold border-0">
-                {activeCount}
-              </Badge>
-            )}
-          </h2>
-
-          {activeCount > 0 && <FilterClear onClick={handleClearAll} />}
-        </div>
-
-        {activeGroups.length > 0 && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {activeGroups.map((group) => (
-              <span
-                key={group.id}
-                className="inline-flex items-center gap-1 rounded-full border border-[var(--border-default)] bg-[var(--surface-base)] px-2.5 py-1 text-[length:var(--text-micro)] font-semibold text-[var(--text-secondary)]"
-              >
-                {group.title}
-                <span className="text-[var(--text-primary)]">{activeCountByGroup[group.id]}</span>
-              </span>
-            ))}
-          </div>
-        )}
+      {/* Header — flush with the page, not a boxed panel */}
+      <div className="flex items-center justify-between gap-[var(--space-2)] pb-[var(--space-3)]">
+        <h2 className="flex items-center gap-[var(--space-2)] text-[length:var(--text-sm)] font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+          <Filter className="h-3.5 w-3.5" aria-hidden="true" />
+          Filters
+          {activeCount > 0 && (
+            <span
+              className="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[var(--action-primary)] px-[var(--space-1-5)] text-[length:var(--text-micro)] font-semibold text-[var(--action-primary-foreground)]"
+              aria-label={`${activeCount} filter${activeCount === 1 ? '' : 's'} active`}
+            >
+              {activeCount}
+            </span>
+          )}
+        </h2>
+        {activeCount > 0 && <FilterClear onClick={handleClearAll} />}
       </div>
 
-      {/* Filter groups */}
-      <div className="flex-1 overflow-y-auto pr-1 space-y-3">
+      {/* Filter groups — light separators, no boxing */}
+      <div className="flex-1">
         {groups.map((group) => (
           <FilterGroup
             key={group.id}
@@ -200,25 +178,15 @@ export function FilterSidebarClient({
         ))}
 
         {groups.length === 0 && (
-          <div className="py-12 text-center rounded-2xl border border-dashed border-[var(--border-default)] bg-[var(--surface-elevated)]">
-            <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[var(--surface-muted)] mb-3">
-              <Search className="w-5 h-5 text-[var(--text-tertiary)]" />
-            </div>
-            <p className="text-[var(--text-sm)] text-[var(--text-secondary)] font-medium">
+          <div className="my-[var(--space-6)] flex flex-col items-center justify-center gap-[var(--space-2)] rounded-[var(--radius-lg)] border border-dashed border-[var(--border-subtle)] bg-[var(--surface-subtle)] px-[var(--space-4)] py-[var(--space-8)] text-center">
+            <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-base)] text-[var(--text-tertiary)]">
+              <Search className="h-4 w-4" aria-hidden="true" />
+            </span>
+            <p className="text-[length:var(--text-sm)] font-medium text-[var(--text-secondary)]">
               No filters available
             </p>
           </div>
         )}
-      </div>
-
-      {/* Sticky apply button */}
-      <div className="sticky bottom-0 pt-2 pb-1 bg-[linear-gradient(180deg,transparent_0%,var(--surface-subtle)_28%)]">
-        <Button
-          className="w-full rounded-xl h-11 text-[var(--text-sm)] font-semibold text-[var(--action-primary-foreground)]"
-          size="lg"
-        >
-          Apply Filters
-        </Button>
       </div>
     </div>
   )
