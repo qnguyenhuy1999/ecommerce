@@ -149,10 +149,10 @@ function AdminHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 flex w-full items-center',
-        'h-[var(--admin-header-height)] bg-[var(--surface-base)]/92 backdrop-blur-[14px]',
-        'border-b border-[var(--border-subtle)] shadow-[var(--elevation-xs)]',
-        'px-[var(--space-6)] gap-[var(--space-4)]',
+        'sticky top-0 z-[var(--layer-sticky)] flex w-full items-center',
+        'h-[var(--admin-header-height)] bg-[var(--surface-base)]',
+        'border-b border-[var(--border-subtle)]',
+        'px-[var(--space-4)] sm:px-[var(--space-6)] gap-[var(--space-3)] sm:gap-[var(--space-4)]',
         className,
       )}
       {...props}

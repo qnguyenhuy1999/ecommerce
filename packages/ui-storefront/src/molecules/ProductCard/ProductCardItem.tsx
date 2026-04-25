@@ -31,10 +31,15 @@ export interface ProductCardItemProps extends React.HTMLAttributes<HTMLDivElemen
   onAddToCart?: (id: string) => void
   loading?: boolean
   view?: 'grid' | 'list'
+  /** On grid view, only show the action row on hover (desktop) for a cleaner card surface. */
+  hoverRevealActions?: boolean
 }
 
 function formatCompactCount(value: number) {
-  return new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 }).format(value)
+  return new Intl.NumberFormat(undefined, {
+    notation: 'compact',
+    maximumFractionDigits: 1,
+  }).format(value)
 }
 
 function ProductCardItem({
@@ -53,6 +58,7 @@ function ProductCardItem({
   loading,
   className,
   view = 'grid',
+  hoverRevealActions = false,
   ...props
 }: ProductCardItemProps) {
   return (
@@ -80,7 +86,7 @@ function ProductCardItem({
       )}
 
       <ProductCardContent>
-        <div className="space-y-2.5">
+        <div className="space-y-[var(--space-2)]">
           <ProductCardTitle />
 
           {(typeof rating === 'number' || typeof buyCount === 'number') && (
@@ -91,7 +97,7 @@ function ProductCardItem({
               {typeof buyCount === 'number' && (
                 <span className={cn('tabular-nums', typeof rating === 'number' && 'pl-1')}>
                   {typeof rating === 'number' ? '· ' : ''}
-                  {formatCompactCount(buyCount)} bought
+                  {formatCompactCount(buyCount)} sold
                 </span>
               )}
             </ProductCardMeta>
@@ -104,17 +110,15 @@ function ProductCardItem({
       </ProductCardContent>
 
       {onAddToCart && (
-        <ProductCardActions>
+        <ProductCardActions hoverReveal={hoverRevealActions}>
           <Button
             size={view === 'list' ? 'default' : 'sm'}
             variant="brand"
-            className={cn(
-              view === 'list' ? 'min-w-[10rem]' : 'shadow-[var(--elevation-floating)]',
-            )}
+            fullWidth={view === 'grid'}
             onClick={() => onAddToCart(id)}
             disabled={loading || !id}
           >
-            Add to Cart
+            Add to cart
           </Button>
           {view === 'list' && (
             <Button variant="outline" size="default">

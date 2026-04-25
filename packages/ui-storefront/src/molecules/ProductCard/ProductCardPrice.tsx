@@ -30,31 +30,34 @@ export function ProductCardPrice({
 
   return (
     <div
-      className={cn(view === 'list' ? 'mt-4 space-y-2' : 'mt-auto space-y-1.5', className)}
+      className={cn(
+        view === 'list' ? 'mt-[var(--space-3)]' : 'mt-auto',
+        'flex flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]',
+        className,
+      )}
       {...props}
     >
-      <div className="flex flex-wrap items-center gap-2.5">
-        <span
-          className={cn(
-            'font-bold tracking-tight text-foreground tabular-nums',
-            isDiscounted ? 'text-brand' : 'text-foreground',
-            view === 'list' ? 'text-[var(--font-size-heading-md)]' : 'text-xl',
-          )}
-        >
-          {formatCurrency(price, effectiveCurrency, locale)}
+      <span
+        className={cn(
+          'font-bold tracking-tight tabular-nums leading-none',
+          isDiscounted ? 'text-[var(--text-brand)]' : 'text-foreground',
+          view === 'list'
+            ? 'text-[length:var(--font-size-heading-md)]'
+            : 'text-[length:var(--font-size-heading-sm)]',
+        )}
+      >
+        {formatCurrency(price, effectiveCurrency, locale)}
+      </span>
+      {isDiscounted && originalPrice && (
+        <span className="text-[length:var(--text-sm)] font-medium text-[var(--text-tertiary)] line-through tabular-nums">
+          {formatCurrency(originalPrice, effectiveCurrency, locale)}
         </span>
-        {isDiscounted && originalPrice && (
-          <span className="text-[var(--text-sm)] font-medium text-muted-foreground line-through opacity-80">
-            {formatCurrency(originalPrice, effectiveCurrency, locale)}
-          </span>
-        )}
-        {discountPercent > 0 && (
-          <ProductBadge variant="discount">Save {discountPercent}%</ProductBadge>
-        )}
-      </div>
-      <p className="text-[length:var(--text-micro)] text-muted-foreground">
-        Taxes and shipping calculated at checkout
-      </p>
+      )}
+      {discountPercent > 0 && (
+        <ProductBadge variant="discount" className="ml-[var(--space-1)]">
+          -{discountPercent}%
+        </ProductBadge>
+      )}
     </div>
   )
 }

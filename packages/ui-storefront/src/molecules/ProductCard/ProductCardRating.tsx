@@ -1,7 +1,6 @@
 import { cn } from '@ecom/ui'
 
 import { Rating } from '../../atoms/Rating/Rating'
-import { useProductCard } from './ProductCard'
 
 interface ProductCardRatingProps extends React.HTMLAttributes<HTMLDivElement> {
   value: number
@@ -9,15 +8,13 @@ interface ProductCardRatingProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function ProductCardRating({ value, count, className, ...props }: ProductCardRatingProps) {
-  const { view } = useProductCard()
-
   return (
     <Rating
       value={value}
       size="sm"
       showCount
       count={count}
-      className={cn(view === 'list' ? 'mt-0' : 'mt-1.5', className)}
+      className={cn(className)}
       {...props}
     />
   )

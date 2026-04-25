@@ -44,17 +44,24 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
         onClick={handleParentClick}
         title={collapsed ? item.label : undefined}
         className={cn(
-          'flex items-center rounded-[var(--radius-md)] no-underline',
+          'relative flex items-center rounded-[var(--radius-md)] no-underline',
           collapsed
             ? 'mx-auto h-10 w-10 justify-center gap-0 p-0'
             : 'gap-[var(--space-3)] px-[var(--space-3)] py-[var(--space-2)]',
           'text-[length:var(--text-nav-label)]',
-          'transition-all duration-[var(--duration-fast)] cursor-pointer group',
+          'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--motion-ease-default)] cursor-pointer group',
+          'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
           active
-            ? 'bg-[linear-gradient(135deg,var(--action-primary)_0%,var(--action-primary-hover)_100%)] text-[var(--action-primary-foreground)] shadow-[var(--elevation-floating)]'
-            : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--surface-elevated)] hover:text-[var(--text-primary)]',
+            ? 'bg-[rgb(var(--brand-500-rgb)/0.1)] text-[var(--text-brand)] font-semibold'
+            : 'font-medium text-[var(--text-secondary)] hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
         )}
       >
+        {active && !collapsed && (
+          <span
+            className="absolute left-0 top-1/2 -translate-x-[var(--space-2)] -translate-y-1/2 h-[60%] min-h-[1.25rem] w-[var(--sidebar-accent-bar-width)] rounded-[var(--radius-full)] bg-[var(--action-primary)]"
+            aria-hidden="true"
+          />
+        )}
         {item.icon && (
           <span className="shrink-0 flex items-center justify-center w-[var(--space-4)] h-[var(--space-4)]">
             {item.icon}
@@ -69,10 +76,10 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
         {hasChildren && !collapsed && (
           <ChevronRight
             className={cn(
-              'w-[var(--space-4)] h-[var(--space-4)] transition-transform duration-200',
+              'w-[var(--space-4)] h-[var(--space-4)] transition-transform duration-[var(--duration-fast)]',
               isExpanded && 'rotate-90',
               active
-                ? 'text-[var(--action-primary-foreground)]/80'
+                ? 'text-[var(--text-brand)]/70'
                 : 'text-[var(--text-tertiary)] group-hover:text-[var(--text-secondary)]',
             )}
           />
@@ -100,9 +107,11 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
                       }
                     }}
                     className={cn(
-                      'block rounded-[var(--radius-sm)] px-[var(--space-3)] py-[var(--space-2)] text-[length:var(--text-nav-label)] transition-all',
+                      'block rounded-[var(--radius-sm)] px-[var(--space-3)] py-[var(--space-1-5)] text-[length:var(--text-nav-label)]',
+                      'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--motion-ease-default)]',
+                      'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
                       isChildActive
-                        ? 'text-[var(--text-primary)] font-semibold bg-[var(--surface-sunken)] shadow-[var(--elevation-xs)]'
+                        ? 'text-[var(--text-brand)] font-semibold bg-[rgb(var(--brand-500-rgb)/0.08)]'
                         : 'text-[var(--text-tertiary)] font-medium hover:text-[var(--text-primary)] hover:bg-[var(--state-hover)]',
                     )}
                   >
@@ -145,9 +154,12 @@ function AdminSidebar({
   return (
     <aside
       className={cn(
-        'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0',
-        collapsed ? 'lg:w-16' : 'lg:w-[var(--admin-sidebar-width)]',
-        'bg-[var(--surface-base)]/96 backdrop-blur-[16px] border-r border-[var(--border-subtle)] transition-all duration-[var(--duration-normal)] shadow-[var(--elevation-surface)]',
+        'hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:left-0 z-[var(--layer-overlay)]',
+        collapsed
+          ? 'lg:w-[var(--admin-sidebar-collapsed-width)]'
+          : 'lg:w-[var(--admin-sidebar-width)]',
+        'bg-[var(--surface-base)] border-r border-[var(--border-subtle)]',
+        'transition-[width] duration-[var(--duration-normal)] ease-[var(--motion-ease-default)]',
         className,
       )}
       {...props}
@@ -237,11 +249,15 @@ function AdminSidebar({
           <button
             type="button"
             onClick={onToggleCollapse}
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             className={cn(
-              'flex w-full items-center rounded-[var(--radius-md)] border border-transparent p-[var(--space-2)] text-[var(--text-secondary)] transition-all outline-none hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)] hover:text-[var(--text-primary)] focus-visible:ring-[var(--action-primary)]',
+              'flex w-full items-center rounded-[var(--radius-md)] p-[var(--space-2)] text-[var(--text-secondary)]',
+              'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--motion-ease-default)] outline-none',
+              'hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
+              'focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
               collapsed
                 ? 'mx-auto h-10 w-10 justify-center'
-                : 'justify-start gap-3 px-[var(--space-3)]',
+                : 'justify-start gap-[var(--space-3)] px-[var(--space-3)]',
             )}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >

@@ -5,7 +5,7 @@ import { BarChart3, Bell, LayoutDashboard, Mail, Package, ShoppingCart, Tag, Use
 
 import { AdminHeader } from '../../organisms/AdminHeader/AdminHeader'
 import type { NotificationItem } from '../../organisms/NotificationPanel/NotificationPanel'
-import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
+import { AdminSidebar } from '../../organisms/sidebar/AdminSidebar'
 import type { AdminLayoutProps } from './AdminLayout'
 import { AdminLayout } from './AdminLayout'
 

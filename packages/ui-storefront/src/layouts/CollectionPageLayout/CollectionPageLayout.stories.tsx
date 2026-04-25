@@ -2,6 +2,7 @@ import type { Meta } from '@storybook/react'
 
 import { ProductBadge } from '../../atoms/Badge/Badge'
 import { PromoBar } from '../../atoms/PromoBar/PromoBar'
+import { ActiveFilters } from '../../atoms/ActiveFilters/ActiveFilters'
 import { ProductGrid } from '../../organisms/ProductGrid/ProductGrid'
 import { CollectionPageLayout } from './CollectionPageLayout'
 import { STOREFRONT_FOOTER_WITH_SOCIALS_PROPS } from '../StorefrontFooter/StorefrontFooter.fixtures'
@@ -57,6 +58,33 @@ const products = [
   },
 ]
 
+const SORT_BAR = (
+  <>
+    <div className="flex flex-wrap items-center gap-[var(--space-3)]">
+      <ActiveFilters
+        filters={[
+          { key: 'size', label: 'Size', value: '8' },
+          { key: 'color', label: 'Color', value: 'Sand' },
+        ]}
+        onRemove={() => {}}
+        onClearAll={() => {}}
+      />
+    </div>
+    <label className="flex items-center gap-[var(--space-2)] text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+      Sort by
+      <select
+        className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-base)] px-[var(--space-3)] py-[var(--space-1-5)] text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] focus-visible:border-[var(--action-primary)] focus-visible:outline-none"
+        defaultValue="relevance"
+      >
+        <option value="relevance">Most relevant</option>
+        <option value="newest">Newest</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+      </select>
+    </label>
+  </>
+)
+
 export const Default = {
   args: {
     promoBar: <PromoBar message="Members save an extra 10% this week" variant="info" />,
@@ -74,7 +102,10 @@ export const Default = {
     },
     breadcrumb: 'Home / Women / Sneakers',
     title: "Women's sneakers",
-    description: 'A collection layout that combines the filter sidebar and product grid into a single packaged page.',
+    description:
+      'Lightweight runners and statement low-tops, hand-picked for everyday performance and weekend comfort.',
+    resultsLabel: '1,248 results',
+    discoveryToolbar: SORT_BAR,
     filters: [
       {
         id: 'size',
@@ -84,6 +115,9 @@ export const Default = {
           { label: '6', value: '6' },
           { label: '7', value: '7' },
           { label: '8', value: '8' },
+          { label: '9', value: '9' },
+          { label: '10', value: '10' },
+          { label: '11', value: '11' },
         ],
       },
       {
@@ -102,7 +136,26 @@ export const Default = {
         type: 'range',
         range: { min: 50, max: 300, step: 10, current: [80, 220] },
       },
+      {
+        id: 'brand',
+        title: 'Brand',
+        type: 'checkbox',
+        options: [
+          { label: 'Aero', value: 'aero', count: 124 },
+          { label: 'Cloud', value: 'cloud', count: 86 },
+          { label: 'Harbor', value: 'harbor', count: 42 },
+        ],
+      },
     ],
     grid: <ProductGrid products={products} />,
+  },
+}
+
+export const Empty = {
+  args: {
+    ...Default.args,
+    title: "Women's sneakers",
+    resultsLabel: '0 results',
+    grid: <ProductGrid products={[]} emptyMessage="Try removing a filter or two." />,
   },
 }

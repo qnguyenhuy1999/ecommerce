@@ -54,34 +54,42 @@ function StatCardRoot({
 }: StatCardProps) {
   if (loading) {
     return (
-      <Card className={cn(statCardVariants({ variant }), className)} {...props}>
-        <div className="flex flex-col h-full gap-4">
+      <Card
+        interactive
+        className={cn(statCardVariants({ variant }), 'p-[var(--space-5)]', className)}
+        {...props}
+      >
+        <div className="flex flex-col h-full gap-[var(--space-4)]">
           <div className="flex items-start justify-between">
-            <div className="space-y-2 flex-1 mr-4">
-              <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-8 w-32" />
+            <div className="space-y-[var(--space-2)] flex-1 mr-[var(--space-4)]">
+              <Skeleton className="h-[var(--space-4)] w-24" />
+              <Skeleton className="h-[var(--space-8)] w-32" />
             </div>
-            <Skeleton className="h-10 w-10 rounded-[var(--radius-sm)]" />
+            <Skeleton className="h-10 w-10 rounded-[var(--radius-md)]" />
           </div>
-          <Skeleton className="h-4 w-40" />
+          <Skeleton className="h-[var(--space-4)] w-40" />
         </div>
       </Card>
     )
   }
 
   return (
-    <Card className={cn(statCardVariants({ variant }), className)} {...props}>
+    <Card
+      interactive
+      className={cn(statCardVariants({ variant }), 'p-[var(--space-5)]', className)}
+      {...props}
+    >
       <div className="flex flex-col h-full">
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-[var(--space-3)]">
           <div className="flex-1 min-w-0">
-            <p className="text-[length:var(--text-sm)] font-[var(--font-weight-medium)] uppercase tracking-[0.08em] text-[var(--text-secondary)]">
+            <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.1em] text-[var(--text-secondary)]">
               {label}
             </p>
-            <p className="mt-1.5 text-2xl font-bold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)]">
+            <p className="mt-[var(--space-2)] text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] leading-[var(--line-height-tight)] text-[var(--text-primary)] animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)]">
               <NumberCounter value={value} />
             </p>
             {(description || trend) && (
-              <div className="mt-2 flex items-center gap-2 flex-wrap">
+              <div className="mt-[var(--space-3)] flex items-center gap-[var(--space-2)] flex-wrap">
                 {trend && <StatCardTrend value={trend.value} positive={trend.positive} />}
                 {description && (
                   <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
@@ -91,9 +99,9 @@ function StatCardRoot({
               </div>
             )}
           </div>
-          <div className="flex flex-col items-end gap-2">
+          <div className="flex flex-col items-end gap-[var(--space-2)]">
             {icon && (
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-border/50 bg-gradient-to-br from-[var(--surface-elevated)] to-[var(--surface-sunken)] text-foreground/75 shadow-[var(--elevation-xs)] [&>svg]:h-5 [&>svg]:w-5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[rgb(var(--brand-500-rgb)/0.08)] text-[var(--text-brand)] [&>svg]:h-5 [&>svg]:w-5">
                 {icon}
               </div>
             )}
@@ -115,7 +123,7 @@ function StatCardRoot({
         </div>
 
         {chart && (
-          <div className="mt-4 pt-4 border-t h-[var(--space-12)] flex items-end animate-in fade-in duration-[var(--motion-slow)]">
+          <div className="mt-[var(--space-4)] pt-[var(--space-4)] border-t border-[var(--border-subtle)] h-[var(--space-12)] flex items-end animate-in fade-in duration-[var(--motion-slow)]">
             {chart}
           </div>
         )}

@@ -108,6 +108,7 @@ export const WithResults: Story = {
     sortValue: 'relevance',
     sortOptions: SORT_OPTIONS,
     onSortChange: (v) => alert(`Sort: ${v}`),
+    onSearch: (q) => alert(`Search: ${q}`),
     filters: FILTERS,
     activeFilters: [
       { key: 'brand', label: 'Brand', value: 'Sony' },
@@ -116,6 +117,10 @@ export const WithResults: Story = {
     onFilterChange: () => {},
     onClearFilters: () => alert('Clear all'),
     onRemoveFilter: (k, v) => alert(`Remove: ${k}=${v}`),
+    relatedQueries: ['noise cancelling', 'over-ear', 'sport headphones'],
+    onRelatedQuerySelect: (q) => alert(`Related: ${q}`),
+    recentSearches: ['running shoes', 'sony xm5'],
+    onRecentQuerySelect: (q) => alert(`Recent: ${q}`),
     results: RESULTS('wireless headphones'),
   },
 }
@@ -127,7 +132,23 @@ export const NoResults: Story = {
     sortValue: 'relevance',
     sortOptions: SORT_OPTIONS,
     onSortChange: () => {},
+    onSearch: (q) => alert(`Search: ${q}`),
+    onBrowseAll: () => alert('Browse all'),
     filters: FILTERS,
+    relatedQueries: ['flux capacitor', 'quantum sensor', 'capacitor 4700uF'],
+    onRelatedQuerySelect: (q) => alert(`Related: ${q}`),
     results: null,
+  },
+}
+
+export const NoResultsWithFilters: Story = {
+  args: {
+    ...NoResults.args,
+    activeFilters: [
+      { key: 'brand', label: 'Brand', value: 'Sony' },
+      { key: 'category', label: 'Category', value: 'Headphones' },
+    ],
+    onClearFilters: () => alert('Clear filters'),
+    onRemoveFilter: (k, v) => alert(`Remove: ${k}=${v}`),
   },
 }

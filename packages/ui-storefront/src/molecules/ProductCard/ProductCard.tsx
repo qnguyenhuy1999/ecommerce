@@ -43,11 +43,12 @@ function ProductCard({
     <ProductCardContext.Provider value={{ id, title, href, view }}>
       <article
         className={cn(
-          'product-card group relative flex h-full overflow-hidden border border-border/70 bg-card text-card-foreground',
-          'rounded-[var(--radius-xl)] shadow-[var(--elevation-card)]',
-          'transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
-          'hover:-translate-y-0.5 hover:shadow-[var(--elevation-hover)] hover:border-border',
-          'focus-within:ring-2 focus-within:ring-brand/25 focus-within:ring-offset-2 focus-within:ring-offset-background',
+          'product-card group relative isolate flex h-full overflow-hidden',
+          'border border-[var(--card-border)] bg-card text-card-foreground',
+          'rounded-[var(--card-radius)]',
+          'transition-[transform,box-shadow,border-color] duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
+          'hover:-translate-y-0.5 hover:shadow-[var(--elevation-floating)] hover:border-[var(--border-default)]',
+          'focus-within:outline-none focus-within:ring-[var(--focus-ring-width)] focus-within:ring-[var(--focus-ring-color)] focus-within:ring-offset-[var(--focus-ring-offset)] focus-within:ring-offset-background',
           view === 'list' ? 'flex-row items-stretch' : 'flex-col',
           loading && 'pointer-events-none',
           className,
@@ -56,8 +57,8 @@ function ProductCard({
         {...props}
       >
         {loading && (
-          <div className="absolute inset-0 z-10 overflow-hidden rounded-[var(--radius-xl)] bg-card/76 backdrop-blur-[2px]">
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-muted/70 to-transparent" />
+          <div className="absolute inset-0 z-30 overflow-hidden rounded-[inherit] bg-card/80">
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-[var(--surface-muted)] to-transparent" />
           </div>
         )}
         {children}

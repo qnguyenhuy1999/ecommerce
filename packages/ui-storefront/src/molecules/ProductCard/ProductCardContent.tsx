@@ -8,14 +8,16 @@ export function ProductCardContent({ className, children, ...props }: ProductCar
   const { href, view } = useProductCard()
 
   const classes = cn(
-    'flex flex-1 flex-col justify-between gap-2 p-[var(--padding-card-content)]',
-    view === 'list' ? 'min-h-[14rem] py-5 sm:px-5 sm:py-5' : 'min-h-[11rem] pb-14',
+    'flex flex-1 flex-col justify-between gap-[var(--space-3)]',
+    view === 'list'
+      ? 'p-[var(--space-5)] sm:p-[var(--space-6)]'
+      : 'p-[var(--space-4)] sm:p-[var(--space-5)]',
     className,
   )
 
   if (href) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={cn(classes, 'no-underline focus-visible:outline-none')}>
         {children}
       </a>
     )

@@ -12,7 +12,13 @@ export interface AccountSidebarItem {
   badge?: string
 }
 
-const DEFAULT_ITEMS: AccountSidebarItem[] = [
+/**
+ * Canonical "My account" navigation set. Reuse this from any account-context
+ * layout so every page presents the same Profile / Orders / Addresses /
+ * Wishlist / Settings rail. Logout is rendered separately by AccountSidebar
+ * via the `onLogout` prop so it stays visually isolated from primary nav.
+ */
+export const DEFAULT_ACCOUNT_NAV_ITEMS: AccountSidebarItem[] = [
   { id: 'profile', label: 'Profile', icon: <User className="w-4 h-4" /> },
   { id: 'orders', label: 'Orders', icon: <Package className="w-4 h-4" /> },
   { id: 'addresses', label: 'Addresses', icon: <MapPin className="w-4 h-4" /> },
@@ -38,7 +44,7 @@ export interface AccountSidebarProps {
 function AccountSidebar({
   user,
   activeItem,
-  items = DEFAULT_ITEMS,
+  items = DEFAULT_ACCOUNT_NAV_ITEMS,
   onItemClick,
   onLogout,
   className,

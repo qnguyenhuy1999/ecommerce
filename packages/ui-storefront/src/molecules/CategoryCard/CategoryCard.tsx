@@ -9,55 +9,87 @@ export interface CategoryCardProps extends React.HTMLAttributes<HTMLAnchorElemen
   image: string
   href: string
   itemCount?: number
+  /** Visual presentation. `feature` is taller (4/5 ratio); `default` is wide (16/10). */
+  variant?: 'default' | 'feature'
+  /** Optional override for the image's alt text; defaults to `title`. */
+  imageAlt?: string
 }
 
-function CategoryCard({ title, image, href, itemCount, className, ...props }: CategoryCardProps) {
+function CategoryCard({
+  title,
+  image,
+  href,
+  itemCount,
+  variant = 'default',
+  imageAlt,
+  className,
+  ...props
+}: CategoryCardProps) {
   const [imgError, setImgError] = useState(false)
 
   return (
-    <a href={href} className={cn('category-card group bg-muted', className)} {...props}>
-      {/* Image with zoom on hover */}
+    <a
+      href={href}
+      className={cn(
+        'group relative isolate block overflow-hidden bg-[var(--surface-muted)]',
+        'rounded-[var(--radius-xl)]',
+        'transition-[transform,box-shadow] duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
+        'hover:-translate-y-0.5 hover:shadow-[var(--elevation-floating)]',
+        'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-base)]',
+        variant === 'feature' ? 'aspect-[4/5]' : 'aspect-[16/10]',
+        className,
+      )}
+      {...props}
+    >
       {imgError ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-muted">
-          <ImageOff className="w-10 h-10 text-muted-foreground/30" />
+        <div className="flex h-full w-full items-center justify-center bg-[var(--surface-muted)]">
+          <ImageOff className="h-10 w-10 text-[var(--text-tertiary)]/50" />
         </div>
       ) : (
-        <img src={image} alt={title} loading="lazy" onError={() => setImgError(true)} />
+        <img
+          src={image}
+          alt={imageAlt ?? title}
+          loading="lazy"
+          onError={() => setImgError(true)}
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover',
+            'transition-transform duration-[var(--motion-slow)] ease-[var(--motion-ease-out)]',
+            'group-hover:scale-[1.05]',
+          )}
+        />
       )}
 
-      {/* Overlay — dark gradient for text legibility */}
       <div className="category-card__overlay">
-        <div className="flex flex-1 flex-col gap-1">
+        <div className="flex flex-1 flex-col gap-[var(--space-1)]">
           <h3
             className={cn(
-              'font-bold tracking-tight text-[var(--brand-500)]',
-              'text-[length:var(--text-xl)]',
-              '[text-shadow:0_1px_6px_rgb(0_0_0/0.6)]',
-              'group-hover:scale-[1.03]',
-              'transition-transform duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
-              'origin-bottom-left',
+              'font-bold tracking-[-0.01em] text-white',
+              variant === 'feature'
+                ? 'text-[length:var(--font-size-heading-md)]'
+                : 'text-[length:var(--font-size-heading-sm)]',
+              '[text-shadow:0_1px_3px_rgb(0_0_0/0.4)]',
             )}
           >
             {title}
           </h3>
           {itemCount !== undefined && (
-            <p className="text-[var(--text-sm)] font-medium text-white/75 [text-shadow:0_1px_4px_rgb(0_0_0/0.5)]">
-              {itemCount.toLocaleString()} Items
+            <p className="text-[length:var(--text-sm)] font-medium text-white/80">
+              {itemCount.toLocaleString()} item{itemCount === 1 ? '' : 's'}
             </p>
           )}
         </div>
 
-        {/* Arrow indicator — appears on hover */}
         <div
           className={cn(
             'flex h-9 w-9 shrink-0 items-center justify-center rounded-full',
-            'bg-white/15 backdrop-blur-sm border border-white/25',
-            'opacity-0 translate-x-2',
-            'group-hover:opacity-100 group-hover:translate-x-0',
-            'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-out)]',
+            'bg-white/15 border border-white/25 text-white',
+            'translate-x-1 opacity-0',
+            'transition-[opacity,transform] duration-[var(--motion-fast)] ease-[var(--motion-ease-out)]',
+            'group-hover:translate-x-0 group-hover:opacity-100',
           )}
+          aria-hidden="true"
         >
-          <ArrowRight className="w-4 h-4 text-white" />
+          <ArrowRight className="h-4 w-4" />
         </div>
       </div>
     </a>

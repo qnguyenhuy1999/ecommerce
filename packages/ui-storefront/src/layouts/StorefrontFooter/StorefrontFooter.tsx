@@ -15,6 +15,15 @@ export interface StorefrontFooterProps extends React.HTMLAttributes<HTMLElement>
   copyright?: string
 }
 
+const socialIcons = {
+  instagram: <Instagram className="h-4 w-4" aria-hidden="true" />,
+  twitter: <Twitter className="h-4 w-4" aria-hidden="true" />,
+  facebook: <Facebook className="h-4 w-4" aria-hidden="true" />,
+  youtube: <Youtube className="h-4 w-4" aria-hidden="true" />,
+}
+
+const paymentMethods = ['VISA', 'Mastercard', 'AMEX', 'PayPal']
+
 function StorefrontFooter({
   logo,
   description,
@@ -25,45 +34,52 @@ function StorefrontFooter({
   className,
   ...props
 }: StorefrontFooterProps) {
-  const socialIcons = {
-    instagram: <Instagram className="w-4 h-4" />,
-    twitter: <Twitter className="w-4 h-4" />,
-    facebook: <Facebook className="w-4 h-4" />,
-    youtube: <Youtube className="w-4 h-4" />,
-  }
-
   return (
-    <footer className={cn('bg-surface-muted pt-16 pb-8', className)} {...props}>
+    <div
+      className={cn(
+        'w-full bg-[var(--surface-subtle)] text-[var(--text-secondary)]',
+        className,
+      )}
+      {...props}
+    >
       {newsletter && (
-        <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8 mb-16 pb-16">
-          {newsletter}
+        <div className="border-b border-[var(--border-subtle)]">
+          <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)] py-[var(--space-12)] lg:py-[var(--space-16)]">
+            {newsletter}
+          </div>
         </div>
       )}
 
-      <div className="max-w-[var(--storefront-content-max-width)] mx-auto px-4 md:px-8 border-t border-border/50 pt-16">
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-12">
-          {/* Brand Column */}
-          <div className="col-span-2 lg:col-span-2">
-            {logo && <div className="mb-5">{logo}</div>}
+      <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)] py-[var(--space-12)] lg:py-[var(--space-16)]">
+        <div className="grid grid-cols-2 gap-x-[var(--space-8)] gap-y-[var(--space-10)] lg:grid-cols-12">
+          {/* Brand column */}
+          <div className="col-span-2 lg:col-span-4">
+            {logo && (
+              <div className="mb-[var(--space-5)] inline-flex items-center text-[var(--text-primary)]">
+                {logo}
+              </div>
+            )}
             {description && (
-              <p className="text-muted-foreground text-sm max-w-sm mb-6 leading-relaxed">
+              <p className="max-w-sm text-[length:var(--text-sm)] leading-[var(--line-height-relaxed)]">
                 {description}
               </p>
             )}
             {socials.length > 0 && (
-              <div className="flex items-center gap-2.5">
-                {socials.map((social, i) => (
+              <div className="mt-[var(--space-6)] flex flex-wrap items-center gap-[var(--space-2)]">
+                {socials.map((social) => (
                   <a
-                    key={i}
+                    key={social.platform}
                     href={social.href}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={social.platform}
                     className={cn(
-                      'w-9 h-9 rounded-full border border-border bg-background',
-                      'flex items-center justify-center text-muted-foreground',
-                      'hover:text-foreground hover:border-foreground hover:shadow-sm',
-                      'transition-all duration-[var(--motion-fast)]',
+                      'inline-flex h-9 w-9 items-center justify-center rounded-full',
+                      'border border-[var(--border-subtle)] bg-[var(--surface-base)]',
+                      'text-[var(--text-secondary)]',
+                      'transition-[background-color,border-color,color] duration-[var(--motion-fast)]',
+                      'hover:border-[var(--border-default)] hover:text-[var(--text-primary)]',
+                      'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
                     )}
                   >
                     {socialIcons[social.platform]}
@@ -73,18 +89,22 @@ function StorefrontFooter({
             )}
           </div>
 
-          {/* Link Columns */}
-          {columns.map((col, i) => (
-            <div key={i}>
-              <h3 className="font-semibold text-sm mb-4 text-foreground tracking-wide">
+          {/* Link columns */}
+          {columns.map((col) => (
+            <div key={col.title} className="lg:col-span-2">
+              <h3 className="mb-[var(--space-4)] text-[length:var(--text-sm)] font-semibold uppercase tracking-[0.08em] text-[var(--text-primary)]">
                 {col.title}
               </h3>
-              <ul className="space-y-3">
-                {col.links.map((link, j) => (
-                  <li key={j}>
+              <ul className="space-y-[var(--space-3)]">
+                {col.links.map((link) => (
+                  <li key={link.href + link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-[var(--motion-fast)]"
+                      className={cn(
+                        'inline-flex text-[length:var(--text-sm)] text-[var(--text-secondary)]',
+                        'transition-colors duration-[var(--motion-fast)]',
+                        'hover:text-[var(--text-primary)]',
+                      )}
                     >
                       {link.label}
                     </a>
@@ -96,23 +116,28 @@ function StorefrontFooter({
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between pt-8 border-t border-border/50 gap-4 text-xs text-muted-foreground">
-          <p>{copyright}</p>
-
-          {/* Payment method badges */}
-          <div className="flex items-center gap-2">
-            {['VISA', 'MC', 'AMEX', 'PAYPAL'].map((method) => (
-              <div
+        <div className="mt-[var(--space-12)] flex flex-col gap-[var(--space-4)] border-t border-[var(--border-subtle)] pt-[var(--space-6)] sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">{copyright}</p>
+          <div
+            className="flex items-center gap-[var(--space-2)]"
+            aria-label="Accepted payment methods"
+          >
+            {paymentMethods.map((method) => (
+              <span
                 key={method}
-                className="h-6 px-2 bg-background border border-border rounded flex items-center justify-center text-[length:var(--text-micro)] font-bold text-muted-foreground tracking-wide"
+                className={cn(
+                  'inline-flex h-7 items-center justify-center px-[var(--space-2)]',
+                  'rounded-[var(--radius-sm)] border border-[var(--border-subtle)] bg-[var(--surface-base)]',
+                  'text-[length:var(--text-micro)] font-bold uppercase tracking-[0.06em] text-[var(--text-tertiary)]',
+                )}
               >
                 {method}
-              </div>
+              </span>
             ))}
           </div>
         </div>
       </div>
-    </footer>
+    </div>
   )
 }
 

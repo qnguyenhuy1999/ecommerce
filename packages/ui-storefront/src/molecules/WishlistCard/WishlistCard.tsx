@@ -1,15 +1,16 @@
-import { Heart, ShoppingCart, ExternalLink } from 'lucide-react'
+import { Bell, Heart, ShoppingCart, X } from 'lucide-react'
 
 import { Button, cn } from '@ecom/ui'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { Rating } from '../../atoms/Rating/Rating'
-import { StockBadge } from '../../atoms/StockBadge/StockBadge'
 
 export interface WishlistProduct {
   id: string
   name: string
   image: string
+  /** Optional secondary/lifestyle image revealed on hover for a curated, magazine feel. */
+  secondaryImage?: string
   price: number
   originalPrice?: number
   inStock: boolean
@@ -19,80 +20,240 @@ export interface WishlistProduct {
   brand?: string
 }
 
+/**
+ * Token-aligned color-blocked accents for the image surface. Each maps to a
+ * variable already in the design system — no arbitrary colors. `subtle` is the
+ * neutral default used when no accent is provided.
+ */
+export type WishlistCardAccent =
+  | 'subtle'
+  | 'muted'
+  | 'sand'
+  | 'mist'
+  | 'rose'
+  | 'sage'
+
+const ACCENT_BG: Record<WishlistCardAccent, string> = {
+  subtle: 'bg-[var(--surface-subtle)]',
+  muted: 'bg-[var(--surface-muted)]',
+  sand: 'bg-[var(--intent-warning-muted)]',
+  mist: 'bg-[var(--intent-info-muted)]',
+  rose: 'bg-[var(--intent-danger-muted)]',
+  sage: 'bg-[var(--intent-success-muted)]',
+}
+
 export interface WishlistCardProps {
   product: WishlistProduct
+  /** Token-aligned image background tint. Defaults to `subtle`. */
+  accent?: WishlistCardAccent
   onAddToCart?: (id: string) => void
+  /** Triggered when the user removes the item from their wishlist (heart toggle or X). */
   onRemove?: (id: string) => void
+  /** Triggered for out-of-stock items when the user opts in to a back-in-stock alert. */
+  onNotify?: (id: string) => void
   onViewProduct?: (id: string) => void
+  /** Hide the quick-add reveal entirely (e.g. for read-only wishlist views). */
+  disableQuickAdd?: boolean
   className?: string
 }
 
 function WishlistCard({
   product,
+  accent = 'subtle',
   onAddToCart,
   onRemove,
+  onNotify,
   onViewProduct,
+  disableQuickAdd = false,
   className,
 }: WishlistCardProps) {
+  const inStock = product.inStock
+  const showQuickAdd = !disableQuickAdd && (inStock ? Boolean(onAddToCart) : Boolean(onNotify))
+
+  const handlePrimaryAction = () => {
+    if (inStock) onAddToCart?.(product.id)
+    else onNotify?.(product.id)
+  }
+
   return (
     <div
       className={cn(
         'group relative flex flex-col',
-        'rounded-[var(--radius-xl)] border border-[var(--border-subtle)]',
-        'bg-[var(--surface-base)] shadow-[var(--elevation-surface)]',
-        'hover:shadow-[var(--elevation-card)] transition-all duration-[var(--motion-normal)]',
+        'rounded-[var(--radius-2xl)]',
+        'bg-[var(--surface-base)]',
+        'border border-[var(--border-subtle)]',
         'overflow-hidden',
+        'transition-shadow duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
+        'hover:shadow-[var(--elevation-card)]',
         className,
       )}
     >
-      {/* Remove button */}
-      {onRemove && (
-        <button
-          type="button"
-          onClick={() => onRemove(product.id)}
-          aria-label={`Remove ${product.name} from wishlist`}
-          className={cn(
-            'absolute top-3 right-3 z-10',
-            'w-8 h-8 rounded-full flex items-center justify-center',
-            'bg-[var(--surface-base)]/90 backdrop-blur-sm',
-            'border border-[var(--border-subtle)]',
-            'text-[var(--text-tertiary)] hover:text-[var(--intent-destructive)]',
-            'hover:border-[var(--intent-destructive)]/40 hover:bg-[var(--intent-destructive)]/10',
-            'transition-all duration-[var(--motion-fast)]',
-            'shadow-sm',
-          )}
-        >
-          <Heart className="w-4 h-4 fill-[var(--intent-destructive)] text-[var(--intent-destructive)]" />
-        </button>
-      )}
-
-      {/* Image */}
-      <div className="relative aspect-square overflow-hidden bg-[var(--surface-muted)]">
+      {/* Image surface — color-blocked tint, image swap, OOS desaturation.
+          A transparent overlay <button> handles the View click; action buttons
+          (heart, quick-add) sit on a higher stacking layer so they don't nest. */}
+      <div
+        className={cn(
+          'relative aspect-square w-full overflow-hidden',
+          ACCENT_BG[accent],
+        )}
+      >
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-[var(--motion-slow)] group-hover:scale-105"
           loading="lazy"
+          className={cn(
+            'absolute inset-0 h-full w-full object-cover',
+            'transition-[transform,opacity,filter] duration-[var(--motion-slow)] ease-[var(--motion-ease-default)]',
+            !inStock && 'grayscale-[55%] opacity-80',
+            product.secondaryImage
+              ? 'group-hover:opacity-0'
+              : 'group-hover:scale-[1.04]',
+          )}
         />
-        {!product.inStock && (
-          <div className="absolute inset-0 bg-[var(--surface-base)]/60 flex items-center justify-center">
-            <span className="text-[var(--text-sm)] font-semibold text-[var(--text-secondary)] bg-[var(--surface-base)] px-3 py-1.5 rounded-full border border-[var(--border-subtle)]">
-              Out of stock
-            </span>
+        {product.secondaryImage && (
+          <img
+            src={product.secondaryImage}
+            alt=""
+            aria-hidden="true"
+            loading="lazy"
+            className={cn(
+              'absolute inset-0 h-full w-full object-cover',
+              'opacity-0 transition-opacity duration-[var(--motion-slow)] ease-[var(--motion-ease-default)]',
+              'group-hover:opacity-100',
+              !inStock && 'grayscale-[55%]',
+            )}
+          />
+        )}
+
+        {!inStock && (
+          <span
+            className={cn(
+              'absolute left-[var(--space-3)] top-[var(--space-3)]',
+              'inline-flex items-center rounded-full',
+              'bg-[var(--surface-base)] px-[var(--space-2-5)] py-[var(--space-1)]',
+              'text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em]',
+              'text-[var(--text-secondary)] shadow-[var(--elevation-xs)]',
+            )}
+          >
+            Out of stock
+          </span>
+        )}
+
+        {/* Transparent click overlay — sits below action buttons but above
+            images so the entire image surface remains a single hit target. */}
+        {onViewProduct && (
+          <button
+            type="button"
+            onClick={() => onViewProduct(product.id)}
+            aria-label={`View ${product.name}`}
+            className={cn(
+              'absolute inset-0 z-[1]',
+              'cursor-pointer',
+              'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-inset',
+            )}
+          />
+        )}
+
+        {/* Quick-add reveal — slides up on hover (md+); always visible on touch */}
+        {showQuickAdd && (
+          <div
+            className={cn(
+              'absolute inset-x-[var(--space-3)] bottom-[var(--space-3)] z-[2]',
+              'flex items-center justify-center',
+              'opacity-100 translate-y-0',
+              'md:opacity-0 md:translate-y-2',
+              'md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-focus-within:opacity-100 md:group-focus-within:translate-y-0',
+              'transition-[opacity,transform] duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
+            )}
+          >
+            <Button
+              size="sm"
+              onClick={handlePrimaryAction}
+              className={cn(
+                'h-9 w-full gap-[var(--space-1-5)]',
+                'rounded-[var(--radius-full)]',
+                'shadow-[var(--elevation-card)]',
+              )}
+            >
+              {inStock ? (
+                <>
+                  <ShoppingCart className="h-4 w-4" aria-hidden="true" />
+                  Quick add
+                </>
+              ) : (
+                <>
+                  <Bell className="h-4 w-4" aria-hidden="true" />
+                  Notify me
+                </>
+              )}
+            </Button>
           </div>
         )}
       </div>
 
-      {/* Content */}
-      <div className="p-4 flex flex-col gap-3 flex-1">
+      {/* Heart toggle / remove — top-right. Default: filled saved state.
+          Hover: morphs into X with "Remove" affordance via title attribute. */}
+      {onRemove && (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation()
+            onRemove(product.id)
+          }}
+          aria-label={`Remove ${product.name} from wishlist`}
+          title="Remove from wishlist"
+          className={cn(
+            'absolute right-[var(--space-3)] top-[var(--space-3)] z-[3]',
+            'inline-flex h-8 w-8 items-center justify-center rounded-full',
+            'bg-[var(--surface-base)] shadow-[var(--elevation-xs)]',
+            'border border-[var(--border-subtle)]',
+            'text-[var(--intent-danger)]',
+            'transition-[color,background,border-color,transform] duration-[var(--motion-fast)]',
+            'hover:bg-[var(--intent-danger-muted)] hover:border-[var(--intent-danger)]',
+            'active:scale-95',
+            'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
+          )}
+        >
+          {/* Heart visible by default, X on hover/focus — both stacked, opacity-swapped */}
+          <Heart
+            className={cn(
+              'absolute h-4 w-4 fill-[var(--intent-danger)]',
+              'transition-opacity duration-[var(--motion-fast)]',
+              'group-hover:opacity-0',
+            )}
+            aria-hidden="true"
+          />
+          <X
+            className={cn(
+              'absolute h-4 w-4',
+              'opacity-0 transition-opacity duration-[var(--motion-fast)]',
+              'group-hover:opacity-100',
+            )}
+            aria-hidden="true"
+          />
+        </button>
+      )}
+
+      {/* Body */}
+      <div className="flex flex-1 flex-col gap-[var(--space-2)] p-[var(--space-4)]">
         {product.brand && (
-          <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.12em] text-[var(--action-primary)]/80">
+          <p className="text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
             {product.brand}
           </p>
         )}
 
-        <button type="button" onClick={() => onViewProduct?.(product.id)} className="text-left">
-          <h3 className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] line-clamp-2 leading-snug hover:text-[var(--action-primary)] transition-colors">
+        <button
+          type="button"
+          onClick={() => onViewProduct?.(product.id)}
+          className="text-left focus-visible:outline-none focus-visible:underline"
+        >
+          <h3
+            className={cn(
+              'line-clamp-2 text-[length:var(--text-sm)] font-semibold leading-snug',
+              'text-[var(--text-primary)] hover:text-[var(--action-primary)]',
+              'transition-colors duration-[var(--motion-fast)]',
+            )}
+          >
             {product.name}
           </h3>
         </button>
@@ -101,38 +262,29 @@ function WishlistCard({
           <Rating value={product.rating} count={product.reviewCount} showCount size="sm" />
         )}
 
-        <div className="flex items-center justify-between gap-2 mt-auto">
+        <div className="mt-auto flex items-center justify-between gap-[var(--space-2)] pt-[var(--space-1)]">
           <PriceDisplay
             price={product.price}
             originalPrice={product.originalPrice}
             size="default"
           />
-          <StockBadge
-            status={product.inStock ? 'in-stock' : 'out-of-stock'}
-            count={product.stockCount}
-          />
-        </div>
-
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            disabled={!product.inStock}
-            onClick={() => onAddToCart?.(product.id)}
-            className="flex-1 h-9 gap-1.5 bg-[var(--action-primary)] hover:bg-[var(--action-primary-hover)] text-[var(--action-primary-foreground)] rounded-[var(--radius-md)] font-semibold transition-all disabled:opacity-50"
-          >
-            <ShoppingCart className="w-3.5 h-3.5" />
-            {product.inStock ? 'Add to Cart' : 'Notify Me'}
-          </Button>
-          {onViewProduct && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onViewProduct(product.id)}
-              className="h-9 w-9 p-0 rounded-[var(--radius-md)] shrink-0"
-              aria-label="View product"
+          {!inStock && onNotify && (
+            <button
+              type="button"
+              onClick={() => onNotify(product.id)}
+              className={cn(
+                'inline-flex items-center gap-[var(--space-1)] rounded-full',
+                'border border-[var(--border-subtle)] bg-[var(--surface-base)]',
+                'px-[var(--space-2-5)] py-[var(--space-1)]',
+                'text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em]',
+                'text-[var(--text-secondary)]',
+                'transition-colors duration-[var(--motion-fast)]',
+                'hover:border-[var(--border-default)] hover:text-[var(--text-primary)]',
+              )}
             >
-              <ExternalLink className="w-3.5 h-3.5" />
-            </Button>
+              <Bell className="h-3 w-3" aria-hidden="true" />
+              Notify me
+            </button>
           )}
         </div>
       </div>

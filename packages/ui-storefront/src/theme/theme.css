@@ -7,21 +7,27 @@
     /* RGB channel helper — slate-900 equivalent for elevation shadows */
     --gray-900-rgb: 15 23 42;
 
-    --storefront-header-height: 5rem;
+    --storefront-header-height: 4.5rem;
+    /*
+     * Total measured sticky-header height (header row + optional category nav + any
+     * promo bar). StorefrontShell writes this dynamically via ResizeObserver so
+     * sticky offsets stay accurate when the header grows; this is the fallback
+     * before/without JS, and matches the bare header height.
+     */
+    --storefront-header-total: 4.5rem;
     --storefront-footer-min-height: 20rem;
     --storefront-content-max-width: 80rem;
     --storefront-grid-gap: var(--space-6);
 
-    /* Missing component token */
-    --padding-card-content: var(--space-4);
+    /* Text shadow used on hero banner photo overlays */
+    --text-shadow-md: 0 1px 2px rgb(0 0 0 / 0.35);
 
-    /* Additional elevation and shadow tokens for storefront-specific visuals */
-    --elevation-overlay: 0 10px 30px rgb(var(--gray-900-rgb) / 0.06);
-    --elevation-filter-md: 0 10px 30px -24px rgb(var(--gray-900-rgb) / 0.65);
-    --elevation-strong: 0 22px 48px -30px rgb(var(--gray-900-rgb) / 0.55);
-    --elevation-stripe: 0 1px 0 rgb(0 0 0 / 0.03);
-    --text-shadow-md: 0 2px 20px rgb(0 0 0 / 0.4);
-    /* Repeating stripe gradients for passive/disabled states */
+    /* Subtle elevation tokens used by FilterSidebar / AddToCartButton */
+    --elevation-filter-md: var(--elevation-card);
+    --elevation-strong: var(--elevation-modal);
+    --elevation-sticky: var(--elevation-floating);
+
+    /* Subtle stripe pattern for passive/disabled buttons */
     --stripe-gradient: repeating-linear-gradient(
       45deg,
       transparent,
@@ -36,201 +42,31 @@
       rgb(255 255 255 / 0.03) 8px,
       rgb(255 255 255 / 0.03) 16px
     );
-    --elevation-sticky: 0 14px 24px -22px rgb(var(--gray-900-rgb) / 0.9);
-  }
-
-  /* Dark-mode overrides for storefront-specific elevation tokens.
-     In dark mode, heavy dark shadows become invisible; use reduced opacity
-     or white-tinted shadows to maintain perceived depth. */
-  .dark {
-    --elevation-overlay: 0 10px 30px rgb(0 0 0 / 0.25);
-    --elevation-filter-md: 0 10px 30px -24px rgb(0 0 0 / 0.8);
-    --elevation-strong: 0 22px 48px -30px rgb(0 0 0 / 0.7);
-    --elevation-stripe: 0 1px 0 rgb(255 255 255 / 0.05);
-    --elevation-sticky: 0 14px 24px -22px rgb(0 0 0 / 0.95);
-    --text-shadow-md: 0 2px 20px rgb(0 0 0 / 0.6);
   }
 }
 
 @layer components {
-  /* Product card — photography-first with generous radius */
-  .product-card {
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: var(--elevation-surface);
-    transition:
-      box-shadow var(--duration-normal) var(--ease-in-out),
-      transform var(--duration-normal) var(--ease-in-out);
-  }
-
-  .product-card:hover {
-    box-shadow: var(--elevation-floating);
-    transform: var(--motion-lift);
-  }
-
-  .product-card__image {
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .product-card__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform var(--duration-slow) var(--ease-in-out);
-  }
-
-  .product-card:hover .product-card__image {
-    opacity: 0.95;
-  }
-
-  .product-card__hover-actions {
+  /* Hero banner cinematic overlay — kept in CSS because it composes a 3-stop gradient */
+  .hero-banner__overlay {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--space-3);
-    background: linear-gradient(to top, rgb(var(--gray-950-rgb) / 0.4), transparent);
-    opacity: 0;
-    transition: opacity var(--duration-fast) var(--ease-in-out);
-    display: flex;
-    justify-content: center;
-    gap: var(--space-2);
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgb(var(--gray-950-rgb) / 0.55) 0%,
+      rgb(var(--gray-950-rgb) / 0.3) 50%,
+      rgb(var(--gray-950-rgb) / 0.6) 100%
+    );
   }
 
-  .product-card:hover .product-card__hover-actions {
-    opacity: 1;
-  }
-
-  /* CTA button — brand red, not accent */
-  .btn-brand {
-    background-color: var(--action-primary);
-    color: var(--action-primary-foreground);
-    border-radius: var(--radius-sm);
-    padding: 0 var(--space-6);
-    height: var(--space-12);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--text-base);
-    transition:
-      background-color var(--duration-fast) var(--ease-in-out),
-      transform var(--duration-fast) var(--ease-in-out),
-      box-shadow var(--duration-fast) var(--ease-in-out);
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-  }
-
-  .btn-brand:hover {
-    background-color: var(--action-primary-hover);
-    box-shadow: var(--elevation-floating);
-  }
-
-  .btn-brand:focus-visible {
-    outline: var(--focus-ring-width) solid var(--focus-ring-color);
-    outline-offset: var(--focus-ring-offset);
-  }
-
-  .btn-brand:active {
-    background-color: var(--action-primary-active);
-    transform: scale(var(--scale-press));
-  }
-
-  /* Wishlist heart overlay */
-  .wishlist-overlay {
-    position: absolute;
-    top: var(--space-3);
-    right: var(--space-3);
-    z-index: var(--layer-sticky);
-  }
-
-  /* Search bar — prominent with circular CTA */
-  .search-bar {
-    border-radius: var(--radius-xl);
-    box-shadow: var(--elevation-surface);
-    transition:
-      box-shadow var(--duration-normal) var(--ease-in-out),
-      transform var(--duration-normal) var(--ease-in-out);
-    display: flex;
-    align-items: center;
-    background-color: var(--color-background);
-    border: var(--border-width-1) solid var(--border-default);
-  }
-
-  .search-bar:focus-within {
-    box-shadow: var(--elevation-dropdown);
-    border-color: var(--action-primary);
-  }
-
-  .search-bar__cta {
-    width: var(--space-10);
-    height: var(--space-10);
-    border-radius: var(--radius-full);
-    background-color: var(--action-primary);
-    color: var(--action-primary-foreground);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    flex-shrink: 0;
-    transition:
-      background-color var(--duration-fast) var(--ease-in-out),
-      transform var(--duration-fast) var(--ease-in-out);
-  }
-
-  .search-bar__cta:hover {
-    background-color: var(--action-primary-hover);
-    transform: scale(var(--scale-hover));
-  }
-
-  .search-bar__cta:active {
-    transform: scale(var(--scale-press));
-    background-color: var(--action-primary-active);
-  }
-
-  /* Category card --------------------------------------------------------- */
-  .category-card {
-    border-radius: var(--radius-2xl);
-    overflow: hidden;
-    position: relative;
-    aspect-ratio: 16 / 10;
-    transition:
-      transform var(--duration-normal) var(--ease-in-out),
-      box-shadow var(--duration-normal) var(--ease-in-out);
-  }
-
-  .category-card:hover {
-    transform: var(--motion-lift);
-    box-shadow: var(--elevation-floating);
-  }
-
-  .category-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition:
-      opacity var(--duration-normal) var(--ease-in-out),
-      transform var(--duration-slow) var(--ease-in-out);
-  }
-
-  .category-card:hover img {
-    opacity: 0.95;
-    transform: scale(1.05);
-  }
-
+  /* Category card overlay — keeps text readable over photography */
   .category-card__overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to top,
-      rgb(var(--gray-950-rgb) / 0.9) 0%,
-      rgb(var(--gray-950-rgb) / 0.55) 35%,
-      rgb(var(--gray-950-rgb) / 0.15) 65%,
-      transparent 100%
+      rgb(var(--gray-950-rgb) / 0.85) 0%,
+      rgb(var(--gray-950-rgb) / 0.45) 40%,
+      transparent 75%
     );
     display: flex;
     align-items: flex-end;
@@ -238,102 +74,8 @@
     padding: var(--space-5) var(--space-6);
   }
 
-  /* Hero banner ----------------------------------------------------------- */
-  .hero-banner {
-    position: relative;
-    overflow: hidden;
-    border-radius: var(--radius-lg);
-  }
-
-  .hero-banner__overlay {
-    position: absolute;
-    inset: 0;
-    /* Richer cinematic gradient for premium feel */
-    background: linear-gradient(
-      160deg,
-      rgb(var(--gray-950-rgb) / 0.65) 0%,
-      rgb(var(--gray-950-rgb) / 0.35) 55%,
-      rgb(var(--gray-950-rgb) / 0.1) 100%
-    );
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: var(--space-12);
-  }
-
-  /* Promo bar -------------------------------------------------------------- */
-  .promo-bar {
-    text-align: center;
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
-    font-weight: var(--font-weight-semibold);
-    letter-spacing: 0.02em;
-    animation: slide-down var(--duration-normal) var(--ease-out);
-  }
-
-  .promo-bar--brand {
-    background-color: var(--action-primary);
-    color: var(--action-primary-foreground);
-  }
-
-  .promo-bar--info {
-    background-color: var(--intent-info);
-    color: var(--intent-info-foreground);
-  }
-
-  .promo-bar--success {
-    background-color: var(--intent-success);
-    color: var(--intent-success-foreground);
-  }
-
-  /* Newsletter ------------------------------------------------------------- */
-  .newsletter {
-    border-radius: var(--radius-xl);
-    position: relative;
-    overflow: hidden;
-    /* Layered gradient: dark background with a brand color ambient glow */
-    background:
-      radial-gradient(
-        ellipse 60% 50% at 50% 0%,
-        rgb(var(--brand-500-rgb) / 0.08) 0%,
-        transparent 80%
-      ),
-      var(--surface-muted);
-    padding: var(--space-12);
-    text-align: center;
-    border: var(--border-width-1) solid var(--border-subtle);
-    box-shadow: var(--elevation-surface);
-  }
-
-  /* Rating stars ----------------------------------------------------------- */
+  /* Rating star colour — used by the Rating atom */
   .rating-star {
-    color: var(--intent-warning); /* #f5a623 closely matches info-warning / yellow */
-  }
-
-  .rating-star:hover {
-    filter: brightness(1.1);
-  }
-
-  /* Quick-add bottom strip (used inside product card image area) ------------ */
-  .product-card__quick-add {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--space-2) var(--space-3);
-    background: linear-gradient(to top, rgb(var(--gray-950-rgb) / 0.72), transparent);
-    display: flex;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(var(--product-card-quickadd-offset, 4px));
-    transition:
-      opacity var(--duration-fast) var(--ease-out),
-      transform var(--duration-fast) var(--ease-out);
-  }
-
-  .product-card:hover .product-card__quick-add,
-  .product-card:focus-within .product-card__quick-add {
-    opacity: 1;
-    transform: translateY(0);
+    color: var(--intent-warning);
   }
 }

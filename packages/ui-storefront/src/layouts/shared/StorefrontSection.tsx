@@ -8,7 +8,15 @@ export interface StorefrontSectionProps extends React.HTMLAttributes<HTMLElement
   description?: string
   action?: React.ReactNode
   contentClassName?: string
+  /** Vertical spacing scale */
+  spacing?: 'compact' | 'default' | 'comfortable'
 }
+
+const spacingClass = {
+  compact: 'py-[var(--space-10)] md:py-[var(--space-12)]',
+  default: 'py-[var(--space-12)] md:py-[var(--space-16)] lg:py-[var(--space-20)]',
+  comfortable: 'py-[var(--space-14)] md:py-[var(--space-20)] lg:py-[var(--space-24)]',
+} as const
 
 function StorefrontSection({
   eyebrow,
@@ -17,24 +25,36 @@ function StorefrontSection({
   action,
   className,
   contentClassName,
+  spacing = 'default',
   children,
   ...props
 }: StorefrontSectionProps) {
   return (
-    <section className={cn('px-4 py-10 md:px-8 md:py-14', className)} {...props}>
+    <section
+      className={cn(
+        'px-[var(--space-4)] md:px-[var(--space-6)] lg:px-[var(--space-8)]',
+        spacingClass[spacing],
+        className,
+      )}
+      {...props}
+    >
       {(eyebrow || title || description || action) && (
-        <div className="mx-auto mb-8 flex max-w-[var(--storefront-content-max-width)] flex-col gap-5 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-3xl space-y-3">
+        <div className="mx-auto mb-[var(--space-8)] flex max-w-[var(--storefront-content-max-width)] flex-col gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
+          <div className="max-w-3xl space-y-[var(--space-2)]">
             {eyebrow && (
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">
+              <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.16em] text-[var(--text-brand)]">
                 {eyebrow}
               </p>
             )}
             {title && (
-              <h2 className="text-3xl font-bold tracking-tight text-foreground">{title}</h2>
+              <h2 className="text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] text-foreground leading-[var(--line-height-tight)]">
+                {title}
+              </h2>
             )}
             {description && (
-              <p className="text-base leading-relaxed text-muted-foreground">{description}</p>
+              <p className="text-[length:var(--font-size-body-md)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
+                {description}
+              </p>
             )}
           </div>
           {action && <div className="shrink-0">{action}</div>}

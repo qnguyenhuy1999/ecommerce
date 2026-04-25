@@ -15,7 +15,7 @@ const meta: Meta<typeof OrderCard> = {
   parameters: { layout: 'padded' },
   decorators: [
     (Story) => (
-      <div className="max-w-sm mx-auto">
+      <div className="mx-auto max-w-3xl rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-base)]">
         <Story />
       </div>
     ),
@@ -47,7 +47,23 @@ export const Completed: Story = {
     itemCount: 2,
     total: 149.98,
     onView: () => alert('View'),
-    onReorder: () => alert('Reorder'),
+    onReorder: () => alert('Buy again'),
+    onWriteReview: () => alert('Write review'),
+    onDownloadInvoice: () => alert('Download invoice'),
+  },
+}
+
+export const Processing: Story = {
+  args: {
+    orderNumber: 'ORD-20240425-088',
+    date: 'Apr 25, 2024',
+    status: 'PROCESSING',
+    items: ITEMS.slice(0, 3),
+    itemCount: 3,
+    total: 219.97,
+    onView: () => alert('View'),
+    onCancel: () => alert('Cancel'),
+    onChangeAddress: () => alert('Change address'),
   },
 }
 
@@ -72,5 +88,6 @@ export const Cancelled: Story = {
     itemCount: 5,
     total: 89.95,
     onView: () => alert('View'),
+    onReorder: () => alert('Reorder'),
   },
 }

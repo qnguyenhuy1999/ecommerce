@@ -8,10 +8,11 @@ import { CartItem } from '../../atoms/CartItem/CartItem'
 import type { CartItemProps } from '../../atoms/CartItem/CartItem'
 import { OrderSummary } from '../../molecules/OrderSummary/OrderSummary'
 import type { OrderDiscount } from '../../molecules/OrderSummary/OrderSummary'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { EmptyStateCard } from '../shared/EmptyStateCard'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import { StorefrontSection } from '../shared/StorefrontSection'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export interface CartPageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   promoBar?: React.ReactNode
@@ -65,22 +66,19 @@ function CartPageLayout({
   const isEmpty = items.length === 0
 
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
       <StorefrontSection eyebrow="Cart" title="Your Shopping Cart">
         {isEmpty ? (
-          <div className="py-16 flex items-center justify-center">
+          <EmptyStateCard>
             {emptyState ?? (
               <EmptyState
                 icon={<ShoppingBag className="w-10 h-10 text-[var(--text-tertiary)]" />}
@@ -93,7 +91,7 @@ function CartPageLayout({
                 }}
               />
             )}
-          </div>
+          </EmptyStateCard>
         ) : (
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
             {/* Cart items */}
@@ -123,8 +121,8 @@ function CartPageLayout({
               </div>
             </div>
 
-            {/* Order summary — sticky on desktop */}
-            <div className="lg:sticky lg:top-28 space-y-4">
+            {/* Order summary — sticky on desktop, anchored below the measured header */}
+            <div className="lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))] space-y-4">
               <OrderSummary
                 subtotal={subtotal}
                 shipping={shipping}
@@ -170,7 +168,7 @@ function CartPageLayout({
           {recommendations}
         </StorefrontSection>
       )}
-    </StorefrontShell>
+    </StorefrontPageShell>
   )
 }
 

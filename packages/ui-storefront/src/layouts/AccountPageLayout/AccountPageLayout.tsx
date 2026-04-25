@@ -2,11 +2,12 @@ import React from 'react'
 
 import { cn } from '@ecom/ui'
 
-import { AccountSidebar } from '../../molecules/AccountSidebar/AccountSidebar'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { AccountDashboardShell } from '../shared/AccountDashboardShell'
+import { PageContainer } from '../shared/PageContainer'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export interface AccountPageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   promoBar?: React.ReactNode
@@ -20,6 +21,11 @@ export interface AccountPageLayoutProps extends React.HTMLAttributes<HTMLDivElem
   children: React.ReactNode
 }
 
+/**
+ * Account dashboard chrome — left rail (Orders / Wishlist / Profile / Addresses)
+ * + content surface. Composed on top of StorefrontPageShell + PageContainer so
+ * the spacing and container width always match the rest of the storefront.
+ */
 function AccountPageLayout({
   promoBar,
   header,
@@ -34,28 +40,23 @@ function AccountPageLayout({
   ...props
 }: AccountPageLayoutProps) {
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
-      <div className="px-4 py-8 md:px-8 md:py-12 mx-auto max-w-[var(--storefront-content-max-width)]">
-        {breadcrumb && <div className="mb-6 text-sm text-muted-foreground">{breadcrumb}</div>}
-        <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-          {/* Sidebar */}
-          <div className="lg:sticky lg:top-28">
-            <AccountSidebar {...sidebarProps} />
+      <PageContainer>
+        {breadcrumb && (
+          <div className="mb-[var(--space-6)] text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+            {breadcrumb}
           </div>
-
-          {/* Content */}
+        )}
+        <AccountDashboardShell sidebarProps={sidebarProps}>
           <div
             className={cn(
               'rounded-[var(--radius-xl)] border border-[var(--border-subtle)]',
@@ -65,9 +66,9 @@ function AccountPageLayout({
           >
             {children}
           </div>
-        </div>
-      </div>
-    </StorefrontShell>
+        </AccountDashboardShell>
+      </PageContainer>
+    </StorefrontPageShell>
   )
 }
 

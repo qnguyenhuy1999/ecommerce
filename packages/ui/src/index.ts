@@ -56,6 +56,10 @@ export { EmptyState } from './molecules/EmptyState/EmptyState'
 export { Tabs, TabsList, TabsTrigger, TabsContent } from './molecules/Tabs/Tabs'
 export {
   Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetPortal,
+  SheetOverlay,
   SheetContent,
   SheetHeader,
   SheetTitle,
