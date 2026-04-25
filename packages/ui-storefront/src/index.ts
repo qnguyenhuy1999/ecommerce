@@ -135,6 +135,20 @@ export {
 } from './organisms/ProductGallery/ProductGallery'
 export { useProductCard } from './molecules/ProductCard/ProductCard'
 export { StorefrontSection } from './layouts/shared/StorefrontSection'
+export { PageContainer } from './layouts/shared/PageContainer'
+export type { PageContainerProps } from './layouts/shared/PageContainer'
+export { PageHeader } from './layouts/shared/PageHeader'
+export type {
+  PageHeaderProps,
+  PageHeaderTitleProps,
+  PageHeaderEyebrowProps,
+  PageHeaderDescriptionProps,
+  PageHeaderActionsProps,
+} from './layouts/shared/PageHeader'
+export { EmptyStateCard } from './layouts/shared/EmptyStateCard'
+export type { EmptyStateCardProps } from './layouts/shared/EmptyStateCard'
+export { StorefrontPageShell } from './layouts/shared/StorefrontPageShell'
+export type { StorefrontPageShellProps } from './layouts/shared/StorefrontPageShell'
 export { ProductGrid } from './organisms/ProductGrid/ProductGrid'
 export type { Product, ProductGridProps } from './organisms/ProductGrid/ProductGrid'
 
@@ -204,3 +218,10 @@ export { useCarousel } from './hooks'
 export type { UseCarouselOptions, UseCarouselReturn } from './hooks'
 export { useCountdown } from './hooks'
 export type { UseCountdownOptions, UseCountdownReturn } from './hooks'
+export { useOrderHistoryFilter } from './hooks'
+export type {
+  OrderHistoryTab as UseOrderHistoryTab,
+  OrderHistoryFilterableOrder,
+  UseOrderHistoryFilterOptions,
+  UseOrderHistoryFilterReturn,
+} from './hooks'

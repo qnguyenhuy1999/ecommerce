@@ -13,10 +13,10 @@ import { ReviewCard } from '../../molecules/ReviewCard/ReviewCard'
 import { ShippingProgressBar } from '../../molecules/ShippingProgressBar/ShippingProgressBar'
 import type { VariantSelectorProps } from '../../molecules/VariantSelector/VariantSelector'
 import { VariantSelector } from '../../molecules/VariantSelector/VariantSelector'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import { StorefrontSection } from '../shared/StorefrontSection'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 interface ProductVariantGroup extends Pick<
   VariantSelectorProps,
@@ -98,17 +98,14 @@ function ProductDetailLayout({
   ...props
 }: ProductDetailLayoutProps) {
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
       <StorefrontSection>
@@ -118,7 +115,7 @@ function ProductDetailLayout({
           {gallery}
 
           {details ?? (
-            <div className="space-y-6 lg:sticky lg:top-28">
+            <div className="space-y-6 lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]">
               <div className="rounded-[var(--radius-xl)] border border-border/70 bg-[var(--surface-elevated)]/92 p-6 shadow-[var(--elevation-dropdown)] backdrop-blur-[10px]">
                 <div className="space-y-5">
                   <div className="space-y-3">
@@ -250,7 +247,7 @@ function ProductDetailLayout({
       )}
 
       {related && <StorefrontSection contentClassName="max-w-none">{related}</StorefrontSection>}
-    </StorefrontShell>
+    </StorefrontPageShell>
   )
 }
 

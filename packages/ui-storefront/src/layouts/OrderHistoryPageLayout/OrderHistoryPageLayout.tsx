@@ -12,19 +12,18 @@ import {
   cn,
 } from '@ecom/ui'
 
+import { useOrderHistoryFilter } from '../../hooks/useOrderHistoryFilter'
+import type { OrderHistoryTab } from '../../hooks/useOrderHistoryFilter'
 import { OrderCard } from '../../molecules/OrderCard/OrderCard'
 import type { OrderCardProps } from '../../molecules/OrderCard/OrderCard'
-import type { OrderStatus } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { EmptyStateCard } from '../shared/EmptyStateCard'
+import { PageContainer } from '../shared/PageContainer'
+import { PageHeader } from '../shared/PageHeader'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
-/**
- * Consolidated tab values. The layout maps these to underlying status sets so
- * shoppers don't have to think in terms of every backend state — they pick a
- * coarse intent ("Active", "Completed", "Cancelled") and the layout filters.
- */
-export type OrderHistoryTab = 'all' | 'active' | 'completed' | 'cancelled'
+export type { OrderHistoryTab }
 
 const STATUS_TABS: { value: OrderHistoryTab; label: string }[] = [
   { value: 'all', label: 'All' },
@@ -33,11 +32,8 @@ const STATUS_TABS: { value: OrderHistoryTab; label: string }[] = [
   { value: 'cancelled', label: 'Cancelled' },
 ]
 
-const ACTIVE_STATUSES: OrderStatus[] = ['PENDING_PAYMENT', 'PAID', 'PROCESSING', 'SHIPPED']
-const COMPLETED_STATUSES: OrderStatus[] = ['COMPLETED']
-const CANCELLED_STATUSES: OrderStatus[] = ['CANCELLED', 'REFUNDED', 'PENDING_REFUND']
-
-export interface OrderHistoryPageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface OrderHistoryPageLayoutProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   promoBar?: React.ReactNode
   header?: React.ReactNode
   footer?: React.ReactNode
@@ -46,8 +42,7 @@ export interface OrderHistoryPageLayoutProps extends React.HTMLAttributes<HTMLDi
   orders: OrderCardProps[]
   /**
    * Coarse intent filter. Defaults to 'all'. The layout filters orders
-   * client-side when consumers pass the full list; pair with `onTabChange`
-   * to drive server-side filtering.
+   * client-side; pair with `onTabChange` to drive server-side filtering.
    */
   activeTab?: OrderHistoryTab
   onTabChange?: (tab: OrderHistoryTab) => void
@@ -71,27 +66,11 @@ const DEFAULT_DATE_RANGE_OPTIONS = [
   { value: 'ytd', label: 'This year' },
 ]
 
-function filterOrders(orders: OrderCardProps[], tab: OrderHistoryTab, query?: string) {
-  let next = orders
-  if (tab !== 'all') {
-    const allowed: OrderStatus[] =
-      tab === 'active'
-        ? ACTIVE_STATUSES
-        : tab === 'completed'
-          ? COMPLETED_STATUSES
-          : CANCELLED_STATUSES
-    next = next.filter((o) => allowed.includes(o.status))
-  }
-  const trimmed = query?.trim().toLowerCase()
-  if (trimmed) {
-    next = next.filter((o) => {
-      if (o.orderNumber.toLowerCase().includes(trimmed)) return true
-      return o.items.some((i) => i.title.toLowerCase().includes(trimmed))
-    })
-  }
-  return next
-}
-
+/**
+ * Order History dashboard. Composes the storefront shell + standard page
+ * container + page header from shared primitives, and delegates filter state
+ * to `useOrderHistoryFilter` so the layout itself stays presentational.
+ */
 function OrderHistoryPageLayout({
   promoBar,
   header,
@@ -113,65 +92,45 @@ function OrderHistoryPageLayout({
   className,
   ...props
 }: OrderHistoryPageLayoutProps) {
-  const [internalQuery, setInternalQuery] = React.useState('')
-  const query = searchQuery ?? internalQuery
+  const { query, setQuery, visibleOrders, isFiltered } = useOrderHistoryFilter({
+    orders,
+    tab: activeTab,
+    searchQuery,
+    dateRange,
+  })
 
   const handleSearchChange = (value: string) => {
-    if (searchQuery === undefined) setInternalQuery(value)
+    setQuery(value)
     onSearchChange?.(value)
   }
 
-  const visibleOrders = React.useMemo(
-    () => filterOrders(orders, activeTab, query),
-    [orders, activeTab, query],
-  )
-
   const totalCount = orders.length
-  const isFiltered = activeTab !== 'all' || Boolean(query.trim()) || dateRange !== 'all'
 
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
-      <div
-        className={cn(
-          'mx-auto w-full max-w-[var(--storefront-content-max-width)]',
-          'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
-          'py-[var(--space-8)] lg:py-[var(--space-12)]',
-        )}
-      >
-        {/* Page header — title + summary count */}
-        <div className="mb-[var(--space-6)] flex flex-col gap-[var(--space-1)]">
-          <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
-            My account
-          </p>
-          <div className="flex flex-wrap items-baseline justify-between gap-[var(--space-3)]">
-            <h1 className="text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] leading-[var(--line-height-tight)] text-[var(--text-primary)] sm:text-[length:var(--font-size-display-sm)]">
-              Order history
-            </h1>
-            <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+      <PageContainer>
+        <PageHeader>
+          <PageHeader.Eyebrow>My account</PageHeader.Eyebrow>
+          <PageHeader.Title>Order history</PageHeader.Title>
+          <PageHeader.Actions>
+            <span className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
               {totalCount} order{totalCount === 1 ? '' : 's'}
-            </p>
-          </div>
-        </div>
+            </span>
+          </PageHeader.Actions>
+        </PageHeader>
 
         {/* Single Tabs root — wraps the toolbar and content so trigger/panel
             keyboard nav and ARIA wiring stay connected. */}
-        <Tabs
-          value={activeTab}
-          onValueChange={(v) => onTabChange?.(v as OrderHistoryTab)}
-        >
-          {/* Control bar — search + tabs + date range */}
+        <Tabs value={activeTab} onValueChange={(v) => onTabChange?.(v as OrderHistoryTab)}>
           <div
             className={cn(
               'mb-[var(--space-6)] flex flex-col gap-[var(--space-3)]',
@@ -198,54 +157,48 @@ function OrderHistoryPageLayout({
             </label>
 
             <div className="flex flex-wrap items-center gap-[var(--space-3)]">
-            <TabsList className="h-9 rounded-[var(--radius-md)] bg-[var(--surface-subtle)] p-[var(--space-1)]">
-              {STATUS_TABS.map((tab) => (
-                <TabsTrigger
-                  key={tab.value}
-                  value={tab.value}
+              <TabsList className="h-9 rounded-[var(--radius-md)] bg-[var(--surface-subtle)] p-[var(--space-1)]">
+                {STATUS_TABS.map((tab) => (
+                  <TabsTrigger
+                    key={tab.value}
+                    value={tab.value}
+                    className={cn(
+                      'h-7 rounded-[var(--radius-sm)] px-[var(--space-3)]',
+                      'text-[length:var(--text-xs)] font-medium',
+                      'data-[state=active]:bg-[var(--surface-base)] data-[state=active]:text-[var(--text-primary)] data-[state=active]:shadow-[var(--elevation-xs)]',
+                    )}
+                  >
+                    {tab.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              <label className="flex items-center gap-[var(--space-2)] text-[length:var(--text-xs)] text-[var(--text-secondary)]">
+                <span className="sr-only">Date range</span>
+                <select
+                  value={dateRange}
+                  onChange={(event) => onDateRangeChange?.(event.target.value)}
                   className={cn(
-                    'h-7 rounded-[var(--radius-sm)] px-[var(--space-3)]',
-                    'text-[length:var(--text-xs)] font-medium',
-                    'data-[state=active]:bg-[var(--surface-base)] data-[state=active]:text-[var(--text-primary)] data-[state=active]:shadow-[var(--elevation-xs)]',
+                    'h-9 rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-base)]',
+                    'px-[var(--space-3)] pr-[var(--space-7)]',
+                    'text-[length:var(--text-xs)] font-medium text-[var(--text-primary)]',
+                    'focus-visible:border-[var(--action-primary)] focus-visible:outline-none',
                   )}
                 >
-                  {tab.label}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-
-            <label className="flex items-center gap-[var(--space-2)] text-[length:var(--text-xs)] text-[var(--text-secondary)]">
-              <span className="sr-only">Date range</span>
-              <select
-                value={dateRange}
-                onChange={(event) => onDateRangeChange?.(event.target.value)}
-                className={cn(
-                  'h-9 rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-base)]',
-                  'px-[var(--space-3)] pr-[var(--space-7)]',
-                  'text-[length:var(--text-xs)] font-medium text-[var(--text-primary)]',
-                  'focus-visible:border-[var(--action-primary)] focus-visible:outline-none',
-                )}
-              >
-                {dateRangeOptions.map((opt) => (
-                  <option key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                  {dateRangeOptions.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
           </div>
 
           {STATUS_TABS.map((tab) => (
             <TabsContent key={tab.value} value={tab.value} className="mt-0">
               {visibleOrders.length === 0 ? (
-                <div
-                  className={cn(
-                    'rounded-[var(--radius-lg)] border border-dashed border-[var(--border-subtle)]',
-                    'bg-[var(--surface-subtle)]',
-                    'px-[var(--space-6)] py-[var(--space-12)]',
-                  )}
-                >
+                <EmptyStateCard>
                   {emptyState ?? (
                     <EmptyState
                       icon={
@@ -277,7 +230,7 @@ function OrderHistoryPageLayout({
                       }
                     />
                   )}
-                </div>
+                </EmptyStateCard>
               ) : (
                 <div
                   className={cn(
@@ -301,8 +254,8 @@ function OrderHistoryPageLayout({
             </TabsContent>
           ))}
         </Tabs>
-      </div>
-    </StorefrontShell>
+      </PageContainer>
+    </StorefrontPageShell>
   )
 }
 

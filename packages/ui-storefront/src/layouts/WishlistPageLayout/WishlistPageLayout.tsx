@@ -10,9 +10,12 @@ import { AccountSidebar } from '../../molecules/AccountSidebar/AccountSidebar'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
 import { WishlistCard } from '../../molecules/WishlistCard/WishlistCard'
 import type { WishlistCardProps } from '../../molecules/WishlistCard/WishlistCard'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { EmptyStateCard } from '../shared/EmptyStateCard'
+import { PageContainer } from '../shared/PageContainer'
+import { PageHeader } from '../shared/PageHeader'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export interface WishlistPageLayoutProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -47,10 +50,10 @@ const DEFAULT_SORT_OPTIONS: SortOption[] = [
 ]
 
 /**
- * Wishlist Dashboard — composes AccountSidebar + a wishlist content surface.
- * Cards reuse the upgraded WishlistCard with hover image swap, quick-add reveal,
- * heart→remove transform, and out-of-stock desaturation. The sidebar is optional
- * so existing consumers that don't pass `sidebarProps` keep the standalone page.
+ * Wishlist Dashboard. Composes shared primitives (StorefrontPageShell,
+ * PageContainer, PageHeader, EmptyStateCard) with an optional AccountSidebar
+ * rail so the wishlist sits inside the My Account dashboard. Standalone mode
+ * (no sidebarProps) is preserved for back-compat.
  */
 function WishlistPageLayout({
   promoBar,
@@ -74,8 +77,8 @@ function WishlistPageLayout({
   const isEmpty = items.length === 0
   const inStockCount = items.filter((it) => it.product.inStock).length
 
-  const headerControls = (
-    <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+  const headerActions = (
+    <>
       {!isEmpty && onShareWishlist && (
         <Button
           variant="ghost"
@@ -106,45 +109,27 @@ function WishlistPageLayout({
           Move all to cart
         </Button>
       )}
-    </div>
+    </>
   )
 
   const wishlistBody = (
-    <div className="flex flex-col gap-[var(--space-6)]">
-      <header className="flex flex-wrap items-end justify-between gap-[var(--space-4)]">
-        <div className="flex flex-col gap-[var(--space-1)]">
-          <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
-            My account
-          </p>
-          <h1
-            className={cn(
-              'text-[length:var(--font-size-heading-lg)] font-bold tracking-[-0.015em]',
-              'leading-[var(--line-height-tight)] text-[var(--text-primary)]',
-            )}
-          >
-            My wishlist{' '}
-            {!isEmpty && (
-              <span className="text-[var(--text-tertiary)] font-semibold">({items.length})</span>
-            )}
-          </h1>
-          {!isEmpty && inStockCount < items.length && (
-            <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
-              {inStockCount} of {items.length} available now
-            </p>
-          )}
-        </div>
-        {headerControls}
-      </header>
+    <>
+      <PageHeader>
+        <PageHeader.Eyebrow>My account</PageHeader.Eyebrow>
+        <PageHeader.Title count={isEmpty ? undefined : items.length}>
+          My wishlist
+        </PageHeader.Title>
+        {!isEmpty && inStockCount < items.length && (
+          <PageHeader.Description>
+            {inStockCount} of {items.length} available now
+          </PageHeader.Description>
+        )}
+        <PageHeader.Actions>{headerActions}</PageHeader.Actions>
+      </PageHeader>
 
       {isEmpty ? (
         emptyState ?? (
-          <div
-            className={cn(
-              'rounded-[var(--radius-2xl)] border border-dashed border-[var(--border-subtle)]',
-              'bg-[var(--surface-subtle)]',
-              'px-[var(--space-6)] py-[var(--space-12)]',
-            )}
-          >
+          <EmptyStateCard>
             <EmptyState
               icon={
                 <Heart
@@ -164,7 +149,7 @@ function WishlistPageLayout({
                   : undefined
               }
             />
-          </div>
+          </EmptyStateCard>
         )
       ) : (
         <div
@@ -178,33 +163,24 @@ function WishlistPageLayout({
           ))}
         </div>
       )}
-    </div>
+    </>
   )
 
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
-      <div
-        className={cn(
-          'mx-auto w-full max-w-[var(--storefront-content-max-width)]',
-          'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
-          'py-[var(--space-8)] lg:py-[var(--space-12)]',
-        )}
-      >
+      <PageContainer>
         {sidebarProps ? (
           <div className="grid gap-[var(--space-8)] lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-            <div className="lg:sticky lg:top-28">
+            <div className="lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]">
               <AccountSidebar {...sidebarProps} />
             </div>
             <div className="min-w-0">{wishlistBody}</div>
@@ -212,8 +188,8 @@ function WishlistPageLayout({
         ) : (
           wishlistBody
         )}
-      </div>
-    </StorefrontShell>
+      </PageContainer>
+    </StorefrontPageShell>
   )
 }
 

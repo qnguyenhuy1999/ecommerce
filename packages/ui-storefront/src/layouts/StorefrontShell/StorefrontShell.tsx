@@ -30,6 +30,19 @@ const StorefrontShell = React.forwardRef<HTMLDivElement, StorefrontShellProps>(
     ref,
   ) => {
     const [scrolled, setScrolled] = React.useState(false)
+    const rootRef = React.useRef<HTMLDivElement | null>(null)
+    const headerRef = React.useRef<HTMLElement | null>(null)
+
+    // Bridge the forwarded ref so consumers still receive the root element
+    // while the shell keeps an internal handle for header measurement.
+    const setRootRef = React.useCallback(
+      (node: HTMLDivElement | null) => {
+        rootRef.current = node
+        if (typeof ref === 'function') ref(node)
+        else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node
+      },
+      [ref],
+    )
 
     React.useEffect(() => {
       if (!stickyHeader || !blurHeaderOnScroll) return
@@ -39,9 +52,35 @@ const StorefrontShell = React.forwardRef<HTMLDivElement, StorefrontShellProps>(
       return () => window.removeEventListener('scroll', onScroll)
     }, [stickyHeader, blurHeaderOnScroll])
 
+    /**
+     * Publish the measured sticky-header height on the shell root as
+     * `--storefront-header-total`. Layouts use this for `position: sticky`
+     * top offsets so that content sits flush below the entire header — even
+     * when the header renders an optional category-nav row, a promo bar,
+     * announcement banner, or anything else taller than `--storefront-header-height`.
+     */
+    React.useEffect(() => {
+      const root = rootRef.current
+      const headerEl = headerRef.current
+      if (!root || !headerEl) return
+
+      const apply = () => {
+        root.style.setProperty('--storefront-header-total', `${headerEl.offsetHeight}px`)
+      }
+      apply()
+
+      if (typeof ResizeObserver === 'undefined') {
+        window.addEventListener('resize', apply)
+        return () => window.removeEventListener('resize', apply)
+      }
+      const ro = new ResizeObserver(apply)
+      ro.observe(headerEl)
+      return () => ro.disconnect()
+    }, [header, stickyHeader])
+
     return (
       <div
-        ref={ref}
+        ref={setRootRef}
         className={cn(
           'flex min-h-screen flex-col bg-background text-foreground',
           'antialiased selection:bg-[rgb(var(--brand-500-rgb)/0.18)] selection:text-foreground',
@@ -51,6 +90,7 @@ const StorefrontShell = React.forwardRef<HTMLDivElement, StorefrontShellProps>(
         {promoBar}
         {header && (
           <header
+            ref={headerRef}
             className={cn(
               'w-full',
               stickyHeader && 'sticky top-0 z-[var(--layer-sticky)]',

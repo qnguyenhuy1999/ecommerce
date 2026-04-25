@@ -11,6 +11,7 @@ import type { ActiveFilter } from '../../atoms/ActiveFilters/ActiveFilters'
 import { SortDropdown } from '../../atoms/SortDropdown/SortDropdown'
 import type { SortOption } from '../../atoms/SortDropdown/SortDropdown'
 import type { FilterGroupSpec } from '../../molecules/FilterSidebar/FilterSidebar'
+import { EmptyStateCard } from '../shared/EmptyStateCard'
 import { CollectionPageLayout } from '../CollectionPageLayout/CollectionPageLayout'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
@@ -231,14 +232,7 @@ function NoResultsRecovery({
   onRelatedQuerySelect?: (q: string) => void
 }) {
   return (
-    <div
-      className={cn(
-        'flex flex-col items-center text-center',
-        'rounded-[var(--radius-2xl)] border border-dashed border-[var(--border-subtle)]',
-        'bg-[var(--surface-subtle)]',
-        'px-[var(--space-6)] py-[var(--space-12)]',
-      )}
-    >
+    <EmptyStateCard className="flex flex-col items-center text-center">
       <div
         className={cn(
           'mb-[var(--space-4)] flex h-14 w-14 items-center justify-center rounded-full',
@@ -294,7 +288,7 @@ function NoResultsRecovery({
           </div>
         </div>
       )}
-    </div>
+    </EmptyStateCard>
   )
 }
 

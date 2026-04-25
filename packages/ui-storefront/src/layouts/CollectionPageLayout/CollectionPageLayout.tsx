@@ -16,9 +16,10 @@ import {
 
 import { FilterSidebar } from '../../molecules/FilterSidebar/FilterSidebar'
 import type { FilterGroupSpec } from '../../molecules/FilterSidebar/FilterSidebar'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { PageContainer } from '../shared/PageContainer'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export interface CollectionPageLayoutProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
@@ -52,6 +53,72 @@ export interface CollectionPageLayoutProps
    * Rendered without a heavy boxed surface so it sits cleanly against the page.
    */
   discoveryToolbar?: React.ReactNode
+}
+
+/**
+ * Hero band for collection / search pages. Subtle background, generous breathing
+ * room, and a single source of truth for breadcrumb / title / description / accent
+ * placement so consumers don't reinvent it per route.
+ */
+function CollectionHero({
+  breadcrumb,
+  title,
+  description,
+  resultsLabel,
+  heroAccent,
+  headerExtras,
+}: Pick<
+  CollectionPageLayoutProps,
+  'breadcrumb' | 'title' | 'description' | 'resultsLabel' | 'heroAccent' | 'headerExtras'
+>) {
+  return (
+    <section className="border-b border-[var(--border-subtle)] bg-[var(--surface-subtle)]">
+      <PageContainer>
+        {breadcrumb && (
+          <div className="mb-[var(--space-3)] text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+            {breadcrumb}
+          </div>
+        )}
+
+        <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-end md:justify-between md:gap-[var(--space-8)]">
+          <div className="min-w-0 flex-1">
+            <h1
+              className={cn(
+                'text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.02em]',
+                'leading-[var(--line-height-tight)] text-[var(--text-primary)]',
+                'sm:text-[length:var(--font-size-display-sm)]',
+              )}
+            >
+              {title}
+            </h1>
+            {description && (
+              <p
+                className={cn(
+                  'mt-[var(--space-2)] max-w-[60ch]',
+                  'text-[length:var(--text-base)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]',
+                )}
+              >
+                {description}
+              </p>
+            )}
+            {resultsLabel && (
+              <p className="mt-[var(--space-3)] text-[length:var(--text-sm)] font-medium text-[var(--text-tertiary)]">
+                {resultsLabel}
+              </p>
+            )}
+          </div>
+
+          {heroAccent && (
+            <div className="hidden md:flex md:shrink-0 md:items-center md:justify-end">
+              {heroAccent}
+            </div>
+          )}
+        </div>
+
+        {headerExtras && <div className="mt-[var(--space-5)]">{headerExtras}</div>}
+      </PageContainer>
+    </section>
+  )
 }
 
 function CollectionPageLayout({
@@ -94,80 +161,26 @@ function CollectionPageLayout({
   )
 
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
-      {/* HERO HEADER — subtle band, never overpowering */}
-      <section className="border-b border-[var(--border-subtle)] bg-[var(--surface-subtle)]">
-        <div
-          className={cn(
-            'mx-auto w-full max-w-[var(--storefront-content-max-width)]',
-            'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
-            'py-[var(--space-8)] lg:py-[var(--space-12)]',
-          )}
-        >
-          {breadcrumb && (
-            <div className="mb-[var(--space-3)] text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-              {breadcrumb}
-            </div>
-          )}
+      <CollectionHero
+        breadcrumb={breadcrumb}
+        title={title}
+        description={description}
+        resultsLabel={resultsLabel}
+        heroAccent={heroAccent}
+        headerExtras={headerExtras}
+      />
 
-          <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-end md:justify-between md:gap-[var(--space-8)]">
-            <div className="min-w-0 flex-1">
-              <h1
-                className={cn(
-                  'text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.02em] leading-[var(--line-height-tight)] text-[var(--text-primary)]',
-                  'sm:text-[length:var(--font-size-display-sm)]',
-                )}
-              >
-                {title}
-              </h1>
-              {description && (
-                <p
-                  className={cn(
-                    'mt-[var(--space-2)] max-w-[60ch]',
-                    'text-[length:var(--text-base)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]',
-                  )}
-                >
-                  {description}
-                </p>
-              )}
-              {resultsLabel && (
-                <p className="mt-[var(--space-3)] text-[length:var(--text-sm)] font-medium text-[var(--text-tertiary)]">
-                  {resultsLabel}
-                </p>
-              )}
-            </div>
-
-            {heroAccent && (
-              <div className="hidden md:flex md:shrink-0 md:items-center md:justify-end">
-                {heroAccent}
-              </div>
-            )}
-          </div>
-
-          {headerExtras && <div className="mt-[var(--space-5)]">{headerExtras}</div>}
-        </div>
-      </section>
-
-      {/* MAIN — sidebar + grid */}
-      <div
-        className={cn(
-          'mx-auto w-full max-w-[var(--storefront-content-max-width)]',
-          'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
-          'py-[var(--space-8)] lg:py-[var(--space-12)]',
-        )}
-      >
+      <PageContainer>
         {/* Mobile filter trigger — hidden on lg+ where the sidebar is visible */}
         <div className="mb-[var(--space-4)] flex items-center justify-between gap-[var(--space-3)] lg:hidden">
           <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
@@ -243,12 +256,15 @@ function CollectionPageLayout({
         </div>
 
         <div className="grid gap-[var(--space-8)] lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start lg:gap-[var(--space-10)]">
-          {/* Desktop sidebar — sticky, lightweight, no heavy box */}
+          {/* Desktop sidebar — sticky offset uses the measured total header
+              height (`--storefront-header-total`) so the sidebar never hides
+              behind the optional category nav row. Falls back to the bare
+              header height before the shell finishes measuring. */}
           <aside
             className={cn(
               'hidden lg:block',
-              'lg:sticky lg:top-[calc(var(--storefront-header-height)+var(--space-6))]',
-              'lg:max-h-[calc(100vh-var(--storefront-header-height)-var(--space-12))] lg:overflow-y-auto',
+              'lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]',
+              'lg:max-h-[calc(100vh-var(--storefront-header-total)-var(--space-12))] lg:overflow-y-auto',
               'lg:pr-[var(--space-2)]',
             )}
           >
@@ -271,8 +287,8 @@ function CollectionPageLayout({
             {grid}
           </div>
         </div>
-      </div>
-    </StorefrontShell>
+      </PageContainer>
+    </StorefrontPageShell>
   )
 }
 

@@ -18,9 +18,10 @@ import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { OrderTimeline } from '../../molecules/OrderTimeline/OrderTimeline'
 import type { OrderDetailSectionProps } from '../../organisms/OrderDetailSection/OrderDetailSection'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { PageContainer } from '../shared/PageContainer'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export interface OrderDetailPageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   promoBar?: React.ReactNode
@@ -119,26 +120,17 @@ function OrderDetailPageLayout({
   const isLiveTrackable = status === 'PROCESSING' || status === 'SHIPPED' || status === 'PAID'
 
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
-      <div
-        className={cn(
-          'mx-auto w-full max-w-[var(--storefront-content-max-width)]',
-          'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
-          'py-[var(--space-8)] lg:py-[var(--space-12)]',
-        )}
-      >
+      <PageContainer>
         {/* Breadcrumb + back */}
         <div className="mb-[var(--space-4)] flex items-center justify-between gap-[var(--space-3)]">
           <Breadcrumb items={defaultBreadcrumb} />
@@ -379,7 +371,7 @@ function OrderDetailPageLayout({
           </div>
 
           {/* RIGHT — Context sidebar */}
-          <aside className="space-y-[var(--space-6)] lg:sticky lg:top-[calc(var(--storefront-header-height)+var(--space-6))] lg:self-start">
+          <aside className="space-y-[var(--space-6)] lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))] lg:self-start">
             {/* Order summary */}
             <DashboardCard className="p-[var(--space-6)]">
               <h3 className="mb-[var(--space-4)] text-[length:var(--font-size-heading-sm)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
@@ -550,8 +542,8 @@ function OrderDetailPageLayout({
             </DashboardCard>
           </aside>
         </div>
-      </div>
-    </StorefrontShell>
+      </PageContainer>
+    </StorefrontPageShell>
   )
 }
 

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { cn } from '@ecom/ui'
 
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export interface HomePageLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   promoBar?: React.ReactNode
@@ -90,17 +90,14 @@ function HomePageLayout({
   ...props
 }: HomePageLayoutProps) {
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </>
-        )
-      }
-      footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
+      newsletter={newsletter}
       {...props}
     >
       <div className="flex flex-col">
@@ -137,7 +134,7 @@ function HomePageLayout({
         {/* 11. New arrivals — final clean white surface */}
         <Band tone="base">{newArrivals}</Band>
       </div>
-    </StorefrontShell>
+    </StorefrontPageShell>
   )
 }
 

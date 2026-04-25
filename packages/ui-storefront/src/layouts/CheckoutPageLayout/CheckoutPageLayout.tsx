@@ -6,9 +6,10 @@ import { cn } from '@ecom/ui'
 
 import { CheckoutStepper } from '../../molecules/CheckoutStepper/CheckoutStepper'
 import type { CheckoutStep } from '../../molecules/CheckoutStepper/CheckoutStepper'
-import { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
-import { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
-import { StorefrontShell } from '../StorefrontShell/StorefrontShell'
+import { PageContainer } from '../shared/PageContainer'
+import { StorefrontPageShell } from '../shared/StorefrontPageShell'
+import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
+import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
 export type CheckoutStepId = 'shipping' | 'payment' | 'review' | 'confirmation'
 
@@ -66,23 +67,19 @@ function CheckoutPageLayout({
   }
 
   return (
-    <StorefrontShell
+    <StorefrontPageShell
       className={className}
-      header={
-        header ?? (
-          <div>
-            {promoBar}
-            <StorefrontHeader {...headerProps} />
-          </div>
-        )
-      }
-      footer={footer ?? <StorefrontFooter {...footerProps} />}
+      promoBar={promoBar}
+      header={header}
+      footer={footer}
+      headerProps={headerProps}
+      footerProps={footerProps}
       {...props}
     >
-      <div className="px-4 py-8 md:px-8 md:py-12 mx-auto max-w-[var(--storefront-content-max-width)]">
+      <PageContainer>
         {/* Secure header */}
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold tracking-tight text-[var(--text-primary)]">
+        <div className="flex items-center justify-between mb-[var(--space-8)]">
+          <h1 className="text-[length:var(--font-size-heading-lg)] font-bold tracking-tight text-[var(--text-primary)]">
             {STEP_CONTENT[currentStep]}
           </h1>
           <span className="flex items-center gap-1.5 text-[length:var(--text-xs)] text-[var(--text-secondary)]">
@@ -117,12 +114,16 @@ function CheckoutPageLayout({
               {stepContent[currentStep]}
             </div>
 
-            {/* Order summary — sticky */}
-            {orderSummary && <div className="lg:sticky lg:top-28">{orderSummary}</div>}
+            {/* Order summary — sticky, anchored below the measured header */}
+            {orderSummary && (
+              <div className="lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]">
+                {orderSummary}
+              </div>
+            )}
           </div>
         )}
-      </div>
-    </StorefrontShell>
+      </PageContainer>
+    </StorefrontPageShell>
   )
 }
 

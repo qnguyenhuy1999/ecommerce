@@ -8,6 +8,13 @@
     --gray-900-rgb: 15 23 42;
 
     --storefront-header-height: 4.5rem;
+    /*
+     * Total measured sticky-header height (header row + optional category nav + any
+     * promo bar). StorefrontShell writes this dynamically via ResizeObserver so
+     * sticky offsets stay accurate when the header grows; this is the fallback
+     * before/without JS, and matches the bare header height.
+     */
+    --storefront-header-total: 4.5rem;
     --storefront-footer-min-height: 20rem;
     --storefront-content-max-width: 80rem;
     --storefront-grid-gap: var(--space-6);
