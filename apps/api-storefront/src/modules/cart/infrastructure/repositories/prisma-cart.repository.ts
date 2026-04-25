@@ -1,45 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 
 import { CartItemEntity } from '../../domain/entities/cart-item.entity'
 import { CartEntity } from '../../domain/entities/cart.entity'
-import {
-  ProductVariantEntity,
-  type ProductStatus,
-} from '../../domain/entities/product-variant.entity'
-import type { ICartRepository } from '../../domain/ports/cart.repository.port'
+import { ProductVariantEntity } from '../../domain/entities/product-variant.entity'
+import { InsufficientStockException } from '../../domain/exceptions/cart.exceptions'
+import type {
+  CartItemWithCart,
+  ICartRepository,
+  IncrementItemInput,
+} from '../../domain/ports/cart.repository.port'
 
-type VariantWithProduct = {
-  id: string
-  sku: string
-  attributes: unknown
-  priceOverride: number | null
-  stock: number
-  reservedStock: number
-  product: {
-    id: string
-    name: string
-    price: number
-    status: string
-    seller: { id: string; storeName: string }
-  }
-}
-
-type CartItemRecord = {
-  id: string
-  cartId: string
-  variantId: string
-  quantity: number
-  variant?: VariantWithProduct
-}
-
-type CartRecord = {
-  id: string
-  userId: string
-  items?: CartItemRecord[]
-}
-
-const cartItemInclude = {
+const CART_ITEM_INCLUDE = {
   variant: {
     include: {
       product: {
@@ -49,7 +21,15 @@ const cartItemInclude = {
       },
     },
   },
-} as const
+} satisfies Prisma.CartItemInclude
+
+const CART_WITH_ITEMS_INCLUDE = {
+  items: { include: CART_ITEM_INCLUDE },
+} satisfies Prisma.CartInclude
+
+type CartItemRow = Prisma.CartItemGetPayload<{ include: typeof CART_ITEM_INCLUDE }>
+type CartWithItemsRow = Prisma.CartGetPayload<{ include: typeof CART_WITH_ITEMS_INCLUDE }>
+type VariantRow = CartItemRow['variant']
 
 @Injectable()
 export class PrismaCartRepository implements ICartRepository {
@@ -58,24 +38,19 @@ export class PrismaCartRepository implements ICartRepository {
   async findByUserIdWithItems(userId: string): Promise<CartEntity | null> {
     const record = await this.prisma.cart.findUnique({
       where: { userId },
-      include: { items: { include: cartItemInclude } },
+      include: CART_WITH_ITEMS_INCLUDE,
     })
-    if (!record) return null
-    return this.toCartDomain(record as unknown as CartRecord)
+    return record ? this.toCartDomain(record) : null
   }
 
-  async createForUser(userId: string): Promise<CartEntity> {
-    const record = await this.prisma.cart.create({
-      data: { userId },
-      include: { items: { include: cartItemInclude } },
+  async upsertForUser(userId: string): Promise<CartEntity> {
+    const record = await this.prisma.cart.upsert({
+      where: { userId },
+      create: { userId },
+      update: {},
+      include: CART_WITH_ITEMS_INCLUDE,
     })
-    return this.toCartDomain(record as unknown as CartRecord)
-  }
-
-  async findCartById(cartId: string): Promise<CartEntity | null> {
-    const record = await this.prisma.cart.findUnique({ where: { id: cartId } })
-    if (!record) return null
-    return new CartEntity({ id: record.id, userId: record.userId, items: [] })
+    return this.toCartDomain(record)
   }
 
   async findItemByCartAndVariant(
@@ -84,33 +59,50 @@ export class PrismaCartRepository implements ICartRepository {
   ): Promise<CartItemEntity | null> {
     const record = await this.prisma.cartItem.findUnique({
       where: { cartId_variantId: { cartId, variantId } },
-      include: cartItemInclude,
+      include: CART_ITEM_INCLUDE,
     })
-    if (!record) return null
-    return this.toCartItemDomain(record as unknown as CartItemRecord)
+    return record ? this.toCartItemDomain(record) : null
   }
 
-  async findItemById(cartItemId: string): Promise<CartItemEntity | null> {
-    const record = await this.prisma.cartItem.findUnique({ where: { id: cartItemId } })
+  async findItemWithCart(cartItemId: string): Promise<CartItemWithCart | null> {
+    const record = await this.prisma.cartItem.findUnique({
+      where: { id: cartItemId },
+      include: { ...CART_ITEM_INCLUDE, cart: { select: { id: true, userId: true } } },
+    })
     if (!record) return null
+    const { cart, ...itemRecord } = record
+    return {
+      item: this.toCartItemDomain(itemRecord),
+      cart: new CartEntity({ id: cart.id, userId: cart.userId, items: [] }),
+    }
+  }
+
+  async incrementItemQuantity(input: IncrementItemInput): Promise<CartItemEntity> {
+    const { cartId, variantId, incrementBy, maxQuantity } = input
+    const record = await this.prisma.$transaction(async (tx) => {
+      const upserted = await tx.cartItem.upsert({
+        where: { cartId_variantId: { cartId, variantId } },
+        create: { cartId, variantId, quantity: incrementBy },
+        update: { quantity: { increment: incrementBy } },
+        include: CART_ITEM_INCLUDE,
+      })
+      if (upserted.quantity > maxQuantity) {
+        // Aborts the transaction and rolls back the increment, so concurrent
+        // add-to-cart requests cannot exceed `maxQuantity` in aggregate.
+        throw new InsufficientStockException()
+      }
+      return upserted
+    })
     return this.toCartItemDomain(record)
-  }
-
-  async addItem(cartId: string, variantId: string, quantity: number): Promise<CartItemEntity> {
-    const record = await this.prisma.cartItem.create({
-      data: { cartId, variantId, quantity },
-      include: cartItemInclude,
-    })
-    return this.toCartItemDomain(record as unknown as CartItemRecord)
   }
 
   async updateItemQuantity(itemId: string, quantity: number): Promise<CartItemEntity> {
     const record = await this.prisma.cartItem.update({
       where: { id: itemId },
       data: { quantity },
-      include: cartItemInclude,
+      include: CART_ITEM_INCLUDE,
     })
-    return this.toCartItemDomain(record as unknown as CartItemRecord)
+    return this.toCartItemDomain(record)
   }
 
   async deleteItem(itemId: string): Promise<void> {
@@ -121,23 +113,22 @@ export class PrismaCartRepository implements ICartRepository {
     await this.prisma.cartItem.deleteMany({ where: { cartId } })
   }
 
-  private toCartDomain(record: CartRecord): CartEntity {
-    const items = (record.items ?? []).map((item) => this.toCartItemDomain(item))
+  private toCartDomain(record: CartWithItemsRow): CartEntity {
+    const items = record.items.map((item) => this.toCartItemDomain(item))
     return new CartEntity({ id: record.id, userId: record.userId, items })
   }
 
-  private toCartItemDomain(record: CartItemRecord): CartItemEntity {
-    const variant = record.variant ? this.toVariantDomain(record.variant) : undefined
+  private toCartItemDomain(record: CartItemRow): CartItemEntity {
     return new CartItemEntity({
       id: record.id,
       cartId: record.cartId,
       variantId: record.variantId,
       quantity: record.quantity,
-      variant,
+      variant: this.toVariantDomain(record.variant),
     })
   }
 
-  private toVariantDomain(record: VariantWithProduct): ProductVariantEntity {
+  private toVariantDomain(record: VariantRow): ProductVariantEntity {
     return new ProductVariantEntity({
       id: record.id,
       sku: record.sku,
@@ -149,7 +140,7 @@ export class PrismaCartRepository implements ICartRepository {
         id: record.product.id,
         name: record.product.name,
         price: record.product.price,
-        status: record.product.status as ProductStatus,
+        status: record.product.status,
         seller: {
           id: record.product.seller.id,
           storeName: record.product.seller.storeName,

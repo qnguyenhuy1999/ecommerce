@@ -1,11 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common'
-import { PrismaClient } from '@prisma/client'
+import { Prisma, PrismaClient } from '@prisma/client'
 
-import {
-  ProductVariantEntity,
-  type ProductStatus,
-} from '../../domain/entities/product-variant.entity'
+import { ProductVariantEntity } from '../../domain/entities/product-variant.entity'
 import type { IProductVariantRepository } from '../../domain/ports/product-variant.repository.port'
+
+const VARIANT_INCLUDE = {
+  product: {
+    include: { seller: { select: { id: true, storeName: true } } },
+  },
+} satisfies Prisma.ProductVariantInclude
+
+type VariantRow = Prisma.ProductVariantGetPayload<{ include: typeof VARIANT_INCLUDE }>
 
 @Injectable()
 export class PrismaProductVariantRepository implements IProductVariantRepository {
@@ -14,14 +19,12 @@ export class PrismaProductVariantRepository implements IProductVariantRepository
   async findById(id: string): Promise<ProductVariantEntity | null> {
     const record = await this.prisma.productVariant.findUnique({
       where: { id },
-      include: {
-        product: {
-          include: { seller: { select: { id: true, storeName: true } } },
-        },
-      },
+      include: VARIANT_INCLUDE,
     })
-    if (!record) return null
+    return record ? this.toDomain(record) : null
+  }
 
+  private toDomain(record: VariantRow): ProductVariantEntity {
     return new ProductVariantEntity({
       id: record.id,
       sku: record.sku,
@@ -33,7 +36,7 @@ export class PrismaProductVariantRepository implements IProductVariantRepository
         id: record.product.id,
         name: record.product.name,
         price: record.product.price,
-        status: record.product.status as ProductStatus,
+        status: record.product.status,
         seller: {
           id: record.product.seller.id,
           storeName: record.product.seller.storeName,
