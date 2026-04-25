@@ -275,7 +275,7 @@
 
   /* ── Focus Ring ─────────────────────────────── */
   /* Subtle, modern focus halo */
-  --focus-ring-color: color-mix(in srgb, var(--brand-500) 35%, transparent);
+  --focus-ring-color: color-mix(in srgb, var(--brand-500) 55%, transparent);
   --focus-ring-width: 3px;
   --focus-ring-offset: 2px;
 
