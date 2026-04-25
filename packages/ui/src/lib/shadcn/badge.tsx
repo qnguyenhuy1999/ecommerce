@@ -43,11 +43,12 @@ const badgeVariants = cva(
         soft: 'border-transparent bg-accent text-accent-foreground hover:bg-accent/80',
       },
       size: {
-        xs: 'px-1.5 py-0.5 text-[var(--space-3)] leading-[calc(var(--space-3)+2px)]',
-        sm: 'px-2 py-0.5 text-[var(--space-3)] leading-[var(--space-4)]',
-        md: 'px-2.5 py-1 text-[var(--space-3)] leading-[calc(var(--space-4)+4px)]',
-        lg: 'px-3 py-1 text-[var(--space-4)] leading-[var(--space-5)]',
-        default: 'px-2.5 py-1 text-[var(--space-3)] leading-[calc(var(--space-4)+4px)]',
+        xs: 'px-[var(--space-1-5)] py-[1px] text-[length:var(--text-micro)] leading-[var(--line-height-tight)]',
+        sm: 'px-[var(--space-2)] py-[var(--space-0-5)] text-[length:var(--text-micro)] leading-[var(--line-height-tight)]',
+        md: 'px-[var(--space-2-5)] py-[var(--space-0-5)] text-[length:var(--text-xs)] leading-[var(--line-height-snug)]',
+        lg: 'px-[var(--space-3)] py-[var(--space-1)] text-[length:var(--text-sm)] leading-[var(--line-height-snug)]',
+        default:
+          'px-[var(--space-2-5)] py-[var(--space-0-5)] text-[length:var(--text-xs)] leading-[var(--line-height-snug)]',
       },
     },
     defaultVariants: {
@@ -87,7 +88,7 @@ function Badge({
       {(dot || pulse) && (
         <span
           className={cn(
-            'relative flex h-2 w-2 shrink-0 items-center justify-center rounded-full mt-0.5',
+            'relative flex h-[var(--space-2)] w-[var(--space-2)] shrink-0 items-center justify-center rounded-full',
             !dotColor && 'bg-current',
           )}
           style={dotColor ? { backgroundColor: dotColor } : undefined}
@@ -110,9 +111,9 @@ function Badge({
           />
         </span>
       )}
-      {icon && <span className="inline-flex items-center shrink-0 mt-0.5">{icon}</span>}
+      {icon && <span className="inline-flex items-center shrink-0">{icon}</span>}
       <span className="truncate">{children}</span>
-      {iconRight && <span className="inline-flex items-center shrink-0 mt-0.5">{iconRight}</span>}
+      {iconRight && <span className="inline-flex items-center shrink-0">{iconRight}</span>}
       {removable && (
         <button
           type="button"

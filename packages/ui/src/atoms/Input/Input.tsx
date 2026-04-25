@@ -59,9 +59,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const resolvedSuffixIcon = loading ? <LoadingSpinner size="sm" /> : suffixIcon
 
     const sizeClasses = {
-      sm: 'h-8 text-[var(--text-xs)]',
-      default: 'h-11 text-[var(--text-sm)]',
-      lg: 'h-12 text-[var(--text-base)]',
+      sm: 'h-[var(--button-height-sm)] text-[length:var(--text-sm)]',
+      default: 'h-[var(--button-height-md)] text-[length:var(--text-sm)]',
+      lg: 'h-[var(--button-height-lg)] text-[length:var(--text-base)]',
     }[size]
 
     // If floating label is used, we need placeholder to be non-empty for CSS :placeholder-shown to work
@@ -71,28 +71,27 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <input
         type={type}
         className={cn(
-          'peer flex w-full rounded-[var(--input-radius)] border bg-[var(--surface-base)]/92 backdrop-blur-[6px]',
+          'peer flex w-full rounded-[var(--input-radius)] border bg-[var(--input-bg)]',
           sizeClasses,
           // Default border: destructive for error, input color otherwise
-          error ? 'border-destructive' : 'border-input',
+          error ? 'border-[var(--intent-danger)]' : 'border-[var(--input-border)]',
           // Typography
-          'py-2 text-foreground shadow-[var(--elevation-xs)]',
+          'text-foreground',
           // Padding left
-          prefixIcon ? 'pl-10' : 'pl-3',
+          prefixIcon ? 'pl-[var(--space-10)]' : 'pl-[var(--space-3)]',
           // Padding right
-          suffixIcon || loading ? 'pr-10' : 'pr-3',
-          label && 'pt-4 pb-1', // Extra top padding for floating label
-          // Shadow only on focus — not at rest
-          'focus:shadow-[var(--elevation-card)] focus:bg-background focus:border-[var(--border-strong)]',
-          // Transitions: border + shadow for focus feedback
-          'transition-[border-color,box-shadow,background-color,padding] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
+          suffixIcon || loading ? 'pr-[var(--space-10)]' : 'pr-[var(--space-3)]',
+          label && 'pt-[var(--space-4)] pb-[var(--space-1)]', // Extra top padding for floating label
+          // Focus state: subtle ring instead of heavy shadow
+          'focus-visible:outline-none focus-visible:border-[var(--brand-500)] focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-0',
+          // Transitions
+          'transition-[border-color,box-shadow] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
           'file:border-0 file:bg-transparent file:font-medium file:text-foreground',
-          'placeholder:text-muted-foreground/95',
-          label && 'placeholder:text-transparent focus:placeholder:text-muted-foreground',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          'disabled:cursor-not-allowed disabled:opacity-50',
-          // Error: stronger ring on focus
-          error && 'focus-visible:ring-destructive',
+          'placeholder:text-[var(--input-placeholder)]',
+          label && 'placeholder:text-transparent focus:placeholder:text-[var(--input-placeholder)]',
+          'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-[var(--surface-disabled)]',
+          error &&
+            'focus-visible:border-[var(--intent-danger)] focus-visible:ring-[var(--intent-danger-muted)]',
           className,
         )}
         ref={ref}

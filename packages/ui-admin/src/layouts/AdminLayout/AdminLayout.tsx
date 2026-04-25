@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 
 import { cn } from '@ecom/ui'
 
-import type { AdminSidebarProps } from '../../organisms/Sidebar/AdminSidebar'
+import type { AdminSidebarProps } from '../../organisms/sidebar/AdminSidebar'
 import type { AdminHeaderProps } from '../../organisms/AdminHeader/AdminHeader'
-import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
+import { AdminSidebar } from '../../organisms/sidebar/AdminSidebar'
 import { AdminHeader } from '../../organisms/AdminHeader/AdminHeader'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -51,7 +51,7 @@ function AdminLayout({
   return (
     <div
       className={cn(
-        'min-h-screen bg-[radial-gradient(circle_at_top_right,rgb(var(--brand-500-rgb)_/_0.07),transparent_26%),var(--surface-subtle)] text-foreground',
+        'min-h-screen bg-[var(--surface-subtle)] text-foreground antialiased',
         className,
       )}
       {...props}
@@ -69,8 +69,11 @@ function AdminLayout({
 
       <div
         className={cn(
-          'flex min-h-screen flex-1 flex-col min-w-0 transition-all duration-[var(--duration-normal)]',
-          isSidebarCollapsed ? 'pl-16' : 'pl-[var(--admin-sidebar-width)]',
+          'flex min-h-screen min-w-0 flex-1 flex-col',
+          'transition-[padding-left] duration-[var(--duration-normal)] ease-[var(--motion-ease-default)]',
+          isSidebarCollapsed
+            ? 'lg:pl-[var(--admin-sidebar-collapsed-width)]'
+            : 'lg:pl-[var(--admin-sidebar-width)]',
         )}
       >
         {shellTopbar}
@@ -78,13 +81,21 @@ function AdminLayout({
         {header !== false &&
           (header ?? (
             <AdminHeader
-              className="border-b border-[var(--border-subtle)] bg-[var(--surface-base)]/92 backdrop-blur-[14px]"
+              className="border-b border-[var(--border-subtle)] bg-[var(--surface-base)]"
               {...headerProps}
             />
           ))}
 
         <main className="relative flex-1">
-          <div className="mx-auto flex w-full max-w-[calc(var(--admin-content-max-width)+var(--space-12))] flex-1 flex-col gap-6 px-[var(--space-6)] pb-[var(--space-8)] pt-[var(--space-6)] animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both">
+          <div
+            className={cn(
+              'mx-auto flex w-full max-w-[var(--admin-content-max-width)] flex-1 flex-col',
+              'gap-[var(--space-6)]',
+              'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
+              'pt-[var(--space-6)] pb-[var(--space-10)]',
+              'animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both',
+            )}
+          >
             {contentHeader}
             {children}
           </div>

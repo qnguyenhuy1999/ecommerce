@@ -13,10 +13,10 @@ export function ProductCardImage({ src, alt, className, ...props }: ProductCardI
   const imageContainer = (
     <div
       className={cn(
-        'relative overflow-hidden bg-gradient-to-br from-muted via-muted/70 to-muted/40',
+        'relative overflow-hidden bg-[var(--surface-muted)]',
         view === 'list'
-          ? 'h-full min-h-[14rem] w-full sm:w-[15rem] lg:w-[16rem]'
-          : 'aspect-[4/3] w-full',
+          ? 'h-full w-full sm:w-[14rem] lg:w-[16rem] aspect-square sm:aspect-auto'
+          : 'aspect-[4/5] w-full',
       )}
     >
       <img
@@ -26,21 +26,23 @@ export function ProductCardImage({ src, alt, className, ...props }: ProductCardI
         onLoad={() => setLoaded(true)}
         className={cn(
           'h-full w-full object-cover',
-          'transition-[opacity,transform] duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
+          'transition-[opacity,transform] duration-[var(--motion-slow)] ease-[var(--motion-ease-out)]',
           'will-change-transform',
           loaded ? 'opacity-100' : 'opacity-0',
-          'group-hover:scale-[1.04]',
+          'group-hover:scale-[1.05]',
           className,
         )}
         {...props}
       />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
     </div>
   )
 
   if (href) {
     return (
-      <a href={href} className={cn('relative block', view === 'list' && 'shrink-0')}>
+      <a
+        href={href}
+        className={cn('relative block focus-visible:outline-none', view === 'list' && 'shrink-0')}
+      >
         {imageContainer}
       </a>
     )

@@ -273,7 +273,8 @@
   --intent-info-foreground: var(--intent-info-fg);
 
   /* ── Focus Ring ─────────────────────────────── */
-  --focus-ring-color: color-mix(in srgb, var(--brand-500) 72%, white);
+  /* Subtle, modern focus halo */
+  --focus-ring-color: color-mix(in srgb, var(--brand-500) 35%, transparent);
   --focus-ring-width: 3px;
   --focus-ring-offset: 2px;
 
@@ -415,8 +416,9 @@
   /* ── Card ────────────────────────────────────── */
   --card-bg: var(--surface-base);
   --card-fg: var(--text-primary);
-  --card-border: var(--border-default);
+  --card-border: var(--border-subtle);
   --card-padding: var(--space-6);
+  --card-padding-compact: var(--space-4);
   --card-gap: var(--space-4);
   --card-radius: var(--radius-lg);
   --card-radius-premium: var(--radius-xl);
