@@ -1,11 +1,4 @@
-import {
-  BadRequestException,
-  ForbiddenException,
-  Inject,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common'
+import { Inject, InternalServerErrorException, Logger } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { UpdateCartItemCommand } from './update-cart-item.command'
@@ -14,14 +7,9 @@ import {
   InsufficientStockException,
   InvalidQuantityException,
   NotCartOwnerException,
-  VariantNotFoundException,
 } from '../../../domain/exceptions/cart.exceptions'
 import { CART_CACHE, ICartCache } from '../../../domain/ports/cart-cache.port'
 import { CART_REPOSITORY, ICartRepository } from '../../../domain/ports/cart.repository.port'
-import {
-  IProductVariantRepository,
-  PRODUCT_VARIANT_REPOSITORY,
-} from '../../../domain/ports/product-variant.repository.port'
 import { CartViewService } from '../../services/cart-view.service'
 import type { CartItemView } from '../../views/cart.view'
 
@@ -33,58 +21,47 @@ export class UpdateCartItemHandler
 
   constructor(
     @Inject(CART_REPOSITORY) private readonly cartRepo: ICartRepository,
-    @Inject(PRODUCT_VARIANT_REPOSITORY) private readonly variantRepo: IProductVariantRepository,
     @Inject(CART_CACHE) private readonly cartCache: ICartCache,
     private readonly cartViewService: CartViewService,
   ) {}
 
   async execute(command: UpdateCartItemCommand): Promise<CartItemView> {
-    if (command.quantity < 1) {
-      throw new BadRequestException({
-        code: new InvalidQuantityException().code,
-        message: new InvalidQuantityException().message,
-      })
-    }
+    if (command.quantity < 1) throw new InvalidQuantityException()
 
-    const item = await this.cartRepo.findItemById(command.cartItemId)
-    if (!item) {
-      throw new NotFoundException({
-        code: new CartItemNotFoundException().code,
-        message: new CartItemNotFoundException().message,
-      })
-    }
+    const found = await this.cartRepo.findItemWithCart(command.cartItemId)
+    if (!found) throw new CartItemNotFoundException()
+    if (!found.cart.isOwnedBy(command.userId)) throw new NotCartOwnerException()
 
-    const cart = await this.cartRepo.findByUserIdWithItems(command.userId)
-    if (!cart || cart.id !== item.cartId || !cart.isOwnedBy(command.userId)) {
-      throw new ForbiddenException({
-        code: new NotCartOwnerException().code,
-        message: new NotCartOwnerException().message,
-      })
-    }
-
-    const variant = await this.variantRepo.findById(item.variantId)
+    const variant = found.item.variant
     if (!variant) {
-      throw new NotFoundException({
-        code: new VariantNotFoundException().code,
-        message: new VariantNotFoundException().message,
+      // Defensive: repository is contractually required to hydrate the variant.
+      throw new InternalServerErrorException({
+        code: 'CART_ITEM_VARIANT_MISSING',
+        message: 'Cart item was returned without its variant',
       })
     }
     if (!variant.canFulfillQuantity(command.quantity)) {
-      throw new BadRequestException({
-        code: new InsufficientStockException().code,
-        message: new InsufficientStockException().message,
-      })
+      throw new InsufficientStockException()
     }
 
     const persisted = await this.cartRepo.updateItemQuantity(command.cartItemId, command.quantity)
-    cart.upsertItem(persisted)
 
+    // Rebuild the authoritative view from the full cart so the response (and
+    // the next cache miss) reflect cross-item totals correctly.
+    const cart =
+      (await this.cartRepo.findByUserIdWithItems(command.userId)) ??
+      (() => {
+        throw new InternalServerErrorException({
+          code: 'CART_NOT_FOUND_AFTER_UPDATE',
+          message: 'Cart disappeared between ownership check and view build',
+        })
+      })()
     const view = this.cartViewService.toView(cart)
-    await this.cartCache.set(command.userId, view)
+    await this.cartCache.delete(command.userId)
 
-    const itemView = view.items.find((i) => i.id === command.cartItemId)
+    const itemView = view.items.find((i) => i.id === persisted.id)
     if (!itemView) {
-      // Unreachable: we just upserted this item into the cart we're rendering.
+      // Unreachable: we just persisted this item into the cart we're rendering.
       throw new InternalServerErrorException({
         code: 'CART_VIEW_INCONSISTENT',
         message: 'Failed to locate just-updated cart item in the rendered view',

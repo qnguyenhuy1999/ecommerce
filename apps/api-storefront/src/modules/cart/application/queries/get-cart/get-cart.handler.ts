@@ -19,10 +19,9 @@ export class GetCartHandler implements IQueryHandler<GetCartQuery, CartView> {
     const cached = await this.cartCache.get(query.userId)
     if (cached) return cached
 
-    const cart =
-      (await this.cartRepo.findByUserIdWithItems(query.userId)) ??
-      (await this.cartRepo.createForUser(query.userId))
-
+    // `upsertForUser` is atomic, so concurrent first-visits can no longer race
+    // on the `Cart.userId` unique constraint.
+    const cart = await this.cartRepo.upsertForUser(query.userId)
     const view = this.cartViewService.toView(cart)
     await this.cartCache.set(query.userId, view)
     return view

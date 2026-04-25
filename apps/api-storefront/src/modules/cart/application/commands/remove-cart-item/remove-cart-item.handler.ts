@@ -1,4 +1,4 @@
-import { ForbiddenException, Inject, Logger, NotFoundException } from '@nestjs/common'
+import { Inject, Logger } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { RemoveCartItemCommand } from './remove-cart-item.command'
@@ -19,21 +19,9 @@ export class RemoveCartItemHandler implements ICommandHandler<RemoveCartItemComm
   ) {}
 
   async execute(command: RemoveCartItemCommand): Promise<void> {
-    const item = await this.cartRepo.findItemById(command.cartItemId)
-    if (!item) {
-      throw new NotFoundException({
-        code: new CartItemNotFoundException().code,
-        message: new CartItemNotFoundException().message,
-      })
-    }
-
-    const cart = await this.cartRepo.findCartById(item.cartId)
-    if (!cart || !cart.isOwnedBy(command.userId)) {
-      throw new ForbiddenException({
-        code: new NotCartOwnerException().code,
-        message: new NotCartOwnerException().message,
-      })
-    }
+    const found = await this.cartRepo.findItemWithCart(command.cartItemId)
+    if (!found) throw new CartItemNotFoundException()
+    if (!found.cart.isOwnedBy(command.userId)) throw new NotCartOwnerException()
 
     await this.cartRepo.deleteItem(command.cartItemId)
     await this.cartCache.delete(command.userId)

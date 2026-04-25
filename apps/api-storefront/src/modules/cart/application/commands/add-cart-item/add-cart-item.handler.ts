@@ -1,10 +1,4 @@
-import {
-  BadRequestException,
-  Inject,
-  InternalServerErrorException,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common'
+import { Inject, InternalServerErrorException, Logger } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { AddCartItemCommand } from './add-cart-item.command'
@@ -42,39 +36,28 @@ export class AddCartItemHandler implements ICommandHandler<AddCartItemCommand, A
 
   async execute(command: AddCartItemCommand): Promise<AddCartItemResult> {
     const variant = await this.variantRepo.findById(command.variantId)
-    if (!variant) {
-      throw new NotFoundException({
-        code: new VariantNotFoundException().code,
-        message: new VariantNotFoundException().message,
-      })
-    }
-    if (!variant.isProductActive()) {
-      throw new BadRequestException({
-        code: new ProductNotActiveException().code,
-        message: new ProductNotActiveException().message,
-      })
+    if (!variant) throw new VariantNotFoundException()
+    if (!variant.isProductActive()) throw new ProductNotActiveException()
+    if (!variant.canFulfillQuantity(command.quantity)) {
+      // Fast path: quantity alone already exceeds stock. The atomic upsert
+      // below re-checks `existing + quantity` against `availableStock` and
+      // rolls back if concurrent adds push us past the cap.
+      throw new InsufficientStockException()
     }
 
-    const cart =
-      (await this.cartRepo.findByUserIdWithItems(command.userId)) ??
-      (await this.cartRepo.createForUser(command.userId))
-
-    const existing = cart.findItemByVariantId(command.variantId)
-    const desiredQuantity = (existing?.quantity ?? 0) + command.quantity
-    if (!variant.canFulfillQuantity(desiredQuantity)) {
-      throw new BadRequestException({
-        code: new InsufficientStockException().code,
-        message: new InsufficientStockException().message,
-      })
-    }
-
-    const persisted = existing
-      ? await this.cartRepo.updateItemQuantity(existing.id, desiredQuantity)
-      : await this.cartRepo.addItem(cart.id, command.variantId, command.quantity)
+    const cart = await this.cartRepo.upsertForUser(command.userId)
+    const persisted = await this.cartRepo.incrementItemQuantity({
+      cartId: cart.id,
+      variantId: command.variantId,
+      incrementBy: command.quantity,
+      maxQuantity: variant.availableStock,
+    })
     cart.upsertItem(persisted)
 
     const view = this.cartViewService.toView(cart)
-    await this.cartCache.set(command.userId, view)
+    // Invalidate rather than write: a concurrent GET that fetched stale data
+    // before our commit could otherwise clobber a fresh write-through entry.
+    await this.cartCache.delete(command.userId)
 
     const itemView = view.items.find((i) => i.id === persisted.id)
     if (!itemView) {
@@ -85,7 +68,9 @@ export class AddCartItemHandler implements ICommandHandler<AddCartItemCommand, A
       })
     }
 
-    this.logger.log(`Cart item upserted: cart=${cart.id} item=${persisted.id} qty=${String(persisted.quantity)}`)
+    this.logger.log(
+      `Cart item upserted: cart=${cart.id} item=${persisted.id} qty=${String(persisted.quantity)}`,
+    )
     return {
       cartItemId: persisted.id,
       variant: itemView.variant,
