@@ -11,12 +11,7 @@ import {
   XCircle,
 } from 'lucide-react'
 
-import {
-  Breadcrumb,
-  Button,
-  Separator,
-  cn,
-} from '@ecom/ui'
+import { Breadcrumb, Button, Separator, cn } from '@ecom/ui'
 import type { BreadcrumbItem } from '@ecom/ui'
 
 import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
@@ -53,15 +48,11 @@ export interface OrderDetailPageLayoutProps extends React.HTMLAttributes<HTMLDiv
  * Card surface — uniform corner radius, border and elevation so every panel on
  * the dashboard reads as part of the same family.
  */
-function DashboardCard({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
+function DashboardCard({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       className={cn(
-        'rounded-[var(--radius-2xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)]',
+        'rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-base)]',
         'shadow-[var(--elevation-card)]',
         'transition-shadow duration-[var(--motion-normal)]',
         className,
@@ -122,8 +113,7 @@ function OrderDetailPageLayout({
   const trackingInfo = subOrders.find((s) => s.trackingInfo)?.trackingInfo
 
   // Status flag — only render the live indicator on truly active states.
-  const isLiveTrackable =
-    status === 'PROCESSING' || status === 'SHIPPED' || status === 'PAID'
+  const isLiveTrackable = status === 'PROCESSING' || status === 'SHIPPED' || status === 'PAID'
 
   return (
     <StorefrontShell
@@ -188,8 +178,8 @@ function OrderDetailPageLayout({
                   : 'Your order is on its way'}
               </h1>
               <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] leading-[var(--line-height-relaxed)]">
-                {totalItemCount} item{totalItemCount === 1 ? '' : 's'} from{' '}
-                {subOrders.length} seller{subOrders.length === 1 ? '' : 's'}
+                {totalItemCount} item{totalItemCount === 1 ? '' : 's'} from {subOrders.length}{' '}
+                seller{subOrders.length === 1 ? '' : 's'}
                 {trackingInfo ? ` · Tracked via ${trackingInfo.carrier}` : ''}
               </p>
 
@@ -232,7 +222,7 @@ function OrderDetailPageLayout({
               <div
                 className={cn(
                   'flex shrink-0 items-center gap-[var(--space-3)]',
-                  'rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
+                  'rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
                   'px-[var(--space-4)] py-[var(--space-3)]',
                 )}
               >
