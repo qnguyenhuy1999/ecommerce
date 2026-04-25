@@ -32,14 +32,14 @@ const buttonVariants = cva(
         link: 'text-primary underline-offset-4 hover:underline',
         soft: 'bg-accent text-accent-foreground hover:bg-accent/80',
         'brand-outline':
-          'border border-brand text-brand bg-brand-muted/50 hover:bg-brand-muted hover:shadow-sm',
+          'border border-brand text-brand bg-[rgb(var(--brand-500-rgb)/0.06)] hover:bg-[rgb(var(--brand-500-rgb)/0.12)] hover:shadow-sm',
       },
       size: {
-        default: 'h-10 px-5 py-2 text-sm rounded-[var(--radius-sm)]',
+        default: 'h-11 sm:h-10 px-5 py-2 text-sm rounded-[var(--radius-sm)]',
         sm: 'h-8 px-3 text-xs rounded-[var(--radius-sm)]',
         lg: 'h-11 px-8 text-sm rounded-[var(--radius-sm)]',
-        xl: 'h-12 px-8 text-sm rounded-[var(--radius-md)]',
-        icon: 'h-10 w-10 rounded-[var(--radius-sm)]',
+        xl: 'h-12 px-8 text-base rounded-[var(--radius-md)]',
+        icon: 'h-11 w-11 sm:h-10 sm:w-10 rounded-[var(--radius-sm)]',
       },
     },
     defaultVariants: {

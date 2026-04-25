@@ -37,6 +37,7 @@ export interface SearchResultsPageLayoutProps {
   emptyState?: React.ReactNode
   newsletter?: React.ReactNode
   aside?: React.ReactNode
+  resultsToolbar?: React.ReactNode
 }
 
 function SearchResultsPageLayout({
@@ -62,6 +63,7 @@ function SearchResultsPageLayout({
   newsletter,
   aside,
   className,
+  resultsToolbar,
   ...props
 }: SearchResultsPageLayoutProps) {
   const isEmpty = totalResults === 0
@@ -80,34 +82,32 @@ function SearchResultsPageLayout({
       footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
       {...props}
     >
-      <div className="px-4 py-8 md:px-8 md:py-12 mx-auto max-w-[var(--storefront-content-max-width)]">
-        {/* Page title */}
-        <div className="mb-8 space-y-1">
-          <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em] text-[var(--action-primary)]/80">
-            Search Results
-          </p>
-          <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)]">
-            {query ? (
-              <>
-                Results for <span className="text-[var(--action-primary)]">"{query}"</span>
-              </>
-            ) : (
-              'All Products'
-            )}
-          </h1>
-          {totalResults > 0 && (
-            <p className="text-[var(--text-sm)] text-[var(--text-secondary)]">
-              {totalResults.toLocaleString()} {totalResults === 1 ? 'product' : 'products'} found
+      <div className="mx-auto max-w-[var(--storefront-content-max-width)] px-4 py-8 md:px-8 md:py-12">
+        <div className="mb-8 rounded-[var(--radius-xl)] border border-border/70 bg-[var(--surface-elevated)]/78 px-6 py-6 shadow-[var(--elevation-surface)] backdrop-blur-[10px]">
+          <div className="space-y-2">
+            <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em] text-[var(--action-primary)]/80">
+              Search Results
             </p>
-          )}
+            <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)] md:text-4xl">
+              {query ? (
+                <>
+                  Results for <span className="text-[var(--action-primary)]">“{query}”</span>
+                </>
+              ) : (
+                'All Products'
+              )}
+            </h1>
+            {totalResults > 0 && (
+              <p className="text-[var(--text-sm)] text-[var(--text-secondary)]">
+                {totalResults.toLocaleString()} {totalResults === 1 ? 'product' : 'products'} found
+              </p>
+            )}
+          </div>
+
+          {suggestions && <div className="mt-5">{suggestions}</div>}
         </div>
 
-        {/* Suggestions */}
-        {suggestions && <div className="mb-6">{suggestions}</div>}
-
-        {/* Content grid */}
         <div className="grid gap-8 lg:grid-cols-[20rem_minmax(0,1fr)] lg:items-start">
-          {/* Sidebar */}
           <aside className="space-y-4 lg:sticky lg:top-28">
             <FilterSidebar
               groups={filters}
@@ -117,31 +117,31 @@ function SearchResultsPageLayout({
             {aside}
           </aside>
 
-          {/* Results area */}
           <div className="space-y-5">
-            {/* Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <ActiveFilters
-                filters={activeFilters}
-                onRemove={(key, value) => onRemoveFilter?.(key, value)}
-                onClearAll={() => onClearFilters?.()}
-              />
-              <div className="ml-auto">
-                <SortDropdown
-                  value={sortValue}
-                  options={sortOptions}
-                  onChange={onSortChange}
-                  id="search-sort"
+            <div className="rounded-[var(--radius-xl)] border border-border/70 bg-[var(--surface-elevated)]/92 p-3 shadow-[var(--elevation-surface)] backdrop-blur-[8px]">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <ActiveFilters
+                  filters={activeFilters}
+                  onRemove={(key, value) => onRemoveFilter?.(key, value)}
+                  onClearAll={() => onClearFilters?.()}
                 />
+                <div className="ml-auto flex flex-wrap items-center gap-3">
+                  {resultsToolbar}
+                  <SortDropdown
+                    value={sortValue}
+                    options={sortOptions}
+                    onChange={onSortChange}
+                    id="search-sort"
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Results or empty */}
             {isEmpty ? (
               <div className="py-20">
                 {emptyState ?? (
                   <EmptyState
-                    icon={<Search className="w-10 h-10 text-[var(--text-tertiary)]" />}
+                    icon={<Search className="h-10 w-10 text-[var(--text-tertiary)]" />}
                     title="No results found"
                     description={`We couldn't find any products matching "${query}". Try different keywords or browse our categories.`}
                     action={{
@@ -156,7 +156,6 @@ function SearchResultsPageLayout({
               <div className={cn('space-y-3')}>{results}</div>
             )}
 
-            {/* Pagination */}
             {!isEmpty && pagination && <div className="pt-4">{pagination}</div>}
           </div>
         </div>

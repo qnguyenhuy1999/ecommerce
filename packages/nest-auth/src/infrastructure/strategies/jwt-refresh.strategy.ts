@@ -5,7 +5,9 @@ import type { Request } from 'express'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
 export interface JwtRefreshPayload {
-  sub: string; family: string; jti: string
+  sub: string
+  family: string
+  jti: string
 }
 
 @Injectable()
@@ -13,7 +15,8 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'jwt-refresh'
   constructor(@Inject(ConfigService) config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        (req: Request) => (req.cookies as Record<string, string | undefined>)['refresh_token'] ?? null,
+        (req: Request) =>
+          (req.cookies as Record<string, string | undefined>)['refresh_token'] ?? null,
       ]),
       ignoreExpiration: false,
       secretOrKey: config.get<string>('jwt.refreshSecret'),

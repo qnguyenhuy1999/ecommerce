@@ -145,16 +145,13 @@ export function FilterSidebarClient({
       {...props}
     >
       {/* Header panel */}
-      <div className="rounded-2xl border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--elevation-sticky)]">
+      <div className="rounded-md border border-[var(--border-subtle)] bg-[var(--surface-elevated)] p-4 shadow-[var(--elevation-sticky)]">
         <div className="flex items-center justify-between">
           <h2 className="text-[var(--text-lg)] font-bold text-[var(--text-primary)] flex items-center gap-2.5 tracking-tight">
             <Filter className="w-5 h-5 text-[var(--action-primary)]" />
             Refine Results
             {activeCount > 0 && (
-              <Badge
-                variant="secondary"
-                className="ml-1 font-bold text-[var(--surface-base)] bg-[var(--text-primary)] border-0"
-              >
+              <Badge variant="destructive" className="ml-1 font-bold border-0">
                 {activeCount}
               </Badge>
             )}

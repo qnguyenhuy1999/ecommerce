@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import React from 'react'
+import { useState } from 'react'
 import { Search, Eye, DollarSign } from 'lucide-react'
 import { Input } from '../Input/Input'
 
@@ -67,7 +67,7 @@ export const WithCharacterCount: Story = {
 
 export const Sizes: Story = {
   render: () => (
-    <div className="flex flex-col gap-4 max-w-sm">
+    <div className="flex max-w-sm flex-col gap-4">
       <Input size="sm" placeholder="Small size" />
       <Input size="default" placeholder="Default size" />
       <Input size="lg" placeholder="Large size" />
@@ -96,9 +96,9 @@ export const PriceInput: Story = {
 export const FullFeatured: Story = {
   render: () => {
     // eslint-disable-next-line react-hooks/rules-of-hooks -- Story render uses hooks for local demo state.
-    const [value, setValue] = React.useState('')
+    const [value, setValue] = useState('')
     return (
-      <div className="flex flex-col gap-3 max-w-sm">
+      <div className="flex max-w-sm flex-col gap-3">
         <Input
           label="Product Title"
           placeholder=" "

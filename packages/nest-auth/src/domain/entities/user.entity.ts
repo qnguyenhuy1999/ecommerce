@@ -13,11 +13,25 @@ export interface UserProps {
 
 export class UserEntity {
   constructor(readonly props: UserProps) {}
-  get id() { return this.props.id }
-  get email() { return this.props.email }
-  get passwordHash() { return this.props.passwordHash }
-  get role() { return this.props.role }
-  get status() { return this.props.status }
-  isActive(): boolean { return this.props.status === 'ACTIVE' }
-  canLogin(): boolean { return this.props.status === 'ACTIVE' || this.props.status === 'UNVERIFIED' }
+  get id() {
+    return this.props.id
+  }
+  get email() {
+    return this.props.email
+  }
+  get passwordHash() {
+    return this.props.passwordHash
+  }
+  get role() {
+    return this.props.role
+  }
+  get status() {
+    return this.props.status
+  }
+  isActive(): boolean {
+    return this.props.status === 'ACTIVE'
+  }
+  canLogin(): boolean {
+    return this.props.status === 'ACTIVE' || this.props.status === 'UNVERIFIED'
+  }
 }

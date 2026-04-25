@@ -7,6 +7,7 @@ const ProductCardContext = React.createContext<{
   id: string
   title: string
   href?: string
+  view: 'grid' | 'list'
 } | null>(null)
 
 export function useProductCard() {
@@ -25,6 +26,7 @@ export interface ProductCardProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   /** Show loading skeleton overlay */
   loading?: boolean
+  view?: 'grid' | 'list'
 }
 
 function ProductCard({
@@ -34,28 +36,28 @@ function ProductCard({
   className,
   loading,
   children,
+  view = 'grid',
   ...props
 }: ProductCardProps) {
   return (
-    <ProductCardContext.Provider value={{ id, title, href }}>
+    <ProductCardContext.Provider value={{ id, title, href, view }}>
       <article
         className={cn(
-          'group relative flex h-full flex-col overflow-hidden border border-border/70 bg-card',
-          'rounded-[var(--radius-lg)] shadow-[var(--elevation-card)]',
+          'product-card group relative flex h-full overflow-hidden border border-border/70 bg-card text-card-foreground',
+          'rounded-[var(--radius-xl)] shadow-[var(--elevation-card)]',
           'transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-default)]',
           'hover:-translate-y-0.5 hover:shadow-[var(--elevation-hover)] hover:border-border',
-          'focus-within:ring-2 focus-within:ring-brand/30 focus-within:ring-offset-2 focus-within:ring-offset-background',
+          'focus-within:ring-2 focus-within:ring-brand/25 focus-within:ring-offset-2 focus-within:ring-offset-background',
+          view === 'list' ? 'flex-row items-stretch' : 'flex-col',
           loading && 'pointer-events-none',
           className,
         )}
+        data-view={view}
         {...props}
       >
         {loading && (
-          <div className="absolute inset-0 z-10 overflow-hidden rounded-[var(--radius-lg)] bg-card/70 backdrop-blur-[1px]">
-            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-muted/60 to-transparent" />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="h-6 w-6 rounded-full border-2 border-brand border-t-transparent animate-spin" />
-            </div>
+          <div className="absolute inset-0 z-10 overflow-hidden rounded-[var(--radius-xl)] bg-card/76 backdrop-blur-[2px]">
+            <div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-muted/70 to-transparent" />
           </div>
         )}
         {children}

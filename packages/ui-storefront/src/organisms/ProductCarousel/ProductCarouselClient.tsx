@@ -91,7 +91,7 @@ function ProductCarouselClient({
       </div>
 
       {/* Scrollable Track */}
-      <div className="relative">
+      <div className="relative max-w-[var(--storefront-content-max-width)] mx-auto w-full">
         {canScrollLeft && (
           <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none bg-gradient-to-r from-background to-transparent" />
         )}

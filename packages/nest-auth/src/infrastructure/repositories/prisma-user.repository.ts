@@ -8,7 +8,15 @@ import type { IUserRepository } from '../../domain/ports/user.repository.port'
 export class PrismaUserRepository implements IUserRepository {
   constructor(@Inject(PrismaClient) private readonly prisma: PrismaClient) {}
 
-  private toDomain(record: { id: string; email: string; password: string; role: string; status: string; emailVerified: Date | null; createdAt: Date }): UserEntity {
+  private toDomain(record: {
+    id: string
+    email: string
+    password: string
+    role: string
+    status: string
+    emailVerified: Date | null
+    createdAt: Date
+  }): UserEntity {
     return new UserEntity({
       id: record.id,
       email: record.email,
@@ -30,9 +38,17 @@ export class PrismaUserRepository implements IUserRepository {
     return record ? this.toDomain(record) : null
   }
 
-  async create(data: { email: string; passwordHash: string; role?: UserRole }): Promise<UserEntity> {
+  async create(data: {
+    email: string
+    passwordHash: string
+    role?: UserRole
+  }): Promise<UserEntity> {
     const record = await this.prisma.user.create({
-      data: { email: data.email, password: data.passwordHash, role: (data.role ?? 'USER') as $Enums.UserRole },
+      data: {
+        email: data.email,
+        password: data.passwordHash,
+        role: (data.role ?? 'USER') as $Enums.UserRole,
+      },
     })
     return this.toDomain(record)
   }

@@ -104,19 +104,14 @@ function RevenueChartRoot({
   const defaultContent = (
     <div
       className={cn(
-        'relative overflow-hidden rounded-[var(--radius-lg)] bg-[var(--surface-base)] p-0',
+        'relative overflow-hidden rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)]/96 p-0 backdrop-blur-[10px]',
         className,
       )}
       style={{ boxShadow: 'var(--elevation-surface)' }}
       {...props}
     >
       {/* Subtle rose inner-gradient for premium depth */}
-      <div
-        className="pointer-events-none absolute inset-0 z-0 rounded-[var(--radius-lg)]"
-        style={{
-          background: 'linear-gradient(135deg, rgb(255 56 92 / 0.04) 0%, transparent 55%)',
-        }}
-      />
+      <div className="pointer-events-none absolute inset-0 z-0 rounded-[var(--radius-lg)]" />
 
       <Card
         className="relative z-10 border-0 shadow-none"
@@ -163,7 +158,7 @@ function RevenueChartHeader({ className, ...props }: React.HTMLAttributes<HTMLDi
       </div>
 
       <div
-        className="mt-1 flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full"
+        className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full shadow-[var(--elevation-xs)]"
         style={{ background: 'var(--action-muted)' }}
         aria-hidden
       >

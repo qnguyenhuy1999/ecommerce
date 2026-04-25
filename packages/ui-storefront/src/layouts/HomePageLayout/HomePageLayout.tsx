@@ -57,17 +57,36 @@ function HomePageLayout({
       footer={footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
       {...props}
     >
-      <div className="flex flex-col pb-12">
+      <div className="flex flex-col">
+        {/* Trust signal strip — sits flush below header */}
         {trustBanner}
-        {quickNav}
+
+        {/* Quick-access icon nav — divided from hero */}
+        {quickNav && <div className="border-b border-[var(--border-subtle)]">{quickNav}</div>}
+
+        {/* Hero — full-width feature */}
         {hero}
+
+        {/* Category grid */}
         {categories}
-        {flashSale}
-        {trending}
+
+        {/* Flash sale — accent band */}
+        {flashSale && <div className="bg-[var(--surface-subtle)]">{flashSale}</div>}
+
+        {/* Trending searches — compact divider row */}
+        {trending && <div className="border-y border-[var(--border-subtle)]">{trending}</div>}
+
+        {/* Best sellers */}
         {bestSellers}
-        {recommended}
+
+        {/* Recommended — alternating surface for visual rhythm */}
+        {recommended && <div className="bg-[var(--surface-subtle)]">{recommended}</div>}
+
+        {/* Brand showcase */}
         {brands}
-        {newArrivals}
+
+        {/* New arrivals — final content section on alternating surface */}
+        {newArrivals && <div className="bg-[var(--surface-subtle)]">{newArrivals}</div>}
       </div>
     </StorefrontShell>
   )

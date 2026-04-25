@@ -58,12 +58,14 @@ function HeroBanner({
       {backgroundImage && (
         <picture>
           {backgroundImageMobile && (
-            <source srcSet={backgroundImageMobile} media="(max-width: var(--space-96))" />
+            <source srcSet={backgroundImageMobile} media="(max-width: 24rem)" />
           )}
           <img
             src={backgroundImage}
             alt={backgroundImageAlt ?? title}
             className="absolute inset-0 w-full h-full object-cover"
+            loading="eager"
+            fetchPriority="high"
           />
         </picture>
       )}
@@ -82,7 +84,7 @@ function HeroBanner({
           </p>
         )}
 
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white max-w-4xl leading-[1.05] mb-5 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both [text-shadow:var(--text-shadow-md)]">
+        <h1 className="max-w-4xl text-4xl font-bold leading-[1.02] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5rem] mb-5 animate-in fade-in slide-in-from-bottom-8 duration-[var(--motion-slow)] fill-mode-both [text-shadow:var(--text-shadow-md)]">
           {title}
         </h1>
 
@@ -98,7 +100,7 @@ function HeroBanner({
               <a
                 href={ctaHref}
                 className={cn(
-                  buttonVariants({ size: 'xl' }),
+                  buttonVariants({ variant: 'brand', size: 'xl' }),
                   'shadow-[var(--elevation-modal)] hover:shadow-[var(--elevation-dropdown)] transition-shadow',
                 )}
               >

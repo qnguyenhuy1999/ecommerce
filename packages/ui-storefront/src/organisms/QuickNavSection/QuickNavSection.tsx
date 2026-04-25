@@ -29,7 +29,7 @@ function QuickNavSection({ items, className, ...props }: QuickNavSectionProps) {
               className={cn(
                 'flex items-center justify-center w-14 h-14 md:w-16 md:h-16 rounded-2xl',
                 'bg-muted text-foreground/80 group-hover:text-brand',
-                'shadow-[var(--elevation-sm)] transition-colors duration-[var(--motion-fast)]',
+                'shadow-[var(--elevation-surface)] transition-colors duration-[var(--motion-fast)]',
               )}
             >
               <div className="w-6 h-6 md:w-7 md:h-7">{item.icon}</div>

@@ -37,8 +37,10 @@ export class JwtTokenService {
     return { token, jti, expiresInSeconds }
   }
 
-
-  generateRefreshToken(userId: string, family: string): { token: string; jti: string; expiresInSeconds: number } {
+  generateRefreshToken(
+    userId: string,
+    family: string,
+  ): { token: string; jti: string; expiresInSeconds: number } {
     const jti = randomUUID()
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments -- ConfigService uses NoInfer<T>, preventing inference from the default value; explicit type arg is required
     const expiresIn = this.config.get<string>('jwt.refreshExpiresIn', '7d')

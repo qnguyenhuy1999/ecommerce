@@ -74,7 +74,7 @@ function StatCardRoot({
       <div className="flex flex-col h-full">
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0">
-            <p className="text-[length:var(--text-sm)] font-[var(--font-weight-medium)] text-[var(--text-secondary)] tracking-wide">
+            <p className="text-[length:var(--text-sm)] font-[var(--font-weight-medium)] uppercase tracking-[0.08em] text-[var(--text-secondary)]">
               {label}
             </p>
             <p className="mt-1.5 text-2xl font-bold tracking-tight animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-normal)]">
@@ -93,7 +93,7 @@ function StatCardRoot({
           </div>
           <div className="flex flex-col items-end gap-2">
             {icon && (
-              <div className="w-10 h-10 rounded-[var(--radius-md)] bg-gradient-to-br from-muted to-muted/50 border border-border/50 flex items-center justify-center shrink-0 [&>svg]:w-5 [&>svg]:h-5 text-foreground/70 shadow-sm">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[var(--radius-md)] border border-border/50 bg-gradient-to-br from-[var(--surface-elevated)] to-[var(--surface-sunken)] text-foreground/75 shadow-[var(--elevation-xs)] [&>svg]:h-5 [&>svg]:w-5">
                 {icon}
               </div>
             )}

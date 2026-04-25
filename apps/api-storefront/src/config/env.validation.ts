@@ -1,7 +1,7 @@
-import 'dotenv/config'
+import { z } from 'zod'
 
 import { baseEnvSchema, validateEnv } from '@ecom/nest-config'
-import { z } from 'zod'
+import 'dotenv/config'
 
 /**
  * Storefront-specific env overlay. The shared base (DB, Redis, JWT, cookie,

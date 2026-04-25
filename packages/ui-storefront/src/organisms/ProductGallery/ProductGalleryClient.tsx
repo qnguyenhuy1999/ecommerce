@@ -35,7 +35,7 @@ export function ProductGalleryClient({
   return (
     <>
       {/* Left arrow */}
-      <div className="absolute inset-y-0 left-4 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-[var(--motion-normal)]">
+      <div className="absolute inset-y-0 left-4 flex items-center opacity-0 transition-opacity duration-[var(--motion-normal)] group-hover:opacity-100 group-focus-within:opacity-100">
         <IconButton
           icon={<ChevronLeft className="w-5 h-5" />}
           label="Previous image"
@@ -43,11 +43,11 @@ export function ProductGalleryClient({
             e.stopPropagation()
             onPrev()
           }}
-          className="bg-background/80 backdrop-blur shadow-[var(--elevation-floating)] hover:bg-background transition-all"
+          className="border border-border/60 bg-background/88 backdrop-blur shadow-[var(--elevation-floating)] hover:bg-background transition-all"
         />
       </div>
       {/* Right arrow */}
-      <div className="absolute inset-y-0 right-4 flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-[var(--motion-normal)]">
+      <div className="absolute inset-y-0 right-4 flex items-center opacity-0 transition-opacity duration-[var(--motion-normal)] group-hover:opacity-100 group-focus-within:opacity-100">
         <IconButton
           icon={<ChevronRight className="w-5 h-5" />}
           label="Next image"
@@ -55,7 +55,7 @@ export function ProductGalleryClient({
             e.stopPropagation()
             onNext()
           }}
-          className="bg-background/80 backdrop-blur shadow-[var(--elevation-floating)] hover:bg-background transition-all"
+          className="border border-border/60 bg-background/88 backdrop-blur shadow-[var(--elevation-floating)] hover:bg-background transition-all"
         />
       </div>
     </>

@@ -144,7 +144,12 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
 
         {/* ── Helper / error / description text ─────────────────── */}
         {(description || error || (hasSuccess && typeof success === 'string')) && (
-          <div className={cn('flex flex-col', GAP[size])}>
+          <div
+            className={cn(
+              'flex flex-col rounded-[var(--radius-md)] bg-[var(--surface-elevated)]/65 px-3 py-2',
+              GAP[size],
+            )}
+          >
             {hasError && (
               <p
                 className={cn(

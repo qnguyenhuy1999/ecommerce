@@ -7,19 +7,32 @@ import { cn } from '@ecom/ui'
 import type { ProductGridProps, Product } from './types'
 import { ProductCardItem } from '../../molecules/ProductCard/ProductCardItem'
 
+function getGridClasses(view: 'grid' | 'list') {
+  return view === 'list'
+    ? 'grid grid-cols-1 gap-4'
+    : 'grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+}
+
 const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
-  ({ products, loading, onAddToCart, emptyMessage = 'No products found.', className }, ref) => {
+  (
+    {
+      products,
+      loading,
+      onAddToCart,
+      emptyMessage = 'No products found.',
+      className,
+      view = 'grid',
+      loadingCount = 8,
+    },
+    ref,
+  ) => {
+    const gridClasses = getGridClasses(view)
+
     if (loading) {
       return (
-        <div
-          ref={ref}
-          className={cn(
-            'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6',
-            className,
-          )}
-        >
-          {Array.from({ length: 8 }).map((_, i) => (
-            <ProductCardItem key={i} loading />
+        <div ref={ref} className={cn(gridClasses, className)}>
+          {Array.from({ length: loadingCount }).map((_, i) => (
+            <ProductCardItem key={i} loading view={view} />
           ))}
         </div>
       )
@@ -30,15 +43,15 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
         <div
           ref={ref}
           className={cn(
-            'flex flex-col items-center justify-center py-24 gap-5 text-muted-foreground',
+            'flex flex-col items-center justify-center gap-5 rounded-[var(--radius-xl)] border border-dashed border-border/70 bg-[var(--surface-elevated)] px-6 py-24 text-muted-foreground',
             className,
           )}
         >
-          <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-            <ShoppingBag className="w-7 h-7 text-muted-foreground" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[var(--action-muted)] text-brand shadow-[var(--elevation-xs)]">
+            <ShoppingBag className="h-7 w-7" />
           </div>
           <div className="text-center">
-            <p className="text-base font-semibold text-foreground mb-1">Nothing here yet</p>
+            <p className="mb-1 text-base font-semibold text-foreground">Nothing here yet</p>
             <p className="text-sm text-muted-foreground">{emptyMessage}</p>
           </div>
         </div>
@@ -46,13 +59,7 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
     }
 
     return (
-      <div
-        ref={ref}
-        className={cn(
-          'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6',
-          className,
-        )}
-      >
+      <div ref={ref} className={cn(gridClasses, className)}>
         {products.map((product) => (
           <ProductCardItem
             key={product.id}
@@ -67,6 +74,7 @@ const ProductGrid = React.forwardRef<HTMLDivElement, ProductGridProps>(
             ratingCount={product.ratingCount}
             buyCount={product.buyCount}
             onAddToCart={onAddToCart}
+            view={view}
           />
         ))}
       </div>

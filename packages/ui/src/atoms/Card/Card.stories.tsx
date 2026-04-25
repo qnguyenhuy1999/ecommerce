@@ -38,7 +38,7 @@ export const Default: Story = {
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex justify-between items-center w-full font-semibold">
+        <div className="flex w-full items-center justify-between font-semibold">
           <span>Total</span>
           <span>$150.60</span>
         </div>
@@ -51,33 +51,33 @@ export const ProductCard: Story = {
   render: () => (
     <Card className="w-full max-w-sm" interactive elevation={2}>
       <CardHeader>
-        <div className="flex items-start justify-between">
+        <div className="flex items-start justify-between gap-4">
           <div>
             <CardTitle>Wireless Noise-Cancelling Headphones</CardTitle>
             <CardDescription>Premium audio experience</CardDescription>
           </div>
-          <Badge variant="primary">New</Badge>
+          <Badge variant="info">New</Badge>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="aspect-video bg-muted rounded-md flex items-center justify-center mb-4">
-          <span className="text-muted-foreground text-sm">Product Image</span>
+        <div className="mb-4 flex aspect-video items-center justify-center rounded-md bg-muted">
+          <span className="text-sm text-muted-foreground">Product Image</span>
         </div>
-        <div className="flex items-center gap-1 mb-3">
+        <div className="mb-3 flex items-center gap-1">
           {[1, 2, 3, 4, 5].map((s) => (
             <Star key={s} className="h-4 w-4 fill-warning text-warning" />
           ))}
-          <span className="text-xs text-muted-foreground ml-1">(248 reviews)</span>
+          <span className="ml-1 text-xs text-muted-foreground">(248 reviews)</span>
         </div>
         <div className="flex items-center justify-between">
           <div>
             <span className="text-lg font-bold">$299.00</span>
-            <span className="text-sm text-muted-foreground line-through ml-2">$399.00</span>
+            <span className="ml-2 text-sm text-muted-foreground line-through">$399.00</span>
           </div>
         </div>
       </CardContent>
       <CardFooter>
-        <div className="flex gap-2 w-full">
+        <div className="flex w-full gap-2">
           <Button variant="brand" className="flex-1" icon={<ShoppingCart className="h-4 w-4" />}>
             Add to Cart
           </Button>
@@ -92,7 +92,7 @@ export const ProductCard: Story = {
 
 export const ElevationLevels: Story = {
   render: () => (
-    <div className="flex gap-6 flex-wrap">
+    <div className="flex flex-wrap gap-6">
       {([0, 1, 2, 3] as const).map((level) => (
         <Card key={level} elevation={level} className="w-40">
           <CardHeader>

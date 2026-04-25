@@ -8,7 +8,8 @@ import { cn } from '../../lib/utils'
 
 const skeletonVariants = cva(
   [
-    'bg-muted bg-[length:200%_100%] bg-gradient-to-r from-muted via-muted/60 to-muted',
+    'bg-[length:200%_100%] bg-gradient-to-r from-[var(--surface-muted)] via-[var(--surface-subtle)] to-[var(--surface-muted)]',
+    'shadow-[inset_0_1px_0_rgb(255_255_255_/_0.2)]',
     'motion-safe:animate-[shimmer_var(--animate-duration-shimmer-skeleton)_linear_infinite]',
   ].join(' '),
   {

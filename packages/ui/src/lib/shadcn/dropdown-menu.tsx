@@ -31,7 +31,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
     className={cn(
       'flex cursor-default select-none items-center gap-2 rounded-[var(--radius-sm)] px-2 py-1.5 text-sm outline-none',
       'transition-colors duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
-      'focus:bg-accent data-[state=open]:bg-accent',
+      'focus:bg-[var(--surface-hover)] data-[state=open]:bg-[var(--surface-hover)]',
       inset && 'pl-8',
       '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
       className,
@@ -100,7 +100,7 @@ const DropdownMenuItem = React.forwardRef<
     className={cn(
       'relative flex cursor-pointer items-center gap-2 rounded-[var(--radius-sm)] px-2 py-1.5 text-sm outline-none',
       'transition-colors duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
-      'focus:bg-accent focus:text-accent-foreground',
+      'focus:bg-[var(--surface-hover)] focus:text-foreground data-[highlighted]:bg-[var(--surface-hover)] data-[highlighted]:text-foreground hover:bg-[var(--surface-hover)] hover:text-foreground',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       inset && 'pl-8',
       '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -120,7 +120,7 @@ const DropdownMenuCheckboxItem = React.forwardRef<
     className={cn(
       'relative flex cursor-pointer items-center rounded-[var(--radius-sm)] py-1.5 pl-8 pr-2 text-sm outline-none',
       'transition-colors duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
-      'focus:bg-accent focus:text-accent-foreground',
+      'focus:bg-[var(--surface-hover)] focus:text-foreground data-[highlighted]:bg-[var(--surface-hover)] data-[highlighted]:text-foreground hover:bg-[var(--surface-hover)] hover:text-foreground',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
@@ -146,7 +146,7 @@ const DropdownMenuRadioItem = React.forwardRef<
     className={cn(
       'relative flex cursor-pointer items-center rounded-[var(--radius-sm)] py-1.5 pl-8 pr-2 text-sm outline-none',
       'transition-colors duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
-      'focus:bg-accent focus:text-accent-foreground',
+      'focus:bg-[var(--surface-hover)] focus:text-foreground data-[highlighted]:bg-[var(--surface-hover)] data-[highlighted]:text-foreground hover:bg-[var(--surface-hover)] hover:text-foreground',
       'data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
       className,
     )}
