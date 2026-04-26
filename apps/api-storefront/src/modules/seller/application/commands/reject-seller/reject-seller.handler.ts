@@ -2,6 +2,7 @@ import { Inject, Logger } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { RejectSellerCommand } from './reject-seller.command'
+import { NotificationService } from '../../../../notification/notification.service'
 import type { SellerEntity } from '../../../domain/entities/seller.entity'
 import {
   SellerKycNotPendingException,
@@ -16,20 +17,40 @@ import {
 export class RejectSellerHandler implements ICommandHandler<RejectSellerCommand, SellerEntity> {
   private readonly logger = new Logger(RejectSellerHandler.name)
 
-  constructor(@Inject(SELLER_REPOSITORY) private readonly sellers: ISellerRepository) {}
+  constructor(
+    @Inject(SELLER_REPOSITORY) private readonly sellers: ISellerRepository,
+    private readonly notifications: NotificationService,
+  ) {}
 
   async execute(command: RejectSellerCommand): Promise<SellerEntity> {
     const seller = await this.sellers.findById(command.sellerId)
     if (!seller) throw new SellerNotFoundException(command.sellerId)
     if (!seller.isPending()) throw new SellerKycNotPendingException(seller.kycStatus)
 
-    const updated = await this.sellers.transitionKycStatus({
-      sellerId: command.sellerId,
-      fromStatus: 'PENDING',
-      toStatus: 'REJECTED',
-      adminUserId: command.adminUserId,
-      reason: command.reason ?? null,
-    })
+    // The notification row is recorded inside the same transaction as the
+    // KYC transition so the seller status and the notification commit (or
+    // roll back) together. SELLER_REJECTED has no email job, so there is
+    // no post-commit dispatch.
+    const updated = await this.sellers.transitionKycStatus(
+      {
+        sellerId: command.sellerId,
+        fromStatus: 'PENDING',
+        toStatus: 'REJECTED',
+        adminUserId: command.adminUserId,
+        reason: command.reason ?? null,
+      },
+      async (tx, refreshed) => {
+        await this.notifications.recordNotificationFromEvent({
+          type: 'SELLER_REJECTED',
+          userId: refreshed.userId,
+          sellerId: refreshed.id,
+          storeName: refreshed.props.storeName,
+          reason: command.reason ?? null,
+          tx,
+        })
+      },
+    )
+
     this.logger.log(`Admin ${command.adminUserId} rejected seller ${command.sellerId}`)
     return updated
   }

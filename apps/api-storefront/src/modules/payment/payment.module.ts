@@ -4,10 +4,11 @@ import { PaymentGatewayModule } from './payment-gateway/payment-gateway.module'
 import { PaymentController } from './payment.controller'
 import { PaymentService } from './payment.service'
 import { CommonModule } from '../../common/common.module'
+import { NotificationModule } from '../notification/notification.module'
 
- 
+
 @Module({
-  imports: [CommonModule, PaymentGatewayModule],
+  imports: [CommonModule, PaymentGatewayModule, NotificationModule],
   controllers: [PaymentController],
   providers: [PaymentService],
   exports: [PaymentService],

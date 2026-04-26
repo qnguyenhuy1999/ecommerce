@@ -1,6 +1,7 @@
 import { BadRequestException, ConflictException, ForbiddenException } from '@nestjs/common'
 import { OrderStatus, PaymentStatus, type PrismaClient } from '@prisma/client'
 
+import type { NotificationService } from '../../src/modules/notification/notification.service'
 import type { PaymentGateway, WebhookEvent } from '../../src/modules/payment/payment-gateway/payment-gateway.interface'
 import { PaymentService } from '../../src/modules/payment/payment.service'
 
@@ -120,12 +121,27 @@ describe('PaymentService', () => {
       verifyWebhook: verifyWebhookMock,
     } satisfies PaymentGateway
 
+    const notifications = {
+      recordNotificationFromEvent: jest.fn().mockResolvedValue({
+        id: 'notif-1',
+        type: 'PAYMENT_SUCCESS',
+        title: '',
+        body: '',
+        data: null,
+        isRead: false,
+        createdAt: new Date().toISOString(),
+      }),
+      dispatchEmailForEvent: jest.fn().mockResolvedValue(undefined),
+      createFromEvent: jest.fn(),
+    } as unknown as NotificationService
+
     return {
-      service: new PaymentService(prisma, gateway),
+      service: new PaymentService(prisma, gateway, notifications),
       createIntentMock,
       paymentUpdateMock,
       transactionMock,
       tx,
+      notifications,
     }
   }
 
