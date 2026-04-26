@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, InternalServerErrorException } from '@nestjs/common'
 import Stripe from 'stripe'
 
 import type {
@@ -9,36 +9,126 @@ import type {
   WebhookEvent,
 } from './payment-gateway.interface'
 
-// TODO(@platform, 2026-04-23): Implement Stripe gateway (concrete PaymentGateway adapter).
 @Injectable()
 export class StripeGateway implements PaymentGateway {
   private readonly stripe: Stripe
+  private readonly webhookSecret: string | undefined
 
   constructor() {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
       apiVersion: '2023-10-16',
     })
+    this.webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
   }
 
-  // TODO(@platform, 2026-04-23): Implement PaymentGateway interface methods using Stripe SDK.
-  // eslint-disable-next-line @typescript-eslint/require-await -- Placeholder implementation; real method will await Stripe API.
-  async createIntent(_orderId: string, _amount: number, _currency = 'SGD'): Promise<PaymentIntent> {
-    void this.stripe
-    throw new Error('TODO: implement StripeGateway.createIntent')
+  async createIntent(
+    orderId: string,
+    amount: number,
+    currency = 'SGD',
+    idempotencyKey?: string,
+  ): Promise<PaymentIntent> {
+    this.assertConfigured()
+    const intent = await this.stripe.paymentIntents.create(
+      {
+        amount: toMinorUnits(amount),
+        currency: currency.toLowerCase(),
+        metadata: { orderId },
+        automatic_payment_methods: { enabled: true },
+      },
+      { idempotencyKey: idempotencyKey ?? `order:${orderId}:payment-intent` },
+    )
+
+    return this.toPaymentIntent(intent)
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await -- Placeholder implementation; real method will await Stripe API.
-  async confirmPayment(_paymentIntentId: string): Promise<PaymentConfirmation> {
-    throw new Error('TODO: implement StripeGateway.confirmPayment')
+  async confirmPayment(paymentIntentId: string): Promise<PaymentConfirmation> {
+    this.assertConfigured()
+    const intent = await this.stripe.paymentIntents.retrieve(paymentIntentId)
+    return {
+      id: intent.id,
+      status: intent.status === 'succeeded' ? 'succeeded' : 'failed',
+      amount: fromMinorUnits(intent.amount),
+    }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await -- Placeholder implementation; real method will await Stripe API.
-  async refund(_paymentIntentId: string, _amount?: number): Promise<RefundResult> {
-    throw new Error('TODO: implement StripeGateway.refund')
+  async refund(paymentIntentId: string, amount?: number): Promise<RefundResult> {
+    this.assertConfigured()
+    const refund = await this.stripe.refunds.create({
+      payment_intent: paymentIntentId,
+      ...(amount === undefined ? {} : { amount: toMinorUnits(amount) }),
+    })
+
+    return {
+      id: refund.id,
+      status: refund.status === 'succeeded' || refund.status === 'pending' ? refund.status : 'failed',
+      amount: fromMinorUnits(refund.amount),
+    }
   }
 
-  verifyWebhook(_payload: string, _signature: string): WebhookEvent {
-    // TODO(@platform, 2026-04-23): Verify webhook signatures using Stripe.webhooks.constructEvent.
-    throw new Error('TODO: implement StripeGateway.verifyWebhook')
+  verifyWebhook(payload: string | Buffer, signature: string): WebhookEvent {
+    if (!this.webhookSecret) {
+      throw new InternalServerErrorException('Stripe webhook secret is not configured')
+    }
+
+    const event = this.stripe.webhooks.constructEvent(payload, signature, this.webhookSecret)
+    const object = event.data.object
+    const paymentIntentId = extractPaymentIntentId(object)
+    const status = extractStatus(object)
+
+    return {
+      id: event.id,
+      type: event.type,
+      paymentIntentId,
+      status,
+      raw: event,
+    }
   }
+
+  private toPaymentIntent(intent: Stripe.PaymentIntent): PaymentIntent {
+    return {
+      id: intent.id,
+      clientSecret: intent.client_secret ?? '',
+      amount: fromMinorUnits(intent.amount),
+      currency: intent.currency.toUpperCase(),
+      status: intent.status === 'succeeded' ? 'succeeded' : intent.status === 'canceled' ? 'failed' : 'pending',
+    }
+  }
+
+  private assertConfigured(): void {
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new InternalServerErrorException('Stripe secret key is not configured')
+    }
+  }
+}
+
+function toMinorUnits(amount: number): number {
+  return Math.round(amount * 100)
+}
+
+function fromMinorUnits(amount: number): number {
+  return amount / 100
+}
+
+function extractPaymentIntentId(object: Stripe.Event.Data.Object): string {
+  if (
+    'id' in object &&
+    typeof object.id === 'string' &&
+    'object' in object &&
+    object.object === 'payment_intent'
+  ) {
+    return object.id
+  }
+  if ('payment_intent' in object) {
+    const paymentIntent = object.payment_intent
+    if (typeof paymentIntent === 'string') return paymentIntent
+    if (paymentIntent && typeof paymentIntent === 'object' && 'id' in paymentIntent) {
+      return typeof paymentIntent.id === 'string' ? paymentIntent.id : ''
+    }
+  }
+  return ''
+}
+
+function extractStatus(object: Stripe.Event.Data.Object): string {
+  if ('status' in object && typeof object.status === 'string') return object.status
+  return ''
 }

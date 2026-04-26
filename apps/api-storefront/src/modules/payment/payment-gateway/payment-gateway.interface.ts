@@ -25,6 +25,7 @@ export interface RefundResult {
 }
 
 export interface WebhookEvent {
+  id: string
   type: string
   paymentIntentId: string
   status: string
@@ -32,8 +33,13 @@ export interface WebhookEvent {
 }
 
 export interface PaymentGateway {
-  createIntent(orderId: string, amount: number, currency?: string): Promise<PaymentIntent>
+  createIntent(
+    orderId: string,
+    amount: number,
+    currency?: string,
+    idempotencyKey?: string,
+  ): Promise<PaymentIntent>
   confirmPayment(paymentIntentId: string): Promise<PaymentConfirmation>
   refund(paymentIntentId: string, amount?: number): Promise<RefundResult>
-  verifyWebhook(payload: string, signature: string): WebhookEvent
+  verifyWebhook(payload: string | Buffer, signature: string): WebhookEvent
 }

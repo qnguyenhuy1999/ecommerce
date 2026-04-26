@@ -34,7 +34,7 @@ async function bootstrap() {
   // from the ObservabilityModule. Without it, early logs (module init, route
   // discovery) fall through to the default Nest console logger and miss
   // correlation IDs / redaction.
-  const app = await NestFactory.create(AppModule, { bufferLogs: true })
+  const app = await NestFactory.create(AppModule, { bufferLogs: true, rawBody: true })
   const logger = app.get(Logger)
   const configService = app.get(ConfigService)
 
