@@ -17,8 +17,10 @@ import type { VariantSelectorProps } from '../VariantSelector/VariantSelector'
 import { VariantSelector } from '../VariantSelector/VariantSelector'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
-export interface ProductVariantGroup
-  extends Pick<VariantSelectorProps, 'name' | 'options' | 'value' | 'type' | 'error'> {
+export interface ProductVariantGroup extends Pick<
+  VariantSelectorProps,
+  'name' | 'options' | 'value' | 'type' | 'error'
+> {
   onChange?: (value: string) => void
 }
 
@@ -99,9 +101,7 @@ function ProductPurchaseSection({
       {/* 1. Brand + Title */}
       <div className="space-y-2">
         {brand && (
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">
-            {brand}
-          </p>
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand/80">{brand}</p>
         )}
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl lg:text-[2rem]">
           {title}
@@ -118,7 +118,7 @@ function ProductPurchaseSection({
       {typeof rating === 'number' && (
         <div className="flex items-center gap-3">
           <Rating value={rating} count={reviewCount} showCount size="default" />
-          {reviewCount && onReviewsClick && (
+          {typeof reviewCount === 'number' && reviewCount > 0 && onReviewsClick && (
             <button
               type="button"
               onClick={onReviewsClick}
@@ -135,7 +135,9 @@ function ProductPurchaseSection({
         <div className="flex items-center gap-2">
           <StockBadge status={status} count={statusCount} />
           {status === 'in-stock' && (
-            <span className="text-xs text-muted-foreground">Usually ships in 1-2 business days</span>
+            <span className="text-xs text-muted-foreground">
+              Usually ships in 1-2 business days
+            </span>
           )}
         </div>
       )}
@@ -183,11 +185,7 @@ function ProductPurchaseSection({
               onAddToCart?.('')
             }}
           />
-          <Button
-            variant="outline"
-            size="lg"
-            className="w-full h-11 gap-2 text-sm font-medium"
-          >
+          <Button variant="outline" size="lg" className="w-full h-11 gap-2 text-sm font-medium">
             <Bookmark className="w-4 h-4" />
             Save for later
           </Button>

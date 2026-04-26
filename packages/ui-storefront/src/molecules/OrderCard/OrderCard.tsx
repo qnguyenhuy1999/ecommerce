@@ -108,7 +108,7 @@ function OrderCard({
             />
           )}
         </div>
-        
+
         <div className="flex flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:gap-4">
           <OrderStatusBadge status={status} size="sm" />
           <PriceDisplay price={total} size="default" className="font-bold text-right" />
@@ -133,7 +133,7 @@ function OrderCard({
                 'border-2 border-[var(--surface-base)]',
                 'bg-[var(--surface-subtle)]',
                 'ring-1 ring-[var(--border-subtle)]',
-                'relative z-10 hover:z-20 transition-transform duration-200 hover:scale-105'
+                'relative z-10 hover:z-20 transition-transform duration-200 hover:scale-105',
               )}
               style={{ zIndex: previewItems.length - i }}
             >
@@ -154,19 +154,18 @@ function OrderCard({
       </div>
 
       {/* Row 4: Actions */}
-      <div className="mt-6 pt-5 border-t border-[var(--border-subtle)]">
-        <OrderActions
-          status={status}
-          onTrack={onTrack}
-          onReorder={onReorder}
-          onCancel={onCancel}
-          onChangeAddress={onChangeAddress}
-          onWriteReview={onWriteReview}
-          onDownloadInvoice={onDownloadInvoice}
-        />
-      </div>
+      <OrderActions
+        status={status}
+        onTrack={onTrack}
+        onReorder={onReorder}
+        onCancel={onCancel}
+        onChangeAddress={onChangeAddress}
+        onWriteReview={onWriteReview}
+        onDownloadInvoice={onDownloadInvoice}
+        className="mt-6 pt-5 border-t border-[var(--border-subtle)]"
+      />
     </div>
   )
 }
 
-export { OrderCard }
+

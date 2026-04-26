@@ -1,13 +1,6 @@
 import React from 'react'
 
-import {
-  Download,
-  MapPin,
-  RotateCcw,
-  Star,
-  Truck,
-  XCircle,
-} from 'lucide-react'
+import { Download, MapPin, RotateCcw, Star, Truck, XCircle } from 'lucide-react'
 
 import { Button, cn } from '@ecom/ui'
 import type { OrderStatus } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
@@ -183,7 +176,7 @@ function OrderActions({
           }}
           className={cn(
             'h-9 gap-1.5 px-4 text-sm font-medium',
-            primary.tone === 'default' &&
+            primary.tone !== 'danger' &&
               'bg-[var(--text-primary)] text-[var(--surface-base)] hover:bg-[var(--text-primary)]/90',
           )}
         >
