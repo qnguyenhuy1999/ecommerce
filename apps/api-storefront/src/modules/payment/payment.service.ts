@@ -1,3 +1,4 @@
+import { InjectQueue } from '@nestjs/bullmq'
 import {
   BadRequestException,
   ConflictException,
@@ -7,6 +8,7 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { OrderStatus, PaymentStatus, Prisma, PrismaClient } from '@prisma/client'
+import { Queue } from 'bullmq'
 
 import { CreatePaymentIntentDto } from './application/dtos/create-payment-intent.dto'
 import { PAYMENT_GATEWAY, PaymentGateway, WebhookEvent } from './payment-gateway/payment-gateway.interface'
@@ -34,6 +36,7 @@ export class PaymentService {
     @Inject(PrismaClient) private readonly prisma: PrismaClient,
     @Inject(PAYMENT_GATEWAY) private readonly gateway: PaymentGateway,
     private readonly notifications: NotificationService,
+    @InjectQueue('commission') private readonly commissionQueue: Queue,
   ) {}
 
   async createIntent(userId: string, dto: CreatePaymentIntentDto): Promise<PaymentIntentView> {
@@ -121,6 +124,7 @@ export class PaymentService {
 
   private async markPaymentSucceeded(event: WebhookEvent): Promise<void> {
     const dispatchAfterCommit: NotificationEvent[] = []
+    const ctx: { paidOrderId: string | null } = { paidOrderId: null }
 
     await this.prisma.$transaction(async (tx) => {
       const payment = await tx.payment.findFirst({
@@ -134,6 +138,8 @@ export class PaymentService {
         data: { status: PaymentStatus.SUCCESS, webhookReceivedAt: new Date() },
       })
       if (claimed.count !== 1) return
+
+      ctx.paidOrderId = payment.orderId
 
       await this.confirmReservations(tx, payment.orderId)
 
@@ -182,6 +188,10 @@ export class PaymentService {
 
     for (const dispatched of dispatchAfterCommit) {
       await this.notifications.dispatchEmailForEvent(dispatched)
+    }
+
+    if (ctx.paidOrderId) {
+      await this.commissionQueue.add('calculate', { orderId: ctx.paidOrderId })
     }
   }
 
