@@ -44,7 +44,7 @@ export class CommissionProcessor extends WorkerHost {
           return false
         }
 
-        await tx.commission.create({
+        const commission = await tx.commission.create({
           data: { orderId, sellerId: sub.sellerId, amount, rate },
         })
 
@@ -54,7 +54,7 @@ export class CommissionProcessor extends WorkerHost {
             type: LedgerType.DEBIT,
             amount,
             referenceType: 'Commission',
-            referenceId: orderId,
+            referenceId: commission.id,
             description: `Commission ${(rate * 100).toFixed(1)}% on order ${orderId}`,
           },
         })
