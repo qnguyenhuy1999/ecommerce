@@ -33,3 +33,4 @@ export async function closeRedis(): Promise<void> {
 }
 
 export { getCartRedis, setCartRedis, deleteCartRedis } from './cart'
+export { reserveStock, confirmStockReservation, restoreStock, getStock } from './inventory'
