@@ -10,6 +10,12 @@ type StorefrontFooterProps = React.ComponentProps<typeof StorefrontFooter>
 
 const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME || 'EzMart'
 
+/**
+ * Module-level constants — referentially stable across every page render so
+ * `useStorefrontChrome()` returns the same object identity from one navigation
+ * to the next, avoiding wasted re-renders inside `HomePageLayout` /
+ * `CollectionPageLayout` / `CartPageLayout`.
+ */
 const FOOTER_COLUMNS: NonNullable<StorefrontFooterProps['columns']> = [
   {
     title: 'Shop',
@@ -44,42 +50,54 @@ const FOOTER_SOCIALS: NonNullable<StorefrontFooterProps['socials']> = [
   { platform: 'youtube', href: '#' },
 ]
 
+const HEADER_CATEGORIES: NonNullable<StorefrontHeaderProps['categories']> = [
+  { label: 'New', href: '/products?sort=newest' },
+  { label: 'Best Sellers', href: '/products?sort=popular' },
+  { label: 'Sale', href: '/products?onSale=true' },
+]
+
+const HEADER_LOGO = (
+  <span className="text-xl font-black tracking-tight">{APP_NAME}</span>
+)
+
+const FOOTER_LOGO = (
+  <span className="text-xl font-extrabold tracking-tight">{APP_NAME}</span>
+)
+
+const PROMO_BAR_NODE = (
+  <PromoBar message="Free shipping on orders over $100" variant="brand" />
+)
+
+const FOOTER_PROPS_BASE: StorefrontFooterProps = {
+  logo: FOOTER_LOGO,
+  description:
+    'Multi-vendor marketplace built with NestJS, Next.js, and PostgreSQL.',
+  columns: FOOTER_COLUMNS,
+  socials: FOOTER_SOCIALS,
+}
+
 /**
- * Shared chrome bits for the storefront pages. Each layout in
- * `@ecom/ui-storefront` accepts header / footer / promoBar slots — we wire
- * them up here so every page presents a consistent look without duplicating
- * literal markup.
+ * Centralised chrome props for every storefront page. Memoised against the
+ * router so a navigation that doesn't change cart count doesn't re-render the
+ * header subtree.
  */
-export function useStorefrontChrome(cartCount = 0): {
-  promoBar: React.ReactNode
-  headerProps: StorefrontHeaderProps
-  footerProps: StorefrontFooterProps
-} {
+export function useStorefrontChrome({ cartCount = 0 }: { cartCount?: number } = {}) {
   const router = useRouter()
 
-  const headerProps: StorefrontHeaderProps = {
-    cartCount,
-    wishlistCount: 0,
-    logo: <span className="text-xl font-black tracking-tight">{APP_NAME}</span>,
-    categories: [
-      { label: 'New', href: '/products?sort=newest' },
-      { label: 'Best Sellers', href: '/products?sort=popular' },
-      { label: 'Sale', href: '/products?onSale=true' },
-    ],
-    onCartClick: () => router.push('/cart'),
-    onWishlistClick: () => router.push('/account/orders'),
-    onLogin: () => router.push('/account/orders'),
-  }
-
-  return {
-    promoBar: <PromoBar message="Free shipping on orders over $100" variant="brand" />,
-    headerProps,
-    footerProps: {
-      logo: <span className="text-xl font-extrabold tracking-tight">{APP_NAME}</span>,
-      description:
-        'Multi-vendor marketplace built with NestJS, Next.js, and PostgreSQL.',
-      columns: FOOTER_COLUMNS,
-      socials: FOOTER_SOCIALS,
-    },
-  }
+  return React.useMemo(() => {
+    const headerProps: StorefrontHeaderProps = {
+      cartCount,
+      wishlistCount: 0,
+      logo: HEADER_LOGO,
+      categories: HEADER_CATEGORIES,
+      onCartClick: () => router.push('/cart'),
+      onWishlistClick: () => router.push('/account/orders'),
+      onLogin: () => router.push('/account/orders'),
+    }
+    return {
+      promoBar: PROMO_BAR_NODE,
+      headerProps,
+      footerProps: FOOTER_PROPS_BASE,
+    }
+  }, [cartCount, router])
 }

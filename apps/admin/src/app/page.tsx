@@ -1,15 +1,47 @@
 'use client'
 
+import dynamic from 'next/dynamic'
+
 import { DollarSign, Package, ShoppingCart, Users } from 'lucide-react'
 
-import {
-  ActivityFeed,
-  MetricCard,
-  NotificationPanel,
-} from '@ecom/ui-admin'
+import { MetricCard } from '@ecom/ui-admin'
 import type { ActivityItem, NotificationItem } from '@ecom/ui-admin'
 
 import { AdminShell } from '@/components/admin-shell'
+
+/**
+ * Lazy-load below-the-fold dashboard widgets so the metric cards (above the
+ * fold) hydrate first. Both panels are heavy with icons + dropdowns and don't
+ * need to ship to the client until they're about to render.
+ */
+const ActivityFeed = dynamic(
+  () => import('@ecom/ui-admin').then((m) => ({ default: m.ActivityFeed })),
+  {
+    ssr: false,
+    loading: () => <PanelSkeleton />,
+  },
+)
+
+const NotificationPanel = dynamic(
+  () => import('@ecom/ui-admin').then((m) => ({ default: m.NotificationPanel })),
+  {
+    ssr: false,
+    loading: () => <PanelSkeleton />,
+  },
+)
+
+function PanelSkeleton() {
+  return (
+    <div className="space-y-[var(--space-3)]">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div
+          key={i}
+          className="h-12 animate-pulse rounded bg-[var(--surface-muted)]"
+        />
+      ))}
+    </div>
+  )
+}
 
 interface DashboardMetric {
   label: string
