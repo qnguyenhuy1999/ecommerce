@@ -28,7 +28,10 @@ function toOrderCard(order: OrderResponse): OrderCardProps {
       image: ORDER_ITEM_PLACEHOLDER,
     })),
   )
-  const itemCount = items.reduce((acc, _item, _i, arr) => arr.length, 0)
+  const itemCount = order.subOrders.reduce(
+    (sum, sub) => sum + sub.items.reduce((q, item) => q + item.quantity, 0),
+    0,
+  )
   return {
     orderNumber: order.orderNumber,
     date: new Date(order.createdAt).toLocaleDateString(),
