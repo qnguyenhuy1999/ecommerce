@@ -3,6 +3,10 @@ import { Prisma, PrismaClient } from '@prisma/client'
 
 import { InventoryService } from '../../../inventory/inventory.service'
 import type {
+  OrderHistoryPage,
+  OrderHistoryView,
+} from '../../application/views/order-history.view'
+import type {
   OrderItemSummaryView,
   OrderStatusView,
   OrderSummaryView,
@@ -16,6 +20,7 @@ import {
 import type {
   CreateOrderFromCartInput,
   IOrderRepository,
+  ListOrdersByBuyerInput,
 } from '../../domain/ports/order.repository.port'
 
 const CHECKOUT_CART_INCLUDE = {
@@ -128,6 +133,42 @@ export class PrismaOrderRepository implements IOrderRepository {
 
       return this.toSummaryView(order)
     })
+  }
+
+  async listByBuyer(input: ListOrdersByBuyerInput): Promise<OrderHistoryPage> {
+    const where: Prisma.OrderWhereInput = {
+      buyerId: input.buyerId,
+      deletedAt: null,
+      ...(input.status ? { status: input.status } : {}),
+    }
+
+    const skip = (input.page - 1) * input.limit
+
+    const [rows, total] = await this.prisma.$transaction([
+      this.prisma.order.findMany({
+        where,
+        include: ORDER_SUMMARY_INCLUDE,
+        orderBy: { [input.sort]: input.order },
+        skip,
+        take: input.limit,
+      }),
+      this.prisma.order.count({ where }),
+    ])
+
+    return {
+      data: rows.map((row): OrderHistoryView => this.toHistoryView(row)),
+      page: input.page,
+      limit: input.limit,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / input.limit)),
+    }
+  }
+
+  private toHistoryView(order: OrderSummaryRow): OrderHistoryView {
+    return {
+      ...this.toSummaryView(order),
+      createdAt: order.createdAt.toISOString(),
+    }
   }
 
   private groupBySeller(items: CheckoutCartItem[]): SellerCheckoutGroup[] {
