@@ -1,5 +1,13 @@
 import { type PrismaClient } from '@prisma/client'
 
+const incrbyMock = jest.fn().mockResolvedValue(0)
+const restoreStockMock = jest.fn().mockResolvedValue(undefined)
+
+jest.mock('@ecom/redis', () => ({
+  getRedis: () => ({ incrby: incrbyMock }),
+  restoreStock: (...args: unknown[]) => restoreStockMock(...args),
+}))
+
 import { InventoryService } from '../../src/modules/inventory/inventory.service'
 import {
   ReservationNotActiveException,
@@ -8,6 +16,11 @@ import {
   StockAdjustmentInvalidException,
   VariantNotFoundException,
 } from '../../src/modules/inventory/domain/exceptions/inventory.exceptions'
+
+beforeEach(() => {
+  incrbyMock.mockClear()
+  restoreStockMock.mockClear()
+})
 
 type Tx = {
   productVariant: {
@@ -123,6 +136,26 @@ describe('InventoryService.adjustStock', () => {
         }) as Record<string, unknown>,
       }),
     )
+    // Post-commit Redis cache sync mirrors the DB delta on stock:<variantId>.
+    expect(incrbyMock).toHaveBeenCalledWith('stock:v1', 15)
+  })
+
+  it('still resolves when the Redis cache sync fails', async () => {
+    const tx = buildTx()
+    tx.$queryRaw.mockResolvedValue([
+      { id: 'v1', stock: 5, reserved_stock: 0, previous_stock: 10 },
+    ])
+    incrbyMock.mockRejectedValueOnce(new Error('redis down'))
+    const { service } = buildService(tx)
+
+    const result = await service.adjustStock({
+      variantId: 'v1',
+      delta: -5,
+      adminUserId: 'admin-1',
+    })
+
+    expect(result.newStock).toBe(5)
+    expect(incrbyMock).toHaveBeenCalledWith('stock:v1', -5)
   })
 })
 
@@ -179,6 +212,10 @@ describe('InventoryService.confirmReservation / releaseReservation', () => {
       data: { status: 'CONFIRMED' },
     })
     expect(tx.$executeRaw).toHaveBeenCalledTimes(1)
+    // confirmReservation drains stock and reserved_stock by the same
+    // amount, so available stock is unchanged — Redis must not be touched.
+    expect(restoreStockMock).not.toHaveBeenCalled()
+    expect(incrbyMock).not.toHaveBeenCalled()
   })
 
   it('throws ReservationNotActive when a concurrent confirm/release wins the claim', async () => {
@@ -243,5 +280,27 @@ describe('InventoryService.confirmReservation / releaseReservation', () => {
       data: { status: 'EXPIRED' },
     })
     expect(tx.$executeRaw).toHaveBeenCalledTimes(1)
+    // Available stock just went up by `quantity` — restore Redis to match.
+    expect(restoreStockMock).toHaveBeenCalledWith('v1', 3)
+  })
+
+  it('still returns the view when Redis restore fails after release', async () => {
+    const tx = buildTx()
+    tx.inventoryReservation.findUnique.mockResolvedValue({
+      id: 'res-1',
+      variantId: 'v1',
+      orderId: 'o1',
+      quantity: 3,
+      status: 'ACTIVE',
+      expiresAt: new Date('2026-01-01T00:00:00Z'),
+      createdAt: new Date('2026-01-01T00:00:00Z'),
+    })
+    restoreStockMock.mockRejectedValueOnce(new Error('redis down'))
+    const { service } = buildService(tx)
+
+    const view = await service.releaseReservation('res-1')
+
+    expect(view.status).toBe('EXPIRED')
+    expect(restoreStockMock).toHaveBeenCalledWith('v1', 3)
   })
 })

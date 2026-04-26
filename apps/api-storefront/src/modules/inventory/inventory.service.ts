@@ -1,6 +1,8 @@
 import { Inject, Injectable, Logger } from '@nestjs/common'
 import { Prisma, PrismaClient, ReservationStatus } from '@prisma/client'
 
+import { getRedis, restoreStock } from '@ecom/redis'
+
 import {
   ReservationNotActiveException,
   ReservationNotFoundException,
@@ -208,7 +210,7 @@ export class InventoryService {
       throw new StockAdjustmentInvalidException('delta must be non-zero')
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx) => {
       // Atomic write-then-read: a single conditional UPDATE applies the delta
       // only when the resulting stock stays non-negative and >= reserved_stock.
       // RETURNING gives us both the post-update view and (via a CTE) the
@@ -291,6 +293,18 @@ export class InventoryService {
         delta: input.delta,
       }
     })
+
+    // Best-effort Redis cache sync after the DB transaction commits. The
+    // available stock that the checkout hot path reads from `stock:<variantId>`
+    // (see packages/redis/src/inventory.ts) tracks `stock - reserved_stock`,
+    // and `adjustStock` only mutates `stock`, so the cache delta equals
+    // `input.delta`. ioredis `incrby` accepts negative values for the
+    // delta < 0 case. Failures are logged but never fail the API call —
+    // the DB is the source of truth and the reconciliation worker heals
+    // any drift on its next sweep.
+    await this.syncRedisCacheDelta(result.variantId, input.delta)
+
+    return result
   }
 
   async confirmReservation(reservationId: string): Promise<ReservationView> {
@@ -331,7 +345,7 @@ export class InventoryService {
   }
 
   async releaseReservation(reservationId: string): Promise<ReservationView> {
-    return this.prisma.$transaction(async (tx) => {
+    const view = await this.prisma.$transaction(async (tx) => {
       const reservation = await this.loadActiveReservation(tx, reservationId)
 
       // Same atomic-claim pattern as confirmReservation: take the
@@ -358,8 +372,41 @@ export class InventoryService {
       )
       if (affected !== 1) throw new ReservationStockMismatchException()
 
-      return this.toReservationView({ ...reservation, status: 'EXPIRED' })
+      return {
+        view: this.toReservationView({ ...reservation, status: 'EXPIRED' }),
+        variantId: reservation.variantId,
+        quantity: reservation.quantity,
+      }
     })
+
+    // Best-effort Redis restore — releasing a reservation hands the
+    // `quantity` back to available stock, mirroring the post-commit
+    // `restoreStock` call in OrderExpirationProcessor.releaseOrderReservations.
+    try {
+      await restoreStock(view.variantId, view.quantity)
+    } catch (err) {
+      this.logger.warn(
+        `Redis stock restore failed for variant=${view.variantId}: ${stringifyError(err)}`,
+      )
+    }
+
+    return view.view
+  }
+
+  /**
+   * Apply a signed delta to the Redis available-stock cache for a variant
+   * on a best-effort basis. Negative deltas use the same key/decrby path
+   * that `reserveStock` uses, positive deltas mirror `restoreStock`.
+   */
+  private async syncRedisCacheDelta(variantId: string, delta: number): Promise<void> {
+    if (delta === 0) return
+    try {
+      await getRedis().incrby(`stock:${variantId}`, delta)
+    } catch (err) {
+      this.logger.warn(
+        `Redis stock sync failed for variant=${variantId} delta=${String(delta)}: ${stringifyError(err)}`,
+      )
+    }
   }
 
   private async readReservationStatus(
@@ -413,4 +460,9 @@ export class InventoryService {
   private toJson(value: unknown): Prisma.InputJsonValue {
     return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue
   }
+}
+
+function stringifyError(err: unknown): string {
+  if (err instanceof Error) return `${err.name}: ${err.message}`
+  return String(err)
 }
