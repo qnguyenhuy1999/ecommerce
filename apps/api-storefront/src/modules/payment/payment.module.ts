@@ -1,3 +1,4 @@
+import { BullModule } from '@nestjs/bullmq'
 import { Module } from '@nestjs/common'
 
 import { PaymentGatewayModule } from './payment-gateway/payment-gateway.module'
@@ -8,7 +9,7 @@ import { NotificationModule } from '../notification/notification.module'
 
 
 @Module({
-  imports: [CommonModule, PaymentGatewayModule, NotificationModule],
+  imports: [CommonModule, PaymentGatewayModule, NotificationModule, BullModule.registerQueue({ name: 'commission' })],
   controllers: [PaymentController],
   providers: [PaymentService],
   exports: [PaymentService],

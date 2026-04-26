@@ -10,6 +10,7 @@ import { CommonModule } from './common/common.module'
 import configuration from './config/configuration'
 import { AdminModule } from './modules/admin/admin.module'
 import { CartModule } from './modules/cart/cart.module'
+import { CommissionModule } from './modules/commission/commission.module'
 import { InventoryModule } from './modules/inventory/inventory.module'
 import { NotificationModule } from './modules/notification/notification.module'
 import { OrderModule } from './modules/order/order.module'
@@ -38,6 +39,7 @@ import { ObservabilityModule } from './observability/observability.module'
     ProductModule,
     InventoryModule,
     CartModule,
+    CommissionModule,
     OrderModule,
     PaymentModule,
     NotificationModule,
