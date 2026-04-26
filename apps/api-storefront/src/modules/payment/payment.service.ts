@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common'
 import { OrderStatus, PaymentStatus, Prisma, PrismaClient } from '@prisma/client'
@@ -32,11 +33,13 @@ const PAYMENT_PROVIDER = 'stripe'
 
 @Injectable()
 export class PaymentService {
+  private readonly logger = new Logger(PaymentService.name)
+
   constructor(
     @Inject(PrismaClient) private readonly prisma: PrismaClient,
     @Inject(PAYMENT_GATEWAY) private readonly gateway: PaymentGateway,
     private readonly notifications: NotificationService,
-    @InjectQueue('commission') private readonly commissionQueue: Queue,
+    @InjectQueue('commission') private readonly commissionQueue?: Queue,
   ) {}
 
   async createIntent(userId: string, dto: CreatePaymentIntentDto): Promise<PaymentIntentView> {
@@ -191,7 +194,11 @@ export class PaymentService {
     }
 
     if (ctx.paidOrderId) {
-      await this.commissionQueue.add('calculate', { orderId: ctx.paidOrderId })
+      try {
+        await this.commissionQueue?.add('calculate', { orderId: ctx.paidOrderId })
+      } catch (err) {
+        this.logger.warn(`Failed to enqueue commission job for order=${ctx.paidOrderId}: ${String(err)}`)
+      }
     }
   }
 

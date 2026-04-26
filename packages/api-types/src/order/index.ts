@@ -19,7 +19,7 @@ export const CheckoutRequestSchema = z.object({
 export type CheckoutRequest = z.infer<typeof CheckoutRequestSchema>
 
 export const OrderResponseSchema = z.object({
-  id: z.string(),
+  orderId: z.string(),
   orderNumber: z.string(),
   status: z.enum([
     'PENDING_PAYMENT',
@@ -34,7 +34,7 @@ export const OrderResponseSchema = z.object({
   subtotal: z.number(),
   shippingFee: z.number(),
   totalAmount: z.number(),
-  shippingAddress: ShippingAddressSchema,
+  shippingAddress: ShippingAddressSchema.optional(),
   subOrders: z.array(
     z.object({
       id: z.string(),
@@ -51,7 +51,7 @@ export const OrderResponseSchema = z.object({
         'REFUNDED',
         'PENDING_REFUND',
       ]),
-      shippingTracking: z.record(z.string()).nullable(),
+      shippingTracking: z.record(z.string()).nullable().optional(),
       items: z.array(
         z.object({
           id: z.string(),
@@ -66,7 +66,7 @@ export const OrderResponseSchema = z.object({
     }),
   ),
   createdAt: z.string(),
-  updatedAt: z.string(),
+  updatedAt: z.string().optional(),
 })
 
 export type OrderResponse = z.infer<typeof OrderResponseSchema>

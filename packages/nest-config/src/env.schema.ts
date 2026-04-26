@@ -63,7 +63,9 @@ export type BaseEnv = z.infer<typeof baseEnvSchema>
  * Validates `process.env` against a schema and throws a readable error on
  * failure. Returns the parsed, typed env object.
  */
-export function validateEnv<TOutput>(schema: z.ZodType<TOutput>): TOutput {
+export function validateEnv<TOutput, TInput = unknown>(
+  schema: z.ZodType<TOutput, z.ZodTypeDef, TInput>,
+): TOutput {
   const parsed = schema.safeParse(process.env)
 
   if (!parsed.success) {

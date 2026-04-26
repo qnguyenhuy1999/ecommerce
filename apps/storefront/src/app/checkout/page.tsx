@@ -37,12 +37,12 @@ export default function CheckoutPage() {
   const checkoutMutation = useMutation({
     mutationFn: () => {
       if (!address) throw new Error('Missing shipping address')
-      return orderClient.checkout({ shippingAddress: address })
+      return orderClient.checkout({ shippingAddress: address }, crypto.randomUUID())
     },
     onSuccess: (order) => {
       queryClient.invalidateQueries({ queryKey: ['cart'] })
       queryClient.invalidateQueries({ queryKey: ['orders'] })
-      router.push(`/account/orders?placed=${order.id}`)
+      router.push(`/account/orders?placed=${order.orderId}`)
     },
   })
 

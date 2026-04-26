@@ -10,7 +10,7 @@ import type { OrderResponse } from '@ecom/api-types'
 
 import {
   DEFAULT_ACCOUNT_NAV_ITEMS,
-  OrderHistoryPageLayout,
+  AccountOrderLayout,
   StorefrontFooter,
   StorefrontHeader,
 } from '@ecom/ui-storefront'
@@ -77,7 +77,7 @@ export function OrderHistoryView({ initialOrders }: OrderHistoryViewProps) {
   )
 
   return (
-    <OrderHistoryPageLayout
+    <AccountOrderLayout
       promoBar={promoBar}
       header={<StorefrontHeader {...headerProps} />}
       footer={<StorefrontFooter {...footerProps} />}
