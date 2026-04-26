@@ -130,6 +130,7 @@ export class InventoryService {
         SELECT COUNT(*)::bigint AS count
         FROM product_variants v
         INNER JOIN products p ON p.id = v.product_id AND p.deleted_at IS NULL
+        INNER JOIN sellers s ON s.id = p.seller_id
         WHERE (v.stock - v.reserved_stock) <= ${threshold}
       `),
     ])
@@ -296,6 +297,19 @@ export class InventoryService {
     return this.prisma.$transaction(async (tx) => {
       const reservation = await this.loadActiveReservation(tx, reservationId)
 
+      // Atomically claim the ACTIVE→CONFIRMED transition before touching
+      // stock. The conditional updateMany acquires a row lock on the
+      // reservation; if a racing confirm/release already moved it out of
+      // ACTIVE, count === 0 and we bail before deducting stock a second
+      // time.
+      const claimed = await tx.inventoryReservation.updateMany({
+        where: { id: reservation.id, status: 'ACTIVE' },
+        data: { status: 'CONFIRMED' },
+      })
+      if (claimed.count !== 1) {
+        throw new ReservationNotActiveException(reservationId, 'CONFIRMED')
+      }
+
       const affected = await tx.$executeRaw(
         Prisma.sql`
           UPDATE product_variants
@@ -309,17 +323,23 @@ export class InventoryService {
       )
       if (affected !== 1) throw new ReservationStockMismatchException()
 
-      const updated = await tx.inventoryReservation.update({
-        where: { id: reservation.id },
-        data: { status: 'CONFIRMED' },
-      })
-      return this.toReservationView(updated)
+      return this.toReservationView({ ...reservation, status: 'CONFIRMED' })
     })
   }
 
   async releaseReservation(reservationId: string): Promise<ReservationView> {
     return this.prisma.$transaction(async (tx) => {
       const reservation = await this.loadActiveReservation(tx, reservationId)
+
+      // Same atomic-claim pattern as confirmReservation: take the
+      // ACTIVE→EXPIRED transition first, then drain reserved_stock.
+      const claimed = await tx.inventoryReservation.updateMany({
+        where: { id: reservation.id, status: 'ACTIVE' },
+        data: { status: 'EXPIRED' },
+      })
+      if (claimed.count !== 1) {
+        throw new ReservationNotActiveException(reservationId, 'EXPIRED')
+      }
 
       const affected = await tx.$executeRaw(
         Prisma.sql`
@@ -332,11 +352,7 @@ export class InventoryService {
       )
       if (affected !== 1) throw new ReservationStockMismatchException()
 
-      const updated = await tx.inventoryReservation.update({
-        where: { id: reservation.id },
-        data: { status: 'EXPIRED' },
-      })
-      return this.toReservationView(updated)
+      return this.toReservationView({ ...reservation, status: 'EXPIRED' })
     })
   }
 

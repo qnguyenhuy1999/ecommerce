@@ -1,5 +1,8 @@
 import { Type } from 'class-transformer'
-import { IsInt, IsOptional, IsString, MaxLength, Min, NotEquals } from 'class-validator'
+import { IsIn, IsInt, IsOptional, IsString, MaxLength, Min, NotEquals } from 'class-validator'
+
+const RESERVATION_STATUSES = ['ACTIVE', 'EXPIRED', 'CONFIRMED'] as const
+type ReservationStatusValue = (typeof RESERVATION_STATUSES)[number]
 
 export class AdjustStockDto {
   /**
@@ -47,8 +50,8 @@ export class ListReservationsQueryDto {
   orderId?: string
 
   @IsOptional()
-  @IsString()
-  status?: 'ACTIVE' | 'EXPIRED' | 'CONFIRMED'
+  @IsIn(RESERVATION_STATUSES)
+  status?: ReservationStatusValue
 
   @IsOptional()
   @Type(() => Number)

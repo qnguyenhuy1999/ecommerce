@@ -17,6 +17,7 @@ type Tx = {
   inventoryReservation: {
     findUnique: jest.Mock
     update: jest.Mock
+    updateMany: jest.Mock
   }
   outboxEvent: { create: jest.Mock }
   $executeRaw: jest.Mock
@@ -32,6 +33,7 @@ function buildTx(overrides: Partial<Tx> = {}): Tx {
     inventoryReservation: {
       findUnique: jest.fn(),
       update: jest.fn(),
+      updateMany: jest.fn().mockResolvedValue({ count: 1 }),
     },
     outboxEvent: { create: jest.fn().mockResolvedValue({}) },
     $executeRaw: jest.fn().mockResolvedValue(1),
@@ -164,21 +166,39 @@ describe('InventoryService.confirmReservation / releaseReservation', () => {
       expiresAt: new Date('2026-01-01T00:00:00Z'),
       createdAt: new Date('2026-01-01T00:00:00Z'),
     })
-    tx.inventoryReservation.update.mockResolvedValue({
-      id: 'res-1',
-      variantId: 'v1',
-      orderId: 'o1',
-      quantity: 2,
-      status: 'CONFIRMED',
-      expiresAt: new Date('2026-01-01T00:00:00Z'),
-      createdAt: new Date('2026-01-01T00:00:00Z'),
-    })
     const { service } = buildService(tx)
 
     const view = await service.confirmReservation('res-1')
 
     expect(view.status).toBe('CONFIRMED')
+    // The atomic claim transitions the reservation from ACTIVE to CONFIRMED
+    // before the stock deduction; an already-claimed reservation (count !== 1)
+    // would short-circuit before $executeRaw runs.
+    expect(tx.inventoryReservation.updateMany).toHaveBeenCalledWith({
+      where: { id: 'res-1', status: 'ACTIVE' },
+      data: { status: 'CONFIRMED' },
+    })
     expect(tx.$executeRaw).toHaveBeenCalledTimes(1)
+  })
+
+  it('throws ReservationNotActive when a concurrent confirm/release wins the claim', async () => {
+    const tx = buildTx()
+    tx.inventoryReservation.findUnique.mockResolvedValue({
+      id: 'res-1',
+      variantId: 'v1',
+      orderId: 'o1',
+      quantity: 2,
+      status: 'ACTIVE',
+      expiresAt: new Date(),
+      createdAt: new Date(),
+    })
+    tx.inventoryReservation.updateMany.mockResolvedValue({ count: 0 })
+    const { service } = buildService(tx)
+
+    await expect(service.confirmReservation('res-1')).rejects.toBeInstanceOf(
+      ReservationNotActiveException,
+    )
+    expect(tx.$executeRaw).not.toHaveBeenCalled()
   })
 
   it('rolls back via ReservationStockMismatchException when DB rows do not match', async () => {
@@ -201,6 +221,7 @@ describe('InventoryService.confirmReservation / releaseReservation', () => {
     )
   })
 
+
   it('releases an active reservation and only decrements reserved_stock', async () => {
     const tx = buildTx()
     tx.inventoryReservation.findUnique.mockResolvedValue({
@@ -212,24 +233,15 @@ describe('InventoryService.confirmReservation / releaseReservation', () => {
       expiresAt: new Date('2026-01-01T00:00:00Z'),
       createdAt: new Date('2026-01-01T00:00:00Z'),
     })
-    tx.inventoryReservation.update.mockResolvedValue({
-      id: 'res-1',
-      variantId: 'v1',
-      orderId: 'o1',
-      quantity: 3,
-      status: 'EXPIRED',
-      expiresAt: new Date('2026-01-01T00:00:00Z'),
-      createdAt: new Date('2026-01-01T00:00:00Z'),
-    })
     const { service } = buildService(tx)
 
     const view = await service.releaseReservation('res-1')
 
     expect(view.status).toBe('EXPIRED')
-    expect(tx.$executeRaw).toHaveBeenCalledTimes(1)
-    expect(tx.inventoryReservation.update).toHaveBeenCalledWith({
-      where: { id: 'res-1' },
+    expect(tx.inventoryReservation.updateMany).toHaveBeenCalledWith({
+      where: { id: 'res-1', status: 'ACTIVE' },
       data: { status: 'EXPIRED' },
     })
+    expect(tx.$executeRaw).toHaveBeenCalledTimes(1)
   })
 })
