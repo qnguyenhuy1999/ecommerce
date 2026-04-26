@@ -63,3 +63,4 @@ state
 
 # Project-local AI instructions
 CLAUDE.md
+*.tsbuildinfo

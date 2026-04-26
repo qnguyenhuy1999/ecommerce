@@ -2,7 +2,7 @@
   "extends": "../../packages/tsconfig/nextjs.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "../..",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
@@ -16,6 +16,6 @@
       "@ecom/design-tokens": ["../../packages/design-tokens/src"]
     }
   },
-  "include": ["next.config.js", "src/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }
