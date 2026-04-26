@@ -207,4 +207,164 @@ describe('PrismaOrderRepository', () => {
 
     expect(tx.cartItem.deleteMany).not.toHaveBeenCalled()
   })
+
+  describe('listByBuyer', () => {
+    function buildHistoryRow(overrides: { id?: string; createdAt?: Date } = {}) {
+      return {
+        id: overrides.id ?? 'order-1',
+        orderNumber: 'ORD-20260425-ABC',
+        status: 'PAID',
+        subtotal: 50,
+        shippingFee: 0,
+        totalAmount: 50,
+        createdAt: overrides.createdAt ?? new Date('2026-04-25T12:00:00.000Z'),
+        subOrders: [
+          {
+            id: 'sub-1',
+            sellerId: 'seller-1',
+            subtotal: 50,
+            status: 'PAID',
+            seller: { id: 'seller-1', storeName: 'Threads' },
+            items: [
+              {
+                id: 'item-1',
+                variantId: 'variant-1',
+                quantity: 2,
+                unitPrice: 25,
+                priceSnapshot: {
+                  productName: 'Cotton T-Shirt',
+                  variantSku: 'TSHIRT-BLACK-M',
+                  attributes: { color: 'Black', size: 'M' },
+                },
+              },
+            ],
+          },
+        ],
+      }
+    }
+
+    function buildListPrisma(options: {
+      rows: ReturnType<typeof buildHistoryRow>[]
+      total: number
+    }) {
+      const findMany = jest.fn().mockResolvedValue(options.rows)
+      const count = jest.fn().mockResolvedValue(options.total)
+      const prisma = {
+        order: { findMany, count },
+        $transaction: jest.fn(async (ops: Promise<unknown>[]) => Promise.all(ops)),
+      } as unknown as PrismaClient
+      return { prisma, findMany, count }
+    }
+
+    it('scopes the query to the authenticated buyer and excludes soft-deleted orders', async () => {
+      const { prisma, findMany, count } = buildListPrisma({ rows: [], total: 0 })
+      const repo = new PrismaOrderRepository(prisma, {} as InventoryService)
+
+      await repo.listByBuyer({
+        buyerId: 'buyer-42',
+        page: 1,
+        limit: 20,
+        sort: 'createdAt',
+        order: 'desc',
+      })
+
+      const where = findMany.mock.calls[0][0].where
+      expect(where).toEqual({ buyerId: 'buyer-42', deletedAt: null })
+      expect(count).toHaveBeenCalledWith({ where })
+    })
+
+    it('applies the optional status filter', async () => {
+      const { prisma, findMany } = buildListPrisma({ rows: [], total: 0 })
+      const repo = new PrismaOrderRepository(prisma, {} as InventoryService)
+
+      await repo.listByBuyer({
+        buyerId: 'buyer-42',
+        page: 1,
+        limit: 20,
+        sort: 'createdAt',
+        order: 'desc',
+        status: 'SHIPPED',
+      })
+
+      expect(findMany.mock.calls[0][0].where).toEqual({
+        buyerId: 'buyer-42',
+        deletedAt: null,
+        status: 'SHIPPED',
+      })
+    })
+
+    it('computes pagination metadata (totalPages) and applies skip/take correctly', async () => {
+      const { prisma, findMany } = buildListPrisma({
+        rows: [buildHistoryRow({ id: 'order-page-2-1' }), buildHistoryRow({ id: 'order-page-2-2' })],
+        total: 7,
+      })
+      const repo = new PrismaOrderRepository(prisma, {} as InventoryService)
+
+      const result = await repo.listByBuyer({
+        buyerId: 'buyer-42',
+        page: 2,
+        limit: 3,
+        sort: 'createdAt',
+        order: 'asc',
+      })
+
+      expect(findMany.mock.calls[0][0]).toMatchObject({
+        skip: 3,
+        take: 3,
+        orderBy: { createdAt: 'asc' },
+      })
+      expect(result).toEqual(
+        expect.objectContaining({ page: 2, limit: 3, total: 7, totalPages: 3 }),
+      )
+      expect(result.data).toHaveLength(2)
+    })
+
+    it('returns at least one totalPages even when there are no orders', async () => {
+      const { prisma } = buildListPrisma({ rows: [], total: 0 })
+      const repo = new PrismaOrderRepository(prisma, {} as InventoryService)
+
+      const result = await repo.listByBuyer({
+        buyerId: 'buyer-42',
+        page: 1,
+        limit: 20,
+        sort: 'createdAt',
+        order: 'desc',
+      })
+
+      expect(result.total).toBe(0)
+      expect(result.totalPages).toBe(1)
+      expect(result.data).toEqual([])
+    })
+
+    it('maps each row to an OrderHistoryView including orderNumber, status, totals, and suborders/items', async () => {
+      const { prisma } = buildListPrisma({ rows: [buildHistoryRow()], total: 1 })
+      const repo = new PrismaOrderRepository(prisma, {} as InventoryService)
+
+      const result = await repo.listByBuyer({
+        buyerId: 'buyer-42',
+        page: 1,
+        limit: 20,
+        sort: 'createdAt',
+        order: 'desc',
+      })
+
+      expect(result.data[0]).toEqual(
+        expect.objectContaining({
+          orderId: 'order-1',
+          orderNumber: 'ORD-20260425-ABC',
+          status: 'PAID',
+          subtotal: 50,
+          shippingFee: 0,
+          totalAmount: 50,
+          createdAt: '2026-04-25T12:00:00.000Z',
+        }),
+      )
+      expect(result.data[0].subOrders[0]).toEqual(
+        expect.objectContaining({ sellerId: 'seller-1', storeName: 'Threads', status: 'PAID' }),
+      )
+      expect(result.data[0].subOrders[0].items[0]).toEqual(
+        expect.objectContaining({ productName: 'Cotton T-Shirt', quantity: 2, unitPrice: 25 }),
+      )
+    })
+  })
 })
