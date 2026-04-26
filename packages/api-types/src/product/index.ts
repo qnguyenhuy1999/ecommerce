@@ -58,14 +58,13 @@ export const ProductResponseSchema = z.object({
 export type ProductResponse = z.infer<typeof ProductResponseSchema>
 
 export const ProductListRequestSchema = PaginationParamsSchema.extend({
-  search: z.string().optional(),
-  categoryId: z.string().optional(),
+  q: z.string().optional(),
+  category: z.string().optional(),
   sellerId: z.string().optional(),
-  status: z.enum(['DRAFT', 'ACTIVE', 'INACTIVE']).optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),
-  sortBy: z.enum(['name', 'price', 'createdAt', 'rating']).optional(),
-  sortOrder: z.enum(['asc', 'desc']).optional(),
+  sort: z.enum(['name', 'price', 'createdAt', 'updatedAt', 'rating']).optional(),
+  order: z.enum(['asc', 'desc']).optional(),
 })
 
 export type ProductListRequest = z.infer<typeof ProductListRequestSchema>

@@ -34,7 +34,7 @@ import {
 const IN_FLIGHT_LOCK_MS = 30_000
 
 interface AuthenticatedRequest extends Request {
-  user?: { id?: string }
+  user?: { id?: string; userId?: string }
 }
 
 /**
@@ -96,7 +96,7 @@ export class IdempotencyInterceptor implements NestInterceptor {
     // `originalUrl` includes the query string; strip it so idempotency scope is
     // by route, not by query params. Still include `route.path` if available.
     const routePath: string = (req as unknown as { route?: { path?: string } }).route?.path ?? req.path
-    const userId = req.user?.id ?? null
+    const userId = req.user?.userId ?? req.user?.id ?? null
     const requestHash = hashBody(req.body)
 
     return from(

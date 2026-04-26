@@ -178,7 +178,7 @@ export const fetchCart = cache(async (): Promise<CartEnvelope> => {
 })
 
 function buildOrderListUrl(params: OrderListRequest): string {
-  const url = new URL(`${API_URL}/api/v1/orders`)
+  const url = new URL(`${API_URL}/api/v1/users/me/orders`)
   for (const [key, value] of Object.entries(params)) {
     if (value === undefined || value === null) continue
     url.searchParams.set(key, String(value))

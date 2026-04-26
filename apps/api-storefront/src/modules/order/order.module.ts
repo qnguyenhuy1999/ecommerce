@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
 import { CqrsModule } from '@nestjs/cqrs'
 
+import { CommonModule } from '../../common/common.module'
 import { CartModule } from '../cart/cart.module'
 import { InventoryModule } from '../inventory/inventory.module'
 import { CreateOrderHandler } from './application/commands/create-order/create-order.handler'
@@ -22,7 +23,7 @@ const CommandHandlers = [
 const QueryHandlers = [ListUserOrdersHandler, ListAdminOrdersHandler, GetAdminOrderHandler]
 
 @Module({
-  imports: [CqrsModule, CartModule, InventoryModule],
+  imports: [CqrsModule, CommonModule, CartModule, InventoryModule],
   controllers: [OrderController],
   providers: [
     ...CommandHandlers,

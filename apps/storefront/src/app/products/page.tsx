@@ -13,12 +13,12 @@ import { ProductsView, ProductsViewSkeleton } from './products-view'
  */
 export const revalidate = 60
 
-const SORT_TO_API: Record<string, Pick<ProductListRequest, 'sortBy' | 'sortOrder'>> = {
-  newest: { sortBy: 'createdAt', sortOrder: 'desc' },
-  popular: { sortBy: 'rating', sortOrder: 'desc' },
-  price_asc: { sortBy: 'price', sortOrder: 'asc' },
-  price_desc: { sortBy: 'price', sortOrder: 'desc' },
-  name: { sortBy: 'name', sortOrder: 'asc' },
+const SORT_TO_API: Record<string, Pick<ProductListRequest, 'sort' | 'order'>> = {
+  newest: { sort: 'createdAt', order: 'desc' },
+  popular: { sort: 'rating', order: 'desc' },
+  price_asc: { sort: 'price', order: 'asc' },
+  price_desc: { sort: 'price', order: 'desc' },
+  name: { sort: 'name', order: 'asc' },
 }
 
 interface ProductsPageProps {
@@ -35,10 +35,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const params: ProductListRequest = {
     page: 1,
     limit: 24,
-    ...(search ? { search } : {}),
-    ...(categoryId ? { categoryId } : {}),
+    ...(search ? { q: search } : {}),
+    ...(categoryId ? { category: categoryId } : {}),
     ...(apiSort ?? {}),
-    status: 'ACTIVE',
   }
 
   const titleText = search

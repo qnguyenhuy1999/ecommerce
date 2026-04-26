@@ -168,4 +168,5 @@ function OrderCard({
   )
 }
 
+export { OrderCard }
 
