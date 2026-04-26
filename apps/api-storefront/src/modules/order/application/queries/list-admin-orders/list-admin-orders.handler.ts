@@ -17,6 +17,12 @@ export class ListAdminOrdersHandler
 {
   constructor(@Inject(ORDER_REPOSITORY) private readonly orders: IOrderRepository) {}
 
+  private toEndOfUtcDay(dateOnly: string): Date {
+    const date = new Date(dateOnly)
+    date.setUTCHours(23, 59, 59, 999)
+    return date
+  }
+
   async execute(query: ListAdminOrdersQuery): Promise<AdminOrderListPage> {
     const { page, limit, status, sellerId, buyerEmail, placedFrom, placedTo } = query.filters
     return this.orders.listForAdmin({
@@ -26,7 +32,7 @@ export class ListAdminOrdersHandler
       sellerId,
       buyerEmail,
       placedFrom: placedFrom ? new Date(placedFrom) : undefined,
-      placedTo: placedTo ? new Date(placedTo) : undefined,
+      placedTo: placedTo ? this.toEndOfUtcDay(placedTo) : undefined,
     })
   }
 }
