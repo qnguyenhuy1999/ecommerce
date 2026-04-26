@@ -36,16 +36,12 @@ export class CommissionProcessor extends WorkerHost {
       const rate = sub.seller.commissionRate
       const amount = Math.round(sub.subtotal * rate * 100) / 100
 
-      await this.prisma.$transaction(async (tx) => {
-        // Idempotent: unique(orderId, sellerId) will throw on duplicate
+      const created = await this.prisma.$transaction(async (tx) => {
         const existing = await tx.commission.findUnique({
           where: { orderId_sellerId: { orderId, sellerId: sub.sellerId } },
         })
         if (existing) {
-          this.logger.log(
-            `Commission already exists for order=${orderId} seller=${sub.sellerId}; skipping`,
-          )
-          return
+          return false
         }
 
         await tx.commission.create({
@@ -62,11 +58,19 @@ export class CommissionProcessor extends WorkerHost {
             description: `Commission ${(rate * 100).toFixed(1)}% on order ${orderId}`,
           },
         })
+
+        return true
       })
 
-      this.logger.log(
-        `Commission recorded: seller=${sub.sellerId} order=${orderId} amount=${String(amount)}`,
-      )
+      if (created) {
+        this.logger.log(
+          `Commission recorded: seller=${sub.sellerId} order=${orderId} amount=${String(amount)}`,
+        )
+      } else {
+        this.logger.log(
+          `Commission already exists for order=${orderId} seller=${sub.sellerId}; skipped`,
+        )
+      }
     }
   }
 }
