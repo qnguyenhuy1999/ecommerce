@@ -1,6 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common'
 import { KycStatus as PrismaKycStatus, Prisma, PrismaClient } from '@prisma/client'
 
+import type {
+  AdminSellerDetailView,
+  AdminSellerListInput,
+  AdminSellerListPage,
+  AdminSellerSummaryView,
+} from '../../application/views/admin-seller.view'
 import { type KycStatus, SellerEntity } from '../../domain/entities/seller.entity'
 import { SellerKycNotPendingException } from '../../domain/exceptions/seller.exceptions'
 import type {
@@ -11,7 +17,12 @@ import type {
   SellerUpdateInput,
 } from '../../domain/ports/seller.repository.port'
 
+const SELLER_ADMIN_INCLUDE = {
+  user: { select: { email: true } },
+} satisfies Prisma.SellerInclude
+
 type SellerRow = Prisma.SellerGetPayload<Record<string, never>>
+type SellerAdminRow = Prisma.SellerGetPayload<{ include: typeof SELLER_ADMIN_INCLUDE }>
 
 @Injectable()
 export class PrismaSellerRepository implements ISellerRepository {
@@ -102,6 +113,71 @@ export class PrismaSellerRepository implements ISellerRepository {
 
       return seller
     })
+  }
+
+  async listForAdmin(input: AdminSellerListInput): Promise<AdminSellerListPage> {
+    const where: Prisma.SellerWhereInput = {
+      ...(input.kycStatus ? { kycStatus: input.kycStatus as PrismaKycStatus } : {}),
+      ...(input.search
+        ? {
+            OR: [
+              { storeName: { contains: input.search, mode: 'insensitive' } },
+              { user: { email: { contains: input.search, mode: 'insensitive' } } },
+            ],
+          }
+        : {}),
+    }
+
+    const skip = (input.page - 1) * input.limit
+    const [rows, total] = await this.prisma.$transaction([
+      this.prisma.seller.findMany({
+        where,
+        include: SELLER_ADMIN_INCLUDE,
+        orderBy: { createdAt: 'desc' },
+        skip,
+        take: input.limit,
+      }),
+      this.prisma.seller.count({ where }),
+    ])
+
+    return {
+      data: rows.map((row): AdminSellerSummaryView => this.toAdminSummary(row)),
+      page: input.page,
+      limit: input.limit,
+      total,
+      totalPages: Math.max(1, Math.ceil(total / input.limit)),
+    }
+  }
+
+  async findDetailForAdmin(sellerId: string): Promise<AdminSellerDetailView | null> {
+    const row = await this.prisma.seller.findUnique({
+      where: { id: sellerId },
+      include: SELLER_ADMIN_INCLUDE,
+    })
+    if (!row) return null
+    return {
+      ...this.toAdminSummary(row),
+      storeDescription: row.storeDescription,
+      businessRegistrationNumber: row.businessRegistrationNumber,
+      bankAccountNumber: row.bankAccountNumber,
+      bankCode: row.bankCode,
+      kycDocuments: (row.kycDocuments as Record<string, unknown> | null) ?? null,
+      updatedAt: row.updatedAt.toISOString(),
+    }
+  }
+
+  private toAdminSummary(row: SellerAdminRow): AdminSellerSummaryView {
+    return {
+      id: row.id,
+      userId: row.userId,
+      storeName: row.storeName,
+      ownerEmail: row.user.email,
+      kycStatus: row.kycStatus as KycStatus,
+      commissionRate: row.commissionRate,
+      rating: row.rating,
+      totalRatings: row.totalRatings,
+      submittedAt: row.createdAt.toISOString(),
+    }
   }
 
   private toDomain(record: SellerRow): SellerEntity {

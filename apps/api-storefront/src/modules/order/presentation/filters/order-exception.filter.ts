@@ -6,6 +6,9 @@ import {
   CheckoutInsufficientStockException,
   CheckoutProductNotActiveException,
   InvalidOrderStatusTransitionException,
+  OrderNotFoundException,
+  ShippingTrackingRequiredException,
+  SubOrderNotFoundException,
 } from '../../domain/exceptions/order.exceptions'
 
 type OrderDomainException =
@@ -13,12 +16,18 @@ type OrderDomainException =
   | CheckoutInsufficientStockException
   | CheckoutProductNotActiveException
   | InvalidOrderStatusTransitionException
+  | OrderNotFoundException
+  | ShippingTrackingRequiredException
+  | SubOrderNotFoundException
 
 @Catch(
   CartEmptyException,
   CheckoutInsufficientStockException,
   CheckoutProductNotActiveException,
   InvalidOrderStatusTransitionException,
+  OrderNotFoundException,
+  ShippingTrackingRequiredException,
+  SubOrderNotFoundException,
 )
 export class OrderDomainExceptionFilter implements ExceptionFilter<OrderDomainException> {
   catch(exception: OrderDomainException, host: ArgumentsHost): void {
@@ -33,6 +42,12 @@ export class OrderDomainExceptionFilter implements ExceptionFilter<OrderDomainEx
   }
 
   private toStatus(exception: OrderDomainException): number {
+    if (
+      exception instanceof OrderNotFoundException ||
+      exception instanceof SubOrderNotFoundException
+    ) {
+      return HttpStatus.NOT_FOUND
+    }
     if (exception instanceof CheckoutInsufficientStockException) {
       return HttpStatus.CONFLICT
     }

@@ -1,5 +1,10 @@
 import type { Prisma } from '@prisma/client'
 
+import type {
+  AdminSellerDetailView,
+  AdminSellerListInput,
+  AdminSellerListPage,
+} from '../../application/views/admin-seller.view'
 import type { KycStatus, SellerEntity } from '../entities/seller.entity'
 
 export const SELLER_REPOSITORY = Symbol('SELLER_REPOSITORY')
@@ -62,4 +67,8 @@ export interface ISellerRepository {
     input: SellerKycTransitionInput,
     withinTx?: SellerKycTransitionCallback,
   ): Promise<SellerEntity>
+  /** Paginated seller list for the admin operations console (joins owner email). */
+  listForAdmin(input: AdminSellerListInput): Promise<AdminSellerListPage>
+  /** Full seller detail (KYC docs, bank fields, owner email) for admin review. */
+  findDetailForAdmin(sellerId: string): Promise<AdminSellerDetailView | null>
 }
