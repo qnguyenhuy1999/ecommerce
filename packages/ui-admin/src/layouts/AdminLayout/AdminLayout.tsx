@@ -4,9 +4,9 @@ import React, { useState } from 'react'
 
 import { cn } from '@ecom/ui'
 
-import type { AdminSidebarProps } from '../../organisms/sidebar/AdminSidebar'
+import type { AdminSidebarProps } from '../../organisms/Sidebar/AdminSidebar'
 import type { AdminHeaderProps } from '../../organisms/AdminHeader/AdminHeader'
-import { AdminSidebar } from '../../organisms/sidebar/AdminSidebar'
+import { AdminSidebar } from '../../organisms/Sidebar/AdminSidebar'
 import { AdminHeader } from '../../organisms/AdminHeader/AdminHeader'
 
 interface AdminLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
