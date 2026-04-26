@@ -1,9 +1,15 @@
 import { cache } from 'react'
 
+import { cookies } from 'next/headers'
+
 import type {
+  OrderListRequest,
+  OrderResponse,
   ProductListRequest,
   ProductResponse,
 } from '@ecom/api-types'
+
+import type { CartEnvelope } from './cart-types'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3000'
 
@@ -102,3 +108,101 @@ export const PRODUCT_CACHE_TAGS = {
   list: PRODUCT_LIST_TAG,
   detail: productDetailTag,
 }
+
+/* -------------------------------------------------------------------------- */
+/*                          Authenticated SSR fetches                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Forward the incoming request's cookies to the API as the `Cookie` header.
+ * Used for authenticated server-side reads (cart, orders) so the backend's
+ * `JwtAccessGuard` resolves the same user the client is browsing as.
+ *
+ * Wrapped in `react.cache` so multiple components in the same render pass
+ * (e.g. cart + cart-summary) reuse one cookie serialisation.
+ */
+const buildCookieHeader = cache(async (): Promise<string> => {
+  const jar = await cookies()
+  return jar
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join('; ')
+})
+
+interface OrderListEnvelope {
+  success: true
+  data: OrderResponse[]
+  meta: unknown
+}
+
+const EMPTY_CART: CartEnvelope = {
+  success: true,
+  data: {
+    id: '',
+    items: [],
+    subtotal: 0,
+    sellerGroups: [],
+    itemCount: 0,
+  },
+}
+
+const EMPTY_ORDER_LIST: OrderListEnvelope = {
+  success: true,
+  data: [],
+  meta: { total: 0, page: 1, limit: 0, totalPages: 0 },
+}
+
+/**
+ * Fetch the authenticated user's cart on the server.
+ *
+ * Cart contents are inherently per-user, so we pass `cache: 'no-store'` —
+ * `react.cache` still dedupes within a single render but Next won't share
+ * results across requests.
+ *
+ * Returns an empty cart if the user is logged out (401) or the API is
+ * unreachable so the page can still render its empty state.
+ */
+export const fetchCart = cache(async (): Promise<CartEnvelope> => {
+  try {
+    const res = await fetch(`${API_URL}/api/v1/cart`, {
+      cache: 'no-store',
+      headers: {
+        Cookie: await buildCookieHeader(),
+      },
+    })
+    if (!res.ok) return EMPTY_CART
+    return (await res.json()) as CartEnvelope
+  } catch {
+    return EMPTY_CART
+  }
+})
+
+function buildOrderListUrl(params: OrderListRequest): string {
+  const url = new URL(`${API_URL}/api/v1/orders`)
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined || value === null) continue
+    url.searchParams.set(key, String(value))
+  }
+  return url.toString()
+}
+
+/**
+ * Fetch the authenticated user's orders on the server. Same caching/auth
+ * semantics as {@link fetchCart}.
+ */
+export const fetchOrders = cache(
+  async (params: OrderListRequest): Promise<OrderListEnvelope> => {
+    try {
+      const res = await fetch(buildOrderListUrl(params), {
+        cache: 'no-store',
+        headers: {
+          Cookie: await buildCookieHeader(),
+        },
+      })
+      if (!res.ok) return EMPTY_ORDER_LIST
+      return (await res.json()) as OrderListEnvelope
+    } catch {
+      return EMPTY_ORDER_LIST
+    }
+  },
+)
