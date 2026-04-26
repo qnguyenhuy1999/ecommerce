@@ -27,21 +27,29 @@ export class RejectSellerHandler implements ICommandHandler<RejectSellerCommand,
     if (!seller) throw new SellerNotFoundException(command.sellerId)
     if (!seller.isPending()) throw new SellerKycNotPendingException(seller.kycStatus)
 
-    const updated = await this.sellers.transitionKycStatus({
-      sellerId: command.sellerId,
-      fromStatus: 'PENDING',
-      toStatus: 'REJECTED',
-      adminUserId: command.adminUserId,
-      reason: command.reason ?? null,
-    })
-
-    await this.notifications.createFromEvent({
-      type: 'SELLER_REJECTED',
-      userId: updated.userId,
-      sellerId: updated.id,
-      storeName: updated.props.storeName,
-      reason: command.reason ?? null,
-    })
+    // The notification row is recorded inside the same transaction as the
+    // KYC transition so the seller status and the notification commit (or
+    // roll back) together. SELLER_REJECTED has no email job, so there is
+    // no post-commit dispatch.
+    const updated = await this.sellers.transitionKycStatus(
+      {
+        sellerId: command.sellerId,
+        fromStatus: 'PENDING',
+        toStatus: 'REJECTED',
+        adminUserId: command.adminUserId,
+        reason: command.reason ?? null,
+      },
+      async (tx, refreshed) => {
+        await this.notifications.recordNotificationFromEvent({
+          type: 'SELLER_REJECTED',
+          userId: refreshed.userId,
+          sellerId: refreshed.id,
+          storeName: refreshed.props.storeName,
+          reason: command.reason ?? null,
+          tx,
+        })
+      },
+    )
 
     this.logger.log(`Admin ${command.adminUserId} rejected seller ${command.sellerId}`)
     return updated

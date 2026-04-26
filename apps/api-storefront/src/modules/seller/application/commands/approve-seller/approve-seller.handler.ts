@@ -27,14 +27,29 @@ export class ApproveSellerHandler implements ICommandHandler<ApproveSellerComman
     if (!seller) throw new SellerNotFoundException(command.sellerId)
     if (!seller.isPending()) throw new SellerKycNotPendingException(seller.kycStatus)
 
-    const updated = await this.sellers.transitionKycStatus({
-      sellerId: command.sellerId,
-      fromStatus: 'PENDING',
-      toStatus: 'APPROVED',
-      adminUserId: command.adminUserId,
-    })
+    // The notification row is recorded inside the same transaction as the
+    // KYC transition so the seller status and the notification commit (or
+    // roll back) together. The email job is dispatched after commit on a
+    // best-effort basis.
+    const updated = await this.sellers.transitionKycStatus(
+      {
+        sellerId: command.sellerId,
+        fromStatus: 'PENDING',
+        toStatus: 'APPROVED',
+        adminUserId: command.adminUserId,
+      },
+      async (tx, refreshed) => {
+        await this.notifications.recordNotificationFromEvent({
+          type: 'SELLER_APPROVED',
+          userId: refreshed.userId,
+          sellerId: refreshed.id,
+          storeName: refreshed.props.storeName,
+          tx,
+        })
+      },
+    )
 
-    await this.notifications.createFromEvent({
+    await this.notifications.dispatchEmailForEvent({
       type: 'SELLER_APPROVED',
       userId: updated.userId,
       sellerId: updated.id,

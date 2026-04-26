@@ -6,6 +6,7 @@ import { SellerKycNotPendingException } from '../../domain/exceptions/seller.exc
 import type {
   ISellerRepository,
   SellerCreateInput,
+  SellerKycTransitionCallback,
   SellerKycTransitionInput,
   SellerUpdateInput,
 } from '../../domain/ports/seller.repository.port'
@@ -56,7 +57,10 @@ export class PrismaSellerRepository implements ISellerRepository {
     return this.toDomain(record)
   }
 
-  async transitionKycStatus(input: SellerKycTransitionInput): Promise<SellerEntity> {
+  async transitionKycStatus(
+    input: SellerKycTransitionInput,
+    withinTx?: SellerKycTransitionCallback,
+  ): Promise<SellerEntity> {
     return this.prisma.$transaction(async (tx) => {
       // Compare-and-set guards against concurrent moderation actions: if
       // another admin already approved/rejected the seller, `count` will
@@ -90,7 +94,13 @@ export class PrismaSellerRepository implements ISellerRepository {
       })
 
       const refreshed = await tx.seller.findUniqueOrThrow({ where: { id: input.sellerId } })
-      return this.toDomain(refreshed)
+      const seller = this.toDomain(refreshed)
+
+      if (withinTx) {
+        await withinTx(tx, seller)
+      }
+
+      return seller
     })
   }
 
