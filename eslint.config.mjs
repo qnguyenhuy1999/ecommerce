@@ -184,6 +184,16 @@ export default [
     },
   },
 
+  // ─── Tests ────────────────────────────────────────────────────────────────
+  {
+    files: ['apps/*/test/**/*.ts', 'packages/*/test/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+    },
+  },
+
   // ─── NestJS specific ──────────────────────────────────────────────────────
   {
     files: ['apps/api-storefront/**/*.ts', 'apps/api-admin/**/*.ts', 'apps/worker/**/*.ts'],

@@ -1,7 +1,40 @@
-import { Controller } from '@nestjs/common'
+import { Body, Controller, HttpCode, HttpStatus, Post, UseFilters, UseGuards } from '@nestjs/common'
+import { CommandBus } from '@nestjs/cqrs'
+import { ApiCookieAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 
-// TODO(@platform, 2026-04-23): Implement order endpoints (checkout, list, details, status updates, refund requests).
-// Keep routes aligned with docs/03-technical/API_DESIGN.md.
+import { type AuthenticatedUser, CurrentUser, JwtAccessGuard } from '@ecom/nest-auth'
+
+import { CreateOrderCommand } from './application/commands/create-order/create-order.command'
+import { CreateOrderDto } from './application/dtos/create-order.dto'
+import type { OrderSummaryView } from './application/views/order-summary.view'
+import { OrderDomainExceptionFilter } from './presentation/filters/order-exception.filter'
+
+interface SuccessEnvelope<T> {
+  success: true
+  data: T
+}
+
+@ApiTags('orders')
 @Controller('orders')
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- Placeholder controller; endpoints added later.
-export class OrderController {}
+@UseGuards(JwtAccessGuard)
+@UseFilters(OrderDomainExceptionFilter)
+@ApiCookieAuth('access_token')
+export class OrderController {
+  constructor(private readonly commandBus: CommandBus) {}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: "Checkout the current user's cart into a pending-payment order" })
+  @ApiResponse({ status: 201, description: 'Order created from the current cart.' })
+  @ApiResponse({ status: 400, description: 'CART_EMPTY | PRODUCT_NOT_ACTIVE' })
+  @ApiResponse({ status: 409, description: 'INSUFFICIENT_STOCK' })
+  async createOrder(
+    @CurrentUser() user: AuthenticatedUser,
+    @Body() dto: CreateOrderDto,
+  ): Promise<SuccessEnvelope<OrderSummaryView>> {
+    const data = await this.commandBus.execute<CreateOrderCommand, OrderSummaryView>(
+      new CreateOrderCommand(user.userId, dto.shippingAddress),
+    )
+    return { success: true, data }
+  }
+}

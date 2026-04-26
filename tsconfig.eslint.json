@@ -47,6 +47,7 @@
   "include": [
     "apps/*/src/**/*.ts",
     "apps/*/src/**/*.tsx",
+    "apps/*/test/**/*.ts",
     "apps/*/next-env.d.ts",
     "packages/*/src/**/*.ts",
     "packages/*/src/**/*.tsx",
