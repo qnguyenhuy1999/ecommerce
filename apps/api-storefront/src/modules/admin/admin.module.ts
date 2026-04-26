@@ -1,14 +1,14 @@
-import { Module } from '@nestjs/common';
+import { Module } from '@nestjs/common'
+import { CqrsModule } from '@nestjs/cqrs'
 
-import { AdminController } from './admin.controller';
-import { AdminService } from './admin.service';
+import { AuthModule } from '@ecom/nest-auth'
+
+import { AdminSellerController } from './presentation/admin-seller.controller'
+import { SellerModule } from '../seller/seller.module'
 
 @Module({
-  controllers: [AdminController],
-  providers: [AdminService],
-  exports: [AdminService],
+  imports: [CqrsModule, AuthModule, SellerModule],
+  controllers: [AdminSellerController],
 })
- 
-
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS module class requires empty body
 export class AdminModule {}
