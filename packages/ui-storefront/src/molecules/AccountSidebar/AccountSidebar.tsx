@@ -59,7 +59,7 @@ function AccountSidebar({
   return (
     <aside className={cn('space-y-2', className)}>
       {/* User card */}
-      <div className="flex items-center gap-3 p-4 rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] shadow-[var(--elevation-surface)] mb-4">
+      <div className="flex items-center gap-3 p-4 rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] shadow-[var(--elevation-surface)] mb-4 overflow-hidden">
         <Avatar className="w-12 h-12 shrink-0">
           {user.avatar && <AvatarImage src={user.avatar} alt={user.name} />}
           <AvatarFallback className="text-[var(--text-sm)] font-semibold bg-[var(--action-primary)]/10 text-[var(--action-primary)]">

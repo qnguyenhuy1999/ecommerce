@@ -1,7 +1,7 @@
 import type { Meta } from '@storybook/react'
 
 import { FilterSidebar } from './FilterSidebar'
-import type { FilterGroup } from './FilterSidebar'
+import type { FilterGroupSpec } from './FilterSidebar'
 
 const meta = {
   title: 'molecules/FilterSidebar',
@@ -12,7 +12,7 @@ const meta = {
 
 export default meta
 
-const CATEGORY_FILTER: FilterGroup = {
+const CATEGORY_FILTER: FilterGroupSpec = {
   id: 'category',
   title: 'Category',
   type: 'checkbox',
@@ -24,7 +24,7 @@ const CATEGORY_FILTER: FilterGroup = {
   ],
 }
 
-const BRAND_FILTER: FilterGroup = {
+const BRAND_FILTER: FilterGroupSpec = {
   id: 'brand',
   title: 'Brand',
   type: 'checkbox',
@@ -35,7 +35,7 @@ const BRAND_FILTER: FilterGroup = {
   ],
 }
 
-const SIZE_FILTER: FilterGroup = {
+const SIZE_FILTER: FilterGroupSpec = {
   id: 'size',
   title: 'Size',
   type: 'size',
@@ -48,7 +48,7 @@ const SIZE_FILTER: FilterGroup = {
   ],
 }
 
-const COLOR_FILTER: FilterGroup = {
+const COLOR_FILTER: FilterGroupSpec = {
   id: 'color',
   title: 'Color',
   type: 'color',

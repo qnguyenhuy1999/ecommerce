@@ -62,7 +62,7 @@ export function AccountDashboardShell({
   return (
     <div
       className={cn(
-        'grid gap-[var(--space-8)] lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start',
+        'grid gap-[var(--space-6)] lg:grid-cols-[280px_1fr] lg:items-start',
         className,
       )}
     >

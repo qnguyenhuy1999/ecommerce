@@ -1,12 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { SearchResultsPageLayout } from './SearchResultsPageLayout'
+import type { FilterGroupSpec } from '../../molecules/FilterSidebar/FilterSidebar'
 import { SearchResultItem } from '../../molecules/SearchResultItem/SearchResultItem'
 
-const FILTERS = [
+const FILTERS: FilterGroupSpec[] = [
   {
     id: 'category',
-    label: 'Category',
+    title: 'Category',
     type: 'checkbox' as const,
     options: [
       { value: 'headphones', label: 'Headphones', count: 42 },
@@ -16,7 +17,7 @@ const FILTERS = [
   },
   {
     id: 'brand',
-    label: 'Brand',
+    title: 'Brand',
     type: 'checkbox' as const,
     options: [
       { value: 'sony', label: 'Sony', count: 18 },
@@ -26,11 +27,14 @@ const FILTERS = [
   },
   {
     id: 'price',
-    label: 'Price Range',
+    title: 'Price Range',
     type: 'range' as const,
-    min: 0,
-    max: 1000,
-    step: 10,
+    range: {
+      min: 0,
+      max: 1000,
+      step: 10,
+      current: [0, 1000],
+    },
   },
 ]
 

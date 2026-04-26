@@ -15,7 +15,7 @@ const meta: Meta<typeof OrderCard> = {
   parameters: { layout: 'padded' },
   decorators: [
     (Story) => (
-      <div className="mx-auto max-w-3xl rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-base)]">
+      <div className="mx-auto max-w-3xl p-4">
         <Story />
       </div>
     ),

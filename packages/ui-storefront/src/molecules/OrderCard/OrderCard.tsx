@@ -1,18 +1,13 @@
-import {
-  ChevronRight,
-  Download,
-  MapPin,
-  RotateCcw,
-  Star,
-  Truck,
-  XCircle,
-} from 'lucide-react'
+import React from 'react'
 
-import { Button, cn } from '@ecom/ui'
+import { ChevronRight } from 'lucide-react'
+
+import { cn } from '@ecom/ui'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
 import type { OrderStatus } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
+import { OrderActions } from '../OrderActions/OrderActions'
 
 export interface OrderCardItem {
   image: string
@@ -26,7 +21,7 @@ export interface OrderCardProps {
   items: OrderCardItem[]
   itemCount: number
   total: number
-  /** View order detail. Whole row is clickable when this handler is provided. */
+  /** View order detail. Whole card is clickable when this handler is provided. */
   onView?: () => void
   onTrack?: () => void
   onReorder?: () => void
@@ -37,122 +32,12 @@ export interface OrderCardProps {
   className?: string
 }
 
-interface ActionDescriptor {
-  key: string
-  label: string
-  icon: React.ComponentType<{ className?: string }>
-  onClick?: () => void
-  variant: 'primary' | 'secondary'
-  /** Tone used for secondary actions only; primary always uses outline. */
-  tone?: 'default' | 'danger'
-}
-
 /**
- * Compute the primary + (optionally) secondary action for an order based on status.
- * Returns at most 1 primary and 1 secondary action so the row never feels cluttered.
- */
-function getContextualActions({
-  status,
-  onTrack,
-  onReorder,
-  onCancel,
-  onChangeAddress,
-  onWriteReview,
-  onDownloadInvoice,
-}: Pick<
-  OrderCardProps,
-  'status' | 'onTrack' | 'onReorder' | 'onCancel' | 'onChangeAddress' | 'onWriteReview' | 'onDownloadInvoice'
->): { primary?: ActionDescriptor; secondary?: ActionDescriptor } {
-  switch (status) {
-    case 'PENDING_PAYMENT':
-    case 'PAID':
-    case 'PROCESSING': {
-      const primary: ActionDescriptor | undefined = onCancel
-        ? {
-            key: 'cancel',
-            label: 'Cancel order',
-            icon: XCircle,
-            onClick: onCancel,
-            variant: 'primary',
-            tone: 'danger',
-          }
-        : undefined
-      const secondary: ActionDescriptor | undefined = onChangeAddress
-        ? {
-            key: 'address',
-            label: 'Change address',
-            icon: MapPin,
-            onClick: onChangeAddress,
-            variant: 'secondary',
-          }
-        : undefined
-      return { primary, secondary }
-    }
-    case 'SHIPPED': {
-      const primary = onTrack
-        ? {
-            key: 'track',
-            label: 'Track order',
-            icon: Truck,
-            onClick: onTrack,
-            variant: 'primary' as const,
-          }
-        : undefined
-      return { primary }
-    }
-    case 'COMPLETED': {
-      const primary = onReorder
-        ? {
-            key: 'buy-again',
-            label: 'Buy again',
-            icon: RotateCcw,
-            onClick: onReorder,
-            variant: 'primary' as const,
-          }
-        : undefined
-      let secondary: ActionDescriptor | undefined
-      if (onWriteReview) {
-        secondary = {
-          key: 'review',
-          label: 'Write review',
-          icon: Star,
-          onClick: onWriteReview,
-          variant: 'secondary',
-        }
-      } else if (onDownloadInvoice) {
-        secondary = {
-          key: 'invoice',
-          label: 'Invoice',
-          icon: Download,
-          onClick: onDownloadInvoice,
-          variant: 'secondary',
-        }
-      }
-      return { primary, secondary }
-    }
-    case 'CANCELLED':
-    case 'REFUNDED':
-    case 'PENDING_REFUND': {
-      const primary = onReorder
-        ? {
-            key: 'reorder',
-            label: 'Reorder',
-            icon: RotateCcw,
-            onClick: onReorder,
-            variant: 'primary' as const,
-          }
-        : undefined
-      return { primary }
-    }
-    default:
-      return {}
-  }
-}
-
-/**
- * Compact, horizontal order row for high-density list views.
- * Whole row is clickable when `onView` is provided; contextual actions sit
- * on the right and stop click propagation so they don't trigger the row click.
+ * Structured 4-row order card for high-UX transaction dashboard.
+ * 1. Header (ID, Status, Total)
+ * 2. Metadata (Date, item count)
+ * 3. Thumbnails
+ * 4. Actions
  */
 function OrderCard({
   orderNumber,
@@ -170,17 +55,9 @@ function OrderCard({
   onDownloadInvoice,
   className,
 }: OrderCardProps) {
-  const previewItems = items.slice(0, 3)
+  // Show up to 4 items in the overlap stack
+  const previewItems = items.slice(0, 4)
   const remaining = Math.max(0, itemCount - previewItems.length)
-  const { primary, secondary } = getContextualActions({
-    status,
-    onTrack,
-    onReorder,
-    onCancel,
-    onChangeAddress,
-    onWriteReview,
-    onDownloadInvoice,
-  })
 
   const interactive = Boolean(onView)
 
@@ -205,34 +82,60 @@ function OrderCard({
     <div
       {...interactiveProps}
       className={cn(
-        'group relative flex flex-col gap-[var(--space-3)] sm:gap-[var(--space-4)]',
-        'sm:grid sm:grid-cols-[auto_minmax(0,1fr)_auto_auto] sm:items-center',
-        'rounded-[var(--radius-md)]',
+        'group relative flex flex-col',
+        'rounded-2xl border border-[var(--border-subtle)]',
         'bg-[var(--surface-base)]',
-        'px-[var(--space-4)] py-[var(--space-4)]',
-        'sm:px-[var(--space-5)] sm:py-[var(--space-4)]',
-        'transition-colors duration-[var(--motion-fast)]',
-        'border-b border-[var(--border-subtle)] last:border-b-0',
+        'p-5 sm:p-6',
+        'transition-all duration-200',
         interactive &&
           cn(
-            'cursor-pointer hover:bg-[var(--surface-hover)]',
+            'cursor-pointer hover:bg-[var(--surface-muted)]/40 hover:shadow-md',
             'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-0',
           ),
         className,
       )}
     >
-      {/* Thumbnails */}
-      <div className="flex shrink-0 items-center gap-[var(--space-2)]">
-        <div className="flex -space-x-2">
+      {/* Row 1: Header (Order ID, Status, Total) */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <span className="font-mono text-base font-semibold text-[var(--text-primary)]">
+            #{orderNumber}
+          </span>
+          {interactive && (
+            <ChevronRight
+              className="h-4 w-4 shrink-0 text-[var(--text-tertiary)] opacity-0 transition-all duration-200 group-hover:translate-x-0.5 group-hover:opacity-100 group-hover:text-[var(--text-secondary)]"
+              aria-hidden="true"
+            />
+          )}
+        </div>
+        
+        <div className="flex flex-col items-end gap-1.5 sm:flex-row sm:items-center sm:gap-4">
+          <OrderStatusBadge status={status} size="sm" />
+          <PriceDisplay price={total} size="default" className="font-bold text-right" />
+        </div>
+      </div>
+
+      {/* Row 2: Metadata */}
+      <div className="mt-1">
+        <p className="text-sm text-[var(--text-secondary)]">
+          Placed on {date} &bull; {itemCount} item{itemCount === 1 ? '' : 's'}
+        </p>
+      </div>
+
+      {/* Row 3: Thumbnails */}
+      <div className="mt-5 flex items-center gap-3">
+        <div className="flex -space-x-3">
           {previewItems.map((item, i) => (
             <div
               key={i}
               className={cn(
-                'h-11 w-11 overflow-hidden rounded-[var(--radius-md)]',
+                'h-12 w-12 sm:h-14 sm:w-14 overflow-hidden rounded-xl',
                 'border-2 border-[var(--surface-base)]',
-                'bg-[var(--surface-muted)]',
+                'bg-[var(--surface-subtle)]',
                 'ring-1 ring-[var(--border-subtle)]',
+                'relative z-10 hover:z-20 transition-transform duration-200 hover:scale-105'
               )}
+              style={{ zIndex: previewItems.length - i }}
             >
               <img
                 src={item.image}
@@ -244,79 +147,23 @@ function OrderCard({
           ))}
         </div>
         {remaining > 0 && (
-          <span className="text-[length:var(--text-xs)] font-medium text-[var(--text-tertiary)]">
+          <span className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center rounded-full bg-[var(--surface-subtle)] text-xs font-medium text-[var(--text-secondary)]">
             +{remaining}
           </span>
         )}
       </div>
 
-      {/* Order info */}
-      <div className="min-w-0">
-        <p className="truncate font-mono text-[length:var(--text-sm)] font-semibold text-[var(--text-primary)]">
-          #{orderNumber}
-        </p>
-        <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-          Placed {date} · {itemCount} item{itemCount === 1 ? '' : 's'}
-        </p>
-      </div>
-
-      {/* Status */}
-      <div className="flex items-center sm:justify-end">
-        <OrderStatusBadge status={status} size="sm" />
-      </div>
-
-      {/* Total + actions */}
-      <div className="flex items-center justify-between gap-[var(--space-3)] sm:justify-end sm:gap-[var(--space-4)]">
-        <PriceDisplay price={total} size="sm" className="font-semibold" />
-
-        <div className="flex items-center gap-[var(--space-1-5)]">
-          {secondary && secondary.onClick && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={(event) => {
-                event.stopPropagation()
-                secondary.onClick?.()
-              }}
-              className={cn(
-                'hidden h-8 gap-[var(--space-1)] px-[var(--space-2)] text-[length:var(--text-xs)]',
-                'sm:inline-flex',
-                'opacity-0 group-hover:opacity-100 group-focus-within:opacity-100',
-                'transition-opacity duration-[var(--motion-fast)]',
-                'text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
-              )}
-            >
-              <secondary.icon className="h-3.5 w-3.5" aria-hidden="true" />
-              {secondary.label}
-            </Button>
-          )}
-
-          {primary && primary.onClick ? (
-            <Button
-              variant={primary.tone === 'danger' ? 'ghost' : 'outline'}
-              size="sm"
-              onClick={(event) => {
-                event.stopPropagation()
-                primary.onClick?.()
-              }}
-              className={cn(
-                'h-8 gap-[var(--space-1-5)] px-[var(--space-3)] text-[length:var(--text-xs)] font-medium',
-                primary.tone === 'danger' &&
-                  'text-[var(--intent-danger)] hover:bg-[var(--intent-danger-muted)] hover:text-[var(--intent-danger)]',
-              )}
-            >
-              <primary.icon className="h-3.5 w-3.5" aria-hidden="true" />
-              {primary.label}
-            </Button>
-          ) : null}
-
-          {interactive && (
-            <ChevronRight
-              className="h-4 w-4 shrink-0 text-[var(--text-tertiary)] transition-transform duration-[var(--motion-fast)] group-hover:translate-x-0.5 group-hover:text-[var(--text-secondary)]"
-              aria-hidden="true"
-            />
-          )}
-        </div>
+      {/* Row 4: Actions */}
+      <div className="mt-6 pt-5 border-t border-[var(--border-subtle)]">
+        <OrderActions
+          status={status}
+          onTrack={onTrack}
+          onReorder={onReorder}
+          onCancel={onCancel}
+          onChangeAddress={onChangeAddress}
+          onWriteReview={onWriteReview}
+          onDownloadInvoice={onDownloadInvoice}
+        />
       </div>
     </div>
   )

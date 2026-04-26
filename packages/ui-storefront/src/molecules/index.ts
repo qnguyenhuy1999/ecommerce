@@ -41,3 +41,15 @@ export type { VariantSelectorProps } from './VariantSelector/VariantSelector'
 export { VariantOption } from './VariantSelector/VariantOption'
 export type { VariantOptionProps } from './VariantSelector/VariantOption'
 export { useProductCard } from './ProductCard/ProductCard'
+export { ProductPurchaseSection } from './ProductPurchaseSection/ProductPurchaseSection'
+export type {
+  ProductPurchaseSectionProps,
+  ProductVariantGroup,
+  ShippingProgressConfig,
+} from './ProductPurchaseSection/ProductPurchaseSection'
+export { ProductReviewsSection } from './ProductReviewsSection/ProductReviewsSection'
+export type { ProductReviewsSectionProps, ReviewSortOption } from './ProductReviewsSection/ProductReviewsSection'
+export { ProductHighlights } from './ProductHighlights/ProductHighlights'
+export type { ProductHighlightsProps } from './ProductHighlights/ProductHighlights'
+export { ProductStickyBar } from './ProductStickyBar/ProductStickyBar'
+export type { ProductStickyBarProps } from './ProductStickyBar/ProductStickyBar'

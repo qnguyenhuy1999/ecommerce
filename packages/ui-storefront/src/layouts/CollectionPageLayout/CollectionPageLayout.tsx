@@ -219,9 +219,10 @@ function CollectionPageLayout({
                 <Button
                   type="button"
                   variant="ghost"
-                  size="icon-sm"
+                  size="sm"
                   onClick={() => setDrawerOpen(false)}
                   aria-label="Close filters"
+                  className="h-8 w-8 px-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -237,10 +238,9 @@ function CollectionPageLayout({
               >
                 <Button
                   type="button"
-                  fullWidth
                   size="lg"
                   onClick={() => setDrawerOpen(false)}
-                  className="rounded-[var(--radius-lg)]"
+                  className="w-full rounded-[var(--radius-lg)]"
                 >
                   Show results
                 </Button>

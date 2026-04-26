@@ -5,6 +5,7 @@ import React, { useCallback, useState } from 'react'
 import { Button, cn, createStrictContext } from '@ecom/ui'
 
 import { ProductGalleryClient } from './ProductGalleryClient'
+import { ProductGalleryZoomModal } from './ProductGalleryZoomModal'
 
 // ─── Compound Component Context ─────────────────────────────────────────────
 interface ProductGalleryContextValue {
@@ -13,6 +14,7 @@ interface ProductGalleryContextValue {
   setActiveIndex: (index: number) => void
   nextImage: () => void
   prevImage: () => void
+  openZoom: () => void
 }
 
 const [ProductGalleryProvider, useProductGallery] =
@@ -23,16 +25,19 @@ export { useProductGallery }
 export interface ProductGalleryProps extends React.HTMLAttributes<HTMLDivElement> {
   images: { id: string; src: string; alt: string }[]
   initialIndex?: number
+  enableZoom?: boolean
 }
 
 function ProductGalleryRoot({
   images,
   initialIndex = 0,
+  enableZoom = true,
   className,
   children,
   ...props
 }: ProductGalleryProps) {
   const [activeIndex, setActiveIndex] = useState(initialIndex)
+  const [zoomOpen, setZoomOpen] = useState(false)
 
   const nextImage = useCallback(() => {
     setActiveIndex((prev) => (prev + 1) % images.length)
@@ -42,11 +47,29 @@ function ProductGalleryRoot({
     setActiveIndex((prev) => (prev - 1 + images.length) % images.length)
   }, [images.length])
 
+  const openZoom = useCallback(() => {
+    if (enableZoom) setZoomOpen(true)
+  }, [enableZoom])
+
+  const activeImage = images[activeIndex]
+
   return (
-    <ProductGalleryProvider value={{ images, activeIndex, setActiveIndex, nextImage, prevImage }}>
-      <div className={cn('flex flex-col gap-4 md:flex-row', className)} {...props}>
+    <ProductGalleryProvider
+      value={{ images, activeIndex, setActiveIndex, nextImage, prevImage, openZoom }}
+    >
+      <div className={cn('flex flex-col gap-3 md:flex-row', className)} {...props}>
         {children}
       </div>
+
+      {/* Zoom Modal */}
+      {enableZoom && activeImage && (
+        <ProductGalleryZoomModal
+          src={activeImage.src}
+          alt={activeImage.alt}
+          open={zoomOpen}
+          onClose={() => setZoomOpen(false)}
+        />
+      )}
     </ProductGalleryProvider>
   )
 }
@@ -57,7 +80,7 @@ export interface ProductGalleryMainProps extends React.HTMLAttributes<HTMLDivEle
 }
 
 function ProductGalleryMain({ className, showControls = true, ...props }: ProductGalleryMainProps) {
-  const { images, activeIndex, nextImage, prevImage } = useProductGallery()
+  const { images, activeIndex, nextImage, prevImage, openZoom } = useProductGallery()
   const activeImage = images[activeIndex]
 
   if (!activeImage) return null
@@ -68,6 +91,16 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
         'group relative aspect-square md:aspect-[4/5] flex-1 overflow-hidden rounded-[var(--radius-xl)] border border-border/60 bg-[var(--surface-elevated)] shadow-[var(--elevation-dropdown)] cursor-crosshair',
         className,
       )}
+      onClick={openZoom}
+      role="button"
+      tabIndex={0}
+      aria-label="Click to zoom image"
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          openZoom()
+        }
+      }}
       {...props}
     >
       <img
@@ -75,6 +108,7 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
         src={activeImage.src}
         alt={activeImage.alt}
         className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.08] animate-in fade-in"
+        loading={activeIndex === 0 ? 'eager' : 'lazy'}
       />
 
       <ProductGalleryClient
@@ -83,6 +117,21 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
         onPrev={prevImage}
         showControls={showControls}
       />
+
+      {/* Dot indicators for mobile */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 md:hidden">
+        {images.map((_, idx) => (
+          <span
+            key={idx}
+            className={cn(
+              'w-1.5 h-1.5 rounded-full transition-all duration-200',
+              activeIndex === idx
+                ? 'bg-white w-4'
+                : 'bg-white/50',
+            )}
+          />
+        ))}
+      </div>
     </div>
   )
 }
@@ -102,8 +151,8 @@ function ProductGalleryThumbnails({
   return (
     <div
       className={cn(
-        'flex gap-3 overflow-x-auto snap-x snap-mandatory scrollbar-none',
-        direction === 'vertical' ? 'md:w-24 md:flex-col shrink-0' : 'flex-row',
+        'flex gap-2.5 overflow-x-auto snap-x snap-mandatory scrollbar-none',
+        direction === 'vertical' ? 'md:w-20 md:flex-col shrink-0 order-last md:order-first' : 'flex-row',
         className,
       )}
       {...props}
@@ -117,19 +166,24 @@ function ProductGalleryThumbnails({
             variant="ghost"
             size="icon"
             className={cn(
-              'relative snap-start shrink-0 aspect-square rounded-[var(--radius-md)] overflow-hidden',
+              'relative snap-start shrink-0 aspect-square rounded-[var(--radius-md)] overflow-hidden border-2',
               'h-auto min-h-0 min-w-0 p-0 bg-transparent hover:bg-transparent',
               'transition-all duration-[var(--motion-fast)]',
-              direction === 'vertical' ? 'w-20 md:w-full' : 'w-20',
+              direction === 'vertical' ? 'w-16 md:w-full' : 'w-16',
               isActive
-                ? 'ring-2 ring-brand ring-offset-2 ring-offset-background'
-                : 'ring-1 ring-border hover:ring-foreground/50 opacity-70 hover:opacity-100',
+                ? 'border-brand opacity-100'
+                : 'border-border/70 opacity-60 hover:border-foreground/50 hover:opacity-100',
             )}
             onClick={() => setActiveIndex(idx)}
             aria-label={`View ${image.alt}`}
             aria-pressed={isActive}
           >
-            <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />
+            <img
+              src={image.src}
+              alt={image.alt}
+              className="w-full h-full object-cover"
+              loading="lazy"
+            />
           </Button>
         )
       })}
