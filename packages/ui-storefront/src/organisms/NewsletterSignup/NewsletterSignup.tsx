@@ -190,11 +190,11 @@ function NewsletterSignup({
             type="submit"
             variant="brand"
             size="lg"
-            className="h-11 rounded-full px-[var(--space-6)] shrink-0"
+            className="h-11 rounded-full px-[var(--space-6)] shrink-0 gap-2"
             disabled={status === 'loading' || !email}
-            iconRight={status === 'loading' ? undefined : <Send className="h-4 w-4" />}
           >
             {status === 'loading' ? 'Subscribing…' : 'Subscribe'}
+            {status !== 'loading' && <Send className="h-4 w-4" />}
           </Button>
         </form>
       )}

@@ -95,15 +95,6 @@ export const Dashboard: Story = {
   },
 }
 
-export const Standalone: Story = {
-  args: {
-    items: Dashboard.args!.items!,
-    onMoveAllToCart: () => alert('Move all to cart'),
-    onShareWishlist: () => alert('Share wishlist'),
-    onSortChange: (v) => alert(`Sort: ${v}`),
-  },
-}
-
 export const EmptyWishlist: Story = {
   args: {
     sidebarProps: SIDEBAR,

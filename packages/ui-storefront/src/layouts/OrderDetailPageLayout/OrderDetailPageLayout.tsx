@@ -469,8 +469,7 @@ function OrderDetailPageLayout({
                   type="button"
                   variant="outline"
                   size="default"
-                  fullWidth
-                  className="justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
+                  className="w-full justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
                   onClick={onContactSeller}
                   disabled={!onContactSeller}
                 >
@@ -481,8 +480,7 @@ function OrderDetailPageLayout({
                   type="button"
                   variant="outline"
                   size="default"
-                  fullWidth
-                  className="justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
+                  className="w-full justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
                   onClick={onContactSupport}
                   disabled={!onContactSupport}
                 >
@@ -494,10 +492,9 @@ function OrderDetailPageLayout({
                     type="button"
                     variant="outline"
                     size="default"
-                    fullWidth
                     onClick={onCancelOrder}
                     className={cn(
-                      'justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]',
+                      'w-full justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]',
                       'border-[color-mix(in_srgb,var(--intent-danger)_30%,transparent)]',
                       'text-[var(--intent-danger)]',
                       'hover:bg-[var(--intent-danger-muted)] hover:text-[var(--intent-danger)] hover:border-[var(--intent-danger)]',

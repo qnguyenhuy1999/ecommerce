@@ -114,7 +114,7 @@ function ProductCardItem({
           <Button
             size={view === 'list' ? 'default' : 'sm'}
             variant="brand"
-            fullWidth={view === 'grid'}
+            className={cn(view === 'grid' && 'w-full')}
             onClick={() => onAddToCart(id)}
             disabled={loading || !id}
           >

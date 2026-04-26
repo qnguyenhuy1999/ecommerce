@@ -26,3 +26,5 @@ export type {
   ProductVariantGroup,
   ShippingProgressConfig,
 } from './ProductDetailLayout/ProductDetailLayout'
+export { AccountOrderLayout } from './AccountOrderLayout/AccountOrderLayout'
+export type { AccountOrderLayoutProps } from './AccountOrderLayout/AccountOrderLayout'

@@ -51,22 +51,16 @@ function AccountPageLayout({
       {...props}
     >
       <PageContainer>
-        {breadcrumb && (
-          <div className="mb-[var(--space-6)] text-[length:var(--text-sm)] text-[var(--text-secondary)]">
-            {breadcrumb}
-          </div>
-        )}
-        <AccountDashboardShell sidebarProps={sidebarProps}>
-          <div
-            className={cn(
-              'rounded-[var(--radius-xl)] border border-[var(--border-subtle)]',
-              'bg-[var(--surface-base)] shadow-[var(--elevation-surface)]',
-              'p-[var(--space-6)] min-h-[24rem]',
-            )}
-          >
-            {children}
-          </div>
-        </AccountDashboardShell>
+        <div className="w-full">
+          {breadcrumb && (
+            <div className="mb-[var(--space-6)] text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+              {breadcrumb}
+            </div>
+          )}
+          <AccountDashboardShell sidebarProps={sidebarProps}>
+            <div className={cn('min-h-[24rem]')}>{children}</div>
+          </AccountDashboardShell>
+        </div>
       </PageContainer>
     </StorefrontPageShell>
   )

@@ -79,7 +79,7 @@ function WishlistCard({
     <div
       className={cn(
         'group relative flex flex-col',
-        'rounded-[var(--radius-2xl)]',
+        'rounded-[var(--radius-lg)]',
         'bg-[var(--surface-base)]',
         'border border-[var(--border-subtle)]',
         'overflow-hidden',
@@ -88,15 +88,7 @@ function WishlistCard({
         className,
       )}
     >
-      {/* Image surface — color-blocked tint, image swap, OOS desaturation.
-          A transparent overlay <button> handles the View click; action buttons
-          (heart, quick-add) sit on a higher stacking layer so they don't nest. */}
-      <div
-        className={cn(
-          'relative aspect-square w-full overflow-hidden',
-          ACCENT_BG[accent],
-        )}
-      >
+      <div className={cn('relative aspect-square w-full overflow-hidden', ACCENT_BG[accent])}>
         <img
           src={product.image}
           alt={product.name}
@@ -105,9 +97,7 @@ function WishlistCard({
             'absolute inset-0 h-full w-full object-cover',
             'transition-[transform,opacity,filter] duration-[var(--motion-slow)] ease-[var(--motion-ease-default)]',
             !inStock && 'grayscale-[55%] opacity-80',
-            product.secondaryImage
-              ? 'group-hover:opacity-0'
-              : 'group-hover:scale-[1.04]',
+            product.secondaryImage ? 'group-hover:opacity-0' : 'group-hover:scale-[1.04]',
           )}
         />
         {product.secondaryImage && (
@@ -139,8 +129,6 @@ function WishlistCard({
           </span>
         )}
 
-        {/* Transparent click overlay — sits below action buttons but above
-            images so the entire image surface remains a single hit target. */}
         {onViewProduct && (
           <button
             type="button"
@@ -154,7 +142,6 @@ function WishlistCard({
           />
         )}
 
-        {/* Quick-add reveal — slides up on hover (md+); always visible on touch */}
         {showQuickAdd && (
           <div
             className={cn(
@@ -191,8 +178,6 @@ function WishlistCard({
         )}
       </div>
 
-      {/* Heart toggle / remove — top-right. Default: filled saved state.
-          Hover: morphs into X with "Remove" affordance via title attribute. */}
       {onRemove && (
         <button
           type="button"

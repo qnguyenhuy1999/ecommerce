@@ -18,14 +18,7 @@ const PRODUCT = {
 const meta: Meta<typeof WishlistCard> = {
   title: 'Molecules/WishlistCard',
   component: WishlistCard,
-  parameters: { layout: 'padded' },
-  decorators: [
-    (Story) => (
-      <div className="max-w-xs mx-auto">
-        <Story />
-      </div>
-    ),
-  ],
+  parameters: { layout: 'fullscreen' },
 }
 export default meta
 

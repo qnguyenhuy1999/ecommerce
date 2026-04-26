@@ -18,54 +18,62 @@ const spacingClass = {
   comfortable: 'py-[var(--space-14)] md:py-[var(--space-20)] lg:py-[var(--space-24)]',
 } as const
 
-function StorefrontSection({
-  eyebrow,
-  title,
-  description,
-  action,
-  className,
-  contentClassName,
-  spacing = 'default',
-  children,
-  ...props
-}: StorefrontSectionProps) {
-  return (
-    <section
-      className={cn(
-        'px-[var(--space-4)] md:px-[var(--space-6)] lg:px-[var(--space-8)]',
-        spacingClass[spacing],
-        className,
-      )}
-      {...props}
-    >
-      {(eyebrow || title || description || action) && (
-        <div className="mx-auto mb-[var(--space-8)] flex max-w-[var(--storefront-content-max-width)] flex-col gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
-          <div className="max-w-3xl space-y-[var(--space-2)]">
-            {eyebrow && (
-              <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.16em] text-[var(--text-brand)]">
-                {eyebrow}
-              </p>
-            )}
-            {title && (
-              <h2 className="text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] text-foreground leading-[var(--line-height-tight)]">
-                {title}
-              </h2>
-            )}
-            {description && (
-              <p className="text-[length:var(--font-size-body-md)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
-                {description}
-              </p>
-            )}
+const StorefrontSection = React.forwardRef<HTMLElement, StorefrontSectionProps>(
+  (
+    {
+      eyebrow,
+      title,
+      description,
+      action,
+      className,
+      contentClassName,
+      spacing = 'default',
+      children,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <section
+        ref={ref}
+        className={cn(
+          'px-[var(--space-4)] md:px-[var(--space-6)] lg:px-[var(--space-8)]',
+          spacingClass[spacing],
+          className,
+        )}
+        {...props}
+      >
+        {(eyebrow || title || description || action) && (
+          <div className="mx-auto mb-[var(--space-8)] flex max-w-[var(--storefront-content-max-width)] flex-col gap-[var(--space-4)] md:flex-row md:items-end md:justify-between">
+            <div className="max-w-3xl space-y-[var(--space-2)]">
+              {eyebrow && (
+                <p className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.16em] text-[var(--text-brand)]">
+                  {eyebrow}
+                </p>
+              )}
+              {title && (
+                <h2 className="text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] text-foreground leading-[var(--line-height-tight)]">
+                  {title}
+                </h2>
+              )}
+              {description && (
+                <p className="text-[length:var(--font-size-body-md)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
+                  {description}
+                </p>
+              )}
+            </div>
+            {action && <div className="shrink-0">{action}</div>}
           </div>
-          {action && <div className="shrink-0">{action}</div>}
-        </div>
-      )}
+        )}
 
-      <div className={cn('mx-auto max-w-[var(--storefront-content-max-width)]', contentClassName)}>
-        {children}
-      </div>
-    </section>
-  )
-}
+        <div className={cn('mx-auto max-w-[var(--storefront-content-max-width)]', contentClassName)}>
+          {children}
+        </div>
+      </section>
+    )
+  },
+)
+
+StorefrontSection.displayName = 'StorefrontSection'
 
 export { StorefrontSection }

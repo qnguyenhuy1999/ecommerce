@@ -12,6 +12,7 @@ export {
   ProductGalleryThumbnails,
   useProductGallery,
 } from './ProductGallery/ProductGallery'
+export { ProductGalleryZoomModal } from './ProductGallery/ProductGalleryZoomModal'
 export { ProductGrid } from './ProductGrid/ProductGrid'
 export type { Product, ProductGridProps } from './ProductGrid/ProductGrid'
 export { QuickNavSection } from './QuickNavSection/QuickNavSection'

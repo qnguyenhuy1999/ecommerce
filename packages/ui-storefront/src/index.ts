@@ -102,6 +102,10 @@ export type {
 } from './molecules/OrderTimeline/OrderTimeline'
 export { OrderCard } from './molecules/OrderCard/OrderCard'
 export type { OrderCardProps, OrderCardItem } from './molecules/OrderCard/OrderCard'
+export { OrderActions } from './molecules/OrderActions/OrderActions'
+export type { OrderActionsProps } from './molecules/OrderActions/OrderActions'
+export { OrderFilterBar } from './molecules/OrderFilterBar/OrderFilterBar'
+export type { OrderFilterBarProps } from './molecules/OrderFilterBar/OrderFilterBar'
 export { SearchResultItem } from './molecules/SearchResultItem/SearchResultItem'
 export type {
   SearchResultItemProps,
@@ -120,6 +124,16 @@ export type {
 } from './molecules/AccountSidebar/AccountSidebar'
 export { AddressCard } from './molecules/AddressCard/AddressCard'
 export type { AddressCardProps } from './molecules/AddressCard/AddressCard'
+export { ProductPurchaseSection } from './molecules/ProductPurchaseSection/ProductPurchaseSection'
+export type {
+  ProductPurchaseSectionProps,
+} from './molecules/ProductPurchaseSection/ProductPurchaseSection'
+export { ProductReviewsSection } from './molecules/ProductReviewsSection/ProductReviewsSection'
+export type { ProductReviewsSectionProps, ReviewSortOption } from './molecules/ProductReviewsSection/ProductReviewsSection'
+export { ProductHighlights } from './molecules/ProductHighlights/ProductHighlights'
+export type { ProductHighlightsProps } from './molecules/ProductHighlights/ProductHighlights'
+export { ProductStickyBar } from './molecules/ProductStickyBar/ProductStickyBar'
+export type { ProductStickyBarProps } from './molecules/ProductStickyBar/ProductStickyBar'
 
 // Organisms
 export { CartDrawer } from './organisms/CartDrawer/CartDrawer'
@@ -136,6 +150,7 @@ export {
   ProductGalleryThumbnails,
   useProductGallery,
 } from './organisms/ProductGallery/ProductGallery'
+export { ProductGalleryZoomModal } from './organisms/ProductGallery/ProductGalleryZoomModal'
 export { useProductCard } from './molecules/ProductCard/ProductCard'
 export { StorefrontSection } from './layouts/shared/StorefrontSection'
 export { PageContainer } from './layouts/shared/PageContainer'
@@ -207,8 +222,8 @@ export type {
 } from './layouts/CheckoutPageLayout/CheckoutPageLayout'
 export { SearchResultsPageLayout } from './layouts/SearchResultsPageLayout/SearchResultsPageLayout'
 export type { SearchResultsPageLayoutProps } from './layouts/SearchResultsPageLayout/SearchResultsPageLayout'
-export { OrderHistoryPageLayout } from './layouts/OrderHistoryPageLayout/OrderHistoryPageLayout'
-export type { OrderHistoryPageLayoutProps } from './layouts/OrderHistoryPageLayout/OrderHistoryPageLayout'
+export { AccountOrderLayout } from './layouts/AccountOrderLayout/AccountOrderLayout'
+export type { AccountOrderLayoutProps } from './layouts/AccountOrderLayout/AccountOrderLayout'
 export { OrderDetailPageLayout } from './layouts/OrderDetailPageLayout/OrderDetailPageLayout'
 export type { OrderDetailPageLayoutProps } from './layouts/OrderDetailPageLayout/OrderDetailPageLayout'
 export { WishlistPageLayout } from './layouts/WishlistPageLayout/WishlistPageLayout'
