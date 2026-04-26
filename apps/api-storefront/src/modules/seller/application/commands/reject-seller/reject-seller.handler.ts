@@ -2,6 +2,7 @@ import { Inject, Logger } from '@nestjs/common'
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 
 import { RejectSellerCommand } from './reject-seller.command'
+import { NotificationService } from '../../../../notification/notification.service'
 import type { SellerEntity } from '../../../domain/entities/seller.entity'
 import {
   SellerKycNotPendingException,
@@ -16,7 +17,10 @@ import {
 export class RejectSellerHandler implements ICommandHandler<RejectSellerCommand, SellerEntity> {
   private readonly logger = new Logger(RejectSellerHandler.name)
 
-  constructor(@Inject(SELLER_REPOSITORY) private readonly sellers: ISellerRepository) {}
+  constructor(
+    @Inject(SELLER_REPOSITORY) private readonly sellers: ISellerRepository,
+    private readonly notifications: NotificationService,
+  ) {}
 
   async execute(command: RejectSellerCommand): Promise<SellerEntity> {
     const seller = await this.sellers.findById(command.sellerId)
@@ -30,6 +34,15 @@ export class RejectSellerHandler implements ICommandHandler<RejectSellerCommand,
       adminUserId: command.adminUserId,
       reason: command.reason ?? null,
     })
+
+    await this.notifications.createFromEvent({
+      type: 'SELLER_REJECTED',
+      userId: updated.userId,
+      sellerId: updated.id,
+      storeName: updated.props.storeName,
+      reason: command.reason ?? null,
+    })
+
     this.logger.log(`Admin ${command.adminUserId} rejected seller ${command.sellerId}`)
     return updated
   }

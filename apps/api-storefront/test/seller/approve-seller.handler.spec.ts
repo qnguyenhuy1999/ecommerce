@@ -8,6 +8,23 @@ import {
   SellerNotFoundException,
 } from '../../src/modules/seller/domain/exceptions/seller.exceptions'
 import type { ISellerRepository } from '../../src/modules/seller/domain/ports/seller.repository.port'
+import type { NotificationService } from '../../src/modules/notification/notification.service'
+
+function buildNotifications(): NotificationService {
+  return {
+    recordNotificationFromEvent: jest.fn(),
+    dispatchEmailForEvent: jest.fn(),
+    createFromEvent: jest.fn().mockResolvedValue({
+      id: 'notif-1',
+      type: 'SELLER_APPROVED',
+      title: '',
+      body: '',
+      data: null,
+      isRead: false,
+      createdAt: new Date().toISOString(),
+    }),
+  } as unknown as NotificationService
+}
 
 function buildSeller(kycStatus: KycStatus = 'PENDING'): SellerEntity {
   return new SellerEntity({
@@ -46,7 +63,8 @@ describe('ApproveSellerHandler', () => {
       findById: jest.fn().mockResolvedValue(buildSeller('PENDING')),
       transitionKycStatus: jest.fn().mockResolvedValue(approved),
     })
-    const handler = new ApproveSellerHandler(repo)
+    const notifications = buildNotifications()
+    const handler = new ApproveSellerHandler(repo, notifications)
 
     const result = await handler.execute(new ApproveSellerCommand('seller-1', 'admin-1'))
 
@@ -57,28 +75,40 @@ describe('ApproveSellerHandler', () => {
       toStatus: 'APPROVED',
       adminUserId: 'admin-1',
     })
+    expect(notifications.createFromEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'SELLER_APPROVED',
+        userId: 'user-1',
+        sellerId: 'seller-1',
+        storeName: 'Test Store',
+      }),
+    )
   })
 
   it('throws SELLER_NOT_FOUND when the seller does not exist', async () => {
     const repo = buildRepo({ findById: jest.fn().mockResolvedValue(null) })
-    const handler = new ApproveSellerHandler(repo)
+    const notifications = buildNotifications()
+    const handler = new ApproveSellerHandler(repo, notifications)
 
     await expect(
       handler.execute(new ApproveSellerCommand('missing', 'admin-1')),
     ).rejects.toBeInstanceOf(SellerNotFoundException)
     expect(repo.transitionKycStatus).not.toHaveBeenCalled()
+    expect(notifications.createFromEvent).not.toHaveBeenCalled()
   })
 
   it('refuses to re-approve an already-approved seller', async () => {
     const repo = buildRepo({
       findById: jest.fn().mockResolvedValue(buildSeller('APPROVED')),
     })
-    const handler = new ApproveSellerHandler(repo)
+    const notifications = buildNotifications()
+    const handler = new ApproveSellerHandler(repo, notifications)
 
     await expect(
       handler.execute(new ApproveSellerCommand('seller-1', 'admin-1')),
     ).rejects.toBeInstanceOf(SellerKycNotPendingException)
     expect(repo.transitionKycStatus).not.toHaveBeenCalled()
+    expect(notifications.createFromEvent).not.toHaveBeenCalled()
   })
 })
 
@@ -89,7 +119,8 @@ describe('RejectSellerHandler', () => {
       findById: jest.fn().mockResolvedValue(buildSeller('PENDING')),
       transitionKycStatus: jest.fn().mockResolvedValue(rejected),
     })
-    const handler = new RejectSellerHandler(repo)
+    const notifications = buildNotifications()
+    const handler = new RejectSellerHandler(repo, notifications)
 
     const result = await handler.execute(
       new RejectSellerCommand('seller-1', 'admin-1', 'Documents incomplete'),
@@ -103,16 +134,27 @@ describe('RejectSellerHandler', () => {
       adminUserId: 'admin-1',
       reason: 'Documents incomplete',
     })
+    expect(notifications.createFromEvent).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'SELLER_REJECTED',
+        userId: 'user-1',
+        sellerId: 'seller-1',
+        storeName: 'Test Store',
+        reason: 'Documents incomplete',
+      }),
+    )
   })
 
   it('refuses to reject a non-pending seller', async () => {
     const repo = buildRepo({
       findById: jest.fn().mockResolvedValue(buildSeller('REJECTED')),
     })
-    const handler = new RejectSellerHandler(repo)
+    const notifications = buildNotifications()
+    const handler = new RejectSellerHandler(repo, notifications)
 
     await expect(
       handler.execute(new RejectSellerCommand('seller-1', 'admin-1')),
     ).rejects.toBeInstanceOf(SellerKycNotPendingException)
+    expect(notifications.createFromEvent).not.toHaveBeenCalled()
   })
 })

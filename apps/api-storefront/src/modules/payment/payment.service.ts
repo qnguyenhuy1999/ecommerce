@@ -10,6 +10,8 @@ import { OrderStatus, PaymentStatus, Prisma, PrismaClient } from '@prisma/client
 
 import { CreatePaymentIntentDto } from './application/dtos/create-payment-intent.dto'
 import { PAYMENT_GATEWAY, PaymentGateway, WebhookEvent } from './payment-gateway/payment-gateway.interface'
+import type { NotificationEvent } from '../notification/domain/events/notification.events'
+import { NotificationService } from '../notification/notification.service'
 
 export interface PaymentIntentView {
   paymentId: string
@@ -31,6 +33,7 @@ export class PaymentService {
   constructor(
     @Inject(PrismaClient) private readonly prisma: PrismaClient,
     @Inject(PAYMENT_GATEWAY) private readonly gateway: PaymentGateway,
+    private readonly notifications: NotificationService,
   ) {}
 
   async createIntent(userId: string, dto: CreatePaymentIntentDto): Promise<PaymentIntentView> {
@@ -117,6 +120,8 @@ export class PaymentService {
   }
 
   private async markPaymentSucceeded(event: WebhookEvent): Promise<void> {
+    const dispatchAfterCommit: NotificationEvent[] = []
+
     await this.prisma.$transaction(async (tx) => {
       const payment = await tx.payment.findFirst({
         where: { provider: PAYMENT_PROVIDER, providerReference: event.paymentIntentId },
@@ -141,15 +146,25 @@ export class PaymentService {
         data: { status: OrderStatus.PAID },
       })
 
-      await tx.notification.create({
-        data: {
-          userId: payment.order.buyerId,
-          type: 'PAYMENT_SUCCESS',
-          title: 'Payment Confirmed',
-          body: `Your order ${payment.order.orderNumber} has been paid successfully.`,
-          data: toJson({ orderId: payment.orderId, paymentId: payment.id }),
-        },
-      })
+      const paymentSuccessEvent: NotificationEvent = {
+        type: 'PAYMENT_SUCCESS',
+        userId: payment.order.buyerId,
+        orderId: payment.orderId,
+        orderNumber: payment.order.orderNumber,
+        paymentId: payment.id,
+        tx,
+      }
+      const orderPaidEvent: NotificationEvent = {
+        type: 'ORDER_PAID',
+        userId: payment.order.buyerId,
+        orderId: payment.orderId,
+        orderNumber: payment.order.orderNumber,
+        tx,
+      }
+      await this.notifications.recordNotificationFromEvent(paymentSuccessEvent)
+      await this.notifications.recordNotificationFromEvent(orderPaidEvent)
+      dispatchAfterCommit.push(paymentSuccessEvent, orderPaidEvent)
+
       await tx.outboxEvent.create({
         data: {
           aggregateType: 'Payment',
@@ -164,9 +179,15 @@ export class PaymentService {
         },
       })
     })
+
+    for (const dispatched of dispatchAfterCommit) {
+      await this.notifications.dispatchEmailForEvent(dispatched)
+    }
   }
 
   private async markPaymentFailed(event: WebhookEvent): Promise<void> {
+    const dispatchAfterCommit: NotificationEvent[] = []
+
     await this.prisma.$transaction(async (tx) => {
       const payment = await tx.payment.findFirst({
         where: { provider: PAYMENT_PROVIDER, providerReference: event.paymentIntentId },
@@ -191,15 +212,17 @@ export class PaymentService {
         data: { status: OrderStatus.CANCELLED },
       })
 
-      await tx.notification.create({
-        data: {
-          userId: payment.order.buyerId,
-          type: 'PAYMENT_FAILED',
-          title: 'Payment Failed',
-          body: `Your payment for order ${payment.order.orderNumber} failed.`,
-          data: toJson({ orderId: payment.orderId, paymentId: payment.id }),
-        },
-      })
+      const failedEvent: NotificationEvent = {
+        type: 'PAYMENT_FAILED',
+        userId: payment.order.buyerId,
+        orderId: payment.orderId,
+        orderNumber: payment.order.orderNumber,
+        paymentId: payment.id,
+        tx,
+      }
+      await this.notifications.recordNotificationFromEvent(failedEvent)
+      dispatchAfterCommit.push(failedEvent)
+
       await tx.outboxEvent.create({
         data: {
           aggregateType: 'Payment',
@@ -214,6 +237,10 @@ export class PaymentService {
         },
       })
     })
+
+    for (const dispatched of dispatchAfterCommit) {
+      await this.notifications.dispatchEmailForEvent(dispatched)
+    }
   }
 
   private async confirmReservations(tx: Prisma.TransactionClient, orderId: string): Promise<void> {

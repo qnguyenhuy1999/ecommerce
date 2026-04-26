@@ -3,6 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs'
 
 import { AuthModule } from '@ecom/nest-auth'
 
+import { NotificationModule } from '../notification/notification.module'
 import { ApproveSellerHandler } from './application/commands/approve-seller/approve-seller.handler'
 import { RegisterSellerHandler } from './application/commands/register-seller/register-seller.handler'
 import { RejectSellerHandler } from './application/commands/reject-seller/reject-seller.handler'
@@ -21,7 +22,7 @@ const CommandHandlers = [
 const QueryHandlers = [GetSellerHandler]
 
 @Module({
-  imports: [CqrsModule, AuthModule],
+  imports: [CqrsModule, AuthModule, NotificationModule],
   controllers: [SellerController],
   providers: [
     ...CommandHandlers,
