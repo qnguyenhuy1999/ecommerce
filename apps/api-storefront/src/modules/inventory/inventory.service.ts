@@ -307,7 +307,10 @@ export class InventoryService {
         data: { status: 'CONFIRMED' },
       })
       if (claimed.count !== 1) {
-        throw new ReservationNotActiveException(reservationId, 'CONFIRMED')
+        throw new ReservationNotActiveException(
+          reservationId,
+          await this.readReservationStatus(tx, reservationId),
+        )
       }
 
       const affected = await tx.$executeRaw(
@@ -338,7 +341,10 @@ export class InventoryService {
         data: { status: 'EXPIRED' },
       })
       if (claimed.count !== 1) {
-        throw new ReservationNotActiveException(reservationId, 'EXPIRED')
+        throw new ReservationNotActiveException(
+          reservationId,
+          await this.readReservationStatus(tx, reservationId),
+        )
       }
 
       const affected = await tx.$executeRaw(
@@ -354,6 +360,17 @@ export class InventoryService {
 
       return this.toReservationView({ ...reservation, status: 'EXPIRED' })
     })
+  }
+
+  private async readReservationStatus(
+    tx: Prisma.TransactionClient,
+    reservationId: string,
+  ): Promise<string> {
+    const current = await tx.inventoryReservation.findUnique({
+      where: { id: reservationId },
+      select: { status: true },
+    })
+    return current?.status ?? 'UNKNOWN'
   }
 
   private async loadActiveReservation(tx: Prisma.TransactionClient, reservationId: string) {
