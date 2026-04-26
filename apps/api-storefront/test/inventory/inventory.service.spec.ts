@@ -20,6 +20,7 @@ type Tx = {
   }
   outboxEvent: { create: jest.Mock }
   $executeRaw: jest.Mock
+  $queryRaw: jest.Mock
 }
 
 function buildTx(overrides: Partial<Tx> = {}): Tx {
@@ -34,6 +35,7 @@ function buildTx(overrides: Partial<Tx> = {}): Tx {
     },
     outboxEvent: { create: jest.fn().mockResolvedValue({}) },
     $executeRaw: jest.fn().mockResolvedValue(1),
+    $queryRaw: jest.fn().mockResolvedValue([]),
     ...overrides,
   }
 }
@@ -64,6 +66,8 @@ describe('InventoryService.adjustStock', () => {
 
   it('throws when the variant cannot be found', async () => {
     const tx = buildTx()
+    // Atomic UPDATE matched no rows; disambiguating read confirms the variant is absent.
+    tx.$queryRaw.mockResolvedValue([])
     tx.productVariant.findUnique.mockResolvedValue(null)
     const { service } = buildService(tx)
 
@@ -74,6 +78,9 @@ describe('InventoryService.adjustStock', () => {
 
   it('rejects deltas that would push stock below the reserved amount', async () => {
     const tx = buildTx()
+    // Atomic UPDATE matched no rows because the invariant guard tripped;
+    // the disambiguating read shows why.
+    tx.$queryRaw.mockResolvedValue([])
     tx.productVariant.findUnique.mockResolvedValue({ id: 'v1', stock: 10, reservedStock: 5 })
     const { service } = buildService(tx)
 
@@ -84,8 +91,9 @@ describe('InventoryService.adjustStock', () => {
 
   it('applies the delta and writes an inventory.adjusted outbox event', async () => {
     const tx = buildTx()
-    tx.productVariant.findUnique.mockResolvedValue({ id: 'v1', stock: 10, reservedStock: 2 })
-    tx.productVariant.update.mockResolvedValue({ id: 'v1', stock: 25, reservedStock: 2 })
+    tx.$queryRaw.mockResolvedValue([
+      { id: 'v1', stock: 25, reserved_stock: 2, previous_stock: 10 },
+    ])
     const { service } = buildService(tx)
 
     const result = await service.adjustStock({
@@ -103,11 +111,7 @@ describe('InventoryService.adjustStock', () => {
       availableStock: 23,
       delta: 15,
     })
-    expect(tx.productVariant.update).toHaveBeenCalledWith({
-      where: { id: 'v1' },
-      data: { stock: 25 },
-      select: { id: true, stock: true, reservedStock: true },
-    })
+    expect(tx.$queryRaw).toHaveBeenCalledTimes(1)
     expect(tx.outboxEvent.create).toHaveBeenCalledWith(
       expect.objectContaining({
         data: expect.objectContaining({

@@ -168,7 +168,7 @@ export class OrderExpirationProcessor extends WorkerHost {
       // reservation, the row's reserved_stock won't satisfy the predicate
       // and the update is a no-op — we still mark the reservation EXPIRED
       // so the audit trail is consistent.
-      await tx.$executeRaw(
+      const affected = await tx.$executeRaw(
         Prisma.sql`
           UPDATE product_variants
           SET reserved_stock = reserved_stock - ${reservation.quantity},
@@ -181,7 +181,13 @@ export class OrderExpirationProcessor extends WorkerHost {
         where: { id: reservation.id, status: 'ACTIVE' },
         data: { status: 'EXPIRED' },
       })
-      released.push({ variantId: reservation.variantId, quantity: reservation.quantity })
+      // Only restore the Redis cache when the DB decrement actually moved
+      // reserved_stock — otherwise the two would diverge and the cache
+      // would over-report availability until the reconciliation worker
+      // healed it.
+      if (affected === 1) {
+        released.push({ variantId: reservation.variantId, quantity: reservation.quantity })
+      }
     }
     return released
   }

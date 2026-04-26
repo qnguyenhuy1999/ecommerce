@@ -1,3 +1,4 @@
+import { Type } from 'class-transformer'
 import { IsInt, IsOptional, IsString, MaxLength, Min, NotEquals } from 'class-validator'
 
 export class AdjustStockDto {
@@ -18,16 +19,19 @@ export class AdjustStockDto {
 
 export class ListLowStockQueryDto {
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(0)
   threshold?: number
 
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   page?: number
 
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   limit?: number
@@ -47,11 +51,13 @@ export class ListReservationsQueryDto {
   status?: 'ACTIVE' | 'EXPIRED' | 'CONFIRMED'
 
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   page?: number
 
   @IsOptional()
+  @Type(() => Number)
   @IsInt()
   @Min(1)
   limit?: number

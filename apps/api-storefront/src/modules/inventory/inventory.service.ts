@@ -208,41 +208,68 @@ export class InventoryService {
     }
 
     return this.prisma.$transaction(async (tx) => {
-      const variant = await tx.productVariant.findUnique({
-        where: { id: input.variantId },
-        select: { id: true, stock: true, reservedStock: true },
-      })
-      if (!variant) {
-        throw new VariantNotFoundException(input.variantId)
-      }
+      // Atomic write-then-read: a single conditional UPDATE applies the delta
+      // only when the resulting stock stays non-negative and >= reserved_stock.
+      // RETURNING gives us both the post-update view and (via a CTE) the
+      // previous stock so we don't need a separate read that would race with
+      // concurrent adjustments under READ COMMITTED.
+      const rows = await tx.$queryRaw<
+        Array<{
+          id: string
+          stock: number
+          reserved_stock: number
+          previous_stock: number
+        }>
+      >(Prisma.sql`
+        WITH prev AS (
+          SELECT id, stock AS previous_stock
+          FROM product_variants
+          WHERE id = ${input.variantId}
+          FOR UPDATE
+        )
+        UPDATE product_variants v
+        SET stock = v.stock + ${input.delta},
+            updated_at = NOW()
+        FROM prev
+        WHERE v.id = prev.id
+          AND v.stock + ${input.delta} >= 0
+          AND v.stock + ${input.delta} >= v.reserved_stock
+        RETURNING v.id, v.stock, v.reserved_stock, prev.previous_stock
+      `)
 
-      const newStock = variant.stock + input.delta
-      if (newStock < variant.reservedStock) {
+      if (rows.length === 0) {
+        // Either the variant doesn't exist or the delta would violate the
+        // invariants. Disambiguate with a follow-up read so the API surfaces
+        // the most informative exception.
+        const exists = await tx.productVariant.findUnique({
+          where: { id: input.variantId },
+          select: { id: true, stock: true, reservedStock: true },
+        })
+        if (!exists) {
+          throw new VariantNotFoundException(input.variantId)
+        }
+        const projected = exists.stock + input.delta
+        if (projected < 0) {
+          throw new StockAdjustmentInvalidException(
+            `delta ${String(input.delta)} would leave stock negative`,
+          )
+        }
         throw new StockAdjustmentInvalidException(
-          `delta ${String(input.delta)} would leave stock (${String(newStock)}) below reserved (${String(variant.reservedStock)})`,
+          `delta ${String(input.delta)} would leave stock (${String(projected)}) below reserved (${String(exists.reservedStock)})`,
         )
       }
-      if (newStock < 0) {
-        throw new StockAdjustmentInvalidException(
-          `delta ${String(input.delta)} would leave stock negative`,
-        )
-      }
 
-      const updated = await tx.productVariant.update({
-        where: { id: variant.id },
-        data: { stock: newStock },
-        select: { id: true, stock: true, reservedStock: true },
-      })
+      const updated = rows[0]
 
       await tx.outboxEvent.create({
         data: {
           aggregateType: 'InventoryReservation',
-          aggregateId: variant.id,
+          aggregateId: updated.id,
           eventType: 'inventory.adjusted',
           payload: this.toJson({
-            variantId: variant.id,
+            variantId: updated.id,
             delta: input.delta,
-            previousStock: variant.stock,
+            previousStock: updated.previous_stock,
             newStock: updated.stock,
             adminUserId: input.adminUserId,
             reason: input.reason ?? null,
@@ -251,15 +278,15 @@ export class InventoryService {
       })
 
       this.logger.log(
-        `Stock adjusted by admin ${input.adminUserId}: variant=${variant.id} delta=${String(input.delta)} ${String(variant.stock)}->${String(updated.stock)}`,
+        `Stock adjusted by admin ${input.adminUserId}: variant=${updated.id} delta=${String(input.delta)} ${String(updated.previous_stock)}->${String(updated.stock)}`,
       )
 
       return {
         variantId: updated.id,
-        previousStock: variant.stock,
+        previousStock: updated.previous_stock,
         newStock: updated.stock,
-        reservedStock: updated.reservedStock,
-        availableStock: updated.stock - updated.reservedStock,
+        reservedStock: updated.reserved_stock,
+        availableStock: updated.stock - updated.reserved_stock,
         delta: input.delta,
       }
     })
