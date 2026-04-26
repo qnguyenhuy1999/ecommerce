@@ -55,7 +55,10 @@ const NAV = [
   },
 ]
 
-const Logo = ({ collapsed }: { collapsed?: boolean }) => (
+/** Stable admin user object — declared once at module scope. */
+const ADMIN_USER = { name: 'Admin', email: 'admin@marketplace', initials: 'AD' } as const
+
+const renderLogo = (collapsed: boolean) => (
   <div className={collapsed ? 'flex justify-center' : 'flex items-center gap-2'}>
     <div className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-sm)] bg-[var(--action-primary)]">
       <LayoutGrid className="h-4 w-4 text-[var(--action-primary-foreground)]" />
@@ -69,33 +72,51 @@ export interface AdminShellProps {
   children: React.ReactNode
 }
 
-export function AdminShell({ title, children }: AdminShellProps) {
+/**
+ * Admin shell wraps every admin page. Memoised so a route change inside the
+ * shell (e.g. /orders → /sellers) doesn't repaint the sidebar/header. Only
+ * `pathname` and `title` invalidate the chrome subtree.
+ */
+function AdminShellInner({ title, children }: AdminShellProps) {
   const router = useRouter()
   const pathname = usePathname() || '/'
+  const navigate = React.useCallback((href: string) => router.push(href), [router])
+
+  const sidebar = React.useMemo(
+    () => (
+      <AdminSidebar
+        logo={renderLogo}
+        navGroups={NAV}
+        currentPath={pathname}
+        onNavigate={navigate}
+      />
+    ),
+    [pathname, navigate],
+  )
+
+  const header = React.useMemo(
+    () => (
+      <AdminHeader
+        title={title}
+        user={ADMIN_USER}
+        userMenuItems={false}
+        notificationPanel={false}
+        search={false}
+      />
+    ),
+    [title],
+  )
 
   return (
     <AdminLayout
       currentPath={pathname}
-      onNavigate={(href) => router.push(href)}
-      sidebar={
-        <AdminSidebar
-          logo={(collapsed) => <Logo collapsed={collapsed} />}
-          navGroups={NAV}
-          currentPath={pathname}
-          onNavigate={(href) => router.push(href)}
-        />
-      }
-      header={
-        <AdminHeader
-          title={title}
-          user={{ name: 'Admin', email: 'admin@marketplace', initials: 'AD' }}
-          userMenuItems={false}
-          notificationPanel={false}
-          search={false}
-        />
-      }
+      onNavigate={navigate}
+      sidebar={sidebar}
+      header={header}
     >
       {children}
     </AdminLayout>
   )
 }
+
+export const AdminShell = React.memo(AdminShellInner)
