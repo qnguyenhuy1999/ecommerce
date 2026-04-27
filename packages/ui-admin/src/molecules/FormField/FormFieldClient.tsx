@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface CharacterCount {
   current: number

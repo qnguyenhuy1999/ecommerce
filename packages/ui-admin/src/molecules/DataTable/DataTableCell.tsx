@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { TableCell as BaseTableCell, cn } from '@ecom/ui'
+import { TableCell as BaseTableCell } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useDataTable } from './DataTableContext'
 

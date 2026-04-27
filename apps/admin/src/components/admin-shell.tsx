@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 
 import { BarChart3, Box, LayoutGrid, ShieldCheck, ShoppingCart, Users } from 'lucide-react'
 
-import { AdminHeader, AdminLayout, AdminSidebar } from '@ecom/ui-admin'
+import { AdminLayout } from '@ecom/ui-admin'
 
 const NAV = [
   {
@@ -71,34 +71,23 @@ function AdminShellInner({ title, children }: AdminShellProps) {
   const pathname = usePathname() || '/'
   const navigate = React.useCallback((href: string) => router.push(href), [router])
 
-  const sidebar = React.useMemo(
-    () => (
-      <AdminSidebar
+  return (
+    <AdminLayout>
+      <AdminLayout.Sidebar
         logo={renderLogo}
         navGroups={NAV}
         currentPath={pathname}
         onNavigate={navigate}
       />
-    ),
-    [pathname, navigate],
-  )
-
-  const header = React.useMemo(
-    () => (
-      <AdminHeader
+      <AdminLayout.Header
         title={title}
         user={ADMIN_USER}
         userMenuItems={false}
         notificationPanel={false}
         search={false}
+        className="border-b border-(--border-subtle) bg-(--surface-base)"
       />
-    ),
-    [title],
-  )
-
-  return (
-    <AdminLayout currentPath={pathname} onNavigate={navigate} sidebar={sidebar} header={header}>
-      {children}
+      <AdminLayout.Main>{children}</AdminLayout.Main>
     </AdminLayout>
   )
 }

@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Send, CheckCircle2, Mail } from 'lucide-react'
 
-import { cn, Button } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface NewsletterSignupProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string

@@ -1,6 +1,7 @@
 import { CheckCircle2, Clock, RefreshCcw, Truck, XCircle } from 'lucide-react'
 
-import { Badge, cn } from '@ecom/ui'
+import { Badge } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export type OrderStatus =
   | 'PENDING_PAYMENT'

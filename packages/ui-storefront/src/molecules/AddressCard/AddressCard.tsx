@@ -1,6 +1,7 @@
 import { MapPin, Star, Pencil, Trash2 } from 'lucide-react'
 
-import { Badge, Button, cn } from '@ecom/ui'
+import { Badge, Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import type { ShippingAddress } from '../AddressForm/AddressForm'
 

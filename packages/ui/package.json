@@ -12,6 +12,30 @@
       "require": "./dist/index.js",
       "default": "./dist/index.mjs"
     },
+    "./utils": {
+      "development": "./src/utils/index.ts",
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js",
+      "default": "./dist/utils/index.mjs"
+    },
+    "./react": {
+      "development": "./src/react/index.ts",
+      "import": "./dist/react/index.mjs",
+      "require": "./dist/react/index.js",
+      "default": "./dist/react/index.mjs"
+    },
+    "./variants": {
+      "development": "./src/variants/index.ts",
+      "import": "./dist/variants/index.mjs",
+      "require": "./dist/variants/index.js",
+      "default": "./dist/variants/index.mjs"
+    },
+    "./pagination": {
+      "development": "./src/pagination/index.ts",
+      "import": "./dist/pagination/index.mjs",
+      "require": "./dist/pagination/index.js",
+      "default": "./dist/pagination/index.mjs"
+    },
     "./styles": "./src/theme/tokens.css",
     "./providers/ThemeProvider": {
       "development": "./src/providers/ThemeProvider.tsx",

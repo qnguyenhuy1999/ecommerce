@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'

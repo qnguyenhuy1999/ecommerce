@@ -4,7 +4,7 @@ import React from 'react'
 
 import { CreditCard, Wallet, Building } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface PaymentMethod {
   id: string

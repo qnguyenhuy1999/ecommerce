@@ -4,7 +4,8 @@ import React from 'react'
 
 import { ImageOff, Trash2 } from 'lucide-react'
 
-import { cn, IconButton } from '@ecom/ui'
+import { IconButton } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { clampQuantity } from '../utils/cartPricing'
 import { PriceDisplay, QuantityStepper } from '../../../atoms'

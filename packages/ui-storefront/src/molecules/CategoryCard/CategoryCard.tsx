@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { ArrowRight, ImageOff } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface CategoryCardProps extends React.HTMLAttributes<HTMLAnchorElement> {
   title: string

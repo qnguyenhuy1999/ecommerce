@@ -4,7 +4,9 @@ import React from 'react'
 
 import { Tag, Truck, ShieldCheck } from 'lucide-react'
 
-import { Button, Input, Separator, cn, createStrictContext } from '@ecom/ui'
+import { Button, Input, Separator } from '@ecom/ui'
+import { createStrictContext } from '@ecom/ui/react'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 

@@ -1,6 +1,6 @@
 import { BadgeCheck, Truck, ShieldCheck, RotateCcw, Lock } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 // ─── Server: trust badge (trust state is static) ─────────────────────────────
 export type TrustBadgeType =

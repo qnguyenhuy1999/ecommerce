@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { StorefrontSection } from '../../layouts/shared/StorefrontSection'
 
 export interface Brand {

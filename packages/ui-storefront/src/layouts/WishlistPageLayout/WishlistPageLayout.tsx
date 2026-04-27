@@ -1,16 +1,16 @@
 import React from 'react'
 
-import { Heart, Share2, ShoppingCart } from 'lucide-react'
+import { Share2, ShoppingCart } from 'lucide-react'
 
-import { Button, EmptyState, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
 
 import { SortDropdown } from '../../atoms/SortDropdown/SortDropdown'
 import type { SortOption } from '../../atoms/SortDropdown/SortDropdown'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
-import { WishlistCard } from '../../molecules/WishlistCard/WishlistCard'
 import type { WishlistCardProps } from '../../molecules/WishlistCard/WishlistCard'
-import { EmptyStateCard } from '../shared/EmptyStateCard'
 import { PageHeader } from '../shared/PageHeader'
+import { WishlistEmptyState } from './components/WishlistEmptyState'
+import { WishlistGrid } from './components/WishlistGrid'
 import { AccountPageLayout } from '../AccountPageLayout/AccountPageLayout'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
@@ -110,30 +110,9 @@ function WishlistPageLayout({
       </PageHeader>
 
       {isEmpty ? (
-        (emptyState ?? (
-          <EmptyStateCard>
-            <EmptyState
-              icon={<Heart className="h-10 w-10 text-[var(--text-tertiary)]" aria-hidden="true" />}
-              title="Your wishlist is empty"
-              description="Save items you love by tapping the heart on any product. We'll keep them here so you can come back, compare prices, or move them to your cart in one tap."
-              action={
-                onExploreProducts
-                  ? {
-                      label: 'Explore products',
-                      onClick: onExploreProducts,
-                      variant: 'default',
-                    }
-                  : undefined
-              }
-            />
-          </EmptyStateCard>
-        ))
+        <WishlistEmptyState emptyState={emptyState} onExploreProducts={onExploreProducts} />
       ) : (
-        <div className={cn('grid gap-5', 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4')}>
-          {items.map((item, i) => (
-            <WishlistCard key={item.product.id ?? i} {...item} />
-          ))}
-        </div>
+        <WishlistGrid items={items} />
       )}
     </>
   )

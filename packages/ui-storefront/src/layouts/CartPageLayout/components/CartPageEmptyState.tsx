@@ -1,4 +1,5 @@
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface CartPageEmptyStateProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string

@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Heart, Menu, Search, ShoppingBag, User2 } from 'lucide-react'
 
-import { Button, cn, Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from '@ecom/ui'
+import { Button, Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { SearchBar } from '../../molecules/SearchBar/SearchBar'
 

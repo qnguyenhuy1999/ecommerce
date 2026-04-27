@@ -1,6 +1,7 @@
 'use client'
 
-import { Checkbox, cn } from '@ecom/ui'
+import { Checkbox } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 interface FilterCheckboxProps {
   label: string

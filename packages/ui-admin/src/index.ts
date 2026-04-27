@@ -8,8 +8,8 @@ export type { StatusValue } from './atoms/StatusBadge/StatusBadge'
 export { AdminLayout } from './layouts/AdminLayout/AdminLayout'
 export type { AdminLayoutProps } from './layouts/AdminLayout/AdminLayout'
 
-export { AdminSidebar } from './organisms/sidebar/AdminSidebar'
-export type { AdminSidebarProps } from './organisms/sidebar/AdminSidebar'
+export { AdminSidebar } from './organisms/Sidebar/AdminSidebar'
+export type { AdminSidebarProps } from './organisms/Sidebar/AdminSidebar'
 
 export { AdminHeader } from './organisms/AdminHeader/AdminHeader'
 export type {

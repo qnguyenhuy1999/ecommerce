@@ -4,7 +4,8 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { Search } from 'lucide-react'
 
-import { Dialog, DialogContent, DialogTitle, Input, ScrollArea, cn } from '@ecom/ui'
+import { Dialog, DialogContent, DialogTitle, Input, ScrollArea } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { COMMAND_PALETTE_DEFAULT_ICONS } from './CommandPalette.fixtures'
 

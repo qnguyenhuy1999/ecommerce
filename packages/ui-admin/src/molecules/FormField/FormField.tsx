@@ -2,7 +2,8 @@ import React, { useId } from 'react'
 
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 
-import { cn, Label } from '@ecom/ui'
+import { Label } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { FormFieldClient } from './FormFieldClient'
 import type { CharacterCount } from './FormFieldClient'

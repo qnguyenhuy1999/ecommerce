@@ -5,7 +5,8 @@ import React from 'react'
 import { Sparkles } from 'lucide-react'
 
 import { formatCurrency } from '@ecom/shared/utils/formatters'
-import { cn, Progress } from '@ecom/ui'
+import { Progress } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface ShippingProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
   current: number

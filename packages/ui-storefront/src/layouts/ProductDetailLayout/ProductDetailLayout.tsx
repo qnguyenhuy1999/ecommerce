@@ -2,18 +2,17 @@
 
 import React, { useCallback, useRef } from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import type { TrustBadgeType } from '../../atoms/TrustBadge/TrustBadge'
-import { ProductHighlights } from '../../molecules/ProductHighlights/ProductHighlights'
 import type {
   ProductVariantGroup,
   ShippingProgressConfig,
 } from '../../molecules/ProductPurchaseSection/ProductPurchaseSection'
-import { ProductPurchaseSection } from '../../molecules/ProductPurchaseSection/ProductPurchaseSection'
 import { ProductReviewsSection } from '../../molecules/ProductReviewsSection/ProductReviewsSection'
 import { ProductStickyBar } from '../../molecules/ProductStickyBar/ProductStickyBar'
 import type { ReviewCardProps } from '../../molecules/ReviewCard/ReviewCard'
+import { ProductDetailMainSection } from './components/ProductDetailMainSection'
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import { StorefrontSection } from '../shared/StorefrontSection'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
@@ -132,49 +131,32 @@ function ProductDetailLayout({
       newsletter={newsletter}
       {...props}
     >
-      {/* ─── Main Product Section ─────────────────────────────────────── */}
-      <StorefrontSection spacing="compact">
-        {/* Breadcrumb */}
-        {breadcrumb && <div className="mb-6 text-sm text-muted-foreground">{breadcrumb}</div>}
-
-        {/* Main Grid: Gallery | Purchase */}
-        <div className="grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-10 xl:gap-12">
-          {/* Left: Product Gallery */}
-          <div className="min-w-0">{gallery}</div>
-
-          {/* Right: Purchase Section */}
-          <div className="space-y-6 lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))] lg:self-start">
-            {details ?? (
-              <>
-                <ProductPurchaseSection
-                  brand={brand}
-                  title={title}
-                  subtitle={subtitle}
-                  price={price}
-                  originalPrice={originalPrice}
-                  rating={rating}
-                  reviewCount={reviewCount}
-                  status={status}
-                  statusCount={statusCount}
-                  trustBadges={trustBadges}
-                  variants={variants}
-                  shippingProgress={shippingProgress}
-                  ctaMicrocopy={ctaMicrocopy}
-                  actions={actions}
-                  purchaseSupport={purchaseSupport}
-                  onAddToCart={onAddToCart}
-                  onReviewsClick={reviews.length > 0 ? scrollToReviews : undefined}
-                />
-
-                {/* Product Highlights / Description */}
-                <ProductHighlights highlights={highlights} description={description} />
-
-                {purchaseAside}
-              </>
-            )}
-          </div>
-        </div>
-      </StorefrontSection>
+      <ProductDetailMainSection
+        breadcrumb={breadcrumb}
+        gallery={gallery}
+        details={details}
+        purchaseAside={purchaseAside}
+        reviewsCount={reviews.length}
+        onReviewsClick={scrollToReviews}
+        brand={brand}
+        title={title}
+        subtitle={subtitle}
+        price={price}
+        originalPrice={originalPrice}
+        rating={rating}
+        reviewCount={reviewCount}
+        status={status}
+        statusCount={statusCount}
+        trustBadges={trustBadges}
+        variants={variants}
+        shippingProgress={shippingProgress}
+        ctaMicrocopy={ctaMicrocopy}
+        actions={actions}
+        purchaseSupport={purchaseSupport}
+        onAddToCart={onAddToCart}
+        highlights={highlights}
+        description={description}
+      />
 
       {/* ─── Reviews Section ──────────────────────────────────────────── */}
       {reviews.length > 0 && (

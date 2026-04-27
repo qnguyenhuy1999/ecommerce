@@ -2,7 +2,8 @@ import React from 'react'
 
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
 
-import { cn, Card } from '@ecom/ui'
+import { Card } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string

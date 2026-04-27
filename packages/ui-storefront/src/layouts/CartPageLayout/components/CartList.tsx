@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { CartItem } from './CartItem'
 import type { CartItemProps } from './CartItem'

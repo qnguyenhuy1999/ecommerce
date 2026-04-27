@@ -37,20 +37,12 @@ export type {
   CheckoutStep,
   CheckoutStepperProps,
 } from './molecules/CheckoutStepper/CheckoutStepper'
-export {
-  FilterSidebar,
-  FilterGroup,
-  FilterCollapse,
-  FilterCheckbox,
-  FilterRange,
-  FilterClear,
-} from './molecules/FilterSidebar/FilterSidebar'
+export { FilterSidebar } from './molecules/FilterSidebar/FilterSidebar'
 export type {
   FilterGroupSpec,
   FilterOption,
   FilterSidebarProps,
 } from './molecules/FilterSidebar/FilterSidebar'
-export { FilterSidebarClient } from './molecules/FilterSidebar/FilterSidebarClient'
 export {
   ProductCard,
   ProductCardImage,
@@ -217,19 +209,22 @@ export {
   CartPageLayout,
   CartList,
   CartFooter,
-  OrderSummary as CartOrderSummary,
   CartItem as CartLineItem,
-  formatPrice as formatCartPrice,
-  calculateDiscountPercent,
+  CartPageLayoutLoading,
+  CartPageEmptyState,
   clampQuantity,
-} from './layouts/CartPageLayout/CartPageLayout'
+  calculateDiscountPercent,
+  formatPrice as formatCartPrice,
+} from './layouts/CartPageLayout'
 export type {
   CartPageLayoutProps,
   CartListProps,
   CartFooterProps,
-  OrderSummaryProps as CartOrderSummaryProps,
   CartItemProps as CartLineItemProps,
-} from './layouts/CartPageLayout/CartPageLayout'
+  CartPageLoadingProps,
+  CartPageEmptyStateProps,
+  FormatPriceOptions,
+} from './layouts/CartPageLayout'
 export { CheckoutPageLayout } from './layouts/CheckoutPageLayout/CheckoutPageLayout'
 export type {
   CheckoutPageLayoutProps,

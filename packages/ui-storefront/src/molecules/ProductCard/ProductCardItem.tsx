@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import type { ProductBadgeProps } from '../../atoms/Badge/Badge'
 import { ProductBadge } from '../../atoms/Badge/Badge'

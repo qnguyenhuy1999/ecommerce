@@ -4,7 +4,8 @@ import React from 'react'
 
 import { UploadCloud, X, File as FileIcon, ImageIcon } from 'lucide-react'
 
-import { cn, Button, Progress } from '@ecom/ui'
+import { Button, Progress } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   accept?: string

@@ -23,18 +23,16 @@ function StorefrontPageShell({
   children,
   ...props
 }: StorefrontPageShellProps) {
-  const resolvedHeader = header ?? (
-    <>
-      {promoBar}
-      <StorefrontHeader {...headerProps} />
-    </>
-  )
-
-  const resolvedFooter = footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />
-
   return (
-    <StorefrontShell header={resolvedHeader} footer={resolvedFooter} {...props}>
-      {children}
+    <StorefrontShell {...props}>
+      {promoBar && <StorefrontShell.PromoBar>{promoBar}</StorefrontShell.PromoBar>}
+      <StorefrontShell.Header>
+        {header ?? <StorefrontHeader {...headerProps} />}
+      </StorefrontShell.Header>
+      <StorefrontShell.Main>{children}</StorefrontShell.Main>
+      <StorefrontShell.Footer>
+        {footer ?? <StorefrontFooter newsletter={newsletter} {...footerProps} />}
+      </StorefrontShell.Footer>
     </StorefrontShell>
   )
 }

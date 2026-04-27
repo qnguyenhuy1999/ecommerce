@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { cn, Avatar, AvatarFallback, AvatarImage, EmptyState } from '@ecom/ui'
+import { Avatar, AvatarFallback, AvatarImage, EmptyState } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { Activity } from 'lucide-react'
 
 export interface ActivityItem {

@@ -6,13 +6,13 @@ import { Bell, ChevronRight, Settings } from 'lucide-react'
 
 import {
   Button,
-  cn,
   EmptyState,
   Popover,
   PopoverContent,
   PopoverTrigger,
   ScrollArea,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { NOTIFICATION_TYPE_CONFIG } from './NotificationPanel.fixtures'
 

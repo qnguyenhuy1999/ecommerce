@@ -4,10 +4,12 @@ import React from 'react'
 
 import { ListFilter, X } from 'lucide-react'
 
-import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, cn } from '@ecom/ui'
+import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { FilterSidebar } from '../../molecules/FilterSidebar/FilterSidebar'
 import type { FilterGroupSpec } from '../../molecules/FilterSidebar/FilterSidebar'
+import { CollectionHero } from './components/CollectionHero'
 import { PageContainer } from '../shared/PageContainer'
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
@@ -47,65 +49,6 @@ export interface CollectionPageLayoutProps extends Omit<
    * Rendered without a heavy boxed surface so it sits cleanly against the page.
    */
   discoveryToolbar?: React.ReactNode
-}
-
-function CollectionHero({
-  breadcrumb,
-  title,
-  description,
-  resultsLabel,
-  heroAccent,
-  headerExtras,
-}: Pick<
-  CollectionPageLayoutProps,
-  'breadcrumb' | 'title' | 'description' | 'resultsLabel' | 'heroAccent' | 'headerExtras'
->) {
-  return (
-    <section className="border-b border-[var(--border-subtle)] bg-[var(--surface-subtle)]">
-      <PageContainer>
-        {breadcrumb && (
-          <div className="mb-3 text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-            {breadcrumb}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between md:gap-8">
-          <div className="min-w-0 flex-1">
-            <h1
-              className={cn(
-                'text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.02em]',
-                'leading-[var(--line-height-tight)] text-[var(--text-primary)]',
-                'sm:text-[length:var(--font-size-display-sm)]',
-              )}
-            >
-              {title}
-            </h1>
-            {description && (
-              <p
-                className={cn(
-                  'mt-2 max-w-[60ch]',
-                  'text-[length:var(--text-base)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]',
-                )}
-              >
-                {description}
-              </p>
-            )}
-            {resultsLabel && (
-              <p className="mt-3 text-sm font-medium text-[var(--text-tertiary)]">{resultsLabel}</p>
-            )}
-          </div>
-
-          {heroAccent && (
-            <div className="hidden md:flex md:shrink-0 md:items-center md:justify-end">
-              {heroAccent}
-            </div>
-          )}
-        </div>
-
-        {headerExtras && <div className="mt-5">{headerExtras}</div>}
-      </PageContainer>
-    </section>
-  )
 }
 
 function CollectionPageLayout({

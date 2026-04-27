@@ -4,7 +4,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { X, ZoomIn, ZoomOut } from 'lucide-react'
 
-import { cn, IconButton } from '@ecom/ui'
+import { IconButton } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 interface ProductGalleryZoomModalProps {
   src: string

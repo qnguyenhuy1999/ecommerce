@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PromoBarClient } from './PromoBarClient'
 

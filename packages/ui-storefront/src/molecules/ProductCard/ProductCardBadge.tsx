@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 type ProductCardBadgeProps = React.HTMLAttributes<HTMLDivElement>
 

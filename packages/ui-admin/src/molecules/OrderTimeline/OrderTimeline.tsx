@@ -1,6 +1,6 @@
 import { Check } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { type TimelineStepStatus, TIMELINE_STATUS_CONFIG } from './OrderTimeline.fixtures'
 

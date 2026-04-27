@@ -2,7 +2,8 @@
 
 import { X, SlidersHorizontal } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface ActiveFilter {
   key: string

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Lock } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { CheckoutStepper } from '../../molecules/CheckoutStepper/CheckoutStepper'
 import type { CheckoutStep } from '../../molecules/CheckoutStepper/CheckoutStepper'

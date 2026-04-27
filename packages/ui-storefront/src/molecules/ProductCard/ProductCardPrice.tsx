@@ -1,6 +1,6 @@
 import { formatCurrency } from '@ecom/shared/utils/formatters'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { ProductBadge } from '../../atoms/Badge/Badge'
 import { useProductCard } from './ProductCard'

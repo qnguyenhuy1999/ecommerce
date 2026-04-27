@@ -4,7 +4,8 @@ import React from 'react'
 
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import type { Product } from '../ProductGrid/types'
 import { ProductCardItem } from '../../molecules/ProductCard/ProductCardItem'
 import { useCarousel } from '../../hooks/useCarousel'

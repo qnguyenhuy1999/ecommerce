@@ -1,6 +1,7 @@
 import { Package, MapPin, CreditCard, ExternalLink, ArrowLeft } from 'lucide-react'
 
-import { Button, Separator, Tabs, TabsContent, TabsList, TabsTrigger, cn } from '@ecom/ui'
+import { Button, Separator, Tabs, TabsContent, TabsList, TabsTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'

@@ -23,7 +23,7 @@ interface BreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
   onExpand?: () => void
 }
 
-function Breadcrumb({
+function BreadcrumbView({
   items,
   separator = <ChevronRight className="w-4 h-4" />,
   collapsible = false,
@@ -85,5 +85,5 @@ function Breadcrumb({
   )
 }
 
-export { Breadcrumb }
+export { BreadcrumbView }
 export type { BreadcrumbProps, BreadcrumbItem }

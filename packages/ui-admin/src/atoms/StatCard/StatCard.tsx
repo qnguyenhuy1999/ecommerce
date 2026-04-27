@@ -3,7 +3,6 @@ import React from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
 import {
-  cn,
   Card,
   Select,
   SelectTrigger,
@@ -12,6 +11,7 @@ import {
   SelectValue,
   Skeleton,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { StatCardTrend, NumberCounter } from './StatCardTrend'
 

@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { cn, Table } from '@ecom/ui'
+import { Table } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { DataTableContext } from './DataTableContext'
 

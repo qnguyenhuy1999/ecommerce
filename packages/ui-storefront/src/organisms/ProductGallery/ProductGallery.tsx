@@ -2,7 +2,9 @@
 
 import React, { useCallback, useState } from 'react'
 
-import { Button, cn, createStrictContext } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { createStrictContext } from '@ecom/ui/react'
+import { cn } from '@ecom/ui/utils'
 
 import { ProductGalleryClient } from './ProductGalleryClient'
 import { ProductGalleryZoomModal } from './ProductGalleryZoomModal'

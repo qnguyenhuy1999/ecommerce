@@ -4,7 +4,10 @@ import { useRef, useState } from 'react'
 
 import { Search, X, Clock, TrendingUp, Loader2 } from 'lucide-react'
 
-import { cn, Popover, PopoverContent, PopoverTrigger } from '@ecom/ui'
+import { Popover, PopoverContent, PopoverTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
+import { SearchSection } from './components/SearchSection'
+import { SearchSuggestionItem } from './components/SearchSuggestionItem'
 
 interface SearchBarClientProps {
   placeholder?: string
@@ -190,44 +193,5 @@ export function SearchBarClient({
         </PopoverContent>
       )}
     </Popover>
-  )
-}
-
-function SearchSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="pb-1 last:pb-0">
-      <div className="px-4 pt-2 pb-1 text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
-        {title}
-      </div>
-      {children}
-    </div>
-  )
-}
-
-function SearchSuggestionItem({
-  icon,
-  label,
-  onSelect,
-}: {
-  icon: React.ReactNode
-  label: string
-  onSelect: () => void
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={cn(
-        'flex w-full items-center gap-3',
-        'px-4 py-2',
-        'text-left text-sm text-[var(--text-primary)]',
-        'transition-colors duration-[var(--motion-fast)]',
-        'hover:bg-[var(--surface-muted)]',
-        'focus-visible:outline-none focus-visible:bg-[var(--surface-muted)]',
-      )}
-    >
-      <span className="shrink-0">{icon}</span>
-      <span className="truncate">{label}</span>
-    </button>
   )
 }

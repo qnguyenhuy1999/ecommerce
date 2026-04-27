@@ -1,6 +1,7 @@
 import { AlertTriangle, CheckCircle2, Pencil, XCircle } from 'lucide-react'
 
-import { Badge, cn } from '@ecom/ui'
+import { Badge } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface DataTableStatusBadgeProps {
   status: 'active' | 'low_stock' | 'out_of_stock' | 'draft'

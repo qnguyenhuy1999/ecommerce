@@ -5,7 +5,6 @@ import React from 'react'
 import { Search, ChevronDown, Mail, Bell } from 'lucide-react'
 
 import {
-  cn,
   Avatar,
   AvatarImage,
   AvatarFallback,
@@ -18,6 +17,7 @@ import {
   DropdownItem,
   Badge,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { NotificationPanel } from '../NotificationPanel/NotificationPanel'
 import type { NotificationItem } from '../NotificationPanel/NotificationPanel'

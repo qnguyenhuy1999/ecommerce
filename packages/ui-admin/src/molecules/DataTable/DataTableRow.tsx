@@ -5,8 +5,8 @@ import {
   TableCell as BaseTableCell,
   TableHead as BaseTableHead,
   Checkbox,
-  cn,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useDataTable, useDataTableSection } from './DataTableContext'
 

@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 type ProductCardMetaProps = React.HTMLAttributes<HTMLDivElement>
 

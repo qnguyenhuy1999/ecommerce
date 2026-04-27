@@ -1,5 +1,6 @@
 import type { BadgeProps as CoreBadgeProps } from '@ecom/ui'
-import { Badge as CoreBadge, cn } from '@ecom/ui'
+import { Badge as CoreBadge } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 type CoreVariant = CoreBadgeProps['variant']
 type EcomVariant = 'sale' | 'discount' | 'new' | 'limited' | 'out-of-stock'

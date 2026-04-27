@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React, { useState } from 'react'
 
-import { cn, Input } from '@ecom/ui'
+import { Input } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { Search, Mail, Eye, EyeOff, DollarSign, AtSign, Hash, User, Lock } from 'lucide-react'
 
 import { FormField } from './FormField'

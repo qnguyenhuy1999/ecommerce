@@ -1,6 +1,7 @@
 import { ShoppingCart, Heart } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { Rating } from '../../atoms/Rating/Rating'

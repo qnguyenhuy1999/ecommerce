@@ -13,8 +13,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  cn,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface ShippingAddress {
   fullName: string

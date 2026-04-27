@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { cn, buttonVariants } from '@ecom/ui'
+import { buttonVariants } from '@ecom/ui/variants'
+import { cn } from '@ecom/ui/utils'
 
 export interface VisualBannerProps extends React.HTMLAttributes<HTMLElement> {
   eyebrow?: string

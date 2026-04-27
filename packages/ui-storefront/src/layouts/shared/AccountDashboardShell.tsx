@@ -2,7 +2,8 @@ import React from 'react'
 
 import { Menu } from 'lucide-react'
 
-import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, cn } from '@ecom/ui'
+import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { AccountSidebar } from '../../molecules/AccountSidebar/AccountSidebar'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'

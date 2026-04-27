@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
 import { AccountDashboardShell } from '../shared/AccountDashboardShell'

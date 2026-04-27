@@ -1,6 +1,6 @@
 import { Instagram, Twitter, Facebook, Youtube } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface StorefrontFooterProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode

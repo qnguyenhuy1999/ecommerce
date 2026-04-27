@@ -1,4 +1,4 @@
-export { Button, buttonVariants } from './atoms/Button/Button'
+export { Button } from './atoms/Button/Button'
 export {
   Card,
   CardHeader,
@@ -7,11 +7,11 @@ export {
   CardDescription,
   CardContent,
 } from './atoms/Card/Card'
-export { Badge, badgeVariants, type BadgeProps } from './atoms/Badge/Badge'
+export { Badge, type BadgeProps } from './atoms/Badge/Badge'
 export { Input } from './atoms/Input/Input'
 export { Label } from './atoms/Label/Label'
 export { Textarea } from './atoms/Textarea/Textarea'
-export { Typography, typographyVariants, type TypographyProps } from './atoms/Typography/Typography'
+export { Typography, type TypographyProps } from './atoms/Typography/Typography'
 export {
   Select,
   SelectContent,
@@ -30,7 +30,7 @@ export { Skeleton } from './atoms/Skeleton/Skeleton'
 export { Separator } from './atoms/Separator/Separator'
 export { ScrollArea } from './atoms/ScrollArea/ScrollArea'
 export { IconButton } from './atoms/IconButton/IconButton'
-export { LoadingSpinner, spinnerCva } from './atoms/LoadingSpinner/LoadingSpinner'
+export { LoadingSpinner } from './atoms/LoadingSpinner/LoadingSpinner'
 export { Progress } from './atoms/Progress/Progress'
 export { RadioGroup, RadioGroupItem } from './atoms/RadioGroup/RadioGroup'
 export { Slider } from './atoms/Slider/Slider'
@@ -100,8 +100,5 @@ export {
   type AvatarGroupProps,
 } from './molecules/AvatarGroup/AvatarGroup'
 export { Kbd, type KbdProps } from './atoms/Kbd/Kbd'
-export { Pagination, buildPageList } from './organisms/Pagination/Pagination'
-export { ThemeProvider, useTheme } from './providers'
-export { createStrictContext } from './lib/createStrictContext'
-export { useCSSVarStyle } from './lib/useCSSVarStyle'
-export { cn } from './lib/utils'
+export { Pagination } from './organisms/Pagination/Pagination'
+export { ThemeProvider } from './providers'

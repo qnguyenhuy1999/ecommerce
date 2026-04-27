@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 interface FilterClearProps {
   onClick: () => void

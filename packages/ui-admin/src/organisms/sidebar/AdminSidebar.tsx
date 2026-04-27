@@ -1,6 +1,6 @@
 'use client'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { ChevronRight, PanelLeftClose, PanelLeftOpen } from 'lucide-react'
 import React, { useState } from 'react'
 import { DefaultLogo, FALLBACK_FOOTER, FALLBACK_NAV } from './AdminSidebar.fixtures'

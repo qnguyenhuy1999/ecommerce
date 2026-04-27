@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Check } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export type TimelineStepStatus = 'complete' | 'current' | 'pending'
 

@@ -1,6 +1,7 @@
 import { ArrowUpDown } from 'lucide-react'
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, cn } from '@ecom/ui'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface SortOption {
   value: string

@@ -5,14 +5,14 @@ import React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import {
-  buildPageList,
-  cn,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@ecom/ui'
+import { buildPageList } from '@ecom/ui/pagination'
+import { cn } from '@ecom/ui/utils'
 
 export interface DataTablePaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   page: number

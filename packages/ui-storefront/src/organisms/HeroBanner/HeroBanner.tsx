@@ -1,4 +1,5 @@
-import { cn, buttonVariants } from '@ecom/ui'
+import { buttonVariants } from '@ecom/ui/variants'
+import { cn } from '@ecom/ui/utils'
 
 export interface HeroBannerProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string

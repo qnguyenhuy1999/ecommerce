@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Check, ShoppingBag } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface AddToCartButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Current state of the button */

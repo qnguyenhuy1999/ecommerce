@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 
 import { Filter, Search } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { FilterGroup } from './FilterGroup'
 import { FilterClear } from './FilterClear'

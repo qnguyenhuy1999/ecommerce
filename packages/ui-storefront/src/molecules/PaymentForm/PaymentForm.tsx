@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Lock, CreditCard, AlertCircle } from 'lucide-react'
 
-import { Button, Input, Label, cn } from '@ecom/ui'
+import { Button, Input, Label } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface PaymentFormProps {
   onSubmit: (data: { cardNumber: string; expiry: string; cvc: string; name: string }) => void

@@ -1,20 +1,12 @@
 export { CategoryCard } from './CategoryCard/CategoryCard'
 export { CheckoutStepper } from './CheckoutStepper/CheckoutStepper'
 export type { CheckoutStep, CheckoutStepperProps } from './CheckoutStepper/CheckoutStepper'
-export {
-  FilterSidebar,
-  FilterGroup,
-  FilterCollapse,
-  FilterCheckbox,
-  FilterRange,
-  FilterClear,
-} from './FilterSidebar/FilterSidebar'
+export { FilterSidebar } from './FilterSidebar/FilterSidebar'
 export type {
   FilterGroupSpec,
   FilterOption,
   FilterSidebarProps,
 } from './FilterSidebar/FilterSidebar'
-export { FilterSidebarClient } from './FilterSidebar/FilterSidebarClient'
 export {
   ProductCard,
   ProductCardImage,

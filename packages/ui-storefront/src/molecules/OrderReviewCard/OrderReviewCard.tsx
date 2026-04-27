@@ -2,7 +2,8 @@ import React from 'react'
 
 import { MapPin, CreditCard, ShoppingBag, Pencil } from 'lucide-react'
 
-import { Button, Separator, cn } from '@ecom/ui'
+import { Button, Separator } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import type { ShippingAddress } from '../AddressForm/AddressForm'

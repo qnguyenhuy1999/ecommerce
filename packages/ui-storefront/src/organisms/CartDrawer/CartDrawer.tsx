@@ -11,9 +11,9 @@ import {
   SheetContent,
   SheetHeader,
   SheetTitle,
-  cn,
-  createStrictContext,
 } from '@ecom/ui'
+import { createStrictContext } from '@ecom/ui/react'
+import { cn } from '@ecom/ui/utils'
 import { ArrowRight, ShoppingBag, Sparkles, Tag } from 'lucide-react'
 import React from 'react'
 import { CartItem } from '../../atoms/CartItem/CartItem'

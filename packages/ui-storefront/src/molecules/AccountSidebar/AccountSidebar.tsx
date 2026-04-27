@@ -2,7 +2,8 @@ import React from 'react'
 
 import { User, Package, MapPin, Heart, Settings, LogOut, ChevronRight } from 'lucide-react'
 
-import { Avatar, AvatarFallback, AvatarImage, cn } from '@ecom/ui'
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface AccountSidebarItem {
   id: string

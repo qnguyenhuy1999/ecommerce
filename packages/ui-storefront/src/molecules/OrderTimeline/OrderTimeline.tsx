@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Package, ExternalLink } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { OrderTimelineStep } from '../../atoms/OrderTimelineStep/OrderTimelineStep'
 import type { TimelineStepStatus } from '../../atoms/OrderTimelineStep/OrderTimelineStep'

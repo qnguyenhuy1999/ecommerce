@@ -2,7 +2,9 @@ import React from 'react'
 
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { CartPageLayout, CartList, CartFooter } from './CartPageLayout'
+import { CartPageLayout } from './CartPageLayout'
+import { CartList } from './components/CartList'
+import { CartFooter } from './components/CartFooter'
 import { OrderSummary } from '../../molecules/OrderSummary/OrderSummary'
 import { Button } from '@ecom/ui'
 
@@ -75,16 +77,16 @@ function CartScreen({ initialItems }: { initialItems: typeof DEFAULT_ITEMS }) {
   if (items.length === 0) {
     return (
       <CartPageLayout>
-        <CartPageLayout.Main>
+        <CartPageLayout.Items>
           <CartPageLayout.EmptyState />
-        </CartPageLayout.Main>
+        </CartPageLayout.Items>
       </CartPageLayout>
     )
   }
 
   return (
     <CartPageLayout>
-      <CartPageLayout.Main>
+      <CartPageLayout.Items>
         <CartList
           items={items}
           onItemQuantityChange={handleQuantityChange}
@@ -92,8 +94,8 @@ function CartScreen({ initialItems }: { initialItems: typeof DEFAULT_ITEMS }) {
           onRemoveAll={handleRemoveAll}
         />
         <CartFooter />
-      </CartPageLayout.Main>
-      <CartPageLayout.Sidebar>
+      </CartPageLayout.Items>
+      <CartPageLayout.Aside>
         <OrderSummary
           subtotal={subtotal}
           shipping={shipping}
@@ -106,7 +108,7 @@ function CartScreen({ initialItems }: { initialItems: typeof DEFAULT_ITEMS }) {
         <Button fullWidth size="lg">
           Proceed to Checkout →
         </Button>
-      </CartPageLayout.Sidebar>
+      </CartPageLayout.Aside>
     </CartPageLayout>
   )
 }
@@ -120,5 +122,9 @@ export const Empty: Story = {
 }
 
 export const Loading: Story = {
-  render: () => <CartPageLayout loading />,
+  render: () => (
+    <CartPageLayout>
+      <CartPageLayout.Loading />
+    </CartPageLayout>
+  ),
 }

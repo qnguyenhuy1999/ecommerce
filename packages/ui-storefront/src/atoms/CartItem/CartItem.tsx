@@ -4,7 +4,8 @@ import React from 'react'
 
 import { X, Bookmark, ChevronDown } from 'lucide-react'
 
-import { cn, Button, Badge } from '@ecom/ui'
+import { Badge, Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../PriceDisplay/PriceDisplay'
 import { QuantityStepper } from '../QuantityStepper/QuantityStepper'

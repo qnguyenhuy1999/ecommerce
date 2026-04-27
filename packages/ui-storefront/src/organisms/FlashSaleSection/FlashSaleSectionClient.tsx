@@ -4,7 +4,7 @@ import React from 'react'
 
 import { Flame, Timer } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { useCountdown } from '../../hooks/useCountdown'
 import { ProductCarouselClient } from '../ProductCarousel/ProductCarouselClient'
 import type { Product } from '../ProductGrid/types'

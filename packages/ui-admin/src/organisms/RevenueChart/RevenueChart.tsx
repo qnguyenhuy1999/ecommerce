@@ -3,7 +3,6 @@
 import React from 'react'
 import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import {
-  cn,
   Card,
   CardHeader,
   CardTitle,
@@ -14,6 +13,7 @@ import {
   SelectItem,
   SelectValue,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PERIOD_OPTIONS } from './RevenueChart.fixtures'
 

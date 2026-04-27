@@ -2,7 +2,8 @@
 
 import { Plus, Minus } from 'lucide-react'
 
-import { cn, IconButton, Input } from '@ecom/ui'
+import { IconButton, Input } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface QuantityStepperProps extends Omit<
   React.HTMLAttributes<HTMLDivElement>,

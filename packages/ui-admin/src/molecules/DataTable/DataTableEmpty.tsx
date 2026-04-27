@@ -2,7 +2,8 @@ import React from 'react'
 
 import { PackageX } from 'lucide-react'
 
-import { TableCell as BaseTableCell, TableRow as BaseTableRow, cn } from '@ecom/ui'
+import { TableCell as BaseTableCell, TableRow as BaseTableRow } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface DataTableEmptyProps extends React.HTMLAttributes<HTMLTableRowElement> {
   colSpan: number
