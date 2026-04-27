@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useDataTable } from './DataTableContext'
 
@@ -38,14 +38,12 @@ export function DataTableToolbar({
         {(heading || subheading) && (
           <div className="min-w-0">
             {heading && (
-              <p className="truncate text-[var(--text-base)] font-semibold leading-tight text-foreground">
+              <p className="truncate text-[length:var(--text-base)] font-semibold leading-tight text-foreground">
                 {heading}
               </p>
             )}
             {subheading && (
-              <p className="mt-0.5 truncate text-[var(--text-sm)] text-muted-foreground">
-                {subheading}
-              </p>
+              <p className="mt-0.5 truncate text-sm text-muted-foreground">{subheading}</p>
             )}
           </div>
         )}

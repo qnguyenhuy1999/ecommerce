@@ -5,8 +5,8 @@ import {
   TableCell as BaseTableCell,
   TableHead as BaseTableHead,
   Checkbox,
-  cn,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useDataTable, useDataTableSection } from './DataTableContext'
 
@@ -96,7 +96,7 @@ export function DataTableRow({
             : 'hover:bg-[var(--surface-hover)]'),
         section === 'body' && accent && ['border-l-2', accentBorder],
         interactive &&
-          'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-[var(--space-1)] data-[state=selected]:focus-visible:ring-offset-[0]',
+          'cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 data-[state=selected]:focus-visible:ring-offset-[0]',
         className,
       )}
       {...props}
@@ -104,7 +104,7 @@ export function DataTableRow({
       {selectable && (
         <>
           {section === 'header' ? (
-            <BaseTableHead className="w-[var(--space-12)] px-4">
+            <BaseTableHead className="w-12 px-4">
               <Checkbox
                 checked={isAllPageSelected ? true : isSomePageSelected ? 'indeterminate' : false}
                 disabled={!onSelectionChange || pageKeys.length === 0}
@@ -114,7 +114,7 @@ export function DataTableRow({
               />
             </BaseTableHead>
           ) : (
-            <BaseTableCell className="w-[var(--space-12)] px-4">
+            <BaseTableCell className="w-12 px-4">
               <Checkbox
                 checked={selected}
                 disabled={!onSelectionChange || rowKey === undefined}

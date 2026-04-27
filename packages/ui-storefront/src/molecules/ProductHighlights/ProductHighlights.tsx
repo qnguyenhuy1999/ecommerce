@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface ProductHighlightsProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Product feature highlights */

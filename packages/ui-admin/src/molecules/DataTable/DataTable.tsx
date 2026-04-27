@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { cn, Table } from '@ecom/ui'
+import { Table } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { DataTableContext } from './DataTableContext'
 
@@ -120,9 +121,7 @@ function DataTableRoot({
                   {title}
                 </h2>
               )}
-              {description && (
-                <p className="mt-1 text-[var(--text-sm)] text-muted-foreground">{description}</p>
-              )}
+              {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
             </div>
           </div>
         )}

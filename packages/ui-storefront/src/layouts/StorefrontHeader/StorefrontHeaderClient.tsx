@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Heart, Menu, Search, ShoppingBag, User2 } from 'lucide-react'
 
-import { Button, cn, Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from '@ecom/ui'
+import { Button, Dropdown, DropdownContent, DropdownItem, DropdownTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { SearchBar } from '../../molecules/SearchBar/SearchBar'
 
@@ -31,9 +32,9 @@ const iconButton = cn(
 )
 
 const countBadge = cn(
-  'absolute -top-0.5 -right-0.5 inline-flex h-[var(--space-5)] min-w-[var(--space-5)] items-center justify-center',
+  'absolute -top-0.5 -right-0.5 inline-flex h-5 min-w-5 items-center justify-center',
   'rounded-full bg-brand text-brand-foreground',
-  'px-[var(--space-1)] text-[length:var(--text-micro)] font-bold leading-none tabular-nums',
+  'px-1 text-[length:var(--text-micro)] font-bold leading-none tabular-nums',
   'ring-2 ring-[var(--surface-base)]',
 )
 
@@ -56,7 +57,7 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
 
   return (
     <div className={cn('w-full bg-[var(--surface-base)]', className)} {...restProps}>
-      <div className="mx-auto flex w-full max-w-[var(--storefront-content-max-width)] items-center gap-[var(--space-4)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)] h-[var(--storefront-header-height)]">
+      <div className="mx-auto flex w-full max-w-[var(--storefront-content-max-width)] items-center gap-4 px-4 sm:px-6 lg:px-8 h-[var(--storefront-header-height)]">
         {/* Mobile menu */}
         <button
           type="button"
@@ -90,7 +91,7 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
         <div className="flex-1 lg:hidden" />
 
         {/* Right actions */}
-        <div className="flex items-center gap-[var(--space-1)] shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
           {/* Mobile search trigger */}
           <button
             type="button"
@@ -122,15 +123,15 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
                   type="button"
                   aria-label={`Account: ${user.name}`}
                   className={cn(
-                    'inline-flex items-center gap-[var(--space-2)]',
-                    'h-10 rounded-full px-[var(--space-1)] sm:pr-[var(--space-3)]',
-                    'text-[length:var(--text-sm)] font-medium text-[var(--text-primary)]',
+                    'inline-flex items-center gap-2',
+                    'h-10 rounded-full px-1 sm:pr-3',
+                    'text-sm font-medium text-[var(--text-primary)]',
                     'transition-[background-color] duration-[var(--motion-fast)]',
                     'hover:bg-[var(--surface-muted)]',
                     'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-base)]',
                   )}
                 >
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground text-[length:var(--text-sm)] font-bold">
+                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground text-sm font-bold">
                     {user.name.charAt(0).toUpperCase()}
                   </span>
                   <span className="hidden sm:inline truncate max-w-[7rem]">
@@ -139,14 +140,14 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
                 </button>
               </DropdownTrigger>
               <DropdownContent align="end" sideOffset={8} className="w-56">
-                <DropdownItem className="text-[length:var(--text-sm)]">Profile</DropdownItem>
-                <DropdownItem className="text-[length:var(--text-sm)]">Orders</DropdownItem>
-                <DropdownItem className="text-[length:var(--text-sm)]">Wishlist</DropdownItem>
-                <DropdownItem className="text-[length:var(--text-sm)]">Settings</DropdownItem>
-                <div className="my-[var(--space-1)] mx-[var(--space-2)] h-px bg-[var(--border-subtle)]" />
+                <DropdownItem className="text-sm">Profile</DropdownItem>
+                <DropdownItem className="text-sm">Orders</DropdownItem>
+                <DropdownItem className="text-sm">Wishlist</DropdownItem>
+                <DropdownItem className="text-sm">Settings</DropdownItem>
+                <div className="my-1 mx-2 h-px bg-[var(--border-subtle)]" />
                 <DropdownItem
                   onClick={onLogout}
-                  className="text-[length:var(--text-sm)] text-[var(--intent-danger)] focus:bg-[var(--intent-danger-muted)] focus:text-[var(--intent-danger)]"
+                  className="text-sm text-[var(--intent-danger)] focus:bg-[var(--intent-danger-muted)] focus:text-[var(--intent-danger)]"
                 >
                   Log out
                 </DropdownItem>
@@ -194,9 +195,9 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
           <nav
             aria-label="Categories"
             className={cn(
-              'mx-auto flex w-full max-w-[var(--storefront-content-max-width)] items-center gap-[var(--space-1)]',
-              'overflow-x-auto px-[var(--space-3)] sm:px-[var(--space-5)] lg:px-[var(--space-7)]',
-              'h-[var(--space-11)] [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
+              'mx-auto flex w-full max-w-[var(--storefront-content-max-width)] items-center gap-1',
+              'overflow-x-auto px-3 sm:px-5 lg:px-7',
+              'h-11 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden',
             )}
           >
             {categories.map((cat) => (
@@ -205,8 +206,8 @@ export function StorefrontHeaderClient(props: StorefrontHeaderClientProps) {
                 href={cat.href}
                 className={cn(
                   'shrink-0 inline-flex items-center rounded-[var(--radius-sm)]',
-                  'px-[var(--space-3)] py-[var(--space-1-5)]',
-                  'text-[length:var(--text-sm)] font-medium text-[var(--text-secondary)]',
+                  'px-3 py-1.5',
+                  'text-sm font-medium text-[var(--text-secondary)]',
                   'transition-colors duration-[var(--motion-fast)]',
                   'hover:bg-[var(--surface-muted)] hover:text-[var(--text-primary)]',
                   'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',

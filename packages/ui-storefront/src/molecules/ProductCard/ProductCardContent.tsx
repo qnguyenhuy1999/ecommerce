@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useProductCard } from './ProductCard'
 
@@ -8,10 +8,8 @@ export function ProductCardContent({ className, children, ...props }: ProductCar
   const { href, view } = useProductCard()
 
   const classes = cn(
-    'flex flex-1 flex-col justify-between gap-[var(--space-3)]',
-    view === 'list'
-      ? 'p-[var(--space-5)] sm:p-[var(--space-6)]'
-      : 'p-[var(--space-4)] sm:p-[var(--space-5)]',
+    'flex flex-1 flex-col justify-between gap-3',
+    view === 'list' ? 'p-5 sm:p-6' : 'p-4 sm:p-5',
     className,
   )
 

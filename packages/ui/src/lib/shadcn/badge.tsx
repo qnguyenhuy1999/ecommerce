@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 
 import { cva, type VariantProps } from 'class-variance-authority'
@@ -43,12 +41,12 @@ const badgeVariants = cva(
         soft: 'border-transparent bg-accent text-accent-foreground hover:bg-accent/80',
       },
       size: {
-        xs: 'px-[var(--space-1-5)] py-[1px] text-[length:var(--text-micro)] leading-[var(--line-height-tight)]',
-        sm: 'px-[var(--space-2)] py-[var(--space-0-5)] text-[length:var(--text-micro)] leading-[var(--line-height-tight)]',
-        md: 'px-[var(--space-2-5)] py-[var(--space-0-5)] text-[length:var(--text-xs)] leading-[var(--line-height-snug)]',
-        lg: 'px-[var(--space-3)] py-[var(--space-1)] text-[length:var(--text-sm)] leading-[var(--line-height-snug)]',
+        xs: 'px-1.5 py-[1px] text-[length:var(--text-micro)] leading-[var(--line-height-tight)]',
+        sm: 'px-2 py-[var(--space-0-5)] text-[length:var(--text-micro)] leading-[var(--line-height-tight)]',
+        md: 'px-2.5 py-[var(--space-0-5)] text-[length:var(--text-xs)] leading-[var(--line-height-snug)]',
+        lg: 'px-3 py-1 text-sm leading-[var(--line-height-snug)]',
         default:
-          'px-[var(--space-2-5)] py-[var(--space-0-5)] text-[length:var(--text-xs)] leading-[var(--line-height-snug)]',
+          'px-2.5 py-[var(--space-0-5)] text-[length:var(--text-xs)] leading-[var(--line-height-snug)]',
       },
     },
     defaultVariants: {
@@ -88,7 +86,7 @@ function Badge({
       {(dot || pulse) && (
         <span
           className={cn(
-            'relative flex h-[var(--space-2)] w-[var(--space-2)] shrink-0 items-center justify-center rounded-full',
+            'relative flex h-2 w-2 shrink-0 items-center justify-center rounded-full',
             !dotColor && 'bg-current',
           )}
           style={dotColor ? { backgroundColor: dotColor } : undefined}

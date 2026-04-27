@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Package, ExternalLink } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { OrderTimelineStep } from '../../atoms/OrderTimelineStep/OrderTimelineStep'
 import type { TimelineStepStatus } from '../../atoms/OrderTimelineStep/OrderTimelineStep'
@@ -38,7 +39,7 @@ function OrderTimeline({ steps, trackingInfo, className }: OrderTimelineProps) {
           className={cn(
             'mb-6 flex items-center justify-between gap-4',
             'rounded-[var(--radius-lg)] border border-[var(--border-subtle)]',
-            'bg-[var(--surface-muted)]/50 px-[var(--space-4)] py-[var(--space-3)]',
+            'bg-[var(--surface-muted)]/50 px-4 py-3',
           )}
         >
           <div className="flex items-center gap-2.5 min-w-0">
@@ -47,7 +48,7 @@ function OrderTimeline({ steps, trackingInfo, className }: OrderTimelineProps) {
               <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
                 {trackingInfo.carrier}
               </p>
-              <p className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] truncate">
+              <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
                 {trackingInfo.trackingNumber}
               </p>
             </div>

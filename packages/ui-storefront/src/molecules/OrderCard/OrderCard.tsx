@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ChevronRight } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
@@ -169,4 +169,3 @@ function OrderCard({
 }
 
 export { OrderCard }
-

@@ -60,7 +60,7 @@ const products = [
 
 const SORT_BAR = (
   <>
-    <div className="flex flex-wrap items-center gap-[var(--space-3)]">
+    <div className="flex flex-wrap items-center gap-3">
       <ActiveFilters
         filters={[
           { key: 'size', label: 'Size', value: '8' },
@@ -70,12 +70,11 @@ const SORT_BAR = (
         onClearAll={() => {}}
       />
     </div>
-    <label className="flex items-center gap-[var(--space-2)] text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+    <label className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
       Sort by
       <select
-        className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-base)] px-[var(--space-3)] py-[var(--space-1-5)] text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] focus-visible:border-[var(--action-primary)] focus-visible:outline-none"
-        defaultValue="relevance"
-      >
+        className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-base)] px-3 py-1.5 text-sm font-medium text-[var(--text-primary)] focus-visible:border-[var(--action-primary)] focus-visible:outline-none"
+        defaultValue="relevance">
         <option value="relevance">Most relevant</option>
         <option value="newest">Newest</option>
         <option value="price-asc">Price: low to high</option>

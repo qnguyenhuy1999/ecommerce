@@ -1,4 +1,3 @@
-// @ecom/ui-storefront public API (named exports only)
 // Atoms
 export { AddToCartButton } from './atoms/AddToCartButton/AddToCartButton'
 export { CartItem } from './atoms/CartItem/CartItem'
@@ -38,20 +37,12 @@ export type {
   CheckoutStep,
   CheckoutStepperProps,
 } from './molecules/CheckoutStepper/CheckoutStepper'
-export {
-  FilterSidebar,
-  FilterGroup,
-  FilterCollapse,
-  FilterCheckbox,
-  FilterRange,
-  FilterClear,
-} from './molecules/FilterSidebar/FilterSidebar'
+export { FilterSidebar } from './molecules/FilterSidebar/FilterSidebar'
 export type {
   FilterGroupSpec,
   FilterOption,
   FilterSidebarProps,
 } from './molecules/FilterSidebar/FilterSidebar'
-export { FilterSidebarClient } from './molecules/FilterSidebar/FilterSidebarClient'
 export {
   ProductCard,
   ProductCardImage,
@@ -125,11 +116,12 @@ export type {
 export { AddressCard } from './molecules/AddressCard/AddressCard'
 export type { AddressCardProps } from './molecules/AddressCard/AddressCard'
 export { ProductPurchaseSection } from './molecules/ProductPurchaseSection/ProductPurchaseSection'
-export type {
-  ProductPurchaseSectionProps,
-} from './molecules/ProductPurchaseSection/ProductPurchaseSection'
+export type { ProductPurchaseSectionProps } from './molecules/ProductPurchaseSection/ProductPurchaseSection'
 export { ProductReviewsSection } from './molecules/ProductReviewsSection/ProductReviewsSection'
-export type { ProductReviewsSectionProps, ReviewSortOption } from './molecules/ProductReviewsSection/ProductReviewsSection'
+export type {
+  ProductReviewsSectionProps,
+  ReviewSortOption,
+} from './molecules/ProductReviewsSection/ProductReviewsSection'
 export { ProductHighlights } from './molecules/ProductHighlights/ProductHighlights'
 export type { ProductHighlightsProps } from './molecules/ProductHighlights/ProductHighlights'
 export { ProductStickyBar } from './molecules/ProductStickyBar/ProductStickyBar'
@@ -213,8 +205,26 @@ export type {
   ShippingProgressConfig,
   RelatedProductsSection,
 } from './layouts/ProductDetailLayout/ProductDetailLayout'
-export { CartPageLayout } from './layouts/CartPageLayout/CartPageLayout'
-export type { CartPageLayoutProps } from './layouts/CartPageLayout/CartPageLayout'
+export {
+  CartPageLayout,
+  CartList,
+  CartFooter,
+  CartItem as CartLineItem,
+  CartPageLayoutLoading,
+  CartPageEmptyState,
+  clampQuantity,
+  calculateDiscountPercent,
+  formatPrice as formatCartPrice,
+} from './layouts/CartPageLayout'
+export type {
+  CartPageLayoutProps,
+  CartListProps,
+  CartFooterProps,
+  CartItemProps as CartLineItemProps,
+  CartPageLoadingProps,
+  CartPageEmptyStateProps,
+  FormatPriceOptions,
+} from './layouts/CartPageLayout'
 export { CheckoutPageLayout } from './layouts/CheckoutPageLayout/CheckoutPageLayout'
 export type {
   CheckoutPageLayoutProps,

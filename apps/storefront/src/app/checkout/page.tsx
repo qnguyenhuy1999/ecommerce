@@ -100,32 +100,35 @@ export default function CheckoutPage() {
             queryClient.invalidateQueries({ queryKey: ['orders'] })
             setCurrentStep('confirmation')
           }}
-          error={paymentError ?? (checkoutMutation.isError ? 'Unable to create payment. Please try again.' : null)}
+          error={
+            paymentError ??
+            (checkoutMutation.isError ? 'Unable to create payment. Please try again.' : null)
+          }
           setError={setPaymentError}
           loading={checkoutMutation.isPending}
           onBack={() => setCurrentStep('shipping')}
         />
       }
       reviewSection={
-        <div className="space-y-[var(--space-6)]">
+        <div className="space-y-6">
           <h3 className="text-[length:var(--text-base)] font-semibold">Review your order</h3>
           <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
             Payment details are collected securely on the payment step before this final review.
           </p>
           {address && (
-            <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] p-[var(--space-4)]">
-              <p className="text-[length:var(--text-sm)] font-semibold">Ship to</p>
-              <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+            <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] p-4">
+              <p className="text-sm font-semibold">Ship to</p>
+              <p className="text-sm text-[var(--text-secondary)]">
                 {address.fullName} — {address.addressLine1}
-                {address.addressLine2 ? `, ${address.addressLine2}` : ''}, {address.city} {address.postalCode},{' '}
-                {address.country}
+                {address.addressLine2 ? `, ${address.addressLine2}` : ''}, {address.city}{' '}
+                {address.postalCode}, {address.country}
               </p>
             </div>
           )}
-          <div className="flex items-center justify-between gap-[var(--space-3)]">
+          <div className="flex items-center justify-between gap-3">
             <button
               type="button"
-              className="text-[length:var(--text-sm)] text-[var(--text-secondary)] underline"
+              className="text-sm text-[var(--text-secondary)] underline"
               onClick={() => setCurrentStep('payment')}
             >
               Back to payment
@@ -133,29 +136,33 @@ export default function CheckoutPage() {
             <button
               type="button"
               disabled={!address || checkoutMutation.isPending}
-              className="rounded-[var(--radius-md)] bg-[var(--action-primary)] px-[var(--space-5)] py-[var(--space-2)] text-[var(--action-primary-foreground)] disabled:opacity-50"
+              className="rounded-[var(--radius-md)] bg-[var(--action-primary)] px-5 py-2 text-[var(--action-primary-foreground)] disabled:opacity-50"
               onClick={() => checkoutMutation.mutate()}
             >
               {checkoutMutation.isPending ? 'Placing order...' : 'Place order'}
             </button>
           </div>
           {checkoutMutation.isError && (
-            <p className="text-[length:var(--text-sm)] text-[var(--intent-danger)]">
+            <p className="text-sm text-[var(--intent-danger)]">
               We couldn&apos;t place your order. Please try again.
             </p>
           )}
         </div>
       }
       confirmationSection={
-        <div className="text-center space-y-[var(--space-4)]">
-          <h2 className="text-[length:var(--text-2xl)] font-bold">Thank you for your order!</h2>
+        <div className="text-center space-y-4">
+          <h2 className="text-2xl font-bold">Thank you for your order!</h2>
           <p className="text-[var(--text-secondary)]">
             We&apos;ve emailed you a receipt. Track shipping progress from your orders page.
           </p>
           <button
             type="button"
             className="rounded-[var(--radius-md)] bg-[var(--action-primary)] px-[var(--space-5)] py-[var(--space-2)] text-[var(--action-primary-foreground)]"
-            onClick={() => router.push(pendingOrderId ? `/account/orders?placed=${pendingOrderId}` : '/account/orders')}
+            onClick={() =>
+              router.push(
+                pendingOrderId ? `/account/orders?placed=${pendingOrderId}` : '/account/orders',
+              )
+            }
           >
             View orders
           </button>
@@ -211,14 +218,21 @@ function PaymentStep({
             {loading ? 'Preparing payment…' : 'Continue to payment'}
           </Button>
         </div>
-        {error && <p className="text-[length:var(--text-sm)] text-[var(--intent-danger)]">{error}</p>}
+        {error && (
+          <p className="text-[length:var(--text-sm)] text-[var(--intent-danger)]">{error}</p>
+        )}
       </div>
     )
   }
 
   return (
     <Elements stripe={stripePromise} options={{ clientSecret }}>
-      <StripePaymentForm orderId={orderId} onSuccess={onSuccess} setError={setError} error={error} />
+      <StripePaymentForm
+        orderId={orderId}
+        onSuccess={onSuccess}
+        setError={setError}
+        error={error}
+      />
     </Elements>
   )
 }

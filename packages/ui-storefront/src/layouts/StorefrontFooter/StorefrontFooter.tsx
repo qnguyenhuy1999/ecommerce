@@ -1,6 +1,6 @@
 import { Instagram, Twitter, Facebook, Youtube } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface StorefrontFooterProps extends React.HTMLAttributes<HTMLElement> {
   logo?: React.ReactNode
@@ -36,36 +36,29 @@ function StorefrontFooter({
 }: StorefrontFooterProps) {
   return (
     <div
-      className={cn(
-        'w-full bg-[var(--surface-subtle)] text-[var(--text-secondary)]',
-        className,
-      )}
+      className={cn('w-full bg-[var(--surface-subtle)] text-[var(--text-secondary)]', className)}
       {...props}
     >
       {newsletter && (
         <div className="border-b border-[var(--border-subtle)]">
-          <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)] py-[var(--space-12)] lg:py-[var(--space-16)]">
+          <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
             {newsletter}
           </div>
         </div>
       )}
 
-      <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)] py-[var(--space-12)] lg:py-[var(--space-16)]">
-        <div className="grid grid-cols-2 gap-x-[var(--space-8)] gap-y-[var(--space-10)] lg:grid-cols-12">
+      <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-10 lg:grid-cols-12">
           {/* Brand column */}
           <div className="col-span-2 lg:col-span-4">
             {logo && (
-              <div className="mb-[var(--space-5)] inline-flex items-center text-[var(--text-primary)]">
-                {logo}
-              </div>
+              <div className="mb-5 inline-flex items-center text-[var(--text-primary)]">{logo}</div>
             )}
             {description && (
-              <p className="max-w-sm text-[length:var(--text-sm)] leading-[var(--line-height-relaxed)]">
-                {description}
-              </p>
+              <p className="max-w-sm text-sm leading-[var(--line-height-relaxed)]">{description}</p>
             )}
             {socials.length > 0 && (
-              <div className="mt-[var(--space-6)] flex flex-wrap items-center gap-[var(--space-2)]">
+              <div className="mt-6 flex flex-wrap items-center gap-2">
                 {socials.map((social) => (
                   <a
                     key={social.platform}
@@ -92,16 +85,16 @@ function StorefrontFooter({
           {/* Link columns */}
           {columns.map((col) => (
             <div key={col.title} className="lg:col-span-2">
-              <h3 className="mb-[var(--space-4)] text-[length:var(--text-sm)] font-semibold uppercase tracking-[0.08em] text-[var(--text-primary)]">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-[0.08em] text-[var(--text-primary)]">
                 {col.title}
               </h3>
-              <ul className="space-y-[var(--space-3)]">
+              <ul className="space-y-3">
                 {col.links.map((link) => (
                   <li key={link.href + link.label}>
                     <a
                       href={link.href}
                       className={cn(
-                        'inline-flex text-[length:var(--text-sm)] text-[var(--text-secondary)]',
+                        'inline-flex text-sm text-[var(--text-secondary)]',
                         'transition-colors duration-[var(--motion-fast)]',
                         'hover:text-[var(--text-primary)]',
                       )}
@@ -116,17 +109,14 @@ function StorefrontFooter({
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-[var(--space-12)] flex flex-col gap-[var(--space-4)] border-t border-[var(--border-subtle)] pt-[var(--space-6)] sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-4 border-t border-[var(--border-subtle)] pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">{copyright}</p>
-          <div
-            className="flex items-center gap-[var(--space-2)]"
-            aria-label="Accepted payment methods"
-          >
+          <div className="flex items-center gap-2" aria-label="Accepted payment methods">
             {paymentMethods.map((method) => (
               <span
                 key={method}
                 className={cn(
-                  'inline-flex h-7 items-center justify-center px-[var(--space-2)]',
+                  'inline-flex h-7 items-center justify-center px-2',
                   'rounded-[var(--radius-sm)] border border-[var(--border-subtle)] bg-[var(--surface-base)]',
                   'text-[length:var(--text-micro)] font-bold uppercase tracking-[0.06em] text-[var(--text-tertiary)]',
                 )}

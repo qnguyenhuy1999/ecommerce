@@ -1,6 +1,7 @@
 import { ShoppingCart, Heart } from 'lucide-react'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { Rating } from '../../atoms/Rating/Rating'
@@ -98,7 +99,7 @@ function SearchResultItem({
             onClick={() => onView?.(product.id)}
             className="text-left hover:text-[var(--action-primary)] transition-colors"
           >
-            <h3 className="text-[var(--text-sm)] sm:text-[var(--text-base)] font-semibold text-[var(--text-primary)] leading-snug line-clamp-2">
+            <h3 className="text-sm sm:text-[length:var(--text-base)] font-semibold text-[var(--text-primary)] leading-snug line-clamp-2">
               {highlightMatch(product.name, query)}
             </h3>
           </button>

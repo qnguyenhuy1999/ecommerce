@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { TrustBadgeGroup, TrustBadgeType } from '../../atoms/TrustBadge/TrustBadge'
 
 export interface TrustBannerSectionProps extends Omit<

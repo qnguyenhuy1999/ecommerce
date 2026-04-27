@@ -1,6 +1,7 @@
 import { Package, MapPin, CreditCard, ExternalLink, ArrowLeft } from 'lucide-react'
 
-import { Button, Separator, Tabs, TabsContent, TabsList, TabsTrigger, cn } from '@ecom/ui'
+import { Button, Separator, Tabs, TabsContent, TabsList, TabsTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
 import { OrderStatusBadge } from '../../atoms/OrderStatusBadge/OrderStatusBadge'
@@ -106,7 +107,7 @@ function OrderDetailSection({
               <OrderTimeline steps={timelineSteps} trackingInfo={subOrders[0]?.trackingInfo} />
             </div>
           ) : (
-            <p className="text-[var(--text-secondary)] text-[var(--text-sm)]">
+            <p className="text-[var(--text-secondary)] text-sm">
               Tracking information not yet available.
             </p>
           )}
@@ -120,9 +121,7 @@ function OrderDetailSection({
               className="rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] overflow-hidden"
             >
               <div className="flex items-center justify-between px-5 py-3 bg-[var(--surface-muted)]/50 border-b border-[var(--border-subtle)]">
-                <p className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)]">
-                  {sub.storeName}
-                </p>
+                <p className="text-sm font-semibold text-[var(--text-primary)]">{sub.storeName}</p>
                 <OrderStatusBadge status={sub.status} size="sm" />
               </div>
               <div className="p-5 space-y-4">
@@ -139,7 +138,7 @@ function OrderDetailSection({
                       </div>
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="text-[var(--text-sm)] font-medium text-[var(--text-primary)] truncate">
+                      <p className="text-sm font-medium text-[var(--text-primary)] truncate">
                         {item.productName}
                       </p>
                       <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)] font-mono">
@@ -186,10 +185,10 @@ function OrderDetailSection({
         <TabsContent value="details" className="mt-6 grid gap-4 sm:grid-cols-2">
           {/* Shipping */}
           <div className="rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-5">
-            <h3 className="flex items-center gap-2 text-[var(--text-sm)] font-semibold text-[var(--text-primary)] mb-3">
+            <h3 className="flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)] mb-3">
               <MapPin className="w-4 h-4 text-[var(--action-primary)]" /> Shipping Address
             </h3>
-            <address className="not-italic text-[var(--text-sm)] text-[var(--text-secondary)] space-y-0.5">
+            <address className="not-italic text-sm text-[var(--text-secondary)] space-y-0.5">
               <p className="font-semibold text-[var(--text-primary)]">{shippingAddress.fullName}</p>
               <p>{shippingAddress.addressLine1}</p>
               {shippingAddress.addressLine2 && <p>{shippingAddress.addressLine2}</p>}
@@ -205,10 +204,10 @@ function OrderDetailSection({
           <div className="rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-5">
             {paymentMethod && (
               <>
-                <h3 className="flex items-center gap-2 text-[var(--text-sm)] font-semibold text-[var(--text-primary)] mb-3">
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-[var(--text-primary)] mb-3">
                   <CreditCard className="w-4 h-4 text-[var(--action-primary)]" /> Payment
                 </h3>
-                <p className="text-[var(--text-sm)] text-[var(--text-secondary)] mb-4">
+                <p className="text-sm text-[var(--text-secondary)] mb-4">
                   {paymentMethod.label}
                   {paymentMethod.last4 && (
                     <span className="font-mono ml-1">•••• {paymentMethod.last4}</span>
@@ -217,7 +216,7 @@ function OrderDetailSection({
                 <Separator className="mb-4 bg-[var(--border-subtle)]" />
               </>
             )}
-            <div className="space-y-2 text-[var(--text-sm)]">
+            <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-[var(--text-secondary)]">Subtotal</span>
                 <PriceDisplay price={subtotal} size="sm" />

@@ -2,7 +2,8 @@
 
 import { Search, X } from 'lucide-react'
 
-import { cn, Input, IconButton } from '@ecom/ui'
+import { Input, IconButton } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface DataTableFilterProps {
   placeholder?: string

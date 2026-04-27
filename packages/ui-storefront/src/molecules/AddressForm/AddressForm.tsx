@@ -13,8 +13,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  cn,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface ShippingAddress {
   fullName: string
@@ -90,10 +90,7 @@ function AddressForm({
     <form onSubmit={handleSubmit} className={cn('space-y-4', className)} noValidate>
       {/* Full Name */}
       <div>
-        <Label
-          htmlFor="address-fullName"
-          className="mb-1.5 flex items-center gap-1.5 text-[var(--text-sm)]"
-        >
+        <Label htmlFor="address-fullName" className="mb-1.5 flex items-center gap-1.5 text-sm">
           <User className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
           Full Name
         </Label>
@@ -110,10 +107,7 @@ function AddressForm({
 
       {/* Phone */}
       <div>
-        <Label
-          htmlFor="address-phone"
-          className="mb-1.5 flex items-center gap-1.5 text-[var(--text-sm)]"
-        >
+        <Label htmlFor="address-phone" className="mb-1.5 flex items-center gap-1.5 text-sm">
           <Phone className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
           Phone
         </Label>
@@ -131,10 +125,7 @@ function AddressForm({
 
       {/* Address Line 1 */}
       <div>
-        <Label
-          htmlFor="address-line1"
-          className="mb-1.5 flex items-center gap-1.5 text-[var(--text-sm)]"
-        >
+        <Label htmlFor="address-line1" className="mb-1.5 flex items-center gap-1.5 text-sm">
           <MapPin className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
           Address Line 1
         </Label>
@@ -151,10 +142,7 @@ function AddressForm({
 
       {/* Address Line 2 */}
       <div>
-        <Label
-          htmlFor="address-line2"
-          className="mb-1.5 flex items-center gap-1.5 text-[var(--text-sm)]"
-        >
+        <Label htmlFor="address-line2" className="mb-1.5 flex items-center gap-1.5 text-sm">
           <Building2 className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
           Address Line 2<span className="text-[var(--text-tertiary)] font-normal">(optional)</span>
         </Label>
@@ -170,7 +158,7 @@ function AddressForm({
       {/* City + Postal */}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label htmlFor="address-city" className="mb-1.5 text-[var(--text-sm)]">
+          <Label htmlFor="address-city" className="mb-1.5 text-sm">
             City
           </Label>
           <Input
@@ -184,7 +172,7 @@ function AddressForm({
           {errorText('city')}
         </div>
         <div>
-          <Label htmlFor="address-postal" className="mb-1.5 text-[var(--text-sm)]">
+          <Label htmlFor="address-postal" className="mb-1.5 text-sm">
             Postal Code
           </Label>
           <Input
@@ -201,7 +189,7 @@ function AddressForm({
 
       {/* Country */}
       <div>
-        <Label htmlFor="address-country" className="mb-1.5 text-[var(--text-sm)]">
+        <Label htmlFor="address-country" className="mb-1.5 text-sm">
           Country
         </Label>
         <Select value={values.country ?? 'SG'} onValueChange={(v) => set('country', v)}>
@@ -210,11 +198,7 @@ function AddressForm({
           </SelectTrigger>
           <SelectContent className="rounded-[var(--radius-lg)] shadow-[var(--elevation-dropdown)]">
             {COUNTRIES.map((c) => (
-              <SelectItem
-                key={c.value}
-                value={c.value}
-                className="text-[var(--text-sm)] cursor-pointer"
-              >
+              <SelectItem key={c.value} value={c.value} className="text-sm cursor-pointer">
                 {c.label}
               </SelectItem>
             ))}

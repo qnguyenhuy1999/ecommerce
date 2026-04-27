@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { Rating } from '../../atoms/Rating/Rating'
 
@@ -9,13 +9,6 @@ interface ProductCardRatingProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function ProductCardRating({ value, count, className, ...props }: ProductCardRatingProps) {
   return (
-    <Rating
-      value={value}
-      size="sm"
-      showCount
-      count={count}
-      className={cn(className)}
-      {...props}
-    />
+    <Rating value={value} size="sm" showCount count={count} className={cn(className)} {...props} />
   )
 }

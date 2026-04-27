@@ -127,11 +127,11 @@ function ToastItem({ toast }: { toast: ToastData }) {
 
         {/* Text block */}
         <div className="flex-1 min-w-0">
-          <p className="text-[var(--text-sm)] font-semibold leading-tight text-[var(--text-primary)]">
+          <p className="text-sm font-semibold leading-tight text-[var(--text-primary)]">
             {toast.title}
           </p>
           {toast.description && (
-            <p className="mt-[var(--space-1)] text-[var(--text-sm)] leading-snug text-[var(--text-secondary)]">
+            <p className="mt-1 text-sm leading-snug text-[var(--text-secondary)]">
               {toast.description}
             </p>
           )}
@@ -146,8 +146,8 @@ function ToastItem({ toast }: { toast: ToastData }) {
                 setExiting(true)
               }}
               className={cn(
-                'mt-[var(--space-2)] h-auto min-h-0',
-                '-ml-[var(--space-1)] px-[var(--space-1)] py-[var(--space-0-5)]',
+                'mt-2 h-auto min-h-0',
+                '-ml-1 px-1 py-[var(--space-0-5)]',
                 variant === 'default'
                   ? 'text-[var(--text-link)] hover:text-[var(--text-link-hover)]'
                   : iconClass,
@@ -199,7 +199,7 @@ function Toaster() {
 
   return (
     <div
-      className="fixed bottom-[var(--space-4)] right-[var(--space-4)] z-[var(--toast-z-index)] flex flex-col gap-[var(--space-2-5)] w-full max-w-[var(--toast-max-width)] pointer-events-none"
+      className="fixed bottom-4 right-4 z-[var(--toast-z-index)] flex flex-col gap-2.5 w-full max-w-[var(--toast-max-width)] pointer-events-none"
       aria-live="polite"
       aria-label="Notifications"
     >

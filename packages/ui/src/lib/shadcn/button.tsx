@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 
 import { cva, type VariantProps } from 'class-variance-authority'
@@ -42,11 +40,10 @@ const buttonVariants = cva(
           'bg-[var(--intent-danger)] text-[var(--intent-danger-fg)] shadow-[var(--elevation-xs)] hover:brightness-105 hover:shadow-[var(--elevation-surface)]',
       },
       size: {
-        sm: 'h-[var(--button-height-sm)] px-[var(--space-3)] text-[length:var(--text-sm)] [&_svg]:size-[0.875rem]',
-        default:
-          'h-[var(--button-height-md)] px-[var(--space-5)] text-[length:var(--text-sm)] [&_svg]:size-4',
-        lg: 'h-[var(--button-height-lg)] px-[var(--space-6)] text-[length:var(--text-base)] [&_svg]:size-[1.125rem]',
-        xl: 'h-[var(--button-height-xl)] px-[var(--space-8)] text-[length:var(--text-base)] [&_svg]:size-5',
+        sm: 'h-[var(--button-height-sm)] px-3 text-sm [&_svg]:size-[0.875rem]',
+        default: 'h-[var(--button-height-md)] px-5 text-sm [&_svg]:size-4',
+        lg: 'h-[var(--button-height-lg)] px-6 text-[length:var(--text-base)] [&_svg]:size-[1.125rem]',
+        xl: 'h-[var(--button-height-xl)] px-8 text-[length:var(--text-base)] [&_svg]:size-5',
         icon: 'h-[var(--button-height-md)] w-[var(--button-height-md)] [&_svg]:size-[1.125rem]',
         'icon-sm': 'h-[var(--button-height-sm)] w-[var(--button-height-sm)] [&_svg]:size-4',
       },

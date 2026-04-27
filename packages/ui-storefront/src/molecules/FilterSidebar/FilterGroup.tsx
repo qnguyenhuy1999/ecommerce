@@ -2,7 +2,8 @@
 
 import React from 'react'
 
-import { cn, Button } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { FilterCheckbox } from './FilterCheckbox'
 import { FilterCollapse } from './FilterCollapse'
@@ -79,9 +80,9 @@ export function FilterGroup({
                     size="sm"
                     onClick={() => onOptionToggle(groupId, opt.value, !isSelected)}
                     className={cn(
-                      'min-w-[var(--space-10)] h-10',
+                      'min-w-10 h-10',
                       'min-h-0 px-3',
-                      'text-[var(--text-sm)] font-semibold',
+                      'text-sm font-semibold',
                       'transition-all duration-[var(--motion-fast)]',
                       'focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-1',
                       isSelected

@@ -1,6 +1,7 @@
 import { MapPin, Star, Pencil, Trash2 } from 'lucide-react'
 
-import { Badge, Button, cn } from '@ecom/ui'
+import { Badge, Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import type { ShippingAddress } from '../AddressForm/AddressForm'
 
@@ -24,7 +25,7 @@ function AddressCard({
   return (
     <div
       className={cn(
-        'rounded-[var(--radius-xl)] border p-[var(--space-5)]',
+        'rounded-[var(--radius-xl)] border p-5',
         'bg-[var(--surface-base)] shadow-[var(--elevation-surface)]',
         'hover:shadow-[var(--elevation-card)] transition-all duration-[var(--motion-normal)]',
         isDefault ? 'border-[var(--action-primary)]/40' : 'border-[var(--border-subtle)]',
@@ -76,7 +77,7 @@ function AddressCard({
         </div>
       </div>
 
-      <address className="not-italic text-[var(--text-sm)] text-[var(--text-secondary)] space-y-0.5">
+      <address className="not-italic text-sm text-[var(--text-secondary)] space-y-0.5">
         <p className="font-semibold text-[var(--text-primary)]">{address.fullName}</p>
         <p>{address.addressLine1}</p>
         {address.addressLine2 && <p>{address.addressLine2}</p>}

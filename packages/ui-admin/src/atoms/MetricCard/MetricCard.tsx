@@ -2,7 +2,8 @@ import React from 'react'
 
 import { ArrowUpRight, ArrowDownRight } from 'lucide-react'
 
-import { cn, Card } from '@ecom/ui'
+import { Card } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface MetricCardProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
@@ -44,8 +45,8 @@ function MetricCard({
   const isPositive = percentChange !== null && percentChange >= 0
 
   return (
-    <Card interactive className={cn('admin-metric-card p-[var(--space-5)]', className)} {...props}>
-      <div className="flex items-center justify-between pb-[var(--space-3)]">
+    <Card interactive className={cn('admin-metric-card p-5', className)} {...props}>
+      <div className="flex items-center justify-between pb-3">
         <span className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.1em] text-[var(--text-secondary)]">
           {label}
         </span>
@@ -55,14 +56,14 @@ function MetricCard({
           </span>
         )}
       </div>
-      <div className="flex items-baseline gap-[var(--space-2)] flex-wrap">
+      <div className="flex items-baseline gap-2 flex-wrap">
         <h2 className="text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] leading-[var(--line-height-tight)] tabular-nums text-[var(--text-primary)]">
           {formattedValue}
         </h2>
         {percentChange !== null && (
           <span
             className={cn(
-              'inline-flex items-center gap-[2px] rounded-[var(--radius-sm)] px-[var(--space-1-5)] py-[var(--space-0-5)]',
+              'inline-flex items-center gap-[2px] rounded-[var(--radius-sm)] px-1.5 py-[var(--space-0-5)]',
               'text-[length:var(--text-xs)] font-semibold',
               isPositive
                 ? 'text-[var(--intent-success)] bg-[var(--intent-success-muted)]'
@@ -79,9 +80,7 @@ function MetricCard({
         )}
       </div>
       {previousValue !== undefined && (
-        <p className="text-[length:var(--text-sm)] text-[var(--text-tertiary)] mt-[var(--space-1)]">
-          vs previous period
-        </p>
+        <p className="text-sm text-[var(--text-tertiary)] mt-1">vs previous period</p>
       )}
     </Card>
   )

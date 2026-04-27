@@ -71,10 +71,7 @@ export function OrderHistoryView({ initialOrders }: OrderHistoryViewProps) {
     initialData: { success: true, data: initialOrders, meta: undefined },
   })
 
-  const orders = React.useMemo(
-    () => (data?.data ?? []).map(toOrderCard),
-    [data?.data],
-  )
+  const orders = React.useMemo(() => (data?.data ?? []).map(toOrderCard), [data?.data])
 
   return (
     <AccountOrderLayout

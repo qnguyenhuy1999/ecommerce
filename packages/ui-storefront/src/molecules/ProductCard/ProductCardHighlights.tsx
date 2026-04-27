@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { ProductBadge } from '../../atoms/Badge/Badge'
 
 interface ProductCardHighlightsProps extends React.HTMLAttributes<HTMLDivElement> {

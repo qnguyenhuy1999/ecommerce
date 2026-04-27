@@ -9,7 +9,6 @@ import { MetricCard } from '@ecom/ui-admin'
 import type { ActivityItem, NotificationItem } from '@ecom/ui-admin'
 import { adminDashboardClient } from '@ecom/api-client'
 import type { AdminDashboardMetric } from '@ecom/api-client'
-
 import { AdminShell } from '@/components/admin-shell'
 
 /**
@@ -35,12 +34,9 @@ const NotificationPanel = dynamic(
 
 function PanelSkeleton() {
   return (
-    <div className="space-y-[var(--space-3)]">
+    <div className="space-y-3">
       {Array.from({ length: 3 }).map((_, i) => (
-        <div
-          key={i}
-          className="h-12 animate-pulse rounded bg-[var(--surface-muted)]"
-        />
+        <div key={i} className="h-12 animate-pulse rounded bg-[var(--surface-muted)]" />
       ))}
     </div>
   )
@@ -80,11 +76,9 @@ export default function AdminDashboardPage() {
 
   return (
     <AdminShell title="Dashboard">
-      <div className="space-y-[var(--space-6)]">
-        <header className="space-y-[var(--space-1)]">
-          <h1 className="text-[length:var(--text-2xl)] font-bold tracking-tight">
-            Marketplace overview
-          </h1>
+      <div className="space-y-6">
+        <header className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">Marketplace overview</h1>
           <p className="text-[var(--text-secondary)]">
             Operational metrics across all sellers and orders.
           </p>
@@ -104,7 +98,7 @@ export default function AdminDashboardPage() {
           {isLoading && Array.from({ length: 4 }).map((_, index) => <PanelSkeleton key={index} />)}
         </div>
 
-        <div className="grid grid-cols-1 gap-[var(--space-6)] lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
             <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-[var(--space-4)]">
               <h2 className="mb-[var(--space-3)] text-[length:var(--text-base)] font-semibold">

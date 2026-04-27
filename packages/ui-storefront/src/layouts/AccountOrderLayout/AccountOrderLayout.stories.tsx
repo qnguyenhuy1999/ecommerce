@@ -1,5 +1,3 @@
-
-
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { AccountOrderLayout } from './AccountOrderLayout'

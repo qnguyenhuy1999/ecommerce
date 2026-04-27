@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { VariantOption } from './VariantOption'
 
@@ -46,7 +46,7 @@ function VariantSelector({
       aria-label={name}
     >
       <div className="flex items-center justify-between">
-        <span className="text-[var(--text-sm)] font-medium text-foreground">
+        <span className="text-sm font-medium text-foreground">
           {name}:{' '}
           <span className="text-muted-foreground ml-1">
             {options.find((o) => o.value === value)?.label || ''}

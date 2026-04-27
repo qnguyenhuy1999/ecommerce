@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Lock, CreditCard, AlertCircle } from 'lucide-react'
 
-import { Button, Input, Label, cn } from '@ecom/ui'
+import { Button, Input, Label } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface PaymentFormProps {
   onSubmit: (data: { cardNumber: string; expiry: string; cvc: string; name: string }) => void
@@ -67,7 +68,7 @@ function PaymentForm({
         <form onSubmit={handleSubmit} className="space-y-4" noValidate>
           {/* Card holder */}
           <div>
-            <Label htmlFor="pay-name" className="mb-1.5 text-[var(--text-sm)]">
+            <Label htmlFor="pay-name" className="mb-1.5 text-sm">
               Cardholder Name
             </Label>
             <Input
@@ -82,10 +83,7 @@ function PaymentForm({
 
           {/* Card number */}
           <div>
-            <Label
-              htmlFor="pay-card"
-              className="mb-1.5 flex items-center gap-1.5 text-[var(--text-sm)]"
-            >
+            <Label htmlFor="pay-card" className="mb-1.5 flex items-center gap-1.5 text-sm">
               <CreditCard className="w-3.5 h-3.5 text-[var(--text-tertiary)]" />
               Card Number
             </Label>
@@ -103,7 +101,7 @@ function PaymentForm({
           {/* Expiry + CVC */}
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="pay-expiry" className="mb-1.5 text-[var(--text-sm)]">
+              <Label htmlFor="pay-expiry" className="mb-1.5 text-sm">
                 Expiry
               </Label>
               <Input
@@ -117,7 +115,7 @@ function PaymentForm({
               />
             </div>
             <div>
-              <Label htmlFor="pay-cvc" className="mb-1.5 text-[var(--text-sm)]">
+              <Label htmlFor="pay-cvc" className="mb-1.5 text-sm">
                 CVC
               </Label>
               <Input

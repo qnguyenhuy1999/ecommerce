@@ -1,4 +1,5 @@
-import { cn, Skeleton } from '@ecom/ui'
+import { Skeleton } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 /**
  * Server-compatible skeleton for DataTable streaming.

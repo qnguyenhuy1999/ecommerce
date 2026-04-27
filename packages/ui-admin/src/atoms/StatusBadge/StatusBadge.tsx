@@ -1,5 +1,5 @@
 import { Badge as UiBadge, type BadgeProps as UiBadgeProps } from '@ecom/ui'
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { type StatusValue, STATUS_MAP } from './StatusBadge.fixtures'
 

@@ -4,25 +4,21 @@ import React from 'react'
 
 import { ListFilter, X } from 'lucide-react'
 
-import {
-  Button,
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  cn,
-} from '@ecom/ui'
+import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { FilterSidebar } from '../../molecules/FilterSidebar/FilterSidebar'
 import type { FilterGroupSpec } from '../../molecules/FilterSidebar/FilterSidebar'
+import { CollectionHero } from './components/CollectionHero'
 import { PageContainer } from '../shared/PageContainer'
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
-export interface CollectionPageLayoutProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface CollectionPageLayoutProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'title'
+> {
   promoBar?: React.ReactNode
   header?: React.ReactNode
   footer?: React.ReactNode
@@ -55,72 +51,6 @@ export interface CollectionPageLayoutProps
   discoveryToolbar?: React.ReactNode
 }
 
-/**
- * Hero band for collection / search pages. Subtle background, generous breathing
- * room, and a single source of truth for breadcrumb / title / description / accent
- * placement so consumers don't reinvent it per route.
- */
-function CollectionHero({
-  breadcrumb,
-  title,
-  description,
-  resultsLabel,
-  heroAccent,
-  headerExtras,
-}: Pick<
-  CollectionPageLayoutProps,
-  'breadcrumb' | 'title' | 'description' | 'resultsLabel' | 'heroAccent' | 'headerExtras'
->) {
-  return (
-    <section className="border-b border-[var(--border-subtle)] bg-[var(--surface-subtle)]">
-      <PageContainer>
-        {breadcrumb && (
-          <div className="mb-[var(--space-3)] text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-            {breadcrumb}
-          </div>
-        )}
-
-        <div className="flex flex-col gap-[var(--space-4)] md:flex-row md:items-end md:justify-between md:gap-[var(--space-8)]">
-          <div className="min-w-0 flex-1">
-            <h1
-              className={cn(
-                'text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.02em]',
-                'leading-[var(--line-height-tight)] text-[var(--text-primary)]',
-                'sm:text-[length:var(--font-size-display-sm)]',
-              )}
-            >
-              {title}
-            </h1>
-            {description && (
-              <p
-                className={cn(
-                  'mt-[var(--space-2)] max-w-[60ch]',
-                  'text-[length:var(--text-base)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]',
-                )}
-              >
-                {description}
-              </p>
-            )}
-            {resultsLabel && (
-              <p className="mt-[var(--space-3)] text-[length:var(--text-sm)] font-medium text-[var(--text-tertiary)]">
-                {resultsLabel}
-              </p>
-            )}
-          </div>
-
-          {heroAccent && (
-            <div className="hidden md:flex md:shrink-0 md:items-center md:justify-end">
-              {heroAccent}
-            </div>
-          )}
-        </div>
-
-        {headerExtras && <div className="mt-[var(--space-5)]">{headerExtras}</div>}
-      </PageContainer>
-    </section>
-  )
-}
-
 function CollectionPageLayout({
   promoBar,
   header,
@@ -147,16 +77,8 @@ function CollectionPageLayout({
 
   const sidebar = (
     <>
-      <FilterSidebar
-        groups={filters}
-        onFilterChange={onFilterChange}
-        onClearAll={onClearAll}
-      />
-      {aside && (
-        <div className="mt-[var(--space-6)] border-t border-[var(--border-subtle)] pt-[var(--space-6)]">
-          {aside}
-        </div>
-      )}
+      <FilterSidebar groups={filters} onFilterChange={onFilterChange} onClearAll={onClearAll} />
+      {aside && <div className="mt-6 border-t border-[var(--border-subtle)] pt-6">{aside}</div>}
     </>
   )
 
@@ -182,14 +104,14 @@ function CollectionPageLayout({
 
       <PageContainer>
         {/* Mobile filter trigger — hidden on lg+ where the sidebar is visible */}
-        <div className="mb-[var(--space-4)] flex items-center justify-between gap-[var(--space-3)] lg:hidden">
+        <div className="mb-4 flex items-center justify-between gap-3 lg:hidden">
           <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
             <SheetTrigger asChild>
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                className="gap-[var(--space-2)] rounded-[var(--radius-lg)]"
+                className="gap-2 rounded-[var(--radius-lg)]"
               >
                 <ListFilter className="h-4 w-4" aria-hidden="true" />
                 Filters
@@ -201,9 +123,9 @@ function CollectionPageLayout({
             >
               <SheetHeader
                 className={cn(
-                  'sticky top-0 z-10 flex flex-row items-center justify-between gap-[var(--space-2)]',
+                  'sticky top-0 z-10 flex flex-row items-center justify-between gap-2',
                   'border-b border-[var(--border-subtle)] bg-[var(--surface-base)]',
-                  'px-[var(--space-5)] py-[var(--space-4)]',
+                  'px-5 py-4',
                 )}
               >
                 <div className="text-left">
@@ -227,13 +149,11 @@ function CollectionPageLayout({
                   <X className="h-4 w-4" />
                 </Button>
               </SheetHeader>
-              <div className="px-[var(--space-5)] pb-[var(--space-8)] pt-[var(--space-2)]">
-                {sidebar}
-              </div>
+              <div className="px-5 pb-8 pt-2">{sidebar}</div>
               <div
                 className={cn(
                   'sticky bottom-0 border-t border-[var(--border-subtle)] bg-[var(--surface-base)]',
-                  'px-[var(--space-5)] py-[var(--space-3)]',
+                  'px-5 py-3',
                 )}
               >
                 <Button
@@ -255,7 +175,7 @@ function CollectionPageLayout({
           )}
         </div>
 
-        <div className="grid gap-[var(--space-8)] lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start lg:gap-[var(--space-10)]">
+        <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start lg:gap-10">
           {/* Desktop sidebar — sticky offset uses the measured total header
               height (`--storefront-header-total`) so the sidebar never hides
               behind the optional category nav row. Falls back to the bare
@@ -265,19 +185,19 @@ function CollectionPageLayout({
               'hidden lg:block',
               'lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))]',
               'lg:max-h-[calc(100vh-var(--storefront-header-total)-var(--space-12))] lg:overflow-y-auto',
-              'lg:pr-[var(--space-2)]',
+              'lg:pr-2',
             )}
           >
             {sidebar}
           </aside>
 
           {/* Grid + toolbar */}
-          <div className="min-w-0 space-y-[var(--space-5)]">
+          <div className="min-w-0 space-y-5">
             {discoveryToolbar && (
               <div
                 className={cn(
-                  'flex flex-wrap items-center justify-between gap-[var(--space-3)]',
-                  'pb-[var(--space-4)]',
+                  'flex flex-wrap items-center justify-between gap-3',
+                  'pb-4',
                   'border-b border-[var(--border-subtle)]',
                 )}
               >

@@ -2,7 +2,8 @@ import React from 'react'
 
 import { PackageX } from 'lucide-react'
 
-import { TableCell as BaseTableCell, TableRow as BaseTableRow, cn } from '@ecom/ui'
+import { TableCell as BaseTableCell, TableRow as BaseTableRow } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface DataTableEmptyProps extends React.HTMLAttributes<HTMLTableRowElement> {
   colSpan: number
@@ -36,12 +37,12 @@ export function DataTableEmpty({
           )}
           <div>
             {title && (
-              <p className="text-[var(--text-base)] font-semibold text-foreground">{title}</p>
+              <p className="text-[length:var(--text-base)] font-semibold text-foreground">
+                {title}
+              </p>
             )}
             {description && (
-              <p className="mt-1 text-[var(--text-sm)] text-muted-foreground max-w-xs mx-auto">
-                {description}
-              </p>
+              <p className="mt-1 text-sm text-muted-foreground max-w-xs mx-auto">{description}</p>
             )}
           </div>
           {action}

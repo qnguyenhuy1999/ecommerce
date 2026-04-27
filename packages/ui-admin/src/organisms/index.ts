@@ -1,5 +1,5 @@
-export { AdminSidebar } from './sidebar/AdminSidebar'
-export type { AdminSidebarProps } from './sidebar/AdminSidebar'
+export { AdminSidebar } from './Sidebar/AdminSidebar'
+export type { AdminSidebarProps } from './Sidebar/AdminSidebar'
 
 export { AdminHeader } from './AdminHeader/AdminHeader'
 export type {

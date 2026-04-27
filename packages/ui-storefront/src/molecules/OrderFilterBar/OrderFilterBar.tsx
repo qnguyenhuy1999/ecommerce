@@ -1,6 +1,7 @@
 import { Search } from 'lucide-react'
 
-import { Input, cn } from '@ecom/ui'
+import { Input } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import type { OrderHistoryTab } from '../../hooks/useOrderHistoryFilter'
 
 export interface OrderFilterBarProps {

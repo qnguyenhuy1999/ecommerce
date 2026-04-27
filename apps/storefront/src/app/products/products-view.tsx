@@ -30,10 +30,7 @@ export function ProductsView({ title, initialProducts }: ProductsViewProps) {
   const searchParams = useSearchParams()
   const { promoBar, headerProps, footerProps } = useStorefrontChrome()
 
-  const products = React.useMemo(
-    () => initialProducts.map(toStorefrontProduct),
-    [initialProducts],
-  )
+  const products = React.useMemo(() => initialProducts.map(toStorefrontProduct), [initialProducts])
 
   const totalLabel = `${products.length} ${products.length === 1 ? 'result' : 'results'}`
 

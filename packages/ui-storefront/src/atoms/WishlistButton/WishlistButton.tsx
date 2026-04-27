@@ -4,7 +4,8 @@ import React from 'react'
 
 import { Heart } from 'lucide-react'
 
-import { cn, IconButton } from '@ecom/ui'
+import { IconButton } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface WishlistButtonProps extends Omit<
   React.ButtonHTMLAttributes<HTMLButtonElement>,

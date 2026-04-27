@@ -7,11 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { cartClient } from '@ecom/api-client'
 
-import {
-  CartPageLayout,
-  StorefrontFooter,
-  StorefrontHeader,
-} from '@ecom/ui-storefront'
+import { CartPageLayout, StorefrontFooter, StorefrontHeader } from '@ecom/ui-storefront'
 import type { CartItemProps } from '@ecom/ui-storefront'
 
 import { useStorefrontChrome } from '@/components/storefront-chrome'

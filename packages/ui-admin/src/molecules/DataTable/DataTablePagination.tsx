@@ -5,14 +5,14 @@ import React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 import {
-  buildPageList,
-  cn,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from '@ecom/ui'
+import { buildPageList } from '@ecom/ui/pagination'
+import { cn } from '@ecom/ui/utils'
 
 export interface DataTablePaginationProps extends React.HTMLAttributes<HTMLDivElement> {
   page: number
@@ -50,7 +50,7 @@ export function DataTablePagination({
       )}
       {...props}
     >
-      <div className="text-[var(--text-sm)] text-[var(--text-secondary)]">
+      <div className="text-sm text-[var(--text-secondary)]">
         Showing{' '}
         <span className="font-semibold text-[var(--text-primary)]">
           {startRow}-{endRow}
@@ -86,7 +86,7 @@ export function DataTablePagination({
             onClick={() => onPageChange(page - 1)}
             disabled={page <= 1}
             className={cn(
-              'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[var(--text-sm)] font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)]',
+              'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)]',
               'hover:bg-[var(--surface-hover)]',
               'disabled:cursor-not-allowed disabled:opacity-40',
             )}
@@ -100,7 +100,7 @@ export function DataTablePagination({
               p === 'ellipsis' ? (
                 <span
                   key={`ellipsis-${i}`}
-                  className="flex h-8 w-8 select-none items-center justify-center text-[var(--text-sm)] text-[var(--text-secondary)]"
+                  className="flex h-8 w-8 select-none items-center justify-center text-sm text-[var(--text-secondary)]"
                 >
                   …
                 </span>
@@ -110,7 +110,7 @@ export function DataTablePagination({
                   type="button"
                   onClick={() => onPageChange(p as number)}
                   className={cn(
-                    'flex h-8 w-8 items-center justify-center rounded-full text-[var(--text-sm)] font-medium transition-colors duration-[var(--duration-fast)]',
+                    'flex h-8 w-8 items-center justify-center rounded-full text-sm font-medium transition-colors duration-[var(--duration-fast)]',
                     p === page
                       ? 'bg-primary text-primary-foreground shadow-[var(--elevation-xs)]'
                       : 'text-[var(--text-primary)] hover:bg-[var(--surface-hover)]',
@@ -127,7 +127,7 @@ export function DataTablePagination({
             onClick={() => onPageChange(page + 1)}
             disabled={page >= totalPages}
             className={cn(
-              'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-[var(--text-sm)] font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)]',
+              'inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-[var(--text-primary)] transition-colors duration-[var(--duration-fast)]',
               'hover:bg-[var(--surface-hover)]',
               'disabled:cursor-not-allowed disabled:opacity-40',
             )}

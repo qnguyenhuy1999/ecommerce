@@ -1,6 +1,6 @@
 import { formatCurrency } from '@ecom/shared/utils/formatters'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { ProductBadge } from '../../atoms/Badge/Badge'
 import { useProductCard } from './ProductCard'
@@ -31,8 +31,8 @@ export function ProductCardPrice({
   return (
     <div
       className={cn(
-        view === 'list' ? 'mt-[var(--space-3)]' : 'mt-auto',
-        'flex flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]',
+        view === 'list' ? 'mt-3' : 'mt-auto',
+        'flex flex-wrap items-baseline gap-x-2 gap-y-1',
         className,
       )}
       {...props}
@@ -49,12 +49,12 @@ export function ProductCardPrice({
         {formatCurrency(price, effectiveCurrency, locale)}
       </span>
       {isDiscounted && originalPrice && (
-        <span className="text-[length:var(--text-sm)] font-medium text-[var(--text-tertiary)] line-through tabular-nums">
+        <span className="text-sm font-medium text-[var(--text-tertiary)] line-through tabular-nums">
           {formatCurrency(originalPrice, effectiveCurrency, locale)}
         </span>
       )}
       {discountPercent > 0 && (
-        <ProductBadge variant="discount" className="ml-[var(--space-1)]">
+        <ProductBadge variant="discount" className="ml-1">
           -{discountPercent}%
         </ProductBadge>
       )}

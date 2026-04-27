@@ -4,11 +4,11 @@ import React from 'react'
 
 import { Tag, Truck, ShieldCheck } from 'lucide-react'
 
-import { Button, Input, Separator, cn, createStrictContext } from '@ecom/ui'
+import { Button, Input, Separator } from '@ecom/ui'
+import { createStrictContext } from '@ecom/ui/react'
+import { cn } from '@ecom/ui/utils'
 
 import { PriceDisplay } from '../../atoms/PriceDisplay/PriceDisplay'
-
-// ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface OrderDiscount {
   code: string
@@ -44,8 +44,6 @@ interface OrderSummaryContextValue {
 const [OrderSummaryProvider, useOrderSummary] =
   createStrictContext<OrderSummaryContextValue>('OrderSummary')
 
-// ─── Root ─────────────────────────────────────────────────────────────────────
-
 function OrderSummaryRoot({
   subtotal,
   shipping,
@@ -75,13 +73,13 @@ function OrderSummaryRoot({
     >
       <div
         className={cn(
-          'rounded-[var(--radius-xl)] border border-[var(--border-subtle)]',
+          'rounded-[var(--radius-lg)] border border-[var(--border-subtle)]',
           'bg-[var(--surface-base)] shadow-[var(--elevation-card)]',
-          'p-[var(--space-5)] flex flex-col gap-[var(--space-4)]',
+          'p-5 flex flex-col gap-4',
           className,
         )}
       >
-        <h2 className="text-[var(--text-base)] font-semibold text-[var(--text-primary)] flex items-center gap-2">
+        <h2 className="text-[length:var(--text-base)] font-semibold text-[var(--text-primary)] flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-[var(--intent-success)]" />
           Order Summary
         </h2>
@@ -105,8 +103,6 @@ function OrderSummaryDefaults() {
   )
 }
 
-// ─── Lines ────────────────────────────────────────────────────────────────────
-
 function OrderSummaryLines({ className }: { className?: string }) {
   const { subtotal, shipping, tax, discount, freeShippingThreshold } = useOrderSummary()
 
@@ -116,7 +112,7 @@ function OrderSummaryLines({ className }: { className?: string }) {
   const isFreeShipping = shipping === 'free' || shipping === 0
 
   return (
-    <div className={cn('space-y-2.5 text-[var(--text-sm)]', className)}>
+    <div className={cn('space-y-2.5 text-sm', className)}>
       <OrderSummaryLineItem label="Subtotal" value={<PriceDisplay price={subtotal} size="sm" />} />
 
       <OrderSummaryLineItem
@@ -167,8 +163,6 @@ function OrderSummaryLines({ className }: { className?: string }) {
 }
 OrderSummaryLines.displayName = 'OrderSummary.Lines'
 
-// ─── LineItem ─────────────────────────────────────────────────────────────────
-
 interface OrderSummaryLineItemProps {
   label: React.ReactNode
   value: React.ReactNode
@@ -185,20 +179,18 @@ function OrderSummaryLineItem({ label, value, className }: OrderSummaryLineItemP
 }
 OrderSummaryLineItem.displayName = 'OrderSummary.LineItem'
 
-// ─── Total ────────────────────────────────────────────────────────────────────
-
 function OrderSummaryTotal({ className }: { className?: string }) {
   const { total } = useOrderSummary()
   return (
     <div className={cn('flex items-center justify-between', className)}>
-      <span className="text-[var(--text-base)] font-bold text-[var(--text-primary)]">Total</span>
+      <span className="text-[length:var(--text-base)] font-bold text-[var(--text-primary)]">
+        Total
+      </span>
       <PriceDisplay price={total} size="lg" />
     </div>
   )
 }
 OrderSummaryTotal.displayName = 'OrderSummary.Total'
-
-// ─── PromoInput ───────────────────────────────────────────────────────────────
 
 function OrderSummaryPromoInput({ className }: { className?: string }) {
   const [code, setCode] = React.useState('')
@@ -238,8 +230,6 @@ function OrderSummaryPromoInput({ className }: { className?: string }) {
   )
 }
 OrderSummaryPromoInput.displayName = 'OrderSummary.PromoInput'
-
-// ─── Compound export ──────────────────────────────────────────────────────────
 
 const OrderSummary = Object.assign(OrderSummaryRoot, {
   Lines: OrderSummaryLines,

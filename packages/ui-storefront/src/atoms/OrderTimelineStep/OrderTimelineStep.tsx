@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Check } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export type TimelineStepStatus = 'complete' | 'current' | 'pending'
 
@@ -42,14 +42,11 @@ function OrderTimelineStep({
       : 'border-l-2 border-dashed border-[var(--border-default)] !bg-transparent'
 
   return (
-    <div className={cn('relative flex gap-[var(--space-4)]', className)}>
+    <div className={cn('relative flex gap-4', className)}>
       {/* Connector line */}
       {!isLast && (
         <div
-          className={cn(
-            'absolute left-[0.9375rem] top-8 bottom-0 w-px',
-            connectorClass,
-          )}
+          className={cn('absolute left-[0.9375rem] top-8 bottom-0 w-px', connectorClass)}
           aria-hidden="true"
         />
       )}
@@ -96,11 +93,11 @@ function OrderTimelineStep({
       </div>
 
       {/* Step content */}
-      <div className="min-w-0 flex-1 pb-[var(--space-8)] pt-0.5">
-        <div className="flex flex-wrap items-baseline gap-x-[var(--space-2)] gap-y-[var(--space-1)]">
+      <div className="min-w-0 flex-1 pb-8 pt-0.5">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <p
             className={cn(
-              'text-[length:var(--text-sm)] font-semibold',
+              'text-sm font-semibold',
               isComplete && 'text-[var(--text-primary)]',
               isCurrent && 'text-[var(--text-primary)]',
               isPending && 'text-[var(--text-tertiary)]',
@@ -111,8 +108,8 @@ function OrderTimelineStep({
           {isCurrent && (
             <span
               className={cn(
-                'inline-flex items-center gap-[var(--space-1)] rounded-full',
-                'bg-[rgb(var(--brand-500-rgb)/0.12)] px-[var(--space-2)] py-0.5',
+                'inline-flex items-center gap-1 rounded-full',
+                'bg-[rgb(var(--brand-500-rgb)/0.12)] px-2 py-0.5',
                 'text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em] text-[var(--action-primary)]',
               )}
             >
@@ -129,7 +126,7 @@ function OrderTimelineStep({
         {description && (
           <p
             className={cn(
-              'mt-[var(--space-1)] text-[length:var(--text-xs)] leading-[var(--line-height-relaxed)]',
+              'mt-1 text-[length:var(--text-xs)] leading-[var(--line-height-relaxed)]',
               isPending ? 'text-[var(--text-tertiary)]' : 'text-[var(--text-secondary)]',
             )}
           >

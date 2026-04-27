@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Lock } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { CheckoutStepper } from '../../molecules/CheckoutStepper/CheckoutStepper'
 import type { CheckoutStep } from '../../molecules/CheckoutStepper/CheckoutStepper'
@@ -78,7 +78,7 @@ function CheckoutPageLayout({
     >
       <PageContainer>
         {/* Secure header */}
-        <div className="flex items-center justify-between mb-[var(--space-8)]">
+        <div className="flex items-center justify-between mb-8">
           <h1 className="text-[length:var(--font-size-heading-lg)] font-bold tracking-tight text-[var(--text-primary)]">
             {STEP_CONTENT[currentStep]}
           </h1>
@@ -105,10 +105,10 @@ function CheckoutPageLayout({
               className={cn(
                 'rounded-[var(--radius-xl)] border border-[var(--border-subtle)]',
                 'bg-[var(--surface-base)] shadow-[var(--elevation-card)]',
-                'p-[var(--space-6)]',
+                'p-6',
               )}
             >
-              <h2 className="text-[var(--text-base)] font-semibold text-[var(--text-primary)] mb-6">
+              <h2 className="text-[length:var(--text-base)] font-semibold text-[var(--text-primary)] mb-6">
                 {STEP_CONTENT[currentStep]}
               </h2>
               {stepContent[currentStep]}

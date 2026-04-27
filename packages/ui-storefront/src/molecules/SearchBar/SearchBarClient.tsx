@@ -4,7 +4,10 @@ import { useRef, useState } from 'react'
 
 import { Search, X, Clock, TrendingUp, Loader2 } from 'lucide-react'
 
-import { cn, Popover, PopoverContent, PopoverTrigger } from '@ecom/ui'
+import { Popover, PopoverContent, PopoverTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
+import { SearchSection } from './components/SearchSection'
+import { SearchSuggestionItem } from './components/SearchSuggestionItem'
 
 interface SearchBarClientProps {
   placeholder?: string
@@ -52,7 +55,7 @@ export function SearchBarClient({
           onSubmit={handleSubmit}
           className={cn(
             'group relative flex w-full items-center',
-            'h-[var(--space-12)] rounded-full',
+            'h-12 rounded-full',
             'bg-[var(--surface-elevated)] border border-[var(--border-subtle)]',
             'transition-[border-color,box-shadow] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
             'hover:border-[var(--border-default)]',
@@ -63,7 +66,7 @@ export function SearchBarClient({
           <span
             aria-hidden="true"
             className={cn(
-              'pointer-events-none absolute left-[var(--space-4)] top-1/2 -translate-y-1/2',
+              'pointer-events-none absolute left-4 top-1/2 -translate-y-1/2',
               'text-[var(--text-tertiary)]',
               'group-focus-within:text-[var(--text-primary)]',
               'transition-colors duration-[var(--motion-fast)]',
@@ -94,17 +97,17 @@ export function SearchBarClient({
             }}
             className={cn(
               'h-full w-full bg-transparent rounded-full',
-              'pl-[var(--space-11)] pr-[var(--space-24)]',
-              'text-[length:var(--text-sm)] text-[var(--text-primary)]',
+              'pl-11 pr-24',
+              'text-sm text-[var(--text-primary)]',
               'placeholder:text-[var(--input-placeholder)]',
               'outline-none border-0',
               '[&::-webkit-search-cancel-button]:hidden',
             )}
           />
 
-          <div className="absolute right-[var(--space-1-5)] top-1/2 flex -translate-y-1/2 items-center gap-[var(--space-1)]">
+          <div className="absolute right-1.5 top-1/2 flex -translate-y-1/2 items-center gap-1">
             {!query && !loading && (
-              <kbd className="hidden sm:inline-flex items-center gap-[2px] rounded-[var(--radius-sm)] border border-[var(--border-subtle)] bg-[var(--surface-muted)] px-[var(--space-1-5)] py-[1px] text-[length:var(--text-micro)] font-medium text-[var(--text-tertiary)]">
+              <kbd className="hidden sm:inline-flex items-center gap-[2px] rounded-[var(--radius-sm)] border border-[var(--border-subtle)] bg-[var(--surface-muted)] px-1.5 py-[1px] text-[length:var(--text-micro)] font-medium text-[var(--text-tertiary)]">
                 <span className="text-[length:var(--text-xs)]">⌘</span>K
               </kbd>
             )}
@@ -126,9 +129,9 @@ export function SearchBarClient({
               aria-label="Search"
               className={cn(
                 'inline-flex h-9 items-center justify-center rounded-full',
-                'px-[var(--space-4)] gap-[var(--space-2)]',
+                'px-4 gap-2',
                 'bg-[var(--action-primary)] text-[var(--action-primary-foreground)]',
-                'text-[length:var(--text-sm)] font-semibold tracking-[-0.005em]',
+                'text-sm font-semibold tracking-[-0.005em]',
                 'transition-[background-color,transform] duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
                 'hover:bg-[var(--action-primary-hover)]',
                 'active:scale-[var(--motion-scale-press)]',
@@ -154,7 +157,7 @@ export function SearchBarClient({
             'shadow-[var(--elevation-dropdown)]',
           )}
         >
-          <div className="py-[var(--space-2)]">
+          <div className="py-2">
             {recentSearches.length > 0 && !query && (
               <SearchSection title="Recent">
                 {recentSearches.map((item) => (
@@ -190,44 +193,5 @@ export function SearchBarClient({
         </PopoverContent>
       )}
     </Popover>
-  )
-}
-
-function SearchSection({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div className="pb-[var(--space-1)] last:pb-0">
-      <div className="px-[var(--space-4)] pt-[var(--space-2)] pb-[var(--space-1)] text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em] text-[var(--text-tertiary)]">
-        {title}
-      </div>
-      {children}
-    </div>
-  )
-}
-
-function SearchSuggestionItem({
-  icon,
-  label,
-  onSelect,
-}: {
-  icon: React.ReactNode
-  label: string
-  onSelect: () => void
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={cn(
-        'flex w-full items-center gap-[var(--space-3)]',
-        'px-[var(--space-4)] py-[var(--space-2)]',
-        'text-left text-[length:var(--text-sm)] text-[var(--text-primary)]',
-        'transition-colors duration-[var(--motion-fast)]',
-        'hover:bg-[var(--surface-muted)]',
-        'focus-visible:outline-none focus-visible:bg-[var(--surface-muted)]',
-      )}
-    >
-      <span className="shrink-0">{icon}</span>
-      <span className="truncate">{label}</span>
-    </button>
   )
 }

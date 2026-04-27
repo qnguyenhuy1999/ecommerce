@@ -56,30 +56,24 @@ function EmptyStateRoot({
     <div className={cn(emptyStateVariants({ variant }), className)} {...props}>
       {/* Legacy prop-based rendering if consumers pass props instead of children */}
       {icon && (
-        <div className="flex h-[var(--space-16)] w-[var(--space-16)] items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-[var(--space-8)] [&_svg]:w-[var(--space-8)] [&_svg]:animate-[float_var(--animate-duration-float-empty-state)_ease-in-out_infinite]">
+        <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-8 [&_svg]:w-8 [&_svg]:animate-[float_var(--animate-duration-float-empty-state)_ease-in-out_infinite]">
           {icon}
         </div>
       )}
 
       {(title || description) && (
-        <div className="space-y-[var(--space-1-5)]">
+        <div className="space-y-1.5">
           {title && (
             <h3 className="text-[var(--text-lg)] font-semibold text-foreground">{title}</h3>
           )}
           {description && (
-            <p className="text-[var(--text-sm)] text-muted-foreground max-w-[var(--space-96)]">
-              {description}
-            </p>
+            <p className="text-sm text-muted-foreground max-w-[var(--space-96)]">{description}</p>
           )}
         </div>
       )}
 
       {action && (
-        <Button
-          variant={action.variant || 'outline'}
-          onClick={action.onClick}
-          className="mt-[var(--space-2)]"
-        >
+        <Button variant={action.variant || 'outline'} onClick={action.onClick} className="mt-2">
           {action.label}
         </Button>
       )}
@@ -101,7 +95,7 @@ function EmptyStateIcon({ children, className, ...props }: React.HTMLAttributes<
   return (
     <div
       className={cn(
-        'flex h-[var(--space-16)] w-[var(--space-16)] items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-[var(--space-8)] [&_svg]:w-[var(--space-8)] [&_svg]:animate-[float_var(--animate-duration-float-empty-state)_ease-in-out_infinite]',
+        'flex h-16 w-16 items-center justify-center rounded-full bg-muted text-muted-foreground [&_svg]:h-8 [&_svg]:w-8 [&_svg]:animate-[float_var(--animate-duration-float-empty-state)_ease-in-out_infinite]',
         className,
       )}
       {...props}
@@ -134,10 +128,7 @@ function EmptyStateDescription({
   useEmptyState()
   return (
     <p
-      className={cn(
-        'text-[var(--text-sm)] text-muted-foreground max-w-[var(--space-96)]',
-        className,
-      )}
+      className={cn('text-sm text-muted-foreground max-w-[var(--space-96)]', className)}
       {...props}
     >
       {children}
@@ -149,7 +140,7 @@ EmptyStateDescription.displayName = 'EmptyState.Description'
 function EmptyStateAction({ children, className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
   useEmptyState()
   return (
-    <div className={cn('mt-[var(--space-2)]', className)} {...props}>
+    <div className={cn('mt-2', className)} {...props}>
       {children}
     </div>
   )

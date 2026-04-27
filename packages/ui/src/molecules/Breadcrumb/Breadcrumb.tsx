@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import { Breadcrumb as BreadcrumbView } from '../../atoms/Breadcrumb/Breadcrumb'
+import { BreadcrumbView } from '../../atoms/Breadcrumb/Breadcrumb'
 import type { BreadcrumbProps, BreadcrumbItem } from '../../atoms/Breadcrumb/Breadcrumb'
 
 function Breadcrumb({

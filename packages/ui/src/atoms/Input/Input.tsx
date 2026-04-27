@@ -59,8 +59,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const resolvedSuffixIcon = loading ? <LoadingSpinner size="sm" /> : suffixIcon
 
     const sizeClasses = {
-      sm: 'h-[var(--button-height-sm)] text-[length:var(--text-sm)]',
-      default: 'h-[var(--button-height-md)] text-[length:var(--text-sm)]',
+      sm: 'h-[var(--button-height-sm)] text-sm',
+      default: 'h-[var(--button-height-md)] text-sm',
       lg: 'h-[var(--button-height-lg)] text-[length:var(--text-base)]',
     }[size]
 
@@ -78,10 +78,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           // Typography
           'text-foreground',
           // Padding left
-          prefixIcon ? 'pl-[var(--space-10)]' : 'pl-[var(--space-3)]',
+          prefixIcon ? 'pl-10' : 'pl-3',
           // Padding right
-          suffixIcon || loading ? 'pr-[var(--space-10)]' : 'pr-[var(--space-3)]',
-          label && 'pt-[var(--space-4)] pb-[var(--space-1)]', // Extra top padding for floating label
+          suffixIcon || loading ? 'pr-10' : 'pr-3',
+          label && 'pt-4 pb-1', // Extra top padding for floating label
           // Focus state: subtle ring instead of heavy shadow
           'focus-visible:outline-none focus-visible:border-[var(--brand-500)] focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-0',
           // Transitions
@@ -131,10 +131,10 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             <label
               className={cn(
                 'absolute left-3 text-muted-foreground transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)] pointer-events-none',
-                'peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-[var(--text-sm)]',
-                'peer-focus:top-2 peer-focus:-translate-y-1/2 peer-focus:text-[var(--space-3)] peer-focus:text-brand',
+                'peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:text-sm',
+                'peer-focus:top-2 peer-focus:-translate-y-1/2 peer-focus:text-3 peer-focus:text-brand',
                 // If not placeholder shown, it's floating
-                'top-2 -translate-y-1/2 text-[var(--space-3)]',
+                'top-2 -translate-y-1/2 text-3',
                 prefixIcon ? 'left-10' : 'left-3',
                 error && 'peer-focus:text-destructive text-destructive',
               )}
@@ -159,7 +159,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         {showCount && maxLength && (
           <div
             className={cn(
-              'text-[var(--space-3)] text-right mt-1',
+              'text-3 text-right mt-1',
               String(currentValue).length >= maxLength
                 ? 'text-destructive'
                 : 'text-muted-foreground',

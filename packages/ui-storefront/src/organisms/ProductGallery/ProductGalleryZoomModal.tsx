@@ -4,7 +4,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { X, ZoomIn, ZoomOut } from 'lucide-react'
 
-import { cn, IconButton } from '@ecom/ui'
+import { IconButton } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 interface ProductGalleryZoomModalProps {
   src: string
@@ -13,12 +14,7 @@ interface ProductGalleryZoomModalProps {
   onClose: () => void
 }
 
-export function ProductGalleryZoomModal({
-  src,
-  alt,
-  open,
-  onClose,
-}: ProductGalleryZoomModalProps) {
+export function ProductGalleryZoomModal({ src, alt, open, onClose }: ProductGalleryZoomModalProps) {
   const [scale, setScale] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)

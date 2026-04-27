@@ -1,4 +1,4 @@
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useProductCard } from './ProductCard'
 
@@ -13,7 +13,7 @@ export function ProductCardTitle({ className, ...props }: ProductCardTitleProps)
         'text-[var(--text-primary)]',
         view === 'list'
           ? 'text-[length:var(--font-size-heading-sm)] leading-[var(--line-height-snug)]'
-          : 'text-[length:var(--text-sm)] sm:text-[length:var(--text-base)] leading-[var(--line-height-snug)]',
+          : 'text-sm sm:text-[length:var(--text-base)] leading-[var(--line-height-snug)]',
         'transition-colors duration-[var(--motion-fast)]',
         'group-hover:text-[var(--text-link)]',
         className,

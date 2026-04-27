@@ -85,24 +85,22 @@ export const fetchProducts = cache(
   },
 )
 
-export const fetchProductById = cache(
-  async (id: string): Promise<ProductResponse | null> => {
-    try {
-      const res = await fetch(`${API_URL}/api/v1/products/${id}`, {
-        next: {
-          revalidate: PRODUCT_REVALIDATE_SECONDS,
-          tags: [PRODUCT_LIST_TAG, productDetailTag(id)],
-        },
-      })
-      if (res.status === 404) return null
-      if (!res.ok) return null
-      const body = (await res.json()) as ProductDetailEnvelope
-      return body.data
-    } catch {
-      return null
-    }
-  },
-)
+export const fetchProductById = cache(async (id: string): Promise<ProductResponse | null> => {
+  try {
+    const res = await fetch(`${API_URL}/api/v1/products/${id}`, {
+      next: {
+        revalidate: PRODUCT_REVALIDATE_SECONDS,
+        tags: [PRODUCT_LIST_TAG, productDetailTag(id)],
+      },
+    })
+    if (res.status === 404) return null
+    if (!res.ok) return null
+    const body = (await res.json()) as ProductDetailEnvelope
+    return body.data
+  } catch {
+    return null
+  }
+})
 
 export const PRODUCT_CACHE_TAGS = {
   list: PRODUCT_LIST_TAG,
@@ -190,19 +188,17 @@ function buildOrderListUrl(params: OrderListRequest): string {
  * Fetch the authenticated user's orders on the server. Same caching/auth
  * semantics as {@link fetchCart}.
  */
-export const fetchOrders = cache(
-  async (params: OrderListRequest): Promise<OrderListEnvelope> => {
-    try {
-      const res = await fetch(buildOrderListUrl(params), {
-        cache: 'no-store',
-        headers: {
-          Cookie: await buildCookieHeader(),
-        },
-      })
-      if (!res.ok) return EMPTY_ORDER_LIST
-      return (await res.json()) as OrderListEnvelope
-    } catch {
-      return EMPTY_ORDER_LIST
-    }
-  },
-)
+export const fetchOrders = cache(async (params: OrderListRequest): Promise<OrderListEnvelope> => {
+  try {
+    const res = await fetch(buildOrderListUrl(params), {
+      cache: 'no-store',
+      headers: {
+        Cookie: await buildCookieHeader(),
+      },
+    })
+    if (!res.ok) return EMPTY_ORDER_LIST
+    return (await res.json()) as OrderListEnvelope
+  } catch {
+    return EMPTY_ORDER_LIST
+  }
+})

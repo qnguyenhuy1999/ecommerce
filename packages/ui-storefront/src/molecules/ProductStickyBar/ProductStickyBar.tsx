@@ -3,7 +3,7 @@
 import React from 'react'
 
 import { formatCurrency } from '@ecom/shared/utils/formatters'
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { AddToCartButton } from '../../atoms/AddToCartButton/AddToCartButton'
 

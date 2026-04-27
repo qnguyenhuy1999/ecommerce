@@ -6,13 +6,13 @@ import { Bell, ChevronRight, Settings } from 'lucide-react'
 
 import {
   Button,
-  cn,
   EmptyState,
   Popover,
   PopoverContent,
   PopoverTrigger,
   ScrollArea,
 } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { NOTIFICATION_TYPE_CONFIG } from './NotificationPanel.fixtures'
 
@@ -98,12 +98,12 @@ function NotificationPanel({
             <>
               <div className="px-5 pt-5 pb-4 border-b">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="font-semibold text-[length:var(--text-xl)] text-[var(--text-primary)]">
+                  <h3 className="font-semibold text-xl text-[var(--text-primary)]">
                     Notifications
                   </h3>
                   {unreadCount > 0 && onMarkAllRead && (
                     <button
-                      className="text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border-strong)] hover:text-[var(--text-secondary)] transition-colors"
+                      className="text-sm font-medium text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border-strong)] hover:text-[var(--text-secondary)] transition-colors"
                       onClick={(e) => {
                         e.stopPropagation()
                         onMarkAllRead()
@@ -118,7 +118,7 @@ function NotificationPanel({
                     <button
                       onClick={() => setActiveTab('all')}
                       className={cn(
-                        'flex items-center gap-2 px-3 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
+                        'flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium',
                         activeTab === 'all'
                           ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                           : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
@@ -132,7 +132,7 @@ function NotificationPanel({
                     <button
                       onClick={() => setActiveTab('archived')}
                       className={cn(
-                        'px-4 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
+                        'px-4 py-1.5 rounded-md text-sm font-medium',
                         activeTab === 'archived'
                           ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                           : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
@@ -204,19 +204,19 @@ function NotificationPanel({
                             <p className="text-[length:var(--text-base)] font-medium text-[var(--text-primary)] leading-[1.2] mb-1">
                               {notification.title}
                             </p>
-                            <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mb-1.5">
+                            <p className="text-sm text-[var(--text-secondary)] mb-1.5">
                               {notification.timestamp} •{' '}
                               <span className="capitalize">{notification.type}</span>
                             </p>
                             {notification.message && (
-                              <p className="text-[length:var(--text-sm)] text-[var(--text-primary)] leading-snug line-clamp-2">
+                              <p className="text-sm text-[var(--text-primary)] leading-snug line-clamp-2">
                                 {notification.message}
                               </p>
                             )}
                           </div>
 
                           <div className="shrink-0 pt-0.5">
-                            <ChevronRight className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
+                            <ChevronRight className="w-4 h-4 text-[var(--text-tertiary)]" />
                           </div>
                         </div>
                       )
@@ -258,12 +258,10 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
   return (
     <div className={cn('px-5 pt-5 pb-4 border-b', className)} {...props}>
       <div className="flex items-center justify-between mb-4">
-        <h3 className="font-semibold text-[length:var(--text-xl)] text-[var(--text-primary)]">
-          Notifications
-        </h3>
+        <h3 className="font-semibold text-xl text-[var(--text-primary)]">Notifications</h3>
         {unreadCount > 0 && onMarkAllRead && (
           <button
-            className="text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border-strong)] hover:text-[var(--text-secondary)] transition-colors"
+            className="text-sm font-medium text-[var(--text-primary)] underline underline-offset-4 decoration-[var(--border-strong)] hover:text-[var(--text-secondary)] transition-colors"
             onClick={(e) => {
               e.stopPropagation()
               onMarkAllRead()
@@ -278,7 +276,7 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
           <button
             onClick={() => setActiveTab('all')}
             className={cn(
-              'flex items-center gap-2 px-3 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
+              'flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium',
               activeTab === 'all'
                 ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                 : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
@@ -292,7 +290,7 @@ function NotificationPanelHeader({ className, ...props }: React.HTMLAttributes<H
           <button
             onClick={() => setActiveTab('archived')}
             className={cn(
-              'px-4 py-1.5 rounded-md text-[length:var(--text-sm)] font-medium',
+              'px-4 py-1.5 rounded-md text-sm font-medium',
               activeTab === 'archived'
                 ? 'bg-[var(--surface-inverse)] text-[var(--text-inverse)]'
                 : 'bg-[var(--surface-muted)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors',
@@ -370,17 +368,17 @@ function NotificationPanelItem({
         <p className="text-[length:var(--text-base)] font-medium text-[var(--text-primary)] leading-[1.2] mb-1">
           {notification.title}
         </p>
-        <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] mb-1.5">
+        <p className="text-sm text-[var(--text-secondary)] mb-1.5">
           {notification.timestamp} • <span className="capitalize">{notification.type}</span>
         </p>
         {notification.message && (
-          <p className="text-[length:var(--text-sm)] text-[var(--text-primary)] leading-snug line-clamp-2">
+          <p className="text-sm text-[var(--text-primary)] leading-snug line-clamp-2">
             {notification.message}
           </p>
         )}
       </div>
       <div className="shrink-0 pt-0.5">
-        <ChevronRight className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
+        <ChevronRight className="w-4 h-4 text-[var(--text-tertiary)]" />
       </div>
     </div>
   )

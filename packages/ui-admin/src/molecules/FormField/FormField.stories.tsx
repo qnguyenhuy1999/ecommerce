@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import React, { useState } from 'react'
 
-import { cn, Input } from '@ecom/ui'
+import { Input } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 import { Search, Mail, Eye, EyeOff, DollarSign, AtSign, Hash, User, Lock } from 'lucide-react'
 
 import { FormField } from './FormField'
@@ -243,7 +244,7 @@ export const CharacterCounter: Story = {
               className={cn(
                 'flex w-full min-h-[80px] rounded-[var(--radius-sm)]',
                 'border border-[var(--border-default)] bg-[var(--surface-base)]',
-                'px-3 py-2 text-[var(--text-base)] text-[var(--text-primary)]',
+                'px-3 py-2 text-[length:var(--text-base)] text-[var(--text-primary)]',
                 'placeholder:text-[var(--text-secondary)]',
                 'transition-[border-color,box-shadow] duration-[var(--motion-fast)]',
                 'focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring-color)] focus:ring-offset-2',
@@ -440,7 +441,7 @@ export const InteractiveForm: Story = {
                 'w-full h-10 px-4',
                 'rounded-[var(--radius-sm)]',
                 'bg-[var(--action-primary)] text-[var(--action-primary-foreground)]',
-                'font-[var(--font-weight-semibold)] text-[var(--text-sm)]',
+                'font-[var(--font-weight-semibold)] text-sm',
                 'transition-all duration-[var(--motion-fast)]',
                 'hover:brightness-110 active:brightness-90',
                 'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus-ring-color)] focus-visible:ring-offset-2',

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 /**
  * Compound page header used across storefront dashboards (Wishlist, Order
@@ -93,15 +93,7 @@ function PageHeaderDescription({ className, ...props }: PageHeaderDescriptionPro
 PageHeaderDescription.displayName = 'PageHeader.Description'
 
 function PageHeaderActions({ className, ...props }: PageHeaderActionsProps) {
-  return (
-    <div
-      className={cn(
-        'flex flex-wrap items-center gap-[var(--space-2)] shrink-0',
-        className,
-      )}
-      {...props}
-    />
-  )
+  return <div className={cn('flex flex-wrap items-center gap-2 shrink-0', className)} {...props} />
 }
 PageHeaderActions.displayName = 'PageHeader.Actions'
 
@@ -129,16 +121,12 @@ function PageHeader({ className, size = 'default', children, ...props }: PageHea
 
   return (
     <header
-      className={cn(
-        'flex flex-col gap-[var(--space-1)]',
-        size === 'default' ? 'mb-[var(--space-6)]' : 'mb-[var(--space-4)]',
-        className,
-      )}
+      className={cn('flex flex-col gap-1', size === 'default' ? 'mb-6' : 'mb-4', className)}
       {...props}
     >
       {eyebrow}
-      <div className="flex flex-wrap items-end justify-between gap-[var(--space-3)]">
-        <div className="min-w-0 flex-1 space-y-[var(--space-2)]">
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div className="min-w-0 flex-1 space-y-2">
           {title}
           {description}
         </div>

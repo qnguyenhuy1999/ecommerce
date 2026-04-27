@@ -4,7 +4,8 @@ import React from 'react'
 
 import { UploadCloud, X, File as FileIcon, ImageIcon } from 'lucide-react'
 
-import { cn, Button, Progress } from '@ecom/ui'
+import { Button, Progress } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface FileUploadProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   accept?: string
@@ -226,7 +227,7 @@ function FileUpload({
           }
         }}
         className={cn(
-          'relative flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-[var(--space-2)]',
+          'relative flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-2',
           'transition-colors duration-200 ease-in-out',
           isDragging
             ? 'border-brand bg-brand-muted'
@@ -255,10 +256,10 @@ function FileUpload({
           {items.map((item, i) => (
             <div
               key={item.id}
-              className="flex items-center justify-between p-3 border rounded-[var(--space-2)] bg-background"
+              className="flex items-center justify-between p-3 border rounded-2 bg-background"
             >
               <div className="flex items-center gap-3 overflow-hidden">
-                <div className="w-10 h-10 shrink-0 bg-muted rounded-[var(--space-2)] flex items-center justify-center">
+                <div className="w-10 h-10 shrink-0 bg-muted rounded-2 flex items-center justify-center">
                   {item.file.type.startsWith('image/') ? (
                     <ImageIcon className="w-5 h-5 text-muted-foreground" />
                   ) : (

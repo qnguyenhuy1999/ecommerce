@@ -2,7 +2,9 @@
 
 import React, { useCallback, useState } from 'react'
 
-import { Button, cn, createStrictContext } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { createStrictContext } from '@ecom/ui/react'
+import { cn } from '@ecom/ui/utils'
 
 import { ProductGalleryClient } from './ProductGalleryClient'
 import { ProductGalleryZoomModal } from './ProductGalleryZoomModal'
@@ -125,9 +127,7 @@ function ProductGalleryMain({ className, showControls = true, ...props }: Produc
             key={idx}
             className={cn(
               'w-1.5 h-1.5 rounded-full transition-all duration-200',
-              activeIndex === idx
-                ? 'bg-white w-4'
-                : 'bg-white/50',
+              activeIndex === idx ? 'bg-white w-4' : 'bg-white/50',
             )}
           />
         ))}
@@ -152,7 +152,9 @@ function ProductGalleryThumbnails({
     <div
       className={cn(
         'flex gap-2.5 overflow-x-auto snap-x snap-mandatory scrollbar-none',
-        direction === 'vertical' ? 'md:w-20 md:flex-col shrink-0 order-last md:order-first' : 'flex-row',
+        direction === 'vertical'
+          ? 'md:w-20 md:flex-col shrink-0 order-last md:order-first'
+          : 'flex-row',
         className,
       )}
       {...props}

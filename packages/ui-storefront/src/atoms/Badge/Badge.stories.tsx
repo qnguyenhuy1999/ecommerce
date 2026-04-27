@@ -51,8 +51,10 @@ export const OnProductCard: Story = {
         <ProductBadge variant="new" />
       </div>
       <div className="space-y-1">
-        <p className="text-[var(--text-sm)] text-[var(--text-secondary)]">Running</p>
-        <h3 className="text-[var(--text-base)] font-semibold text-[var(--text-primary)]">AirFlex Everyday Sneaker</h3>
+        <p className="text-sm text-[var(--text-secondary)]">Running</p>
+        <h3 className="text-[length:var(--text-base)] font-semibold text-[var(--text-primary)]">
+          AirFlex Everyday Sneaker
+        </h3>
       </div>
     </div>
   ),

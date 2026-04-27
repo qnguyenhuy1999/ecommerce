@@ -48,19 +48,19 @@ const MAIN_NAV_GROUPS = [
       {
         label: 'Dashboard',
         href: '/admin',
-        icon: <LayoutDashboard className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <LayoutDashboard className="w-4 h-4" />,
         isActive: true,
       },
       {
         label: 'Orders',
         href: '/admin/orders',
-        icon: <ShoppingCart className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <ShoppingCart className="w-4 h-4" />,
         badge: 12,
       },
       {
         label: 'Products',
         href: '#',
-        icon: <Package className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <Package className="w-4 h-4" />,
         children: [
           { label: 'All Products', href: '/admin/products' },
           { label: 'Categories', href: '/admin/products/categories' },
@@ -70,17 +70,17 @@ const MAIN_NAV_GROUPS = [
       {
         label: 'Customers',
         href: '/admin/customers',
-        icon: <Users className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <Users className="w-4 h-4" />,
       },
       {
         label: 'Promotions',
         href: '/admin/promotions',
-        icon: <Tag className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <Tag className="w-4 h-4" />,
       },
       {
         label: 'Analytics',
         href: '/admin/analytics',
-        icon: <BarChart3 className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <BarChart3 className="w-4 h-4" />,
       },
     ],
   },
@@ -90,7 +90,7 @@ const MAIN_NAV_GROUPS = [
       {
         label: 'Integrations',
         href: '/admin/integrations',
-        icon: <Zap className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <Zap className="w-4 h-4" />,
       },
     ],
   },
@@ -248,17 +248,17 @@ export const NoBadge: Story = {
           {
             label: 'Dashboard',
             href: '/admin',
-            icon: <LayoutDashboard className="w-[var(--space-4)] h-[var(--space-4)]" />,
+            icon: <LayoutDashboard className="w-4 h-4" />,
           },
           {
             label: 'Orders',
             href: '/admin/orders',
-            icon: <ShoppingCart className="w-[var(--space-4)] h-[var(--space-4)]" />,
+            icon: <ShoppingCart className="w-4 h-4" />,
           },
           {
             label: 'Products',
             href: '/admin/products',
-            icon: <Package className="w-[var(--space-4)] h-[var(--space-4)]" />,
+            icon: <Package className="w-4 h-4" />,
           },
         ],
       },

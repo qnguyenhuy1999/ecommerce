@@ -2,15 +2,8 @@ import React from 'react'
 
 import { Menu } from 'lucide-react'
 
-import {
-  Button,
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  cn,
-} from '@ecom/ui'
+import { Button, Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { AccountSidebar } from '../../molecules/AccountSidebar/AccountSidebar'
 import type { AccountSidebarProps } from '../../molecules/AccountSidebar/AccountSidebar'
@@ -60,12 +53,7 @@ export function AccountDashboardShell({
   }, [sidebarProps])
 
   return (
-    <div
-      className={cn(
-        'grid gap-[var(--space-6)] lg:grid-cols-[280px_1fr] lg:items-start',
-        className,
-      )}
-    >
+    <div className={cn('grid gap-6 lg:grid-cols-[280px_1fr] lg:items-start', className)}>
       {/* Mobile-only trigger: opens the sidebar in a Sheet on < lg. */}
       <div className="lg:hidden">
         <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -73,15 +61,15 @@ export function AccountDashboardShell({
             <Button
               variant="outline"
               size="sm"
-              className="h-9 gap-[var(--space-1-5)]"
+              className="h-9 gap-1.5"
               aria-label={mobileTriggerLabel}
             >
               <Menu className="h-4 w-4" aria-hidden="true" />
               {mobileTriggerLabel}
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-[18rem] p-[var(--space-4)] sm:w-[20rem]">
-            <SheetHeader className="mb-[var(--space-4)] text-left">
+          <SheetContent side="left" className="w-[18rem] p-4 sm:w-[20rem]">
+            <SheetHeader className="mb-4 text-left">
               <SheetTitle className="text-[length:var(--text-base)]">My account</SheetTitle>
             </SheetHeader>
             <AccountSidebar

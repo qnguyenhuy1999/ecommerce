@@ -1,7 +1,14 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/providers/ThemeProvider.tsx'],
+  entry: [
+    'src/index.ts',
+    'src/providers/ThemeProvider.tsx',
+    'src/utils/index.ts',
+    'src/react/index.ts',
+    'src/variants/index.ts',
+    'src/pagination/index.ts',
+  ],
   format: ['esm', 'cjs'],
   dts: true,
   splitting: false,

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { StorefrontPageShell } from '../shared/StorefrontPageShell'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
@@ -60,8 +60,8 @@ function Band({
 function VisualBannerRow({ children }: { children?: React.ReactNode }) {
   if (!children) return null
   return (
-    <div className="bg-[var(--surface-base)] py-[var(--space-12)] lg:py-[var(--space-16)]">
-      <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]">
+    <div className="bg-[var(--surface-base)] py-12 lg:py-16">
+      <div className="mx-auto w-full max-w-[var(--storefront-content-max-width)] px-4 sm:px-6 lg:px-8">
         {children}
       </div>
     </div>

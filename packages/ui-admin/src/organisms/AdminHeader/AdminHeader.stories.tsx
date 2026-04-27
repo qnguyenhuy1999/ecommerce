@@ -72,7 +72,7 @@ export const Default: Story = {
       role: 'Admin',
       avatarUrl: 'https://i.pravatar.cc/150?img=12',
     },
-    iconButtons: [{ label: 'Messages', icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" /> }],
+    iconButtons: [{ label: 'Messages', icon: <Mail className="w-4 h-4" /> }],
     notificationPanel: {
       notifications: SAMPLE_NOTIFICATIONS,
       onMarkRead: (id) => console.log('Mark notification as read:', id),

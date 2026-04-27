@@ -1,6 +1,6 @@
 import { BadgeCheck, Truck, ShieldCheck, RotateCcw, Lock } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 // ─── Server: trust badge (trust state is static) ─────────────────────────────
 export type TrustBadgeType =
@@ -32,7 +32,7 @@ function TrustBadge({ type, label, size = 'default', className, ...props }: Trus
   const Icon = config.icon
 
   const iconSize = size === 'sm' ? 'w-3 h-3' : 'w-4 h-4'
-  const textSize = size === 'sm' ? 'text-[length:var(--text-micro)]' : 'text-[var(--text-sm)]'
+  const textSize = size === 'sm' ? 'text-[length:var(--text-micro)]' : 'text-sm'
 
   return (
     <div

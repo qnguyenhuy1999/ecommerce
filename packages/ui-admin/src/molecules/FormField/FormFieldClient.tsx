@@ -4,7 +4,7 @@ import React, { useMemo } from 'react'
 
 import { AlertCircle, CheckCircle2 } from 'lucide-react'
 
-import { cn } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 export interface CharacterCount {
   current: number
@@ -46,15 +46,15 @@ interface FormFieldClientProps {
 }
 
 const ICON_LEFT: Record<string, string> = {
-  sm: 'left-[var(--space-2)]',
-  md: 'left-[var(--space-3)]',
-  lg: 'left-[var(--space-4)]',
+  sm: 'left-2',
+  md: 'left-3',
+  lg: 'left-4',
 }
 
 const ICON_RIGHT: Record<string, string> = {
-  sm: 'right-[var(--space-2)]',
-  md: 'right-[var(--space-3)]',
-  lg: 'right-[var(--space-4)]',
+  sm: 'right-2',
+  md: 'right-3',
+  lg: 'right-4',
 }
 
 const ICON_SIZE: Record<string, string> = {

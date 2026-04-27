@@ -104,10 +104,7 @@ export function HomeView({ initialProducts }: HomeViewProps) {
   const router = useRouter()
   const { promoBar, headerProps, footerProps } = useStorefrontChrome()
 
-  const products = React.useMemo(
-    () => initialProducts.map(toStorefrontProduct),
-    [initialProducts],
-  )
+  const products = React.useMemo(() => initialProducts.map(toStorefrontProduct), [initialProducts])
 
   return (
     <HomePageLayout
@@ -140,10 +137,5 @@ export function HomeView({ initialProducts }: HomeViewProps) {
 
 /** Lightweight skeleton displayed while server data streams in. */
 export function HomeViewSkeleton() {
-  return (
-    <div
-      aria-busy
-      className="min-h-[60vh] animate-pulse bg-[var(--surface-muted)]"
-    />
-  )
+  return <div aria-busy className="min-h-[60vh] animate-pulse bg-[var(--surface-muted)]" />
 }

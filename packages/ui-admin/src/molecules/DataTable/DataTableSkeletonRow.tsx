@@ -1,4 +1,5 @@
-import { TableCell as BaseTableCell, TableRow as BaseTableRow, cn } from '@ecom/ui'
+import { TableCell as BaseTableCell, TableRow as BaseTableRow } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { useDataTable } from './DataTableContext'
 
@@ -20,7 +21,7 @@ export function DataTableSkeletonRow({
   return (
     <BaseTableRow className={cn('border-b border-border/60', className)}>
       {selectable && (
-        <BaseTableCell className={cn('w-[var(--space-12)]', paddingX, paddingY)}>
+        <BaseTableCell className={cn('w-12', paddingX, paddingY)}>
           <div className="h-4 w-4 rounded bg-muted animate-pulse" />
         </BaseTableCell>
       )}

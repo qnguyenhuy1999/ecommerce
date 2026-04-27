@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, cn } from '@ecom/ui'
+import { Button } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 // ─── Client leaf: single variant option (pill/color/image) ───────────────────
 export interface VariantOptionProps {
@@ -83,8 +84,8 @@ export function VariantOption({
       >
         <img src={image || '/placeholder.jpg'} alt={label} className="w-full h-full object-cover" />
         {isDisabled && (
-          <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-[var(--space-1)]">
-            <span className="text-[var(--space-3)] font-bold text-foreground">N/A</span>
+          <div className="absolute inset-0 bg-background/50 flex items-center justify-center backdrop-blur-1">
+            <span className="text-3 font-bold text-foreground">N/A</span>
           </div>
         )}
       </Button>
@@ -102,7 +103,7 @@ export function VariantOption({
       disabled={isDisabled}
       onClick={() => !isDisabled && onClick(value)}
       className={cn(
-        'min-w-[3rem] h-10 min-h-0 px-4 text-[var(--text-sm)] font-medium',
+        'min-w-[3rem] h-10 min-h-0 px-4 text-sm font-medium',
         'focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         'transition-all duration-[var(--motion-fast)] ease-[var(--motion-ease-default)]',
         isSelected

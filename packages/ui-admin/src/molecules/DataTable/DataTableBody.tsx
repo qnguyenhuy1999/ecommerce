@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { cn, TableBody as BaseTableBody } from '@ecom/ui'
+import { TableBody as BaseTableBody } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { DataTableSectionContext, useDataTable } from './DataTableContext'
 import { DataTableSkeletonRow } from './DataTableSkeletonRow'

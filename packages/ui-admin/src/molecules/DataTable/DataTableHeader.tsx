@@ -2,7 +2,8 @@ import React from 'react'
 
 import { ArrowDown, ArrowUp, ChevronsUpDown } from 'lucide-react'
 
-import { TableHead as BaseTableHead, TableHeader as BaseTableHeader, cn } from '@ecom/ui'
+import { TableHead as BaseTableHead, TableHeader as BaseTableHeader } from '@ecom/ui'
+import { cn } from '@ecom/ui/utils'
 
 import { DataTableSectionContext, useDataTable } from './DataTableContext'
 
