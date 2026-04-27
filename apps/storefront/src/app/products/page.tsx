@@ -22,21 +22,38 @@ const SORT_TO_API: Record<string, Pick<ProductListRequest, 'sort' | 'order'>> = 
 }
 
 interface ProductsPageProps {
-  searchParams?: Promise<{ q?: string; categoryId?: string; sort?: string }>
+  searchParams?: Promise<{
+    q?: string
+    categoryId?: string
+    category?: string
+    sellerId?: string
+    storeName?: string
+    sku?: string
+    minPrice?: string
+    maxPrice?: string
+    sort?: string
+  }>
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
   const sp = (await searchParams) ?? {}
   const search = sp.q
-  const categoryId = sp.categoryId
+  const categoryId = sp.categoryId ?? sp.category
   const sort = sp.sort
   const apiSort = sort ? SORT_TO_API[sort] : undefined
+  const minPrice = toNumber(sp.minPrice)
+  const maxPrice = toNumber(sp.maxPrice)
 
   const params: ProductListRequest = {
     page: 1,
     limit: 24,
     ...(search ? { q: search } : {}),
     ...(categoryId ? { category: categoryId } : {}),
+    ...(sp.sellerId ? { sellerId: sp.sellerId } : {}),
+    ...(sp.storeName ? { storeName: sp.storeName } : {}),
+    ...(sp.sku ? { sku: sp.sku } : {}),
+    ...(minPrice !== undefined ? { minPrice } : {}),
+    ...(maxPrice !== undefined ? { maxPrice } : {}),
     ...(apiSort ?? {}),
   }
 
@@ -65,4 +82,10 @@ async function ProductsResults({
 }) {
   const envelope = await fetchProducts(params)
   return <ProductsView title={title} initialProducts={envelope.data} />
+}
+
+function toNumber(value: string | undefined): number | undefined {
+  if (!value) return undefined
+  const parsed = Number(value)
+  return Number.isFinite(parsed) ? parsed : undefined
 }

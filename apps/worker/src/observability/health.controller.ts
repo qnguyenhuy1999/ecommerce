@@ -1,5 +1,10 @@
+import { InjectQueue } from '@nestjs/bullmq'
 import { Controller, Get, Header } from '@nestjs/common'
+import type { Queue } from 'bullmq'
 import { collectDefaultMetrics, register } from 'prom-client'
+
+import { getRedis } from '@ecom/redis'
+import { OUTBOX_QUEUE_NAME } from '@ecom/shared'
 
 // Ensure default Node metrics are registered exactly once per process. Guarded
 // because `collectDefaultMetrics` has module-level state that survives reloads
@@ -25,7 +30,11 @@ function ensureDefaultMetrics(): void {
  */
 @Controller()
 export class WorkerHealthController {
-  constructor() {
+  constructor(
+    @InjectQueue('order-expiration') private readonly orderExpirationQueue: Queue,
+    @InjectQueue('inventory-reconciliation') private readonly inventoryReconciliationQueue: Queue,
+    @InjectQueue(OUTBOX_QUEUE_NAME) private readonly outboxQueue: Queue,
+  ) {
     ensureDefaultMetrics()
   }
 
@@ -35,9 +44,22 @@ export class WorkerHealthController {
   }
 
   @Get('health/ready')
-  ready(): { status: string } {
-    // TODO(@platform, 2026-04-23): check BullMQ connection + pending drain.
-    return { status: 'ok' }
+  async ready(): Promise<{ status: string; redis: string; queues: Record<string, string> }> {
+    await getRedis().ping()
+    await Promise.all([
+      this.orderExpirationQueue.getJobCounts('waiting', 'delayed', 'active', 'failed'),
+      this.inventoryReconciliationQueue.getJobCounts('waiting', 'delayed', 'active', 'failed'),
+      this.outboxQueue.getJobCounts('waiting', 'delayed', 'active', 'failed'),
+    ])
+    return {
+      status: 'ok',
+      redis: 'ok',
+      queues: {
+        'order-expiration': 'ok',
+        'inventory-reconciliation': 'ok',
+        [OUTBOX_QUEUE_NAME]: 'ok',
+      },
+    }
   }
 
   @Get('metrics')

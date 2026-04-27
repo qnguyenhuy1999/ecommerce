@@ -145,6 +145,7 @@ model User {
   notifications Notification[]
   reviews       Review[]
   refreshTokens RefreshToken[]
+  auditEvents   AuditEvent[]
 
   @@index([email])
   @@index([role])
@@ -480,6 +481,25 @@ model OutboxEvent {
   @@index([aggregateType, aggregateId])
   @@index([createdAt])
   @@map("outbox_events")
+}
+
+model AuditEvent {
+  id         String   @id @default(cuid())
+  actorId    String?  @map("actor_id")
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  action     String
+  targetType String   @map("target_type")
+  targetId   String?  @map("target_id")
+  metadata   Json?
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([actorId])
+  @@index([action])
+  @@index([targetType, targetId])
+  @@index([createdAt])
+  @@map("audit_events")
 }
 
 // Stored idempotency record for write endpoints. The key is client-supplied via

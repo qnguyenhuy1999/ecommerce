@@ -44,6 +44,13 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
     const user = await this.userRepo.findByEmail(command.email)
     if (!user) {
       await this.loginLimiter.recordFailure(command.email)
+      await this.userRepo.recordAudit({
+        actorId: null,
+        action: 'AUTH_LOGIN_FAILED',
+        targetType: 'User',
+        targetId: null,
+        metadata: { email: command.email, reason: 'not_found' },
+      })
       throw new UnauthorizedException(new InvalidCredentialsException().message)
     }
 
@@ -51,6 +58,13 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
     if (!valid) {
       const attempts = await this.loginLimiter.recordFailure(command.email)
       this.logger.warn(`Failed login attempt ${String(attempts)}/5 for user: ${user.id}`)
+      await this.userRepo.recordAudit({
+        actorId: user.id,
+        action: 'AUTH_LOGIN_FAILED',
+        targetType: 'User',
+        targetId: user.id,
+        metadata: { email: command.email, reason: 'bad_password', attempts },
+      })
       throw new UnauthorizedException(new InvalidCredentialsException().message)
     }
 
@@ -76,6 +90,13 @@ export class LoginHandler implements ICommandHandler<LoginCommand, LoginResult> 
     const tokenHash = await this.hasher.hash(jti)
     const expiresAt = new Date(Date.now() + refreshExpiresInSeconds * 1000)
     await this.refreshTokenRepo.create({ userId: user.id, tokenHash, family, expiresAt })
+    await this.userRepo.recordAudit({
+      actorId: user.id,
+      action: 'AUTH_LOGIN',
+      targetType: 'User',
+      targetId: user.id,
+      metadata: { family },
+    })
 
     this.logger.log(`User logged in: ${user.id}`)
     return {

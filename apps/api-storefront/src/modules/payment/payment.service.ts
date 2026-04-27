@@ -19,6 +19,7 @@ import { NotificationService } from '../notification/notification.service'
 export interface PaymentIntentView {
   paymentId: string
   clientSecret: string
+  paymentIntentId: string
   providerReference: string
   amount: number
   currency: string
@@ -27,6 +28,14 @@ export interface PaymentIntentView {
 
 export interface WebhookAck {
   received: true
+}
+
+export interface RefundView {
+  orderId: string
+  paymentId: string
+  refundId: string
+  status: 'succeeded' | 'pending' | 'failed'
+  amount: number
 }
 
 const PAYMENT_PROVIDER = 'stripe'
@@ -89,10 +98,97 @@ export class PaymentService {
     return {
       paymentId: updated.id,
       clientSecret: intent.clientSecret,
+      paymentIntentId: intent.id,
       providerReference: intent.id,
       amount: updated.amount,
       currency: updated.currency,
       status: updated.status,
+    }
+  }
+
+  async requestRefund(
+    userId: string,
+    orderId: string,
+    input: { amount?: number; reason?: string },
+  ): Promise<RefundView> {
+    const order = await this.prisma.order.findUnique({
+      where: { id: orderId },
+      include: { payment: true },
+    })
+    if (!order || order.deletedAt !== null) throw new NotFoundException('ORDER_NOT_FOUND')
+    if (order.buyerId !== userId) throw new ForbiddenException('ORDER_NOT_OWNED_BY_USER')
+    if (!order.payment || order.payment.status !== PaymentStatus.SUCCESS || !order.payment.providerReference) {
+      throw new ConflictException('PAYMENT_NOT_REFUNDABLE')
+    }
+    const refundableStatuses: OrderStatus[] = [
+      OrderStatus.PAID,
+      OrderStatus.PROCESSING,
+      OrderStatus.SHIPPED,
+      OrderStatus.COMPLETED,
+    ]
+    if (!refundableStatuses.includes(order.status)) {
+      throw new ConflictException('ORDER_NOT_REFUNDABLE')
+    }
+    const amount = input.amount ?? order.payment.amount
+    if (amount > order.payment.amount) throw new BadRequestException('REFUND_AMOUNT_EXCEEDS_PAYMENT')
+
+    await this.prisma.order.update({
+      where: { id: order.id },
+      data: { status: OrderStatus.PENDING_REFUND },
+    })
+
+    const refund = await this.gateway.refund(order.payment.providerReference, amount)
+    const finalStatus = refund.status === 'succeeded' ? OrderStatus.REFUNDED : OrderStatus.PENDING_REFUND
+    await this.prisma.$transaction([
+      this.prisma.order.update({
+        where: { id: order.id },
+        data: { status: finalStatus },
+      }),
+      this.prisma.subOrder.updateMany({
+        where: { orderId: order.id },
+        data: { status: finalStatus },
+      }),
+      this.prisma.payment.update({
+        where: { id: order.payment.id },
+        data: { status: refund.status === 'succeeded' ? PaymentStatus.REFUNDED : PaymentStatus.PENDING },
+      }),
+      this.prisma.outboxEvent.create({
+        data: {
+          aggregateType: 'Order',
+          aggregateId: order.id,
+          eventType: refund.status === 'succeeded' ? 'ORDER_REFUNDED' : 'ORDER_REFUND_PENDING',
+          payload: toJson({
+            orderId: order.id,
+            paymentId: order.payment.id,
+            refundId: refund.id,
+            amount: refund.amount,
+            reason: input.reason ?? null,
+          }),
+        },
+      }),
+      this.prisma.auditEvent.create({
+        data: {
+          actorId: userId,
+          action: 'ORDER_REFUND_REQUESTED',
+          targetType: 'Order',
+          targetId: order.id,
+          metadata: toJson({
+            paymentId: order.payment.id,
+            refundId: refund.id,
+            amount: refund.amount,
+            reason: input.reason ?? null,
+            status: refund.status,
+          }),
+        },
+      }),
+    ])
+
+    return {
+      orderId: order.id,
+      paymentId: order.payment.id,
+      refundId: refund.id,
+      status: refund.status,
+      amount: refund.amount,
     }
   }
 

@@ -8,7 +8,9 @@ import { ApproveSellerHandler } from './application/commands/approve-seller/appr
 import { RegisterSellerHandler } from './application/commands/register-seller/register-seller.handler'
 import { RejectSellerHandler } from './application/commands/reject-seller/reject-seller.handler'
 import { UpdateSellerHandler } from './application/commands/update-seller/update-seller.handler'
+import { GetMySellerHandler } from './application/queries/get-my-seller/get-my-seller.handler'
 import { GetSellerHandler } from './application/queries/get-seller/get-seller.handler'
+import { GetSellerConsoleHandler } from './application/queries/get-seller-console/get-seller-console.handler'
 import { ListAdminSellersHandler } from './application/queries/list-admin-sellers/list-admin-sellers.handler'
 import { SELLER_REPOSITORY } from './domain/ports/seller.repository.port'
 import { PrismaSellerRepository } from './infrastructure/repositories/prisma-seller.repository'
@@ -20,7 +22,12 @@ const CommandHandlers = [
   ApproveSellerHandler,
   RejectSellerHandler,
 ]
-const QueryHandlers = [GetSellerHandler, ListAdminSellersHandler]
+const QueryHandlers = [
+  GetSellerHandler,
+  GetMySellerHandler,
+  GetSellerConsoleHandler,
+  ListAdminSellersHandler,
+]
 
 @Module({
   imports: [CqrsModule, AuthModule, NotificationModule],

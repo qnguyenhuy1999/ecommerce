@@ -39,16 +39,20 @@ export class PrismaSellerRepository implements ISellerRepository {
   }
 
   async create(input: SellerCreateInput): Promise<SellerEntity> {
-    const record = await this.prisma.seller.create({
-      data: {
-        userId: input.userId,
-        storeName: input.storeName,
-        storeDescription: input.storeDescription ?? null,
-        businessRegistrationNumber: input.businessRegistrationNumber ?? null,
-        bankAccountNumber: input.bankAccountNumber ?? null,
-        bankCode: input.bankCode ?? null,
-        kycDocuments: toJsonOrNull(input.kycDocuments ?? null),
-      },
+    const record = await this.prisma.$transaction(async (tx) => {
+      const seller = await tx.seller.create({
+        data: {
+          userId: input.userId,
+          storeName: input.storeName,
+          storeDescription: input.storeDescription ?? null,
+          businessRegistrationNumber: input.businessRegistrationNumber ?? null,
+          bankAccountNumber: input.bankAccountNumber ?? null,
+          bankCode: input.bankCode ?? null,
+          kycDocuments: toJsonOrNull(input.kycDocuments ?? null),
+        },
+      })
+      await tx.user.update({ where: { id: input.userId }, data: { role: 'SELLER' } })
+      return seller
     })
     return this.toDomain(record)
   }
@@ -94,11 +98,19 @@ export class PrismaSellerRepository implements ISellerRepository {
           aggregateType: 'Seller',
           aggregateId: input.sellerId,
           eventType: input.toStatus === 'APPROVED' ? 'SELLER_KYC_APPROVED' : 'SELLER_KYC_REJECTED',
-          payload: toJsonValue({
-            sellerId: input.sellerId,
+          payload: toJsonValue(await this.buildKycOutboxPayload(tx, input)),
+        },
+      })
+
+      await tx.auditEvent.create({
+        data: {
+          actorId: input.adminUserId,
+          action: input.toStatus === 'APPROVED' ? 'SELLER_KYC_APPROVED' : 'SELLER_KYC_REJECTED',
+          targetType: 'Seller',
+          targetId: input.sellerId,
+          metadata: toJsonValue({
             fromStatus: input.fromStatus,
             toStatus: input.toStatus,
-            adminUserId: input.adminUserId,
             reason: input.reason ?? null,
           }),
         },
@@ -113,6 +125,25 @@ export class PrismaSellerRepository implements ISellerRepository {
 
       return seller
     })
+  }
+
+  private async buildKycOutboxPayload(
+    tx: Prisma.TransactionClient,
+    input: SellerKycTransitionInput,
+  ): Promise<Record<string, unknown>> {
+    const seller = await tx.seller.findUnique({
+      where: { id: input.sellerId },
+      select: { storeName: true, user: { select: { email: true } } },
+    })
+    return {
+      sellerId: input.sellerId,
+      storeName: seller?.storeName ?? null,
+      ownerEmail: seller?.user.email ?? null,
+      fromStatus: input.fromStatus,
+      toStatus: input.toStatus,
+      adminUserId: input.adminUserId,
+      reason: input.reason ?? null,
+    }
   }
 
   async listForAdmin(input: AdminSellerListInput): Promise<AdminSellerListPage> {

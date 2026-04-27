@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 import {
   CollectionPageLayout,
@@ -27,6 +27,7 @@ export interface ProductsViewProps {
  */
 export function ProductsView({ title, initialProducts }: ProductsViewProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { promoBar, headerProps, footerProps } = useStorefrontChrome()
 
   const products = React.useMemo(
@@ -52,7 +53,41 @@ export function ProductsView({ title, initialProducts }: ProductsViewProps) {
       title={title}
       description="Discover items from sellers across the marketplace."
       resultsLabel={totalLabel}
-      filters={[]}
+      filters={[
+        {
+          id: 'categoryId',
+          title: 'Category',
+          type: 'checkbox',
+          options: [
+            { label: 'Fashion', value: 'fashion' },
+            { label: 'Audio', value: 'audio' },
+            { label: 'Home', value: 'home' },
+            { label: 'Outdoors', value: 'outdoors' },
+            { label: 'Gifts', value: 'gifts' },
+          ],
+        },
+        {
+          id: 'price',
+          title: 'Price',
+          type: 'range',
+          range: { min: 0, max: 1000, step: 10, current: [0, 1000] },
+        },
+      ]}
+      onFilterChange={(groupId, value) => {
+        const params = new URLSearchParams(searchParams.toString())
+        if (groupId === 'categoryId') {
+          const values = Array.isArray(value) ? value : [value]
+          const selected = values.find((item) => typeof item === 'string') as string | undefined
+          if (selected) params.set('categoryId', selected)
+          else params.delete('categoryId')
+        }
+        if (groupId === 'price' && Array.isArray(value)) {
+          params.set('minPrice', String(value[0]))
+          params.set('maxPrice', String(value[1]))
+        }
+        router.push(`/products?${params.toString()}`)
+      }}
+      onClearAll={() => router.push('/products')}
       grid={
         <ProductGrid
           products={products}

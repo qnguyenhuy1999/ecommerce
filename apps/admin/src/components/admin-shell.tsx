@@ -39,7 +39,7 @@ const NAV = [
       {
         label: 'Products',
         icon: <Box className="w-[var(--space-4)] h-[var(--space-4)]" />,
-        href: '/products',
+        href: '/inventory',
       },
       {
         label: 'Customers',
@@ -47,9 +47,9 @@ const NAV = [
         href: '/customers',
       },
       {
-        label: 'Reports',
+        label: 'Payouts',
         icon: <BarChart3 className="w-[var(--space-4)] h-[var(--space-4)]" />,
-        href: '/reports',
+        href: '/payouts',
       },
     ],
   },

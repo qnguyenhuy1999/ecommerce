@@ -1,6 +1,9 @@
+import { BullModule } from '@nestjs/bullmq'
 import { Module } from '@nestjs/common'
 import { ClsModule } from 'nestjs-cls'
 import { LoggerModule } from 'nestjs-pino'
+
+import { OUTBOX_QUEUE_NAME } from '@ecom/shared'
 
 import { WorkerHealthController } from './health.controller'
 import { buildWorkerLoggerParams } from './logger'
@@ -12,6 +15,11 @@ import { buildWorkerLoggerParams } from './logger'
   imports: [
     ClsModule.forRoot({ global: true, middleware: { mount: false } }),
     LoggerModule.forRoot(buildWorkerLoggerParams()),
+    BullModule.registerQueue(
+      { name: 'order-expiration' },
+      { name: 'inventory-reconciliation' },
+      { name: OUTBOX_QUEUE_NAME },
+    ),
   ],
   controllers: [WorkerHealthController],
 })

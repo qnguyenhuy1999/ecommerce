@@ -11,6 +11,8 @@ import { EmailProcessor } from './processors/email.processor';
 import { InventoryReconciliationProcessor } from './processors/inventory-reconciliation.processor';
 import { OrderExpirationProcessor } from './processors/order-expiration.processor';
 import { OutboxDrainerProcessor } from './processors/outbox-drainer.processor';
+import { OutboxEventPublisher } from './processors/outbox-event-publisher';
+import { WorkerScheduler } from './scheduler/worker.scheduler';
 
 @Module({
   imports: [
@@ -37,6 +39,8 @@ import { OutboxDrainerProcessor } from './processors/outbox-drainer.processor';
     CommissionProcessor,
     InventoryReconciliationProcessor,
     OutboxDrainerProcessor,
+    OutboxEventPublisher,
+    WorkerScheduler,
   ],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS modules are DI containers with no instance members.

@@ -12,6 +12,8 @@ import {
   type OutboxEventType,
 } from '@ecom/shared'
 
+import { OutboxEventPublisher } from './outbox-event-publisher'
+
 // Default batch size and retry cap for draining outbox rows. Tuned for the
 // MVP path (BullMQ in Redis, single-worker). When/if we replace BullMQ with
 // Kafka in Phase 2, we'll swap the publisher but keep the drainer contract.
@@ -41,7 +43,10 @@ const DEFAULT_MAX_ATTEMPTS = 10
 export class OutboxDrainerProcessor extends WorkerHost {
   private readonly logger = new Logger(OutboxDrainerProcessor.name)
 
-  constructor(private readonly prisma: PrismaClient) {
+  constructor(
+    private readonly prisma: PrismaClient,
+    private readonly publisher: OutboxEventPublisher,
+  ) {
     super()
   }
 
@@ -80,13 +85,7 @@ export class OutboxDrainerProcessor extends WorkerHost {
       }
 
       try {
-        // TODO(@platform, 2026-04-23): Publish envelope to downstream consumers.
-        // For now we only log — wiring the publisher is intentionally deferred
-        // until the first producer (OrderService.checkout) writes outbox rows.
-        // When ready, inject an EventBus port here and call bus.publish(envelope).
-        this.logger.debug(
-          `Outbox publish (stubbed): ${envelope.eventType} ${envelope.outboxId}`,
-        )
+        await this.publisher.publish(envelope)
 
         await this.prisma.outboxEvent.update({
           where: { id: row.id },

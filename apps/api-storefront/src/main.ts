@@ -5,6 +5,8 @@ import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import cookieParser from 'cookie-parser'
+import type { NextFunction, Request, Response } from 'express'
+import helmet from 'helmet'
 import { Logger } from 'nestjs-pino'
 
 import { AppModule } from './app.module'
@@ -39,7 +41,43 @@ async function bootstrap() {
   const configService = app.get(ConfigService)
 
   app.useLogger(logger)
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          baseUri: ["'self'"],
+          frameAncestors: ["'none'"],
+          objectSrc: ["'none'"],
+          scriptSrc: ["'self'", 'https://js.stripe.com'],
+          frameSrc: ["'self'", 'https://js.stripe.com', 'https://hooks.stripe.com'],
+          connectSrc: ["'self'", 'https://api.stripe.com'],
+          imgSrc: ["'self'", 'data:', 'https:'],
+          styleSrc: ["'self'", "'unsafe-inline'"],
+        },
+      },
+    }),
+  )
   app.use(cookieParser())
+  app.use((req: Request, res: Response, next: NextFunction) => {
+    const method = req.method.toUpperCase()
+    if (!['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+      next()
+      return
+    }
+    if (req.path.endsWith('/payments/webhook')) {
+      next()
+      return
+    }
+
+    const allowedOrigin = configService.get<string>('cors.origin') ?? 'http://localhost:8000'
+    const origin = req.headers.origin
+    if (origin && origin !== allowedOrigin) {
+      res.status(403).json({ success: false, error: { code: 'CSRF_ORIGIN_DENIED' } })
+      return
+    }
+    next()
+  })
 
   app.setGlobalPrefix('api/v1', {
     // Health + metrics probes MUST be reachable without the /api/v1 prefix —

@@ -35,5 +35,8 @@ export interface OrderSummaryView {
   subtotal: number
   shippingFee: number
   totalAmount: number
+  shippingAddress?: unknown
   subOrders: SubOrderSummaryView[]
+  createdAt?: string
+  updatedAt?: string
 }
