@@ -12,28 +12,16 @@ export interface OrderHistoryFilterableOrder {
 
 export interface UseOrderHistoryFilterOptions<T extends OrderHistoryFilterableOrder> {
   orders: T[]
-  /** Coarse status intent. Defaults to 'all'. */
   tab?: OrderHistoryTab
-  /** Optional controlled search query. When omitted, the hook manages its own. */
   searchQuery?: string
-  /**
-   * Notified whenever `setQuery` is called. In controlled mode this is the
-   * only way the consumer learns about user keystrokes — without it, a
-   * `searchQuery` prop with no callback would silently swallow input.
-   */
   onSearchChange?: (next: string) => void
-  /** Date-range key. The hook itself does not filter by date (consumer-driven), but tracks the value for `isFiltered`. */
   dateRange?: string
 }
 
 export interface UseOrderHistoryFilterReturn<T extends OrderHistoryFilterableOrder> {
-  /** Current effective query — controlled value if provided, otherwise internal state. */
   query: string
-  /** Update the query. Emits the new value through the consumer's `onSearchChange` if controlled. */
   setQuery: (next: string) => void
-  /** Filtered orders matching the active tab + query. */
   visibleOrders: T[]
-  /** True when any filter (tab, query, dateRange) deviates from defaults. */
   isFiltered: boolean
 }
 
@@ -41,12 +29,6 @@ const ACTIVE_STATUSES: OrderStatus[] = ['PENDING_PAYMENT', 'PAID', 'PROCESSING',
 const COMPLETED_STATUSES: OrderStatus[] = ['COMPLETED']
 const CANCELLED_STATUSES: OrderStatus[] = ['CANCELLED', 'REFUNDED', 'PENDING_REFUND']
 
-/**
- * Pure UI-state hook for the Order History page. Owns the search-query state
- * (uncontrolled fallback), exposes the derived filtered list, and computes the
- * `isFiltered` flag used to switch the empty-state copy. Keeping this here
- * means the layout component stays presentational.
- */
 export function useOrderHistoryFilter<T extends OrderHistoryFilterableOrder>({
   orders,
   tab = 'all',
@@ -69,9 +51,6 @@ export function useOrderHistoryFilter<T extends OrderHistoryFilterableOrder>({
   const setQuery = React.useCallback(
     (next: string) => {
       if (!isControlled) setInternalQuery(next)
-      // Always notify the consumer — in controlled mode this is required for
-      // the input to actually update; in uncontrolled mode it lets consumers
-      // observe the query change without taking ownership of the state.
       onSearchChange?.(next)
     },
     [isControlled, onSearchChange],

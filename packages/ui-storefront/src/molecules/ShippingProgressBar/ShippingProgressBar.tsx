@@ -38,7 +38,7 @@ function ShippingProgressBar({
       {...props}
     >
       <div className="flex items-start justify-between gap-3">
-        <p className="text-[var(--text-sm)] font-medium leading-relaxed">
+        <p className="text-sm font-medium leading-relaxed">
           {isUnlocked ? (
             <span className="text-success flex items-center gap-1.5">
               <Sparkles className="w-4 h-4" />

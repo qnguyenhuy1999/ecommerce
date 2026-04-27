@@ -38,23 +38,21 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
 
   const galleryImages = React.useMemo(
     () =>
-      (product.images.length > 0 ? product.images : [PLACEHOLDER_IMAGE]).map(
-        (src, i) => ({ id: `${product.id}-${i}`, src, alt: `${product.name} image ${i + 1}` }),
-      ),
+      (product.images.length > 0 ? product.images : [PLACEHOLDER_IMAGE]).map((src, i) => ({
+        id: `${product.id}-${i}`,
+        src,
+        alt: `${product.name} image ${i + 1}`,
+      })),
     [product.id, product.images, product.name],
   )
 
   const totalStock = React.useMemo(
     () =>
-      (product.variants ?? []).reduce(
-        (acc, v) => acc + Math.max(0, v.stock - v.reservedStock),
-        0,
-      ),
+      (product.variants ?? []).reduce((acc, v) => acc + Math.max(0, v.stock - v.reservedStock), 0),
     [product.variants],
   )
 
-  const stockStatus =
-    totalStock === 0 ? 'out-of-stock' : totalStock < 10 ? 'low-stock' : 'in-stock'
+  const stockStatus = totalStock === 0 ? 'out-of-stock' : totalStock < 10 ? 'low-stock' : 'in-stock'
 
   const primaryVariantId = product.variants?.[0]?.id
 

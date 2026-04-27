@@ -60,7 +60,7 @@ function CategoryCard({
       )}
 
       <div className="category-card__overlay">
-        <div className="flex flex-1 flex-col gap-[var(--space-1)]">
+        <div className="flex flex-1 flex-col gap-1">
           <h3
             className={cn(
               'font-bold tracking-[-0.01em] text-white',
@@ -73,7 +73,7 @@ function CategoryCard({
             {title}
           </h3>
           {itemCount !== undefined && (
-            <p className="text-[length:var(--text-sm)] font-medium text-white/80">
+            <p className="text-sm font-medium text-white/80">
               {itemCount.toLocaleString()} item{itemCount === 1 ? '' : 's'}
             </p>
           )}

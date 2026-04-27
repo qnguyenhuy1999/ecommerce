@@ -86,7 +86,7 @@ function ProductCardItem({
       )}
 
       <ProductCardContent>
-        <div className="space-y-[var(--space-2)]">
+        <div className="space-y-2">
           <ProductCardTitle />
 
           {(typeof rating === 'number' || typeof buyCount === 'number') && (

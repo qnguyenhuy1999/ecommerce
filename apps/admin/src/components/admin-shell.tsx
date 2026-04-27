@@ -3,52 +3,41 @@
 import React from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 
-import {
-  BarChart3,
-  Box,
-  LayoutGrid,
-  ShieldCheck,
-  ShoppingCart,
-  Users,
-} from 'lucide-react'
+import { BarChart3, Box, LayoutGrid, ShieldCheck, ShoppingCart, Users } from 'lucide-react'
 
-import {
-  AdminHeader,
-  AdminLayout,
-  AdminSidebar,
-} from '@ecom/ui-admin'
+import { AdminHeader, AdminLayout, AdminSidebar } from '@ecom/ui-admin'
 
 const NAV = [
   {
     items: [
       {
         label: 'Dashboard',
-        icon: <LayoutGrid className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <LayoutGrid className="w-4 h-4" />,
         href: '/',
       },
       {
         label: 'Sellers',
-        icon: <ShieldCheck className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <ShieldCheck className="w-4 h-4" />,
         href: '/sellers',
       },
       {
         label: 'Orders',
-        icon: <ShoppingCart className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <ShoppingCart className="w-4 h-4" />,
         href: '/orders',
       },
       {
         label: 'Products',
-        icon: <Box className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <Box className="w-4 h-4" />,
         href: '/products',
       },
       {
         label: 'Customers',
-        icon: <Users className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <Users className="w-4 h-4" />,
         href: '/customers',
       },
       {
         label: 'Reports',
-        icon: <BarChart3 className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <BarChart3 className="w-4 h-4" />,
         href: '/reports',
       },
     ],
@@ -108,12 +97,7 @@ function AdminShellInner({ title, children }: AdminShellProps) {
   )
 
   return (
-    <AdminLayout
-      currentPath={pathname}
-      onNavigate={navigate}
-      sidebar={sidebar}
-      header={header}
-    >
+    <AdminLayout currentPath={pathname} onNavigate={navigate} sidebar={sidebar} header={header}>
       {children}
     </AdminLayout>
   )

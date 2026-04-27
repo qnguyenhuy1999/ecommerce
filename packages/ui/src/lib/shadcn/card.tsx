@@ -62,10 +62,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        'flex flex-col gap-[var(--space-1-5)] p-[var(--card-padding)] pb-[var(--space-3)]',
-        className,
-      )}
+      className={cn('flex flex-col gap-1.5 p-[var(--card-padding)] pb-3', className)}
       {...props}
     />
   ),
@@ -112,10 +109,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn(
-        'flex items-center gap-[var(--space-2)] p-[var(--card-padding)] pt-[var(--space-4)]',
-        className,
-      )}
+      className={cn('flex items-center gap-2 p-[var(--card-padding)] pt-4', className)}
       {...props}
     />
   ),

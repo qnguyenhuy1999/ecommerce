@@ -1,8 +1,6 @@
+'use client'
+
 import React from 'react'
-
-import { Package } from 'lucide-react'
-
-import { EmptyState } from '@ecom/ui'
 
 import { useOrderHistoryFilter } from '../../hooks/useOrderHistoryFilter'
 import type { OrderHistoryTab } from '../../hooks/useOrderHistoryFilter'
@@ -11,14 +9,8 @@ import type { AccountPageLayoutProps } from '../AccountPageLayout/AccountPageLay
 import { OrderCard } from '../../molecules/OrderCard/OrderCard'
 import type { OrderCardProps } from '../../molecules/OrderCard/OrderCard'
 import { OrderFilterBar } from '../../molecules/OrderFilterBar/OrderFilterBar'
-import { EmptyStateCard } from '../shared/EmptyStateCard'
-
-const DEFAULT_DATE_RANGE_OPTIONS = [
-  { value: 'all', label: 'All time' },
-  { value: '3m', label: 'Last 3 months' },
-  { value: '6m', label: 'Last 6 months' },
-  { value: 'ytd', label: 'This year' },
-]
+import { DEFAULT_DATE_RANGE_OPTIONS } from './AccountOrderLayout.fixtures'
+import { AccountOrderLayoutEmptyState, AccountOrderLayoutHeader } from './AccountOrderLayout.server'
 
 export interface AccountOrderLayoutProps extends Omit<AccountPageLayoutProps, 'children'> {
   orders: OrderCardProps[]
@@ -59,12 +51,7 @@ function AccountOrderLayout({
   return (
     <AccountPageLayout {...layoutProps}>
       <div className="flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl font-bold text-[var(--text-primary)] tracking-tight">Order history</h1>
-          <p className="mt-1 text-sm text-[var(--text-secondary)]">
-            Check the status of recent orders, manage returns, and discover similar products.
-          </p>
-        </div>
+        <AccountOrderLayoutHeader />
 
         <OrderFilterBar
           query={query}
@@ -77,34 +64,13 @@ function AccountOrderLayout({
         />
 
         {visibleOrders.length === 0 ? (
-          <div className="mt-4">
-            <EmptyStateCard>
-              {emptyState ?? (
-                <EmptyState
-                  icon={<Package className="h-12 w-12 text-[var(--text-tertiary)]" aria-hidden="true" />}
-                  title={isFiltered ? 'No orders match these filters' : 'No orders yet'}
-                  description={
-                    isFiltered
-                      ? 'Try a broader date range or clear the search to see more orders.'
-                      : "Looks like you haven't placed an order yet. When you do, it will show up here."
-                  }
-                  action={
-                    isFiltered
-                      ? undefined
-                      : onStartShopping
-                        ? {
-                            label: 'Start shopping',
-                            onClick: onStartShopping,
-                            variant: 'default',
-                          }
-                        : undefined
-                  }
-                />
-              )}
-            </EmptyStateCard>
-          </div>
+          <AccountOrderLayoutEmptyState
+            emptyState={emptyState}
+            isFiltered={isFiltered}
+            onStartShopping={onStartShopping}
+          />
         ) : (
-          <div className="mt-4 flex flex-col space-y-4">
+          <div className="flex flex-col mt-4 space-y-4">
             {visibleOrders.map((order) => (
               <OrderCard key={order.orderNumber} {...order} />
             ))}
@@ -112,7 +78,7 @@ function AccountOrderLayout({
         )}
 
         {pagination && visibleOrders.length > 0 && (
-          <div className="mt-6 flex justify-center">{pagination}</div>
+          <div className="flex justify-center mt-6">{pagination}</div>
         )}
       </div>
     </AccountPageLayout>

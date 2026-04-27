@@ -9,6 +9,12 @@ export interface PriceDisplayProps extends React.HTMLAttributes<HTMLDivElement> 
   size?: 'sm' | 'default' | 'lg'
 }
 
+const variants = {
+  sm: { price: 'text-sm', original: 'text-[length:var(--text-micro)]' },
+  default: { price: 'text-[length:var(--text-base)]', original: 'text-sm' },
+  lg: { price: 'text-xl', original: 'text-[length:var(--text-base)]' },
+}
+
 function PriceDisplay({
   price,
   originalPrice,
@@ -19,14 +25,10 @@ function PriceDisplay({
 }: PriceDisplayProps) {
   const hasSale = originalPrice !== undefined && originalPrice > price
 
-  const textSizes = {
-    sm: { price: 'text-[var(--text-sm)]', original: 'text-[length:var(--text-micro)]' },
-    default: { price: 'text-[var(--text-base)]', original: 'text-[var(--text-sm)]' },
-    lg: { price: 'text-[var(--text-xl)]', original: 'text-[var(--text-base)]' },
-  }[size]
+  const textSizes = variants[size] || variants.default
 
   return (
-    <div className={cn('flex items-center flex-wrap gap-2', className)} {...props}>
+    <div className={cn('flex flex-wrap items-center gap-2', className)} {...props}>
       <span
         className={cn(
           'font-bold tracking-tight text-foreground',
@@ -41,13 +43,13 @@ function PriceDisplay({
         <>
           <span
             className={cn(
-              'text-muted-foreground line-through decoration-muted-foreground/50 font-medium tabular-nums',
+              'text-[var(--text-disabled)] line-through decoration-muted-foreground/50 font-medium tabular-nums mt-0.5',
               textSizes.original,
             )}
           >
             {formatCurrency(originalPrice, currency)}
           </span>
-          {/* Discount badge */}
+
           <ProductBadge variant="discount">
             {Math.round(((originalPrice - price) / originalPrice) * 100)}% Off
           </ProductBadge>

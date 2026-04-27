@@ -11,6 +11,7 @@ export { Badge, badgeVariants, type BadgeProps } from './atoms/Badge/Badge'
 export { Input } from './atoms/Input/Input'
 export { Label } from './atoms/Label/Label'
 export { Textarea } from './atoms/Textarea/Textarea'
+export { Typography, typographyVariants, type TypographyProps } from './atoms/Typography/Typography'
 export {
   Select,
   SelectContent,

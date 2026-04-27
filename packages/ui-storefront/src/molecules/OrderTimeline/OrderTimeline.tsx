@@ -38,7 +38,7 @@ function OrderTimeline({ steps, trackingInfo, className }: OrderTimelineProps) {
           className={cn(
             'mb-6 flex items-center justify-between gap-4',
             'rounded-[var(--radius-lg)] border border-[var(--border-subtle)]',
-            'bg-[var(--surface-muted)]/50 px-[var(--space-4)] py-[var(--space-3)]',
+            'bg-[var(--surface-muted)]/50 px-4 py-3',
           )}
         >
           <div className="flex items-center gap-2.5 min-w-0">
@@ -47,7 +47,7 @@ function OrderTimeline({ steps, trackingInfo, className }: OrderTimelineProps) {
               <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
                 {trackingInfo.carrier}
               </p>
-              <p className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] truncate">
+              <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
                 {trackingInfo.trackingNumber}
               </p>
             </div>

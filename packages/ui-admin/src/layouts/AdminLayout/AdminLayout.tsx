@@ -90,9 +90,9 @@ function AdminLayout({
           <div
             className={cn(
               'mx-auto flex w-full max-w-[var(--admin-content-max-width)] flex-1 flex-col',
-              'gap-[var(--space-6)]',
-              'px-[var(--space-4)] sm:px-[var(--space-6)] lg:px-[var(--space-8)]',
-              'pt-[var(--space-6)] pb-[var(--space-10)]',
+              'gap-6',
+              'px-4 sm:px-6 lg:px-8',
+              'pt-6 pb-10',
               'animate-in fade-in slide-in-from-bottom-2 duration-[var(--duration-normal)] fill-mode-both',
             )}
           >

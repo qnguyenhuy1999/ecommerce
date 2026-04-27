@@ -135,11 +135,7 @@ function ProductReviewsSection({
   if (reviews.length === 0) return null
 
   return (
-    <div
-      id={sectionId}
-      className={cn('space-y-8', className)}
-      {...props}
-    >
+    <div id={sectionId} className={cn('space-y-8', className)} {...props}>
       {/* Rating Summary + Sort Controls */}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         {/* Summary */}

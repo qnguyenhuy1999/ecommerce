@@ -27,7 +27,7 @@ export type { AdminHeaderUserMenuItem }
 
 // ─── Shared internal element ─────────────────────────────────────────────────
 const NotificationDot = () => (
-  <span className="absolute right-[var(--space-2)] top-[var(--space-2)] w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
+  <span className="absolute right-2 top-2 w-[7px] h-[7px] rounded-full bg-[var(--intent-danger)]" />
 )
 
 export interface AdminHeaderUser {
@@ -92,19 +92,19 @@ function AdminHeader({
       ? [
           {
             label: 'Messages',
-            icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" />,
+            icon: <Mail className="w-4 h-4" />,
             onClick: undefined,
           },
         ]
       : [
           {
             label: 'Messages',
-            icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" />,
+            icon: <Mail className="w-4 h-4" />,
             onClick: undefined,
           },
           {
             label: 'Notifications',
-            icon: <Bell className="w-[var(--space-4)] h-[var(--space-4)]" />,
+            icon: <Bell className="w-4 h-4" />,
             hasNotification: true,
             onClick: undefined,
           },
@@ -121,7 +121,7 @@ function AdminHeader({
       onClick={onUserClick}
       className={cn(
         'h-auto min-h-0 min-w-0 justify-start',
-        'gap-[var(--space-2)] rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
+        'gap-2 rounded-[var(--radius-md)] py-1 px-2 ml-2',
         'border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)]',
         'focus-visible:ring-[var(--action-primary)]',
       )}
@@ -134,15 +134,15 @@ function AdminHeader({
           {resolvedUser?.initials ?? resolvedUser?.name?.charAt(0).toUpperCase() ?? 'A'}
         </AvatarFallback>
       </Avatar>
-      <div className="hidden md:flex flex-col items-start min-w-[var(--space-4)]">
-        <span className="text-[length:var(--text-sm)] font-semibold leading-tight text-[var(--text-primary)]">
+      <div className="hidden md:flex flex-col items-start min-w-4">
+        <span className="text-sm font-semibold leading-tight text-[var(--text-primary)]">
           {resolvedUser?.name ?? 'Marcus George'}
         </span>
         <span className="text-[length:var(--text-micro)] font-medium leading-tight mt-0.5 text-[var(--text-secondary)]">
           {resolvedUser?.role ?? 'Admin'}
         </span>
       </div>
-      <ChevronDown className="hidden md:block w-[var(--space-3)] h-[var(--space-3)] text-[var(--text-tertiary)]" />
+      <ChevronDown className="hidden md:block w-3 h-3 text-[var(--text-tertiary)]" />
     </Button>
   )
 
@@ -152,16 +152,16 @@ function AdminHeader({
         'sticky top-0 z-[var(--layer-sticky)] flex w-full items-center',
         'h-[var(--admin-header-height)] bg-[var(--surface-base)]',
         'border-b border-[var(--border-subtle)]',
-        'px-[var(--space-4)] sm:px-[var(--space-6)] gap-[var(--space-3)] sm:gap-[var(--space-4)]',
+        'px-4 sm:px-6 gap-3 sm:gap-4',
         className,
       )}
       {...props}
     >
       {/* Leading / Title */}
-      <div className="flex min-w-0 shrink-0 items-center gap-[var(--space-4)]">
+      <div className="flex min-w-0 shrink-0 items-center gap-4">
         {leading && <div className="shrink-0">{leading}</div>}
         {title && !leading && (
-          <h1 className="truncate text-[length:var(--text-2xl)] font-bold leading-tight tracking-[-0.01em] text-[var(--text-primary)]">
+          <h1 className="truncate text-2xl font-bold leading-tight tracking-[-0.01em] text-[var(--text-primary)]">
             {title}
           </h1>
         )}
@@ -180,13 +180,11 @@ function AdminHeader({
             onKeyDown={(e) => {
               if (e.key === 'Enter') search?.onSearch?.(e.currentTarget.value)
             }}
-            suffixIcon={
-              <Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
-            }
+            suffixIcon={<Search className="w-4 h-4 text-[var(--text-tertiary)]" />}
             className={cn(
               'h-10 rounded-full',
               'border-[var(--border-subtle)] bg-[var(--surface-elevated)]/92 shadow-[var(--elevation-xs)]',
-              'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
+              'text-sm text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
               'focus-visible:ring-[var(--action-primary)]',
             )}
           />
@@ -194,7 +192,7 @@ function AdminHeader({
       )}
 
       {/* Utility Actions */}
-      <div className="flex shrink-0 items-center gap-[var(--space-1)] rounded-full border border-[var(--border-subtle)] bg-[var(--surface-elevated)]/78 px-1 py-1 shadow-[var(--elevation-xs)]">
+      <div className="flex shrink-0 items-center gap-1 rounded-full border border-[var(--border-subtle)] bg-[var(--surface-elevated)]/78 px-1 py-1 shadow-[var(--elevation-xs)]">
         {resolvedIconButtons.map((btn, i) => (
           <div key={i} className="relative">
             <IconButton
@@ -219,7 +217,7 @@ function AdminHeader({
             trigger={
               <div className="relative">
                 <IconButton
-                  icon={<Bell className="w-[var(--space-4)] h-[var(--space-4)]" />}
+                  icon={<Bell className="w-4 h-4" />}
                   label="Notifications"
                   className={cn(
                     'rounded-full text-[var(--text-secondary)]',
@@ -242,23 +240,23 @@ function AdminHeader({
                 align="end"
                 sideOffset={10}
                 className={cn(
-                  'w-[21rem] rounded-[var(--radius-md)] p-[var(--space-2)]',
+                  'w-[21rem] rounded-[var(--radius-md)] p-2',
                   'border-[var(--border-subtle)] bg-[var(--surface-base)]',
                   'shadow-[var(--elevation-dropdown)]',
                 )}
               >
                 <div
                   className={cn(
-                    'mb-[var(--space-2)] flex items-center gap-[var(--space-3)]',
+                    'mb-2 flex items-center gap-3',
                     'rounded-[var(--radius-lg)] border border-[var(--border-subtle)]',
-                    'px-[var(--space-3)] py-[var(--space-2)]',
+                    'px-3 py-2',
                   )}
                 >
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[length:var(--text-lg)] font-semibold leading-tight text-[var(--text-primary)]">
                       {resolvedUser?.name ?? 'Sophie Bennett'}
                     </p>
-                    <p className="truncate text-[length:var(--text-sm)] leading-tight text-[var(--text-secondary)] mt-1">
+                    <p className="truncate text-sm leading-tight text-[var(--text-secondary)] mt-1">
                       {resolvedUser?.email ?? resolvedUser?.role ?? 'sophie@ui.live'}
                     </p>
                   </div>
@@ -284,15 +282,12 @@ function AdminHeader({
                   return (
                     <React.Fragment key={item.id}>
                       {showSectionDivider && (
-                        <div
-                          className="my-[var(--space-2)] h-px bg-[var(--border-subtle)]"
-                          aria-hidden="true"
-                        />
+                        <div className="my-2 h-px bg-[var(--border-subtle)]" aria-hidden="true" />
                       )}
                       <DropdownItem
                         onSelect={() => item.onSelect?.()}
                         className={cn(
-                          'h-11 rounded-[var(--radius-md)] px-[var(--space-3)]',
+                          'h-11 rounded-[var(--radius-md)] px-3',
                           'text-[length:var(--text-base)] text-[var(--text-primary)]',
                           'focus:bg-[var(--surface-muted)] focus:text-[var(--text-primary)]',
                           item.highlighted && 'bg-[var(--surface-muted)]',
@@ -308,7 +303,7 @@ function AdminHeader({
                             variant={item.badge.variant ?? 'secondary'}
                             size="sm"
                             icon={item.badge.icon}
-                            className="ml-auto h-6 rounded-[var(--radius-sm)] px-[var(--space-2)] text-[length:var(--text-micro)]"
+                            className="ml-auto h-6 rounded-[var(--radius-sm)] px-2 text-[length:var(--text-micro)]"
                           >
                             {item.badge.label}
                           </Badge>
@@ -338,10 +333,7 @@ function AdminHeaderLeading({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div
-      className={cn('flex min-w-0 shrink-0 items-center gap-[var(--space-4)]', className)}
-      {...props}
-    >
+    <div className={cn('flex min-w-0 shrink-0 items-center gap-4', className)} {...props}>
       {children}
     </div>
   )
@@ -356,7 +348,7 @@ function AdminHeaderTitle({
   return (
     <h1
       className={cn(
-        'truncate text-[length:var(--text-2xl)] font-bold leading-tight tracking-[-0.01em] text-[var(--text-primary)]',
+        'truncate text-2xl font-bold leading-tight tracking-[-0.01em] text-[var(--text-primary)]',
         className,
       )}
       {...props}
@@ -390,13 +382,11 @@ function AdminHeaderSearch({
         onKeyDown={(e) => {
           if (e.key === 'Enter') onSearch?.((e.currentTarget as HTMLInputElement).value)
         }}
-        suffixIcon={
-          <Search className="w-[var(--space-4)] h-[var(--space-4)] text-[var(--text-tertiary)]" />
-        }
+        suffixIcon={<Search className="w-4 h-4 text-[var(--text-tertiary)]" />}
         className={cn(
           'h-9 rounded-full',
           'border-[var(--border-subtle)] bg-[var(--surface-muted)]',
-          'text-[length:var(--text-sm)] text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
+          'text-sm text-[var(--input-fg)] placeholder:text-[var(--text-tertiary)]',
           'focus-visible:ring-[var(--action-primary)]',
         )}
         {...(props as Omit<React.ComponentProps<typeof Input>, 'onChange'>)}
@@ -412,7 +402,7 @@ function AdminHeaderActions({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn('flex shrink-0 items-center gap-[var(--space-1)]', className)} {...props}>
+    <div className={cn('flex shrink-0 items-center gap-1', className)} {...props}>
       {children}
     </div>
   )
@@ -477,7 +467,7 @@ function AdminHeaderUser({
       onClick={onUserClickProp}
       className={cn(
         'h-auto min-h-0 min-w-0 justify-start',
-        'gap-[var(--space-2)] rounded-[var(--radius-md)] py-[var(--space-1)] px-[var(--space-2)] ml-[var(--space-2)]',
+        'gap-2 rounded-[var(--radius-md)] py-1 px-2 ml-2',
         'border border-transparent hover:border-[var(--border-subtle)] hover:bg-[var(--surface-elevated)]',
         'focus-visible:ring-[var(--action-primary)]',
       )}
@@ -490,15 +480,15 @@ function AdminHeaderUser({
           {resolvedUser?.initials ?? resolvedUser?.name?.charAt(0).toUpperCase() ?? 'A'}
         </AvatarFallback>
       </Avatar>
-      <div className="hidden md:flex flex-col items-start min-w-[var(--space-4)]">
-        <span className="text-[length:var(--text-sm)] font-semibold leading-tight text-[var(--text-primary)]">
+      <div className="hidden md:flex flex-col items-start min-w-4">
+        <span className="text-sm font-semibold leading-tight text-[var(--text-primary)]">
           {resolvedUser?.name ?? 'Marcus George'}
         </span>
         <span className="text-[length:var(--text-micro)] font-medium leading-tight mt-0.5 text-[var(--text-secondary)]">
           {resolvedUser?.role ?? 'Admin'}
         </span>
       </div>
-      <ChevronDown className="hidden md:block w-[var(--space-3)] h-[var(--space-3)] text-[var(--text-tertiary)]" />
+      <ChevronDown className="hidden md:block w-3 h-3 text-[var(--text-tertiary)]" />
     </Button>
   )
 
@@ -510,23 +500,23 @@ function AdminHeaderUser({
           align="end"
           sideOffset={10}
           className={cn(
-            'w-[21rem] rounded-[var(--radius-md)] p-[var(--space-2)]',
+            'w-[21rem] rounded-[var(--radius-md)] p-2',
             'border-[var(--border-subtle)] bg-[var(--surface-base)]',
             'shadow-[var(--elevation-dropdown)]',
           )}
         >
           <div
             className={cn(
-              'mb-[var(--space-2)] flex items-center gap-[var(--space-3)]',
+              'mb-2 flex items-center gap-3',
               'rounded-[var(--radius-lg)] border border-[var(--border-subtle)]',
-              'px-[var(--space-3)] py-[var(--space-2)]',
+              'px-3 py-2',
             )}
           >
             <div className="min-w-0 flex-1">
               <p className="truncate text-[length:var(--text-lg)] font-semibold leading-tight text-[var(--text-primary)]">
                 {resolvedUser?.name ?? 'Sophie Bennett'}
               </p>
-              <p className="truncate text-[length:var(--text-sm)] leading-tight text-[var(--text-secondary)] mt-1">
+              <p className="truncate text-sm leading-tight text-[var(--text-secondary)] mt-1">
                 {resolvedUser?.email ?? resolvedUser?.role ?? 'sophie@ui.live'}
               </p>
             </div>
@@ -549,15 +539,12 @@ function AdminHeaderUser({
             return (
               <React.Fragment key={item.id}>
                 {showSectionDivider && (
-                  <div
-                    className="my-[var(--space-2)] h-px bg-[var(--border-subtle)]"
-                    aria-hidden="true"
-                  />
+                  <div className="my-2 h-px bg-[var(--border-subtle)]" aria-hidden="true" />
                 )}
                 <DropdownItem
                   onSelect={() => item.onSelect?.()}
                   className={cn(
-                    'h-11 rounded-[var(--radius-md)] px-[var(--space-3)]',
+                    'h-11 rounded-[var(--radius-md)] px-3',
                     'text-[length:var(--text-base)] text-[var(--text-primary)]',
                     'focus:bg-[var(--surface-muted)] focus:text-[var(--text-primary)]',
                     item.highlighted && 'bg-[var(--surface-muted)]',
@@ -573,7 +560,7 @@ function AdminHeaderUser({
                       variant={item.badge.variant ?? 'secondary'}
                       size="sm"
                       icon={item.badge.icon}
-                      className="ml-auto h-6 rounded-[var(--radius-sm)] px-[var(--space-2)] text-[length:var(--text-micro)]"
+                      className="ml-auto h-6 rounded-[var(--radius-sm)] px-2 text-[length:var(--text-micro)]"
                     >
                       {item.badge.label}
                     </Badge>

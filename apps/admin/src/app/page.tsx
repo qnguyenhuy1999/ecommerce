@@ -32,12 +32,9 @@ const NotificationPanel = dynamic(
 
 function PanelSkeleton() {
   return (
-    <div className="space-y-[var(--space-3)]">
+    <div className="space-y-3">
       {Array.from({ length: 3 }).map((_, i) => (
-        <div
-          key={i}
-          className="h-12 animate-pulse rounded bg-[var(--surface-muted)]"
-        />
+        <div key={i} className="h-12 animate-pulse rounded bg-[var(--surface-muted)]" />
       ))}
     </div>
   )
@@ -128,17 +125,15 @@ const NOTIFICATIONS: NotificationItem[] = [
 export default function AdminDashboardPage() {
   return (
     <AdminShell title="Dashboard">
-      <div className="space-y-[var(--space-6)]">
-        <header className="space-y-[var(--space-1)]">
-          <h1 className="text-[length:var(--text-2xl)] font-bold tracking-tight">
-            Marketplace overview
-          </h1>
+      <div className="space-y-6">
+        <header className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">Marketplace overview</h1>
           <p className="text-[var(--text-secondary)]">
             Operational metrics across all sellers and orders.
           </p>
         </header>
 
-        <div className="grid grid-cols-1 gap-[var(--space-4)] sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {METRICS.map((metric) => (
             <MetricCard
               key={metric.label}
@@ -151,19 +146,15 @@ export default function AdminDashboardPage() {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 gap-[var(--space-6)] lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="lg:col-span-2">
-            <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-[var(--space-4)]">
-              <h2 className="mb-[var(--space-3)] text-[length:var(--text-base)] font-semibold">
-                Recent activity
-              </h2>
+            <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-4">
+              <h2 className="mb-3 text-[length:var(--text-base)] font-semibold">Recent activity</h2>
               <ActivityFeed items={ACTIVITIES} />
             </div>
           </div>
-          <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-[var(--space-4)]">
-            <h2 className="mb-[var(--space-3)] text-[length:var(--text-base)] font-semibold">
-              Notifications
-            </h2>
+          <div className="rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-4">
+            <h2 className="mb-3 text-[length:var(--text-base)] font-semibold">Notifications</h2>
             <NotificationPanel notifications={NOTIFICATIONS} />
           </div>
         </div>

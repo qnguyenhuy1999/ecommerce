@@ -91,15 +91,15 @@ export function VisualBanner({
         className={cn(
           'relative mx-auto flex w-full flex-1 flex-col justify-center',
           'max-w-[var(--storefront-content-max-width)]',
-          'px-[var(--space-6)] sm:px-[var(--space-8)] lg:px-[var(--space-12)]',
-          'py-[var(--space-12)] md:py-[var(--space-16)]',
+          'px-6 sm:px-8 lg:px-12',
+          'py-12 md:py-16',
           alignment[align],
         )}
       >
         {eyebrow && (
           <p
             className={cn(
-              'mb-[var(--space-3)] text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em] text-white/85',
+              'mb-3 text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em] text-white/85',
               'animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-slow)] fill-mode-both',
             )}
           >
@@ -121,7 +121,7 @@ export function VisualBanner({
         {description && (
           <p
             className={cn(
-              'mt-[var(--space-4)] max-w-xl text-[length:var(--text-base)] sm:text-[length:var(--text-lg)] leading-[var(--line-height-relaxed)] text-white/85',
+              'mt-4 max-w-xl text-[length:var(--text-base)] sm:text-[length:var(--text-lg)] leading-[var(--line-height-relaxed)] text-white/85',
               'animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both [animation-delay:80ms]',
             )}
           >
@@ -132,7 +132,7 @@ export function VisualBanner({
         {(ctaLabel || secondaryCtaLabel) && (
           <div
             className={cn(
-              'mt-[var(--space-7)] flex flex-wrap items-center gap-[var(--space-3)]',
+              'mt-7 flex flex-wrap items-center gap-3',
               align === 'center' && 'justify-center',
               align === 'right' && 'justify-end',
               'animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both [animation-delay:160ms]',
@@ -143,7 +143,7 @@ export function VisualBanner({
                 href={ctaHref}
                 className={cn(
                   buttonVariants({ variant: 'brand', size: 'lg' }),
-                  'rounded-full px-[var(--space-7)]',
+                  'rounded-full px-7',
                   'transition-transform duration-[var(--motion-fast)] hover:scale-[1.03] active:scale-[0.98]',
                 )}
               >
@@ -155,7 +155,7 @@ export function VisualBanner({
                 href={secondaryCtaHref}
                 className={cn(
                   buttonVariants({ variant: 'ghost', size: 'lg' }),
-                  'rounded-full px-[var(--space-7)] border border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white',
+                  'rounded-full px-7 border border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white',
                   'transition-transform duration-[var(--motion-fast)] hover:scale-[1.03] active:scale-[0.98]',
                 )}
               >

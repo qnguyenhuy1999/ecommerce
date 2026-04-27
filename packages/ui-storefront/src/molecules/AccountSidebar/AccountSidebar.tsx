@@ -62,14 +62,12 @@ function AccountSidebar({
       <div className="flex items-center gap-3 p-4 rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] shadow-[var(--elevation-surface)] mb-4 overflow-hidden">
         <Avatar className="w-12 h-12 shrink-0">
           {user.avatar && <AvatarImage src={user.avatar} alt={user.name} />}
-          <AvatarFallback className="text-[var(--text-sm)] font-semibold bg-[var(--action-primary)]/10 text-[var(--action-primary)]">
+          <AvatarFallback className="text-sm font-semibold bg-[var(--action-primary)]/10 text-[var(--action-primary)]">
             {initials}
           </AvatarFallback>
         </Avatar>
         <div className="min-w-0">
-          <p className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] truncate">
-            {user.name}
-          </p>
+          <p className="text-sm font-semibold text-[var(--text-primary)] truncate">{user.name}</p>
           <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)] truncate">
             {user.email}
           </p>
@@ -88,7 +86,7 @@ function AccountSidebar({
               onClick={() => onItemClick?.(item.id)}
               className={cn(
                 'w-full flex items-center gap-3 px-4 py-2.5 rounded-[var(--radius-lg)]',
-                'text-[var(--text-sm)] font-medium text-left',
+                'text-sm font-medium text-left',
                 'transition-all duration-[var(--motion-fast)]',
                 isActive
                   ? 'bg-[var(--action-primary)]/10 text-[var(--action-primary)]'
@@ -124,7 +122,7 @@ function AccountSidebar({
           <button
             type="button"
             onClick={onLogout}
-            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-[var(--radius-lg)] text-[var(--text-sm)] font-medium text-[var(--text-secondary)] hover:bg-[var(--intent-destructive)]/10 hover:text-[var(--intent-destructive)] transition-all duration-[var(--motion-fast)]"
+            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-[var(--radius-lg)] text-sm font-medium text-[var(--text-secondary)] hover:bg-[var(--intent-destructive)]/10 hover:text-[var(--intent-destructive)] transition-all duration-[var(--motion-fast)]"
           >
             <LogOut className="w-4 h-4 shrink-0" />
             Sign Out

@@ -27,7 +27,7 @@ export const Sizes: Story = {
     <div className="flex gap-4 items-center">
       <Avatar className="h-6 w-6">
         <AvatarImage src="https://i.pravatar.cc/150?img=11" alt="Alex" />
-        <AvatarFallback className="text-[var(--space-3)]">AL</AvatarFallback>
+        <AvatarFallback className="text-3">AL</AvatarFallback>
       </Avatar>
       <Avatar className="h-8 w-8">
         <AvatarImage src="https://i.pravatar.cc/150?img=12" alt="Sam" />

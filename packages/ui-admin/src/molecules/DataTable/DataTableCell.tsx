@@ -34,7 +34,7 @@ export function DataTableCell({
       className={cn(
         paddingX,
         paddingY,
-        'align-middle text-[var(--text-sm)]',
+        'align-middle text-sm',
         muted ? 'text-[var(--text-secondary)]' : 'text-[var(--text-primary)]',
         align === 'center' && 'text-center',
         align === 'right' && 'text-right',

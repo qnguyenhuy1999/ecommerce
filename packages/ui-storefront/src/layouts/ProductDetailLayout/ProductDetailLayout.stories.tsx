@@ -80,12 +80,7 @@ const relatedProducts = [
   },
 ]
 
-const trustBadges: TrustBadgeType[] = [
-  'verified-seller',
-  'free-shipping',
-  'secure-checkout',
-  'free-returns',
-]
+const trustBadges: TrustBadgeType[] = ['verified-seller', 'free-shipping', 'secure-checkout', 'free-returns']
 
 const sharedArgs = {
   promoBar: <PromoBar message="Free returns within 30 days — No questions asked" variant="success" />,
@@ -148,9 +143,9 @@ const sharedArgs = {
   ],
   description: (
     <p>
-      Engineered for audiophiles and everyday listeners alike, the Pulse Studio delivers studio-grade
-      sound in a sleek, comfortable design. The advanced ANC technology adapts to your environment
-      in real-time, while the 40mm custom drivers produce rich, detailed audio across all frequencies.
+      Engineered for audiophiles and everyday listeners alike, the Pulse Studio delivers studio-grade sound in a sleek,
+      comfortable design. The advanced ANC technology adapts to your environment in real-time, while the 40mm custom
+      drivers produce rich, detailed audio across all frequencies.
     </p>
   ),
   reviews: [

@@ -39,10 +39,7 @@ function Breadcrumb({
 
   return (
     <nav
-      className={cn(
-        'flex items-center gap-1 text-[var(--text-sm)] text-muted-foreground',
-        className,
-      )}
+      className={cn('flex items-center gap-1 text-sm text-muted-foreground', className)}
       aria-label="breadcrumb"
       {...props}
     >
@@ -66,7 +63,7 @@ function Breadcrumb({
               />
             ) : isLast || !item.href ? (
               <span
-                className="font-medium text-foreground max-w-[var(--space-16)] truncate"
+                className="font-medium text-foreground max-w-16 truncate"
                 aria-current={isLast ? 'page' : undefined}
                 title={item.label}
               >
@@ -75,7 +72,7 @@ function Breadcrumb({
             ) : (
               <a
                 href={item.href}
-                className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring max-w-[var(--space-16)] truncate"
+                className="hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring max-w-16 truncate"
                 title={item.label}
               >
                 {item.label}

@@ -14,12 +14,7 @@ const ORDER_STATUS = [
 ] as const
 
 /** Statuses an admin can transition the top-level order to. */
-const ADMIN_ORDER_STATUS_TRANSITION = [
-  'PROCESSING',
-  'SHIPPED',
-  'COMPLETED',
-  'CANCELLED',
-] as const
+const ADMIN_ORDER_STATUS_TRANSITION = ['PROCESSING', 'SHIPPED', 'COMPLETED', 'CANCELLED'] as const
 
 const KYC_STATUS = ['PENDING', 'APPROVED', 'REJECTED'] as const
 

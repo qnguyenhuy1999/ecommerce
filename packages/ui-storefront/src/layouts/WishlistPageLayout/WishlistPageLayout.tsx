@@ -15,7 +15,10 @@ import { AccountPageLayout } from '../AccountPageLayout/AccountPageLayout'
 import type { StorefrontFooter } from '../StorefrontFooter/StorefrontFooter'
 import type { StorefrontHeader } from '../StorefrontHeader/StorefrontHeader'
 
-export interface WishlistPageLayoutProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface WishlistPageLayoutProps extends Omit<
+  React.HTMLAttributes<HTMLDivElement>,
+  'title'
+> {
   promoBar?: React.ReactNode
   header?: React.ReactNode
   footer?: React.ReactNode
@@ -66,12 +69,7 @@ function WishlistPageLayout({
   const headerActions = (
     <>
       {!isEmpty && onShareWishlist && (
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onShareWishlist}
-          className="h-9 gap-[var(--space-1-5)] text-[length:var(--text-sm)]"
-        >
+        <Button variant="ghost" size="sm" onClick={onShareWishlist} className="h-9 gap-1.5 text-sm">
           <Share2 className="h-4 w-4" aria-hidden="true" />
           Share
         </Button>
@@ -89,7 +87,7 @@ function WishlistPageLayout({
           variant="outline"
           size="sm"
           onClick={onMoveAllToCart}
-          className="h-9 gap-[var(--space-1-5)] text-[length:var(--text-sm)]"
+          className="h-9 gap-1.5 text-sm"
         >
           <ShoppingCart className="h-4 w-4" aria-hidden="true" />
           Move all to cart
@@ -131,9 +129,7 @@ function WishlistPageLayout({
           </EmptyStateCard>
         ))
       ) : (
-        <div
-          className={cn('grid gap-[var(--space-5)]', 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4')}
-        >
+        <div className={cn('grid gap-5', 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4')}>
           {items.map((item, i) => (
             <WishlistCard key={item.product.id ?? i} {...item} />
           ))}

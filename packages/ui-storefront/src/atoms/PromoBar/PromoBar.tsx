@@ -36,18 +36,18 @@ function PromoBar({
     <div
       className={cn(
         'relative flex w-full items-center justify-center',
-        'min-h-[var(--space-9)] py-[var(--space-2)] px-[var(--space-4)]',
-        'text-[length:var(--text-sm)] font-medium tracking-[0.005em]',
+        'min-h-9 py-2 px-4',
+        'text-sm font-medium tracking-[0.005em]',
         variantClass[variant],
         className,
       )}
       {...props}
     >
-      <div className="mx-auto flex w-full max-w-[var(--storefront-content-max-width)] items-center justify-center gap-[var(--space-3)]">
+      <div className="mx-auto flex w-full max-w-[var(--storefront-content-max-width)] items-center justify-center gap-3">
         {link ? (
           <a
             href={link}
-            className="inline-flex items-center gap-[var(--space-2)] truncate underline-offset-4 hover:underline"
+            className="inline-flex items-center gap-2 truncate underline-offset-4 hover:underline"
           >
             {message}
           </a>
@@ -56,7 +56,7 @@ function PromoBar({
         )}
       </div>
       {dismissible && (
-        <div className="absolute right-[var(--space-2)] top-1/2 -translate-y-1/2">
+        <div className="absolute right-2 top-1/2 -translate-y-1/2">
           <PromoBarClient onDismiss={() => setIsVisible(false)} />
         </div>
       )}

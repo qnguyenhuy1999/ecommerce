@@ -6,8 +6,8 @@ export function ProductCardBadge({ className, ...props }: ProductCardBadgeProps)
   return (
     <div
       className={cn(
-        'absolute left-[var(--space-3)] top-[var(--space-3)] z-10 pointer-events-none',
-        'flex items-center gap-[var(--space-1)]',
+        'absolute left-3 top-3 z-10 pointer-events-none',
+        'flex items-center gap-1',
         className,
       )}
       {...props}

@@ -31,7 +31,7 @@ export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const sizeClasses = {
-  sm: 'h-7 w-7 text-[var(--space-3)]',
+  sm: 'h-7 w-7 text-3',
   default: 'h-9 w-9 text-xs',
   lg: 'h-11 w-11 text-sm',
 } as const

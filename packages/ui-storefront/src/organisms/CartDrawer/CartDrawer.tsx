@@ -124,10 +124,7 @@ function CartDrawerHeader({ className, ...props }: React.HTMLAttributes<HTMLDivE
   const { localItems } = useCartDrawer()
   return (
     <SheetHeader
-      className={cn(
-        'px-[var(--space-5)] py-[var(--space-4)] border-b border-[var(--border-subtle)]',
-        className,
-      )}
+      className={cn('px-5 py-4 border-b border-[var(--border-subtle)]', className)}
       {...props}
     >
       <SheetTitle className="text-[var(--text-lg)] font-semibold flex items-center justify-between">
@@ -156,12 +153,12 @@ function CartDrawerShippingProgress({ className, ...props }: React.HTMLAttribute
   return (
     <div
       className={cn(
-        'px-[var(--space-5)] py-[var(--space-4)] bg-[var(--surface-base)] border-b border-[var(--border-subtle)] shadow-sm z-10 relative',
+        'px-5 py-4 bg-[var(--surface-base)] border-b border-[var(--border-subtle)] shadow-sm z-10 relative',
         className,
       )}
       {...props}
     >
-      <p className="text-[var(--text-sm)] font-medium mb-2.5 flex items-center gap-2">
+      <p className="text-sm font-medium mb-2.5 flex items-center gap-2">
         {isFreeShippingUnlocked ? (
           <span className="text-[var(--intent-success)] flex items-center gap-1.5 transition-all duration-[var(--motion-normal)]">
             <Sparkles className="w-4 h-4" />
@@ -196,10 +193,7 @@ function CartDrawerItems({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 
   if (localItems.length === 0) {
     return (
-      <div
-        className={cn('flex-1 flex items-center justify-center p-[var(--space-6)]', className)}
-        {...props}
-      >
+      <div className={cn('flex-1 flex items-center justify-center p-6', className)} {...props}>
         <EmptyState
           icon={<ShoppingBag className="w-8 h-8 text-[var(--text-tertiary)]" />}
           title="Your cart is empty"
@@ -216,7 +210,7 @@ function CartDrawerItems({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 
   return (
     <ScrollArea className={cn('flex-1', className)} {...props}>
-      <div className="flex flex-col gap-4 p-[var(--space-5)]">
+      <div className="flex flex-col gap-4 p-5">
         {localItems.map((item) => (
           <CartItem
             key={item.id}
@@ -240,7 +234,7 @@ function CartDrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivE
   return (
     <div
       className={cn(
-        'bg-[var(--surface-base)] border-t border-[var(--border-subtle)] z-20 shadow-[var(--elevation-up-1)] relative p-[var(--space-5)] flex flex-col gap-[var(--space-4)]',
+        'bg-[var(--surface-base)] border-t border-[var(--border-subtle)] z-20 shadow-[var(--elevation-up-1)] relative p-5 flex flex-col gap-4',
         className,
       )}
       {...props}
@@ -262,11 +256,11 @@ function CartDrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivE
 
       {/* Totals */}
       <div className="space-y-2.5">
-        <div className="flex justify-between text-[var(--text-sm)]">
+        <div className="flex justify-between text-sm">
           <span className="text-[var(--text-secondary)]">Subtotal</span>
           <span className="font-medium text-[var(--text-primary)]">${subtotal.toFixed(2)}</span>
         </div>
-        <div className="flex justify-between text-[var(--text-sm)]">
+        <div className="flex justify-between text-sm">
           <span className="text-[var(--text-secondary)]">Shipping</span>
           <span
             className={`font-medium ${isFreeShippingUnlocked ? 'text-[var(--intent-success)]' : 'text-[var(--text-primary)]'}`}
@@ -275,7 +269,7 @@ function CartDrawerFooter({ className, ...props }: React.HTMLAttributes<HTMLDivE
           </span>
         </div>
         <Separator className="bg-[var(--border-subtle)] my-1" />
-        <div className="flex justify-between items-center text-[var(--text-base)] font-bold">
+        <div className="flex justify-between items-center text-[length:var(--text-base)] font-bold">
           <span className="text-[var(--text-primary)]">Total</span>
           <PriceDisplay price={subtotal} size="lg" />
         </div>

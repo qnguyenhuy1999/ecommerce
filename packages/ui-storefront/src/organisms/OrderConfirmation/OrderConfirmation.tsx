@@ -46,7 +46,7 @@ function OrderConfirmation({
           <h1 className="text-3xl font-bold tracking-tight text-[var(--text-primary)]">
             Order Confirmed!
           </h1>
-          <p className="text-[var(--text-secondary)] text-[var(--text-base)]">
+          <p className="text-[var(--text-secondary)] text-[length:var(--text-base)]">
             Thank you for your purchase. We've sent a confirmation to{' '}
             <span className="font-semibold text-[var(--text-primary)]">{email}</span>
           </p>
@@ -62,7 +62,7 @@ function OrderConfirmation({
               <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)] uppercase tracking-wide font-medium">
                 Order Number
               </p>
-              <p className="text-[var(--text-base)] font-bold text-[var(--text-primary)] font-mono mt-0.5">
+              <p className="text-[length:var(--text-base)] font-bold text-[var(--text-primary)] font-mono mt-0.5">
                 #{orderNumber}
               </p>
             </div>
@@ -72,7 +72,7 @@ function OrderConfirmation({
                   <Truck className="w-3.5 h-3.5" />
                   Estimated Delivery
                 </p>
-                <p className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] mt-0.5">
+                <p className="text-sm font-semibold text-[var(--text-primary)] mt-0.5">
                   {estimatedDelivery}
                 </p>
               </div>
@@ -82,7 +82,7 @@ function OrderConfirmation({
 
         {/* Items */}
         <div className="px-6 py-5 space-y-3">
-          <h2 className="text-[var(--text-sm)] font-semibold text-[var(--text-primary)] flex items-center gap-2">
+          <h2 className="text-sm font-semibold text-[var(--text-primary)] flex items-center gap-2">
             <ShoppingBag className="w-4 h-4" /> Items ({items.length})
           </h2>
           <div className="space-y-3">
@@ -97,7 +97,7 @@ function OrderConfirmation({
                   />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-[var(--text-sm)] font-medium text-[var(--text-primary)] truncate">
+                  <p className="text-sm font-medium text-[var(--text-primary)] truncate">
                     {item.title}
                   </p>
                   {item.variant && (
@@ -118,7 +118,7 @@ function OrderConfirmation({
         <Separator className="bg-[var(--border-subtle)]" />
 
         {/* Totals */}
-        <div className="px-6 py-5 space-y-2.5 text-[var(--text-sm)]">
+        <div className="px-6 py-5 space-y-2.5 text-sm">
           <div className="flex justify-between">
             <span className="text-[var(--text-secondary)]">Subtotal</span>
             <PriceDisplay price={totals.subtotal} size="sm" />
@@ -143,7 +143,7 @@ function OrderConfirmation({
             </div>
           )}
           <Separator className="bg-[var(--border-subtle)]" />
-          <div className="flex justify-between font-bold text-[var(--text-base)]">
+          <div className="flex justify-between font-bold text-[length:var(--text-base)]">
             <span className="text-[var(--text-primary)]">Total Paid</span>
             <PriceDisplay price={totals.total} size="lg" />
           </div>

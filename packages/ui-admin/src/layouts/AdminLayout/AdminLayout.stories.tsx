@@ -45,7 +45,7 @@ const MAIN_NAV = [
       {
         label: 'Dashboard',
         href: '/admin',
-        icon: <LayoutDashboard className="w-[var(--space-4)] h-[var(--space-4)]" />,
+        icon: <LayoutDashboard className="w-4 h-4" />,
         isActive: true,
       },
       {
@@ -181,7 +181,7 @@ export const Default: Story = {
         role: 'Admin',
         avatarUrl: 'https://i.pravatar.cc/150?img=12',
       },
-      iconButtons: [{ label: 'Messages', icon: <Mail className="w-[var(--space-4)] h-[var(--space-4)]" /> }],
+      iconButtons: [{ label: 'Messages', icon: <Mail className="w-4 h-4" /> }],
       notificationPanel: {
         notifications: SAMPLE_NOTIFICATIONS,
       },

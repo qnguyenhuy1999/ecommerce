@@ -47,7 +47,7 @@ function PaymentMethodSelector({
             onClick={() => !method.disabled && onChange(method.id)}
             className={cn(
               'w-full flex items-center gap-4 text-left',
-              'px-[var(--space-4)] py-[var(--space-3-5)]',
+              'px-4 py-3.5',
               'rounded-[var(--radius-lg)] border-2',
               'transition-all duration-[var(--motion-fast)]',
               'focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--action-primary)]',
@@ -71,7 +71,7 @@ function PaymentMethodSelector({
             <div className="flex-1 min-w-0">
               <p
                 className={cn(
-                  'text-[var(--text-sm)] font-semibold',
+                  'text-sm font-semibold',
                   isSelected ? 'text-[var(--action-primary)]' : 'text-[var(--text-primary)]',
                 )}
               >

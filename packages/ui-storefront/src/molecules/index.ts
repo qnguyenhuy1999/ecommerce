@@ -48,7 +48,10 @@ export type {
   ShippingProgressConfig,
 } from './ProductPurchaseSection/ProductPurchaseSection'
 export { ProductReviewsSection } from './ProductReviewsSection/ProductReviewsSection'
-export type { ProductReviewsSectionProps, ReviewSortOption } from './ProductReviewsSection/ProductReviewsSection'
+export type {
+  ProductReviewsSectionProps,
+  ReviewSortOption,
+} from './ProductReviewsSection/ProductReviewsSection'
 export { ProductHighlights } from './ProductHighlights/ProductHighlights'
 export type { ProductHighlightsProps } from './ProductHighlights/ProductHighlights'
 export { ProductStickyBar } from './ProductStickyBar/ProductStickyBar'

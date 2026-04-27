@@ -22,7 +22,12 @@ const meta: Meta<typeof OrderFilterBar> = {
 export default meta
 type Story = StoryObj<typeof OrderFilterBar>
 
-function OrderFilterBarWithState(props: Omit<OrderFilterBarProps, 'query' | 'onQueryChange' | 'activeTab' | 'onTabChange' | 'dateRange' | 'onDateRangeChange'>) {
+function OrderFilterBarWithState(
+  props: Omit<
+    OrderFilterBarProps,
+    'query' | 'onQueryChange' | 'activeTab' | 'onTabChange' | 'dateRange' | 'onDateRangeChange'
+  >,
+) {
   const [query, setQuery] = useState('')
   const [activeTab, setActiveTab] = useState<OrderHistoryTab>('all')
   const [dateRange, setDateRange] = useState('all')

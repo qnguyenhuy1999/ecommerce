@@ -38,8 +38,7 @@ import {
   StatusBadge,
 } from '@ecom/ui-admin'
 import type { StatusValue } from '@ecom/ui-admin'
-
-import { AdminShell } from '@/components/admin-shell'
+import { AdminShell } from '../../components/admin-shell'
 
 const ORDER_STATUSES = [
   'PENDING_PAYMENT',
@@ -140,11 +139,9 @@ export default function OrdersPage() {
 
   return (
     <AdminShell title="Orders">
-      <div className="space-y-[var(--space-6)]">
-        <header className="space-y-[var(--space-1)]">
-          <h1 className="text-[length:var(--text-2xl)] font-bold tracking-tight">
-            Order monitoring
-          </h1>
+      <div className="space-y-6">
+        <header className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">Order monitoring</h1>
           <p className="text-[var(--text-secondary)]">
             Live operational view of buyer orders across all sellers.
           </p>
@@ -190,7 +187,7 @@ export default function OrdersPage() {
         </DataTable>
 
         {total > limit && (
-          <div className="flex items-center justify-end gap-[var(--space-3)]">
+          <div className="flex items-center justify-end gap-3">
             <Button
               size="sm"
               variant="outline"
@@ -199,7 +196,7 @@ export default function OrdersPage() {
             >
               Previous
             </Button>
-            <span className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+            <span className="text-sm text-[var(--text-secondary)]">
               Page {page} of {totalPages}
             </span>
             <Button
@@ -227,8 +224,8 @@ function FiltersBar({
   onChange: (next: Filters) => void
 }) {
   return (
-    <div className="grid gap-[var(--space-3)] md:grid-cols-5">
-      <div className="space-y-[var(--space-1)]">
+    <div className="grid gap-3 md:grid-cols-5">
+      <div className="space-y-1">
         <Label htmlFor="status">Status</Label>
         <Select
           value={filters.status}
@@ -247,7 +244,7 @@ function FiltersBar({
           </SelectContent>
         </Select>
       </div>
-      <div className="space-y-[var(--space-1)]">
+      <div className="space-y-1">
         <Label htmlFor="buyerEmail">Buyer email</Label>
         <Input
           id="buyerEmail"
@@ -256,7 +253,7 @@ function FiltersBar({
           onChange={(event) => onChange({ ...filters, buyerEmail: event.target.value })}
         />
       </div>
-      <div className="space-y-[var(--space-1)]">
+      <div className="space-y-1">
         <Label htmlFor="sellerId">Seller ID</Label>
         <Input
           id="sellerId"
@@ -265,7 +262,7 @@ function FiltersBar({
           onChange={(event) => onChange({ ...filters, sellerId: event.target.value })}
         />
       </div>
-      <div className="space-y-[var(--space-1)]">
+      <div className="space-y-1">
         <Label htmlFor="placedFrom">Placed from</Label>
         <Input
           id="placedFrom"
@@ -274,7 +271,7 @@ function FiltersBar({
           onChange={(event) => onChange({ ...filters, placedFrom: event.target.value })}
         />
       </div>
-      <div className="space-y-[var(--space-1)]">
+      <div className="space-y-1">
         <Label htmlFor="placedTo">Placed to</Label>
         <Input
           id="placedTo"
@@ -314,13 +311,7 @@ function OrderRow({ order, onInspect }: { order: AdminOrderSummary; onInspect: (
   )
 }
 
-function OrderDetailDialog({
-  orderId,
-  onClose,
-}: {
-  orderId: string | null
-  onClose: () => void
-}) {
+function OrderDetailDialog({ orderId, onClose }: { orderId: string | null; onClose: () => void }) {
   const queryClient = useQueryClient()
   const detail = useQuery({
     queryKey: ['admin-order', orderId],
@@ -359,23 +350,21 @@ function OrderDetailDialog({
       <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
         <DialogHeader>
           <DialogTitle>{data ? `Order ${data.orderNumber}` : 'Order detail'}</DialogTitle>
-          <DialogDescription>
-            Inspect sub-orders and update fulfillment status.
-          </DialogDescription>
+          <DialogDescription>Inspect sub-orders and update fulfillment status.</DialogDescription>
         </DialogHeader>
 
         {detail.isLoading && <p>Loading…</p>}
         {detail.isError && <p>Failed to load order detail.</p>}
 
         {data && (
-          <div className="space-y-[var(--space-4)]">
+          <div className="space-y-4">
             <OrderSummaryPanel
               detail={data}
               onChangeStatus={(status) => updateOrderStatus.mutate({ status })}
               isPending={updateOrderStatus.isPending}
             />
 
-            <section className="space-y-[var(--space-3)]">
+            <section className="space-y-3">
               <h3 className="text-[length:var(--text-base)] font-semibold">Sub-orders</h3>
               {data.subOrders.map((sub) => (
                 <SubOrderCard
@@ -412,14 +401,14 @@ function OrderSummaryPanel({
 }) {
   const [next, setNext] = React.useState<AdminOrderTarget | ''>('')
   return (
-    <section className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-secondary)] p-[var(--space-4)] space-y-[var(--space-2)]">
-      <div className="flex flex-wrap items-center justify-between gap-[var(--space-3)]">
+    <section className="rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-secondary)] p-4 space-y-2">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">Buyer</p>
+          <p className="text-sm text-[var(--text-secondary)]">Buyer</p>
           <p className="font-medium">{detail.buyerEmail}</p>
         </div>
         <div className="text-right">
-          <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">Placed</p>
+          <p className="text-sm text-[var(--text-secondary)]">Placed</p>
           <p className="font-medium">{formatDate(detail.placedAt)}</p>
         </div>
         <StatusBadge
@@ -428,14 +417,14 @@ function OrderSummaryPanel({
         />
       </div>
 
-      <div className="flex flex-wrap gap-[var(--space-4)] text-[length:var(--text-sm)]">
+      <div className="flex flex-wrap gap-4 text-sm">
         <span>Subtotal: {formatCurrency(detail.subtotal)}</span>
         <span>Shipping: {formatCurrency(detail.shippingFee)}</span>
         <span className="font-semibold">Total: {formatCurrency(detail.totalAmount)}</span>
       </div>
 
-      <div className="flex flex-wrap items-end gap-[var(--space-2)]">
-        <div className="space-y-[var(--space-1)]">
+      <div className="flex flex-wrap items-end gap-2">
+        <div className="space-y-1">
           <Label htmlFor="order-status">Transition order to</Label>
           <Select value={next} onValueChange={(value) => setNext(value as AdminOrderTarget)}>
             <SelectTrigger id="order-status" className="min-w-[12rem]">
@@ -483,11 +472,11 @@ function SubOrderCard({
   const canSubmit = !!next && (!requiresTracking || trackingProvided) && !isPending
 
   return (
-    <article className="rounded-[var(--radius-md)] border border-[var(--border-default)] p-[var(--space-3)] space-y-[var(--space-2)]">
-      <header className="flex items-center justify-between gap-[var(--space-3)]">
+    <article className="rounded-[var(--radius-md)] border border-[var(--border-default)] p-3 space-y-2">
+      <header className="flex items-center justify-between gap-3">
         <div>
           <p className="font-semibold">{sub.storeName}</p>
-          <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+          <p className="text-sm text-[var(--text-secondary)]">
             Subtotal {formatCurrency(sub.subtotal)}
           </p>
         </div>
@@ -497,9 +486,9 @@ function SubOrderCard({
         />
       </header>
 
-      <ul className="space-y-[var(--space-1)] text-[length:var(--text-sm)]">
+      <ul className="space-y-1 text-sm">
         {sub.items.map((item) => (
-          <li key={item.id} className="flex items-baseline justify-between gap-[var(--space-3)]">
+          <li key={item.id} className="flex items-baseline justify-between gap-3">
             <span>
               <span className="font-medium">{item.productName}</span>{' '}
               <span className="text-[var(--text-tertiary)]">({item.variantSku})</span>
@@ -511,8 +500,8 @@ function SubOrderCard({
         ))}
       </ul>
 
-      <div className="grid gap-[var(--space-2)] md:grid-cols-3">
-        <div className="space-y-[var(--space-1)]">
+      <div className="grid gap-2 md:grid-cols-3">
+        <div className="space-y-1">
           <Label htmlFor={`sub-${sub.id}-status`}>Transition to</Label>
           <Select value={next} onValueChange={(value) => setNext(value as AdminSubOrderTarget)}>
             <SelectTrigger id={`sub-${sub.id}-status`}>
@@ -527,7 +516,7 @@ function SubOrderCard({
             </SelectContent>
           </Select>
         </div>
-        <div className="space-y-[var(--space-1)]">
+        <div className="space-y-1">
           <Label htmlFor={`sub-${sub.id}-carrier`}>Carrier</Label>
           <Input
             id={`sub-${sub.id}-carrier`}
@@ -536,7 +525,7 @@ function SubOrderCard({
             onChange={(event) => setCarrier(event.target.value)}
           />
         </div>
-        <div className="space-y-[var(--space-1)]">
+        <div className="space-y-1">
           <Label htmlFor={`sub-${sub.id}-tracking`}>Tracking number</Label>
           <Input
             id={`sub-${sub.id}-tracking`}

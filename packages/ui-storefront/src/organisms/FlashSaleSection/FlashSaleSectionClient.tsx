@@ -39,8 +39,8 @@ function FlashSaleSectionClient({
   const paddedSeconds = String(seconds).padStart(2, '0')
 
   const titleWithTimer = (
-    <div className="flex flex-col gap-[var(--space-3)] sm:flex-row sm:items-center sm:gap-[var(--space-5)]">
-      <span className="inline-flex items-center gap-[var(--space-2)] text-[var(--text-primary)]">
+    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+      <span className="inline-flex items-center gap-2 text-[var(--text-primary)]">
         <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[rgb(var(--brand-500-rgb)/0.12)] text-[var(--brand-600)]">
           <Flame className="h-[1.125rem] w-[1.125rem]" aria-hidden="true" />
         </span>
@@ -48,24 +48,24 @@ function FlashSaleSectionClient({
       </span>
       <div
         aria-label={`Ends in ${paddedHours}:${paddedMinutes}:${paddedSeconds}`}
-        className="flex items-center gap-[var(--space-2)]"
+        className="flex items-center gap-2"
       >
-        <span className="inline-flex items-center gap-[var(--space-1)] text-[length:var(--text-xs)] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+        <span className="inline-flex items-center gap-1 text-[length:var(--text-xs)] font-medium uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
           <Timer className="h-3.5 w-3.5" aria-hidden="true" />
           Ends in
         </span>
         <div className="flex items-center gap-1 font-mono text-[length:var(--text-base)] tabular-nums">
-          <span className="rounded-[var(--radius-md)] bg-[var(--text-primary)] px-[var(--space-2)] py-[var(--space-1)] text-[length:var(--text-sm)] font-bold text-[var(--surface-base)] shadow-[var(--elevation-card)]">
+          <span className="rounded-[var(--radius-md)] bg-[var(--text-primary)] px-2 py-1 text-sm font-bold text-[var(--surface-base)] shadow-[var(--elevation-card)]">
             {paddedHours}
           </span>
           <span className="font-bold text-[var(--text-primary)]">:</span>
-          <span className="rounded-[var(--radius-md)] bg-[var(--text-primary)] px-[var(--space-2)] py-[var(--space-1)] text-[length:var(--text-sm)] font-bold text-[var(--surface-base)] shadow-[var(--elevation-card)]">
+          <span className="rounded-[var(--radius-md)] bg-[var(--text-primary)] px-2 py-1 text-sm font-bold text-[var(--surface-base)] shadow-[var(--elevation-card)]">
             {paddedMinutes}
           </span>
           <span className="font-bold text-[var(--text-primary)]">:</span>
           <span
             className={cn(
-              'rounded-[var(--radius-md)] px-[var(--space-2)] py-[var(--space-1)] text-[length:var(--text-sm)] font-bold shadow-[var(--elevation-card)]',
+              'rounded-[var(--radius-md)] px-2 py-1 text-sm font-bold shadow-[var(--elevation-card)]',
               'bg-[var(--brand-500)] text-white',
               'animate-pulse',
             )}
@@ -78,10 +78,7 @@ function FlashSaleSectionClient({
   )
 
   return (
-    <div
-      className={cn('relative w-full', className)}
-      {...props}
-    >
+    <div className={cn('relative w-full', className)} {...props}>
       <ProductCarouselClient
         title={titleWithTimer as unknown as string}
         subtitle={subtitle}

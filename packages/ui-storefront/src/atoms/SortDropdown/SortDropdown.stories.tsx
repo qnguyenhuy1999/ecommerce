@@ -59,7 +59,7 @@ export const InToolbar: Story = {
   render: () => (
     <div className="flex flex-wrap items-center justify-between gap-4 rounded-[var(--radius-xl)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-4">
       <div>
-        <p className="text-[var(--text-sm)] font-medium text-[var(--text-primary)]">238 results</p>
+        <p className="text-sm font-medium text-[var(--text-primary)]">238 results</p>
         <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">Running shoes for everyday training</p>
       </div>
       <SortDropdownWithState initialValue="price-asc" options={PRODUCT_SORT_OPTIONS} />

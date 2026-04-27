@@ -59,8 +59,7 @@ function HeroBanner({
   className,
   ...props
 }: HeroBannerProps) {
-  const resolvedOverlayTone =
-    overlayTone ?? (align === 'left' ? 'cinematic' : 'standard')
+  const resolvedOverlayTone = overlayTone ?? (align === 'left' ? 'cinematic' : 'standard')
 
   return (
     <section
@@ -92,27 +91,22 @@ function HeroBanner({
       )}
 
       {backgroundImage && overlay && (
-        <div
-          className={cn(
-            'absolute inset-0 -z-10',
-            overlayClassByTone[resolvedOverlayTone],
-          )}
-        />
+        <div className={cn('absolute inset-0 -z-10', overlayClassByTone[resolvedOverlayTone])} />
       )}
 
       <div
         className={cn(
           'relative mx-auto flex w-full flex-1 flex-col justify-center',
           'max-w-[var(--storefront-content-max-width)]',
-          'px-[var(--space-6)] sm:px-[var(--space-8)] lg:px-[var(--space-12)]',
-          'py-[var(--space-12)] md:py-[var(--space-16)] lg:py-[var(--space-20)]',
+          'px-6 sm:px-8 lg:px-12',
+          'py-12 md:py-16 lg:py-20',
           alignment[align],
         )}
       >
         {eyebrow && (
           <p
             className={cn(
-              'mb-[var(--space-4)] text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em]',
+              'mb-4 text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.18em]',
               backgroundImage ? 'text-white/85' : 'text-[var(--text-brand)]',
               'animate-in fade-in slide-in-from-bottom-2 duration-[var(--motion-slow)] fill-mode-both',
             )}
@@ -139,7 +133,7 @@ function HeroBanner({
         {subtitle && (
           <p
             className={cn(
-              'mt-[var(--space-5)] max-w-xl text-[length:var(--text-base)] sm:text-[length:var(--text-lg)] leading-[var(--line-height-relaxed)]',
+              'mt-5 max-w-xl text-[length:var(--text-base)] sm:text-[length:var(--text-lg)] leading-[var(--line-height-relaxed)]',
               backgroundImage ? 'text-white/90' : 'text-[var(--text-secondary)]',
               'animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both [animation-delay:80ms]',
             )}
@@ -151,7 +145,7 @@ function HeroBanner({
         {(ctaLabel || secondaryCtaLabel) && (
           <div
             className={cn(
-              'mt-[var(--space-8)] flex flex-wrap items-center gap-[var(--space-3)]',
+              'mt-8 flex flex-wrap items-center gap-3',
               align === 'center' && 'justify-center',
               align === 'right' && 'justify-end',
               'animate-in fade-in slide-in-from-bottom-4 duration-[var(--motion-slow)] fill-mode-both [animation-delay:160ms]',
@@ -162,7 +156,7 @@ function HeroBanner({
                 href={ctaHref}
                 className={cn(
                   buttonVariants({ variant: 'brand', size: 'lg' }),
-                  'rounded-full px-[var(--space-7)]',
+                  'rounded-full px-7',
                   'transition-transform duration-[var(--motion-fast)] hover:scale-[1.03] active:scale-[0.98]',
                 )}
               >
@@ -174,7 +168,7 @@ function HeroBanner({
                 href={secondaryCtaHref}
                 className={cn(
                   buttonVariants({ variant: backgroundImage ? 'ghost' : 'outline', size: 'lg' }),
-                  'rounded-full px-[var(--space-7)]',
+                  'rounded-full px-7',
                   'transition-transform duration-[var(--motion-fast)] hover:scale-[1.03] active:scale-[0.98]',
                   backgroundImage &&
                     'border border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white',

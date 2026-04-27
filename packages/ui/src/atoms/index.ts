@@ -41,3 +41,4 @@ export {
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from './Tooltip/Tooltip'
 export { Kbd, type KbdProps } from './Kbd/Kbd'
 export type { BreadcrumbItem, BreadcrumbProps } from './Breadcrumb/Breadcrumb'
+export { Typography, typographyVariants, type TypographyProps } from './Typography/Typography'

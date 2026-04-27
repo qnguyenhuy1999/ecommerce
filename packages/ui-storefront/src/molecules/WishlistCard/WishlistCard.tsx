@@ -25,13 +25,7 @@ export interface WishlistProduct {
  * variable already in the design system — no arbitrary colors. `subtle` is the
  * neutral default used when no accent is provided.
  */
-export type WishlistCardAccent =
-  | 'subtle'
-  | 'muted'
-  | 'sand'
-  | 'mist'
-  | 'rose'
-  | 'sage'
+export type WishlistCardAccent = 'subtle' | 'muted' | 'sand' | 'mist' | 'rose' | 'sage'
 
 const ACCENT_BG: Record<WishlistCardAccent, string> = {
   subtle: 'bg-[var(--surface-subtle)]',
@@ -118,9 +112,9 @@ function WishlistCard({
         {!inStock && (
           <span
             className={cn(
-              'absolute left-[var(--space-3)] top-[var(--space-3)]',
+              'absolute left-3 top-3',
               'inline-flex items-center rounded-full',
-              'bg-[var(--surface-base)] px-[var(--space-2-5)] py-[var(--space-1)]',
+              'bg-[var(--surface-base)] px-2.5 py-1',
               'text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em]',
               'text-[var(--text-secondary)] shadow-[var(--elevation-xs)]',
             )}
@@ -145,7 +139,7 @@ function WishlistCard({
         {showQuickAdd && (
           <div
             className={cn(
-              'absolute inset-x-[var(--space-3)] bottom-[var(--space-3)] z-[2]',
+              'absolute inset-x-3 bottom-3 z-[2]',
               'flex items-center justify-center',
               'opacity-100 translate-y-0',
               'md:opacity-0 md:translate-y-2',
@@ -157,7 +151,7 @@ function WishlistCard({
               size="sm"
               onClick={handlePrimaryAction}
               className={cn(
-                'h-9 w-full gap-[var(--space-1-5)]',
+                'h-9 w-full gap-1.5',
                 'rounded-[var(--radius-full)]',
                 'shadow-[var(--elevation-card)]',
               )}
@@ -188,7 +182,7 @@ function WishlistCard({
           aria-label={`Remove ${product.name} from wishlist`}
           title="Remove from wishlist"
           className={cn(
-            'absolute right-[var(--space-3)] top-[var(--space-3)] z-[3]',
+            'absolute right-3 top-3 z-[3]',
             'inline-flex h-8 w-8 items-center justify-center rounded-full',
             'bg-[var(--surface-base)] shadow-[var(--elevation-xs)]',
             'border border-[var(--border-subtle)]',
@@ -220,7 +214,7 @@ function WishlistCard({
       )}
 
       {/* Body */}
-      <div className="flex flex-1 flex-col gap-[var(--space-2)] p-[var(--space-4)]">
+      <div className="flex flex-1 flex-col gap-2 p-4">
         {product.brand && (
           <p className="text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
             {product.brand}
@@ -234,7 +228,7 @@ function WishlistCard({
         >
           <h3
             className={cn(
-              'line-clamp-2 text-[length:var(--text-sm)] font-semibold leading-snug',
+              'line-clamp-2 text-sm font-semibold leading-snug',
               'text-[var(--text-primary)] hover:text-[var(--action-primary)]',
               'transition-colors duration-[var(--motion-fast)]',
             )}
@@ -247,7 +241,7 @@ function WishlistCard({
           <Rating value={product.rating} count={product.reviewCount} showCount size="sm" />
         )}
 
-        <div className="mt-auto flex items-center justify-between gap-[var(--space-2)] pt-[var(--space-1)]">
+        <div className="mt-auto flex items-center justify-between gap-2 pt-1">
           <PriceDisplay
             price={product.price}
             originalPrice={product.originalPrice}
@@ -258,9 +252,9 @@ function WishlistCard({
               type="button"
               onClick={() => onNotify(product.id)}
               className={cn(
-                'inline-flex items-center gap-[var(--space-1)] rounded-full',
+                'inline-flex items-center gap-1 rounded-full',
                 'border border-[var(--border-subtle)] bg-[var(--surface-base)]',
-                'px-[var(--space-2-5)] py-[var(--space-1)]',
+                'px-2.5 py-1',
                 'text-[length:var(--text-micro)] font-semibold uppercase tracking-[0.08em]',
                 'text-[var(--text-secondary)]',
                 'transition-colors duration-[var(--motion-fast)]',

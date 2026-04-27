@@ -14,7 +14,7 @@ export function FilterClear({ onClick }: FilterClearProps) {
       size="sm"
       onClick={onClick}
       className={cn(
-        'h-auto min-h-0 px-0 py-0 gap-1.5 text-[var(--text-sm)] font-semibold',
+        'h-auto min-h-0 px-0 py-0 gap-1.5 text-sm font-semibold',
         'text-[var(--text-secondary)] hover:text-[var(--intent-danger)]',
         'transition-colors duration-[var(--motion-fast)] bg-transparent hover:bg-transparent',
       )}

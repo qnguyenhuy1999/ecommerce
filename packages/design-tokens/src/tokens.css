@@ -21,7 +21,7 @@
   --black-soft: #222222;
 
   /* ── Brand Scale ──────────────────────────────── */
-  --brand-50:  #fff0f3;
+  --brand-50: #fff0f3;
   --brand-100: #ffe0e7;
   --brand-200: #ffc2cd;
   --brand-300: #ff6b87;
@@ -74,23 +74,23 @@
   --line-height-product: 1.5;
 
   /* ── Spacing ────────────────────────────────── */
-  --space-0: 0px;
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-7: 1.75rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-11: 2.75rem;
-  --space-12: 3rem;
-  --space-14: 3.5rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
+  --spacing-0: 0px;
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-7: 1.75rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-11: 2.75rem;
+  --spacing-12: 3rem;
+  --spacing-14: 3.5rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+  --spacing-32: 8rem;
 
   /* ── Border ─────────────────────────────────── */
   --border-width-0: 0px;
@@ -286,12 +286,9 @@
   --elevation-surface:
     0 1px 2px rgb(15 23 42 / 0.04), 0 10px 24px -18px rgb(15 23 42 / 0.22),
     0 0 0 1px rgb(15 23 42 / 0.05);
-  --elevation-floating:
-    0 14px 36px -24px rgb(15 23 42 / 0.28), 0 0 0 1px rgb(15 23 42 / 0.05);
-  --elevation-dropdown:
-    0 22px 52px -28px rgb(15 23 42 / 0.34), 0 0 0 1px rgb(15 23 42 / 0.08);
-  --elevation-modal:
-    0 32px 80px -36px rgb(15 23 42 / 0.42), 0 0 0 1px rgb(15 23 42 / 0.08);
+  --elevation-floating: 0 14px 36px -24px rgb(15 23 42 / 0.28), 0 0 0 1px rgb(15 23 42 / 0.05);
+  --elevation-dropdown: 0 22px 52px -28px rgb(15 23 42 / 0.34), 0 0 0 1px rgb(15 23 42 / 0.08);
+  --elevation-modal: 0 32px 80px -36px rgb(15 23 42 / 0.42), 0 0 0 1px rgb(15 23 42 / 0.08);
   --elevation-xs: 0 1px 2px rgb(15 23 42 / 0.08);
 
   /* ── Layer / Z-Index ──────────────────────────── */
@@ -409,18 +406,18 @@
   --admin-header-height: 4rem;
 
   --storefront-content-max-width: 80rem;
-  --storefront-grid-gap: var(--space-6);
+  --storefront-grid-gap: var(--spacing-6);
 
-  --section-gap: var(--space-10);
-  --header-height: calc(var(--space-12) + var(--space-4));
+  --section-gap: var(--spacing-10);
+  --header-height: calc(var(--spacing-12) + var(--spacing-4));
 
   /* ── Card ────────────────────────────────────── */
   --card-bg: var(--surface-base);
   --card-fg: var(--text-primary);
   --card-border: var(--border-subtle);
-  --card-padding: var(--space-6);
-  --card-padding-compact: var(--space-4);
-  --card-gap: var(--space-4);
+  --card-padding: var(--spacing-6);
+  --card-padding-compact: var(--spacing-4);
+  --card-gap: var(--spacing-4);
   --card-radius: var(--radius-lg);
   --card-radius-premium: var(--radius-xl);
   --card-elevation: var(--elevation-surface);
@@ -431,14 +428,14 @@
   --button-font-weight: var(--font-weight-semibold);
   --button-transition: var(--duration-fast) var(--ease-in-out);
 
-  --button-sm-px: var(--space-3);
-  --button-sm-py: var(--space-1);
+  --button-sm-px: var(--spacing-3);
+  --button-sm-py: var(--spacing-1);
   --button-sm-fs: var(--text-sm);
-  --button-md-px: var(--space-4);
-  --button-md-py: var(--space-2);
+  --button-md-px: var(--spacing-4);
+  --button-md-py: var(--spacing-2);
   --button-md-fs: var(--text-base);
-  --button-lg-px: var(--space-6);
-  --button-lg-py: var(--space-3);
+  --button-lg-px: var(--spacing-6);
+  --button-lg-py: var(--spacing-3);
   --button-lg-fs: var(--text-lg);
 
   --button-height-sm: 2rem;
@@ -454,16 +451,15 @@
   --input-radius: var(--radius-sm);
   --input-focus-ring: var(--focus-ring-color);
 
-  --input-sm-px: var(--space-2);
-  --input-sm-py: var(--space-1);
+  --input-sm-px: var(--spacing-2);
+  --input-sm-py: var(--spacing-1);
   --input-sm-fs: var(--text-sm);
-  --input-md-px: var(--space-3);
-  --input-md-py: var(--space-2);
+  --input-md-px: var(--spacing-3);
+  --input-md-py: var(--spacing-2);
   --input-md-fs: var(--text-base);
-  --input-lg-px: var(--space-4);
-  --input-lg-py: var(--space-3);
+  --input-lg-px: var(--spacing-4);
+  --input-lg-py: var(--spacing-3);
   --input-lg-fs: var(--text-lg);
-
 
   /* ── Type roles ───────────────────────────────── */
   --font-size-display-sm: var(--text-4xl);
@@ -479,8 +475,8 @@
   --font-size-caption: var(--text-micro);
 
   /* ── Badge ───────────────────────────────────── */
-  --badge-px: var(--space-2);
-  --badge-py: var(--space-1);
+  --badge-px: var(--spacing-2);
+  --badge-py: var(--spacing-1);
   --badge-radius: var(--radius-md);
   --badge-font-size: var(--text-micro);
   --badge-font-weight: var(--font-weight-medium);
@@ -506,11 +502,11 @@
   --toast-fg: var(--text-primary);
   --toast-desc: var(--text-secondary);
   --toast-radius: var(--radius-md);
-  --toast-padding: var(--space-4);
+  --toast-padding: var(--spacing-4);
   --toast-elevation: var(--elevation-dropdown);
   --toast-z: var(--layer-toast);
   --toast-max-width: 24rem;
-  --toast-gap: var(--space-3);
+  --toast-gap: var(--spacing-3);
   --toast-icon-size: 1.125rem;
   --toast-progress-h: 3px;
   --toast-accent-w: 3px;
@@ -583,17 +579,17 @@
   --shadow-xs: var(--elevation-xs);
 
   /* ── Spacing extras ──────────────────────────── */
-  --space-0-5: 0.125rem;
-  --space-1-5: 0.375rem; /* 6px */
-  --space-2-5: 0.625rem; /* 10px */
-  --space-9: 2.25rem;
-  --space-16: 4rem;
-  --space-48: 12rem;
-  --space-96: 24rem;
+  --spacing-0-5: 0.125rem;
+  --spacing-1-5: 0.375rem; /* 6px */
+  --spacing-2-5: 0.625rem; /* 10px */
+  --spacing-9: 2.25rem;
+  --spacing-16: 4rem;
+  --spacing-48: 12rem;
+  --spacing-96: 24rem;
 
   /* ── Card content ─────────────────────────────── */
-  --padding-card: var(--space-6);
-  --padding-card-content: var(--space-4);
+  --padding-card: var(--spacing-6);
+  --padding-card-content: var(--spacing-4);
 
   /* ── shadcn/ui bridge ─────────────────────────── */
   --background: var(--color-background);
@@ -853,7 +849,7 @@
 
 @keyframes toast-slide-in {
   from {
-    transform: translateX(calc(100% + var(--space-4)));
+    transform: translateX(calc(100% + var(--spacing-4)));
     opacity: 0;
   }
   to {
@@ -868,7 +864,7 @@
     opacity: 1;
   }
   to {
-    transform: translateX(calc(100% + var(--space-4)));
+    transform: translateX(calc(100% + var(--spacing-4)));
     opacity: 0;
   }
 }
@@ -991,6 +987,51 @@
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+.typography-h1 {
+  font-size: var(--font-size-display-sm);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.02em;
+}
+
+.typography-h2 {
+  font-size: var(--font-size-heading-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: -0.01em;
+}
+
+.typography-h3 {
+  font-size: var(--font-size-heading-lg);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+}
+
+.typography-h4 {
+  font-size: var(--font-size-heading-md);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-snug);
+}
+
+.typography-h5 {
+  font-size: var(--font-size-heading-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-snug);
+}
+
+.typography-p {
+  font-size: var(--font-size-body-md);
+  line-height: var(--line-height-relaxed);
+}
+
+.typography-span {
+  font-size: var(--font-size-body-md);
+  line-height: inherit;
 }
 
 /* ============================================================

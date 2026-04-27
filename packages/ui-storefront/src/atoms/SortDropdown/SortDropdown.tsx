@@ -26,7 +26,7 @@ function SortDropdown({
 }: SortDropdownProps) {
   return (
     <div className={cn('flex items-center gap-2', className)}>
-      <span className="flex items-center gap-1.5 whitespace-nowrap text-[var(--text-sm)] text-[var(--text-secondary)]">
+      <span className="flex items-center gap-1.5 whitespace-nowrap text-sm text-[var(--text-secondary)]">
         <ArrowUpDown className="h-3.5 w-3.5 shrink-0" />
         {label}:
       </span>
@@ -34,7 +34,7 @@ function SortDropdown({
         <SelectTrigger
           id={id}
           className={cn(
-            'h-10 min-w-[11rem] rounded-full border-[var(--border-default)] bg-[var(--surface-base)] text-[var(--text-sm)] font-medium shadow-[var(--elevation-xs)]',
+            'h-10 min-w-[11rem] rounded-full border-[var(--border-default)] bg-[var(--surface-base)] text-sm font-medium shadow-[var(--elevation-xs)]',
             'focus:border-[var(--action-primary)] focus:ring-[var(--action-primary)]',
           )}
         >
@@ -42,11 +42,7 @@ function SortDropdown({
         </SelectTrigger>
         <SelectContent className="rounded-[var(--radius-lg)] border-[var(--border-subtle)] shadow-[var(--elevation-dropdown)]">
           {options.map((opt) => (
-            <SelectItem
-              key={opt.value}
-              value={opt.value}
-              className="cursor-pointer text-[var(--text-sm)]"
-            >
+            <SelectItem key={opt.value} value={opt.value} className="cursor-pointer text-sm">
               {opt.label}
             </SelectItem>
           ))}

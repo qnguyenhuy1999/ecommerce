@@ -129,21 +129,15 @@ export function FilterSidebarClient({
   }
 
   return (
-    <div
-      className={cn(
-        'filter-sidebar w-full flex flex-col',
-        className,
-      )}
-      {...props}
-    >
+    <div className={cn('filter-sidebar w-full flex flex-col', className)} {...props}>
       {/* Header — flush with the page, not a boxed panel */}
-      <div className="flex items-center justify-between gap-[var(--space-2)] pb-[var(--space-3)]">
-        <h2 className="flex items-center gap-[var(--space-2)] text-[length:var(--text-sm)] font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+      <div className="flex items-center justify-between gap-2 pb-3">
+        <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
           <Filter className="h-3.5 w-3.5" aria-hidden="true" />
           Filters
           {activeCount > 0 && (
             <span
-              className="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[var(--action-primary)] px-[var(--space-1-5)] text-[length:var(--text-micro)] font-semibold text-[var(--action-primary-foreground)]"
+              className="inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full bg-[var(--action-primary)] px-1.5 text-[length:var(--text-micro)] font-semibold text-[var(--action-primary-foreground)]"
               aria-label={`${activeCount} filter${activeCount === 1 ? '' : 's'} active`}
             >
               {activeCount}
@@ -178,13 +172,11 @@ export function FilterSidebarClient({
         ))}
 
         {groups.length === 0 && (
-          <div className="my-[var(--space-6)] flex flex-col items-center justify-center gap-[var(--space-2)] rounded-[var(--radius-lg)] border border-dashed border-[var(--border-subtle)] bg-[var(--surface-subtle)] px-[var(--space-4)] py-[var(--space-8)] text-center">
+          <div className="my-6 flex flex-col items-center justify-center gap-2 rounded-[var(--radius-lg)] border border-dashed border-[var(--border-subtle)] bg-[var(--surface-subtle)] px-4 py-8 text-center">
             <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-base)] text-[var(--text-tertiary)]">
               <Search className="h-4 w-4" aria-hidden="true" />
             </span>
-            <p className="text-[length:var(--text-sm)] font-medium text-[var(--text-secondary)]">
-              No filters available
-            </p>
+            <p className="text-sm font-medium text-[var(--text-secondary)]">No filters available</p>
           </div>
         )}
       </div>

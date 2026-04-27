@@ -21,11 +21,6 @@ export interface AccountPageLayoutProps extends React.HTMLAttributes<HTMLDivElem
   children: React.ReactNode
 }
 
-/**
- * Account dashboard chrome — left rail (Orders / Wishlist / Profile / Addresses)
- * + content surface. Composed on top of StorefrontPageShell + PageContainer so
- * the spacing and container width always match the rest of the storefront.
- */
 function AccountPageLayout({
   promoBar,
   header,
@@ -53,9 +48,7 @@ function AccountPageLayout({
       <PageContainer>
         <div className="w-full">
           {breadcrumb && (
-            <div className="mb-[var(--space-6)] text-[length:var(--text-sm)] text-[var(--text-secondary)]">
-              {breadcrumb}
-            </div>
+            <div className="mb-6 text-sm text-[var(--text-secondary)]">{breadcrumb}</div>
           )}
           <AccountDashboardShell sidebarProps={sidebarProps}>
             <div className={cn('min-h-[24rem]')}>{children}</div>

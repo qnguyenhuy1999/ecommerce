@@ -31,7 +31,7 @@ export function TrustBadgeClient({ type, label }: TrustBadgeClientProps) {
   const Icon = config.icon
 
   return (
-    <span className="inline-flex items-center gap-1.5 text-[var(--text-sm)] font-medium text-muted-foreground">
+    <span className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground">
       <Icon className={`w-4 h-4 shrink-0 ${config.iconColor}`} />
       <span>{label ?? config.label}</span>
     </span>

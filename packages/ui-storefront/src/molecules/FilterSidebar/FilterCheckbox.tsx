@@ -38,7 +38,7 @@ export function FilterCheckbox({
       </span>
       <span
         className={cn(
-          'flex-1 text-[var(--text-sm)] font-medium text-[var(--text-secondary)]',
+          'flex-1 text-sm font-medium text-[var(--text-secondary)]',
           'group-hover:text-[var(--text-primary)] transition-colors duration-[var(--motion-fast)]',
           checked && 'text-[var(--text-primary)] font-semibold',
         )}

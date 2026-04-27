@@ -11,7 +11,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, ...pr
     ref={ref}
     className={cn(
       [
-        'text-[var(--text-sm)]',
+        'text-sm',
         'font-[var(--font-weight-medium)]',
         'leading-none',
         'text-[var(--text-primary)]',

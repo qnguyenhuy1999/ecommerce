@@ -45,7 +45,7 @@ export const ProductReview: Story = {
       <Textarea
         placeholder="Share your experience with this product. What did you like? What could be improved?"
         maxLength={500}
-        className="min-h-[var(--space-16)]"
+        className="min-h-16"
       />
       <p className="text-xs text-muted-foreground text-right">Be specific and honest to help other shoppers.</p>
     </div>
@@ -58,7 +58,7 @@ export const CustomerSupport: Story = {
       <h3 className="text-sm font-semibold">Contact Support</h3>
       <Textarea
         placeholder="Describe your issue in detail. Include your order number if applicable."
-        className="min-h-[var(--space-16)]"
+        className="min-h-16"
         maxLength={1000}
       />
       <p className="text-xs text-muted-foreground">Our support team typically responds within 24 hours.</p>

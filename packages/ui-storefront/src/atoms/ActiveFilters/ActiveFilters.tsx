@@ -34,7 +34,7 @@ function ActiveFilters({ filters, onRemove, onClearAll, className }: ActiveFilte
           onClick={() => onRemove(filter.key, filter.value)}
           aria-label={`Remove filter: ${filter.label} ${filter.value}`}
           className={cn(
-            'group inline-flex items-center gap-1.5 rounded-full border border-[var(--border-default)] bg-[var(--surface-base)] px-[var(--space-2-5)] py-[var(--space-1)]',
+            'group inline-flex items-center gap-1.5 rounded-full border border-[var(--border-default)] bg-[var(--surface-base)] px-2.5 py-1',
             'text-[length:var(--text-xs)] font-medium text-[var(--text-primary)] shadow-[var(--elevation-xs)]',
             'transition-all duration-[var(--motion-fast)]',
             'hover:border-[var(--intent-danger)] hover:bg-[var(--intent-danger-muted)]/50 hover:text-[var(--intent-danger)]',

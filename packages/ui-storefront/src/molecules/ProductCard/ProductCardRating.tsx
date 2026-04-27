@@ -9,13 +9,6 @@ interface ProductCardRatingProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function ProductCardRating({ value, count, className, ...props }: ProductCardRatingProps) {
   return (
-    <Rating
-      value={value}
-      size="sm"
-      showCount
-      count={count}
-      className={cn(className)}
-      {...props}
-    />
+    <Rating value={value} size="sm" showCount count={count} className={cn(className)} {...props} />
   )
 }

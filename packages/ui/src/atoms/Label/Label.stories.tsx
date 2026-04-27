@@ -44,7 +44,7 @@ export const WithInput: Story = {
         <Label htmlFor="bio">Bio</Label>
         <textarea
           id="bio"
-          className="flex min-h-[var(--space-16)] w-full rounded-[var(--radius-sm)] border border-input bg-transparent px-3 py-2 text-sm"
+          className="flex min-h-16 w-full rounded-[var(--radius-sm)] border border-input bg-transparent px-3 py-2 text-sm"
           placeholder="Tell us about yourself"
           defaultValue="Product designer with 8 years of experience building design systems and consumer apps."
         />

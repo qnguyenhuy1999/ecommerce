@@ -95,11 +95,9 @@ export default function SellersPage() {
 
   return (
     <AdminShell title="Sellers">
-      <div className="space-y-[var(--space-6)]">
-        <header className="space-y-[var(--space-1)]">
-          <h1 className="text-[length:var(--text-2xl)] font-bold tracking-tight">
-            Seller approvals
-          </h1>
+      <div className="space-y-6">
+        <header className="space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">Seller approvals</h1>
           <p className="text-[var(--text-secondary)]">
             Review KYC submissions and decide on access to the marketplace.
           </p>
@@ -147,7 +145,7 @@ export default function SellersPage() {
         </DataTable>
 
         {total > limit && (
-          <div className="flex items-center justify-end gap-[var(--space-3)]">
+          <div className="flex items-center justify-end gap-3">
             <Button
               size="sm"
               variant="outline"
@@ -156,7 +154,7 @@ export default function SellersPage() {
             >
               Previous
             </Button>
-            <span className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
+            <span className="text-sm text-[var(--text-secondary)]">
               Page {page} of {totalPages}
             </span>
             <Button
@@ -189,8 +187,8 @@ function FiltersBar({
   onChange: (next: Filters) => void
 }) {
   return (
-    <div className="grid gap-[var(--space-3)] md:grid-cols-3">
-      <div className="space-y-[var(--space-1)]">
+    <div className="grid gap-3 md:grid-cols-3">
+      <div className="space-y-1">
         <Label htmlFor="kycStatus">KYC status</Label>
         <Select
           value={filters.kycStatus}
@@ -211,7 +209,7 @@ function FiltersBar({
           </SelectContent>
         </Select>
       </div>
-      <div className="space-y-[var(--space-1)] md:col-span-2">
+      <div className="space-y-1 md:col-span-2">
         <Label htmlFor="search">Search store / email</Label>
         <Input
           id="search"
@@ -244,7 +242,7 @@ function SellerRow({
         <StatusBadge status={STATUS_TO_BADGE[status]} label={STATUS_LABEL[status]} />
       </DataTableCell>
       <DataTableCell align="right">
-        <div className="flex justify-end gap-[var(--space-2)]">
+        <div className="flex justify-end gap-2">
           <Button size="sm" variant="outline" onClick={() => onReview('view')}>
             Review
           </Button>
@@ -331,11 +329,11 @@ function SellerReviewDialog({
         {detail.isError && <p>Failed to load seller detail.</p>}
 
         {data && (
-          <div className="space-y-[var(--space-4)]">
+          <div className="space-y-4">
             <SellerInfoPanel detail={data} />
 
             {mode === 'reject' && isPendingKyc && (
-              <section className="space-y-[var(--space-2)] rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-secondary)] p-[var(--space-3)]">
+              <section className="space-y-2 rounded-[var(--radius-md)] border border-[var(--border-default)] bg-[var(--surface-secondary)] p-3">
                 <Label htmlFor="reject-reason">Reason for rejection (optional)</Label>
                 <Textarea
                   id="reject-reason"
@@ -351,13 +349,11 @@ function SellerReviewDialog({
               </section>
             )}
 
-            {error && (
-              <p className="text-[length:var(--text-sm)] text-[var(--error-600)]">{error}</p>
-            )}
+            {error && <p className="text-sm text-[var(--error-600)]">{error}</p>}
           </div>
         )}
 
-        <DialogFooter className="gap-[var(--space-2)]">
+        <DialogFooter className="gap-2">
           <Button variant="outline" onClick={onClose} disabled={isPending}>
             Close
           </Button>
@@ -373,11 +369,7 @@ function SellerReviewDialog({
                   </Button>
                 </>
               ) : (
-                <Button
-                  variant="destructive"
-                  onClick={() => reject.mutate()}
-                  disabled={isPending}
-                >
+                <Button variant="destructive" onClick={() => reject.mutate()} disabled={isPending}>
                   Confirm rejection
                 </Button>
               )}
@@ -391,10 +383,10 @@ function SellerReviewDialog({
 
 function SellerInfoPanel({ detail }: { detail: AdminSellerDetail }) {
   return (
-    <section className="space-y-[var(--space-3)]">
-      <div className="flex flex-wrap items-center justify-between gap-[var(--space-2)]">
+    <section className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">Owner</p>
+          <p className="text-sm text-[var(--text-secondary)]">Owner</p>
           <p className="font-medium">{detail.ownerEmail}</p>
         </div>
         <StatusBadge
@@ -403,7 +395,7 @@ function SellerInfoPanel({ detail }: { detail: AdminSellerDetail }) {
         />
       </div>
 
-      <dl className="grid gap-[var(--space-2)] text-[length:var(--text-sm)] md:grid-cols-2">
+      <dl className="grid gap-2 text-sm md:grid-cols-2">
         <div>
           <dt className="text-[var(--text-secondary)]">Submitted</dt>
           <dd>{formatDate(detail.submittedAt)}</dd>
@@ -426,19 +418,15 @@ function SellerInfoPanel({ detail }: { detail: AdminSellerDetail }) {
 
       {detail.storeDescription && (
         <div>
-          <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
-            Store description
-          </p>
+          <p className="text-sm text-[var(--text-secondary)]">Store description</p>
           <p>{detail.storeDescription}</p>
         </div>
       )}
 
       {detail.kycDocuments && Object.keys(detail.kycDocuments).length > 0 && (
-        <div className="space-y-[var(--space-1)]">
-          <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
-            KYC documents
-          </p>
-          <pre className="overflow-x-auto rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] p-[var(--space-2)] text-[length:var(--text-xs)]">
+        <div className="space-y-1">
+          <p className="text-sm text-[var(--text-secondary)]">KYC documents</p>
+          <pre className="overflow-x-auto rounded-[var(--radius-sm)] bg-[var(--surface-secondary)] p-2 text-[length:var(--text-xs)]">
             {JSON.stringify(detail.kycDocuments, null, 2)}
           </pre>
         </div>

@@ -110,12 +110,12 @@ export function CommandPalette({
             onChange={(e) => setSearch(e.target.value)}
             className="flex-1 h-14 border-0 shadow-none focus:shadow-none focus:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none text-base bg-transparent"
           />
-          <kbd className="hidden lg:inline-flex items-center gap-1 bg-muted px-1.5 rounded-[var(--radius-xs)] text-[var(--space-3)] font-medium text-muted-foreground">
+          <kbd className="hidden lg:inline-flex items-center gap-1 bg-muted px-1.5 rounded-[var(--radius-xs)] text-3 font-medium text-muted-foreground">
             ESC
           </kbd>
         </div>
 
-        <ScrollArea className="max-h-[60vh] min-h-[var(--space-12)]">
+        <ScrollArea className="max-h-[60vh] min-h-12">
           {filteredGroups.length === 0 ? (
             <div className="py-14 px-6 text-center text-sm text-muted-foreground">
               No results found for "{search}"
@@ -162,7 +162,7 @@ export function CommandPalette({
                             {item.shortcut && (
                               <kbd
                                 className={cn(
-                                  'text-[var(--space-3)] px-1.5 rounded-[var(--radius-xs)] border',
+                                  'text-3 px-1.5 rounded-[var(--radius-xs)] border',
                                   isSelected
                                     ? 'bg-black/10 border-black/20 text-brand-foreground'
                                     : 'bg-muted text-muted-foreground',

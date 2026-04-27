@@ -38,16 +38,14 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
   }
 
   return (
-    <li className="flex flex-col gap-[var(--space-1)]">
+    <li className="flex flex-col gap-1">
       <a
         href={item.href || '#'}
         onClick={handleParentClick}
         title={collapsed ? item.label : undefined}
         className={cn(
           'relative flex items-center rounded-[var(--radius-md)] no-underline',
-          collapsed
-            ? 'mx-auto h-10 w-10 justify-center gap-0 p-0'
-            : 'gap-[var(--space-3)] px-[var(--space-3)] py-[var(--space-2)]',
+          collapsed ? 'mx-auto h-10 w-10 justify-center gap-0 p-0' : 'gap-3 px-3 py-2',
           'text-[length:var(--text-nav-label)]',
           'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--motion-ease-default)] cursor-pointer group',
           'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
@@ -58,14 +56,12 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
       >
         {active && !collapsed && (
           <span
-            className="absolute left-0 top-1/2 -translate-x-[var(--space-2)] -translate-y-1/2 h-[60%] min-h-[1.25rem] w-[var(--sidebar-accent-bar-width)] rounded-[var(--radius-full)] bg-[var(--action-primary)]"
+            className="absolute left-0 top-1/2 -translate-x-2 -translate-y-1/2 h-[60%] min-h-[1.25rem] w-[var(--sidebar-accent-bar-width)] rounded-[var(--radius-full)] bg-[var(--action-primary)]"
             aria-hidden="true"
           />
         )}
         {item.icon && (
-          <span className="shrink-0 flex items-center justify-center w-[var(--space-4)] h-[var(--space-4)]">
-            {item.icon}
-          </span>
+          <span className="shrink-0 flex items-center justify-center w-4 h-4">{item.icon}</span>
         )}
         {!collapsed && (
           <span className={cn('flex-1 truncate', active ? 'font-semibold' : 'font-medium')}>
@@ -76,7 +72,7 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
         {hasChildren && !collapsed && (
           <ChevronRight
             className={cn(
-              'w-[var(--space-4)] h-[var(--space-4)] transition-transform duration-[var(--duration-fast)]',
+              'w-4 h-4 transition-transform duration-[var(--duration-fast)]',
               isExpanded && 'rotate-90',
               active
                 ? 'text-[var(--text-brand)]/70'
@@ -93,7 +89,7 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
             isExpanded ? 'grid-rows-[1fr] opacity-100 mt-1 mb-1' : 'grid-rows-[0fr] opacity-0',
           )}
         >
-          <ul className="flex flex-col gap-1 overflow-hidden ml-[22px] border-l border-[var(--border-subtle)] pl-[var(--space-3)]">
+          <ul className="flex flex-col gap-1 overflow-hidden ml-[22px] border-l border-[var(--border-subtle)] pl-3">
             {item.children!.map((child, idx) => {
               const isChildActive = child.isActive
               return (
@@ -107,7 +103,7 @@ const NavItem = React.memo(function NavItem({ item, active, collapsed, onNavigat
                       }
                     }}
                     className={cn(
-                      'block rounded-[var(--radius-sm)] px-[var(--space-3)] py-[var(--space-1-5)] text-[length:var(--text-nav-label)]',
+                      'block rounded-[var(--radius-sm)] px-3 py-1.5 text-[length:var(--text-nav-label)]',
                       'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--motion-ease-default)]',
                       'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
                       isChildActive
@@ -168,7 +164,7 @@ function AdminSidebar({
       <div
         className={cn(
           'flex shrink-0 items-center h-[var(--admin-header-height)] overflow-hidden transition-all',
-          collapsed ? 'justify-center px-0' : 'px-[var(--space-6)]',
+          collapsed ? 'justify-center px-0' : 'px-6',
         )}
       >
         <div className="truncate shrink-0">
@@ -182,24 +178,20 @@ function AdminSidebar({
       <nav
         className={cn(
           'flex-1 overflow-y-auto custom-scrollbar flex flex-col',
-          collapsed ? 'p-[var(--space-2)] items-center' : 'p-[var(--space-3)]',
+          collapsed ? 'p-2 items-center' : 'p-3',
         )}
       >
         {(navGroups ?? FALLBACK_NAV).map((group, gi) => (
           <div
             key={gi}
-            className={cn(
-              'w-full',
-              gi > 0 &&
-                'mt-[var(--space-3)] pt-[var(--space-3)] border-t border-[var(--border-subtle)]',
-            )}
+            className={cn('w-full', gi > 0 && 'mt-3 pt-3 border-t border-[var(--border-subtle)]')}
           >
             {group.label && !collapsed && (
-              <p className="px-[var(--space-3)] mb-[var(--space-2)] text-[length:var(--text-sidebar-group-label)] font-semibold text-[var(--text-tertiary)] uppercase tracking-widest">
+              <p className="px-3 mb-2 text-[length:var(--text-sidebar-group-label)] font-semibold text-[var(--text-tertiary)] uppercase tracking-widest">
                 {group.label}
               </p>
             )}
-            <ul className="flex flex-col gap-[var(--space-1)] w-full">
+            <ul className="flex flex-col gap-1 w-full">
               {group.items.map((item, ii) => (
                 <NavItem
                   key={ii}
@@ -215,17 +207,10 @@ function AdminSidebar({
       </nav>
 
       {/* Footer Navigation */}
-      <div
-        className={cn(
-          'mt-auto',
-          collapsed
-            ? 'px-[var(--space-2)] pb-[var(--space-4)] pt-[var(--space-2)]'
-            : 'px-[var(--space-3)] pb-[var(--space-4)] pt-[var(--space-3)]',
-        )}
-      >
+      <div className={cn('mt-auto', collapsed ? 'px-2 pb-4 pt-2' : 'px-3 pb-4 pt-3')}>
         {(footerNav ?? FALLBACK_FOOTER).length > 0 && (
-          <div className="border-t border-[var(--border-subtle)] pt-[var(--space-3)] w-full">
-            <ul className="flex flex-col gap-[var(--space-1)] w-full">
+          <div className="border-t border-[var(--border-subtle)] pt-3 w-full">
+            <ul className="flex flex-col gap-1 w-full">
               {(footerNav ?? FALLBACK_FOOTER).map((item, ii) => (
                 <NavItem
                   key={ii}
@@ -242,7 +227,7 @@ function AdminSidebar({
         {/* Toggle Collapse Button */}
         <div
           className={cn(
-            'border-t border-[var(--border-subtle)] pt-[var(--space-3)] mt-[var(--space-3)] w-full',
+            'border-t border-[var(--border-subtle)] pt-3 mt-3 w-full',
             (footerNav ?? FALLBACK_FOOTER).length === 0 && 'border-t-0 pt-0',
           )}
         >
@@ -251,20 +236,18 @@ function AdminSidebar({
             onClick={onToggleCollapse}
             aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             className={cn(
-              'flex w-full items-center rounded-[var(--radius-md)] p-[var(--space-2)] text-[var(--text-secondary)]',
+              'flex w-full items-center rounded-[var(--radius-md)] p-2 text-[var(--text-secondary)]',
               'transition-[background-color,color] duration-[var(--duration-fast)] ease-[var(--motion-ease-default)] outline-none',
               'hover:bg-[var(--state-hover)] hover:text-[var(--text-primary)]',
               'focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)]',
-              collapsed
-                ? 'mx-auto h-10 w-10 justify-center'
-                : 'justify-start gap-[var(--space-3)] px-[var(--space-3)]',
+              collapsed ? 'mx-auto h-10 w-10 justify-center' : 'justify-start gap-3 px-3',
             )}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           >
             {collapsed ? (
-              <PanelLeftOpen className="w-[var(--space-5)] h-[var(--space-5)]" />
+              <PanelLeftOpen className="w-5 h-5" />
             ) : (
-              <PanelLeftClose className="w-[var(--space-5)] h-[var(--space-5)]" />
+              <PanelLeftClose className="w-5 h-5" />
             )}
             {!collapsed && (
               <span className="font-medium text-[length:var(--text-nav-label)]">Collapse menu</span>

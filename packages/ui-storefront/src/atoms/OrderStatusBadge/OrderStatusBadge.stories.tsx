@@ -52,7 +52,7 @@ export const CompactTableRow: Story = {
     <div className="w-full max-w-md rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-base)] p-4">
       <div className="flex items-center justify-between gap-4">
         <div>
-          <p className="text-[var(--text-sm)] font-medium text-[var(--text-primary)]">Order #ORD-2026-1847</p>
+          <p className="text-sm font-medium text-[var(--text-primary)]">Order #ORD-2026-1847</p>
           <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">Placed Apr 24, 2026</p>
         </div>
         <OrderStatusBadge status="SHIPPED" size="sm" />

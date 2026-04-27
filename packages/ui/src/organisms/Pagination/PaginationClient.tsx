@@ -39,7 +39,7 @@ export function PaginationClient({
         p === 'ellipsis' ? (
           <span
             key={`ellipsis-${String(i)}`}
-            className="flex h-9 w-9 items-center justify-center text-[var(--text-sm)] text-muted-foreground"
+            className="flex h-9 w-9 items-center justify-center text-sm text-muted-foreground"
             aria-hidden="true"
           >
             …

@@ -28,11 +28,11 @@ const spinnerCva = cva([], {
       ].join(' '),
     },
     size: {
-      xs: 'h-[var(--space-4)] w-[var(--space-4)]',
-      sm: 'h-[var(--space-5)] w-[var(--space-5)]',
-      default: 'h-[var(--space-6)] w-[var(--space-6)]',
-      lg: 'h-[var(--space-8)] w-[var(--space-8)]',
-      xl: 'h-[var(--space-10)] w-[var(--space-10)]',
+      xs: 'h-4 w-4',
+      sm: 'h-5 w-5',
+      default: 'h-6 w-6',
+      lg: 'h-8 w-8',
+      xl: 'h-10 w-10',
     },
   },
   defaultVariants: {

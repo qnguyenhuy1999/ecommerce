@@ -27,9 +27,9 @@ export interface FormFieldProps extends Omit<
 }
 
 const GAP: Record<string, string> = {
-  sm: 'gap-[var(--space-1)]',
-  md: 'gap-[var(--space-2)]',
-  lg: 'gap-[var(--space-2)]',
+  sm: 'gap-1',
+  md: 'gap-2',
+  lg: 'gap-2',
 }
 
 function charCountColor(current: number, max: number): string {
@@ -83,11 +83,11 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
         {...props}
       >
         {/* ── Label row ─────────────────────────────────────────── */}
-        <div className="flex items-center justify-between gap-[var(--space-2)]">
+        <div className="flex items-center justify-between gap-2">
           <Label
             htmlFor={inputId}
             className={cn(
-              'text-[var(--text-sm)] font-[var(--font-weight-medium)] leading-none',
+              'text-sm font-[var(--font-weight-medium)] leading-none',
               'transition-colors duration-[var(--motion-fast)]',
               hasError && 'text-[var(--intent-danger)]',
               hasSuccess && 'text-[var(--intent-success)]',
@@ -95,17 +95,17 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
           >
             {label}
             {required && (
-              <span className="ml-[var(--space-1)] text-[var(--intent-danger)]" aria-hidden="true">
+              <span className="ml-1 text-[var(--intent-danger)]" aria-hidden="true">
                 *
               </span>
             )}
             {hasSuccess && !hasError && (
               <CheckCircle2
-                className="ml-[var(--space-1)] w-3.5 h-3.5 text-[var(--intent-success)] inline"
+                className="ml-1 w-3.5 h-3.5 text-[var(--intent-success)] inline"
                 aria-hidden="true"
               />
             )}
-            {hint && <span className="ml-[var(--space-1)] inline-flex align-middle">{hint}</span>}
+            {hint && <span className="ml-1 inline-flex align-middle">{hint}</span>}
           </Label>
 
           {characterCount && (
@@ -154,7 +154,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
               <p
                 className={cn(
                   'flex items-start gap-1.5',
-                  'text-[var(--text-sm)] leading-[1.5]',
+                  'text-sm leading-[1.5]',
                   'animate-[slide-up_var(--motion-fast)_var(--motion-ease-out)_both]',
                   'transition-colors duration-[var(--motion-fast)]',
                   'text-[var(--intent-danger)] font-[var(--font-weight-medium)]',
@@ -170,7 +170,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
               <p
                 className={cn(
                   'flex items-start gap-1.5',
-                  'text-[var(--text-sm)] leading-[1.5]',
+                  'text-sm leading-[1.5]',
                   'animate-[slide-up_var(--motion-fast)_var(--motion-ease-out)_both]',
                   'transition-colors duration-[var(--motion-fast)]',
                   'text-[var(--intent-success)]',
@@ -183,7 +183,7 @@ const FormField = React.forwardRef<HTMLDivElement, FormFieldProps>(
               <p
                 className={cn(
                   'flex items-start gap-1.5',
-                  'text-[var(--text-sm)] leading-[1.5]',
+                  'text-sm leading-[1.5]',
                   'animate-[slide-up_var(--motion-fast)_var(--motion-ease-out)_both]',
                   'transition-colors duration-[var(--motion-fast)]',
                   'text-[var(--text-secondary)]',

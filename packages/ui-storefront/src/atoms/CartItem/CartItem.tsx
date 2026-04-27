@@ -67,11 +67,11 @@ function CartItem({
       className={cn(
         // Card shell — all values from design tokens
         'relative flex flex-col',
-        'gap-[var(--space-3)]',
+        'gap-3',
         'bg-[var(--card-bg)]',
         'rounded-[var(--card-radius)]',
         'shadow-[var(--card-elevation)]',
-        'p-[var(--space-4)]',
+        'p-4',
         // Hover elevation lift
         'transition-shadow duration-[var(--motion-normal)] ease-[var(--motion-ease-out)]',
         'hover:shadow-[var(--card-elevation-hover)]',
@@ -80,7 +80,7 @@ function CartItem({
       {...props}
     >
       {/* ── Row 1: Rx badge + close button ───────────────────────────── */}
-      <div className="flex items-center justify-between min-h-[var(--space-5)]">
+      <div className="flex items-center justify-between min-h-5">
         {rxBadge ? (
           <Badge variant={rxBadge.variant} size="sm">
             {rxBadge.label}
@@ -94,7 +94,7 @@ function CartItem({
           variant="ghost"
           size="icon"
           className={cn(
-            'h-6 w-6 -mt-[var(--space-0-5)] -mr-[var(--space-1)]',
+            'h-6 w-6 -mt-[var(--space-0-5)] -mr-1',
             'text-[var(--text-tertiary)]',
             'hover:text-[var(--text-primary)] hover:bg-[var(--state-hover)]',
             'transition-colors duration-[var(--motion-fast)]',
@@ -107,12 +107,12 @@ function CartItem({
       </div>
 
       {/* ── Row 2: image + content ────────────────────────────────────── */}
-      <div className="flex gap-[var(--space-3)]">
+      <div className="flex gap-3">
         {/* Product thumbnail */}
         <div
           className={cn(
             'shrink-0',
-            'w-[var(--space-16)] h-[var(--space-16)]',
+            'w-16 h-16',
             'rounded-[var(--radius-md)] overflow-hidden',
             'bg-[var(--surface-muted)]',
             'border border-[var(--border-subtle)]',
@@ -126,12 +126,12 @@ function CartItem({
         </div>
 
         {/* Right-side content */}
-        <div className="flex flex-col flex-1 min-w-0 gap-[var(--space-1)]">
+        <div className="flex flex-col flex-1 min-w-0 gap-1">
           {/* Title */}
           <h4
             className={cn(
               'line-clamp-2',
-              'text-[var(--text-sm)]',
+              'text-sm',
               'font-[var(--font-weight-semibold)]',
               'text-[var(--text-primary)]',
               'leading-[var(--line-height-snug)]',
@@ -150,9 +150,9 @@ function CartItem({
               onClick={onVariantClick}
               className={cn(
                 'inline-flex items-center self-start',
-                'gap-[var(--space-1)]',
-                'mt-[var(--space-1)]',
-                'px-[var(--space-2)] py-[var(--space-1)]',
+                'gap-1',
+                'mt-1',
+                'px-2 py-1',
                 'rounded-[var(--radius-full)]',
                 'border border-[var(--border-subtle)]',
                 'bg-[var(--surface-muted)]',
@@ -170,9 +170,9 @@ function CartItem({
           )}
 
           {/* ── Bottom action row: icons + stepper ─────────────── */}
-          <div className="flex items-center justify-between mt-[var(--space-2)]">
+          <div className="flex items-center justify-between mt-2">
             {/* Wishlist + Save-for-later */}
-            <div className="flex items-center gap-[var(--space-1)]">
+            <div className="flex items-center gap-1">
               <WishlistButton wishlisted={wishlisted} onToggle={onWishlist} size="sm" />
 
               <button

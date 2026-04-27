@@ -56,22 +56,15 @@ const HEADER_CATEGORIES: NonNullable<StorefrontHeaderProps['categories']> = [
   { label: 'Sale', href: '/products?onSale=true' },
 ]
 
-const HEADER_LOGO = (
-  <span className="text-xl font-black tracking-tight">{APP_NAME}</span>
-)
+const HEADER_LOGO = <span className="text-xl font-black tracking-tight">{APP_NAME}</span>
 
-const FOOTER_LOGO = (
-  <span className="text-xl font-extrabold tracking-tight">{APP_NAME}</span>
-)
+const FOOTER_LOGO = <span className="text-xl font-extrabold tracking-tight">{APP_NAME}</span>
 
-const PROMO_BAR_NODE = (
-  <PromoBar message="Free shipping on orders over $100" variant="brand" />
-)
+const PROMO_BAR_NODE = <PromoBar message="Free shipping on orders over $100" variant="brand" />
 
 const FOOTER_PROPS_BASE: StorefrontFooterProps = {
   logo: FOOTER_LOGO,
-  description:
-    'Multi-vendor marketplace built with NestJS, Next.js, and PostgreSQL.',
+  description: 'Multi-vendor marketplace built with NestJS, Next.js, and PostgreSQL.',
   columns: FOOTER_COLUMNS,
   socials: FOOTER_SOCIALS,
 }

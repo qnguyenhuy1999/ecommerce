@@ -13,12 +13,7 @@ interface ProductGalleryZoomModalProps {
   onClose: () => void
 }
 
-export function ProductGalleryZoomModal({
-  src,
-  alt,
-  open,
-  onClose,
-}: ProductGalleryZoomModalProps) {
+export function ProductGalleryZoomModal({ src, alt, open, onClose }: ProductGalleryZoomModalProps) {
   const [scale, setScale] = useState(1)
   const [position, setPosition] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)

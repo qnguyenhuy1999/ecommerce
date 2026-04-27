@@ -56,13 +56,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   )
 }
 
-async function ProductsResults({
-  params,
-  title,
-}: {
-  params: ProductListRequest
-  title: string
-}) {
+async function ProductsResults({ params, title }: { params: ProductListRequest; title: string }) {
   const envelope = await fetchProducts(params)
   return <ProductsView title={title} initialProducts={envelope.data} />
 }

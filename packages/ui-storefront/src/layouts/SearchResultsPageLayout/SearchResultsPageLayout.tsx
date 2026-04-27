@@ -88,18 +88,15 @@ function RefineSearchBar({
         submit(value)
       }}
       className={cn(
-        'flex w-full items-center gap-[var(--space-2)]',
+        'flex w-full items-center gap-2',
         'rounded-[var(--radius-full)] border border-[var(--border-subtle)]',
         'bg-[var(--surface-base)] shadow-[var(--elevation-xs)]',
         'transition-[border-color,box-shadow] duration-[var(--motion-fast)]',
         'focus-within:border-[var(--action-primary)] focus-within:shadow-[var(--elevation-card)]',
-        'pl-[var(--space-4)] pr-[var(--space-2)]',
+        'pl-4 pr-2',
       )}
     >
-      <Search
-        className="h-4 w-4 shrink-0 text-[var(--text-tertiary)]"
-        aria-hidden="true"
-      />
+      <Search className="h-4 w-4 shrink-0 text-[var(--text-tertiary)]" aria-hidden="true" />
       <Input
         type="search"
         value={value}
@@ -108,7 +105,7 @@ function RefineSearchBar({
         aria-label="Refine search"
         className={cn(
           'h-11 w-full border-0 bg-transparent px-0',
-          'text-[length:var(--text-sm)] text-[var(--text-primary)]',
+          'text-sm text-[var(--text-primary)]',
           'shadow-none focus-visible:ring-0 focus-visible:border-transparent',
         )}
       />
@@ -130,7 +127,7 @@ function RefineSearchBar({
         type="submit"
         size="sm"
         disabled={!value.trim() || value.trim() === query}
-        className="h-9 rounded-[var(--radius-full)] px-[var(--space-4)]"
+        className="h-9 rounded-[var(--radius-full)] px-4"
       >
         Search
       </Button>
@@ -159,9 +156,9 @@ function QuerySuggestions({
   if (!hasRelated && !hasRecent) return null
 
   return (
-    <div className="flex flex-col gap-[var(--space-2)]">
+    <div className="flex flex-col gap-2">
       {hasRelated && (
-        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
             Try
           </span>
@@ -173,7 +170,7 @@ function QuerySuggestions({
               className={cn(
                 'inline-flex items-center rounded-full',
                 'border border-[var(--border-subtle)] bg-[var(--surface-base)]',
-                'px-[var(--space-3)] py-[var(--space-1-5)]',
+                'px-3 py-1.5',
                 'text-[length:var(--text-xs)] font-medium text-[var(--text-secondary)]',
                 'transition-colors duration-[var(--motion-fast)]',
                 'hover:border-[var(--border-default)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]',
@@ -185,7 +182,7 @@ function QuerySuggestions({
         </div>
       )}
       {hasRecent && (
-        <div className="flex flex-wrap items-center gap-[var(--space-2)]">
+        <div className="flex flex-wrap items-center gap-2">
           <span className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.12em] text-[var(--text-tertiary)]">
             Recent
           </span>
@@ -197,7 +194,7 @@ function QuerySuggestions({
               className={cn(
                 'inline-flex items-center rounded-full',
                 'bg-[var(--surface-subtle)]',
-                'px-[var(--space-3)] py-[var(--space-1-5)]',
+                'px-3 py-1.5',
                 'text-[length:var(--text-xs)] font-medium text-[var(--text-secondary)]',
                 'transition-colors duration-[var(--motion-fast)]',
                 'hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]',
@@ -235,7 +232,7 @@ function NoResultsRecovery({
     <EmptyStateCard className="flex flex-col items-center text-center">
       <div
         className={cn(
-          'mb-[var(--space-4)] flex h-14 w-14 items-center justify-center rounded-full',
+          'mb-4 flex h-14 w-14 items-center justify-center rounded-full',
           'bg-[var(--surface-base)] shadow-[var(--elevation-xs)]',
         )}
       >
@@ -244,11 +241,11 @@ function NoResultsRecovery({
       <h2 className="text-[length:var(--font-size-heading-md)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
         No results for &ldquo;{query}&rdquo;
       </h2>
-      <p className="mt-[var(--space-2)] max-w-[44ch] text-[length:var(--text-sm)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
+      <p className="mt-2 max-w-[44ch] text-sm leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
         Try removing a filter, checking spelling, or using a more general term.
       </p>
 
-      <div className="mt-[var(--space-6)] flex flex-wrap items-center justify-center gap-[var(--space-2)]">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
         {hasActiveFilters && onClearFilters && (
           <Button variant="outline" size="sm" onClick={onClearFilters}>
             Clear filters
@@ -256,18 +253,18 @@ function NoResultsRecovery({
         )}
         {onBrowseAll && (
           <Button size="sm" onClick={onBrowseAll}>
-            <Compass className="mr-[var(--space-1-5)] h-4 w-4" aria-hidden="true" />
+            <Compass className="mr-1.5 h-4 w-4" aria-hidden="true" />
             Browse all products
           </Button>
         )}
       </div>
 
       {relatedQueries.length > 0 && (
-        <div className="mt-[var(--space-8)] w-full max-w-md">
-          <p className="mb-[var(--space-3)] text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+        <div className="mt-8 w-full max-w-md">
+          <p className="mb-3 text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
             Did you mean
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-[var(--space-2)]">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             {relatedQueries.map((q) => (
               <button
                 key={`recovery-${q}`}
@@ -276,7 +273,7 @@ function NoResultsRecovery({
                 className={cn(
                   'inline-flex items-center rounded-full',
                   'border border-[var(--border-subtle)] bg-[var(--surface-base)]',
-                  'px-[var(--space-3)] py-[var(--space-1-5)]',
+                  'px-3 py-1.5',
                   'text-[length:var(--text-xs)] font-medium text-[var(--text-secondary)]',
                   'transition-colors duration-[var(--motion-fast)]',
                   'hover:border-[var(--border-default)] hover:bg-[var(--surface-hover)] hover:text-[var(--text-primary)]',
@@ -339,8 +336,7 @@ function SearchResultsPageLayout({
 
   const titleNode = hasQuery ? (
     <>
-      Results for{' '}
-      <span className="text-[var(--action-primary)]">&ldquo;{trimmedQuery}&rdquo;</span>
+      Results for <span className="text-[var(--action-primary)]">&ldquo;{trimmedQuery}&rdquo;</span>
     </>
   ) : (
     'All products'
@@ -351,12 +347,8 @@ function SearchResultsPageLayout({
     : `${totalResults.toLocaleString()} ${totalResults === 1 ? 'result' : 'results'}`
 
   const headerExtras = (
-    <div className="flex flex-col gap-[var(--space-4)]">
-      <RefineSearchBar
-        query={trimmedQuery}
-        onSearch={onSearch}
-        resultCount={totalResults}
-      />
+    <div className="flex flex-col gap-4">
+      <RefineSearchBar query={trimmedQuery} onSearch={onSearch} resultCount={totalResults} />
       {!isEmpty && (
         <QuerySuggestions
           relatedQueries={relatedQueries}
@@ -375,7 +367,7 @@ function SearchResultsPageLayout({
         onRemove={(key, value) => onRemoveFilter?.(key, value)}
         onClearAll={() => onClearFilters?.()}
       />
-      <div className="ml-auto flex flex-wrap items-center gap-[var(--space-3)]">
+      <div className="ml-auto flex flex-wrap items-center gap-3">
         {resultsToolbar}
         <SortDropdown
           value={sortValue}
@@ -401,9 +393,7 @@ function SearchResultsPageLayout({
   ) : (
     <>
       {results}
-      {pagination && (
-        <div className="mt-[var(--space-6)] flex justify-center">{pagination}</div>
-      )}
+      {pagination && <div className="mt-6 flex justify-center">{pagination}</div>}
     </>
   )
 

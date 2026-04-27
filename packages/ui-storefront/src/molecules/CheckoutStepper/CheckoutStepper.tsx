@@ -46,7 +46,7 @@ function CheckoutStepper({ steps, currentStepId, className, ...props }: Checkout
             >
               <div
                 className={cn(
-                  'w-8 h-8 rounded-full flex items-center justify-center text-[var(--text-sm)] font-bold',
+                  'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
                   'transition-all duration-[var(--motion-normal)] ease-[var(--motion-ease-bounce)]',
                   isCompleted && 'bg-brand text-brand-foreground shadow-sm',
                   isCurrent && [

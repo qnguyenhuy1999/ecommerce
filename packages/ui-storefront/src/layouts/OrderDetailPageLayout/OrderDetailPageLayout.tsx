@@ -130,258 +130,171 @@ function OrderDetailPageLayout({
 
   const body = (
     <>
-        {/* Breadcrumb + back */}
-        <div className="mb-[var(--space-4)] flex items-center justify-between gap-[var(--space-3)]">
-          <Breadcrumb items={defaultBreadcrumb} />
-          {onBack && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onBack}
-              className="-mr-[var(--space-2)] gap-[var(--space-1)] text-[length:var(--text-xs)] text-[var(--text-secondary)]"
-            >
-              <ArrowLeft className="h-3.5 w-3.5" /> Back to Orders
-            </Button>
-          )}
-        </div>
+      {/* Breadcrumb + back */}
+      <div className="mb-4 flex items-center justify-between gap-3">
+        <Breadcrumb items={defaultBreadcrumb} />
+        {onBack && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onBack}
+            className="-mr-2 gap-1 text-[length:var(--text-xs)] text-[var(--text-secondary)]"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" /> Back to Orders
+          </Button>
+        )}
+      </div>
 
-        {/* HERO STATUS BANNER */}
-        <DashboardCard className="mb-[var(--space-6)] p-[var(--space-6)] sm:p-[var(--space-8)]">
-          <div className="flex flex-col gap-[var(--space-5)] md:flex-row md:items-start md:justify-between md:gap-[var(--space-8)]">
-            <div className="min-w-0 flex-1 space-y-[var(--space-2)]">
-              <div className="flex flex-wrap items-center gap-[var(--space-2)]">
-                <span className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
-                  Order #{orderNumber}
-                </span>
-                <span
-                  aria-hidden="true"
-                  className="h-1 w-1 rounded-full bg-[var(--text-tertiary)]"
-                />
-                <span className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-                  Placed {createdAt}
-                </span>
-              </div>
-              <h1
-                className={cn(
-                  'text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] leading-[var(--line-height-tight)] text-[var(--text-primary)]',
-                  'sm:text-[length:var(--font-size-display-sm)]',
-                )}
-              >
-                {estimatedArrival
-                  ? `Estimated arrival: ${estimatedArrival}`
-                  : 'Your order is on its way'}
-              </h1>
-              <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)] leading-[var(--line-height-relaxed)]">
-                {totalItemCount} item{totalItemCount === 1 ? '' : 's'} from {subOrders.length}{' '}
-                seller{subOrders.length === 1 ? '' : 's'}
-                {trackingInfo ? ` · Tracked via ${trackingInfo.carrier}` : ''}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-[var(--space-2)] pt-[var(--space-2)]">
-                <OrderStatusBadge status={status} />
-                {estimatedArrivalCountdown && (
-                  <span
-                    className={cn(
-                      'inline-flex items-center rounded-full px-[var(--space-3)] py-[var(--space-1)]',
-                      'bg-[rgb(var(--brand-500-rgb)/0.1)] text-[var(--action-primary)]',
-                      'text-[length:var(--text-xs)] font-semibold',
-                    )}
-                  >
-                    {estimatedArrivalCountdown}
-                  </span>
-                )}
-                {isLiveTrackable && (
-                  <span
-                    className={cn(
-                      'inline-flex items-center gap-[var(--space-2)] rounded-full',
-                      'bg-[var(--intent-success-muted)] px-[var(--space-3)] py-[var(--space-1)]',
-                      'text-[length:var(--text-xs)] font-medium text-[var(--intent-success)]',
-                    )}
-                    aria-live="polite"
-                  >
-                    <span className="relative flex h-2 w-2">
-                      <span
-                        aria-hidden="true"
-                        className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--intent-success)] opacity-60"
-                      />
-                      <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--intent-success)]" />
-                    </span>
-                    Live update
-                  </span>
-                )}
-              </div>
+      {/* HERO STATUS BANNER */}
+      <DashboardCard className="mb-6 p-6 sm:p-8">
+        <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between md:gap-8">
+          <div className="min-w-0 flex-1 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-[length:var(--text-xs)] font-semibold uppercase tracking-[0.14em] text-[var(--text-tertiary)]">
+                Order #{orderNumber}
+              </span>
+              <span aria-hidden="true" className="h-1 w-1 rounded-full bg-[var(--text-tertiary)]" />
+              <span className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+                Placed {createdAt}
+              </span>
             </div>
-
-            {trackingInfo && (
-              <div
-                className={cn(
-                  'flex shrink-0 items-center gap-[var(--space-3)]',
-                  'rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
-                  'px-[var(--space-4)] py-[var(--space-3)]',
-                )}
-              >
-                <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-base)] text-[var(--text-secondary)]">
-                  <Package className="h-4 w-4" aria-hidden="true" />
-                </span>
-                <div className="min-w-0">
-                  <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
-                    {trackingInfo.carrier}
-                  </p>
-                  <p className="font-mono text-[length:var(--text-sm)] font-semibold text-[var(--text-primary)]">
-                    {trackingInfo.trackingNumber}
-                  </p>
-                </div>
-                {trackingInfo.trackingUrl && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="h-8 gap-[var(--space-1)] text-[length:var(--text-xs)]"
-                    onClick={() => window.open(trackingInfo.trackingUrl, '_blank')}
-                  >
-                    Track <ExternalLink className="h-3 w-3" />
-                  </Button>
-                )}
-              </div>
-            )}
-          </div>
-        </DashboardCard>
-
-        {/* DASHBOARD GRID — 65/35 split */}
-        <div className="grid grid-cols-1 gap-[var(--space-6)] lg:grid-cols-[1.65fr_1fr] lg:gap-[var(--space-8)]">
-          {/* LEFT — Tracking engine */}
-          <div className="space-y-[var(--space-6)] min-w-0">
-            <DashboardCard className="p-[var(--space-6)] sm:p-[var(--space-8)]">
-              <div className="mb-[var(--space-6)] flex items-center justify-between gap-[var(--space-3)]">
-                <h2 className="text-[length:var(--font-size-heading-md)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
-                  Tracking
-                </h2>
-                {timelineSteps && (
-                  <span className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-                    {timelineSteps.filter((s) => s.status === 'complete').length} of{' '}
-                    {timelineSteps.length} steps complete
-                  </span>
-                )}
-              </div>
-              {timelineSteps ? (
-                <OrderTimeline steps={timelineSteps} />
-              ) : (
-                <p className="text-[length:var(--text-sm)] text-[var(--text-secondary)]">
-                  Tracking information is not available yet. Check back once your order has been
-                  processed.
-                </p>
+            <h1
+              className={cn(
+                'text-[length:var(--font-size-heading-xl)] font-bold tracking-[-0.015em] leading-[var(--line-height-tight)] text-[var(--text-primary)]',
+                'sm:text-[length:var(--font-size-display-sm)]',
               )}
-            </DashboardCard>
+            >
+              {estimatedArrival
+                ? `Estimated arrival: ${estimatedArrival}`
+                : 'Your order is on its way'}
+            </h1>
+            <p className="text-sm text-[var(--text-secondary)] leading-[var(--line-height-relaxed)]">
+              {totalItemCount} item{totalItemCount === 1 ? '' : 's'} from {subOrders.length} seller
+              {subOrders.length === 1 ? '' : 's'}
+              {trackingInfo ? ` · Tracked via ${trackingInfo.carrier}` : ''}
+            </p>
 
-            {/* Items per sub-order */}
-            {subOrders.map((sub) => (
-              <DashboardCard key={sub.id} className="overflow-hidden">
-                <div
+            <div className="flex flex-wrap items-center gap-2 pt-2">
+              <OrderStatusBadge status={status} />
+              {estimatedArrivalCountdown && (
+                <span
                   className={cn(
-                    'flex items-center justify-between gap-[var(--space-3)]',
-                    'border-b border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
-                    'px-[var(--space-5)] py-[var(--space-3)] sm:px-[var(--space-6)]',
+                    'inline-flex items-center rounded-full px-3 py-1',
+                    'bg-[rgb(var(--brand-500-rgb)/0.1)] text-[var(--action-primary)]',
+                    'text-[length:var(--text-xs)] font-semibold',
                   )}
                 >
-                  <div className="min-w-0">
-                    <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
-                      Sold by
-                    </p>
-                    <p className="text-[length:var(--text-sm)] font-semibold text-[var(--text-primary)] truncate">
-                      {sub.storeName}
-                    </p>
-                  </div>
-                  <OrderStatusBadge status={sub.status} size="sm" />
-                </div>
-
-                <ul className="divide-y divide-[var(--border-subtle)]">
-                  {sub.items.map((item) => (
-                    <li
-                      key={item.id}
-                      className={cn(
-                        'flex items-center gap-[var(--space-4)]',
-                        'px-[var(--space-5)] py-[var(--space-4)] sm:px-[var(--space-6)]',
-                      )}
-                    >
-                      {item.image && (
-                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-muted)]">
-                          <img
-                            src={item.image}
-                            alt={item.productName}
-                            loading="lazy"
-                            className="h-full w-full object-cover"
-                          />
-                        </div>
-                      )}
-                      <div className="min-w-0 flex-1">
-                        <p className="text-[length:var(--text-sm)] font-semibold text-[var(--text-primary)] truncate">
-                          {item.productName}
-                        </p>
-                        <p className="font-mono text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-                          {item.variantSku}
-                        </p>
-                        {Object.entries(item.attributes).length > 0 && (
-                          <p className="mt-[var(--space-1)] text-[length:var(--text-xs)] text-[var(--text-secondary)]">
-                            {Object.entries(item.attributes)
-                              .map(([k, v]) => `${k}: ${v}`)
-                              .join(' · ')}
-                          </p>
-                        )}
-                        <p className="text-[length:var(--text-xs)] text-[var(--text-secondary)]">
-                          Qty {item.quantity}
-                        </p>
-                      </div>
-                      <PriceDisplay price={item.unitPrice * item.quantity} size="sm" />
-                    </li>
-                  ))}
-                </ul>
-
-                {sub.trackingInfo && (
-                  <div
-                    className={cn(
-                      'flex flex-wrap items-center justify-between gap-[var(--space-2)]',
-                      'border-t border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
-                      'px-[var(--space-5)] py-[var(--space-3)] sm:px-[var(--space-6)]',
-                    )}
-                  >
-                    <p className="text-[length:var(--text-xs)] text-[var(--text-secondary)]">
-                      <span className="font-medium text-[var(--text-primary)]">
-                        {sub.trackingInfo.carrier}:
-                      </span>{' '}
-                      <span className="font-mono">{sub.trackingInfo.trackingNumber}</span>
-                    </p>
-                    {sub.trackingInfo.trackingUrl && (
-                      <a
-                        href={sub.trackingInfo.trackingUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className={cn(
-                          'inline-flex items-center gap-[var(--space-1)]',
-                          'text-[length:var(--text-xs)] font-medium text-[var(--action-primary)]',
-                          'hover:underline focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] rounded-[var(--radius-sm)]',
-                        )}
-                      >
-                        Track <ExternalLink className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                )}
-              </DashboardCard>
-            ))}
+                  {estimatedArrivalCountdown}
+                </span>
+              )}
+              {isLiveTrackable && (
+                <span
+                  className={cn(
+                    'inline-flex items-center gap-2 rounded-full',
+                    'bg-[var(--intent-success-muted)] px-3 py-1',
+                    'text-[length:var(--text-xs)] font-medium text-[var(--intent-success)]',
+                  )}
+                  aria-live="polite"
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span
+                      aria-hidden="true"
+                      className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--intent-success)] opacity-60"
+                    />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[var(--intent-success)]" />
+                  </span>
+                  Live update
+                </span>
+              )}
+            </div>
           </div>
 
-          {/* RIGHT — Context sidebar */}
-          <aside className="space-y-[var(--space-6)] lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))] lg:self-start">
-            {/* Order summary */}
-            <DashboardCard className="p-[var(--space-6)]">
-              <h3 className="mb-[var(--space-4)] text-[length:var(--font-size-heading-sm)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
-                Order summary
-              </h3>
+          {trackingInfo && (
+            <div
+              className={cn(
+                'flex shrink-0 items-center gap-3',
+                'rounded-[var(--radius-md)] border border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
+                'px-4 py-3',
+              )}
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--surface-base)] text-[var(--text-secondary)]">
+                <Package className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+                  {trackingInfo.carrier}
+                </p>
+                <p className="font-mono text-sm font-semibold text-[var(--text-primary)]">
+                  {trackingInfo.trackingNumber}
+                </p>
+              </div>
+              {trackingInfo.trackingUrl && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 gap-1 text-[length:var(--text-xs)]"
+                  onClick={() => window.open(trackingInfo.trackingUrl, '_blank')}
+                >
+                  Track <ExternalLink className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      </DashboardCard>
 
-              <ul className="mb-[var(--space-5)] space-y-[var(--space-3)]">
-                {previewItems.map((item) => (
-                  <li key={item.id} className="flex items-center gap-[var(--space-3)]">
-                    {item.image ? (
-                      <div className="h-12 w-12 shrink-0 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-muted)]">
+      {/* DASHBOARD GRID — 65/35 split */}
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.65fr_1fr] lg:gap-8">
+        {/* LEFT — Tracking engine */}
+        <div className="space-y-6 min-w-0">
+          <DashboardCard className="p-6 sm:p-8">
+            <div className="mb-6 flex items-center justify-between gap-3">
+              <h2 className="text-[length:var(--font-size-heading-md)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
+                Tracking
+              </h2>
+              {timelineSteps && (
+                <span className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+                  {timelineSteps.filter((s) => s.status === 'complete').length} of{' '}
+                  {timelineSteps.length} steps complete
+                </span>
+              )}
+            </div>
+            {timelineSteps ? (
+              <OrderTimeline steps={timelineSteps} />
+            ) : (
+              <p className="text-sm text-[var(--text-secondary)]">
+                Tracking information is not available yet. Check back once your order has been
+                processed.
+              </p>
+            )}
+          </DashboardCard>
+
+          {/* Items per sub-order */}
+          {subOrders.map((sub) => (
+            <DashboardCard key={sub.id} className="overflow-hidden">
+              <div
+                className={cn(
+                  'flex items-center justify-between gap-3',
+                  'border-b border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
+                  'px-5 py-3 sm:px-6',
+                )}
+              >
+                <div className="min-w-0">
+                  <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+                    Sold by
+                  </p>
+                  <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
+                    {sub.storeName}
+                  </p>
+                </div>
+                <OrderStatusBadge status={sub.status} size="sm" />
+              </div>
+
+              <ul className="divide-y divide-[var(--border-subtle)]">
+                {sub.items.map((item) => (
+                  <li key={item.id} className={cn('flex items-center gap-4', 'px-5 py-4 sm:px-6')}>
+                    {item.image && (
+                      <div className="h-16 w-16 shrink-0 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-muted)]">
                         <img
                           src={item.image}
                           alt={item.productName}
@@ -389,155 +302,233 @@ function OrderDetailPageLayout({
                           className="h-full w-full object-cover"
                         />
                       </div>
-                    ) : (
-                      <div className="h-12 w-12 shrink-0 rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-muted)]" />
                     )}
                     <div className="min-w-0 flex-1">
-                      <p className="text-[length:var(--text-sm)] font-medium text-[var(--text-primary)] truncate">
+                      <p className="text-sm font-semibold text-[var(--text-primary)] truncate">
                         {item.productName}
                       </p>
-                      <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+                      <p className="font-mono text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+                        {item.variantSku}
+                      </p>
+                      {Object.entries(item.attributes).length > 0 && (
+                        <p className="mt-1 text-[length:var(--text-xs)] text-[var(--text-secondary)]">
+                          {Object.entries(item.attributes)
+                            .map(([k, v]) => `${k}: ${v}`)
+                            .join(' · ')}
+                        </p>
+                      )}
+                      <p className="text-[length:var(--text-xs)] text-[var(--text-secondary)]">
                         Qty {item.quantity}
                       </p>
                     </div>
                     <PriceDisplay price={item.unitPrice * item.quantity} size="sm" />
                   </li>
                 ))}
-                {remainingCount > 0 && (
-                  <li className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
-                    +{remainingCount} more item{remainingCount === 1 ? '' : 's'}
-                  </li>
-                )}
               </ul>
 
-              <Separator className="bg-[var(--border-subtle)]" />
-
-              <dl className="mt-[var(--space-4)] space-y-[var(--space-2)] text-[length:var(--text-sm)]">
-                <div className="flex justify-between">
-                  <dt className="text-[var(--text-secondary)]">Subtotal</dt>
-                  <dd>
-                    <PriceDisplay price={subtotal} size="sm" />
-                  </dd>
+              {sub.trackingInfo && (
+                <div
+                  className={cn(
+                    'flex flex-wrap items-center justify-between gap-2',
+                    'border-t border-[var(--border-subtle)] bg-[var(--surface-subtle)]',
+                    'px-5 py-3 sm:px-6',
+                  )}
+                >
+                  <p className="text-[length:var(--text-xs)] text-[var(--text-secondary)]">
+                    <span className="font-medium text-[var(--text-primary)]">
+                      {sub.trackingInfo.carrier}:
+                    </span>{' '}
+                    <span className="font-mono">{sub.trackingInfo.trackingNumber}</span>
+                  </p>
+                  {sub.trackingInfo.trackingUrl && (
+                    <a
+                      href={sub.trackingInfo.trackingUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={cn(
+                        'inline-flex items-center gap-1',
+                        'text-[length:var(--text-xs)] font-medium text-[var(--action-primary)]',
+                        'hover:underline focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] rounded-[var(--radius-sm)]',
+                      )}
+                    >
+                      Track <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
                 </div>
-                <div className="flex justify-between">
-                  <dt className="text-[var(--text-secondary)]">Shipping</dt>
-                  <dd>
-                    <PriceDisplay price={shippingFee} size="sm" />
-                  </dd>
-                </div>
-                <Separator className="my-[var(--space-2)] bg-[var(--border-subtle)]" />
-                <div className="flex justify-between font-bold">
-                  <dt className="text-[var(--text-primary)]">Total</dt>
-                  <dd>
-                    <PriceDisplay price={totalAmount} size="lg" />
-                  </dd>
-                </div>
-              </dl>
-
-              {paymentMethod && (
-                <>
-                  <Separator className="my-[var(--space-4)] bg-[var(--border-subtle)]" />
-                  <div className="flex items-center gap-[var(--space-3)]">
-                    <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--surface-muted)] text-[var(--text-secondary)]">
-                      <CreditCard className="h-4 w-4" aria-hidden="true" />
-                    </span>
-                    <div className="min-w-0">
-                      <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
-                        Paid with
-                      </p>
-                      <p className="text-[length:var(--text-sm)] font-medium text-[var(--text-primary)]">
-                        {paymentMethod.label}
-                        {paymentMethod.last4 && (
-                          <span className="ml-[var(--space-1)] font-mono text-[var(--text-secondary)]">
-                            •••• {paymentMethod.last4}
-                          </span>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </>
               )}
             </DashboardCard>
-
-            {/* Quick actions */}
-            <DashboardCard className="p-[var(--space-6)]">
-              <h3 className="mb-[var(--space-4)] text-[length:var(--font-size-heading-sm)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
-                Need help?
-              </h3>
-              <div className="space-y-[var(--space-2)]">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="default"
-                  className="w-full justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
-                  onClick={onContactSeller}
-                  disabled={!onContactSeller}
-                >
-                  <MessageSquare className="h-4 w-4" aria-hidden="true" />
-                  Contact seller
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="default"
-                  className="w-full justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]"
-                  onClick={onContactSupport}
-                  disabled={!onContactSupport}
-                >
-                  <HelpCircle className="h-4 w-4" aria-hidden="true" />
-                  Help with this order
-                </Button>
-                {onCancelOrder && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="default"
-                    onClick={onCancelOrder}
-                    className={cn(
-                      'w-full justify-start gap-[var(--space-2)] rounded-[var(--radius-lg)]',
-                      'border-[color-mix(in_srgb,var(--intent-danger)_30%,transparent)]',
-                      'text-[var(--intent-danger)]',
-                      'hover:bg-[var(--intent-danger-muted)] hover:text-[var(--intent-danger)] hover:border-[var(--intent-danger)]',
-                    )}
-                  >
-                    <XCircle className="h-4 w-4" aria-hidden="true" />
-                    Cancel order
-                  </Button>
-                )}
-              </div>
-            </DashboardCard>
-
-            {/* Shipping address */}
-            <DashboardCard className="p-[var(--space-6)]">
-              <div className="flex items-start gap-[var(--space-3)]">
-                <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--surface-muted)] text-[var(--text-secondary)]">
-                  <MapPin className="h-4 w-4" aria-hidden="true" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
-                    Shipping to
-                  </p>
-                  <address className="not-italic mt-[var(--space-1)] space-y-0.5 text-[length:var(--text-sm)] leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
-                    <p className="font-semibold text-[var(--text-primary)]">
-                      {shippingAddress.fullName}
-                    </p>
-                    <p>{shippingAddress.addressLine1}</p>
-                    {shippingAddress.addressLine2 && <p>{shippingAddress.addressLine2}</p>}
-                    <p>
-                      {shippingAddress.city}, {shippingAddress.postalCode}
-                    </p>
-                    <p>{shippingAddress.country}</p>
-                    {shippingAddress.phone && (
-                      <p className="pt-[var(--space-1)] font-mono text-[var(--text-tertiary)]">
-                        {shippingAddress.phone}
-                      </p>
-                    )}
-                  </address>
-                </div>
-              </div>
-            </DashboardCard>
-          </aside>
+          ))}
         </div>
+
+        {/* RIGHT — Context sidebar */}
+        <aside className="space-y-6 lg:sticky lg:top-[calc(var(--storefront-header-total)+var(--space-6))] lg:self-start">
+          {/* Order summary */}
+          <DashboardCard className="p-6">
+            <h3 className="mb-4 text-[length:var(--font-size-heading-sm)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
+              Order summary
+            </h3>
+
+            <ul className="mb-5 space-y-3">
+              {previewItems.map((item) => (
+                <li key={item.id} className="flex items-center gap-3">
+                  {item.image ? (
+                    <div className="h-12 w-12 shrink-0 overflow-hidden rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-muted)]">
+                      <img
+                        src={item.image}
+                        alt={item.productName}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-12 w-12 shrink-0 rounded-[var(--radius-lg)] border border-[var(--border-subtle)] bg-[var(--surface-muted)]" />
+                  )}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-[var(--text-primary)] truncate">
+                      {item.productName}
+                    </p>
+                    <p className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+                      Qty {item.quantity}
+                    </p>
+                  </div>
+                  <PriceDisplay price={item.unitPrice * item.quantity} size="sm" />
+                </li>
+              ))}
+              {remainingCount > 0 && (
+                <li className="text-[length:var(--text-xs)] text-[var(--text-tertiary)]">
+                  +{remainingCount} more item{remainingCount === 1 ? '' : 's'}
+                </li>
+              )}
+            </ul>
+
+            <Separator className="bg-[var(--border-subtle)]" />
+
+            <dl className="mt-4 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <dt className="text-[var(--text-secondary)]">Subtotal</dt>
+                <dd>
+                  <PriceDisplay price={subtotal} size="sm" />
+                </dd>
+              </div>
+              <div className="flex justify-between">
+                <dt className="text-[var(--text-secondary)]">Shipping</dt>
+                <dd>
+                  <PriceDisplay price={shippingFee} size="sm" />
+                </dd>
+              </div>
+              <Separator className="my-2 bg-[var(--border-subtle)]" />
+              <div className="flex justify-between font-bold">
+                <dt className="text-[var(--text-primary)]">Total</dt>
+                <dd>
+                  <PriceDisplay price={totalAmount} size="lg" />
+                </dd>
+              </div>
+            </dl>
+
+            {paymentMethod && (
+              <>
+                <Separator className="my-4 bg-[var(--border-subtle)]" />
+                <div className="flex items-center gap-3">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] bg-[var(--surface-muted)] text-[var(--text-secondary)]">
+                    <CreditCard className="h-4 w-4" aria-hidden="true" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+                      Paid with
+                    </p>
+                    <p className="text-sm font-medium text-[var(--text-primary)]">
+                      {paymentMethod.label}
+                      {paymentMethod.last4 && (
+                        <span className="ml-1 font-mono text-[var(--text-secondary)]">
+                          •••• {paymentMethod.last4}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
+          </DashboardCard>
+
+          {/* Quick actions */}
+          <DashboardCard className="p-6">
+            <h3 className="mb-4 text-[length:var(--font-size-heading-sm)] font-semibold tracking-[-0.01em] text-[var(--text-primary)]">
+              Need help?
+            </h3>
+            <div className="space-y-2">
+              <Button
+                type="button"
+                variant="outline"
+                size="default"
+                className="w-full justify-start gap-2 rounded-[var(--radius-lg)]"
+                onClick={onContactSeller}
+                disabled={!onContactSeller}
+              >
+                <MessageSquare className="h-4 w-4" aria-hidden="true" />
+                Contact seller
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="default"
+                className="w-full justify-start gap-2 rounded-[var(--radius-lg)]"
+                onClick={onContactSupport}
+                disabled={!onContactSupport}
+              >
+                <HelpCircle className="h-4 w-4" aria-hidden="true" />
+                Help with this order
+              </Button>
+              {onCancelOrder && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="default"
+                  onClick={onCancelOrder}
+                  className={cn(
+                    'w-full justify-start gap-2 rounded-[var(--radius-lg)]',
+                    'border-[color-mix(in_srgb,var(--intent-danger)_30%,transparent)]',
+                    'text-[var(--intent-danger)]',
+                    'hover:bg-[var(--intent-danger-muted)] hover:text-[var(--intent-danger)] hover:border-[var(--intent-danger)]',
+                  )}
+                >
+                  <XCircle className="h-4 w-4" aria-hidden="true" />
+                  Cancel order
+                </Button>
+              )}
+            </div>
+          </DashboardCard>
+
+          {/* Shipping address */}
+          <DashboardCard className="p-6">
+            <div className="flex items-start gap-3">
+              <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-md)] bg-[var(--surface-muted)] text-[var(--text-secondary)]">
+                <MapPin className="h-4 w-4" aria-hidden="true" />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-[length:var(--text-xs)] uppercase tracking-[0.1em] text-[var(--text-tertiary)]">
+                  Shipping to
+                </p>
+                <address className="not-italic mt-1 space-y-0.5 text-sm leading-[var(--line-height-relaxed)] text-[var(--text-secondary)]">
+                  <p className="font-semibold text-[var(--text-primary)]">
+                    {shippingAddress.fullName}
+                  </p>
+                  <p>{shippingAddress.addressLine1}</p>
+                  {shippingAddress.addressLine2 && <p>{shippingAddress.addressLine2}</p>}
+                  <p>
+                    {shippingAddress.city}, {shippingAddress.postalCode}
+                  </p>
+                  <p>{shippingAddress.country}</p>
+                  {shippingAddress.phone && (
+                    <p className="pt-1 font-mono text-[var(--text-tertiary)]">
+                      {shippingAddress.phone}
+                    </p>
+                  )}
+                </address>
+              </div>
+            </div>
+          </DashboardCard>
+        </aside>
+      </div>
     </>
   )
 

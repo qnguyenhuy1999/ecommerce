@@ -16,6 +16,11 @@ export interface QuantityStepperProps extends Omit<
   size?: 'sm' | 'default'
 }
 
+const variants = {
+  sm: { h: 'h-8', w: 'w-8', text: 'text-[length:var(--text-micro)]', icon: 'w-3 h-3' },
+  default: { h: 'h-10', w: 'w-10', text: 'text-sm', icon: 'w-4 h-4' },
+}
+
 function QuantityStepper({
   value,
   onChange,
@@ -41,19 +46,18 @@ function QuantityStepper({
     }
   }
 
-  const sizes = {
-    sm: { h: 'h-8', w: 'w-8', text: 'text-[length:var(--text-micro)]', icon: 'w-3 h-3' },
-    default: { h: 'h-10', w: 'w-10', text: 'text-[var(--text-sm)]', icon: 'w-4 h-4' },
-  }[size]
+  const sizes = variants[size]
 
   return (
     <div
       className={cn(
-        'inline-flex items-center rounded-full border bg-background shadow-[var(--elevation-card)] overflow-hidden',
+        'inline-flex items-center rounded-full border bg-background shadow-[var(--elevation-card)] overflow-hidden w-fit',
         sizes.h,
         disabled && 'opacity-50 cursor-not-allowed',
         className,
       )}
+      role="group"
+      aria-label="Quantity controls"
       {...props}
     >
       <IconButton
@@ -82,8 +86,6 @@ function QuantityStepper({
             const bounded = Math.max(min, Math.min(max, val))
             onChange(bounded)
           } else if (e.target.value === '') {
-            // Allow temporary empty state while typing, but this needs local state if we want true empty
-            // For now, if empty, just don't trigger onChange until they type a number, or set to min.
             onChange(min)
           }
         }}

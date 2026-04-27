@@ -36,22 +36,22 @@ export function FilterCollapse({
         aria-expanded={!collapsed}
         aria-controls={contentId}
         className={cn(
-          'group flex w-full items-center justify-between gap-[var(--space-2)]',
-          'py-[var(--space-4)]',
+          'group flex w-full items-center justify-between gap-2',
+          'py-4',
           'text-left',
           'transition-colors duration-[var(--motion-fast)]',
           'focus-visible:outline-none focus-visible:ring-[var(--focus-ring-width)] focus-visible:ring-[var(--focus-ring-color)] rounded-[var(--radius-sm)]',
         )}
       >
-        <span className="flex items-center gap-[var(--space-2)]">
-          <span className="text-[length:var(--text-sm)] font-semibold tracking-[-0.005em] text-[var(--text-primary)]">
+        <span className="flex items-center gap-2">
+          <span className="text-sm font-semibold tracking-[-0.005em] text-[var(--text-primary)]">
             {title}
           </span>
           {activeCount > 0 && (
             <span
               className={cn(
                 'inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full',
-                'bg-[rgb(var(--brand-500-rgb)/0.12)] px-[var(--space-1-5)] text-[length:var(--text-micro)] font-semibold text-[var(--action-primary)]',
+                'bg-[rgb(var(--brand-500-rgb)/0.12)] px-1.5 text-[length:var(--text-micro)] font-semibold text-[var(--action-primary)]',
               )}
               aria-label={`${activeCount} active`}
             >
@@ -71,10 +71,7 @@ export function FilterCollapse({
       </button>
 
       {!collapsed && (
-        <div
-          id={contentId}
-          className="pb-[var(--space-5)] pt-[var(--space-1)]"
-        >
+        <div id={contentId} className="pb-5 pt-1">
           {children}
         </div>
       )}
