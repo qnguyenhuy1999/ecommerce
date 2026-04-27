@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@nestjs/common'
-import { $Enums, PrismaClient } from '@prisma/client'
+import { $Enums, Prisma, PrismaClient } from '@prisma/client'
 
 import { UserEntity, type UserRole } from '../../domain/entities/user.entity'
 import type { IUserRepository } from '../../domain/ports/user.repository.port'
@@ -56,5 +56,44 @@ export class PrismaUserRepository implements IUserRepository {
   async existsByEmail(email: string): Promise<boolean> {
     const count = await this.prisma.user.count({ where: { email } })
     return count > 0
+  }
+
+  async verifyEmail(userId: string): Promise<UserEntity> {
+    const record = await this.prisma.user.update({
+      where: { id: userId },
+      data: { status: 'ACTIVE', emailVerified: new Date() },
+    })
+    return this.toDomain(record)
+  }
+
+  async updatePassword(userId: string, passwordHash: string): Promise<UserEntity> {
+    const record = await this.prisma.user.update({
+      where: { id: userId },
+      data: { password: passwordHash },
+    })
+    return this.toDomain(record)
+  }
+
+  async recordAudit(input: {
+    actorId: string | null
+    action: string
+    targetType: string
+    targetId: string | null
+    metadata?: Record<string, unknown>
+  }): Promise<void> {
+    const prisma = this.prisma as PrismaClient & {
+      auditEvent: {
+        create(args: { data: Prisma.AuditEventUncheckedCreateInput }): Promise<unknown>
+      }
+    }
+    await prisma.auditEvent.create({
+      data: {
+        actorId: input.actorId,
+        action: input.action,
+        targetType: input.targetType,
+        targetId: input.targetId,
+        metadata: input.metadata as Prisma.InputJsonValue | undefined,
+      },
+    })
   }
 }

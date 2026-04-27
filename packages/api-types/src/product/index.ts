@@ -7,6 +7,7 @@ export const CreateProductRequestSchema = z.object({
   name: z.string().min(1).max(255),
   description: z.string().max(5000).optional(),
   price: z.number().positive(),
+  status: z.enum(['DRAFT', 'ACTIVE']).optional(),
   categoryId: z.string().optional(),
   images: z.array(z.string().url()).max(10).optional(),
   variants: z
@@ -60,6 +61,9 @@ export type ProductResponse = z.infer<typeof ProductResponseSchema>
 export const ProductListRequestSchema = PaginationParamsSchema.extend({
   q: z.string().optional(),
   category: z.string().optional(),
+  categoryId: z.string().optional(),
+  sku: z.string().optional(),
+  storeName: z.string().optional(),
   sellerId: z.string().optional(),
   minPrice: z.number().optional(),
   maxPrice: z.number().optional(),

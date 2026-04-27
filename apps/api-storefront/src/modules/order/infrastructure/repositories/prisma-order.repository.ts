@@ -92,6 +92,10 @@ type CheckoutCartItem = CheckoutCart['items'][number]
 type OrderSummaryRow = Prisma.OrderGetPayload<{ include: typeof ORDER_SUMMARY_INCLUDE }>
 type AdminOrderListRow = Prisma.OrderGetPayload<{ include: typeof ADMIN_ORDER_LIST_INCLUDE }>
 type AdminOrderDetailRow = Prisma.OrderGetPayload<{ include: typeof ADMIN_ORDER_DETAIL_INCLUDE }>
+type OrderSummaryViewRow = Omit<OrderSummaryRow, 'createdAt' | 'updatedAt'> & {
+  createdAt?: Date
+  updatedAt?: Date
+}
 
 interface SellerCheckoutGroup {
   sellerId: string
@@ -252,7 +256,7 @@ export class PrismaOrderRepository implements IOrderRepository {
     }
   }
 
-  private toSummaryView(order: OrderSummaryRow): OrderSummaryView {
+  private toSummaryView(order: OrderSummaryViewRow): OrderSummaryView {
     return {
       orderId: order.id,
       orderNumber: order.orderNumber,
@@ -260,6 +264,7 @@ export class PrismaOrderRepository implements IOrderRepository {
       subtotal: order.subtotal,
       shippingFee: order.shippingFee,
       totalAmount: order.totalAmount,
+      shippingAddress: order.shippingAddress,
       subOrders: order.subOrders.map(
         (subOrder): SubOrderSummaryView => ({
           id: subOrder.id,
@@ -282,6 +287,8 @@ export class PrismaOrderRepository implements IOrderRepository {
           }),
         }),
       ),
+      createdAt: order.createdAt?.toISOString() ?? '',
+      updatedAt: order.updatedAt?.toISOString() ?? '',
     }
   }
 
@@ -393,6 +400,19 @@ export class PrismaOrderRepository implements IOrderRepository {
         },
       })
 
+      await tx.auditEvent.create({
+        data: {
+          actorId: input.adminUserId,
+          action: 'ORDER_STATUS_CHANGED',
+          targetType: 'Order',
+          targetId: input.orderId,
+          metadata: this.toJson({
+            fromStatus: current.status,
+            toStatus: input.toStatus,
+          }),
+        },
+      })
+
       const detail = await tx.order.findUniqueOrThrow({
         where: { id: input.orderId },
         include: ADMIN_ORDER_DETAIL_INCLUDE,
@@ -445,6 +465,21 @@ export class PrismaOrderRepository implements IOrderRepository {
             fromStatus: current.status,
             toStatus: input.toStatus,
             adminUserId: input.adminUserId,
+            shippingTracking: input.shippingTracking ?? null,
+          }),
+        },
+      })
+
+      await tx.auditEvent.create({
+        data: {
+          actorId: input.adminUserId,
+          action: 'SUB_ORDER_STATUS_CHANGED',
+          targetType: 'SubOrder',
+          targetId: input.subOrderId,
+          metadata: this.toJson({
+            orderId: current.orderId,
+            fromStatus: current.status,
+            toStatus: input.toStatus,
             shippingTracking: input.shippingTracking ?? null,
           }),
         },

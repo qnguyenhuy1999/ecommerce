@@ -196,11 +196,16 @@ export class PrismaProductRepository implements IProductRepository {
     this.applyStatusFilter(where, options.status, options.excludeStatus)
     if (options.categoryId) where.categoryId = options.categoryId
     if (options.sellerId) where.sellerId = options.sellerId
+    if (options.sku) where.sku = { contains: options.sku, mode: 'insensitive' }
+    if (options.storeName) {
+      where.seller = { storeName: { contains: options.storeName, mode: 'insensitive' } }
+    }
     if (options.q) {
       where.OR = [
         { name: { contains: options.q, mode: 'insensitive' } },
         { description: { contains: options.q, mode: 'insensitive' } },
         { sku: { contains: options.q, mode: 'insensitive' } },
+        { seller: { storeName: { contains: options.q, mode: 'insensitive' } } },
       ]
     }
     if (options.minPrice !== undefined || options.maxPrice !== undefined) {

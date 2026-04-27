@@ -33,4 +33,13 @@ export const authClient = {
   logout: () => getApiClient().post<{ message: string }>('/auth/logout'),
 
   me: () => getApiClient().get<AuthResponse>('/auth/me'),
+
+  verifyEmail: (data: { token?: string; email?: string }) =>
+    getApiClient().post<{ message: string; verificationToken?: string }>('/auth/verify-email', data),
+
+  forgotPassword: (data: { email: string }) =>
+    getApiClient().post<{ message: string; resetToken?: string }>('/auth/forgot-password', data),
+
+  resetPassword: (data: { token: string; password: string }) =>
+    getApiClient().post<{ message: string }>('/auth/reset-password', data),
 }

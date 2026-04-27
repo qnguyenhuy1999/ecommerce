@@ -19,6 +19,20 @@ export class ListProductsDto {
 
   @IsOptional()
   @IsString()
+  categoryId?: string
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  sku?: string
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  storeName?: string
+
+  @IsOptional()
+  @IsString()
   sellerId?: string
 
   @IsOptional()

@@ -22,7 +22,8 @@ export class ListProductsHandler implements IQueryHandler<ListProductsQuery, Lis
   constructor(@Inject(PRODUCT_REPOSITORY) private readonly products: IProductRepository) {}
 
   async execute(query: ListProductsQuery): Promise<ListProductsResult> {
-    const { q, category, sellerId, minPrice, maxPrice, page, limit, sort, order } = query.filters
+    const { q, category, categoryId, sku, storeName, sellerId, minPrice, maxPrice, page, limit, sort, order } =
+      query.filters
 
     if (minPrice !== undefined && maxPrice !== undefined && minPrice > maxPrice) {
       throw new InvalidPriceRangeException()
@@ -30,7 +31,9 @@ export class ListProductsHandler implements IQueryHandler<ListProductsQuery, Lis
 
     const { data, total } = await this.products.list({
       q,
-      categoryId: category,
+      categoryId: categoryId ?? category,
+      sku,
+      storeName,
       sellerId,
       minPrice,
       maxPrice,

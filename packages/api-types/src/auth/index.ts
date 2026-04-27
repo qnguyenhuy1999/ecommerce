@@ -28,7 +28,19 @@ export const AuthResponseSchema = z.object({
 export type AuthResponse = z.infer<typeof AuthResponseSchema>
 
 export const VerifyEmailRequestSchema = z.object({
-  token: z.string().min(1),
+  token: z.string().min(1).optional(),
+  email: z.string().email().optional(),
 })
 
 export type VerifyEmailRequest = z.infer<typeof VerifyEmailRequestSchema>
+
+export const ForgotPasswordRequestSchema = z.object({
+  email: z.string().email(),
+})
+export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequestSchema>
+
+export const ResetPasswordRequestSchema = z.object({
+  token: z.string().min(1),
+  password: z.string().min(8).max(128),
+})
+export type ResetPasswordRequest = z.infer<typeof ResetPasswordRequestSchema>

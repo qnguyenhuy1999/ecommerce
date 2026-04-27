@@ -8,6 +8,8 @@ export type ProductSortOrder = 'asc' | 'desc'
 export interface ProductListFilter {
   q?: string
   categoryId?: string
+  sku?: string
+  storeName?: string
   sellerId?: string
   minPrice?: number
   maxPrice?: number

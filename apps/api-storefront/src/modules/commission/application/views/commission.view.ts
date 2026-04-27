@@ -26,6 +26,14 @@ export interface PayoutReportRow {
   createdAt: string
 }
 
+export interface PayoutExportView {
+  filename: string
+  contentType: 'text/csv'
+  content: string
+  totalRows: number
+  totalAmount: number
+}
+
 export interface PayoutReportPage {
   data: PayoutReportRow[]
   page: number

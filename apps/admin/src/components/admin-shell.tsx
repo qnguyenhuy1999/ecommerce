@@ -28,7 +28,7 @@ const NAV = [
       {
         label: 'Products',
         icon: <Box className="w-4 h-4" />,
-        href: '/products',
+        href: '/inventory',
       },
       {
         label: 'Customers',

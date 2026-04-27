@@ -11,6 +11,7 @@ export const OUTBOX_DRAIN_JOB_NAME = 'drain-batch'
 // aggregate should be a conscious architectural decision, not drive-by.
 export const OutboxAggregateType = {
   Order: 'Order',
+  SubOrder: 'SubOrder',
   Payment: 'Payment',
   InventoryReservation: 'InventoryReservation',
   Seller: 'Seller',
@@ -23,12 +24,28 @@ export const OutboxEventType = {
   OrderCreated: 'order.created',
   OrderPaid: 'order.paid',
   OrderCancelled: 'order.cancelled',
+  OrderPaidLegacy: 'ORDER_PAID',
+  OrderCancelledLegacy: 'ORDER_CANCELLED',
+  OrderRefundedLegacy: 'ORDER_REFUNDED',
+  OrderPendingRefundLegacy: 'ORDER_PENDING_REFUND',
+  OrderRefundPendingLegacy: 'ORDER_REFUND_PENDING',
+  OrderShippedLegacy: 'ORDER_SHIPPED',
+  SubOrderProcessingLegacy: 'SUB_ORDER_PROCESSING',
+  SubOrderShippedLegacy: 'SUB_ORDER_SHIPPED',
+  SubOrderCompletedLegacy: 'SUB_ORDER_COMPLETED',
+  SubOrderCancelledLegacy: 'SUB_ORDER_CANCELLED',
   PaymentSucceeded: 'payment.succeeded',
   PaymentFailed: 'payment.failed',
+  PaymentSucceededLegacy: 'PAYMENT_SUCCESS',
+  PaymentFailedLegacy: 'PAYMENT_FAILED',
   InventoryReserved: 'inventory.reserved',
   InventoryReleased: 'inventory.released',
+  InventoryAdjusted: 'inventory.adjusted',
+  InventoryDriftDetected: 'inventory.drift_detected',
   SellerApproved: 'seller.approved',
   SellerRejected: 'seller.rejected',
+  SellerKycApprovedLegacy: 'SELLER_KYC_APPROVED',
+  SellerKycRejectedLegacy: 'SELLER_KYC_REJECTED',
 } as const
 export type OutboxEventType = (typeof OutboxEventType)[keyof typeof OutboxEventType]
 

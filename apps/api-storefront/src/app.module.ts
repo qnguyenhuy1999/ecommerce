@@ -16,6 +16,7 @@ import { NotificationModule } from './modules/notification/notification.module'
 import { OrderModule } from './modules/order/order.module'
 import { PaymentModule } from './modules/payment/payment.module'
 import { ProductModule } from './modules/product/product.module'
+import { ReviewModule } from './modules/review/review.module'
 import { SellerModule } from './modules/seller/seller.module'
 import { UserModule } from './modules/user/user.module'
 import { ObservabilityModule } from './observability/observability.module'
@@ -37,6 +38,7 @@ import { ObservabilityModule } from './observability/observability.module'
     UserModule,
     SellerModule,
     ProductModule,
+    ReviewModule,
     InventoryModule,
     CartModule,
     CommissionModule,

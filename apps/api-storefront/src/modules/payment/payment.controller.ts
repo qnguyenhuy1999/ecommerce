@@ -4,6 +4,7 @@ import {
   Headers,
   HttpCode,
   HttpStatus,
+  Param,
   Post,
   Req,
   UseInterceptors,
@@ -16,7 +17,8 @@ import type { Request } from 'express'
 import { type AuthenticatedUser, CurrentUser, JwtAccessGuard } from '@ecom/nest-auth'
 
 import { CreatePaymentIntentDto } from './application/dtos/create-payment-intent.dto'
-import { PaymentIntentView, PaymentService, WebhookAck } from './payment.service'
+import { RequestRefundDto } from './application/dtos/refund.dto'
+import { PaymentIntentView, PaymentService, RefundView, WebhookAck } from './payment.service'
 import { Idempotent } from '../../common/decorators/idempotent.decorator'
 import { IdempotencyInterceptor } from '../../common/interceptors/idempotency.interceptor'
 
@@ -33,7 +35,7 @@ export class PaymentController {
   @Post('intent')
   @UseGuards(JwtAccessGuard)
   @UseInterceptors(IdempotencyInterceptor)
-  @Idempotent({ required: false })
+  @Idempotent()
   @HttpCode(HttpStatus.CREATED)
   @ApiCookieAuth('access_token')
   @ApiOperation({ summary: 'Create a Stripe payment intent for a pending-payment order' })
@@ -45,6 +47,22 @@ export class PaymentController {
     @Body() dto: CreatePaymentIntentDto,
   ): Promise<SuccessEnvelope<PaymentIntentView>> {
     const data = await this.paymentService.createIntent(user.userId, dto)
+    return { success: true, data }
+  }
+
+  @Post('orders/:orderId/refund')
+  @UseGuards(JwtAccessGuard)
+  @UseInterceptors(IdempotencyInterceptor)
+  @Idempotent()
+  @HttpCode(HttpStatus.OK)
+  @ApiCookieAuth('access_token')
+  @ApiOperation({ summary: 'Request a refund for a paid order.' })
+  async refund(
+    @CurrentUser() user: AuthenticatedUser,
+    @Param('orderId') orderId: string,
+    @Body() dto: RequestRefundDto,
+  ): Promise<SuccessEnvelope<RefundView>> {
+    const data = await this.paymentService.requestRefund(user.userId, orderId, dto)
     return { success: true, data }
   }
 

@@ -9,6 +9,8 @@ import {
 } from '@nestjs/terminus'
 import { PrismaClient } from '@prisma/client'
 
+import { getRedis } from '@ecom/redis'
+
 /**
  * Kubernetes / ELB health probes.
  *
@@ -45,6 +47,10 @@ export class HealthController {
   readiness() {
     return this.health.check([
       () => this.prismaIndicator.pingCheck('postgres', this.prisma),
+      async () => {
+        await getRedis().ping()
+        return { redis: { status: 'up' } }
+      },
       // 512 MiB RSS cap — anything above suggests a leak; trip readiness so
       // the pod is rotated before it OOMs.
       () => this.memory.checkRSS('memory_rss', 512 * 1024 * 1024),

@@ -26,7 +26,10 @@ import { RegisterSellerCommand } from '../application/commands/register-seller/r
 import { UpdateSellerCommand } from '../application/commands/update-seller/update-seller.command'
 import { RegisterSellerDto } from '../application/dtos/register-seller.dto'
 import { UpdateSellerDto } from '../application/dtos/update-seller.dto'
+import { GetMySellerQuery } from '../application/queries/get-my-seller/get-my-seller.query'
 import { GetSellerQuery } from '../application/queries/get-seller/get-seller.query'
+import { GetSellerConsoleQuery } from '../application/queries/get-seller-console/get-seller-console.query'
+import type { SellerConsoleView } from '../application/views/seller-console.view'
 import type { SellerEntity } from '../domain/entities/seller.entity'
 
 interface SuccessEnvelope<T> {
@@ -58,6 +61,30 @@ export class SellerController {
       new RegisterSellerCommand(user.userId, dto),
     )
     return { success: true, data: toSellerResponse(seller) }
+  }
+
+  @Get('me')
+  @UseGuards(JwtAccessGuard)
+  @ApiCookieAuth('access_token')
+  @ApiOperation({ summary: 'Get the current user’s seller profile.' })
+  @ApiResponse({ status: 200, description: 'Current seller profile.' })
+  @ApiResponse({ status: 404, description: 'SELLER_NOT_FOUND' })
+  async me(@CurrentUser() user: AuthenticatedUser): Promise<SuccessEnvelope<SellerResponseView>> {
+    const seller = await this.queryBus.execute<GetMySellerQuery, SellerEntity>(
+      new GetMySellerQuery(user.userId),
+    )
+    return { success: true, data: toSellerResponse(seller) }
+  }
+
+  @Get('me/console')
+  @UseGuards(JwtAccessGuard)
+  @ApiCookieAuth('access_token')
+  @ApiOperation({ summary: 'Seller console summary for the current seller.' })
+  async console(@CurrentUser() user: AuthenticatedUser): Promise<SuccessEnvelope<SellerConsoleView>> {
+    const data = await this.queryBus.execute<GetSellerConsoleQuery, SellerConsoleView>(
+      new GetSellerConsoleQuery(user.userId),
+    )
+    return { success: true, data }
   }
 
   @Get(':id')

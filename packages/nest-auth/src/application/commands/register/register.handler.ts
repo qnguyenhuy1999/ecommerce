@@ -30,6 +30,13 @@ export class RegisterHandler implements ICommandHandler<RegisterCommand, LoginRe
 
     const passwordHash = await this.hasher.hash(command.password)
     const user = await this.userRepo.create({ email: command.email, passwordHash })
+    await this.userRepo.recordAudit({
+      actorId: user.id,
+      action: 'AUTH_REGISTER',
+      targetType: 'User',
+      targetId: user.id,
+      metadata: { email: user.email },
+    })
 
     // Issue tokens directly after user creation. Going through LoginCommand
     // would force a second, redundant argon2.verify of the password we just

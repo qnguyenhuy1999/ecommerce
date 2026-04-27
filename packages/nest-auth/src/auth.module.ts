@@ -9,6 +9,7 @@ import { LogoutHandler } from './application/commands/logout/logout.handler'
 import { RefreshHandler } from './application/commands/refresh/refresh.handler'
 import { RegisterHandler } from './application/commands/register/register.handler'
 import { MeHandler } from './application/queries/me/me.handler'
+import { AuthTokenService } from './application/services/auth-token.service'
 import { JwtTokenService } from './application/services/jwt-token.service'
 import { COOKIE_WRITER } from './domain/ports/cookie-writer.port'
 import { LOGIN_LIMITER } from './domain/ports/login-limiter.port'
@@ -48,6 +49,7 @@ const QueryHandlers = [MeHandler]
     ...CommandHandlers,
     ...QueryHandlers,
     JwtTokenService,
+    AuthTokenService,
     JwtAccessStrategy,
     JwtRefreshStrategy,
     TokenCleanupTask,
@@ -65,6 +67,7 @@ const QueryHandlers = [MeHandler]
     TOKEN_BLACKLIST,
     COOKIE_WRITER,
     LOGIN_LIMITER,
+    AuthTokenService,
   ],
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class -- NestJS module class requires empty body

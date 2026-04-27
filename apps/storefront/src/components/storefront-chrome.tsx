@@ -85,7 +85,7 @@ export function useStorefrontChrome({ cartCount = 0 }: { cartCount?: number } = 
       categories: HEADER_CATEGORIES,
       onCartClick: () => router.push('/cart'),
       onWishlistClick: () => router.push('/account/orders'),
-      onLogin: () => router.push('/account/orders'),
+      onLogin: () => router.push('/login'),
     }
     return {
       promoBar: PROMO_BAR_NODE,
