@@ -1,4 +1,5 @@
 export * from './Campaigns'
+export * from './CommissionFees'
 export * from './CategoryHierarchy'
 export * from './Dashboard'
 export * from './DisputeDetail'
