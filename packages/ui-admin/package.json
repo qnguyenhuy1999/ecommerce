@@ -10,7 +10,8 @@
     ".": {
       "import": "./src/index.ts",
       "types": "./src/index.ts"
-    }
+    },
+    "./styles/globals.css": "./src/styles/globals.css"
   },
   "scripts": {
     "dev": "",

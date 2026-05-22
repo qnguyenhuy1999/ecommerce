@@ -1,7 +1,27 @@
 export const authSurfaceClassName = 'border-border/80 bg-card shadow-sm'
 
+export const authShellBrandPanelClassName =
+  'border-border/70 bg-muted/35 text-foreground relative hidden overflow-hidden lg:flex lg:flex-col lg:border-r'
+
+export const authShellBrandTitleClassName = 'text-foreground'
+
+export const authShellBrandKickerClassName = 'text-muted-foreground'
+
+export const authShellBadgeClassName =
+  'bg-card/70 border-border/60 text-foreground inline-flex w-fit items-center gap-2 rounded-full border px-3 py-1.5 text-xs backdrop-blur-sm'
+
+export const authShellFeatureClassName =
+  'bg-card/60 border-border/55 text-foreground flex items-center gap-3.5 rounded-[16px] border px-4 py-3 backdrop-blur-sm'
+
+export const authShellFeatureLabelClassName = 'text-foreground'
+
+export const authShellFooterClassName = 'text-muted-foreground'
+
+export const authShellActiveRequestClassName =
+  'bg-primary/10 border-primary/20 text-primary flex w-fit items-center gap-2.5 rounded-full border px-3 py-1.5 text-xs font-medium backdrop-blur-sm'
+
 export const authInputClassName =
-  'h-12 rounded-2xl border-input bg-background pl-11 pr-11 text-[15px] text-foreground shadow-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/20'
+  'h-10 rounded-2xl border-input bg-background pl-11 pr-11 text-[14px] text-foreground shadow-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/20'
 
 export const authLabelClassName = 'text-[0.95rem] font-medium text-foreground'
 

@@ -80,21 +80,18 @@ export function ForgotPasswordClient({
   }
 
   return (
-    <AuthPageShell title={title} description={description}>
+    <AuthPageShell title={title}>
       <Card className={authSurfaceClassName}>
-        <CardContent className="space-y-6 p-5 sm:p-6">
-          <div className="space-y-2">
+        <CardContent className="space-y-4 p-4 sm:p-5">
+          <div className="space-y-1">
             <Typography
               as="h2"
               variant="h3"
-              className="text-foreground text-[2rem] leading-tight font-semibold tracking-[-0.03em] text-balance"
+              className="text-foreground text-[1.6rem] leading-tight font-semibold tracking-[-0.03em] text-balance"
             >
               {title}
             </Typography>
-            <Typography
-              variant="body-sm"
-              className="text-muted-foreground text-[0.98rem] leading-6"
-            >
+            <Typography variant="body-sm" className="text-muted-foreground text-[0.9rem] leading-5">
               {description}
             </Typography>
           </div>
@@ -120,7 +117,7 @@ export function ForgotPasswordClient({
               </div>
             </div>
           ) : (
-            <form onSubmit={(event) => void handleSubmit(event)} className="space-y-4">
+            <form onSubmit={(event) => void handleSubmit(event)} className="space-y-3.5">
               {errorMessage ? (
                 <div
                   role="alert"
@@ -154,7 +151,7 @@ export function ForgotPasswordClient({
               <Button
                 type="submit"
                 size="lg"
-                className={authPrimaryButtonClassName}
+                className={`${authPrimaryButtonClassName} h-12`}
                 loading={submitting}
               >
                 {submitting ? submittingLabel : submitLabel}
@@ -162,7 +159,7 @@ export function ForgotPasswordClient({
             </form>
           )}
 
-          <div className="border-border flex items-center justify-between gap-3 border-t pt-4 text-sm">
+          <div className="border-border flex items-center justify-between gap-3 border-t pt-3 text-sm">
             <a href={backToLoginHref} className={authSecondaryLinkClassName}>
               {backToLoginLabel}
             </a>

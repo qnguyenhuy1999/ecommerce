@@ -1,7 +1,7 @@
 import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@ecom/core-ui', '@ecom/contracts', '@ecom/shared'],
+  transpilePackages: ['@ecom/core-ui', '@ecom/ui-admin', '@ecom/contracts', '@ecom/shared'],
   turbopack: {
     resolveAlias: {
       'tw-animate-css': './node_modules/tw-animate-css/dist/tw-animate.css',

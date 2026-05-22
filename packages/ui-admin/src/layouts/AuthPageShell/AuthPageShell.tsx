@@ -1,7 +1,17 @@
 import { Typography } from '@ecom/core-ui'
 import { Activity, Fingerprint, ShieldCheck, Waves, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { authStatusToneClassNames } from '../../lib/auth-theme'
+import {
+  authShellActiveRequestClassName,
+  authShellBadgeClassName,
+  authShellBrandKickerClassName,
+  authShellBrandPanelClassName,
+  authShellBrandTitleClassName,
+  authShellFeatureClassName,
+  authShellFeatureLabelClassName,
+  authShellFooterClassName,
+  authStatusToneClassNames,
+} from '../../lib/auth-theme'
 
 interface AuthFeature {
   icon: LucideIcon
@@ -10,7 +20,6 @@ interface AuthFeature {
 
 interface AuthPageShellProps {
   title: string
-  description: string
   children: ReactNode
 }
 
@@ -50,105 +59,96 @@ const authFormPanelStyle = {
     'radial-gradient(circle at top right, color-mix(in oklab, var(--primary) 14%, transparent), transparent 26%), linear-gradient(180deg, color-mix(in oklab, var(--background) 18%, transparent), color-mix(in oklab, var(--background) 72%, transparent))',
 }
 
-export function AuthPageShell({ title, description, children }: AuthPageShellProps) {
+export function AuthPageShell({ title, children }: AuthPageShellProps) {
   return (
-    <div className="dark bg-background min-h-screen px-3 py-3 sm:px-4 sm:py-4 lg:px-6 lg:py-6">
-      <div className="bg-background border-border/70 relative mx-auto min-h-[calc(100vh-1.5rem)] max-w-[1600px] overflow-hidden rounded-[32px] border shadow-2xl">
+    <div className="bg-background flex min-h-screen flex-col justify-center">
+      <div className="bg-background relative mx-auto flex min-h-[calc(100vh-1.5rem)] w-full flex-col overflow-hidden sm:min-h-[calc(100vh-2rem)] lg:min-h-[calc(100vh-3rem)]">
         <div className="absolute inset-0" style={authGradientStyle} />
 
-        <div className="relative grid min-h-[calc(100vh-1.5rem)] lg:grid-cols-[minmax(0,1.08fr)_minmax(420px,0.92fr)]">
-          <section className="border-border/70 relative overflow-hidden lg:border-r">
+        <div className="relative grid min-h-[calc(100vh-1.5rem)] flex-1 sm:min-h-[calc(100vh-2rem)] lg:min-h-[calc(100vh-3rem)] lg:grid-cols-[minmax(0,1.08fr)_minmax(420px,0.92fr)]">
+          <section className={authShellBrandPanelClassName}>
             <div className="absolute inset-0 opacity-60" style={authGridStyle} />
             <div className="absolute inset-0" style={authPanelStyle} />
 
-            <div className="relative flex h-full flex-col px-6 py-7 sm:px-8 sm:py-8 lg:px-12 lg:py-11">
+            <div className="relative flex h-full flex-col px-6 py-7 sm:px-8 sm:py-8 lg:px-12 lg:py-10">
               <div className="flex items-center gap-4">
-                <div className="bg-primary text-primary-foreground flex size-14 items-center justify-center rounded-full shadow-sm">
-                  <ShieldCheck className="size-6" />
+                <div className="bg-primary text-primary-foreground flex size-12 items-center justify-center rounded-full shadow-sm">
+                  <ShieldCheck className="size-5.5" />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   <Typography
                     variant="label"
-                    className="text-lg font-semibold text-white sm:text-xl"
+                    className={`text-lg font-semibold ${authShellBrandTitleClassName}`}
                   >
                     Halo Admin
                   </Typography>
                   <Typography
                     variant="caption"
-                    className="text-muted-foreground text-[0.925rem] sm:text-sm"
+                    className={`text-xs ${authShellBrandKickerClassName}`}
                   >
                     Platform console
                   </Typography>
                 </div>
               </div>
 
-              <div className="bg-card/35 border-border/60 mt-14 inline-flex w-fit items-center gap-2 rounded-full border px-4 py-2 text-sm text-white/90 backdrop-blur-sm sm:mt-20">
-                <Activity className={`size-4 ${authStatusToneClassNames.success.text}`} />
+              <div className={`mt-10 ${authShellBadgeClassName}`}>
+                <Activity className={`size-3.5 ${authStatusToneClassNames.success.text}`} />
                 <span>All systems operational</span>
               </div>
 
-              <div className="mt-8 max-w-[40rem] space-y-5 sm:mt-10">
+              <div className="mt-8 max-w-160 space-y-4">
                 <Typography
                   as="h1"
                   variant="h1"
-                  className="max-w-[33rem] text-4xl leading-[1.02] font-semibold tracking-[-0.04em] text-white sm:text-[3.4rem] lg:text-[4.25rem]"
+                  className={`max-w-132 text-3xl leading-[1.05] font-semibold tracking-[-0.03em] sm:text-[2.8rem] lg:text-[3.25rem] ${authShellBrandTitleClassName}`}
                 >
                   Operate the marketplace with <span className="text-primary">confidence.</span>
                 </Typography>
                 <Typography
                   variant="body"
-                  className="text-muted-foreground max-w-[36rem] text-base leading-8 sm:text-[1.05rem]"
+                  className="text-muted-foreground max-w-xl text-[0.975rem] leading-7"
                 >
                   Sign in to manage vendors, disputes, payouts and platform safety. Every action is
                   signed, logged and reversible.
                 </Typography>
               </div>
 
-              <div className="bg-card/35 border-border/60 mt-8 max-w-[33rem] rounded-[22px] border p-5 backdrop-blur-sm">
-                <Typography
-                  variant="caption"
-                  className="text-muted-foreground tracking-[0.22em] uppercase"
-                >
-                  Current flow
-                </Typography>
-                <Typography
-                  as="h2"
-                  variant="h4"
-                  className="mt-3 text-[1.35rem] leading-tight font-semibold tracking-[-0.03em] text-white"
-                >
-                  {title}
-                </Typography>
-                <Typography variant="body-sm" className="text-muted-foreground mt-2">
-                  {description}
-                </Typography>
+              {/* Sleek, active session indicator instead of a massive, redundant block */}
+              <div className="mt-6 max-w-132">
+                <div className={authShellActiveRequestClassName}>
+                  <span className="bg-primary size-1.5 animate-pulse rounded-full" />
+                  <span>Active Request: {title}</span>
+                </div>
               </div>
 
-              <div className="mt-10 grid max-w-[35rem] gap-3 sm:mt-12">
+              <div className="mt-8 grid max-w-140 gap-3">
                 {authFeatures.map(({ icon: Icon, label }) => (
-                  <div
-                    key={label}
-                    className="bg-card/35 border-border/60 flex items-center gap-4 rounded-[18px] border px-4 py-4 text-white/94 backdrop-blur-sm"
-                  >
-                    <div className="bg-primary-soft text-primary flex size-11 shrink-0 items-center justify-center rounded-2xl">
-                      <Icon className="size-5" />
+                  <div key={label} className={authShellFeatureClassName}>
+                    <div className="bg-primary-soft text-primary flex size-9 shrink-0 items-center justify-center rounded-xl">
+                      <Icon className="size-4.5" />
                     </div>
-                    <Typography variant="body" className="text-base leading-7 text-white">
+                    <Typography
+                      variant="body-sm"
+                      className={`text-[0.925rem] font-medium ${authShellFeatureLabelClassName}`}
+                    >
                       {label}
                     </Typography>
                   </div>
                 ))}
               </div>
 
-              <div className="text-muted-foreground mt-auto hidden items-end justify-between gap-6 pt-10 text-sm lg:flex">
+              <div
+                className={`mt-auto hidden items-end justify-between gap-6 pt-8 text-xs lg:flex ${authShellFooterClassName}`}
+              >
                 <span>&copy; Halo Market. Restricted access.</span>
                 <span>v4.18.2 - region: ap-sg-1</span>
               </div>
             </div>
           </section>
 
-          <section className="relative flex items-center justify-center px-4 py-8 sm:px-8 lg:px-10 lg:py-10">
+          <section className="relative flex items-center justify-center overflow-y-auto px-4 py-8 sm:px-8 lg:px-10 lg:py-10">
             <div className="absolute inset-0" style={authFormPanelStyle} />
-            <div className="relative w-full max-w-[28rem]">{children}</div>
+            <div className="relative my-auto w-full max-w-md">{children}</div>
           </section>
         </div>
       </div>

@@ -94,7 +94,7 @@ function getErrorMessage(error: unknown) {
 
 function FieldShell({ id, label, children, trailingContent }: FieldShellProps) {
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2">
       <div className="flex items-center justify-between gap-3">
         <Label htmlFor={id} className={authLabelClassName}>
           {label}
@@ -112,16 +112,16 @@ function LoginHeader({
   securityBadge,
 }: Pick<LoginClientProps, 'title' | 'description' | 'securityBadge'>) {
   return (
-    <div className="flex items-start justify-between gap-4">
-      <div className="space-y-2">
+    <div className="flex items-start justify-between gap-3">
+      <div className="space-y-1">
         <Typography
           as="h2"
           variant="h3"
-          className="text-foreground text-[2rem] leading-tight font-semibold tracking-[-0.03em] text-balance"
+          className="text-foreground text-[1.6rem] leading-tight font-semibold tracking-[-0.03em] text-balance"
         >
           {title}
         </Typography>
-        <Typography variant="body-sm" className="text-muted-foreground text-[0.98rem] leading-6">
+        <Typography variant="body-sm" className="text-muted-foreground text-[0.9rem] leading-5">
           {description}
         </Typography>
       </div>
@@ -191,7 +191,7 @@ function LoginForm({
   onSubmit,
 }: LoginFormProps) {
   return (
-    <form onSubmit={(event) => void onSubmit(event)} className="space-y-4.5">
+    <form onSubmit={(event) => void onSubmit(event)} className="space-y-3.5">
       <FieldShell id="admin-login-email" label={emailLabel}>
         <div className="relative">
           <Mail className={authIconClassName} />
@@ -266,7 +266,7 @@ function LoginForm({
         </div>
       </FieldShell>
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <label
           htmlFor="admin-login-trust-device"
           className="text-foreground flex items-center gap-3 text-sm"
@@ -292,7 +292,12 @@ function LoginForm({
         </span>
       </div>
 
-      <Button type="submit" size="lg" className={authPrimaryButtonClassName} loading={submitting}>
+      <Button
+        type="submit"
+        size="lg"
+        className={`${authPrimaryButtonClassName} h-12`}
+        loading={submitting}
+      >
         {submitting ? submittingLabel : submitLabel}
       </Button>
     </form>
@@ -316,7 +321,7 @@ function LoginFooterLinks({
   | 'requestAccessLabel'
 >) {
   return (
-    <div className="border-border flex flex-wrap items-center justify-between gap-x-4 gap-y-3 border-t pt-4 text-sm">
+    <div className="border-border flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t pt-3 text-sm">
       <a
         href={marketplaceHref}
         className={`inline-flex items-center gap-2 ${authSecondaryLinkClassName}`}
@@ -392,10 +397,10 @@ export function LoginClient({
   }
 
   return (
-    <AuthPageShell title={title} description={description}>
-      <div className="space-y-4">
+    <AuthPageShell title={title}>
+      <div className="space-y-3">
         <Card className={authSurfaceClassName}>
-          <CardContent className="space-y-6 p-5 sm:p-6">
+          <CardContent className="space-y-4 p-4 sm:p-5">
             <LoginHeader title={title} description={description} securityBadge={securityBadge} />
 
             {noticeMessage ? <LoginNotice message={noticeMessage} /> : null}
@@ -443,7 +448,7 @@ export function LoginClient({
 
         <Typography
           variant="caption"
-          className="text-muted-foreground block px-1 text-center text-[0.95rem] lg:text-left"
+          className="text-muted-foreground block px-1 text-center text-[0.875rem] lg:text-left"
         >
           {policyMessage}
         </Typography>
