@@ -1,10 +1,31 @@
 'use client'
 
-import { Button, Input, Typography } from '@ecom/core-ui'
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  Input,
+  Label,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Typography,
+} from '@ecom/core-ui'
 import { Plus } from 'lucide-react'
 import { useCallback, useMemo, useState } from 'react'
 import { SellerListPage } from '../../organisms'
-import type { CommissionFeesProps, CommissionRule } from './CommissionFees.types'
+import type {
+  CommissionFeesProps,
+  CommissionRule,
+  CommissionRuleScope,
+  NewCommissionRule,
+} from './CommissionFees.types'
 
 interface DraftValues {
   commissionPct: string
@@ -19,6 +40,243 @@ export interface CommissionFeesClientProps {
   vendorOverrides: CommissionRule[]
   onSave?: CommissionFeesProps['onSave']
   onAddRule?: CommissionFeesProps['onAddRule']
+}
+
+const TODAY = new Date().toISOString().slice(0, 10)
+
+const SCOPE_LABELS: Record<CommissionRuleScope, string> = {
+  global: 'Global',
+  category: 'Category',
+  vendor: 'Vendor',
+}
+
+interface AddRuleFormState {
+  scope: CommissionRuleScope
+  name: string
+  commissionPct: string
+  paymentFeePct: string
+  effectiveFrom: string
+}
+
+function getInitialForm(): AddRuleFormState {
+  return {
+    scope: 'category',
+    name: '',
+    commissionPct: '',
+    paymentFeePct: '',
+    effectiveFrom: TODAY,
+  }
+}
+
+function AddRuleFormFields({
+  form,
+  set,
+  sampleOrderAmount,
+  needsName,
+}: {
+  form: AddRuleFormState
+  set: <K extends keyof AddRuleFormState>(key: K, value: AddRuleFormState[K]) => void
+  sampleOrderAmount: number
+  needsName: boolean
+}) {
+  const commission = parseFloat(form.commissionPct) || 0
+  const paymentFee = parseFloat(form.paymentFeePct) || 0
+  const sellerReceives = sampleOrderAmount * (1 - commission / 100 - paymentFee / 100)
+
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="acr-scope">
+            Scope <span className="text-destructive">*</span>
+          </Label>
+          <Select value={form.scope} onValueChange={(v) => set('scope', v as CommissionRuleScope)}>
+            <SelectTrigger id="acr-scope" className="w-full">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {(Object.entries(SCOPE_LABELS) as [CommissionRuleScope, string][]).map(
+                ([value, label]) => (
+                  <SelectItem key={value} value={value}>
+                    {label}
+                  </SelectItem>
+                ),
+              )}
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="acr-effective-from">
+            Effective from <span className="text-destructive">*</span>
+          </Label>
+          <Input
+            id="acr-effective-from"
+            type="date"
+            value={form.effectiveFrom}
+            onChange={(e) => set('effectiveFrom', e.target.value)}
+          />
+        </div>
+      </div>
+
+      {needsName && (
+        <div className="space-y-1.5">
+          <Label htmlFor="acr-name">
+            {SCOPE_LABELS[form.scope]} name <span className="text-destructive">*</span>
+          </Label>
+          <Input
+            id="acr-name"
+            placeholder={form.scope === 'category' ? 'e.g. Home & Living' : 'e.g. Vendor name'}
+            value={form.name}
+            onChange={(e) => set('name', e.target.value)}
+          />
+        </div>
+      )}
+
+      <div className="grid grid-cols-2 gap-4">
+        <div className="space-y-1.5">
+          <Label htmlFor="acr-commission">
+            Commission <span className="text-destructive">*</span>
+          </Label>
+          <div className="relative">
+            <Input
+              id="acr-commission"
+              type="number"
+              min={0}
+              max={100}
+              step={0.1}
+              placeholder="0"
+              value={form.commissionPct}
+              onChange={(e) => set('commissionPct', e.target.value)}
+              className="pr-8"
+            />
+            <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm">
+              %
+            </span>
+          </div>
+          <Typography variant="body" className="text-muted-foreground text-xs">
+            Platform take rate
+          </Typography>
+        </div>
+
+        <div className="space-y-1.5">
+          <Label htmlFor="acr-payment-fee">
+            Payment fee <span className="text-destructive">*</span>
+          </Label>
+          <div className="relative">
+            <Input
+              id="acr-payment-fee"
+              type="number"
+              min={0}
+              max={100}
+              step={0.1}
+              placeholder="0"
+              value={form.paymentFeePct}
+              onChange={(e) => set('paymentFeePct', e.target.value)}
+              className="pr-8"
+            />
+            <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm">
+              %
+            </span>
+          </div>
+          <Typography variant="body" className="text-muted-foreground text-xs">
+            Gateway processing
+          </Typography>
+        </div>
+      </div>
+
+      <div className="bg-muted/50 rounded-lg px-4 py-3 text-sm">
+        On a{' '}
+        <strong>
+          $
+          {sampleOrderAmount.toLocaleString('en-US', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          })}
+        </strong>{' '}
+        order, seller receives{' '}
+        <span className="text-success font-semibold">${sellerReceives.toFixed(2)}</span>
+      </div>
+    </div>
+  )
+}
+
+function AddCommissionRuleModal({
+  open,
+  sampleOrderAmount,
+  onClose,
+  onSubmit,
+}: {
+  open: boolean
+  sampleOrderAmount: number
+  onClose: () => void
+  onSubmit: (rule: NewCommissionRule) => void
+}) {
+  const [form, setForm] = useState<AddRuleFormState>(getInitialForm)
+
+  const set = useCallback(
+    <K extends keyof AddRuleFormState>(key: K, value: AddRuleFormState[K]) => {
+      setForm((prev) => ({ ...prev, [key]: value }))
+    },
+    [],
+  )
+
+  const needsName = form.scope !== 'global'
+  const isValid =
+    form.effectiveFrom &&
+    form.commissionPct !== '' &&
+    form.paymentFeePct !== '' &&
+    (!needsName || form.name.trim() !== '')
+
+  function handleSubmit() {
+    if (!isValid) return
+    onSubmit({
+      scope: form.scope,
+      ...(needsName && { name: form.name.trim() }),
+      commissionPct: parseFloat(form.commissionPct) || 0,
+      paymentFeePct: parseFloat(form.paymentFeePct) || 0,
+      effectiveFrom: form.effectiveFrom,
+    })
+    setForm(getInitialForm())
+    onClose()
+  }
+
+  function handleOpenChange(next: boolean) {
+    if (!next) {
+      setForm(getInitialForm())
+      onClose()
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={handleOpenChange}>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Add commission rule</DialogTitle>
+          <DialogDescription>
+            Create a new rate. More specific scopes (vendor &gt; category &gt; global) override
+            broader ones.
+          </DialogDescription>
+        </DialogHeader>
+
+        <AddRuleFormFields
+          form={form}
+          set={set}
+          sampleOrderAmount={sampleOrderAmount}
+          needsName={needsName}
+        />
+
+        <DialogFooter>
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="button" disabled={!isValid} onClick={handleSubmit}>
+            Add rule
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 function toDraft(rule: CommissionRule): DraftValues {
@@ -212,6 +470,7 @@ export function CommissionFeesClient({
   const [drafts, setDrafts] = useState<Map<string, DraftValues>>(() =>
     initDrafts(globalRate, categoryOverrides, vendorOverrides),
   )
+  const [modalOpen, setModalOpen] = useState(false)
 
   const globalDraft = drafts.get(globalRate.id) ?? toDraft(globalRate)
   const previewCommission = parseFloat(globalDraft.commissionPct) || 0
@@ -246,6 +505,13 @@ export function CommissionFeesClient({
     [onSave],
   )
 
+  const handleAddRule = useCallback(
+    (rule: NewCommissionRule) => {
+      void onAddRule?.(rule)
+    },
+    [onAddRule],
+  )
+
   const sectionProps = useMemo(
     () => ({
       drafts,
@@ -261,7 +527,7 @@ export function CommissionFeesClient({
       <SellerListPage.Header>
         <div className="flex items-center justify-end">
           <SellerListPage.Actions>
-            <Button type="button" onClick={() => void onAddRule?.()}>
+            <Button type="button" onClick={() => setModalOpen(true)}>
               <Plus className="size-4" />
               {addRuleLabel}
             </Button>
@@ -280,6 +546,13 @@ export function CommissionFeesClient({
       <RuleSection title="Category overrides" rules={categoryOverrides} {...sectionProps} />
 
       <RuleSection title="Vendor overrides" rules={vendorOverrides} {...sectionProps} />
+
+      <AddCommissionRuleModal
+        open={modalOpen}
+        sampleOrderAmount={sampleOrderAmount}
+        onClose={() => setModalOpen(false)}
+        onSubmit={handleAddRule}
+      />
     </div>
   )
 }

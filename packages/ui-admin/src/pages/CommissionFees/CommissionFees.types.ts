@@ -6,6 +6,16 @@ export interface CommissionRule {
   effectiveFrom: string
 }
 
+export type CommissionRuleScope = 'global' | 'category' | 'vendor'
+
+export interface NewCommissionRule {
+  scope: CommissionRuleScope
+  name?: string
+  commissionPct: number
+  paymentFeePct: number
+  effectiveFrom: string
+}
+
 export interface CommissionFeesProps {
   title?: string
   description?: string
@@ -15,5 +25,5 @@ export interface CommissionFeesProps {
   categoryOverrides?: CommissionRule[]
   vendorOverrides?: CommissionRule[]
   onSave?: ((rule: CommissionRule) => void | Promise<void>) | undefined
-  onAddRule?: (() => void | Promise<void>) | undefined
+  onAddRule?: ((rule: NewCommissionRule) => void | Promise<void>) | undefined
 }
