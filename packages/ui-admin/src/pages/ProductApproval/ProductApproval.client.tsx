@@ -6,6 +6,14 @@ import {
   Card,
   CardContent,
   Checkbox,
+  DataTable,
+  type DataTableColumn,
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
   Label,
   Sheet,
   SheetContent,
@@ -20,7 +28,7 @@ import {
   Typography,
 } from '@ecom/core-ui'
 import { X } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import type {
   ProductApprovalActionPayload,
   ProductApprovalItem,
@@ -59,9 +67,6 @@ interface ProductApprovalState {
 
 type PendingAction = 'approve' | 'reject'
 
-const tableHeaderClassName =
-  'text-muted-foreground px-4 py-4 text-left text-xs font-semibold tracking-[0.06em] uppercase'
-
 function getReasonTagTone(status: ProductApprovalStatus) {
   switch (status) {
     case 'REPORTED':
@@ -98,6 +103,10 @@ function buildStatusCounts(statusTabs: NonNullable<ProductApprovalProps['statusT
   }, {})
 }
 
+function areIdsEqual(current: string[], next: string[]) {
+  return current.length === next.length && current.every((id, index) => id === next[index])
+}
+
 function ReasonTags({
   item,
   emptyLabel = '—',
@@ -129,6 +138,7 @@ function ReasonTags({
 }
 
 function ProductApprovalModal({
+  open,
   action,
   ids,
   reason,
@@ -145,6 +155,7 @@ function ProductApprovalModal({
   onClose,
   onConfirm,
 }: {
+  open: boolean
   action: PendingAction
   ids: string[]
   reason: string
@@ -162,210 +173,68 @@ function ProductApprovalModal({
   onConfirm: () => void
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 px-4 py-8">
-      <div
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="product-approval-dialog-title"
-        className="bg-card border-border relative w-full max-w-md rounded-[28px] border shadow-2xl"
-      >
-        <button
-          type="button"
-          aria-label="Close dialog"
-          onClick={onClose}
-          className="text-muted-foreground hover:text-foreground absolute top-5 right-5"
-        >
-          <X className="size-4" />
-        </button>
-        <div className="space-y-5 p-5 sm:p-6">
-          <div className="space-y-1">
-            <Typography
-              id="product-approval-dialog-title"
-              as="h2"
-              variant="h4"
-              className="scroll-m-0 text-lg"
-            >
-              {title}
-            </Typography>
-            <Typography variant="body-sm" className="text-muted-foreground">
-              {description}
-            </Typography>
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="product-approval-reason" className="text-sm font-medium">
-              {reasonLabel} <span className="text-destructive">*</span>
-            </Label>
-            <Textarea
-              id="product-approval-reason"
-              required
-              aria-invalid={error ? 'true' : 'false'}
-              value={reason}
-              onChange={(event) => onReasonChange(event.target.value)}
-              placeholder={reasonPlaceholder}
-              className="min-h-28 rounded-[20px]"
-            />
-            <Typography variant="caption" className="text-muted-foreground">
-              {reasonHint}
-            </Typography>
-            {error ? (
-              <Typography role="alert" variant="caption" className="text-destructive">
-                {error}
-              </Typography>
-            ) : null}
-          </div>
-
-          <div className="flex items-center justify-between gap-3">
-            <Typography variant="caption" className="text-muted-foreground">
-              {ids.length} listing{ids.length === 1 ? '' : 's'} selected
-            </Typography>
-            <div className="flex items-center gap-2">
-              <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
-              </Button>
-              <Button
-                type="button"
-                variant={action === 'approve' ? 'default' : 'destructive'}
-                loading={submitting}
-                onClick={onConfirm}
-              >
-                {action === 'approve' ? approveLabel : rejectLabel}
-              </Button>
-            </div>
-          </div>
+    <Drawer open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
+      <DrawerContent className="mx-auto w-full max-w-lg">
+        <div className="relative">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Close dialog"
+            onClick={onClose}
+            className="absolute top-4 right-4"
+          >
+            <X className="size-4" />
+          </Button>
+          <DrawerHeader className="space-y-1 text-left">
+            <DrawerTitle id="product-approval-dialog-title">{title}</DrawerTitle>
+            <DrawerDescription>{description}</DrawerDescription>
+          </DrawerHeader>
         </div>
-      </div>
-    </div>
-  )
-}
 
-function ModerationTable({
-  items,
-  selectedIds,
-  allVisibleSelected,
-  onToggleAll,
-  onToggleSelected,
-  onOpenDetail,
-}: {
-  items: ProductApprovalItem[]
-  selectedIds: string[]
-  allVisibleSelected: boolean
-  onToggleAll: (checked: boolean) => void
-  onToggleSelected: (id: string, checked: boolean) => void
-  onOpenDetail: (item: ProductApprovalItem) => void
-}) {
-  return (
-    <div className="overflow-x-auto">
-      <table className="w-full min-w-[1080px] border-separate border-spacing-0 text-sm">
-        <thead>
-          <tr className="bg-muted/80">
-            <th className={`${tableHeaderClassName} w-12`}>
-              <Checkbox
-                checked={allVisibleSelected}
-                onCheckedChange={(checked) => onToggleAll(Boolean(checked))}
-                aria-label="Select all visible listings"
-              />
-            </th>
-            <th className={tableHeaderClassName}>Listing</th>
-            <th className={tableHeaderClassName}>Price</th>
-            <th className={tableHeaderClassName}>Flags</th>
-            <th className={tableHeaderClassName}>Reason / Tags</th>
-            <th className={tableHeaderClassName}>Submitted</th>
-            <th className={tableHeaderClassName}>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((item) => {
-            const isSelected = selectedIds.includes(item.id)
+        <div className="space-y-2 px-4 pb-4">
+          <Label htmlFor="product-approval-reason" className="text-sm font-medium">
+            {reasonLabel} <span className="text-destructive">*</span>
+          </Label>
+          <Textarea
+            id="product-approval-reason"
+            required
+            aria-invalid={error ? 'true' : 'false'}
+            value={reason}
+            onChange={(event) => onReasonChange(event.target.value)}
+            placeholder={reasonPlaceholder}
+            className="min-h-28 rounded-2xl"
+          />
+          <Typography variant="caption" className="text-muted-foreground">
+            {reasonHint}
+          </Typography>
+          {error ? (
+            <Typography role="alert" variant="caption" className="text-destructive">
+              {error}
+            </Typography>
+          ) : null}
+        </div>
 
-            return (
-              <tr
-                key={item.id}
-                onClick={() => onOpenDetail(item)}
-                className="hover:bg-muted/40 cursor-pointer transition-colors"
-              >
-                <td className="border-border border-t px-4 py-4">
-                  <Checkbox
-                    checked={isSelected}
-                    onClick={(event) => event.stopPropagation()}
-                    onCheckedChange={(checked) => onToggleSelected(item.id, Boolean(checked))}
-                    aria-label={`Select ${item.title}`}
-                  />
-                </td>
-                <td className="border-border border-t px-4 py-4">
-                  <div className="flex items-center gap-3">
-                    <img
-                      src={item.images[0]?.src}
-                      alt={item.images[0]?.alt ?? item.title}
-                      className="bg-muted size-10 rounded-xl object-cover"
-                    />
-                    <div className="min-w-0">
-                      <Typography as="div" variant="label" className="truncate">
-                        {item.title}
-                      </Typography>
-                      <Typography variant="body-sm" className="text-muted-foreground">
-                        {item.sellerName}
-                      </Typography>
-                    </div>
-                  </div>
-                </td>
-                <td className="border-border border-t px-4 py-4">
-                  <Typography as="span" variant="label" className="text-primary">
-                    {item.priceLabel}
-                  </Typography>
-                </td>
-                <td className="border-border text-muted-foreground border-t px-4 py-4">
-                  {item.flagsLabel}
-                </td>
-                <td className="border-border border-t px-4 py-4">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <ReasonTags item={item} />
-                  </div>
-                </td>
-                <td className="border-border text-muted-foreground border-t px-4 py-4">
-                  {item.submittedAtLabel}
-                </td>
-                <td className="border-border border-t px-4 py-4">
-                  <StatusBadge status={item.status} />
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    </div>
-  )
-}
-
-function SelectionBar({
-  count,
-  approveLabel,
-  rejectLabel,
-  onApprove,
-  onReject,
-}: {
-  count: number
-  approveLabel: string
-  rejectLabel: string
-  onApprove: () => void
-  onReject: () => void
-}) {
-  if (count === 0) {
-    return null
-  }
-
-  return (
-    <div className="bg-card border-border flex items-center justify-between gap-3 rounded-[22px] border px-4 py-3">
-      <Typography variant="label">{count} listing selected</Typography>
-      <div className="flex items-center gap-2">
-        <Button type="button" variant="outline" onClick={onReject}>
-          {rejectLabel}
-        </Button>
-        <Button type="button" onClick={onApprove}>
-          {approveLabel}
-        </Button>
-      </div>
-    </div>
+        <DrawerFooter className="gap-3 border-t">
+          <Typography variant="caption" className="text-muted-foreground">
+            {ids.length} listing{ids.length === 1 ? '' : 's'} selected
+          </Typography>
+          <div className="flex items-center justify-end gap-2">
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              variant={action === 'approve' ? 'default' : 'destructive'}
+              loading={submitting}
+              onClick={onConfirm}
+            >
+              {action === 'approve' ? approveLabel : rejectLabel}
+            </Button>
+          </div>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 
@@ -404,7 +273,7 @@ function DetailSheetContent({
           ))}
         </div>
 
-        <Card className="rounded-[24px] shadow-none">
+        <Card className="rounded-3xl shadow-none">
           <CardContent className="space-y-3 p-5">
             <div>
               <Typography as="h3" variant="label" className="text-base">
@@ -449,6 +318,111 @@ function DetailSheetContent({
   )
 }
 
+function buildProductApprovalColumns({
+  onOpenDetail,
+}: {
+  onOpenDetail: (item: ProductApprovalItem) => void
+}): DataTableColumn<ProductApprovalItem>[] {
+  return [
+    {
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected()
+              ? true
+              : table.getIsSomePageRowsSelected()
+                ? 'indeterminate'
+                : false
+          }
+          onCheckedChange={(checked) => table.toggleAllPageRowsSelected(Boolean(checked))}
+          aria-label="Select all visible listings"
+        />
+      ),
+      cell: ({ row }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(checked) => row.toggleSelected(Boolean(checked))}
+          aria-label={`Select ${row.original.title}`}
+        />
+      ),
+    },
+    {
+      id: 'listing',
+      header: 'Listing',
+      cell: ({ row }) => {
+        const item = row.original
+
+        return (
+          <Button
+            type="button"
+            variant="ghost"
+            className="h-auto w-full justify-start rounded-2xl px-0 py-0 text-left hover:bg-transparent"
+            onClick={() => onOpenDetail(item)}
+          >
+            <div className="flex min-w-0 items-center gap-3">
+              <img
+                src={item.images[0]?.src}
+                alt={item.images[0]?.alt ?? item.title}
+                className="bg-muted size-10 rounded-xl object-cover"
+              />
+              <div className="min-w-0">
+                <Typography as="div" variant="label" className="truncate">
+                  {item.title}
+                </Typography>
+                <Typography variant="body-sm" className="text-muted-foreground">
+                  {item.sellerName}
+                </Typography>
+              </div>
+            </div>
+          </Button>
+        )
+      },
+    },
+    {
+      accessorKey: 'priceLabel',
+      header: 'Price',
+      cell: ({ row }) => (
+        <Typography as="span" variant="label" className="text-primary">
+          {row.original.priceLabel}
+        </Typography>
+      ),
+    },
+    {
+      accessorKey: 'flagsLabel',
+      header: 'Flags',
+      cell: ({ row }) => (
+        <Typography variant="body-sm" className="text-muted-foreground">
+          {row.original.flagsLabel}
+        </Typography>
+      ),
+    },
+    {
+      id: 'reasonTags',
+      header: 'Reason / Tags',
+      cell: ({ row }) => (
+        <div className="flex flex-wrap items-center gap-2">
+          <ReasonTags item={row.original} />
+        </div>
+      ),
+    },
+    {
+      accessorKey: 'submittedAtLabel',
+      header: 'Submitted',
+      cell: ({ row }) => (
+        <Typography variant="body-sm" className="text-muted-foreground">
+          {row.original.submittedAtLabel}
+        </Typography>
+      ),
+    },
+    {
+      accessorKey: 'status',
+      header: 'Status',
+      cell: ({ row }) => <StatusBadge status={row.original.status} />,
+    },
+  ]
+}
+
 function getInitialState(
   items: ProductApprovalItem[],
   statusTabs: NonNullable<ProductApprovalProps['statusTabs']>,
@@ -464,14 +438,6 @@ function getInitialState(
     reasonError: '',
     submitting: false,
   }
-}
-
-function addUniqueIds(current: string[], ids: string[]) {
-  return Array.from(new Set([...current, ...ids]))
-}
-
-function removeIds(current: string[], ids: string[]) {
-  return current.filter((id) => !ids.includes(id))
 }
 
 function useProductApprovalController({
@@ -491,16 +457,6 @@ function useProductApprovalController({
     () => items.find((item) => item.id === state.detailItemId) ?? null,
     [items, state.detailItemId],
   )
-
-  const allVisibleSelected =
-    filteredItems.length > 0 && filteredItems.every((item) => state.selectedIds.includes(item.id))
-
-  function setSelectedIds(update: string[] | ((current: string[]) => string[])) {
-    setState((current) => ({
-      ...current,
-      selectedIds: typeof update === 'function' ? update(current.selectedIds) : update,
-    }))
-  }
 
   function openAction(action: PendingAction, ids: string[]) {
     if (ids.length === 0) {
@@ -527,23 +483,20 @@ function useProductApprovalController({
     }))
   }
 
-  function toggleAllVisible(checked: boolean) {
-    const visibleIds = filteredItems.map((item) => item.id)
+  const setSelectedItems = useCallback((selectedItems: ProductApprovalItem[]) => {
+    const nextSelectedIds = selectedItems.map((item) => item.id)
 
-    setSelectedIds((current) => {
-      if (checked) {
-        return addUniqueIds(current, visibleIds)
+    setState((current) => {
+      if (areIdsEqual(current.selectedIds, nextSelectedIds)) {
+        return current
       }
 
-      return removeIds(current, visibleIds)
+      return {
+        ...current,
+        selectedIds: nextSelectedIds,
+      }
     })
-  }
-
-  function toggleSelected(id: string, checked: boolean) {
-    setSelectedIds((current) =>
-      checked ? Array.from(new Set([...current, id])) : current.filter((value) => value !== id),
-    )
-  }
+  }, [])
 
   async function submitAction() {
     if (!state.pendingAction) {
@@ -614,13 +567,11 @@ function useProductApprovalController({
     statusCounts,
     filteredItems,
     detailItem,
-    allVisibleSelected,
+    setSelectedItems,
     setSearch,
     setActiveStatus,
     setSheetOpen,
     setReason,
-    toggleAllVisible,
-    toggleSelected,
     openDetail,
     openAction,
     closeAction,
@@ -650,57 +601,56 @@ export function ProductApprovalClient({
     onApprove,
     onReject,
   })
+  const columns = useMemo(
+    () => buildProductApprovalColumns({ onOpenDetail: controller.openDetail }),
+    [controller.openDetail],
+  )
 
   return (
     <>
       <div className="space-y-4">
-        <div className="bg-card border-border overflow-hidden rounded-[28px] border shadow-xs">
-          <div className="border-border border-b px-3 py-3 sm:px-4">
-            <StatusTabs
-              tabs={statusTabs.map((tab) => tab.value)}
-              value={controller.state.activeStatus}
-              onChange={(value) => controller.setActiveStatus(value as ProductApprovalStatus)}
-              counts={controller.statusCounts}
-            />
-          </div>
+        <StatusTabs
+          tabs={statusTabs.map((tab) => tab.value)}
+          value={controller.state.activeStatus}
+          onChange={(value) => controller.setActiveStatus(value as ProductApprovalStatus)}
+          counts={controller.statusCounts}
+        />
 
-          <div className="border-border border-b px-3 py-3 sm:px-4">
+        <DataTable
+          columns={columns}
+          data={controller.filteredItems}
+          enableRowSelection
+          onSelectionChange={controller.setSelectedItems}
+          emptyMessage="No listings found."
+          toolbar={
             <TableToolbar
               search={controller.state.search}
               onSearchChange={controller.setSearch}
               placeholder={searchPlaceholder}
             />
-          </div>
-
-          <ModerationTable
-            items={controller.filteredItems}
-            selectedIds={controller.state.selectedIds}
-            allVisibleSelected={controller.allVisibleSelected}
-            onToggleAll={controller.toggleAllVisible}
-            onToggleSelected={controller.toggleSelected}
-            onOpenDetail={controller.openDetail}
-          />
-
-          {controller.filteredItems.length === 0 ? (
-            <div className="px-5 py-10 text-center">
-              <Typography variant="body-sm" className="text-muted-foreground">
-                No listings found.
-              </Typography>
+          }
+          bulkActions={
+            <div className="flex flex-wrap items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => controller.openAction('reject', controller.state.selectedIds)}
+              >
+                {rejectLabel}
+              </Button>
+              <Button
+                type="button"
+                onClick={() => controller.openAction('approve', controller.state.selectedIds)}
+              >
+                {approveLabel}
+              </Button>
             </div>
-          ) : null}
-        </div>
-
-        <SelectionBar
-          count={controller.state.selectedIds.length}
-          approveLabel={approveLabel}
-          rejectLabel={rejectLabel}
-          onApprove={() => controller.openAction('approve', controller.state.selectedIds)}
-          onReject={() => controller.openAction('reject', controller.state.selectedIds)}
+          }
         />
       </div>
 
       <Sheet open={controller.state.sheetOpen} onOpenChange={controller.setSheetOpen}>
-        <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-[34rem]">
+        <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-xl">
           <DetailSheetContent
             item={controller.detailItem}
             approveLabel={approveLabel}
@@ -713,6 +663,7 @@ export function ProductApprovalClient({
 
       {controller.state.pendingAction ? (
         <ProductApprovalModal
+          open={Boolean(controller.state.pendingAction)}
           action={controller.state.pendingAction}
           ids={controller.state.selectedIds}
           reason={controller.state.reason}

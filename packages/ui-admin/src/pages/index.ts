@@ -1,5 +1,6 @@
 export * from './CategoryHierarchy'
 export * from './Dashboard'
+export * from './Disputes'
 export * from './ForgotPassword'
 export * from './Login'
 export * from './ProductApproval'
