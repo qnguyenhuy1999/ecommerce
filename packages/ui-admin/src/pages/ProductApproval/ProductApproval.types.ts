@@ -1,4 +1,5 @@
 export type ProductApprovalStatus = 'PENDING' | 'REPORTED' | 'APPROVED' | 'REJECTED'
+export type PendingAction = 'approve' | 'reject'
 
 export interface ProductApprovalTag {
   id: string
@@ -38,6 +39,8 @@ export interface ProductApprovalStatusTab {
   count: number
 }
 
+export type ProductApprovalStatusCounts = Record<ProductApprovalStatus, number>
+
 export interface ProductApprovalProps {
   title?: string
   description?: string
@@ -55,4 +58,33 @@ export interface ProductApprovalProps {
   statusTabs?: ProductApprovalStatusTab[]
   onApprove?: (payload: ProductApprovalActionPayload) => void | Promise<void>
   onReject?: (payload: ProductApprovalActionPayload) => void | Promise<void>
+}
+
+export interface ProductApprovalClientProps {
+  searchPlaceholder: string
+  approveLabel: string
+  rejectLabel: string
+  approveDialogTitle: string
+  approveDialogDescription: string
+  rejectDialogTitle: string
+  rejectDialogDescription: string
+  reasonLabel: string
+  reasonPlaceholder: string
+  reasonHint: string
+  items: ProductApprovalItem[]
+  statusTabs: ProductApprovalStatusTab[]
+  onApprove?: ProductApprovalProps['onApprove']
+  onReject?: ProductApprovalProps['onReject']
+}
+
+export interface ProductApprovalState {
+  activeStatus: ProductApprovalStatus
+  search: string
+  selectedIds: string[]
+  detailItemId: string | null
+  sheetOpen: boolean
+  pendingAction: PendingAction | null
+  reason: string
+  reasonError: string
+  submitting: boolean
 }

@@ -37,7 +37,6 @@ export * from './organisms/Drawer'
 export * from './organisms/DataTable'
 export * from './organisms/Sheet'
 export * from './organisms/Sonner'
-export * from './molecules/DropdownMenu'
 export * from './organisms/Sidebar'
 
 export * from './layouts/ConsoleLayout'

@@ -16,6 +16,7 @@ export function ReturnsRefunds({
   searchPlaceholder = returnsDefaultProps.searchPlaceholder,
   emptyMessage = returnsDefaultProps.emptyMessage,
   filterReturns = filterReturnsBySearchAndStatus,
+  onAction = returnsDefaultProps.onAction,
   onApprove,
   onPartial,
   onReject,
@@ -32,6 +33,7 @@ export function ReturnsRefunds({
         searchPlaceholder={searchPlaceholder}
         emptyMessage={emptyMessage}
         filterReturns={filterReturns}
+        onAction={onAction}
         onApprove={onApprove}
         onPartial={onPartial}
         onReject={onReject}

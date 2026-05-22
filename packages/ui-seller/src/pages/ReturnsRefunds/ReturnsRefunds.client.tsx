@@ -1,27 +1,12 @@
 'use client'
 
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  Typography,
-} from '@ecom/core-ui'
-import { startTransition, useDeferredValue, useMemo, useState } from 'react'
+import { Sheet, SheetContent } from '@ecom/core-ui'
+import { startTransition, useCallback, useDeferredValue, useMemo, useState } from 'react'
 import { useControllableState } from '../../hooks'
 import { SellerListPage } from '../../organisms/SellerListPage'
+import { createReturnsColumns } from './ReturnsRefunds.columns'
+import { buildReturnActionPayload, buildReturnStatusCounts } from './ReturnsRefunds.constants'
+import { ApproveReturnModal, ReturnCaseDetail } from './ReturnsRefunds.components'
 import { returnsDefaultProps } from './ReturnsRefunds.fixtures'
 import type {
   RefundMethod,
@@ -29,12 +14,7 @@ import type {
   ReturnsRefundsProps,
   ReturnsRefundsStatusTab,
 } from './ReturnsRefunds.types'
-import {
-  buildReturnStatusCounts,
-  createReturnsColumns,
-  filterReturnsBySearchAndStatus,
-  isReturnsRefundsStatusTab,
-} from './ReturnsRefunds.utils'
+import { filterReturnsBySearchAndStatus, isReturnsRefundsStatusTab } from './ReturnsRefunds.utils'
 
 interface ReturnsRefundsClientProps {
   returns: ReturnRow[]
@@ -46,16 +26,11 @@ interface ReturnsRefundsClientProps {
   searchPlaceholder?: ReturnsRefundsProps['searchPlaceholder']
   emptyMessage?: ReturnsRefundsProps['emptyMessage']
   filterReturns?: ReturnsRefundsProps['filterReturns']
+  onAction?: ReturnsRefundsProps['onAction']
   onApprove?: ReturnsRefundsProps['onApprove']
   onPartial?: ReturnsRefundsProps['onPartial']
   onReject?: ReturnsRefundsProps['onReject']
 }
-
-const moneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 2,
-})
 
 export function ReturnsRefundsClient({
   returns,
@@ -67,6 +42,7 @@ export function ReturnsRefundsClient({
   searchPlaceholder = returnsDefaultProps.searchPlaceholder,
   emptyMessage = returnsDefaultProps.emptyMessage,
   filterReturns = filterReturnsBySearchAndStatus,
+  onAction = returnsDefaultProps.onAction,
   onApprove = returnsDefaultProps.onApprove,
   onPartial = returnsDefaultProps.onPartial,
   onReject = returnsDefaultProps.onReject,
@@ -94,31 +70,59 @@ export function ReturnsRefundsClient({
     [currentStatus, deferredSearch, filterReturns, returns],
   )
 
-  function handleSelectCase(row: ReturnRow) {
+  const dispatchAction = useCallback(
+    async (...args: Parameters<NonNullable<ReturnsRefundsProps['onAction']>>) => {
+      await Promise.resolve(onAction?.(...args))
+    },
+    [onAction],
+  )
+
+  const handleSelectCase = useCallback((row: (typeof returns)[number]) => {
     setSelectedCase(row)
     setRefundMethod('ORIGINAL_PAYMENT')
     setSheetOpen(true)
-  }
+  }, [])
 
-  function closeApproveDialog() {
+  const closeApproveDialog = useCallback(() => {
     setApproveDialogOpen(false)
-  }
+  }, [])
 
-  function handleApproveRequest() {
+  const handleApproveRequest = useCallback(() => {
     setApproveDialogOpen(true)
-  }
+  }, [])
 
-  function handleApproveConfirm() {
+  const handleApproveConfirm = useCallback(() => {
     if (!selectedCase) {
       return
     }
 
+    void dispatchAction(buildReturnActionPayload('approve', selectedCase, refundMethod))
     onApprove(selectedCase.id, refundMethod)
     setApproveDialogOpen(false)
     setSheetOpen(false)
-  }
+  }, [dispatchAction, onApprove, refundMethod, selectedCase])
 
-  const columns = createReturnsColumns(handleSelectCase)
+  const handlePartial = useCallback(() => {
+    if (!selectedCase) {
+      return
+    }
+
+    void dispatchAction(buildReturnActionPayload('partial', selectedCase, refundMethod))
+    onPartial(selectedCase.id, refundMethod)
+    setSheetOpen(false)
+  }, [dispatchAction, onPartial, refundMethod, selectedCase])
+
+  const handleReject = useCallback(() => {
+    if (!selectedCase) {
+      return
+    }
+
+    void dispatchAction(buildReturnActionPayload('reject', selectedCase, refundMethod))
+    onReject(selectedCase.id)
+    setSheetOpen(false)
+  }, [dispatchAction, onReject, refundMethod, selectedCase])
+
+  const columns = useMemo(() => createReturnsColumns(handleSelectCase), [handleSelectCase])
 
   return (
     <>
@@ -157,19 +161,13 @@ export function ReturnsRefundsClient({
       <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
         <SheetContent className="w-full max-w-md overflow-y-auto px-4">
           {selectedCase ? (
-            <CaseDetail
+            <ReturnCaseDetail
               row={selectedCase}
               refundMethod={refundMethod}
               onRefundMethodChange={setRefundMethod}
               onApprove={handleApproveRequest}
-              onPartial={() => {
-                onPartial(selectedCase.id, refundMethod)
-                setSheetOpen(false)
-              }}
-              onReject={() => {
-                onReject(selectedCase.id)
-                setSheetOpen(false)
-              }}
+              onPartial={handlePartial}
+              onReject={handleReject}
             />
           ) : null}
         </SheetContent>
@@ -182,201 +180,6 @@ export function ReturnsRefundsClient({
         onClose={closeApproveDialog}
         onConfirm={handleApproveConfirm}
       />
-    </>
-  )
-}
-
-interface CaseDetailProps {
-  row: ReturnRow
-  refundMethod: RefundMethod
-  onRefundMethodChange: (method: RefundMethod) => void
-  onApprove: () => void
-  onPartial: () => void
-  onReject: () => void
-}
-
-function getRefundMethodLabel(method: RefundMethod) {
-  switch (method) {
-    case 'STORE_CREDIT':
-      return 'Refund as store credit'
-    case 'BANK_TRANSFER':
-      return 'Refund via bank transfer'
-    default:
-      return 'Refund to original payment'
-  }
-}
-
-function ApproveReturnModal({
-  open,
-  row,
-  refundMethod,
-  onClose,
-  onConfirm,
-}: {
-  open: boolean
-  row: ReturnRow | null
-  refundMethod: RefundMethod
-  onClose: () => void
-  onConfirm: () => void
-}) {
-  if (!row) {
-    return null
-  }
-
-  if (!open) {
-    return null
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
-      <DialogContent
-        showCloseButton={false}
-        className="bg-card border-border max-w-lg gap-0 rounded-3xl p-0 shadow-2xl"
-      >
-        <DialogHeader className="space-y-1 px-6 pt-6 text-left">
-          <DialogTitle id="approve-return-title" className="text-foreground text-lg font-semibold">
-            Approve full refund?
-          </DialogTitle>
-          <DialogDescription
-            id="approve-return-description"
-            className="text-muted-foreground text-sm"
-          >
-            {row.caseId} · {row.buyerName}
-          </DialogDescription>
-        </DialogHeader>
-
-        <div className="space-y-4 px-6 py-5">
-          <div className="bg-card border-border rounded-2xl border p-4">
-            <div className="flex items-center justify-between gap-4">
-              <Typography variant="body-sm" className="text-muted-foreground">
-                Refund amount
-              </Typography>
-              <Typography variant="body-sm" className="font-semibold">
-                {moneyFormatter.format(row.amount)}
-              </Typography>
-            </div>
-            <div className="mt-3 flex items-center justify-between gap-4">
-              <Typography variant="body-sm" className="text-muted-foreground">
-                Refund method
-              </Typography>
-              <Typography variant="body-sm" className="text-right font-medium">
-                {getRefundMethodLabel(refundMethod)}
-              </Typography>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-end gap-2 border-t px-6 py-4">
-          <Button type="button" variant="outline" onClick={onClose}>
-            Cancel
-          </Button>
-          <Button type="button" onClick={onConfirm}>
-            Approve full
-          </Button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-function CaseDetail({
-  row,
-  refundMethod,
-  onRefundMethodChange,
-  onApprove,
-  onPartial,
-  onReject,
-}: CaseDetailProps) {
-  return (
-    <>
-      <SheetHeader className="pb-4">
-        <SheetTitle className="text-foreground text-lg font-bold">{row.caseId}</SheetTitle>
-        <SheetDescription className="text-muted-foreground text-sm">
-          Order {row.orderNumber} · {row.buyerName}
-        </SheetDescription>
-      </SheetHeader>
-
-      <div className="flex flex-col gap-4 py-2">
-        <div className="bg-card border-border rounded-2xl border p-4">
-          <Typography variant="label" className="text-foreground mb-2">
-            Reason
-          </Typography>
-          <Typography variant="muted">{row.reason}</Typography>
-        </div>
-
-        {row.evidence && row.evidence.length > 0 && (
-          <div className="bg-card border-border rounded-2xl border p-4">
-            <Typography variant="label" className="text-foreground mb-3">
-              Evidence
-            </Typography>
-            <div className="flex flex-wrap gap-2">
-              {row.evidence.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`Evidence ${index + 1}`}
-                  className="h-32 w-32 rounded-xl object-cover"
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="bg-card border-border rounded-2xl border p-4">
-          <Typography variant="label" className="text-foreground mb-4">
-            Decision
-          </Typography>
-          <div className="mb-4 flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Requested amount</span>
-            <span className="text-foreground font-semibold">
-              {moneyFormatter.format(row.amount)}
-            </span>
-          </div>
-          <Select
-            value={refundMethod}
-            onValueChange={(v) => onRefundMethodChange(v as RefundMethod)}
-          >
-            <SelectTrigger className="border-input mb-4 w-full rounded-xl">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {(
-                Object.entries({
-                  ORIGINAL_PAYMENT: 'Refund to original payment',
-                  STORE_CREDIT: 'Refund as store credit',
-                  BANK_TRANSFER: 'Refund via bank transfer',
-                }) as [RefundMethod, string][]
-              ).map(([value, label]) => (
-                <SelectItem key={value} value={value}>
-                  {label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-          <div className="flex gap-2">
-            <Button
-              className="bg-success text-success-foreground hover:bg-success/90 flex-1 rounded-full font-semibold"
-              onClick={onApprove}
-            >
-              Approve full
-            </Button>
-            <Button
-              variant="outline"
-              className="border-input flex-1 rounded-full font-medium"
-              onClick={onPartial}
-            >
-              Partial
-            </Button>
-            <Button
-              variant="outline"
-              className="border-destructive/30 text-destructive hover:bg-destructive/10 flex-1 rounded-full font-medium"
-              onClick={onReject}
-            >
-              Reject
-            </Button>
-          </div>
-        </div>
-      </div>
     </>
   )
 }

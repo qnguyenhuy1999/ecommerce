@@ -1,4 +1,5 @@
 import type {
+  ReturnsRefundsActionPayload,
   ReturnRow,
   ReturnsRefundsProps,
   ReturnsRefundsStatusTab,
@@ -88,6 +89,7 @@ export const returnsDefaultProps = {
   searchPlaceholder: 'Search case, order, buyer...',
   emptyMessage: 'No return cases match the current filters',
   filterReturns: filterReturnsBySearchAndStatus,
+  onAction: (_payload: ReturnsRefundsActionPayload) => {},
   onApprove: () => {},
   onPartial: () => {},
   onReject: () => {},

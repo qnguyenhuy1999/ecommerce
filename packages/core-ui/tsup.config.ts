@@ -1,9 +1,9 @@
 import { defineConfig } from 'tsup'
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/providers/ThemeProvider.tsx'],
+  entry: ['src/index.ts', 'src/tokens/index.ts', 'src/providers/ThemeProvider.tsx'],
   format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
+  dts: { compilerOptions: { ignoreDeprecations: '6.0', lib: ['DOM', 'DOM.Iterable', 'ES2020'] } },
   splitting: false,
   sourcemap: true,
   clean: true,

@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { cva, type VariantProps } from 'class-variance-authority'
 
-import { Typography } from '../../atoms/Typography'
+import { Typography, type TypographyProps } from '../../atoms/Typography'
 import { cn } from '../../lib/utils'
 import { Label } from './label'
 import { Separator } from './separator'
@@ -118,10 +118,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function FieldDescription({
-  className,
-  ...props
-}: Omit<React.ComponentProps<typeof Typography>, 'variant'>) {
+function FieldDescription({ className, ...props }: Omit<TypographyProps<'p'>, 'variant'>) {
   return (
     <Typography
       variant="muted"

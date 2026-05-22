@@ -1,3 +1,12 @@
+export type AuthStatusTone = 'destructive' | 'success' | 'warning'
+
+export interface AuthStatusToneClassNameSet {
+  container: string
+  icon: string
+  text: string
+  dot?: string
+}
+
 export const authSurfaceClassName = 'border-border/80 bg-card shadow-sm'
 
 export const authShellBrandPanelClassName =
@@ -55,4 +64,4 @@ export const authStatusToneClassNames = {
     icon: 'text-destructive',
     text: 'text-destructive',
   },
-} as const
+} as const satisfies Record<AuthStatusTone, AuthStatusToneClassNameSet>

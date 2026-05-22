@@ -1,47 +1,27 @@
-import type { HTMLAttributes, ReactNode } from 'react'
+import type { ElementType } from 'react'
+import type { PolymorphicComponentProps, PolymorphicPropsWithChildren } from '../../lib/polymorphic'
 import { cn } from '../../lib/utils'
+import { typographyVariantRecipes, type TypographyVariant } from '../../tokens/typography'
 
-const typographyVariants = {
-  h1: 'scroll-m-20 text-4xl font-extrabold tracking-tight text-balance',
-  h2: 'scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0',
-  h3: 'scroll-m-20 text-2xl font-semibold tracking-tight',
-  h4: 'scroll-m-20 text-xl font-semibold tracking-tight',
-  body: 'leading-7',
-  'body-sm': 'text-sm leading-6',
-  caption: 'text-xs leading-5',
-  label: 'text-sm leading-none font-medium',
-  muted: 'text-muted-foreground text-sm leading-6',
-  blockquote: 'mt-6 border-l-2 pl-6 italic',
-} as const
+type TypographyProps<TElement extends ElementType = 'p'> = PolymorphicComponentProps<
+  TElement,
+  PolymorphicPropsWithChildren & {
+    variant: TypographyVariant
+  }
+>
 
-type TypographyVariant = keyof typeof typographyVariants
-
-type TypographyElement = 'blockquote' | 'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'p' | 'small' | 'span'
-
-const typographyVariantElements = {
-  h1: 'h1',
-  h2: 'h2',
-  h3: 'h3',
-  h4: 'h4',
-  body: 'p',
-  'body-sm': 'p',
-  caption: 'p',
-  label: 'span',
-  muted: 'p',
-  blockquote: 'blockquote',
-} as const satisfies Record<TypographyVariant, TypographyElement>
-
-type TypographyProps = HTMLAttributes<HTMLElement> & {
-  as?: TypographyElement
-  children: ReactNode
-  variant: TypographyVariant
-}
-
-function Typography({ as, children, className, variant, ...props }: TypographyProps) {
-  const Component = as ?? typographyVariantElements[variant]
+function Typography<TElement extends ElementType = 'p'>({
+  as,
+  children,
+  className,
+  variant,
+  ...props
+}: TypographyProps<TElement>) {
+  const recipe = typographyVariantRecipes[variant]
+  const Component = as ?? recipe.element
 
   return (
-    <Component className={cn(typographyVariants[variant], className)} {...props}>
+    <Component className={cn(recipe.className, className)} {...props}>
       {children}
     </Component>
   )
@@ -50,50 +30,50 @@ function Typography({ as, children, className, variant, ...props }: TypographyPr
 /**
  * @deprecated Prefer `Typography` with `variant="h1"`.
  */
-function TypographyH1(props: Omit<TypographyProps, 'as' | 'variant'>) {
-  return <Typography variant="h1" {...props} />
+function TypographyH1(props: Omit<TypographyProps<'h1'>, 'as' | 'variant'>) {
+  return <Typography<'h1'> variant="h1" {...props} />
 }
 
 /**
  * @deprecated Prefer `Typography` with `variant="h2"`.
  */
-function TypographyH2(props: Omit<TypographyProps, 'as' | 'variant'>) {
-  return <Typography variant="h2" {...props} />
+function TypographyH2(props: Omit<TypographyProps<'h2'>, 'as' | 'variant'>) {
+  return <Typography<'h2'> variant="h2" {...props} />
 }
 
 /**
  * @deprecated Prefer `Typography` with `variant="h3"`.
  */
-function TypographyH3(props: Omit<TypographyProps, 'as' | 'variant'>) {
-  return <Typography variant="h3" {...props} />
+function TypographyH3(props: Omit<TypographyProps<'h3'>, 'as' | 'variant'>) {
+  return <Typography<'h3'> variant="h3" {...props} />
 }
 
 /**
  * @deprecated Prefer `Typography` with `variant="h4"`.
  */
-function TypographyH4(props: Omit<TypographyProps, 'as' | 'variant'>) {
-  return <Typography variant="h4" {...props} />
+function TypographyH4(props: Omit<TypographyProps<'h4'>, 'as' | 'variant'>) {
+  return <Typography<'h4'> variant="h4" {...props} />
 }
 
 /**
  * @deprecated Prefer `Typography` with `variant="body"`.
  */
-function TypographyP(props: Omit<TypographyProps, 'as' | 'variant'>) {
-  return <Typography variant="body" {...props} />
+function TypographyP(props: Omit<TypographyProps<'p'>, 'as' | 'variant'>) {
+  return <Typography<'p'> variant="body" {...props} />
 }
 
 /**
  * @deprecated Prefer `Typography` with `variant="blockquote"`.
  */
-function TypographyBlockquote(props: Omit<TypographyProps, 'as' | 'variant'>) {
-  return <Typography variant="blockquote" {...props} />
+function TypographyBlockquote(props: Omit<TypographyProps<'blockquote'>, 'as' | 'variant'>) {
+  return <Typography<'blockquote'> variant="blockquote" {...props} />
 }
 
 /**
  * @deprecated Prefer `Typography` with `variant="label"` and `as="small"` when needed.
  */
-function TypographySmall(props: Omit<TypographyProps, 'variant'>) {
-  return <Typography as="small" variant="label" {...props} />
+function TypographySmall(props: Omit<TypographyProps<'small'>, 'variant'>) {
+  return <Typography<'small'> as="small" variant="label" {...props} />
 }
 
 export {
