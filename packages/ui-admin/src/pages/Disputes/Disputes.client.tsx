@@ -2,7 +2,6 @@
 
 import {
   Button,
-  DataTable,
   type DataTableColumn,
   Select,
   SelectContent,
@@ -10,11 +9,11 @@ import {
   SelectTrigger,
   SelectValue,
   StatusBadge,
-  TableToolbar,
   Typography,
 } from '@ecom/core-ui'
 import { ArrowRight, Circle } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { SellerListPage } from '../../organisms'
 import type {
   DisputeFilterOption,
   DisputePriority,
@@ -224,13 +223,18 @@ export function DisputesClient({
   )
 
   return (
-    <div className="space-y-4">
-      <DataTable
+    <SellerListPage.Header>
+      <SellerListPage.Table
         columns={columns}
         data={filteredItems}
         emptyMessage={emptyStateMessage}
         toolbar={
-          <TableToolbar search={search} onSearchChange={setSearch} placeholder={searchPlaceholder}>
+          <SellerListPage.Filters>
+            <SellerListPage.Search
+              value={search}
+              onChange={setSearch}
+              placeholder={searchPlaceholder}
+            />
             <div className="flex flex-wrap items-center gap-3">
               <Typography variant="caption" className="text-muted-foreground uppercase">
                 {filtersLabel}
@@ -260,13 +264,13 @@ export function DisputesClient({
                 onChange={setResolutionFilter}
               />
             </div>
-          </TableToolbar>
+          </SellerListPage.Filters>
         }
       />
 
       <Typography variant="body-sm" className="text-muted-foreground">
         {filteredItems.length} {summaryLabel}
       </Typography>
-    </div>
+    </SellerListPage.Header>
   )
 }

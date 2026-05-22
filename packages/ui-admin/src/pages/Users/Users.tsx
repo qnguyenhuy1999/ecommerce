@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { SellerListPage } from '../../organisms'
 import { usersDefaultProps } from './Users.fixtures'
 import { UsersClient } from './Users.client'
 import type { UsersProps } from './Users.types'
@@ -19,7 +19,7 @@ export function Users({
   onInvite = usersDefaultProps.onInvite,
 }: UsersProps) {
   return (
-    <ConsolePageLayout
+    <SellerListPage
       title={title}
       description={description}
       breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Users' }]}
@@ -38,6 +38,6 @@ export function Users({
         onExport={onExport}
         onInvite={onInvite}
       />
-    </ConsolePageLayout>
+    </SellerListPage>
   )
 }

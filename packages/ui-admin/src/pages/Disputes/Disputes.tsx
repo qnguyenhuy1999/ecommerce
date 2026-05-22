@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { SellerListPage } from '../../organisms'
 import { DisputesClient } from './Disputes.client'
 import { disputesDefaultProps } from './Disputes.fixtures'
 import type { DisputesProps } from './Disputes.types'
@@ -19,7 +19,7 @@ export function Disputes({
   onOpenCase = disputesDefaultProps.onOpenCase,
 }: DisputesProps) {
   return (
-    <ConsolePageLayout
+    <SellerListPage
       title={title}
       description={description}
       breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Disputes' }]}
@@ -38,6 +38,6 @@ export function Disputes({
         items={items ?? []}
         onOpenCase={onOpenCase}
       />
-    </ConsolePageLayout>
+    </SellerListPage>
   )
 }

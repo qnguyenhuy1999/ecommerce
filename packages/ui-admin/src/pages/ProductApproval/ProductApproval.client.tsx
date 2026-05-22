@@ -1,7 +1,8 @@
 'use client'
 
-import { Button, DataTable, Sheet, SheetContent, StatusTabs, TableToolbar } from '@ecom/core-ui'
+import { Button, Sheet, SheetContent } from '@ecom/core-ui'
 import { useMemo } from 'react'
+import { SellerListPage } from '../../organisms'
 import { buildProductApprovalColumns } from './ProductApproval.columns'
 import { ProductApprovalDetailSheet, ProductApprovalModal } from './ProductApproval.components'
 import { useProductApprovalController } from './ProductApproval.controller'
@@ -33,15 +34,8 @@ export function ProductApprovalClient({
 
   return (
     <>
-      <div className="space-y-4">
-        <StatusTabs
-          tabs={statusTabs.map((tab) => tab.value)}
-          value={controller.state.activeStatus}
-          onChange={controller.setActiveStatus}
-          counts={controller.statusCounts}
-        />
-
-        <DataTable
+      <SellerListPage.Header>
+        <SellerListPage.Table
           columns={columns}
           data={controller.filteredItems}
           onRowClick={controller.openDetail}
@@ -49,11 +43,21 @@ export function ProductApprovalClient({
           onSelectionChange={controller.setSelectedItems}
           emptyMessage="No listings found."
           toolbar={
-            <TableToolbar
-              search={controller.state.search}
-              onSearchChange={controller.setSearch}
-              placeholder={searchPlaceholder}
-            />
+            <SellerListPage.Filters className="items-stretch gap-3 xl:flex-row xl:items-center">
+              <SellerListPage.Search
+                value={controller.state.search}
+                onChange={controller.setSearch}
+                placeholder={searchPlaceholder}
+              />
+              <SellerListPage.StatusTabs
+                tabs={statusTabs.map((tab) => tab.value)}
+                value={controller.state.activeStatus}
+                onChange={(tab) =>
+                  controller.setActiveStatus(tab as typeof controller.state.activeStatus)
+                }
+                counts={controller.statusCounts}
+              />
+            </SellerListPage.Filters>
           }
           bulkActions={
             <div className="flex flex-wrap items-center gap-2">
@@ -73,7 +77,7 @@ export function ProductApprovalClient({
             </div>
           }
         />
-      </div>
+      </SellerListPage.Header>
 
       <Sheet open={controller.state.sheetOpen} onOpenChange={controller.setSheetOpen}>
         <SheetContent

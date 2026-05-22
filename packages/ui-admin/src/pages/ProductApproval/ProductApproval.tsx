@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { SellerListPage } from '../../organisms'
 import { productApprovalDefaultProps } from './ProductApproval.fixtures'
 import { ProductApprovalClient } from './ProductApproval.client'
 import type { ProductApprovalProps } from './ProductApproval.types'
@@ -22,7 +22,7 @@ export function ProductApproval({
   onReject = productApprovalDefaultProps.onReject,
 }: ProductApprovalProps) {
   return (
-    <ConsolePageLayout
+    <SellerListPage
       title={title}
       description={description}
       breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Products' }]}
@@ -44,6 +44,6 @@ export function ProductApproval({
         onApprove={onApprove}
         onReject={onReject}
       />
-    </ConsolePageLayout>
+    </SellerListPage>
   )
 }

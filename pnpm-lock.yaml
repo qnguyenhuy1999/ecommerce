@@ -914,6 +914,9 @@ importers:
       '@ecom/core-ui':
         specifier: workspace:*
         version: link:../core-ui
+      '@ecom/shared':
+        specifier: workspace:*
+        version: link:../shared
       lucide-react:
         specifier: ^1.14.0
         version: 1.14.0(react@19.2.6)

@@ -6,7 +6,6 @@ import {
   AvatarImage,
   Button,
   Checkbox,
-  DataTable,
   type DataTableColumn,
   Select,
   SelectContent,
@@ -14,12 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
   StatusBadge,
-  StatusTabs,
-  TableToolbar,
   Typography,
 } from '@ecom/core-ui'
 import { Download, UserPlus } from 'lucide-react'
 import { useMemo, useState } from 'react'
+import { SellerListPage } from '../../organisms'
 import type {
   UserAccountRecord,
   UserAccountRole,
@@ -237,15 +235,15 @@ export function UsersClient({
   const counts = useMemo(() => buildStatusCounts(statusTabs), [statusTabs])
 
   return (
-    <div className="space-y-4">
+    <SellerListPage.Header>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <StatusTabs
+        <SellerListPage.StatusTabs
           tabs={STATUS_TAB_ORDER}
           value={activeTab}
           onChange={(tab) => setActiveTab(tab as 'ALL' | UserAccountStatus)}
           counts={counts}
         />
-        <div className="flex flex-wrap items-center gap-3">
+        <SellerListPage.Actions>
           <Button type="button" variant="outline" onClick={() => void onExport?.()}>
             <Download className="size-4" />
             {exportLabel}
@@ -254,21 +252,21 @@ export function UsersClient({
             <UserPlus className="size-4" />
             {inviteLabel}
           </Button>
-        </div>
+        </SellerListPage.Actions>
       </div>
 
-      <DataTable
+      <SellerListPage.Table
         columns={columns}
         data={filteredItems}
         enableRowSelection
         emptyMessage={emptyStateMessage}
         toolbar={
-          <TableToolbar
-            search={search}
-            onSearchChange={setSearch}
-            placeholder={searchPlaceholder}
-            className="items-stretch justify-between gap-3 xl:flex-row xl:items-center"
-          >
+          <SellerListPage.Filters className="items-stretch justify-between gap-3 xl:flex-row xl:items-center">
+            <SellerListPage.Search
+              value={search}
+              onChange={setSearch}
+              placeholder={searchPlaceholder}
+            />
             <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
               <div className="flex flex-wrap gap-3">
                 <FilterSelect value={roleFilter} options={roleOptions} onChange={setRoleFilter} />
@@ -284,9 +282,9 @@ export function UsersClient({
                 onChange={setJoinedFilter}
               />
             </div>
-          </TableToolbar>
+          </SellerListPage.Filters>
         }
       />
-    </div>
+    </SellerListPage.Header>
   )
 }
