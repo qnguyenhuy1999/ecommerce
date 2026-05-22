@@ -11,7 +11,6 @@ export function Disputes({
   summaryLabel = disputesDefaultProps.summaryLabel,
   filtersLabel = disputesDefaultProps.filtersLabel,
   emptyStateMessage = disputesDefaultProps.emptyStateMessage,
-  detailTitle = disputesDefaultProps.detailTitle,
   priorityOptions = disputesDefaultProps.priorityOptions,
   statusOptions = disputesDefaultProps.statusOptions,
   queueOptions = disputesDefaultProps.queueOptions,
@@ -32,7 +31,6 @@ export function Disputes({
         summaryLabel={summaryLabel ?? 'cases'}
         filtersLabel={filtersLabel ?? 'Filters'}
         emptyStateMessage={emptyStateMessage ?? 'No disputes match current filters.'}
-        detailTitle={detailTitle ?? 'Case detail'}
         priorityOptions={priorityOptions ?? []}
         statusOptions={statusOptions ?? []}
         queueOptions={queueOptions ?? []}

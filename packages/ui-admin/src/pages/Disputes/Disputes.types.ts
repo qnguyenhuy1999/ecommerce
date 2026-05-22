@@ -1,9 +1,12 @@
-export type DisputeStatus =
-  | 'OPEN'
-  | 'UNDER_REVIEW'
-  | 'ESCALATED'
-  | 'REFUNDED_BUYER'
-  | 'CLOSED_SELLER'
+export const disputeStatuses = [
+  'OPEN',
+  'UNDER_REVIEW',
+  'ESCALATED',
+  'REFUNDED_BUYER',
+  'CLOSED_SELLER',
+] as const
+
+export type DisputeStatus = (typeof disputeStatuses)[number]
 
 export type DisputePriority = 'HIGH' | 'MEDIUM' | 'LOW'
 
@@ -41,7 +44,6 @@ export interface DisputesProps {
   summaryLabel?: string
   filtersLabel?: string
   emptyStateMessage?: string
-  detailTitle?: string
   priorityOptions?: DisputeFilterOption<'ALL' | DisputePriority>[]
   statusOptions?: DisputeFilterOption<'ALL' | DisputeStatus>[]
   queueOptions?: DisputeFilterOption<'ALL' | DisputeQueue>[]

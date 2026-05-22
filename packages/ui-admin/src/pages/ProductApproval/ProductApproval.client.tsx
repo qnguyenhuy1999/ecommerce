@@ -8,12 +8,11 @@ import {
   Checkbox,
   DataTable,
   type DataTableColumn,
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   Label,
   Sheet,
   SheetContent,
@@ -110,9 +109,11 @@ function areIdsEqual(current: string[], next: string[]) {
 function ReasonTags({
   item,
   emptyLabel = '—',
+  tone = 'status',
 }: {
   item: ProductApprovalItem
   emptyLabel?: string
+  tone?: 'status' | 'neutral'
 }) {
   if (item.reasonTags.length === 0) {
     return (
@@ -127,8 +128,13 @@ function ReasonTags({
       {item.reasonTags.map((tag) => (
         <Badge
           key={tag.id}
-          variant="secondary"
-          className={`rounded-full ${getReasonTagTone(item.status)}`}
+          variant={tone === 'neutral' ? 'outline' : 'secondary'}
+          size="sm"
+          className={
+            tone === 'neutral'
+              ? 'border-border text-foreground'
+              : `${getReasonTagTone(item.status)}`
+          }
         >
           {tag.label}
         </Badge>
@@ -172,27 +178,39 @@ function ProductApprovalModal({
   onClose: () => void
   onConfirm: () => void
 }) {
+  if (!open) {
+    return null
+  }
+
   return (
-    <Drawer open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
-      <DrawerContent className="mx-auto w-full max-w-lg">
-        <div className="relative">
+    <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="border-border bg-background max-w-lg gap-0 rounded-3xl border p-0 shadow-2xl"
+      >
+        <DialogHeader className="relative space-y-1 px-6 pt-6 text-left">
           <Button
             type="button"
             variant="ghost"
             size="icon-sm"
             aria-label="Close dialog"
             onClick={onClose}
-            className="absolute top-4 right-4"
+            className="absolute top-0 right-4"
           >
             <X className="size-4" />
           </Button>
-          <DrawerHeader className="space-y-1 text-left">
-            <DrawerTitle id="product-approval-dialog-title">{title}</DrawerTitle>
-            <DrawerDescription>{description}</DrawerDescription>
-          </DrawerHeader>
-        </div>
+          <DialogTitle id="product-approval-dialog-title" className="text-lg font-semibold">
+            {title}
+          </DialogTitle>
+          <DialogDescription
+            id="product-approval-dialog-description"
+            className="text-muted-foreground text-sm"
+          >
+            {description}
+          </DialogDescription>
+        </DialogHeader>
 
-        <div className="space-y-2 px-4 pb-4">
+        <div className="space-y-2 px-6 py-5">
           <Label htmlFor="product-approval-reason" className="text-sm font-medium">
             {reasonLabel} <span className="text-destructive">*</span>
           </Label>
@@ -215,7 +233,7 @@ function ProductApprovalModal({
           ) : null}
         </div>
 
-        <DrawerFooter className="gap-3 border-t">
+        <div className="flex items-center justify-between gap-4 border-t px-6 py-4">
           <Typography variant="caption" className="text-muted-foreground">
             {ids.length} listing{ids.length === 1 ? '' : 's'} selected
           </Typography>
@@ -232,9 +250,9 @@ function ProductApprovalModal({
               {action === 'approve' ? approveLabel : rejectLabel}
             </Button>
           </div>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+        </div>
+      </DialogContent>
+    </Dialog>
   )
 }
 
@@ -257,36 +275,36 @@ function DetailSheetContent({
 
   return (
     <>
-      <SheetHeader className="border-border space-y-1 border-b px-5 py-5">
-        <SheetTitle className="text-lg font-semibold">{item.title}</SheetTitle>
-        <SheetDescription>
+      <SheetHeader>
+        <SheetTitle className="text-foreground text-lg font-bold">{item.title}</SheetTitle>
+        <SheetDescription className="text-muted-foreground text-sm">
           {item.sellerName} · submitted {item.submittedAtLabel}
         </SheetDescription>
       </SheetHeader>
 
-      <div className="flex-1 space-y-5 overflow-y-auto px-5 py-5">
-        <div className="grid grid-cols-2 gap-3">
+      <div className="flex flex-col gap-6 px-4">
+        <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
           {item.images.map((image) => (
-            <div key={image.id} className="bg-muted aspect-[1.12] overflow-hidden rounded-2xl">
+            <div
+              key={image.id}
+              className="border-border aspect-square w-full rounded-md border object-cover"
+            >
               <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
             </div>
           ))}
         </div>
 
-        <Card className="rounded-3xl shadow-none">
-          <CardContent className="space-y-3 p-5">
+        <Card>
+          <CardContent className="space-y-3">
             <div>
-              <Typography as="h3" variant="label" className="text-base">
+              <Typography as="p" variant="label" className="text-foreground font-semibold">
                 {item.title}
               </Typography>
-              <Typography
-                variant="h3"
-                className="text-primary mt-2 scroll-m-0 border-none p-0 text-2xl"
-              >
+              <Typography variant="body-sm" className="text-primary mt-3 scroll-m-0 font-semibold">
                 {item.priceLabel}
               </Typography>
             </div>
-            <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
+            <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm font-normal">
               <span>{item.stockLabel}</span>
               <span>·</span>
               <span>{item.soldLabel}</span>
@@ -296,21 +314,30 @@ function DetailSheetContent({
           </CardContent>
         </Card>
 
-        <div className="space-y-3">
-          <Typography as="h3" variant="label">
+        <div className="space-y-4">
+          <Typography
+            as="h3"
+            variant="label"
+            className="text-foreground text-base font-semibold sm:text-lg"
+          >
             Policy tags
           </Typography>
-          <div className="flex flex-wrap gap-2">
-            <ReasonTags item={item} emptyLabel="No policy tags" />
+          <div className="flex flex-wrap gap-3">
+            <ReasonTags item={item} emptyLabel="No policy tags" tone="neutral" />
           </div>
         </div>
       </div>
 
-      <SheetFooter className="border-border flex-row justify-end border-t px-5 py-4">
-        <Button type="button" variant="outline" onClick={() => onReject(item.id)}>
+      <SheetFooter className="mt-0 flex-row justify-end gap-2 px-8 py-6">
+        <Button type="button" variant="destructive" size="lg" onClick={() => onReject(item.id)}>
           {rejectLabel}
         </Button>
-        <Button type="button" onClick={() => onApprove(item.id)}>
+        <Button
+          type="button"
+          className="bg-success text-success-foreground hover:bg-success/90"
+          size="lg"
+          onClick={() => onApprove(item.id)}
+        >
           {approveLabel}
         </Button>
       </SheetFooter>
@@ -318,11 +345,7 @@ function DetailSheetContent({
   )
 }
 
-function buildProductApprovalColumns({
-  onOpenDetail,
-}: {
-  onOpenDetail: (item: ProductApprovalItem) => void
-}): DataTableColumn<ProductApprovalItem>[] {
+function buildProductApprovalColumns(): DataTableColumn<ProductApprovalItem>[] {
   return [
     {
       id: 'select',
@@ -354,28 +377,21 @@ function buildProductApprovalColumns({
         const item = row.original
 
         return (
-          <Button
-            type="button"
-            variant="ghost"
-            className="h-auto w-full justify-start rounded-2xl px-0 py-0 text-left hover:bg-transparent"
-            onClick={() => onOpenDetail(item)}
-          >
-            <div className="flex min-w-0 items-center gap-3">
-              <img
-                src={item.images[0]?.src}
-                alt={item.images[0]?.alt ?? item.title}
-                className="bg-muted size-10 rounded-xl object-cover"
-              />
-              <div className="min-w-0">
-                <Typography as="div" variant="label" className="truncate">
-                  {item.title}
-                </Typography>
-                <Typography variant="body-sm" className="text-muted-foreground">
-                  {item.sellerName}
-                </Typography>
-              </div>
+          <div className="flex min-w-0 items-center gap-3">
+            <img
+              src={item.images[0]?.src}
+              alt={item.images[0]?.alt ?? item.title}
+              className="bg-muted size-10 rounded-xl object-cover"
+            />
+            <div className="min-w-0">
+              <Typography as="div" variant="label" className="truncate">
+                {item.title}
+              </Typography>
+              <Typography variant="body-sm" className="text-muted-foreground">
+                {item.sellerName}
+              </Typography>
             </div>
-          </Button>
+          </div>
         )
       },
     },
@@ -601,10 +617,7 @@ export function ProductApprovalClient({
     onApprove,
     onReject,
   })
-  const columns = useMemo(
-    () => buildProductApprovalColumns({ onOpenDetail: controller.openDetail }),
-    [controller.openDetail],
-  )
+  const columns = useMemo(() => buildProductApprovalColumns(), [])
 
   return (
     <>
@@ -619,6 +632,7 @@ export function ProductApprovalClient({
         <DataTable
           columns={columns}
           data={controller.filteredItems}
+          onRowClick={controller.openDetail}
           enableRowSelection
           onSelectionChange={controller.setSelectedItems}
           emptyMessage="No listings found."
@@ -650,7 +664,11 @@ export function ProductApprovalClient({
       </div>
 
       <Sheet open={controller.state.sheetOpen} onOpenChange={controller.setSheetOpen}>
-        <SheetContent side="right" className="w-full gap-0 p-0 sm:max-w-xl">
+        <SheetContent
+          side="right"
+          showCloseButton={false}
+          className="w-full gap-0 p-0 sm:max-w-4xl"
+        >
           <DetailSheetContent
             item={controller.detailItem}
             approveLabel={approveLabel}

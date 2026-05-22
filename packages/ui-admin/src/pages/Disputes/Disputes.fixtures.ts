@@ -8,7 +8,6 @@ export const disputesDefaultProps: DisputesProps = {
   summaryLabel: 'cases',
   filtersLabel: 'Filters',
   emptyStateMessage: 'No disputes match current filters.',
-  detailTitle: 'Case detail',
   priorityOptions: [
     { value: 'ALL', label: 'All' },
     { value: 'HIGH', label: 'High priority' },

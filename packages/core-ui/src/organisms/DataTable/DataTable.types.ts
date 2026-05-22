@@ -9,6 +9,7 @@ export interface DataTableProps<T extends RowData> {
   meta?: PaginationMeta
   loading?: boolean
   onPageChange?: (page: number) => void
+  onRowClick?: (row: T) => void
   enableRowSelection?: boolean
   onSelectionChange?: (rows: T[]) => void
   toolbar?: React.ReactNode
@@ -17,8 +18,8 @@ export interface DataTableProps<T extends RowData> {
   className?: string
 }
 
-export interface StatusBadgeProps {
-  status: string
+export interface StatusBadgeProps<TStatus extends string = string> {
+  status: TStatus
   className?: string
 }
 

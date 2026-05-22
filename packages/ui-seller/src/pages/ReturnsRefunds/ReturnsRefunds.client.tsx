@@ -2,6 +2,11 @@
 
 import {
   Button,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
   Select,
   SelectContent,
   SelectItem,
@@ -77,6 +82,7 @@ export function ReturnsRefundsClient({
   const [selectedCase, setSelectedCase] = useState<ReturnRow | null>(null)
   const [refundMethod, setRefundMethod] = useState<RefundMethod>('ORIGINAL_PAYMENT')
   const [sheetOpen, setSheetOpen] = useState(false)
+  const [approveDialogOpen, setApproveDialogOpen] = useState(false)
   const deferredSearch = useDeferredValue(search)
 
   const counts = useMemo(
@@ -94,6 +100,24 @@ export function ReturnsRefundsClient({
     setSheetOpen(true)
   }
 
+  function closeApproveDialog() {
+    setApproveDialogOpen(false)
+  }
+
+  function handleApproveRequest() {
+    setApproveDialogOpen(true)
+  }
+
+  function handleApproveConfirm() {
+    if (!selectedCase) {
+      return
+    }
+
+    onApprove(selectedCase.id, refundMethod)
+    setApproveDialogOpen(false)
+    setSheetOpen(false)
+  }
+
   const columns = createReturnsColumns(handleSelectCase)
 
   return (
@@ -101,6 +125,7 @@ export function ReturnsRefundsClient({
       <SellerListPage.Table
         columns={columns}
         data={filteredReturns}
+        onRowClick={handleSelectCase}
         toolbar={
           <SellerListPage.Filters>
             <SellerListPage.Search
@@ -136,10 +161,7 @@ export function ReturnsRefundsClient({
               row={selectedCase}
               refundMethod={refundMethod}
               onRefundMethodChange={setRefundMethod}
-              onApprove={() => {
-                onApprove(selectedCase.id, refundMethod)
-                setSheetOpen(false)
-              }}
+              onApprove={handleApproveRequest}
               onPartial={() => {
                 onPartial(selectedCase.id, refundMethod)
                 setSheetOpen(false)
@@ -152,6 +174,14 @@ export function ReturnsRefundsClient({
           ) : null}
         </SheetContent>
       </Sheet>
+
+      <ApproveReturnModal
+        open={approveDialogOpen}
+        row={selectedCase}
+        refundMethod={refundMethod}
+        onClose={closeApproveDialog}
+        onConfirm={handleApproveConfirm}
+      />
     </>
   )
 }
@@ -163,6 +193,90 @@ interface CaseDetailProps {
   onApprove: () => void
   onPartial: () => void
   onReject: () => void
+}
+
+function getRefundMethodLabel(method: RefundMethod) {
+  switch (method) {
+    case 'STORE_CREDIT':
+      return 'Refund as store credit'
+    case 'BANK_TRANSFER':
+      return 'Refund via bank transfer'
+    default:
+      return 'Refund to original payment'
+  }
+}
+
+function ApproveReturnModal({
+  open,
+  row,
+  refundMethod,
+  onClose,
+  onConfirm,
+}: {
+  open: boolean
+  row: ReturnRow | null
+  refundMethod: RefundMethod
+  onClose: () => void
+  onConfirm: () => void
+}) {
+  if (!row) {
+    return null
+  }
+
+  if (!open) {
+    return null
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="bg-card border-border max-w-lg gap-0 rounded-3xl p-0 shadow-2xl"
+      >
+        <DialogHeader className="space-y-1 px-6 pt-6 text-left">
+          <DialogTitle id="approve-return-title" className="text-foreground text-lg font-semibold">
+            Approve full refund?
+          </DialogTitle>
+          <DialogDescription
+            id="approve-return-description"
+            className="text-muted-foreground text-sm"
+          >
+            {row.caseId} · {row.buyerName}
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="space-y-4 px-6 py-5">
+          <div className="bg-card border-border rounded-2xl border p-4">
+            <div className="flex items-center justify-between gap-4">
+              <Typography variant="body-sm" className="text-muted-foreground">
+                Refund amount
+              </Typography>
+              <Typography variant="body-sm" className="font-semibold">
+                {moneyFormatter.format(row.amount)}
+              </Typography>
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-4">
+              <Typography variant="body-sm" className="text-muted-foreground">
+                Refund method
+              </Typography>
+              <Typography variant="body-sm" className="text-right font-medium">
+                {getRefundMethodLabel(refundMethod)}
+              </Typography>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-2 border-t px-6 py-4">
+          <Button type="button" variant="outline" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button type="button" onClick={onConfirm}>
+            Approve full
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 function CaseDetail({

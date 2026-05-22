@@ -6,7 +6,9 @@ import {
   flexRender,
   getCoreRowModel,
   useReactTable,
+  type Row,
   type RowSelectionState,
+  type Table,
 } from '@tanstack/react-table'
 import type { PaginationMeta } from '@ecom/shared/pagination/core'
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
@@ -60,9 +62,17 @@ const STATUS_STYLES: Record<string, { dot: string; badge: string }> = {
     dot: 'bg-muted-foreground',
     badge: 'bg-muted text-muted-foreground',
   },
+  INVITED: {
+    dot: 'bg-warning',
+    badge: 'bg-warning/10 text-warning',
+  },
   LIVE: {
     dot: 'bg-success',
     badge: 'bg-success/10 text-success',
+  },
+  LOCKED: {
+    dot: 'bg-destructive',
+    badge: 'bg-destructive/10 text-destructive',
   },
   OPEN: {
     dot: 'bg-info',
@@ -157,12 +167,143 @@ function formatStatusLabel(value: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase())
 }
 
+function isRowClickIgnored(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) {
+    return false
+  }
+
+  return Boolean(
+    target.closest(
+      'button, a, input, select, textarea, summary, [role="button"], [data-row-click-ignore="true"]',
+    ),
+  )
+}
+
+function SelectionSummary({
+  selectedCount,
+  bulkActions,
+}: {
+  selectedCount: number
+  bulkActions: React.ReactNode
+}) {
+  return (
+    <div className="bg-muted text-foreground border-border flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm">
+      <span className="font-medium">{selectedCount} selected</span>
+      {bulkActions}
+    </div>
+  )
+}
+
+function DataTableHeader<T extends { id: string }>({ table }: { table: Table<T> }) {
+  return (
+    <thead>
+      {table.getHeaderGroups().map((headerGroup) => (
+        <tr key={headerGroup.id} className="bg-muted/90">
+          {headerGroup.headers.map((header) => (
+            <th
+              key={header.id}
+              className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold tracking-wide uppercase first:pl-5 last:pr-5"
+            >
+              {header.isPlaceholder
+                ? null
+                : flexRender(header.column.columnDef.header, header.getContext())}
+            </th>
+          ))}
+        </tr>
+      ))}
+    </thead>
+  )
+}
+
+function DataTableDataRow<T extends { id: string }>({
+  row,
+  onRowClick,
+}: {
+  row: Row<T>
+  onRowClick: ((row: T) => void) | undefined
+}) {
+  return (
+    <tr
+      key={row.id}
+      className={cn(
+        'transition-colors',
+        onRowClick ? 'hover:bg-muted/50 cursor-pointer' : 'hover:bg-muted/50',
+      )}
+      onClick={(event) => {
+        if (!onRowClick || isRowClickIgnored(event.target)) {
+          return
+        }
+
+        onRowClick(row.original)
+      }}
+    >
+      {row.getVisibleCells().map((cell) => (
+        <td
+          key={cell.id}
+          className="text-foreground border-border border-b px-4 py-3.5 align-middle text-sm first:pl-5 last:pr-5"
+        >
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </td>
+      ))}
+    </tr>
+  )
+}
+
+function DataTableBody<T extends { id: string }>({
+  table,
+  columnsCount,
+  loading,
+  emptyMessage,
+  dataLength,
+  onRowClick,
+}: {
+  table: Table<T>
+  columnsCount: number
+  loading: boolean | undefined
+  emptyMessage: string
+  dataLength: number
+  onRowClick: ((row: T) => void) | undefined
+}) {
+  return (
+    <tbody>
+      {loading
+        ? Array.from({ length: 10 }).map((_, rowIndex) => (
+            <tr key={rowIndex} className="border-border border-b last:border-b-0">
+              {Array.from({ length: columnsCount }).map((__, cellIndex) => (
+                <td
+                  key={cellIndex}
+                  className="border-border border-b px-4 py-4 first:pl-5 last:pr-5"
+                >
+                  <div className="bg-muted h-4 w-24 animate-pulse rounded-full" />
+                </td>
+              ))}
+            </tr>
+          ))
+        : table
+            .getRowModel()
+            .rows.map((row) => <DataTableDataRow key={row.id} row={row} onRowClick={onRowClick} />)}
+
+      {!loading && dataLength === 0 && (
+        <tr>
+          <td
+            colSpan={columnsCount}
+            className="text-muted-foreground px-4 py-12 text-center text-sm"
+          >
+            {emptyMessage}
+          </td>
+        </tr>
+      )}
+    </tbody>
+  )
+}
+
 export function DataTable<T extends { id: string }>({
   columns,
   data,
   meta,
   loading,
   onPageChange,
+  onRowClick,
   enableRowSelection = false,
   onSelectionChange,
   toolbar,
@@ -234,72 +375,23 @@ export function DataTable<T extends { id: string }>({
   return (
     <div className={cn('space-y-4', className)}>
       {selectedCount > 0 && bulkActions && (
-        <div className="bg-muted text-foreground border-border flex items-center gap-2 rounded-2xl border px-3 py-2 text-sm">
-          <span className="font-medium">{selectedCount} selected</span>
-          {bulkActions}
-        </div>
+        <SelectionSummary selectedCount={selectedCount} bulkActions={bulkActions} />
       )}
 
-      <div className="bg-card border-border overflow-hidden rounded-[24px] border shadow-xs">
+      <div className="bg-card border-border overflow-hidden rounded-3xl border shadow-xs">
         {toolbar && <div className="border-border border-b px-3 py-3 sm:px-4">{toolbar}</div>}
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[760px] border-separate border-spacing-0 text-sm">
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id} className="bg-muted/90">
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      className="text-muted-foreground px-4 py-3 text-left text-xs font-semibold tracking-[0.05em] uppercase first:pl-5 last:pr-5"
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(header.column.columnDef.header, header.getContext())}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-
-            <tbody>
-              {loading
-                ? Array.from({ length: 10 }).map((_, rowIndex) => (
-                    <tr key={rowIndex} className="border-border border-b last:border-b-0">
-                      {columns.map((_, cellIndex) => (
-                        <td
-                          key={cellIndex}
-                          className="border-border border-b px-4 py-4 first:pl-5 last:pr-5"
-                        >
-                          <div className="bg-muted h-4 w-24 animate-pulse rounded-full" />
-                        </td>
-                      ))}
-                    </tr>
-                  ))
-                : table.getRowModel().rows.map((row) => (
-                    <tr key={row.id} className="hover:bg-muted/50 transition-colors">
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          key={cell.id}
-                          className="text-foreground border-border border-b px-4 py-3.5 align-middle text-sm first:pl-5 last:pr-5"
-                        >
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-
-              {!loading && data.length === 0 && (
-                <tr>
-                  <td
-                    colSpan={columns.length}
-                    className="text-muted-foreground px-4 py-12 text-center text-sm"
-                  >
-                    {emptyMessage}
-                  </td>
-                </tr>
-              )}
-            </tbody>
+          <table className="w-full min-w-3xl border-separate border-spacing-0 text-sm">
+            <DataTableHeader table={table} />
+            <DataTableBody
+              table={table}
+              columnsCount={columns.length}
+              loading={loading}
+              emptyMessage={emptyMessage}
+              dataLength={data.length}
+              onRowClick={onRowClick}
+            />
           </table>
         </div>
 
@@ -350,7 +442,10 @@ function Pagination({
   )
 }
 
-export function StatusBadge({ status, className }: StatusBadgeProps) {
+export function StatusBadge<TStatus extends string>({
+  status,
+  className,
+}: StatusBadgeProps<TStatus>) {
   const normalizedStatus = status.toUpperCase()
   const style = STATUS_STYLES[normalizedStatus] ?? {
     dot: 'bg-muted-foreground',

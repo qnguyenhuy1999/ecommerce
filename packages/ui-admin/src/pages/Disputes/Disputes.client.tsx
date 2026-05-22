@@ -2,8 +2,6 @@
 
 import {
   Button,
-  Card,
-  CardContent,
   DataTable,
   type DataTableColumn,
   Select,
@@ -11,11 +9,6 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   StatusBadge,
   TableToolbar,
   Typography,
@@ -32,13 +25,16 @@ import type {
   DisputeStatus,
 } from './Disputes.types'
 
+function DisputeStatusBadge({ status }: { status: DisputeStatus }) {
+  return <StatusBadge status={status} />
+}
+
 interface DisputesClientProps {
   searchPlaceholder: string
   openLabel: string
   summaryLabel: string
   filtersLabel: string
   emptyStateMessage: string
-  detailTitle: string
   priorityOptions: DisputeFilterOption<'ALL' | DisputePriority>[]
   statusOptions: DisputeFilterOption<'ALL' | DisputeStatus>[]
   queueOptions: DisputeFilterOption<'ALL' | DisputeQueue>[]
@@ -72,20 +68,18 @@ function FilterSelect<TValue extends string>({
   onChange: (value: TValue) => void
 }) {
   return (
-    <div className="min-w-36">
-      <Select value={value} onValueChange={(nextValue) => onChange(nextValue as TValue)}>
-        <SelectTrigger className="border-border bg-background h-10 rounded-2xl shadow-none">
-          <SelectValue aria-label={label} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select value={value} onValueChange={(nextValue) => onChange(nextValue as TValue)}>
+      <SelectTrigger className="border-border bg-background h-10 rounded-2xl shadow-none">
+        <SelectValue aria-label={label} />
+      </SelectTrigger>
+      <SelectContent>
+        {options.map((option) => (
+          <SelectItem key={option.value} value={option.value}>
+            {option.label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   )
 }
 
@@ -153,7 +147,7 @@ function buildDisputeColumns({
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => <StatusBadge status={row.original.status} />,
+      cell: ({ row }) => <DisputeStatusBadge status={row.original.status} />,
     },
     {
       id: 'actions',
@@ -176,104 +170,12 @@ function buildDisputeColumns({
   ]
 }
 
-function DisputeDetailSheet({
-  item,
-  open,
-  title,
-  onOpenChange,
-}: {
-  item: DisputeRecord | null
-  open: boolean
-  title: string
-  onOpenChange: (open: boolean) => void
-}) {
-  return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent className="w-full max-w-xl gap-0 overflow-y-auto p-0 sm:max-w-xl">
-        {item ? (
-          <>
-            <SheetHeader className="border-border border-b px-6 py-5 text-left">
-              <SheetTitle className="text-xl">{item.id}</SheetTitle>
-              <SheetDescription>
-                {item.buyerName} ↔ {item.sellerName}
-              </SheetDescription>
-            </SheetHeader>
-            <div className="space-y-6 px-6 py-5">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <Card className="rounded-2xl shadow-none">
-                  <CardContent className="space-y-1 p-4">
-                    <Typography variant="caption" className="text-muted-foreground uppercase">
-                      {title}
-                    </Typography>
-                    <Typography variant="h4" className="text-lg">
-                      {item.reason}
-                    </Typography>
-                    <Typography variant="body-sm" className="text-muted-foreground">
-                      {item.note}
-                    </Typography>
-                  </CardContent>
-                </Card>
-                <Card className="rounded-2xl shadow-none">
-                  <CardContent className="space-y-2 p-4">
-                    <div className="flex items-center justify-between gap-3">
-                      <Typography variant="caption" className="text-muted-foreground uppercase">
-                        Status
-                      </Typography>
-                      <StatusBadge status={item.status} />
-                    </div>
-                    <Typography variant="body-sm">{item.ownerLabel}</Typography>
-                    <Typography variant="body-sm" className="text-muted-foreground">
-                      {item.timelineLabel}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </div>
-
-              <Card className="rounded-2xl shadow-none">
-                <CardContent className="grid gap-4 p-4 sm:grid-cols-2">
-                  <div className="space-y-1">
-                    <Typography variant="caption" className="text-muted-foreground uppercase">
-                      Order
-                    </Typography>
-                    <Typography variant="body-sm">{item.orderId}</Typography>
-                  </div>
-                  <div className="space-y-1">
-                    <Typography variant="caption" className="text-muted-foreground uppercase">
-                      Amount
-                    </Typography>
-                    <Typography variant="body-sm" className="text-warning font-semibold">
-                      {item.amountLabel}
-                    </Typography>
-                  </div>
-                  <div className="space-y-1">
-                    <Typography variant="caption" className="text-muted-foreground uppercase">
-                      Queue
-                    </Typography>
-                    <Typography variant="body-sm">{item.queue}</Typography>
-                  </div>
-                  <div className="space-y-1">
-                    <Typography variant="caption" className="text-muted-foreground uppercase">
-                      Opened
-                    </Typography>
-                    <Typography variant="body-sm">{item.openedAtLabel}</Typography>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </>
-        ) : null}
-      </SheetContent>
-    </Sheet>
-  )
-}
-
 export function DisputesClient({
   searchPlaceholder,
   openLabel,
   summaryLabel,
   filtersLabel,
   emptyStateMessage,
-  detailTitle,
   priorityOptions,
   statusOptions,
   queueOptions,
@@ -286,7 +188,6 @@ export function DisputesClient({
   const [statusFilter, setStatusFilter] = useState<'ALL' | DisputeStatus>('ALL')
   const [queueFilter, setQueueFilter] = useState<'ALL' | DisputeQueue>('ALL')
   const [resolutionFilter, setResolutionFilter] = useState<'ALL' | DisputeResolution>('ALL')
-  const [detailItem, setDetailItem] = useState<DisputeRecord | null>(null)
 
   const filteredItems = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -310,7 +211,6 @@ export function DisputesClient({
   }, [items, priorityFilter, queueFilter, resolutionFilter, search, statusFilter])
 
   function handleOpen(item: DisputeRecord) {
-    setDetailItem(item)
     void onOpenCase?.(item)
   }
 
@@ -324,66 +224,49 @@ export function DisputesClient({
   )
 
   return (
-    <>
-      <div className="space-y-4">
-        <DataTable
-          columns={columns}
-          data={filteredItems}
-          emptyMessage={emptyStateMessage}
-          toolbar={
-            <TableToolbar
-              search={search}
-              onSearchChange={setSearch}
-              placeholder={searchPlaceholder}
-            >
-              <div className="flex flex-wrap items-center gap-3">
-                <Typography variant="caption" className="text-muted-foreground uppercase">
-                  {filtersLabel}
-                </Typography>
-                <FilterSelect
-                  label="Priority"
-                  value={priorityFilter}
-                  options={priorityOptions}
-                  onChange={setPriorityFilter}
-                />
-                <FilterSelect
-                  label="Status"
-                  value={statusFilter}
-                  options={statusOptions}
-                  onChange={setStatusFilter}
-                />
-                <FilterSelect
-                  label="Queue"
-                  value={queueFilter}
-                  options={queueOptions}
-                  onChange={setQueueFilter}
-                />
-                <FilterSelect
-                  label="Resolution"
-                  value={resolutionFilter}
-                  options={resolutionOptions}
-                  onChange={setResolutionFilter}
-                />
-              </div>
-            </TableToolbar>
-          }
-        />
-
-        <Typography variant="body-sm" className="text-muted-foreground">
-          {filteredItems.length} {summaryLabel}
-        </Typography>
-      </div>
-
-      <DisputeDetailSheet
-        item={detailItem}
-        open={detailItem !== null}
-        title={detailTitle}
-        onOpenChange={(open) => {
-          if (!open) {
-            setDetailItem(null)
-          }
-        }}
+    <div className="space-y-4">
+      <DataTable
+        columns={columns}
+        data={filteredItems}
+        emptyMessage={emptyStateMessage}
+        toolbar={
+          <TableToolbar search={search} onSearchChange={setSearch} placeholder={searchPlaceholder}>
+            <div className="flex flex-wrap items-center gap-3">
+              <Typography variant="caption" className="text-muted-foreground uppercase">
+                {filtersLabel}
+              </Typography>
+              <FilterSelect
+                label="Priority"
+                value={priorityFilter}
+                options={priorityOptions}
+                onChange={setPriorityFilter}
+              />
+              <FilterSelect
+                label="Status"
+                value={statusFilter}
+                options={statusOptions}
+                onChange={setStatusFilter}
+              />
+              <FilterSelect
+                label="Queue"
+                value={queueFilter}
+                options={queueOptions}
+                onChange={setQueueFilter}
+              />
+              <FilterSelect
+                label="Resolution"
+                value={resolutionFilter}
+                options={resolutionOptions}
+                onChange={setResolutionFilter}
+              />
+            </div>
+          </TableToolbar>
+        }
       />
-    </>
+
+      <Typography variant="body-sm" className="text-muted-foreground">
+        {filteredItems.length} {summaryLabel}
+      </Typography>
+    </div>
   )
 }
