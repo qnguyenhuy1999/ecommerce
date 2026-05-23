@@ -5,6 +5,7 @@ import { EmailModule } from '@ecom/email'
 import { DatabaseModule } from '@ecom/database'
 import { getDefaultThrottleConfig, getRedisConfig, getSmtpConfig } from '@ecom/config'
 import { AuthModule } from './auth/auth.module'
+import { NotificationsModule } from './notifications/notifications.module'
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { AuthModule } from './auth/auth.module'
     EmailModule.forRoot(getSmtpConfig()),
     DatabaseModule,
     AuthModule,
+    NotificationsModule,
   ],
 })
 export class AppModule {}
