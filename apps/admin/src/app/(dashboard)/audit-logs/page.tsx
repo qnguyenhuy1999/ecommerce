@@ -1,5 +1,5 @@
-import { AuditLogsPage } from '@/features/audit-logs/components/audit-logs-page'
+import { AuditLogPageClient } from './AuditLogPage.client'
 
 export default function AuditLogs() {
-  return <AuditLogsPage />
+  return <AuditLogPageClient />
 }

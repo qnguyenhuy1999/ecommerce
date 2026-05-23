@@ -1,5 +1,5 @@
-import { UsersPage } from '@/features/users/components/users-page'
+import { UsersPageClient } from './UsersPage.client'
 
 export default function Buyers() {
-  return <UsersPage />
+  return <UsersPageClient />
 }

@@ -1,5 +1,5 @@
-import { VouchersPage } from '@/features/promotions/components/vouchers-page'
+import { CampaignsPageClient } from './CampaignsPage.client'
 
 export default function Vouchers() {
-  return <VouchersPage />
+  return <CampaignsPageClient />
 }

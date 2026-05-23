@@ -1,5 +1,5 @@
-import { ProductsPage } from '@/features/products/components/products-page'
+import { ProductsPageClient } from './ProductsPage.client'
 
 export default function Products() {
-  return <ProductsPage />
+  return <ProductsPageClient />
 }

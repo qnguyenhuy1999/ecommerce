@@ -1,6 +1,6 @@
-import { ProductDetailPage } from '@/features/products/components/product-detail-page'
+import { redirect } from 'next/navigation'
 
 export default async function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  return <ProductDetailPage id={id} />
+  await params
+  redirect('/products')
 }

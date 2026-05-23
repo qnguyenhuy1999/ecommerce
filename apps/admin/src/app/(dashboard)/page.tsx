@@ -1,5 +1,5 @@
-import { Dashboard } from '@ecom/ui-admin'
+import { DashboardPageClient } from './DashboardPage.client'
 
 export default function Home() {
-  return <Dashboard />
+  return <DashboardPageClient />
 }

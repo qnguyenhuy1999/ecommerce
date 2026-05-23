@@ -11,8 +11,11 @@ import {
   Bell,
   Star,
   Shield,
+  ShieldCheck,
   ScrollText,
   Settings,
+  Percent,
+  Headphones,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -118,6 +121,13 @@ export const sidebarGroups: SidebarGroup[] = [
         icon: Bell,
         permission: 'NOTIFICATION_MANAGE',
       },
+      {
+        id: 'support',
+        label: 'Support',
+        href: '/support',
+        icon: Headphones,
+        permission: 'SUPPORT_MANAGE',
+      },
     ],
   },
   {
@@ -125,7 +135,20 @@ export const sidebarGroups: SidebarGroup[] = [
     label: 'Administration',
     items: [
       { id: 'admins', label: 'Admins', href: '/admins', icon: Shield, permission: 'ADMIN_MANAGE' },
-      { id: 'roles', label: 'Roles', href: '/roles', icon: Shield, permission: 'ROLE_MANAGE' },
+      {
+        id: 'roles-permissions',
+        label: 'Roles & Permissions',
+        href: '/roles-permissions',
+        icon: ShieldCheck,
+        permission: 'ROLE_MANAGE',
+      },
+      {
+        id: 'commission-fees',
+        label: 'Commission Fees',
+        href: '/commission-fees',
+        icon: Percent,
+        permission: 'COMMISSION_MANAGE',
+      },
       {
         id: 'audit-logs',
         label: 'Audit Logs',

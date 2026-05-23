@@ -1,5 +1,5 @@
-import { CategoriesPage } from '@/features/categories/components/categories-page'
+import { CategoryHierarchyPageClient } from './CategoryHierarchyPage.client'
 
 export default function Categories() {
-  return <CategoriesPage />
+  return <CategoryHierarchyPageClient />
 }

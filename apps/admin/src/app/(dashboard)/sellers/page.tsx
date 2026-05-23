@@ -1,5 +1,5 @@
-import { SellersPage } from '@/features/sellers/components/sellers-page'
+import { SellersPageClient } from './SellersPage.client'
 
 export default function Sellers() {
-  return <SellersPage />
+  return <SellersPageClient />
 }

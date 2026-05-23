@@ -1,5 +1,5 @@
-import { RefundsPage } from '@/features/refunds/components/refunds-page'
+import { DisputesPageClient } from './DisputesPage.client'
 
 export default function Refunds() {
-  return <RefundsPage />
+  return <DisputesPageClient />
 }
