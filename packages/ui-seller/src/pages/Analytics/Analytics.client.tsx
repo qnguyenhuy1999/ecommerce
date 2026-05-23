@@ -1,17 +1,12 @@
 'use client'
 
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
   Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  StatCard,
-  Typography,
 } from '@ecom/core-ui'
 import { Download } from 'lucide-react'
 import {
@@ -28,62 +23,17 @@ import {
   YAxis,
 } from 'recharts'
 import { SectionCard } from '../../atoms/SectionCard'
-import { cn } from '@ecom/shared/utils'
+import { formatCurrency } from './Analytics.constants'
 import { analyticsDefaultProps } from './Analytics.fixtures'
-import type { AnalyticsProps } from './Analytics.types'
+import { TrafficLegend } from './Analytics.server'
+import type {
+  AnalyticsOrdersByDayPoint,
+  AnalyticsProps,
+  AnalyticsRevenuePoint,
+  AnalyticsTrafficSource,
+} from './Analytics.types'
 
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  }).format(value)
-}
-
-function TrafficLegend({
-  trafficSources,
-}: {
-  trafficSources: NonNullable<AnalyticsProps['trafficSources']>
-}) {
-  return (
-    <div className="space-y-2">
-      {trafficSources.map((source) => (
-        <div key={source.label} className="flex items-center justify-between gap-3 text-sm">
-          <div className="flex min-w-0 items-center gap-2">
-            <span
-              className="inline-flex size-2.5 shrink-0 rounded-full"
-              style={{ backgroundColor: source.color }}
-            />
-            <span className="text-muted-foreground truncate">{source.label}</span>
-          </div>
-          <span className="font-medium tabular-nums">{source.value}%</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function FunnelBar({ value, color }: { value: number; color?: string }) {
-  return (
-    <div className="bg-muted h-2.5 overflow-hidden rounded-full">
-      <div
-        className="h-full rounded-full"
-        style={{
-          width: `${Math.max(0, Math.min(value, 100))}%`,
-          background: color
-            ? `linear-gradient(90deg, ${color} 0%, ${color} 100%)`
-            : 'linear-gradient(90deg, #ea580c 0%, #fb923c 100%)',
-        }}
-      />
-    </div>
-  )
-}
-
-function RevenueTrendSection({
-  revenueSeries,
-}: {
-  revenueSeries: NonNullable<AnalyticsProps['revenueSeries']>
-}) {
+export function RevenueTrendSection({ revenueSeries }: { revenueSeries: AnalyticsRevenuePoint[] }) {
   return (
     <SectionCard title="Revenue trend" padded={false}>
       <div className="h-72 px-2 py-4 sm:px-3">
@@ -133,10 +83,10 @@ function RevenueTrendSection({
   )
 }
 
-function TrafficSourcesSection({
+export function TrafficSourcesSection({
   trafficSources,
 }: {
-  trafficSources: NonNullable<AnalyticsProps['trafficSources']>
+  trafficSources: AnalyticsTrafficSource[]
 }) {
   const chartData = trafficSources.map((source) => ({ ...source, fill: source.color }))
 
@@ -164,10 +114,10 @@ function TrafficSourcesSection({
   )
 }
 
-function OrdersByDaySection({
+export function OrdersByDaySection({
   ordersByDaySeries,
 }: {
-  ordersByDaySeries: NonNullable<AnalyticsProps['ordersByDaySeries']>
+  ordersByDaySeries: AnalyticsOrdersByDayPoint[]
 }) {
   return (
     <SectionCard title="Orders by day" padded={false}>
@@ -244,106 +194,6 @@ export function AnalyticsPageActions({
           </a>
         </Button>
       )}
-    </div>
-  )
-}
-
-export function AnalyticsClient({
-  metrics = analyticsDefaultProps.metrics,
-  revenueSeries = analyticsDefaultProps.revenueSeries,
-  trafficSources = analyticsDefaultProps.trafficSources,
-  ordersByDaySeries = analyticsDefaultProps.ordersByDaySeries,
-  conversionFunnel = analyticsDefaultProps.conversionFunnel,
-  topProducts = analyticsDefaultProps.topProducts,
-}: Pick<
-  AnalyticsProps,
-  | 'metrics'
-  | 'revenueSeries'
-  | 'trafficSources'
-  | 'ordersByDaySeries'
-  | 'conversionFunnel'
-  | 'topProducts'
->) {
-  return (
-    <div className="space-y-4">
-      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {metrics.map((metric) => (
-          <StatCard
-            key={metric.label}
-            label={metric.label}
-            value={metric.value}
-            {...(typeof metric.trend === 'number' ? { trend: metric.trend } : {})}
-            {...(metric.spark ? { spark: metric.spark } : {})}
-            {...(metric.accent ? { accent: metric.accent } : {})}
-            {...(metric.description ? { description: metric.description } : {})}
-          />
-        ))}
-      </section>
-
-      <section className="grid gap-4 xl:grid-cols-[minmax(0,1.95fr)_minmax(0,0.95fr)]">
-        <RevenueTrendSection revenueSeries={revenueSeries} />
-        <TrafficSourcesSection trafficSources={trafficSources} />
-      </section>
-
-      <section className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <OrdersByDaySection ordersByDaySeries={ordersByDaySeries} />
-
-        <SectionCard title="Conversion funnel">
-          <div className="space-y-4">
-            {conversionFunnel.map((stage) => (
-              <div key={stage.label} className="space-y-1.5">
-                <div className="flex items-center justify-between gap-3 text-sm">
-                  <span className="font-medium">{stage.label}</span>
-                  <span className="text-muted-foreground tabular-nums">
-                    {stage.conversionLabel}
-                  </span>
-                </div>
-                <FunnelBar value={stage.value} {...(stage.color ? { color: stage.color } : {})} />
-              </div>
-            ))}
-          </div>
-        </SectionCard>
-      </section>
-
-      <SectionCard title="Top products" padded={false}>
-        <div className="overflow-x-auto">
-          <div className="min-w-176">
-            <div className="text-muted-foreground grid grid-cols-[4rem_minmax(0,1.6fr)_7rem_8rem_6rem] gap-3 border-b px-4 py-3 text-xs font-semibold tracking-[0.02em] uppercase">
-              <span>#</span>
-              <span>Product</span>
-              <span className="text-right">Units</span>
-              <span className="text-right">Revenue</span>
-              <span className="text-right">Conv.</span>
-            </div>
-
-            {topProducts.map((product, index) => (
-              <div
-                key={product.id}
-                className={cn(
-                  'grid grid-cols-[4rem_minmax(0,1.6fr)_7rem_8rem_6rem] gap-3 px-4 py-3.5',
-                  index !== 0 && 'border-border border-t',
-                )}
-              >
-                <div className="text-muted-foreground text-sm tabular-nums">{product.rank}</div>
-                <div className="flex min-w-0 items-center gap-3">
-                  <Avatar className="rounded-xl" size="lg">
-                    <AvatarImage alt={product.name} className="rounded-xl" src={product.imageUrl} />
-                    <AvatarFallback className="rounded-xl">P{product.rank}</AvatarFallback>
-                  </Avatar>
-                  <div className="min-w-0 text-sm font-medium">
-                    <Typography variant="label" className="truncate text-sm">
-                      {product.name}
-                    </Typography>
-                  </div>
-                </div>
-                <div className="text-right text-sm tabular-nums">{product.units}</div>
-                <div className="text-right text-sm font-medium tabular-nums">{product.revenue}</div>
-                <div className="text-right text-sm tabular-nums">{product.conversion}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </SectionCard>
     </div>
   )
 }

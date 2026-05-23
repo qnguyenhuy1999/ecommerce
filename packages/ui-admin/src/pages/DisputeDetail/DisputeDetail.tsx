@@ -1,6 +1,7 @@
 import { ConsolePageLayout } from '@ecom/core-ui'
-import { DisputeDetailClient } from './DisputeDetail.client'
+import { ResolutionPanelClient } from './DisputeDetail.client'
 import { disputeDetailDefaultProps } from './DisputeDetail.fixtures'
+import { AuditTrailCard, ConversationEvidenceCard, OrderSummaryCard } from './DisputeDetail.server'
 import type { DisputeDetailProps } from './DisputeDetail.types'
 
 export function DisputeDetail({
@@ -30,7 +31,14 @@ export function DisputeDetail({
       }
       mainClassName="space-y-6"
     >
-      <DisputeDetailClient item={item} onApplyResolution={onApplyResolution} />
+      <div className="space-y-6">
+        <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_32rem]">
+          <OrderSummaryCard item={item} />
+          <ConversationEvidenceCard item={item} />
+          <ResolutionPanelClient item={item} onApplyResolution={onApplyResolution} />
+        </div>
+        <AuditTrailCard item={item} />
+      </div>
     </ConsolePageLayout>
   )
 }

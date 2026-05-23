@@ -16,9 +16,10 @@ import {
   Typography,
 } from '@ecom/core-ui'
 import { ArrowLeft, ArrowRight, Check, Upload } from 'lucide-react'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo } from 'react'
 import { SectionCard } from '../../atoms/SectionCard'
-import { useControllableState } from '../../hooks'
+import { SELLER_ONBOARDING_MAX_STEP } from './SellerOnboarding.constants'
+import { useSellerOnboardingController } from './SellerOnboarding.controller'
 import type {
   SellerOnboardingDocumentKey,
   SellerOnboardingDocumentSlot,
@@ -26,73 +27,13 @@ import type {
   SellerOnboardingProps,
   SellerOnboardingStepIndex,
 } from './SellerOnboarding.types'
+import type { SellerOnboardingController } from './SellerOnboarding.controller'
 
-interface SellerOnboardingClientProps {
+interface SellerOnboardingHeaderClientProps {
   title: string
   saveExitLabel: string
   saveExitHref?: string
-  stepLabels: [string, string, string, string]
-  defaultStep: SellerOnboardingStepIndex
-  currentStep?: SellerOnboardingProps['currentStep']
-  onCurrentStepChange?: SellerOnboardingProps['onCurrentStepChange']
-  defaultValues: SellerOnboardingFormValues
-  categoryOptions: string[]
-  countryOptions: string[]
-  businessTypeOptions: string[]
-  idTypeOptions: string[]
-  documentSlots: SellerOnboardingDocumentSlot[]
-  reviewBannerMessage: string
   onSaveExit?: SellerOnboardingProps['onSaveExit']
-  onSubmit: NonNullable<SellerOnboardingProps['onSubmit']>
-}
-
-interface SellerOnboardingController {
-  activeStep: SellerOnboardingStepIndex
-  values: SellerOnboardingFormValues
-  submitting: boolean
-  actionError: string | null
-  documentInputRefs: React.RefObject<Record<SellerOnboardingDocumentKey, HTMLInputElement | null>>
-  handleBack: () => void
-  handleNext: () => void
-  handleSaveExit: () => Promise<boolean>
-  handleSubmit: () => Promise<boolean>
-  updateAccount: <T extends keyof SellerOnboardingFormValues['account']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['account'][T],
-  ) => void
-  updateShop: <T extends keyof SellerOnboardingFormValues['shop']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['shop'][T],
-  ) => void
-  updateKyc: <T extends keyof Omit<SellerOnboardingFormValues['kyc'], 'documents'>>(
-    key: T,
-    nextValue: Omit<SellerOnboardingFormValues['kyc'], 'documents'>[T],
-  ) => void
-  updateDocument: (key: SellerOnboardingDocumentKey, fileName: string) => void
-}
-
-const MAX_STEP = 4
-const STEP_SEQUENCE: SellerOnboardingStepIndex[] = [1, 2, 3, 4]
-
-function isStepIndex(value: number): value is SellerOnboardingStepIndex {
-  return STEP_SEQUENCE.includes(value as SellerOnboardingStepIndex)
-}
-
-function getInitialDocumentInputs(
-  slots: SellerOnboardingDocumentSlot[],
-): Record<SellerOnboardingDocumentKey, HTMLInputElement | null> {
-  return slots.reduce(
-    (accumulator, slot) => ({
-      ...accumulator,
-      [slot.key]: null,
-    }),
-    {
-      idFront: null,
-      idBack: null,
-      selfieWithId: null,
-      businessRegistration: null,
-    } satisfies Record<SellerOnboardingDocumentKey, HTMLInputElement | null>,
-  )
 }
 
 function maskPassword(password: string) {
@@ -227,163 +168,13 @@ function DocumentUploadSlot({
   )
 }
 
-function useSellerOnboardingController({
-  defaultStep,
-  currentStep,
-  onCurrentStepChange,
-  defaultValues,
-  documentSlots,
-  onSaveExit,
-  onSubmit,
-}: Pick<
-  SellerOnboardingClientProps,
-  | 'defaultStep'
-  | 'currentStep'
-  | 'onCurrentStepChange'
-  | 'defaultValues'
-  | 'documentSlots'
-  | 'onSaveExit'
-  | 'onSubmit'
->): SellerOnboardingController {
-  const normalizedDefaultStep = isStepIndex(defaultStep) ? defaultStep : 1
-  const normalizedCurrentStep =
-    currentStep !== undefined && isStepIndex(currentStep) ? currentStep : undefined
-
-  const [activeStep, setActiveStep] = useControllableState({
-    defaultValue: normalizedDefaultStep,
-    ...(normalizedCurrentStep !== undefined ? { value: normalizedCurrentStep } : {}),
-    ...(onCurrentStepChange !== undefined ? { onChange: onCurrentStepChange } : {}),
-  })
-  const [values, setValues] = useState<SellerOnboardingFormValues>(defaultValues)
-  const [submitting, setSubmitting] = useState(false)
-  const [actionError, setActionError] = useState<string | null>(null)
-  const documentInputRefs = useRef(getInitialDocumentInputs(documentSlots))
-
-  const updateAccount = <T extends keyof SellerOnboardingFormValues['account']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['account'][T],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      account: {
-        ...current.account,
-        [key]: nextValue,
-      },
-    }))
-  }
-
-  const updateShop = <T extends keyof SellerOnboardingFormValues['shop']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['shop'][T],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      shop: {
-        ...current.shop,
-        [key]: nextValue,
-      },
-    }))
-  }
-
-  const updateKyc = <T extends keyof Omit<SellerOnboardingFormValues['kyc'], 'documents'>>(
-    key: T,
-    nextValue: Omit<SellerOnboardingFormValues['kyc'], 'documents'>[T],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      kyc: {
-        ...current.kyc,
-        [key]: nextValue,
-      },
-    }))
-  }
-
-  const updateDocument = (key: SellerOnboardingDocumentKey, fileName: string) => {
-    setValues((current) => ({
-      ...current,
-      kyc: {
-        ...current.kyc,
-        documents: {
-          ...current.kyc.documents,
-          [key]: fileName,
-        },
-      },
-    }))
-  }
-
-  const handleNext = () => {
-    if (activeStep < MAX_STEP) {
-      setActionError(null)
-      setActiveStep((activeStep + 1) as SellerOnboardingStepIndex)
-    }
-  }
-
-  const handleBack = () => {
-    if (activeStep > 1) {
-      setActionError(null)
-      setActiveStep((activeStep - 1) as SellerOnboardingStepIndex)
-    }
-  }
-
-  const handleSaveExit = async () => {
-    if (!onSaveExit) {
-      return true
-    }
-
-    setActionError(null)
-
-    try {
-      await Promise.resolve(onSaveExit(values))
-      return true
-    } catch {
-      setActionError('Unable to save your progress right now. Please try again.')
-      return false
-    }
-  }
-
-  const handleSubmit = async () => {
-    if (submitting) {
-      return false
-    }
-
-    setSubmitting(true)
-    setActionError(null)
-
-    try {
-      await Promise.resolve(onSubmit(values))
-      return true
-    } catch {
-      setActionError('Unable to submit your onboarding right now. Please try again.')
-      return false
-    } finally {
-      setSubmitting(false)
-    }
-  }
-
-  return {
-    activeStep,
-    values,
-    submitting,
-    actionError,
-    documentInputRefs,
-    handleBack,
-    handleNext,
-    handleSaveExit,
-    handleSubmit,
-    updateAccount,
-    updateShop,
-    updateKyc,
-    updateDocument,
-  }
-}
-
 function SellerOnboardingHeader({
   title,
   saveExitLabel,
   saveExitHref,
   onSaveExit,
   onClickSaveExit,
-}: Pick<SellerOnboardingClientProps, 'title' | 'saveExitLabel' | 'saveExitHref' | 'onSaveExit'> & {
+}: SellerOnboardingHeaderClientProps & {
   onClickSaveExit: () => Promise<boolean>
 }) {
   return (
@@ -860,7 +651,7 @@ function SellerOnboardingFooter({
         Back
       </Button>
 
-      {activeStep < MAX_STEP ? (
+      {activeStep < SELLER_ONBOARDING_MAX_STEP ? (
         <Button type="button" size="lg" onClick={onNext}>
           Next
           <ArrowRight />
@@ -873,6 +664,80 @@ function SellerOnboardingFooter({
       )}
     </div>
   )
+}
+
+function SellerOnboardingMain({
+  controller,
+  stepLabels,
+  categoryOptions,
+  countryOptions,
+  businessTypeOptions,
+  idTypeOptions,
+  documentSlots,
+  reviewBannerMessage,
+}: {
+  controller: SellerOnboardingController
+  stepLabels: [string, string, string, string]
+  categoryOptions: string[]
+  countryOptions: string[]
+  businessTypeOptions: string[]
+  idTypeOptions: string[]
+  documentSlots: SellerOnboardingDocumentSlot[]
+  reviewBannerMessage: string
+}) {
+  return (
+    <main className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-8 sm:px-6 lg:px-8">
+      <SellerOnboardingStepRail currentStep={controller.activeStep} stepLabels={stepLabels} />
+
+      <SectionCard
+        title={stepLabels[controller.activeStep - 1]}
+        className="rounded-[24px] bg-white"
+      >
+        {controller.actionError ? (
+          <div className="border-destructive/20 bg-destructive/10 text-destructive mb-4 rounded-2xl border px-4 py-3 text-sm">
+            {controller.actionError}
+          </div>
+        ) : null}
+
+        <SellerOnboardingStepContent
+          controller={controller}
+          categoryOptions={categoryOptions}
+          countryOptions={countryOptions}
+          businessTypeOptions={businessTypeOptions}
+          idTypeOptions={idTypeOptions}
+          documentSlots={documentSlots}
+          reviewBannerMessage={reviewBannerMessage}
+        />
+      </SectionCard>
+
+      <SellerOnboardingFooter
+        activeStep={controller.activeStep}
+        submitting={controller.submitting}
+        onBack={controller.handleBack}
+        onNext={controller.handleNext}
+        onSubmit={controller.handleSubmit}
+      />
+    </main>
+  )
+}
+
+interface SellerOnboardingClientProps {
+  title: string
+  saveExitLabel: string
+  saveExitHref?: string
+  stepLabels: [string, string, string, string]
+  defaultStep: SellerOnboardingStepIndex
+  currentStep?: SellerOnboardingProps['currentStep']
+  onCurrentStepChange?: SellerOnboardingProps['onCurrentStepChange']
+  defaultValues: SellerOnboardingFormValues
+  categoryOptions: string[]
+  countryOptions: string[]
+  businessTypeOptions: string[]
+  idTypeOptions: string[]
+  documentSlots: SellerOnboardingDocumentSlot[]
+  reviewBannerMessage: string
+  onSaveExit?: SellerOnboardingProps['onSaveExit']
+  onSubmit: NonNullable<SellerOnboardingProps['onSubmit']>
 }
 
 export function SellerOnboardingClient({
@@ -913,38 +778,16 @@ export function SellerOnboardingClient({
         onClickSaveExit={controller.handleSaveExit}
       />
 
-      <main className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-8 sm:px-6 lg:px-8">
-        <SellerOnboardingStepRail currentStep={controller.activeStep} stepLabels={stepLabels} />
-
-        <SectionCard
-          title={stepLabels[controller.activeStep - 1]}
-          className="rounded-[24px] bg-white"
-        >
-          {controller.actionError ? (
-            <div className="border-destructive/20 bg-destructive/10 text-destructive mb-4 rounded-2xl border px-4 py-3 text-sm">
-              {controller.actionError}
-            </div>
-          ) : null}
-
-          <SellerOnboardingStepContent
-            controller={controller}
-            categoryOptions={categoryOptions}
-            countryOptions={countryOptions}
-            businessTypeOptions={businessTypeOptions}
-            idTypeOptions={idTypeOptions}
-            documentSlots={documentSlots}
-            reviewBannerMessage={reviewBannerMessage}
-          />
-        </SectionCard>
-
-        <SellerOnboardingFooter
-          activeStep={controller.activeStep}
-          submitting={controller.submitting}
-          onBack={controller.handleBack}
-          onNext={controller.handleNext}
-          onSubmit={controller.handleSubmit}
-        />
-      </main>
+      <SellerOnboardingMain
+        controller={controller}
+        stepLabels={stepLabels}
+        categoryOptions={categoryOptions}
+        countryOptions={countryOptions}
+        businessTypeOptions={businessTypeOptions}
+        idTypeOptions={idTypeOptions}
+        documentSlots={documentSlots}
+        reviewBannerMessage={reviewBannerMessage}
+      />
     </div>
   )
 }

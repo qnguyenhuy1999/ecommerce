@@ -1,5 +1,6 @@
 import { ConsolePageLayout } from '@ecom/core-ui'
-import { FinanceClient } from './Finance.client'
+import { WalletSummarySection } from './Finance.server'
+import { LedgerSectionClient } from './Finance.client'
 import { financeDefaultProps } from './Finance.fixtures'
 import type { FinanceProps } from './Finance.types'
 
@@ -25,11 +26,13 @@ export function Finance({
 
   return (
     <ConsolePageLayout title={title} description={description} mainClassName="space-y-5">
-      <FinanceClient
+      <WalletSummarySection
         walletBalanceLabel={walletBalanceLabel}
         walletBalance={walletBalance}
         balanceMetrics={balanceMetrics}
         withdrawHref={withdrawHref}
+      />
+      <LedgerSectionClient
         statementHref={statementHref}
         tabs={tabs}
         defaultTab={defaultTab}

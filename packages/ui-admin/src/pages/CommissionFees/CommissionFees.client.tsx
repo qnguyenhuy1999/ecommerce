@@ -18,8 +18,10 @@ import {
   Typography,
 } from '@ecom/core-ui'
 import { Plus } from 'lucide-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { SellerListPage } from '../../organisms'
+import { COMMISSION_SECTION_TITLES, SCOPE_LABELS, TODAY } from './CommissionFees.constants'
+import { useCommissionFeesController } from './CommissionFees.controller'
 import type {
   CommissionFeesProps,
   CommissionRule,
@@ -27,27 +29,9 @@ import type {
   NewCommissionRule,
 } from './CommissionFees.types'
 
-interface DraftValues {
+export interface DraftValues {
   commissionPct: string
   paymentFeePct: string
-}
-
-export interface CommissionFeesClientProps {
-  addRuleLabel: string
-  sampleOrderAmount: number
-  globalRate: CommissionRule
-  categoryOverrides: CommissionRule[]
-  vendorOverrides: CommissionRule[]
-  onSave?: CommissionFeesProps['onSave']
-  onAddRule?: CommissionFeesProps['onAddRule']
-}
-
-const TODAY = new Date().toISOString().slice(0, 10)
-
-const SCOPE_LABELS: Record<CommissionRuleScope, string> = {
-  global: 'Global',
-  category: 'Category',
-  vendor: 'Vendor',
 }
 
 interface AddRuleFormState {
@@ -279,25 +263,6 @@ function AddCommissionRuleModal({
   )
 }
 
-function toDraft(rule: CommissionRule): DraftValues {
-  return {
-    commissionPct: String(rule.commissionPct),
-    paymentFeePct: String(rule.paymentFeePct),
-  }
-}
-
-function initDrafts(
-  globalRate: CommissionRule,
-  categoryOverrides: CommissionRule[],
-  vendorOverrides: CommissionRule[],
-): Map<string, DraftValues> {
-  const map = new Map<string, DraftValues>()
-  for (const rule of [globalRate, ...categoryOverrides, ...vendorOverrides]) {
-    map.set(rule.id, toDraft(rule))
-  }
-  return map
-}
-
 function NetPayoutPreview({
   amount,
   commissionPct,
@@ -458,6 +423,16 @@ function RuleSection({
   )
 }
 
+export interface CommissionFeesClientProps {
+  addRuleLabel: string
+  sampleOrderAmount: number
+  globalRate: CommissionRule
+  categoryOverrides: CommissionRule[]
+  vendorOverrides: CommissionRule[]
+  onSave?: CommissionFeesProps['onSave']
+  onAddRule?: CommissionFeesProps['onAddRule']
+}
+
 export function CommissionFeesClient({
   addRuleLabel,
   sampleOrderAmount,
@@ -467,67 +442,20 @@ export function CommissionFeesClient({
   onSave,
   onAddRule,
 }: CommissionFeesClientProps) {
-  const [drafts, setDrafts] = useState<Map<string, DraftValues>>(() =>
-    initDrafts(globalRate, categoryOverrides, vendorOverrides),
-  )
-  const [modalOpen, setModalOpen] = useState(false)
-
-  const globalDraft = drafts.get(globalRate.id) ?? toDraft(globalRate)
-  const previewCommission = parseFloat(globalDraft.commissionPct) || 0
-  const previewPaymentFee = parseFloat(globalDraft.paymentFeePct) || 0
-
-  const handleCommissionChange = useCallback((id: string, value: string) => {
-    setDrafts((prev) => {
-      const next = new Map(prev)
-      const existing = next.get(id)
-      if (existing) next.set(id, { ...existing, commissionPct: value })
-      return next
-    })
-  }, [])
-
-  const handlePaymentFeeChange = useCallback((id: string, value: string) => {
-    setDrafts((prev) => {
-      const next = new Map(prev)
-      const existing = next.get(id)
-      if (existing) next.set(id, { ...existing, paymentFeePct: value })
-      return next
-    })
-  }, [])
-
-  const handleSave = useCallback(
-    (rule: CommissionRule, draft: DraftValues) => {
-      void onSave?.({
-        ...rule,
-        commissionPct: parseFloat(draft.commissionPct) || rule.commissionPct,
-        paymentFeePct: parseFloat(draft.paymentFeePct) || rule.paymentFeePct,
-      })
-    },
-    [onSave],
-  )
-
-  const handleAddRule = useCallback(
-    (rule: NewCommissionRule) => {
-      void onAddRule?.(rule)
-    },
-    [onAddRule],
-  )
-
-  const sectionProps = useMemo(
-    () => ({
-      drafts,
-      onCommissionChange: handleCommissionChange,
-      onPaymentFeeChange: handlePaymentFeeChange,
-      onSave: handleSave,
-    }),
-    [drafts, handleCommissionChange, handlePaymentFeeChange, handleSave],
-  )
+  const { state, computed, handlers } = useCommissionFeesController({
+    globalRate,
+    categoryOverrides,
+    vendorOverrides,
+    onSave,
+    onAddRule,
+  })
 
   return (
     <div className="space-y-5">
       <SellerListPage.Header>
         <div className="flex items-center justify-end">
           <SellerListPage.Actions>
-            <Button type="button" onClick={() => setModalOpen(true)}>
+            <Button type="button" onClick={() => handlers.setModalOpen(true)}>
               <Plus className="size-4" />
               {addRuleLabel}
             </Button>
@@ -537,21 +465,33 @@ export function CommissionFeesClient({
 
       <NetPayoutPreview
         amount={sampleOrderAmount}
-        commissionPct={previewCommission}
-        paymentFeePct={previewPaymentFee}
+        commissionPct={computed.previewCommission}
+        paymentFeePct={computed.previewPaymentFee}
       />
 
-      <RuleSection title="Global rate" rules={[globalRate]} {...sectionProps} />
+      <RuleSection
+        title={COMMISSION_SECTION_TITLES.global}
+        rules={[globalRate]}
+        {...computed.sectionProps}
+      />
 
-      <RuleSection title="Category overrides" rules={categoryOverrides} {...sectionProps} />
+      <RuleSection
+        title={COMMISSION_SECTION_TITLES.category}
+        rules={categoryOverrides}
+        {...computed.sectionProps}
+      />
 
-      <RuleSection title="Vendor overrides" rules={vendorOverrides} {...sectionProps} />
+      <RuleSection
+        title={COMMISSION_SECTION_TITLES.vendor}
+        rules={vendorOverrides}
+        {...computed.sectionProps}
+      />
 
       <AddCommissionRuleModal
-        open={modalOpen}
+        open={state.modalOpen}
         sampleOrderAmount={sampleOrderAmount}
-        onClose={() => setModalOpen(false)}
-        onSubmit={handleAddRule}
+        onClose={() => handlers.setModalOpen(false)}
+        onSubmit={handlers.handleAddRule}
       />
     </div>
   )

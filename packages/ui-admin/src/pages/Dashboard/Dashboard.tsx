@@ -1,6 +1,16 @@
 import { Button, ConsolePageLayout } from '@ecom/core-ui'
+import { RevenueCard } from './Dashboard.client'
 import { dashboardDefaultProps } from './Dashboard.fixtures'
-import { DashboardClient } from './Dashboard.client'
+import {
+  AuditEventsCard,
+  CampaignsCard,
+  DashboardFooter,
+  DisputeQueueCard,
+  MetricsGrid,
+  ModerationQueueCard,
+  PendingApprovalsCard,
+  SystemHealthCard,
+} from './Dashboard.server'
 import type { DashboardProps } from './Dashboard.types'
 
 export function Dashboard({
@@ -35,18 +45,34 @@ export function Dashboard({
       }
       mainClassName="space-y-5"
     >
-      <DashboardClient
-        metrics={metrics}
-        revenueSeries={revenueSeries}
-        revenueValueLabel={revenueValueLabel}
-        revenueTrendLabel={revenueTrendLabel}
-        pendingApprovals={pendingApprovals}
-        systemHealth={systemHealth}
-        moderationQueue={moderationQueue}
-        disputeQueue={disputeQueue}
-        campaigns={campaigns}
-        auditEvents={auditEvents}
-      />
+      <div className="space-y-5">
+        <MetricsGrid metrics={metrics} />
+
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1.9fr)_minmax(22rem,1fr)]">
+          <RevenueCard
+            revenueSeries={revenueSeries}
+            revenueValueLabel={revenueValueLabel}
+            revenueTrendLabel={revenueTrendLabel}
+          />
+
+          <div className="space-y-4">
+            <PendingApprovalsCard pendingApprovals={pendingApprovals} />
+            <SystemHealthCard systemHealth={systemHealth} />
+          </div>
+        </div>
+
+        <div className="grid gap-4 xl:grid-cols-2">
+          <ModerationQueueCard moderationQueue={moderationQueue} />
+          <DisputeQueueCard disputeQueue={disputeQueue} />
+        </div>
+
+        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
+          <CampaignsCard campaigns={campaigns} />
+          <AuditEventsCard auditEvents={auditEvents} />
+        </div>
+
+        <DashboardFooter />
+      </div>
     </ConsolePageLayout>
   )
 }

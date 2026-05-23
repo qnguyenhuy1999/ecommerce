@@ -3,7 +3,13 @@
 import { Button, Progress, Typography } from '@ecom/core-ui'
 import { cn } from '@ecom/shared/utils'
 import { Megaphone, Plus } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import {
+  CAMPAIGNS_EMPTY_MESSAGE,
+  CAMPAIGN_STATUS_DOT_CLASS,
+  CAMPAIGN_STATUS_LABEL_CLASS,
+  CAMPAIGN_STATUS_TEXT,
+} from './Campaigns.constants'
+import { useCampaignsController } from './Campaigns.controller'
 import {
   campaignStatuses,
   type CampaignRecord,
@@ -11,50 +17,19 @@ import {
   type CampaignsProps,
 } from './Campaigns.types'
 
-interface CampaignsClientProps {
-  newCampaignLabel: string
-  budgetLabel: string
-  editLabel: string
-  performanceLabel: string
-  impressionsLabel: string
-  ctrLabel: string
-  redemptionsLabel: string
-  tabLabels: NonNullable<CampaignsProps['tabLabels']>
-  items: CampaignRecord[]
-  onNewCampaign?: CampaignsProps['onNewCampaign']
-  onEdit?: CampaignsProps['onEdit']
-  onPerformance?: CampaignsProps['onPerformance']
-}
-
 function StatusDot({ status }: { status: CampaignStatus }) {
-  const dotClass: Record<CampaignStatus, string> = {
-    LIVE: 'bg-success',
-    SCHEDULED: 'bg-info',
-    ENDED: 'bg-muted-foreground',
-    DRAFT: 'bg-muted-foreground',
-  }
-
-  return <span className={cn('inline-block size-2 rounded-full', dotClass[status])} />
+  return (
+    <span className={cn('inline-block size-2 rounded-full', CAMPAIGN_STATUS_DOT_CLASS[status])} />
+  )
 }
 
 function StatusLabel({ status }: { status: CampaignStatus }) {
-  const labelClass: Record<CampaignStatus, string> = {
-    LIVE: 'text-success',
-    SCHEDULED: 'text-info',
-    ENDED: 'text-muted-foreground',
-    DRAFT: 'text-muted-foreground',
-  }
-
-  const labelText: Record<CampaignStatus, string> = {
-    LIVE: 'Live',
-    SCHEDULED: 'Scheduled',
-    ENDED: 'Ended',
-    DRAFT: 'Draft',
-  }
-
   return (
-    <Typography variant="caption" className={cn('font-medium', labelClass[status])}>
-      {labelText[status]}
+    <Typography
+      variant="caption"
+      className={cn('font-medium', CAMPAIGN_STATUS_LABEL_CLASS[status])}
+    >
+      {CAMPAIGN_STATUS_TEXT[status]}
     </Typography>
   )
 }
@@ -158,6 +133,25 @@ function CampaignCard({
   )
 }
 
+export type { CampaignStatus, CampaignRecord }
+
+interface CampaignsClientProps {
+  newCampaignLabel: string
+  budgetLabel: string
+  editLabel: string
+  performanceLabel: string
+  impressionsLabel: string
+  ctrLabel: string
+  redemptionsLabel: string
+  tabLabels: NonNullable<CampaignsProps['tabLabels']>
+  items: CampaignRecord[]
+  onNewCampaign?: CampaignsProps['onNewCampaign']
+  onEdit?: CampaignsProps['onEdit']
+  onPerformance?: CampaignsProps['onPerformance']
+}
+
+export type { CampaignsClientProps }
+
 export function CampaignsClient({
   newCampaignLabel,
   budgetLabel,
@@ -172,32 +166,19 @@ export function CampaignsClient({
   onEdit,
   onPerformance,
 }: CampaignsClientProps) {
-  const [activeTab, setActiveTab] = useState<CampaignStatus>('LIVE')
-
-  const counts = useMemo(() => {
-    const result = {} as Record<CampaignStatus, number>
-    for (const status of campaignStatuses) {
-      result[status] = items.filter((item) => item.status === status).length
-    }
-    return result
-  }, [items])
-
-  const filtered = useMemo(
-    () => items.filter((item) => item.status === activeTab),
-    [items, activeTab],
-  )
+  const { state, computed, handlers } = useCampaignsController({ items })
 
   return (
     <div className="space-y-6">
       <div className="border-border flex items-center justify-between border-b">
         <div className="flex">
           {campaignStatuses.map((status) => {
-            const isActive = activeTab === status
+            const isActive = state.activeTab === status
             return (
               <button
                 key={status}
                 type="button"
-                onClick={() => setActiveTab(status)}
+                onClick={() => handlers.setActiveTab(status)}
                 className={cn(
                   'relative -mb-px inline-flex items-center gap-1.5 px-4 pt-2 pb-3 text-sm font-medium transition-colors',
                   isActive
@@ -214,7 +195,7 @@ export function CampaignsClient({
                       : 'bg-muted text-muted-foreground',
                   )}
                 >
-                  {counts[status]}
+                  {computed.counts[status]}
                 </span>
               </button>
             )
@@ -227,13 +208,13 @@ export function CampaignsClient({
         </Button>
       </div>
 
-      {filtered.length === 0 ? (
+      {computed.filtered.length === 0 ? (
         <div className="border-border text-muted-foreground flex min-h-48 items-center justify-center rounded-xl border border-dashed text-sm">
-          No campaigns in this tab.
+          {CAMPAIGNS_EMPTY_MESSAGE}
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((item) => (
+          {computed.filtered.map((item) => (
             <CampaignCard
               key={item.id}
               item={item}

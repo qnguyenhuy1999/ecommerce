@@ -5,6 +5,7 @@ import { ChevronDown } from 'lucide-react'
 import { startTransition, useDeferredValue, useMemo } from 'react'
 import { useControllableState } from '../../hooks'
 import { SellerListPage } from '../../organisms/SellerListPage'
+import { INVENTORY_TOGGLE_LABEL, INVENTORY_WAREHOUSES_LABEL } from './Inventory.constants'
 import { inventoryDefaultProps } from './Inventory.fixtures'
 import type { InventoryRow, InventoryProps } from './Inventory.types'
 import { filterInventory, inventoryColumns } from './Inventory.utils'
@@ -64,14 +65,14 @@ export function InventoryClient({
               aria-label="Toggle low stock only"
               className="border-input data-[state=on]:bg-muted data-[state=on]:text-foreground h-9 border px-3 text-sm font-medium"
             >
-              Low stock only
+              {INVENTORY_TOGGLE_LABEL}
             </Toggle>
             <Button
               variant="outline"
               size="sm"
               className="border-input h-9 gap-1 text-sm font-medium"
             >
-              All warehouses <ChevronDown className="text-muted-foreground h-4 w-4" />
+              {INVENTORY_WAREHOUSES_LABEL} <ChevronDown className="text-muted-foreground h-4 w-4" />
             </Button>
           </div>
         </SellerListPage.Filters>

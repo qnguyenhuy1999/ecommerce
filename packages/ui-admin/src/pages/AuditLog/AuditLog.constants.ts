@@ -1,0 +1,1 @@
+export const AUDIT_LOG_REFERENCE_DATE = new Date('2026-05-11T00:00:00Z')

@@ -1,5 +1,3 @@
-'use client'
-
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useControllableState } from '../../hooks'
 import type { MessageConversation, MessagesProps } from './Messages.types'
@@ -15,6 +13,26 @@ interface UseMessagesControllerParams {
   onDraftMessageChange?: MessagesProps['onDraftMessageChange']
   onSendMessage?: MessagesProps['onSendMessage']
   filterConversations: NonNullable<MessagesProps['filterConversations']>
+}
+
+function getSortedConversations(conversations: MessageConversation[]) {
+  return [...conversations]
+    .map((conversation, index) => ({ conversation, index }))
+    .sort((left, right) => {
+      const leftTime = left.conversation.lastActivityAt
+        ? new Date(left.conversation.lastActivityAt).getTime()
+        : 0
+      const rightTime = right.conversation.lastActivityAt
+        ? new Date(right.conversation.lastActivityAt).getTime()
+        : 0
+
+      if (leftTime === rightTime) {
+        return left.index - right.index
+      }
+
+      return rightTime - leftTime
+    })
+    .map(({ conversation }) => conversation)
 }
 
 export function useMessagesController({
@@ -163,24 +181,4 @@ export function useMessagesController({
     shouldAutoScrollRef,
     updateAutoScrollState,
   }
-}
-
-function getSortedConversations(conversations: MessageConversation[]) {
-  return [...conversations]
-    .map((conversation, index) => ({ conversation, index }))
-    .sort((left, right) => {
-      const leftTime = left.conversation.lastActivityAt
-        ? new Date(left.conversation.lastActivityAt).getTime()
-        : 0
-      const rightTime = right.conversation.lastActivityAt
-        ? new Date(right.conversation.lastActivityAt).getTime()
-        : 0
-
-      if (leftTime === rightTime) {
-        return left.index - right.index
-      }
-
-      return rightTime - leftTime
-    })
-    .map(({ conversation }) => conversation)
 }

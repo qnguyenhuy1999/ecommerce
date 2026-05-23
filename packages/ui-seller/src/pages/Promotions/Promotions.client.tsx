@@ -1,87 +1,20 @@
 'use client'
 
 import { Badge, Button, Checkbox, Progress, Typography } from '@ecom/core-ui'
-import { useMemo, useState } from 'react'
-import { SectionCard } from '../../atoms/SectionCard'
 import { cn } from '@ecom/shared/utils'
+import { SectionCard } from '../../atoms/SectionCard'
 import { promotionsDefaultProps } from './Promotions.fixtures'
-import type { PromotionRow, PromotionsProps } from './Promotions.types'
+import { usePromotionsController } from './Promotions.controller'
 import {
   PromotionStatusBadge,
-  buildPromotionStatusCounts,
   formatPromotionCount,
   formatPromotionDateRange,
   getPromotionKindLabel,
   getPromotionProgressValue,
   getPromotionStatusLabel,
-  groupPromotionsByStatus,
   promotionStatusOrder,
 } from './Promotions.utils'
-
-interface PromotionsClientProps {
-  promotions: PromotionRow[]
-  onEdit?: PromotionsProps['onEdit']
-  onDuplicate?: PromotionsProps['onDuplicate']
-  onActiveChange?: PromotionsProps['onActiveChange']
-}
-
-export function PromotionsClient({
-  promotions,
-  onEdit = promotionsDefaultProps.onEdit,
-  onDuplicate = promotionsDefaultProps.onDuplicate,
-  onActiveChange = promotionsDefaultProps.onActiveChange,
-}: PromotionsClientProps) {
-  const [activeOverrides, setActiveOverrides] = useState<Record<string, boolean>>({})
-
-  const rows = useMemo(() => {
-    return promotions.map((promotion) => {
-      const activeOverride = activeOverrides[promotion.id]
-      return activeOverride === undefined ? promotion : { ...promotion, active: activeOverride }
-    })
-  }, [activeOverrides, promotions])
-
-  const statusCounts = useMemo(() => buildPromotionStatusCounts(rows), [rows])
-  const promotionsByStatus = useMemo(() => groupPromotionsByStatus(rows), [rows])
-
-  function handleActiveChange(promotionId: string, active: boolean) {
-    setActiveOverrides((current) => ({ ...current, [promotionId]: active }))
-    onActiveChange?.(promotionId, active)
-  }
-
-  return (
-    <div className="space-y-5">
-      {promotionStatusOrder.map((status) => {
-        const sectionPromotions = promotionsByStatus[status]
-
-        if (sectionPromotions.length === 0) {
-          return null
-        }
-
-        return (
-          <SectionCard
-            key={status}
-            title={getPromotionStatusLabel(status)}
-            subtitle={formatPromotionCount(statusCounts[status])}
-            className="rounded-[24px]"
-            padded={false}
-          >
-            <div className="grid gap-4 p-4 md:grid-cols-2 xl:grid-cols-3">
-              {sectionPromotions.map((promotion) => (
-                <PromotionCard
-                  key={promotion.id}
-                  promotion={promotion}
-                  onEdit={() => onEdit?.(promotion)}
-                  onDuplicate={() => onDuplicate?.(promotion)}
-                  onActiveChange={(active) => handleActiveChange(promotion.id, active)}
-                />
-              ))}
-            </div>
-          </SectionCard>
-        )
-      })}
-    </div>
-  )
-}
+import type { PromotionRow, PromotionsProps } from './Promotions.types'
 
 interface PromotionCardProps {
   promotion: PromotionRow
@@ -151,5 +84,58 @@ function PromotionCard({ promotion, onEdit, onDuplicate, onActiveChange }: Promo
         </label>
       </div>
     </article>
+  )
+}
+
+export interface PromotionsClientProps {
+  promotions: PromotionRow[]
+  onEdit?: PromotionsProps['onEdit']
+  onDuplicate?: PromotionsProps['onDuplicate']
+  onActiveChange?: PromotionsProps['onActiveChange']
+}
+
+export function PromotionsClient({
+  promotions,
+  onEdit = promotionsDefaultProps.onEdit,
+  onDuplicate = promotionsDefaultProps.onDuplicate,
+  onActiveChange = promotionsDefaultProps.onActiveChange,
+}: PromotionsClientProps) {
+  const { statusCounts, promotionsByStatus, handleActiveChange } = usePromotionsController({
+    promotions,
+    onActiveChange,
+  })
+
+  return (
+    <div className="space-y-5">
+      {promotionStatusOrder.map((status) => {
+        const sectionPromotions = promotionsByStatus[status]
+
+        if (sectionPromotions.length === 0) {
+          return null
+        }
+
+        return (
+          <SectionCard
+            key={status}
+            title={getPromotionStatusLabel(status)}
+            subtitle={formatPromotionCount(statusCounts[status])}
+            className="rounded-[24px]"
+            padded={false}
+          >
+            <div className="grid gap-4 p-4 md:grid-cols-2 xl:grid-cols-3">
+              {sectionPromotions.map((promotion) => (
+                <PromotionCard
+                  key={promotion.id}
+                  promotion={promotion}
+                  onEdit={() => onEdit?.(promotion)}
+                  onDuplicate={() => onDuplicate?.(promotion)}
+                  onActiveChange={(active) => handleActiveChange(promotion.id, active)}
+                />
+              ))}
+            </div>
+          </SectionCard>
+        )
+      })}
+    </div>
   )
 }

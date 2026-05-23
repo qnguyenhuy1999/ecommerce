@@ -16,26 +16,13 @@ import {
 } from '@ecom/core-ui'
 import { cn } from '@ecom/shared/utils'
 import { Building2, CircleAlert, CircleCheck, CircleX, Landmark, ShieldAlert } from 'lucide-react'
-import { useState } from 'react'
+import { getStatusTone, PLACEHOLDER_CONTENT } from './SellerKycDetail.constants'
+import { useSellerKycDetailController } from './SellerKycDetail.controller'
 import type {
   SellerKycDetailDocument,
   SellerKycDetailProps,
   SellerKycDetailRecord,
-  SellerKycDetailSection,
-  SellerKycDetailStatus,
 } from './SellerKycDetail.types'
-
-function getStatusTone(status: SellerKycDetailStatus): 'approved' | 'warning' | 'rejected' {
-  switch (status) {
-    case 'APPROVED':
-      return 'approved'
-    case 'REJECTED':
-      return 'rejected'
-    case 'PENDING':
-    default:
-      return 'warning'
-  }
-}
 
 function DetailCard({
   title,
@@ -376,15 +363,13 @@ export function SellerKycDetailClient({
     | 'onRejectSeller'
     | 'onApproveSeller'
   >) {
-  const [activeSection, setActiveSection] = useState<SellerKycDetailSection>(
-    item.tabs[0]?.value ?? 'KYC_REVIEW',
-  )
+  const controller = useSellerKycDetailController(item)
 
   return (
     <div className="space-y-6">
       <Tabs
-        value={activeSection}
-        onValueChange={(value) => setActiveSection(value as SellerKycDetailSection)}
+        value={controller.state.activeSection}
+        onValueChange={controller.handlers.handleSectionChange}
       >
         <TabsList>
           {item.tabs.map((tab) => (
@@ -412,16 +397,16 @@ export function SellerKycDetailClient({
 
         <TabsContent value="VIOLATIONS">
           <PlaceholderPanel
-            title="Violations"
-            message="No active policy violations found for this seller."
+            title={PLACEHOLDER_CONTENT.VIOLATIONS.title}
+            message={PLACEHOLDER_CONTENT.VIOLATIONS.message}
             icon={CircleAlert}
           />
         </TabsContent>
 
         <TabsContent value="PROFILE">
           <PlaceholderPanel
-            title="Seller profile"
-            message="Profile summary stays package-local until admin route wiring lands."
+            title={PLACEHOLDER_CONTENT.PROFILE.title}
+            message={PLACEHOLDER_CONTENT.PROFILE.message}
             icon={Building2}
           />
         </TabsContent>

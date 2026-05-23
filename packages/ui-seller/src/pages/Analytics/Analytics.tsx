@@ -1,6 +1,12 @@
 import { ConsolePageLayout } from '@ecom/core-ui'
-import { AnalyticsClient, AnalyticsPageActions } from './Analytics.client'
+import {
+  AnalyticsPageActions,
+  OrdersByDaySection,
+  RevenueTrendSection,
+  TrafficSourcesSection,
+} from './Analytics.client'
 import { analyticsDefaultProps } from './Analytics.fixtures'
+import { ConversionFunnelSection, MetricsSection, TopProductsSection } from './Analytics.server'
 import type { AnalyticsProps } from './Analytics.types'
 
 export function Analytics({
@@ -43,14 +49,21 @@ export function Analytics({
       }
       mainClassName="space-y-5"
     >
-      <AnalyticsClient
-        metrics={metrics}
-        revenueSeries={revenueSeries}
-        trafficSources={trafficSources}
-        ordersByDaySeries={ordersByDaySeries}
-        conversionFunnel={conversionFunnel}
-        topProducts={topProducts}
-      />
+      <div className="space-y-4">
+        <MetricsSection metrics={metrics} />
+
+        <section className="grid gap-4 xl:grid-cols-[minmax(0,1.95fr)_minmax(0,0.95fr)]">
+          <RevenueTrendSection revenueSeries={revenueSeries} />
+          <TrafficSourcesSection trafficSources={trafficSources} />
+        </section>
+
+        <section className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
+          <OrdersByDaySection ordersByDaySeries={ordersByDaySeries} />
+          <ConversionFunnelSection conversionFunnel={conversionFunnel} />
+        </section>
+
+        <TopProductsSection topProducts={topProducts} />
+      </div>
     </ConsolePageLayout>
   )
 }

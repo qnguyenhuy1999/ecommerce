@@ -5,6 +5,12 @@ import { Eye, FileText, Send } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { ProductMediaUpload } from '../../molecules/ProductMediaUpload'
 import { BasicInfoSection } from './BasicInfoSection'
+import {
+  PRODUCT_DETAIL_ACTION_LABELS,
+  PRODUCT_DETAIL_MEDIA_MAX_ITEMS,
+  PRODUCT_DETAIL_MEDIA_SUBTITLE,
+  PRODUCT_DETAIL_MEDIA_TITLE,
+} from './ProductDetail.constants'
 import { ProductEditorProvider, useProductEditorMedia } from './ProductDetail.context'
 import type { ProductDetailProps } from './ProductDetail.types'
 import { ProductSidebar } from './ProductSidebar'
@@ -19,11 +25,11 @@ function ProductMediaSection() {
   const { media, onAdd, onRemove } = useProductEditorMedia()
 
   return (
-    <SectionCard title="Media" subtitle="Up to 8 images. First image is the main thumbnail.">
+    <SectionCard title={PRODUCT_DETAIL_MEDIA_TITLE} subtitle={PRODUCT_DETAIL_MEDIA_SUBTITLE}>
       <ProductMediaUpload
         className="border-0 bg-transparent p-0"
         items={media}
-        maxItems={8}
+        maxItems={PRODUCT_DETAIL_MEDIA_MAX_ITEMS}
         onAdd={onAdd}
         onRemove={onRemove}
       />
@@ -50,19 +56,19 @@ function ProductDetailContent({
           <Button asChild size="sm" variant="outline">
             <a href={previewHref}>
               <Eye />
-              Preview
+              {PRODUCT_DETAIL_ACTION_LABELS.preview}
             </a>
           </Button>
           <Button asChild size="sm" variant="outline">
             <a href={saveDraftHref}>
               <FileText />
-              Save draft
+              {PRODUCT_DETAIL_ACTION_LABELS.saveDraft}
             </a>
           </Button>
           <Button asChild size="sm">
             <a href={publishHref}>
               <Send />
-              Publish
+              {PRODUCT_DETAIL_ACTION_LABELS.publish}
             </a>
           </Button>
         </>

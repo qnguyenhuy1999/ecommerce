@@ -14,35 +14,29 @@ import {
 } from '@ecom/core-ui'
 import { cn } from '@ecom/shared/utils'
 import { Users } from 'lucide-react'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { SellerListPage } from '../../organisms'
+import {
+  NEW_ROLE_CANCEL_LABEL,
+  NEW_ROLE_CREATE_LABEL,
+  NEW_ROLE_DESCRIPTION_LABEL,
+  NEW_ROLE_DESCRIPTION_PLACEHOLDER,
+  NEW_ROLE_DIALOG_TITLE,
+  NEW_ROLE_NAME_LABEL,
+  NEW_ROLE_NAME_PLACEHOLDER,
+  PERMISSION_TABLE_ALLOWED_HEADER,
+  PERMISSION_TABLE_PERMISSION_HEADER,
+  PERMISSION_TABLE_RESOURCE_HEADER,
+  ROLES_LIST_PANEL_LABEL,
+  ROLES_PERMISSIONS_EMPTY_MESSAGE,
+} from './RolesPermissions.constants'
+import { useRolesPermissionsController } from './RolesPermissions.controller'
 import type {
   PermissionKey,
   PermissionRow,
   RoleRecord,
   RolesPermissionsProps,
 } from './RolesPermissions.types'
-
-export interface RolesPermissionsClientProps {
-  newRoleLabel: string
-  saveLabel: string
-  cancelLabel: string
-  roles: RoleRecord[]
-  permissionRows: PermissionRow[]
-  onNewRole?: RolesPermissionsProps['onNewRole']
-  onSave?: RolesPermissionsProps['onSave']
-  onCancel?: RolesPermissionsProps['onCancel']
-}
-
-function groupByResource(rows: PermissionRow[]) {
-  const map = new Map<string, PermissionRow[]>()
-  for (const row of rows) {
-    const existing = map.get(row.resource) ?? []
-    existing.push(row)
-    map.set(row.resource, existing)
-  }
-  return map
-}
 
 function NewRoleDialog({
   open,
@@ -67,23 +61,23 @@ function NewRoleDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle>New role</DialogTitle>
+          <DialogTitle>{NEW_ROLE_DIALOG_TITLE}</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 py-2">
           <div className="space-y-1.5">
-            <Label htmlFor="role-name">Name</Label>
+            <Label htmlFor="role-name">{NEW_ROLE_NAME_LABEL}</Label>
             <Input
               id="role-name"
-              placeholder="e.g. Finance"
+              placeholder={NEW_ROLE_NAME_PLACEHOLDER}
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="role-description">Description</Label>
+            <Label htmlFor="role-description">{NEW_ROLE_DESCRIPTION_LABEL}</Label>
             <Input
               id="role-description"
-              placeholder="e.g. Commission, payouts, settlement reports"
+              placeholder={NEW_ROLE_DESCRIPTION_PLACEHOLDER}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
@@ -91,10 +85,10 @@ function NewRoleDialog({
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            Cancel
+            {NEW_ROLE_CANCEL_LABEL}
           </Button>
           <Button onClick={handleSubmit} disabled={!name.trim()}>
-            Create role
+            {NEW_ROLE_CREATE_LABEL}
           </Button>
         </DialogFooter>
       </DialogContent>
@@ -118,7 +112,7 @@ function RoleListPanel({
         variant="label"
         className="text-muted-foreground mb-2 px-2 text-xs tracking-wide uppercase"
       >
-        Roles
+        {ROLES_LIST_PANEL_LABEL}
       </Typography>
       <ul className="space-y-0.5">
         {roles.map((role) => {
@@ -210,13 +204,13 @@ function PermissionGrid({
         <thead>
           <tr className="bg-muted/30 border-b">
             <th className="text-muted-foreground w-1/3 px-6 py-3 text-left text-xs font-medium tracking-wide uppercase">
-              Resource
+              {PERMISSION_TABLE_RESOURCE_HEADER}
             </th>
             <th className="text-muted-foreground px-6 py-3 text-left text-xs font-medium tracking-wide uppercase">
-              Permission
+              {PERMISSION_TABLE_PERMISSION_HEADER}
             </th>
             <th className="text-muted-foreground w-24 px-6 py-3 text-right text-xs font-medium tracking-wide uppercase">
-              Allowed
+              {PERMISSION_TABLE_ALLOWED_HEADER}
             </th>
           </tr>
         </thead>
@@ -261,6 +255,17 @@ function PermissionGrid({
   )
 }
 
+export interface RolesPermissionsClientProps {
+  newRoleLabel: string
+  saveLabel: string
+  cancelLabel: string
+  roles: RoleRecord[]
+  permissionRows: PermissionRow[]
+  onNewRole?: RolesPermissionsProps['onNewRole']
+  onSave?: RolesPermissionsProps['onSave']
+  onCancel?: RolesPermissionsProps['onCancel']
+}
+
 export function RolesPermissionsClient({
   newRoleLabel,
   saveLabel,
@@ -271,45 +276,19 @@ export function RolesPermissionsClient({
   onSave,
   onCancel,
 }: RolesPermissionsClientProps) {
-  const [selectedRoleId, setSelectedRoleId] = useState(roles[0]?.id ?? '')
-  const [pendingPermissions, setPendingPermissions] = useState<PermissionKey[]>(
-    () => roles[0]?.permissions ?? [],
-  )
-  const [dialogOpen, setDialogOpen] = useState(false)
-
-  const selectedRole = useMemo(
-    () => roles.find((r) => r.id === selectedRoleId),
-    [roles, selectedRoleId],
-  )
-  const resourceGroups = useMemo(() => groupByResource(permissionRows), [permissionRows])
-
-  const handleSelectRole = useCallback((role: RoleRecord) => {
-    setSelectedRoleId(role.id)
-    setPendingPermissions([...role.permissions])
-  }, [])
-
-  const handleTogglePermission = useCallback((key: PermissionKey, checked: boolean) => {
-    setPendingPermissions((prev) => (checked ? [...prev, key] : prev.filter((p) => p !== key)))
-  }, [])
-
-  const handleSave = useCallback(() => {
-    void onSave?.(selectedRoleId, pendingPermissions)
-  }, [onSave, pendingPermissions, selectedRoleId])
-
-  const handleNewRole = useCallback(
-    (name: string, description: string) => {
-      setDialogOpen(false)
-      void onNewRole?.(name, description)
-    },
-    [onNewRole],
-  )
+  const { state, computed, handlers } = useRolesPermissionsController({
+    roles,
+    permissionRows,
+    onNewRole,
+    onSave,
+  })
 
   return (
     <>
       <SellerListPage.Header>
         <div className="flex items-center justify-end">
           <SellerListPage.Actions>
-            <Button type="button" onClick={() => setDialogOpen(true)}>
+            <Button type="button" onClick={handlers.openDialog}>
               {newRoleLabel}
             </Button>
           </SellerListPage.Actions>
@@ -319,30 +298,34 @@ export function RolesPermissionsClient({
       <div className="flex items-start gap-5">
         <RoleListPanel
           roles={roles}
-          selectedRoleId={selectedRoleId}
-          onSelectRole={handleSelectRole}
+          selectedRoleId={state.selectedRoleId}
+          onSelectRole={handlers.handleSelectRole}
         />
-        {selectedRole ? (
+        {computed.selectedRole ? (
           <PermissionGrid
-            selectedRole={selectedRole}
-            pendingPermissions={pendingPermissions}
-            resourceGroups={resourceGroups}
+            selectedRole={computed.selectedRole}
+            pendingPermissions={state.pendingPermissions}
+            resourceGroups={computed.resourceGroups}
             saveLabel={saveLabel}
             cancelLabel={cancelLabel}
-            onTogglePermission={handleTogglePermission}
-            onSave={handleSave}
+            onTogglePermission={handlers.handleTogglePermission}
+            onSave={handlers.handleSave}
             onCancel={onCancel}
           />
         ) : (
           <div className="bg-background flex min-h-48 flex-1 items-center justify-center rounded-2xl border">
             <Typography variant="body-sm" className="text-muted-foreground">
-              Select a role to manage permissions.
+              {ROLES_PERMISSIONS_EMPTY_MESSAGE}
             </Typography>
           </div>
         )}
       </div>
 
-      <NewRoleDialog open={dialogOpen} onOpenChange={setDialogOpen} onConfirm={handleNewRole} />
+      <NewRoleDialog
+        open={state.dialogOpen}
+        onOpenChange={handlers.setDialogOpen}
+        onConfirm={handlers.handleNewRole}
+      />
     </>
   )
 }

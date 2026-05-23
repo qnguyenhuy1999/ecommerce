@@ -1,5 +1,13 @@
+import { ConsolePageLayout } from '@ecom/core-ui'
 import { orderDetailDefaultProps } from './OrderDetail.fixtures'
-import { OrderDetailClient } from './OrderDetail.client'
+import { EmptyState, LoadingState, OrderDetailActions } from './OrderDetail.client'
+import {
+  OrderActivityAndTotals,
+  OrderDetailSidebar,
+  OrderItemsSection,
+  OrderSummarySection,
+} from './OrderDetail.server'
+import { ensureAuditLogs } from './OrderDetail.utils'
 import type { OrderDetailProps } from './OrderDetail.types'
 
 export function OrderDetail({
@@ -14,22 +22,49 @@ export function OrderDetail({
   onStatusAction,
   actionInFlight = orderDetailDefaultProps.actionInFlight,
 }: OrderDetailProps) {
-  const optionalProps = {
+  if (loading) {
+    return (
+      <ConsolePageLayout title={title} description={description} breadcrumb={breadcrumb}>
+        <LoadingState />
+      </ConsolePageLayout>
+    )
+  }
+
+  const resolvedOrder = order ?? null
+
+  if (!resolvedOrder) {
+    return (
+      <ConsolePageLayout title={title} description={description} breadcrumb={breadcrumb}>
+        <EmptyState message={emptyMessage} />
+      </ConsolePageLayout>
+    )
+  }
+
+  const auditLogs = ensureAuditLogs(resolvedOrder.auditLogs)
+  const optionalActionProps = {
     ...(onStatusAction ? { onStatusAction } : {}),
   }
 
   return (
-    <OrderDetailClient
-      title={title}
+    <ConsolePageLayout
+      title={resolvedOrder.orderNumber}
       description={description}
       breadcrumb={breadcrumb}
-      backHref={backHref}
-      order={order ?? null}
-      loading={loading}
-      statusActions={statusActions ?? []}
-      emptyMessage={emptyMessage}
-      actionInFlight={actionInFlight ?? null}
-      {...optionalProps}
-    />
+      actions={
+        <OrderDetailActions
+          backHref={backHref}
+          statusActions={statusActions ?? []}
+          actionInFlight={actionInFlight ?? null}
+          {...optionalActionProps}
+        />
+      }
+      aside={<OrderDetailSidebar order={resolvedOrder} />}
+    >
+      <div className="space-y-4">
+        <OrderSummarySection order={resolvedOrder} />
+        <OrderItemsSection order={resolvedOrder} />
+        <OrderActivityAndTotals order={resolvedOrder} auditLogs={auditLogs} />
+      </div>
+    </ConsolePageLayout>
   )
 }

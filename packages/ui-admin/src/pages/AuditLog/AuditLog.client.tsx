@@ -2,17 +2,17 @@
 
 import {
   Button,
-  type DataTableColumn,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Typography,
 } from '@ecom/core-ui'
 import { Calendar, Download } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms'
+import { buildAuditLogColumns } from './AuditLog.columns'
+import { useAuditLogController } from './AuditLog.controller'
 import type {
   AuditLogActorRole,
   AuditLogDateRange,
@@ -21,36 +21,6 @@ import type {
   AuditLogProps,
   AuditLogResource,
 } from './AuditLog.types'
-
-export interface AuditLogClientProps {
-  searchPlaceholder: string
-  exportLabel: string
-  emptyStateMessage: string
-  actorOptions: AuditLogFilterOption<'ALL' | AuditLogActorRole>[]
-  resourceOptions: AuditLogFilterOption<'ALL' | AuditLogResource>[]
-  actionOptions: AuditLogFilterOption<'ALL' | string>[]
-  dateRangeOptions: AuditLogFilterOption<AuditLogDateRange>[]
-  items: AuditLogEntry[]
-  onExport?: AuditLogProps['onExport']
-}
-
-const REFERENCE_DATE = new Date('2026-05-11T00:00:00Z')
-
-function matchesDateRange(timestamp: string, range: AuditLogDateRange): boolean {
-  if (range === 'ALL_TIME') return true
-  const entryDate = new Date(`${timestamp}T00:00:00Z`)
-  const dayDiff = Math.floor(
-    (REFERENCE_DATE.getTime() - entryDate.getTime()) / (1000 * 60 * 60 * 24),
-  )
-  switch (range) {
-    case 'LAST_7_DAYS':
-      return dayDiff <= 7
-    case 'LAST_30_DAYS':
-      return dayDiff <= 30
-    case 'LAST_90_DAYS':
-      return dayDiff <= 90
-  }
-}
 
 function FilterSelect<TValue extends string>({
   value,
@@ -107,58 +77,18 @@ function DateRangeSelect({
   )
 }
 
-function buildColumns(): DataTableColumn<AuditLogEntry>[] {
-  return [
-    {
-      accessorKey: 'timestampLabel',
-      header: 'Timestamp',
-      cell: ({ row }) => (
-        <Typography variant="body-sm" className="text-muted-foreground whitespace-nowrap">
-          {row.original.timestampLabel}
-        </Typography>
-      ),
-    },
-    {
-      id: 'actor',
-      header: 'Actor',
-      cell: ({ row }) => (
-        <div>
-          <Typography as="div" variant="label" className="text-foreground whitespace-nowrap">
-            {row.original.actorName}
-          </Typography>
-          <Typography variant="body-sm" className="text-muted-foreground">
-            {row.original.actorRole}
-          </Typography>
-        </div>
-      ),
-    },
-    {
-      accessorKey: 'action',
-      header: 'Action',
-      cell: ({ row }) => (
-        <Typography variant="body-sm" className="font-mono">
-          {row.original.action}
-        </Typography>
-      ),
-    },
-    {
-      accessorKey: 'resource',
-      header: 'Resource',
-    },
-    {
-      accessorKey: 'target',
-      header: 'Target',
-    },
-    {
-      accessorKey: 'ip',
-      header: 'IP',
-      cell: ({ row }) => (
-        <Typography variant="body-sm" className="text-muted-foreground font-mono whitespace-nowrap">
-          {row.original.ip}
-        </Typography>
-      ),
-    },
-  ]
+export type { AuditLogActorRole, AuditLogDateRange, AuditLogResource }
+
+export interface AuditLogClientProps {
+  searchPlaceholder: string
+  exportLabel: string
+  emptyStateMessage: string
+  actorOptions: AuditLogFilterOption<'ALL' | AuditLogActorRole>[]
+  resourceOptions: AuditLogFilterOption<'ALL' | AuditLogResource>[]
+  actionOptions: AuditLogFilterOption<'ALL' | string>[]
+  dateRangeOptions: AuditLogFilterOption<AuditLogDateRange>[]
+  items: AuditLogEntry[]
+  onExport?: AuditLogProps['onExport']
 }
 
 export function AuditLogClient({
@@ -172,29 +102,8 @@ export function AuditLogClient({
   items,
   onExport,
 }: AuditLogClientProps) {
-  const [search, setSearch] = useState('')
-  const [actorFilter, setActorFilter] = useState<'ALL' | AuditLogActorRole>('ALL')
-  const [resourceFilter, setResourceFilter] = useState<'ALL' | AuditLogResource>('ALL')
-  const [actionFilter, setActionFilter] = useState<'ALL' | string>('ALL')
-  const [dateRange, setDateRange] = useState<AuditLogDateRange>('LAST_7_DAYS')
-
-  const filteredItems = useMemo(() => {
-    const query = search.trim().toLowerCase()
-    return items.filter((item) => {
-      const matchesSearch =
-        query.length === 0 ||
-        item.actorName.toLowerCase().includes(query) ||
-        item.action.toLowerCase().includes(query) ||
-        item.target.toLowerCase().includes(query)
-      const matchesActor = actorFilter === 'ALL' || item.actorRole === actorFilter
-      const matchesResource = resourceFilter === 'ALL' || item.resource === resourceFilter
-      const matchesAction = actionFilter === 'ALL' || item.action === actionFilter
-      const matchesDate = matchesDateRange(item.timestamp, dateRange)
-      return matchesSearch && matchesActor && matchesResource && matchesAction && matchesDate
-    })
-  }, [actionFilter, actorFilter, dateRange, items, resourceFilter, search])
-
-  const columns = useMemo(() => buildColumns(), [])
+  const { state, computed, handlers } = useAuditLogController({ items })
+  const columns = useMemo(() => buildAuditLogColumns(), [])
 
   return (
     <SellerListPage.Header>
@@ -209,37 +118,37 @@ export function AuditLogClient({
 
       <SellerListPage.Table
         columns={columns}
-        data={filteredItems}
+        data={computed.filteredItems}
         emptyMessage={emptyStateMessage}
         toolbar={
           <SellerListPage.Filters className="items-stretch justify-between gap-3 xl:flex-row xl:items-center">
             <SellerListPage.Search
-              value={search}
-              onChange={setSearch}
+              value={state.search}
+              onChange={handlers.setSearch}
               placeholder={searchPlaceholder}
             />
             <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
               <div className="flex flex-wrap gap-3">
                 <FilterSelect
-                  value={actorFilter}
+                  value={state.actorFilter}
                   options={actorOptions}
-                  onChange={setActorFilter}
+                  onChange={handlers.setActorFilter}
                 />
                 <FilterSelect
-                  value={resourceFilter}
+                  value={state.resourceFilter}
                   options={resourceOptions}
-                  onChange={setResourceFilter}
+                  onChange={handlers.setResourceFilter}
                 />
                 <FilterSelect
-                  value={actionFilter}
+                  value={state.actionFilter}
                   options={actionOptions}
-                  onChange={setActionFilter}
+                  onChange={handlers.setActionFilter}
                 />
               </div>
               <DateRangeSelect
-                value={dateRange}
+                value={state.dateRange}
                 options={dateRangeOptions}
-                onChange={setDateRange}
+                onChange={handlers.setDateRange}
               />
             </div>
           </SellerListPage.Filters>

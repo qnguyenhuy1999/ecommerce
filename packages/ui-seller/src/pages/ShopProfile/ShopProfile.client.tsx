@@ -21,18 +21,10 @@ import {
 } from '@ecom/core-ui'
 import { slugify } from '@ecom/shared/utils'
 import { ImagePlus, Star } from 'lucide-react'
-import { useState } from 'react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { shopProfileCountryOptions, shopProfileResponseTargetOptions } from './ShopProfile.fixtures'
 import type { ShopProfileFormData, ShopProfileProps } from './ShopProfile.types'
-
-type ShopProfileClientProps = Required<
-  Pick<ShopProfileProps, 'title' | 'description' | 'breadcrumb' | 'submitLabel' | 'initialData'>
-> &
-  Pick<
-    ShopProfileProps,
-    'countryOptions' | 'responseTargetOptions' | 'onSubmit' | 'onReplaceLogo' | 'onReplaceBanner'
-  >
+import { useShopProfileController } from './ShopProfile.controller'
 
 function getInitials(value: string) {
   return value
@@ -255,6 +247,14 @@ function ContactOperationsSection({
   )
 }
 
+type ShopProfileClientProps = Required<
+  Pick<ShopProfileProps, 'title' | 'description' | 'breadcrumb' | 'submitLabel' | 'initialData'>
+> &
+  Pick<
+    ShopProfileProps,
+    'countryOptions' | 'responseTargetOptions' | 'onSubmit' | 'onReplaceLogo' | 'onReplaceBanner'
+  >
+
 export function ShopProfileClient({
   title,
   description,
@@ -267,29 +267,15 @@ export function ShopProfileClient({
   onReplaceLogo,
   onReplaceBanner,
 }: ShopProfileClientProps) {
-  const [form, setForm] = useState<ShopProfileFormData>(initialData)
-  const identitySectionProps = {
-    ...(onReplaceLogo !== undefined ? { onReplaceLogo } : {}),
-  }
-  const bannerSectionProps = {
-    ...(onReplaceBanner !== undefined ? { onReplaceBanner } : {}),
-  }
+  const { state, handlers } = useShopProfileController({
+    initialData,
+    onSubmit,
+    onReplaceLogo,
+    onReplaceBanner,
+  })
 
-  function updateForm<K extends keyof ShopProfileFormData>(key: K, value: ShopProfileFormData[K]) {
-    setForm((current) => {
-      if (key === 'shopName' && current.slug === slugify(current.shopName)) {
-        const shopName = typeof value === 'string' ? value : String(value)
-
-        return {
-          ...current,
-          shopName,
-          slug: slugify(shopName),
-        }
-      }
-
-      return { ...current, [key]: value }
-    })
-  }
+  const { form } = state
+  const { updateForm, handleSubmit } = handlers
 
   return (
     <ConsolePageLayout
@@ -297,7 +283,7 @@ export function ShopProfileClient({
       description={description}
       breadcrumb={breadcrumb}
       actions={
-        <Button type="button" onClick={() => onSubmit?.(form)}>
+        <Button type="button" onClick={handleSubmit}>
           {submitLabel}
         </Button>
       }
@@ -308,9 +294,14 @@ export function ShopProfileClient({
         form={form}
         previewUrl={form.previewUrl}
         onFieldChange={updateForm}
-        {...identitySectionProps}
+        {...(handlers.onReplaceLogo !== undefined ? { onReplaceLogo: handlers.onReplaceLogo } : {})}
       />
-      <BannerSection bannerUrl={form.bannerUrl} {...bannerSectionProps} />
+      <BannerSection
+        bannerUrl={form.bannerUrl}
+        {...(handlers.onReplaceBanner !== undefined
+          ? { onReplaceBanner: handlers.onReplaceBanner }
+          : {})}
+      />
       <ContactOperationsSection
         form={form}
         countryOptions={countryOptions}

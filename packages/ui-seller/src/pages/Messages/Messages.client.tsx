@@ -21,8 +21,9 @@ import {
   SendHorizontal,
 } from 'lucide-react'
 import { useEffect, useRef } from 'react'
+import { DELIVERY_STATUS_LABELS, MESSAGES_EMPTY } from './Messages.constants'
 import { messagesDefaultProps } from './Messages.fixtures'
-import { useMessagesController } from './hook'
+import { useMessagesController } from './Messages.controller'
 import type {
   MessageConversation,
   MessageDeliveryStatus,
@@ -30,27 +31,6 @@ import type {
   MessagesProps,
 } from './Messages.types'
 import { filterMessageConversations, getConversationInitials } from './Messages.utils'
-
-interface MessagesClientProps {
-  conversations: MessageConversation[]
-  messages: MessageEntry[]
-  selectedConversationId?: MessagesProps['selectedConversationId']
-  defaultSelectedConversationId?: MessagesProps['defaultSelectedConversationId']
-  onSelectedConversationChange?: MessagesProps['onSelectedConversationChange']
-  search?: MessagesProps['search']
-  onSearchChange?: MessagesProps['onSearchChange']
-  searchPlaceholder?: MessagesProps['searchPlaceholder']
-  draftMessage?: MessagesProps['draftMessage']
-  onDraftMessageChange?: MessagesProps['onDraftMessageChange']
-  composerPlaceholder?: MessagesProps['composerPlaceholder']
-  onSendMessage?: MessagesProps['onSendMessage']
-  loadingConversations?: MessagesProps['loadingConversations']
-  loadingMessages?: MessagesProps['loadingMessages']
-  emptyConversationsMessage?: MessagesProps['emptyConversationsMessage']
-  emptyMessagesMessage?: MessagesProps['emptyMessagesMessage']
-  unselectedConversationMessage?: MessagesProps['unselectedConversationMessage']
-  filterConversations?: MessagesProps['filterConversations']
-}
 
 interface ConversationSidebarProps {
   conversations: MessageConversation[]
@@ -103,20 +83,7 @@ interface MessageComposerProps {
 }
 
 function getDeliveryStatusLabel(status: MessageDeliveryStatus) {
-  switch (status) {
-    case 'SENDING':
-      return 'Sending'
-    case 'SENT':
-      return 'Sent'
-    case 'DELIVERED':
-      return 'Delivered'
-    case 'READ':
-      return 'Read'
-    case 'FAILED':
-      return 'Failed'
-    default:
-      return status
-  }
+  return DELIVERY_STATUS_LABELS[status] ?? status
 }
 
 function ConversationListSkeleton() {
@@ -273,12 +240,14 @@ function ConversationSidebar({
         {!loading && conversations.length === 0 ? (
           <EmptyPanel
             icon={search.trim() ? SearchX : Inbox}
-            title={search.trim() ? 'No matching conversations' : 'No conversations yet'}
+            title={
+              search.trim() ? MESSAGES_EMPTY.noMatchingTitle : MESSAGES_EMPTY.noConversationsTitle
+            }
             message={emptyMessage}
             guidance={
               search.trim()
-                ? 'Try a buyer name, order number, or a shorter keyword.'
-                : 'New buyer threads will appear here as soon as they start a chat.'
+                ? MESSAGES_EMPTY.noMatchingGuidance
+                : MESSAGES_EMPTY.noConversationsGuidance
             }
           />
         ) : null}
@@ -312,9 +281,9 @@ function MessageList({
     return (
       <EmptyPanel
         icon={Inbox}
-        title="No messages yet"
+        title={MESSAGES_EMPTY.noMessagesTitle}
         message={emptyMessage}
-        guidance="Send the first reply to start the conversation."
+        guidance={MESSAGES_EMPTY.noMessagesGuidance}
       />
     )
   }
@@ -453,9 +422,9 @@ function MessagePane({
       <section className="bg-muted/20 flex min-h-0 min-w-0 flex-1 basis-0 flex-col overflow-hidden">
         <EmptyPanel
           icon={Inbox}
-          title="No conversation selected"
+          title={MESSAGES_EMPTY.unselectedTitle}
           message={unselectedMessage}
-          guidance="Pick a thread from the list to view messages and reply."
+          guidance={MESSAGES_EMPTY.unselectedGuidance}
         />
       </section>
     )
@@ -527,6 +496,27 @@ function MessagePane({
       />
     </section>
   )
+}
+
+interface MessagesClientProps {
+  conversations: MessageConversation[]
+  messages: MessageEntry[]
+  selectedConversationId?: MessagesProps['selectedConversationId']
+  defaultSelectedConversationId?: MessagesProps['defaultSelectedConversationId']
+  onSelectedConversationChange?: MessagesProps['onSelectedConversationChange']
+  search?: MessagesProps['search']
+  onSearchChange?: MessagesProps['onSearchChange']
+  searchPlaceholder?: MessagesProps['searchPlaceholder']
+  draftMessage?: MessagesProps['draftMessage']
+  onDraftMessageChange?: MessagesProps['onDraftMessageChange']
+  composerPlaceholder?: MessagesProps['composerPlaceholder']
+  onSendMessage?: MessagesProps['onSendMessage']
+  loadingConversations?: MessagesProps['loadingConversations']
+  loadingMessages?: MessagesProps['loadingMessages']
+  emptyConversationsMessage?: MessagesProps['emptyConversationsMessage']
+  emptyMessagesMessage?: MessagesProps['emptyMessagesMessage']
+  unselectedConversationMessage?: MessagesProps['unselectedConversationMessage']
+  filterConversations?: MessagesProps['filterConversations']
 }
 
 export function MessagesClient({

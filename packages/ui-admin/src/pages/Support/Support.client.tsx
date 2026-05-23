@@ -14,7 +14,14 @@ import {
   Typography,
 } from '@ecom/core-ui'
 import { ArrowLeft, Inbox, MessageCircle, SendHorizontal } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
+import {
+  SUPPORT_ALL_STATUSES,
+  SUPPORT_STATUS_BADGE_CLASSES,
+  SUPPORT_STATUS_DOT_CLASSES,
+  SUPPORT_STATUS_LABELS,
+} from './Support.constants'
+import { useSupportController } from './Support.controller'
 import { supportDefaultProps } from './Support.fixtures'
 import type {
   SupportAssigneeOption,
@@ -24,60 +31,6 @@ import type {
   SupportTicket,
   SupportTicketStatus,
 } from './Support.types'
-
-interface SupportClientProps {
-  tickets: SupportTicket[]
-  messages: SupportMessage[]
-  defaultSelectedTicketId: string
-  selectedTicketId?: string
-  onSelectedTicketChange?: SupportProps['onSelectedTicketChange']
-  assigneeOptions: SupportAssigneeOption[]
-  macroOptions: SupportMacroOption[]
-  replyPlaceholder: string
-  draftReply: string
-  onDraftReplyChange?: SupportProps['onDraftReplyChange']
-  onSendReply?: SupportProps['onSendReply']
-  onStatusChange?: SupportProps['onStatusChange']
-  onAssigneeChange?: SupportProps['onAssigneeChange']
-  loadingTickets: boolean
-  loadingMessages: boolean
-  emptyTicketsMessage: string
-  emptyMessagesMessage: string
-  unselectedTicketMessage: string
-}
-
-const STATUS_LABELS: Record<SupportTicketStatus, string> = {
-  NEW: 'New',
-  OPEN: 'Open',
-  PENDING: 'Pending',
-  SOLVED: 'Solved',
-}
-
-function getStatusDotClass(status: SupportTicketStatus) {
-  switch (status) {
-    case 'NEW':
-      return 'bg-orange-500'
-    case 'OPEN':
-      return 'bg-red-500'
-    case 'PENDING':
-      return 'bg-amber-400'
-    case 'SOLVED':
-      return 'bg-gray-400'
-  }
-}
-
-function getStatusBadgeClass(status: SupportTicketStatus) {
-  switch (status) {
-    case 'NEW':
-      return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-    case 'OPEN':
-      return 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-    case 'PENDING':
-      return 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'
-    case 'SOLVED':
-      return 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-  }
-}
 
 function TicketsSkeleton() {
   return (
@@ -157,16 +110,16 @@ function TicketItem({
       }`}
     >
       <span
-        className={`mt-1.5 size-2.5 shrink-0 rounded-full ${getStatusDotClass(ticket.status)}`}
+        className={`mt-1.5 size-2.5 shrink-0 rounded-full ${SUPPORT_STATUS_DOT_CLASSES[ticket.status]}`}
         aria-hidden="true"
       />
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
           <span className="text-muted-foreground text-xs font-medium">{ticket.id}</span>
           <Badge
-            className={`rounded-full px-2 py-0.5 text-xs font-medium ${getStatusBadgeClass(ticket.status)}`}
+            className={`rounded-full px-2 py-0.5 text-xs font-medium ${SUPPORT_STATUS_BADGE_CLASSES[ticket.status]}`}
           >
-            {STATUS_LABELS[ticket.status]}
+            {SUPPORT_STATUS_LABELS[ticket.status]}
           </Badge>
         </div>
         <div
@@ -457,9 +410,9 @@ function TicketPane({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {(['NEW', 'OPEN', 'PENDING', 'SOLVED'] as SupportTicketStatus[]).map((s) => (
+              {SUPPORT_ALL_STATUSES.map((s) => (
                 <SelectItem key={s} value={s}>
-                  {STATUS_LABELS[s]}
+                  {SUPPORT_STATUS_LABELS[s]}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -509,6 +462,27 @@ function TicketPane({
   )
 }
 
+interface SupportClientProps {
+  tickets: SupportTicket[]
+  messages: SupportMessage[]
+  defaultSelectedTicketId: string
+  selectedTicketId?: string
+  onSelectedTicketChange?: SupportProps['onSelectedTicketChange']
+  assigneeOptions: SupportAssigneeOption[]
+  macroOptions: SupportMacroOption[]
+  replyPlaceholder: string
+  draftReply: string
+  onDraftReplyChange?: SupportProps['onDraftReplyChange']
+  onSendReply?: SupportProps['onSendReply']
+  onStatusChange?: SupportProps['onStatusChange']
+  onAssigneeChange?: SupportProps['onAssigneeChange']
+  loadingTickets: boolean
+  loadingMessages: boolean
+  emptyTicketsMessage: string
+  emptyMessagesMessage: string
+  unselectedTicketMessage: string
+}
+
 export function SupportClient({
   tickets,
   messages,
@@ -518,7 +492,7 @@ export function SupportClient({
   assigneeOptions,
   macroOptions,
   replyPlaceholder,
-  draftReply: draftReplyProp,
+  draftReply,
   onDraftReplyChange,
   onSendReply,
   onStatusChange,
@@ -529,133 +503,66 @@ export function SupportClient({
   emptyMessagesMessage,
   unselectedTicketMessage,
 }: SupportClientProps) {
-  const [currentSelectedId, setCurrentSelectedId] = useState(
-    selectedTicketId ?? defaultSelectedTicketId,
-  )
-  const [mobileView, setMobileView] = useState<'list' | 'detail'>('list')
-  const [currentDraft, setCurrentDraft] = useState(draftReplyProp ?? '')
-  const [isInternalNote, setIsInternalNote] = useState(false)
-  const [selectedMacro, setSelectedMacro] = useState(macroOptions[0]?.value ?? '')
-  const [selectedStatus, setSelectedStatus] = useState<SupportTicketStatus>(
-    tickets.find((t) => t.id === (selectedTicketId ?? defaultSelectedTicketId))?.status ?? 'NEW',
-  )
-  const [selectedAssignee, setSelectedAssignee] = useState(
-    assigneeOptions[0]?.value ?? 'unassigned',
-  )
-  const [sending, setSending] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-  const messagesScrollRef = useRef<HTMLDivElement>(null)
-  const shouldAutoScrollRef = useRef(true)
-
-  useEffect(() => {
-    if (selectedTicketId !== undefined) {
-      setCurrentSelectedId(selectedTicketId)
-    }
-  }, [selectedTicketId])
-
-  useEffect(() => {
-    if (!draftReplyProp) {
-      setCurrentDraft(draftReplyProp)
-    }
-  }, [draftReplyProp])
-
-  const selectedTicket = tickets.find((t) => t.id === currentSelectedId) ?? tickets[0]
-
-  useEffect(() => {
-    if (selectedTicket) {
-      setSelectedStatus(selectedTicket.status)
-      setSelectedAssignee(assigneeOptions[0]?.value ?? 'unassigned')
-    }
-  }, [selectedTicket?.id])
-
-  useEffect(() => {
-    shouldAutoScrollRef.current = true
-  }, [currentSelectedId])
-
-  useEffect(() => {
-    if (!shouldAutoScrollRef.current) return
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
-  }, [messages])
-
-  const updateAutoScrollState = () => {
-    const container = messagesScrollRef.current
-    if (!container) return
-    const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight
-    shouldAutoScrollRef.current = distanceFromBottom < 96
-  }
-
-  const handleSelectTicket = (id: string) => {
-    setCurrentSelectedId(id)
-    onSelectedTicketChange?.(id)
-    setMobileView('detail')
-  }
-
-  const handleStatusChange = (status: SupportTicketStatus) => {
-    setSelectedStatus(status)
-    if (selectedTicket) void onStatusChange?.(selectedTicket, status)
-  }
-
-  const handleAssigneeChange = (assignee: string) => {
-    setSelectedAssignee(assignee)
-    if (selectedTicket) void onAssigneeChange?.(selectedTicket, assignee)
-  }
-
-  const handleDraftChange = (value: string) => {
-    setCurrentDraft(value)
-    onDraftReplyChange?.(value)
-  }
-
-  const handleSend = async () => {
-    if (!selectedTicket || !currentDraft.trim() || sending) return
-    setSending(true)
-    try {
-      await Promise.resolve(onSendReply?.(selectedTicket, currentDraft.trim(), isInternalNote))
-      setCurrentDraft('')
-      shouldAutoScrollRef.current = true
-    } finally {
-      setSending(false)
-    }
-  }
+  const { state, refs, computed, handlers } = useSupportController({
+    tickets,
+    messages,
+    defaultSelectedTicketId,
+    ...(selectedTicketId !== undefined && { selectedTicketId }),
+    assigneeOptions,
+    macroOptions,
+    ...(draftReply !== undefined && { draftReply }),
+    ...(onSelectedTicketChange !== undefined && { onSelectedTicketChange }),
+    ...(onDraftReplyChange !== undefined && { onDraftReplyChange }),
+    ...(onSendReply !== undefined && { onSendReply }),
+    ...(onStatusChange !== undefined && { onStatusChange }),
+    ...(onAssigneeChange !== undefined && { onAssigneeChange }),
+  })
 
   return (
     <div className="bg-card border-border min-h-[60svh] w-full overflow-hidden rounded-lg border shadow-xs md:min-h-[68svh]">
       <div className="flex min-h-[60svh] w-full min-w-0 flex-col overflow-hidden md:min-h-[68svh] md:flex-row">
-        <div className={mobileView === 'detail' ? 'hidden md:flex md:min-h-0 md:flex-col' : ''}>
+        <div
+          className={state.mobileView === 'detail' ? 'hidden md:flex md:min-h-0 md:flex-col' : ''}
+        >
           <TicketSidebar
             tickets={tickets}
-            selectedTicket={selectedTicket}
+            selectedTicket={computed.selectedTicket}
             loading={loadingTickets}
             emptyMessage={emptyTicketsMessage}
-            onSelectTicket={handleSelectTicket}
+            onSelectTicket={handlers.handleSelectTicket}
           />
         </div>
-        <div className={mobileView === 'list' ? 'hidden min-h-0 flex-1 md:flex' : 'min-h-0 flex-1'}>
+        <div
+          className={
+            state.mobileView === 'list' ? 'hidden min-h-0 flex-1 md:flex' : 'min-h-0 flex-1'
+          }
+        >
           <TicketPane
-            selectedTicket={selectedTicket}
+            selectedTicket={computed.selectedTicket}
             messages={messages}
             loadingMessages={loadingMessages}
             emptyMessage={emptyMessagesMessage}
             unselectedMessage={unselectedTicketMessage}
-            draftReply={currentDraft}
+            draftReply={state.currentDraft}
             replyPlaceholder={replyPlaceholder}
-            isInternalNote={isInternalNote}
-            selectedMacro={selectedMacro}
-            selectedStatus={selectedStatus}
-            selectedAssignee={selectedAssignee}
+            isInternalNote={state.isInternalNote}
+            selectedMacro={state.selectedMacro}
+            selectedStatus={state.selectedStatus}
+            selectedAssignee={state.selectedAssignee}
             macroOptions={macroOptions}
             assigneeOptions={assigneeOptions}
-            sending={sending}
-            isMobileDetailView={mobileView === 'detail'}
-            messagesEndRef={messagesEndRef}
-            messagesScrollRef={messagesScrollRef}
-            onBackToList={() => setMobileView('list')}
-            onMessagesScroll={updateAutoScrollState}
-            onDraftReplyChange={handleDraftChange}
-            onIsInternalNoteChange={setIsInternalNote}
-            onSelectedMacroChange={setSelectedMacro}
-            onStatusChange={handleStatusChange}
-            onAssigneeChange={handleAssigneeChange}
-            onSend={handleSend}
+            sending={state.sending}
+            isMobileDetailView={state.mobileView === 'detail'}
+            messagesEndRef={refs.messagesEndRef}
+            messagesScrollRef={refs.messagesScrollRef}
+            onBackToList={handlers.handleBackToList}
+            onMessagesScroll={handlers.updateAutoScrollState}
+            onDraftReplyChange={handlers.handleDraftChange}
+            onIsInternalNoteChange={handlers.setIsInternalNote}
+            onSelectedMacroChange={handlers.setSelectedMacro}
+            onStatusChange={handlers.handleStatusChange}
+            onAssigneeChange={handlers.handleAssigneeChange}
+            onSend={handlers.handleSend}
           />
         </div>
       </div>

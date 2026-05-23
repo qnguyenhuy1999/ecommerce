@@ -14,84 +14,29 @@ import {
   SelectValue,
 } from '@ecom/core-ui'
 import { Sparkles, Ticket } from 'lucide-react'
-import { useMemo, useState } from 'react'
 import { SectionCard } from '../../atoms/SectionCard'
-import type {
-  VoucherDetailFormData,
-  VoucherDetailProps,
-  VoucherDetailType,
-} from './VoucherDetail.types'
+import type { VoucherDetailProps } from './VoucherDetail.types'
+import {
+  formatDateLabel,
+  getPreviewHeadline,
+  getTypeValueInputLabel,
+  normalizeVoucherCode,
+  voucherTypeOptions,
+} from './VoucherDetail.constants'
+import type { VoucherDetailFormData, VoucherDetailType } from './VoucherDetail.types'
+import { useVoucherDetailController } from './VoucherDetail.controller'
 
-type VoucherDetailClientProps = Required<
-  Pick<
-    VoucherDetailProps,
-    'title' | 'description' | 'breadcrumb' | 'cancelHref' | 'submitLabel' | 'initialData'
-  >
-> &
-  Pick<VoucherDetailProps, 'onSubmit' | 'onCancel'>
-
-const voucherTypeOptions: Array<{ value: VoucherDetailType; label: string }> = [
-  { value: 'PERCENT', label: 'Percent off' },
-  { value: 'AMOUNT', label: 'Amount off' },
-  { value: 'FREESHIP', label: 'Free shipping' },
-]
-
-function normalizeVoucherCode(code: string) {
-  return code
-    .toUpperCase()
-    .replace(/[^A-Z0-9-]/g, '')
-    .slice(0, 16)
-}
-
-function generateVoucherCode() {
-  const cryptoObj = globalThis.crypto
-  const random = cryptoObj.getRandomValues(new Uint32Array(1))[0]
-
-  if (random) {
-    return `SHOP${random.toString(36).toUpperCase().slice(0, 6)}`
-  }
-
-  const array = new Uint8Array(6)
-  return `SHOP${Array.from(array)
-    .map((x) => (x % 36).toString(36).toUpperCase())
-    .join('')}`
-}
-
-function formatDateLabel(value: string) {
-  if (!value) {
-    return 'No expiry'
-  }
-
-  const date = new Date(value)
-
-  if (Number.isNaN(date.getTime())) {
-    return 'No expiry'
-  }
-
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-  }).format(date)
-}
-
-function getPreviewHeadline(type: VoucherDetailType, value: string) {
-  if (type === 'FREESHIP') {
-    return 'Free shipping'
-  }
-
-  const amount = value.trim() || '0'
-  return type === 'PERCENT' ? `${amount}% off` : `$${amount} off`
-}
-
-function getTypeValueInputLabel(type: VoucherDetailType) {
-  switch (type) {
-    case 'PERCENT':
-      return 'Value *'
-    case 'AMOUNT':
-      return 'Amount off (USD) *'
-    case 'FREESHIP':
-      return 'Value'
-  }
+interface VoucherFormSectionProps {
+  form: VoucherDetailFormData
+  cancelHref: string
+  submitLabel: string
+  onCancel?: () => void
+  onGenerateCode: () => void
+  onTypeChange: (value: VoucherDetailType) => void
+  onFieldChange: <K extends keyof VoucherDetailFormData>(
+    key: K,
+    value: VoucherDetailFormData[K],
+  ) => void
 }
 
 function VoucherPreview({ form }: { form: VoucherDetailFormData }) {
@@ -123,19 +68,6 @@ function VoucherPreview({ form }: { form: VoucherDetailFormData }) {
       </article>
     </SectionCard>
   )
-}
-
-interface VoucherFormSectionProps {
-  form: VoucherDetailFormData
-  cancelHref: string
-  submitLabel: string
-  onCancel?: () => void
-  onGenerateCode: () => void
-  onTypeChange: (value: VoucherDetailType) => void
-  onFieldChange: <K extends keyof VoucherDetailFormData>(
-    key: K,
-    value: VoucherDetailFormData[K],
-  ) => void
 }
 
 function VoucherIdentitySection({
@@ -302,6 +234,14 @@ function VoucherFormActions({
   )
 }
 
+type VoucherDetailClientProps = Required<
+  Pick<
+    VoucherDetailProps,
+    'title' | 'description' | 'breadcrumb' | 'cancelHref' | 'submitLabel' | 'initialData'
+  >
+> &
+  Pick<VoucherDetailProps, 'onSubmit' | 'onCancel'>
+
 export function VoucherDetailClient({
   title,
   description,
@@ -312,37 +252,23 @@ export function VoucherDetailClient({
   onSubmit,
   onCancel,
 }: VoucherDetailClientProps) {
-  const [form, setForm] = useState(initialData)
-  const actionProps = {
-    ...(onCancel !== undefined ? { onCancel } : {}),
-  }
-
-  const preview = useMemo(() => <VoucherPreview form={form} />, [form])
-
-  function updateForm<K extends keyof VoucherDetailFormData>(
-    key: K,
-    value: VoucherDetailFormData[K],
-  ) {
-    setForm((current) => ({ ...current, [key]: value }))
-  }
-
-  function handleGenerateCode() {
-    updateForm('code', generateVoucherCode())
-  }
+  const { state, handlers } = useVoucherDetailController({ initialData, onSubmit, onCancel })
+  const { form } = state
+  const { updateForm, handleGenerateCode, handleTypeChange, handleSubmit } = handlers
 
   return (
     <ConsolePageLayout
       title={title}
       description={description}
       breadcrumb={breadcrumb}
-      aside={preview}
+      aside={<VoucherPreview form={form} />}
       stickyAside={false}
       contentClassName="items-start xl:grid-cols-[minmax(0,1fr)_24rem]"
     >
       <form
         onSubmit={(event) => {
           event.preventDefault()
-          onSubmit?.(form)
+          handleSubmit()
         }}
       >
         <SectionCard title="Details" className="rounded-[24px]">
@@ -350,7 +276,7 @@ export function VoucherDetailClient({
             <VoucherIdentitySection
               form={form}
               onGenerateCode={handleGenerateCode}
-              onTypeChange={(value) => updateForm('type', value)}
+              onTypeChange={handleTypeChange}
               onFieldChange={updateForm}
             />
             <VoucherPricingSection form={form} onFieldChange={updateForm} />
@@ -359,7 +285,7 @@ export function VoucherDetailClient({
             <VoucherFormActions
               cancelHref={cancelHref}
               submitLabel={submitLabel}
-              {...actionProps}
+              {...(handlers.onCancel !== undefined ? { onCancel: handlers.onCancel } : {})}
             />
           </div>
         </SectionCard>
