@@ -1,10 +1,14 @@
 'use client'
 
-import { Button, Sheet, SheetContent } from '@ecom/core-ui'
+import { Button, ReviewSheet } from '@ecom/core-ui'
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms'
 import { buildProductApprovalColumns } from './ProductApproval.columns'
-import { ProductApprovalDetailSheet, ProductApprovalModal } from './ProductApproval.components'
+import {
+  ProductApprovalDetailSheet,
+  ProductApprovalDetailSheetFooter,
+  ProductApprovalModal,
+} from './ProductApproval.components'
 import { useProductApprovalController } from './ProductApproval.controller'
 import type { ProductApprovalClientProps } from './ProductApproval.types'
 
@@ -79,21 +83,26 @@ export function ProductApprovalClient({
         />
       </SellerListPage.Header>
 
-      <Sheet open={controller.state.sheetOpen} onOpenChange={controller.setSheetOpen}>
-        <SheetContent
-          side="right"
-          showCloseButton={false}
-          className="w-full gap-0 p-0 sm:max-w-4xl"
+      {controller.detailItem ? (
+        <ReviewSheet
+          open={controller.state.sheetOpen}
+          onOpenChange={controller.setSheetOpen}
+          title={controller.detailItem.title}
+          subtitle={`${controller.detailItem.sellerName} · submitted ${controller.detailItem.submittedAtLabel}`}
+          className="sm:max-w-4xl"
+          footer={
+            <ProductApprovalDetailSheetFooter
+              item={controller.detailItem}
+              approveLabel={approveLabel}
+              rejectLabel={rejectLabel}
+              onApprove={(id) => controller.openAction('approve', [id])}
+              onReject={(id) => controller.openAction('reject', [id])}
+            />
+          }
         >
-          <ProductApprovalDetailSheet
-            item={controller.detailItem}
-            approveLabel={approveLabel}
-            rejectLabel={rejectLabel}
-            onApprove={(id) => controller.openAction('approve', [id])}
-            onReject={(id) => controller.openAction('reject', [id])}
-          />
-        </SheetContent>
-      </Sheet>
+          <ProductApprovalDetailSheet item={controller.detailItem} />
+        </ReviewSheet>
+      ) : null}
 
       {controller.state.pendingAction ? (
         <ProductApprovalModal

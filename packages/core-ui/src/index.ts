@@ -36,6 +36,7 @@ export * from './molecules/StatCard/StatCard.fixtures'
 export * from './organisms/Drawer'
 export * from './organisms/DataTable'
 export * from './organisms/Sheet'
+export * from './organisms/ReviewSheet'
 export * from './organisms/Sonner'
 export * from './organisms/Sidebar'
 

@@ -7,16 +7,12 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  ReviewSheet,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
   Typography,
 } from '@ecom/core-ui'
 import { useMemo } from 'react'
@@ -101,104 +97,67 @@ function ReturnCaseDetail({
   row,
   refundMethod,
   onRefundMethodChange,
-  onApprove,
-  onPartial,
-  onReject,
 }: {
   row: ReturnRow
   refundMethod: RefundMethod
   onRefundMethodChange: (method: RefundMethod) => void
-  onApprove: () => void
-  onPartial: () => void
-  onReject: () => void
 }) {
   return (
-    <>
-      <SheetHeader className="pb-4">
-        <SheetTitle className="text-foreground text-lg font-bold">{row.caseId}</SheetTitle>
-        <SheetDescription className="text-muted-foreground text-sm">
-          Order {row.orderNumber} · {row.buyerName}
-        </SheetDescription>
-      </SheetHeader>
-
-      <div className="flex flex-col gap-4 py-2">
-        <div className="bg-card border-border rounded-2xl border p-4">
-          <Typography variant="label" className="text-foreground mb-2">
-            Reason
-          </Typography>
-          <Typography variant="muted">{row.reason}</Typography>
-        </div>
-
-        {row.evidence && row.evidence.length > 0 && (
-          <div className="bg-card border-border rounded-2xl border p-4">
-            <Typography variant="label" className="text-foreground mb-3">
-              Evidence
-            </Typography>
-            <div className="flex flex-wrap gap-2">
-              {row.evidence.map((src, index) => (
-                <img
-                  key={index}
-                  src={src}
-                  alt={`Evidence ${index + 1}`}
-                  className="h-32 w-32 rounded-xl object-cover"
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="bg-card border-border rounded-2xl border p-4">
-          <Typography variant="label" className="text-foreground mb-4">
-            Decision
-          </Typography>
-          <div className="mb-4 flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Requested amount</span>
-            <span className="text-foreground font-semibold">
-              {returnsMoneyFormatter.format(row.amount)}
-            </span>
-          </div>
-          <Select
-            value={refundMethod}
-            onValueChange={(value) => onRefundMethodChange(value as RefundMethod)}
-          >
-            <SelectTrigger className="border-input mb-4 w-full rounded-xl">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {(Object.entries(refundMethodLabels) as [RefundMethod, string][]).map(
-                ([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ),
-              )}
-            </SelectContent>
-          </Select>
-          <div className="flex gap-2">
-            <Button
-              className="bg-success text-success-foreground hover:bg-success/90 flex-1 rounded-full font-semibold"
-              onClick={onApprove}
-            >
-              Approve full
-            </Button>
-            <Button
-              variant="outline"
-              className="border-input flex-1 rounded-full font-medium"
-              onClick={onPartial}
-            >
-              Partial
-            </Button>
-            <Button
-              variant="outline"
-              className="border-destructive/30 text-destructive hover:bg-destructive/10 flex-1 rounded-full font-medium"
-              onClick={onReject}
-            >
-              Reject
-            </Button>
-          </div>
-        </div>
+    <div className="flex flex-col gap-4 py-2">
+      <div className="bg-card border-border rounded-2xl border p-4">
+        <Typography variant="label" className="text-foreground mb-2">
+          Reason
+        </Typography>
+        <Typography variant="muted">{row.reason}</Typography>
       </div>
-    </>
+
+      {row.evidence && row.evidence.length > 0 && (
+        <div className="bg-card border-border rounded-2xl border p-4">
+          <Typography variant="label" className="text-foreground mb-3">
+            Evidence
+          </Typography>
+          <div className="flex flex-wrap gap-2">
+            {row.evidence.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={`Evidence ${index + 1}`}
+                className="h-32 w-32 rounded-xl object-cover"
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="bg-card border-border rounded-2xl border p-4">
+        <Typography variant="label" className="text-foreground mb-4">
+          Decision
+        </Typography>
+        <div className="mb-4 flex items-center justify-between text-sm">
+          <span className="text-muted-foreground">Requested amount</span>
+          <span className="text-foreground font-semibold">
+            {returnsMoneyFormatter.format(row.amount)}
+          </span>
+        </div>
+        <Select
+          value={refundMethod}
+          onValueChange={(value) => onRefundMethodChange(value as RefundMethod)}
+        >
+          <SelectTrigger className="border-input mb-4 w-full rounded-xl">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {(Object.entries(refundMethodLabels) as [RefundMethod, string][]).map(
+              ([value, label]) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ),
+            )}
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
   )
 }
 
@@ -276,20 +235,45 @@ export function ReturnsRefundsClient({
         emptyMessage={emptyMessage}
       />
 
-      <Sheet open={state.sheetOpen} onOpenChange={handlers.setSheetOpen}>
-        <SheetContent className="w-full max-w-md overflow-y-auto px-4">
-          {state.selectedCase ? (
-            <ReturnCaseDetail
-              row={state.selectedCase}
-              refundMethod={state.refundMethod}
-              onRefundMethodChange={handlers.setRefundMethod}
-              onApprove={handlers.handleApproveRequest}
-              onPartial={handlers.handlePartial}
-              onReject={handlers.handleReject}
-            />
-          ) : null}
-        </SheetContent>
-      </Sheet>
+      {state.selectedCase ? (
+        <ReviewSheet
+          open={state.sheetOpen}
+          onOpenChange={handlers.setSheetOpen}
+          title={state.selectedCase.caseId}
+          subtitle={`Order ${state.selectedCase.orderNumber} · ${state.selectedCase.buyerName}`}
+          className="sm:max-w-md"
+          footer={
+            <div className="flex gap-2">
+              <Button
+                className="bg-success text-success-foreground hover:bg-success/90 flex-1 rounded-full font-semibold"
+                onClick={handlers.handleApproveRequest}
+              >
+                Approve full
+              </Button>
+              <Button
+                variant="outline"
+                className="border-input flex-1 rounded-full font-medium"
+                onClick={handlers.handlePartial}
+              >
+                Partial
+              </Button>
+              <Button
+                variant="outline"
+                className="border-destructive/30 text-destructive hover:bg-destructive/10 flex-1 rounded-full font-medium"
+                onClick={handlers.handleReject}
+              >
+                Reject
+              </Button>
+            </div>
+          }
+        >
+          <ReturnCaseDetail
+            row={state.selectedCase}
+            refundMethod={state.refundMethod}
+            onRefundMethodChange={handlers.setRefundMethod}
+          />
+        </ReviewSheet>
+      ) : null}
 
       <ApproveReturnModal
         open={state.approveDialogOpen}

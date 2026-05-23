@@ -11,10 +11,6 @@ import {
   DialogHeader,
   DialogTitle,
   Label,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
   Textarea,
   Typography,
 } from '@ecom/core-ui'
@@ -176,32 +172,13 @@ export function ProductApprovalModal({
   )
 }
 
-export function ProductApprovalDetailSheet({
-  item,
-  approveLabel,
-  rejectLabel,
-  onApprove,
-  onReject,
-}: {
-  item: ProductApprovalItem | null
-  approveLabel: string
-  rejectLabel: string
-  onApprove: (id: string) => void
-  onReject: (id: string) => void
-}) {
+export function ProductApprovalDetailSheet({ item }: { item: ProductApprovalItem | null }) {
   if (!item) {
     return null
   }
 
   return (
     <>
-      <SheetHeader>
-        <SheetTitle className="text-foreground text-lg font-bold">{item.title}</SheetTitle>
-        <SheetDescription className="text-muted-foreground text-sm">
-          {item.sellerName} · submitted {item.submittedAtLabel}
-        </SheetDescription>
-      </SheetHeader>
-
       <div className="flex flex-col gap-6 px-4">
         <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
           {item.images.map((image) => (
@@ -247,21 +224,37 @@ export function ProductApprovalDetailSheet({
           </div>
         </div>
       </div>
-
-      <SheetFooter className="mt-0 flex-row justify-end gap-2 px-8 py-6">
-        <Button type="button" variant="destructive" size="lg" onClick={() => onReject(item.id)}>
-          {rejectLabel}
-        </Button>
-        <Button
-          type="button"
-          size="lg"
-          className={productApprovalStatusToneClassNames.APPROVED}
-          onClick={() => onApprove(item.id)}
-        >
-          {approveLabel}
-        </Button>
-      </SheetFooter>
     </>
+  )
+}
+
+export function ProductApprovalDetailSheetFooter({
+  item,
+  approveLabel,
+  rejectLabel,
+  onApprove,
+  onReject,
+}: {
+  item: ProductApprovalItem
+  approveLabel: string
+  rejectLabel: string
+  onApprove: (id: string) => void
+  onReject: (id: string) => void
+}) {
+  return (
+    <div className="flex justify-end gap-2">
+      <Button type="button" variant="destructive" size="lg" onClick={() => onReject(item.id)}>
+        {rejectLabel}
+      </Button>
+      <Button
+        type="button"
+        size="lg"
+        className={productApprovalStatusToneClassNames.APPROVED}
+        onClick={() => onApprove(item.id)}
+      >
+        {approveLabel}
+      </Button>
+    </div>
   )
 }
 
