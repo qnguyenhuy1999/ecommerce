@@ -7,4 +7,4 @@ async function bootstrap() {
   app.enableShutdownHooks()
 }
 
-bootstrap()
+void bootstrap()
