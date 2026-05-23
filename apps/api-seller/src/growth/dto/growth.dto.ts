@@ -1,34 +1,5 @@
-import { IsString, IsOptional, IsNumber, IsInt, IsDateString, IsBoolean } from 'class-validator'
+import { IsString, IsOptional, IsNumber, IsDateString, IsBoolean } from 'class-validator'
 import { Type } from 'class-transformer'
-
-export class CreateReferralProgramDto {
-  @IsString()
-  name!: string
-
-  @IsOptional()
-  @IsString()
-  description?: string
-
-  @IsInt()
-  @Type(() => Number)
-  referrerReward!: number
-
-  @IsInt()
-  @Type(() => Number)
-  refereeReward!: number
-
-  @IsOptional()
-  @IsString()
-  rewardType?: string
-
-  @IsOptional()
-  @IsDateString()
-  startsAt?: string
-
-  @IsOptional()
-  @IsDateString()
-  endsAt?: string
-}
 
 export class CreateExperimentDto {
   @IsString()

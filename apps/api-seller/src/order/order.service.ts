@@ -4,7 +4,7 @@ import { OrderStatus, InventoryTransactionType } from '@ecom/contracts'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { OrderQueryDto } from './dto/order-query.dto'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { OrderRepository } from './repositories/order.repository'
+import type { OrderRepository } from './repositories/order.repository'
 
 const VALID_TRANSITIONS: Record<OrderStatus, readonly OrderStatus[]> = {
   [OrderStatus.PENDING]: [OrderStatus.CONFIRMED, OrderStatus.CANCELLED],
@@ -66,7 +66,7 @@ export class OrderService {
     sellerOrderId: string,
     newStatus: OrderStatus,
     note?: string,
-    performedBy?: string,
+    _performedBy?: string,
   ) {
     const sellerOrder = await this.orderRepository.findOne({ id: sellerOrderId, shopId })
 
@@ -97,10 +97,6 @@ export class OrderService {
 
       if (note !== undefined) {
         auditData.note = note
-      }
-
-      if (performedBy !== undefined) {
-        auditData.performedBy = performedBy
       }
 
       await tx.orderAuditLog.create({ data: auditData })

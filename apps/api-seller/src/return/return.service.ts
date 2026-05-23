@@ -1,5 +1,5 @@
 import { ReturnStatus } from '@ecom/contracts/enums'
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
@@ -73,7 +73,7 @@ export class ReturnService {
     returnId: string,
     newStatus: ReturnStatus,
     note?: string,
-    performedBy?: string,
+    _performedBy?: string,
   ) {
     const returnRequest = await this.prisma.returnRequest.findFirst({
       where: { id: returnId, shopId },
@@ -116,10 +116,6 @@ export class ReturnService {
         timelineData.note = note
       }
 
-      if (performedBy !== undefined) {
-        timelineData.performedBy = performedBy
-      }
-
       await tx.returnTimeline.create({ data: timelineData })
 
       return updated
@@ -129,7 +125,7 @@ export class ReturnService {
   async addEvidence(
     shopId: string,
     returnId: string,
-    uploadedBy: string,
+    _uploadedBy: string,
     url: string,
     description?: string,
   ) {
@@ -143,7 +139,6 @@ export class ReturnService {
 
     const evidenceData: Prisma.ReturnEvidenceUncheckedCreateInput = {
       returnRequestId: returnId,
-      uploadedBy,
       url,
     }
 

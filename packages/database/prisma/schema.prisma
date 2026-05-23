@@ -963,14 +963,14 @@ model ReturnItem {
 model ReturnEvidence {
   id              String  @id @default(uuid()) @db.Uuid
   returnRequestId String  @map("return_request_id") @db.Uuid
-  uploadedBy      String  @map("uploaded_by") @db.Uuid
+  uploadedBy      String? @map("uploaded_by") @db.Uuid
   url             String
   description     String? @db.Text
 
   createdAt DateTime @default(now()) @map("created_at")
 
-  returnRequest    ReturnRequest @relation(fields: [returnRequestId], references: [id], onDelete: Cascade)
-  uploadedByAdmin Admin         @relation("ReturnEvidenceUploadedBy", fields: [uploadedBy], references: [id], onDelete: Restrict)
+  returnRequest   ReturnRequest @relation(fields: [returnRequestId], references: [id], onDelete: Cascade)
+  uploadedByAdmin Admin?        @relation("ReturnEvidenceUploadedBy", fields: [uploadedBy], references: [id], onDelete: SetNull)
 
   @@index([returnRequestId])
   @@map("return_evidence")

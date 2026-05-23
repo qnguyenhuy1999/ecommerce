@@ -45,7 +45,7 @@ export class FlashSaleService {
     return campaign
   }
 
-  async createCampaign(dto: CreateFlashSaleCampaignDto, createdBy?: string) {
+  async createCampaign(dto: CreateFlashSaleCampaignDto) {
     const startsAt = new Date(dto.startsAt)
     const endsAt = new Date(dto.endsAt)
 
@@ -63,10 +63,6 @@ export class FlashSaleService {
 
     if (dto.description !== undefined) {
       data.description = dto.description
-    }
-
-    if (createdBy !== undefined) {
-      data.createdBy = createdBy
     }
 
     return this.prisma.flashSaleCampaign.create({ data })
@@ -185,7 +181,7 @@ export class FlashSaleService {
   async approveSlot(slotId: string) {
     return this.prisma.flashSaleSlot.update({
       where: { id: slotId },
-      data: { status: 'APPROVED' as const },
+      data: { status: FlashSaleSlotStatus.APPROVED },
     })
   }
 

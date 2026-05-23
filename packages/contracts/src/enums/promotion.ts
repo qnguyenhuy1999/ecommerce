@@ -67,3 +67,13 @@ export const PlatformVoucherStatus = {
 
 export type PlatformVoucherStatus =
   (typeof PlatformVoucherStatus)[keyof typeof PlatformVoucherStatus]
+
+// ─── Affiliate Status ───────────────────────────────────────────
+export const AffiliateStatus = {
+  PENDING: 'PENDING',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  SUSPENDED: 'SUSPENDED',
+} as const
+
+export type AffiliateStatus = (typeof AffiliateStatus)[keyof typeof AffiliateStatus]

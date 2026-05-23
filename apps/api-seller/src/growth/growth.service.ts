@@ -1,4 +1,4 @@
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
@@ -6,29 +6,11 @@ import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/pri
 import { withDefined } from '@ecom/shared/utils'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { randomBytes } from 'node:crypto'
-import type {
-  CreateCampaignDto,
-  CreateExperimentDto,
-  CreateFeatureFlagDto,
-  CreateReferralProgramDto,
-} from './dto/growth.dto'
+import type { CreateCampaignDto, CreateExperimentDto, CreateFeatureFlagDto } from './dto/growth.dto'
 
 @Injectable()
 export class GrowthService {
   constructor(private readonly prisma: PrismaService) {}
-  // --- Referral Program ---
-
-  listReferralPrograms(query: OffsetPaginationDto) {
-    const { limit = PAGINATION_DEFAULTS.DEFAULT_LIMIT } = query
-    // ReferralProgram model missing in schema
-    return buildOffsetResponse([], 1, limit, 0)
-  }
-
-  createReferralProgram(_dto: CreateReferralProgramDto) {
-    // ReferralProgram model missing in schema
-    throw new BadRequestException('Referral program not implemented in schema')
-  }
-
   async createReferral(_programId: string, referrerId: string) {
     const code = randomBytes(6).toString('hex')
 
