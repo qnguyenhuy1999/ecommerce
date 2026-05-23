@@ -1,7 +1,9 @@
 'use client'
 
-import { RolesPermissions, rolesPermissionsDefaultProps } from '@ecom/ui-admin'
+import { RolesPermissions } from '@ecom/ui-admin'
+import { useRolesPermissionsAdapter } from '@/features/roles/hooks/use-roles-permissions-adapter'
 
 export function RolesPermissionsPageClient() {
-  return <RolesPermissions {...rolesPermissionsDefaultProps} />
+  const { loading: _loading, error: _error, ...props } = useRolesPermissionsAdapter()
+  return <RolesPermissions {...props} />
 }

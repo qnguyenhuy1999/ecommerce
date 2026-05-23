@@ -1,7 +1,9 @@
 'use client'
 
-import { CommissionFees, commissionFeesDefaultProps } from '@ecom/ui-admin'
+import { CommissionFees } from '@ecom/ui-admin'
+import { useCommissionFeesAdapter } from '@/features/commission-fees/hooks/use-commission-fees-adapter'
 
 export function CommissionFeesPageClient() {
-  return <CommissionFees {...commissionFeesDefaultProps} />
+  const { commissionFeesProps } = useCommissionFeesAdapter()
+  return <CommissionFees {...commissionFeesProps} />
 }

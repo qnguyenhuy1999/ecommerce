@@ -1,7 +1,9 @@
 'use client'
 
-import { Support, supportDefaultProps } from '@ecom/ui-admin'
+import { Support } from '@ecom/ui-admin'
+import { useSupportAdapter } from '@/features/support/hooks/use-support-adapter'
 
 export function SupportPageClient() {
-  return <Support {...supportDefaultProps} />
+  const { loading: _loading, error: _error, props } = useSupportAdapter()
+  return <Support {...props} />
 }

@@ -17,6 +17,9 @@ import { ProductsModule } from './products/products.module'
 import { PromotionsModule } from './promotions/promotions.module'
 import { RefundsModule } from './refunds/refunds.module'
 import { ReviewsModule } from './reviews/reviews.module'
+import { RolesModule } from './roles/roles.module'
+import { CommissionFeesModule } from './commission-fees/commission-fees.module'
+import { SupportModule } from './support/support.module'
 import { SellersModule } from './sellers/sellers.module'
 import { UsersModule } from './users/users.module'
 
@@ -50,6 +53,9 @@ import { UsersModule } from './users/users.module'
     BannersModule,
     NotificationsModule,
     ReviewsModule,
+    RolesModule,
+    CommissionFeesModule,
+    SupportModule,
   ],
   providers: [
     {
