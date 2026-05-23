@@ -1,11 +1,25 @@
-import { Controller, Get, UseGuards } from '@nestjs/common'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Query,
+  UseGuards,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common'
+import { ApiTags } from '@nestjs/swagger'
 import type { SessionData } from '@ecom/auth'
-import { ApiAuth, ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
-import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import { AuthGuard } from '../auth/guards/auth.guard'
-import { NotificationsService } from './notifications.service'
-import { UnreadCountDto } from './dto/notification.dto'
+import { CurrentUser } from '../auth/decorators/current-user.decorator'
+import {
+  ApiOkResponseData,
+  ApiPaginatedResponse,
+  ApiErrorResponses,
+  ApiAuth,
+} from '@ecom/nestjs-core/openapi'
+import type { NotificationsService } from './notifications.service'
+import type { NotificationQueryDto } from './dto/notification.dto'
 
 @ApiTags('Storefront/Notifications')
 @ApiAuth()
@@ -15,10 +29,30 @@ import { UnreadCountDto } from './dto/notification.dto'
 export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
+  @Get()
+  @ApiPaginatedResponse(Object)
+  async list(@CurrentUser() user: SessionData, @Query() query: NotificationQueryDto) {
+    return this.notificationsService.list(user.userId, query)
+  }
+
   @Get('unread-count')
-  @ApiOperation({ summary: 'Get unread message count for current user' })
-  @ApiOkResponseData(UnreadCountDto)
-  async getUnreadCount(@CurrentUser() user: SessionData) {
-    return this.notificationsService.getUnreadCount(user)
+  @ApiOkResponseData(Object)
+  async unreadCount(@CurrentUser() user: SessionData) {
+    return this.notificationsService.getUnreadCount(user.userId)
+  }
+
+  @Post(':id/read')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponseData(Object)
+  async markAsRead(@CurrentUser() user: SessionData, @Param('id') id: string) {
+    await this.notificationsService.markAsRead(user.userId, id)
+    return { message: 'Marked as read' }
+  }
+
+  @Post('read-all')
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponseData(Object)
+  async markAllAsRead(@CurrentUser() user: SessionData) {
+    return this.notificationsService.markAllAsRead(user.userId)
   }
 }

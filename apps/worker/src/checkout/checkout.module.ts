@@ -6,6 +6,7 @@ import { QUEUES } from '@ecom/shared'
 @Module({
   imports: [
     BullModule.registerQueue({ name: QUEUES.ORDER_PROCESSING }),
+    BullModule.registerQueue({ name: QUEUES.NOTIFICATION }),
   ],
   providers: [CheckoutProcessor],
 })

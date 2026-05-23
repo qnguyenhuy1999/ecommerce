@@ -28,6 +28,18 @@ export const NotificationChannel = {
 
 export type NotificationChannel = (typeof NotificationChannel)[keyof typeof NotificationChannel]
 
+// ─── User Notification Type ────────────────────────────────────
+export const UserNotificationType = {
+  ORDER_CONFIRMED: 'ORDER_CONFIRMED',
+  ORDER_SHIPPED: 'ORDER_SHIPPED',
+  ORDER_DELIVERED: 'ORDER_DELIVERED',
+  ORDER_CANCELLED: 'ORDER_CANCELLED',
+  RETURN_APPROVED: 'RETURN_APPROVED',
+  SYSTEM: 'SYSTEM',
+} as const
+
+export type UserNotificationType = (typeof UserNotificationType)[keyof typeof UserNotificationType]
+
 // ─── Admin Notification Status ──────────────────────────────────
 export const AdminNotificationStatus = {
   DRAFT: 'DRAFT',

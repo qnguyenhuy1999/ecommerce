@@ -1,8 +1,9 @@
 import { Logger } from '@nestjs/common'
-import { Processor, WorkerHost } from '@nestjs/bullmq'
-import { Job } from 'bullmq'
-import { PrismaService } from '@ecom/database'
-import { QUEUES } from '@ecom/shared'
+import { InjectQueue, Processor, WorkerHost } from '@nestjs/bullmq'
+import type { Job, Queue } from 'bullmq'
+import type { PrismaService } from '@ecom/database'
+import { QUEUES, NOTIFICATION_JOBS } from '@ecom/shared'
+import type { SellerNotificationJobPayload, UserNotificationJobPayload } from '@ecom/shared'
 
 interface OrderJobData {
   sessionId: string
@@ -33,13 +34,18 @@ interface CartItemWithVariant {
 export class CheckoutProcessor extends WorkerHost {
   private readonly logger = new Logger(CheckoutProcessor.name)
 
-  constructor(private readonly prisma: PrismaService) {
+  constructor(
+    private readonly prisma: PrismaService,
+    @InjectQueue(QUEUES.NOTIFICATION) private readonly notificationQueue: Queue,
+  ) {
     super()
   }
 
   async process(job: Job<OrderJobData>) {
     const { sessionId, orderId, userId } = job.data
-    this.logger.log(`Processing order ${orderId} for session ${sessionId} (attempt ${job.attemptsMade + 1})`)
+    this.logger.log(
+      `Processing order ${orderId} for session ${sessionId} (attempt ${job.attemptsMade + 1})`,
+    )
 
     const session = await this.prisma.checkoutSession.findUnique({
       where: { id: sessionId },
@@ -94,6 +100,7 @@ export class CheckoutProcessor extends WorkerHost {
     }
 
     const items = cart.items as CartItemWithVariant[]
+    const shopMap = new Map<string, CartItemWithVariant[]>()
 
     try {
       await this.prisma.$transaction(async (tx) => {
@@ -179,7 +186,6 @@ export class CheckoutProcessor extends WorkerHost {
         })
 
         // Step 3: Split items by shopId → create SellerOrder per shop
-        const shopMap = new Map<string, CartItemWithVariant[]>()
         for (const item of items) {
           const existing = shopMap.get(item.product.shopId) ?? []
           existing.push(item)
@@ -188,9 +194,10 @@ export class CheckoutProcessor extends WorkerHost {
 
         for (const [shopId, shopItems] of shopMap) {
           const subtotal = shopItems.reduce((sum, item) => {
-            const price = item.product.hasVariants && item.variant
-              ? item.variant.price.toNumber()
-              : item.product.basePrice?.toNumber() ?? 0
+            const price =
+              item.product.hasVariants && item.variant
+                ? item.variant.price.toNumber()
+                : (item.product.basePrice?.toNumber() ?? 0)
             return sum + price * item.quantity
           }, 0)
 
@@ -204,9 +211,10 @@ export class CheckoutProcessor extends WorkerHost {
           })
 
           for (const item of shopItems) {
-            const unitPrice = item.product.hasVariants && item.variant
-              ? item.variant.price.toNumber()
-              : item.product.basePrice?.toNumber() ?? 0
+            const unitPrice =
+              item.product.hasVariants && item.variant
+                ? item.variant.price.toNumber()
+                : (item.product.basePrice?.toNumber() ?? 0)
 
             const productDetails = await tx.product.findUnique({
               where: { id: item.product.id },
@@ -251,15 +259,25 @@ export class CheckoutProcessor extends WorkerHost {
         await tx.cartItem.deleteMany({ where: { cartId: cart.id } })
       })
 
-      await this.prisma.checkoutDistributionLog.create({
-        data: {
-          sessionId,
-          orderId,
-          event: 'NOTIFICATION_SENT',
-          status: 'PENDING',
-          payload: { note: 'Notification enqueue placeholder' },
-        },
-      })
+      for (const shopId of shopMap.keys()) {
+        await this.notificationQueue.add(NOTIFICATION_JOBS.SELLER_NOTIFICATION, {
+          kind: 'seller',
+          shopId,
+          type: 'NEW_ORDER',
+          title: 'New Order Received',
+          message: `Order ${orderId} has been placed`,
+        } satisfies SellerNotificationJobPayload)
+      }
+
+      await this.notificationQueue.add(NOTIFICATION_JOBS.USER_NOTIFICATION, {
+        kind: 'user',
+        userId,
+        type: 'ORDER_CONFIRMED',
+        title: 'Order Confirmed',
+        message: `Your order ${orderId} has been confirmed`,
+      } satisfies UserNotificationJobPayload)
+
+      this.logger.log(`Notifications enqueued for order ${orderId}`)
 
       this.logger.log(`Order ${orderId} processed successfully`)
       return { orderId }

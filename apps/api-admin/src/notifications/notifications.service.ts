@@ -1,12 +1,16 @@
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { type AdminNotificationStatus, type NotificationChannel, type Prisma } from '@ecom/database'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import { Injectable, NotFoundException } from '@nestjs/common'
+import type { NotificationsProducer } from './notifications.producer'
 
 @Injectable()
 export class NotificationsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly notificationsProducer: NotificationsProducer,
+  ) {}
   async findAll(query: { page?: number; limit?: number; status?: AdminNotificationStatus }) {
     const where: Prisma.AdminNotificationWhereInput = {}
     if (query.status) where.status = query.status
@@ -43,10 +47,18 @@ export class NotificationsService {
 
   async send(id: string, adminId: string) {
     await this.findById(id)
-    return this.prisma.adminNotification.update({
+    const updated = await this.prisma.adminNotification.update({
       where: { id },
       data: { status: 'SENT', sentAt: new Date(), sentBy: adminId },
     })
+    await this.notificationsProducer.enqueueAdminBroadcast({
+      kind: 'admin',
+      notificationId: id,
+      title: updated.title,
+      message: updated.message,
+      channel: updated.channel,
+    })
+    return updated
   }
 
   async findTemplates() {
