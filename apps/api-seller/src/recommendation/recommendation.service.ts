@@ -1,6 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-import type { PrismaService} from '@ecom/database';
-import { type Prisma } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { ProductStatus } from '@ecom/contracts'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 
@@ -31,7 +30,7 @@ export class RecommendationService {
         metadata: {
           ...(data.metadata ?? {}),
           ...(data.searchQuery ? { searchQuery: data.searchQuery } : {}),
-        } as Prisma.InputJsonValue,
+        },
       },
     })
   }

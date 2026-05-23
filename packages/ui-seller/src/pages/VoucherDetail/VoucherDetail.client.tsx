@@ -3,10 +3,12 @@
 import {
   Button,
   ConsolePageLayout,
+  CurrencyInput,
   Field,
   FieldContent,
   FieldLabel,
   Input,
+  NumberInput,
   Select,
   SelectContent,
   SelectItem,
@@ -25,6 +27,19 @@ import {
 } from './VoucherDetail.constants'
 import type { VoucherDetailFormData, VoucherDetailType } from './VoucherDetail.types'
 import { useVoucherDetailController } from './VoucherDetail.controller'
+
+function toNumberInputValue(value: string) {
+  if (value.trim() === '') {
+    return ''
+  }
+
+  const parsed = Number(value)
+  return Number.isNaN(parsed) ? '' : parsed
+}
+
+function toStringValue(value: number | '') {
+  return value === '' ? '' : String(value)
+}
 
 interface VoucherFormSectionProps {
   form: VoucherDetailFormData
@@ -123,29 +138,38 @@ function VoucherPricingSection({
   form,
   onFieldChange,
 }: Pick<VoucherFormSectionProps, 'form' | 'onFieldChange'>) {
+  const valueInput =
+    form.type === 'AMOUNT' ? (
+      <CurrencyInput
+        min={0}
+        value={toNumberInputValue(form.value)}
+        onChange={(value) => onFieldChange('value', toStringValue(value))}
+      />
+    ) : (
+      <NumberInput
+        min={0}
+        max={100}
+        step={0.1}
+        value={form.type === 'FREESHIP' ? 0 : toNumberInputValue(form.value)}
+        disabled={form.type === 'FREESHIP'}
+        onChange={(value) => onFieldChange('value', toStringValue(value))}
+      />
+    )
+
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <Field>
         <FieldLabel>{getTypeValueInputLabel(form.type)}</FieldLabel>
-        <FieldContent>
-          <Input
-            type="number"
-            min="0"
-            value={form.type === 'FREESHIP' ? '0' : form.value}
-            disabled={form.type === 'FREESHIP'}
-            onChange={(event) => onFieldChange('value', event.target.value)}
-          />
-        </FieldContent>
+        <FieldContent>{valueInput}</FieldContent>
       </Field>
 
       <Field>
         <FieldLabel>Minimum spend (USD)</FieldLabel>
         <FieldContent>
-          <Input
-            type="number"
-            min="0"
-            value={form.minSpend}
-            onChange={(event) => onFieldChange('minSpend', event.target.value)}
+          <CurrencyInput
+            min={0}
+            value={toNumberInputValue(form.minSpend)}
+            onChange={(value) => onFieldChange('minSpend', toStringValue(value))}
           />
         </FieldContent>
       </Field>
@@ -162,11 +186,11 @@ function VoucherLimitsSection({
       <Field>
         <FieldLabel>Quota</FieldLabel>
         <FieldContent>
-          <Input
-            type="number"
-            min="0"
-            value={form.quota}
-            onChange={(event) => onFieldChange('quota', event.target.value)}
+          <NumberInput
+            min={0}
+            step={1}
+            value={toNumberInputValue(form.quota)}
+            onChange={(value) => onFieldChange('quota', toStringValue(value))}
           />
         </FieldContent>
       </Field>
@@ -174,11 +198,11 @@ function VoucherLimitsSection({
       <Field>
         <FieldLabel>Per-buyer limit</FieldLabel>
         <FieldContent>
-          <Input
-            type="number"
-            min="1"
-            value={form.perBuyerLimit}
-            onChange={(event) => onFieldChange('perBuyerLimit', event.target.value)}
+          <NumberInput
+            min={1}
+            step={1}
+            value={toNumberInputValue(form.perBuyerLimit)}
+            onChange={(value) => onFieldChange('perBuyerLimit', toStringValue(value))}
           />
         </FieldContent>
       </Field>

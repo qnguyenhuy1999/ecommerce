@@ -2,26 +2,36 @@
 
 import {
   Button,
+  DatePicker,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
+  NumberInput,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
   Typography,
+  type UseFormReturn,
+  useForm,
+  zodResolver,
 } from '@ecom/core-ui'
 import { Plus } from 'lucide-react'
-import { useCallback, useState } from 'react'
 import { SellerListPage } from '../../organisms'
 import { COMMISSION_SECTION_TITLES, SCOPE_LABELS, TODAY } from './CommissionFees.constants'
 import { useCommissionFeesController } from './CommissionFees.controller'
+import { addRuleSchema, type AddRuleSchemaValues } from './CommissionFees.schema'
 import type {
   CommissionFeesProps,
   CommissionRule,
@@ -34,15 +44,7 @@ export interface DraftValues {
   paymentFeePct: string
 }
 
-interface AddRuleFormState {
-  scope: CommissionRuleScope
-  name: string
-  commissionPct: string
-  paymentFeePct: string
-  effectiveFrom: string
-}
-
-function getInitialForm(): AddRuleFormState {
+function getInitialFormValues(): AddRuleSchemaValues {
   return {
     scope: 'category',
     name: '',
@@ -52,121 +54,98 @@ function getInitialForm(): AddRuleFormState {
   }
 }
 
-function AddRuleFormFields({
+function toNumberInputValue(value: string) {
+  if (value.trim() === '') {
+    return ''
+  }
+
+  const parsed = Number(value)
+  return Number.isNaN(parsed) ? '' : parsed
+}
+
+function toStringValue(value: number | '') {
+  return value === '' ? '' : String(value)
+}
+
+function FeeFieldsGrid({
   form,
-  set,
   sampleOrderAmount,
-  needsName,
 }: {
-  form: AddRuleFormState
-  set: <K extends keyof AddRuleFormState>(key: K, value: AddRuleFormState[K]) => void
+  form: UseFormReturn<AddRuleSchemaValues>
   sampleOrderAmount: number
-  needsName: boolean
 }) {
-  const commission = parseFloat(form.commissionPct) || 0
-  const paymentFee = parseFloat(form.paymentFeePct) || 0
+  const commissionPct = form.watch('commissionPct')
+  const paymentFeePct = form.watch('paymentFeePct')
+  const commission = parseFloat(commissionPct) || 0
+  const paymentFee = parseFloat(paymentFeePct) || 0
   const sellerReceives = sampleOrderAmount * (1 - commission / 100 - paymentFee / 100)
 
   return (
-    <div className="space-y-4">
+    <>
       <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="acr-scope">
-            Scope <span className="text-destructive">*</span>
-          </Label>
-          <Select value={form.scope} onValueChange={(v) => set('scope', v as CommissionRuleScope)}>
-            <SelectTrigger id="acr-scope" className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {(Object.entries(SCOPE_LABELS) as [CommissionRuleScope, string][]).map(
-                ([value, label]) => (
-                  <SelectItem key={value} value={value}>
-                    {label}
-                  </SelectItem>
-                ),
-              )}
-            </SelectContent>
-          </Select>
-        </div>
+        <FormField
+          control={form.control}
+          name="commissionPct"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Commission <span className="text-destructive">*</span>
+              </FormLabel>
+              <div className="relative">
+                <FormControl>
+                  <NumberInput
+                    min={0}
+                    max={100}
+                    step={0.1}
+                    placeholder="0"
+                    value={toNumberInputValue(field.value)}
+                    onChange={(value) => field.onChange(toStringValue(value))}
+                    className="pr-8"
+                  />
+                </FormControl>
+                <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm">
+                  %
+                </span>
+              </div>
+              <Typography variant="body" className="text-muted-foreground text-xs">
+                Platform take rate
+              </Typography>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <div className="space-y-1.5">
-          <Label htmlFor="acr-effective-from">
-            Effective from <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="acr-effective-from"
-            type="date"
-            value={form.effectiveFrom}
-            onChange={(e) => set('effectiveFrom', e.target.value)}
-          />
-        </div>
-      </div>
-
-      {needsName && (
-        <div className="space-y-1.5">
-          <Label htmlFor="acr-name">
-            {SCOPE_LABELS[form.scope]} name <span className="text-destructive">*</span>
-          </Label>
-          <Input
-            id="acr-name"
-            placeholder={form.scope === 'category' ? 'e.g. Home & Living' : 'e.g. Vendor name'}
-            value={form.name}
-            onChange={(e) => set('name', e.target.value)}
-          />
-        </div>
-      )}
-
-      <div className="grid grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="acr-commission">
-            Commission <span className="text-destructive">*</span>
-          </Label>
-          <div className="relative">
-            <Input
-              id="acr-commission"
-              type="number"
-              min={0}
-              max={100}
-              step={0.1}
-              placeholder="0"
-              value={form.commissionPct}
-              onChange={(e) => set('commissionPct', e.target.value)}
-              className="pr-8"
-            />
-            <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-              %
-            </span>
-          </div>
-          <Typography variant="body" className="text-muted-foreground text-xs">
-            Platform take rate
-          </Typography>
-        </div>
-
-        <div className="space-y-1.5">
-          <Label htmlFor="acr-payment-fee">
-            Payment fee <span className="text-destructive">*</span>
-          </Label>
-          <div className="relative">
-            <Input
-              id="acr-payment-fee"
-              type="number"
-              min={0}
-              max={100}
-              step={0.1}
-              placeholder="0"
-              value={form.paymentFeePct}
-              onChange={(e) => set('paymentFeePct', e.target.value)}
-              className="pr-8"
-            />
-            <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm">
-              %
-            </span>
-          </div>
-          <Typography variant="body" className="text-muted-foreground text-xs">
-            Gateway processing
-          </Typography>
-        </div>
+        <FormField
+          control={form.control}
+          name="paymentFeePct"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Payment fee <span className="text-destructive">*</span>
+              </FormLabel>
+              <div className="relative">
+                <FormControl>
+                  <NumberInput
+                    min={0}
+                    max={100}
+                    step={0.1}
+                    placeholder="0"
+                    value={toNumberInputValue(field.value)}
+                    onChange={(value) => field.onChange(toStringValue(value))}
+                    className="pr-8"
+                  />
+                </FormControl>
+                <span className="text-muted-foreground pointer-events-none absolute top-1/2 right-3 -translate-y-1/2 text-sm">
+                  %
+                </span>
+              </div>
+              <Typography variant="body" className="text-muted-foreground text-xs">
+                Gateway processing
+              </Typography>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       <div className="bg-muted/50 rounded-lg px-4 py-3 text-sm">
@@ -181,6 +160,92 @@ function AddRuleFormFields({
         order, seller receives{' '}
         <span className="text-success font-semibold">${sellerReceives.toFixed(2)}</span>
       </div>
+    </>
+  )
+}
+
+function AddRuleFormFields({
+  form,
+  sampleOrderAmount,
+  needsName,
+}: {
+  form: UseFormReturn<AddRuleSchemaValues>
+  sampleOrderAmount: number
+  needsName: boolean
+}) {
+  const scopeValue = form.watch('scope')
+
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-4">
+        <FormField
+          control={form.control}
+          name="scope"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Scope <span className="text-destructive">*</span>
+              </FormLabel>
+              <Select value={field.value} onValueChange={(v) => field.onChange(v)}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {(Object.entries(SCOPE_LABELS) as [CommissionRuleScope, string][]).map(
+                    ([value, label]) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ),
+                  )}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="effectiveFrom"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                Effective from <span className="text-destructive">*</span>
+              </FormLabel>
+              <DatePicker value={field.value} onChange={field.onChange} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+
+      {needsName && (
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>
+                {SCOPE_LABELS[scopeValue]} name <span className="text-destructive">*</span>
+              </FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  placeholder={
+                    scopeValue === 'category' ? 'e.g. Home & Living' : 'e.g. Vendor name'
+                  }
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      )}
+
+      <FeeFieldsGrid form={form} sampleOrderAmount={sampleOrderAmount} />
     </div>
   )
 }
@@ -196,38 +261,30 @@ function AddCommissionRuleModal({
   onClose: () => void
   onSubmit: (rule: NewCommissionRule) => void
 }) {
-  const [form, setForm] = useState<AddRuleFormState>(getInitialForm)
+  const form = useForm<AddRuleSchemaValues>({
+    resolver: zodResolver(addRuleSchema),
+    defaultValues: getInitialFormValues(),
+    mode: 'onChange',
+  })
 
-  const set = useCallback(
-    <K extends keyof AddRuleFormState>(key: K, value: AddRuleFormState[K]) => {
-      setForm((prev) => ({ ...prev, [key]: value }))
-    },
-    [],
-  )
+  const scope = form.watch('scope')
+  const needsName = scope !== 'global'
 
-  const needsName = form.scope !== 'global'
-  const isValid =
-    form.effectiveFrom &&
-    form.commissionPct !== '' &&
-    form.paymentFeePct !== '' &&
-    (!needsName || form.name.trim() !== '')
-
-  function handleSubmit() {
-    if (!isValid) return
+  function handleSubmit(values: AddRuleSchemaValues) {
     onSubmit({
-      scope: form.scope,
-      ...(needsName && { name: form.name.trim() }),
-      commissionPct: parseFloat(form.commissionPct) || 0,
-      paymentFeePct: parseFloat(form.paymentFeePct) || 0,
-      effectiveFrom: form.effectiveFrom,
+      scope: values.scope,
+      ...(needsName && { name: values.name.trim() }),
+      commissionPct: parseFloat(values.commissionPct) || 0,
+      paymentFeePct: parseFloat(values.paymentFeePct) || 0,
+      effectiveFrom: values.effectiveFrom,
     })
-    setForm(getInitialForm())
+    form.reset(getInitialFormValues())
     onClose()
   }
 
   function handleOpenChange(next: boolean) {
     if (!next) {
-      setForm(getInitialForm())
+      form.reset(getInitialFormValues())
       onClose()
     }
   }
@@ -243,18 +300,23 @@ function AddCommissionRuleModal({
           </DialogDescription>
         </DialogHeader>
 
-        <AddRuleFormFields
-          form={form}
-          set={set}
-          sampleOrderAmount={sampleOrderAmount}
-          needsName={needsName}
-        />
+        <Form {...form}>
+          <AddRuleFormFields
+            form={form}
+            sampleOrderAmount={sampleOrderAmount}
+            needsName={needsName}
+          />
+        </Form>
 
         <DialogFooter>
           <Button type="button" variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button type="button" disabled={!isValid} onClick={handleSubmit}>
+          <Button
+            type="button"
+            disabled={!form.formState.isValid}
+            onClick={() => void form.handleSubmit(handleSubmit)()}
+          >
             Add rule
           </Button>
         </DialogFooter>
@@ -338,24 +400,22 @@ function RuleRow({
         </Typography>
       </td>
       <td className="px-5 py-3 align-middle">
-        <Input
-          type="number"
+        <NumberInput
           min={0}
           max={100}
           step={0.1}
-          value={draft.commissionPct}
-          onChange={(e) => onCommissionChange(rule.id, e.target.value)}
+          value={toNumberInputValue(draft.commissionPct)}
+          onChange={(value) => onCommissionChange(rule.id, toStringValue(value))}
           className="h-8 w-20 text-sm"
         />
       </td>
       <td className="px-5 py-3 align-middle">
-        <Input
-          type="number"
+        <NumberInput
           min={0}
           max={100}
           step={0.1}
-          value={draft.paymentFeePct}
-          onChange={(e) => onPaymentFeeChange(rule.id, e.target.value)}
+          value={toNumberInputValue(draft.paymentFeePct)}
+          onChange={(value) => onPaymentFeeChange(rule.id, toStringValue(value))}
           className="h-8 w-20 text-sm"
         />
       </td>

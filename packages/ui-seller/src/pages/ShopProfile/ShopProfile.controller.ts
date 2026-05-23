@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
+import { useForm, useWatch, zodResolver } from '@ecom/core-ui'
 import { slugify } from '@ecom/shared/utils'
 import type { ShopProfileFormData, ShopProfileProps } from './ShopProfile.types'
+import { shopProfileSchema } from './ShopProfile.schema'
 
 type ShopProfileControllerProps = Omit<
   Pick<ShopProfileProps, 'initialData' | 'onSubmit' | 'onReplaceLogo' | 'onReplaceBanner'>,
@@ -13,33 +15,53 @@ export function useShopProfileController({
   onReplaceLogo,
   onReplaceBanner,
 }: ShopProfileControllerProps) {
-  const [form, setForm] = useState<ShopProfileFormData>(initialData)
+  const form = useForm<ShopProfileFormData>({
+    resolver: zodResolver(shopProfileSchema),
+    defaultValues: initialData,
+  })
+  const values = useWatch({
+    control: form.control,
+    defaultValue: initialData,
+  }) as ShopProfileFormData
+  const shopName = useWatch({
+    control: form.control,
+    name: 'shopName',
+    defaultValue: initialData.shopName,
+  })
+  const slug = useWatch({ control: form.control, name: 'slug', defaultValue: initialData.slug })
+  const previousShopNameRef = useRef(initialData.shopName)
 
-  const updateForm = useCallback(
-    <K extends keyof ShopProfileFormData>(key: K, value: ShopProfileFormData[K]) => {
-      setForm((current) => {
-        if (key === 'shopName' && current.slug === slugify(current.shopName)) {
-          const shopName = typeof value === 'string' ? value : String(value)
-          return {
-            ...current,
-            shopName,
-            slug: slugify(shopName),
-          }
-        }
-        return { ...current, [key]: value }
+  useEffect(() => {
+    form.reset(initialData)
+    previousShopNameRef.current = initialData.shopName
+  }, [form, initialData])
+
+  useEffect(() => {
+    if (shopName === previousShopNameRef.current) {
+      return
+    }
+
+    if (slug === slugify(previousShopNameRef.current)) {
+      form.setValue('slug', slugify(shopName), {
+        shouldDirty: true,
+        shouldValidate: true,
       })
-    },
-    [],
+    }
+
+    previousShopNameRef.current = shopName
+  }, [form, shopName, slug])
+
+  const handleSubmit = useCallback(
+    form.handleSubmit(async (data) => {
+      await Promise.resolve(onSubmit?.(data))
+    }),
+    [form, onSubmit],
   )
 
-  const handleSubmit = useCallback(() => {
-    onSubmit?.(form)
-  }, [form, onSubmit])
-
   return {
-    state: { form },
+    state: { form: values },
     handlers: {
-      updateForm,
+      form,
       handleSubmit,
       onReplaceLogo,
       onReplaceBanner,

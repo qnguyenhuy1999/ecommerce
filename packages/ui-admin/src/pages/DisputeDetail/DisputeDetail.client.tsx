@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   CardContent,
+  Label,
   RadioGroup,
   RadioGroupItem,
   Textarea,
@@ -24,7 +25,7 @@ function ResolutionOptionCard({
   checked: boolean
 }) {
   return (
-    <label
+    <Label
       htmlFor={`resolution-${option.value}`}
       className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
         checked ? DISPUTE_RESOLUTION_CHECKED_CLASS_NAME : DISPUTE_RESOLUTION_UNCHECKED_CLASS_NAME
@@ -39,7 +40,7 @@ function ResolutionOptionCard({
           {option.description}
         </Typography>
       </div>
-    </label>
+    </Label>
   )
 }
 

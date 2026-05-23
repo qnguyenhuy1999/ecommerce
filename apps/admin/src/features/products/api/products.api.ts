@@ -1,5 +1,6 @@
 import { apiFetch } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
+import type { ProductStatus } from '@ecom/contracts'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
 export interface ProductListItem {
@@ -36,10 +37,15 @@ export interface ProductDetail extends ProductListItem {
   }[]
 }
 
-type ProductListQuery = NonNullable<
-  AdminOperations['ProductsController_findAll']['parameters']['query']
->
-export type { ProductListQuery }
+export interface ProductListQuery {
+  page?: number
+  limit?: number
+  search?: string
+  status?: ProductStatus
+  shopId?: string
+  categoryId?: string
+  [key: string]: string | number | boolean | null | undefined
+}
 type ProductListResponse =
   AdminOperations['ProductsController_findAll']['responses']['200']['content']['application/json'] & {
     data: PaginatedResponse<ProductListItem>
@@ -52,16 +58,20 @@ type ProductStatusCountsResponse =
   AdminOperations['ProductsController_statusCounts']['responses']['200']['content']['application/json'] & {
     data: Record<string, number>
   }
-type ProductApproveBody =
-  AdminOperations['ProductsController_approve']['requestBody']['content']['application/json']
-type ProductRejectBody =
-  AdminOperations['ProductsController_reject']['requestBody']['content']['application/json']
+interface ProductApproveBody {
+  note: string
+}
+interface ProductRejectBody {
+  note: string
+}
 type ProductApproveResponse =
   AdminOperations['ProductsController_approve']['responses']['200']['content']['application/json']
 type ProductRejectResponse =
   AdminOperations['ProductsController_reject']['responses']['200']['content']['application/json']
-type ProductBulkActionBody =
-  AdminOperations['ProductsController_bulkApprove']['requestBody']['content']['application/json']
+interface ProductBulkActionBody {
+  ids: string[]
+  note: string
+}
 type ProductBulkApproveResponse =
   AdminOperations['ProductsController_bulkApprove']['responses']['200']['content']['application/json']
 type ProductBulkRejectResponse =

@@ -27,7 +27,7 @@ export function useAuditLogController({ items }: { items: AuditLogEntry[] }) {
   const [search, setSearch] = useState('')
   const [actorFilter, setActorFilter] = useState<'ALL' | AuditLogActorRole>('ALL')
   const [resourceFilter, setResourceFilter] = useState<'ALL' | AuditLogResource>('ALL')
-  const [actionFilter, setActionFilter] = useState<'ALL' | string>('ALL')
+  const [actionFilter, setActionFilter] = useState<string>('ALL')
   const [dateRange, setDateRange] = useState<AuditLogDateRange>('LAST_7_DAYS')
 
   const filteredItems = useMemo(() => {

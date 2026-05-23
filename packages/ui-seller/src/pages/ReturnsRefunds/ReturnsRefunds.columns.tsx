@@ -2,7 +2,7 @@ import type { DataTableColumn } from '@ecom/core-ui'
 import {
   returnStatusClassNames,
   returnStatusLabels,
-  returnsMoneyFormatter,
+  formatReturnAmount,
 } from './ReturnsRefunds.constants'
 import type { ReturnRow, ReturnsRefundsStatus } from './ReturnsRefunds.types'
 
@@ -64,7 +64,7 @@ export function createReturnsColumns(
       header: 'Amount',
       cell: ({ row }) => (
         <span className="text-foreground font-semibold">
-          {returnsMoneyFormatter.format(row.original.amount)}
+          {formatReturnAmount(row.original.amount)}
         </span>
       ),
     },

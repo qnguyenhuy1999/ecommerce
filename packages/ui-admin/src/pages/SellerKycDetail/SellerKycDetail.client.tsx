@@ -202,7 +202,7 @@ function KycReviewPanel({
           </DetailCard>
 
           <DetailCard title="Bank account">
-            <div className="mt-5 flex items-start gap-3 px-6">
+            <div className="mt-4 flex items-start gap-3 px-6">
               <Landmark className="text-muted-foreground mt-1 size-5 shrink-0" />
               <div className="space-y-1">
                 <Typography variant="body-sm" className="font-semibold">
@@ -214,7 +214,7 @@ function KycReviewPanel({
           </DetailCard>
 
           <DetailCard title="Risk assessment">
-            <div className="mt-5 space-y-5 px-6">
+            <div className="mt-4 space-y-5 px-6">
               <div className="flex items-end justify-between gap-3">
                 <div className="space-y-1">
                   <Typography variant="body-sm" className="font-semibold">

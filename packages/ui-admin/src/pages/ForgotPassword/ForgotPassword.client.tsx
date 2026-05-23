@@ -1,8 +1,22 @@
 'use client'
 
-import { Button, Card, CardContent, Input, Label, Typography } from '@ecom/core-ui'
+import {
+  Button,
+  Card,
+  CardContent,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Typography,
+  useForm,
+  zodResolver,
+} from '@ecom/core-ui'
 import { CircleAlert, Mail, Send } from 'lucide-react'
-import { useState, type SyntheticEvent } from 'react'
+import { useState } from 'react'
 import {
   authIconClassName,
   authInputClassName,
@@ -15,7 +29,8 @@ import {
 } from '../../lib/auth-theme'
 import { AuthPageShell } from '../../layouts/AuthPageShell'
 import { forgotPasswordDefaultProps } from './ForgotPassword.fixtures'
-import type { ForgotPasswordProps, ForgotPasswordSubmitValues } from './ForgotPassword.types'
+import type { ForgotPasswordProps } from './ForgotPassword.types'
+import { forgotPasswordSchema } from './ForgotPassword.schema'
 
 interface ForgotPasswordClientProps {
   title: string
@@ -57,27 +72,25 @@ export function ForgotPasswordClient({
   onSubmit,
 }: ForgotPasswordClientProps) {
   const submitHandler = onSubmit ?? forgotPasswordDefaultProps.onSubmit
-  const [email, setEmail] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
 
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const form = useForm<{ email: string }>({
+    resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: { email: '' },
+  })
+
+  const handleSubmit = form.handleSubmit(async (values) => {
     setErrorMessage('')
-    setSubmitting(true)
-
-    const values: ForgotPasswordSubmitValues = { email }
-
     try {
       await submitHandler(values)
       setSent(true)
     } catch (error) {
       setErrorMessage(getErrorMessage(error))
-    } finally {
-      setSubmitting(false)
     }
-  }
+  })
+
+  const submitting = form.formState.isSubmitting
 
   return (
     <AuthPageShell title={title}>
@@ -117,46 +130,57 @@ export function ForgotPasswordClient({
               </div>
             </div>
           ) : (
-            <form onSubmit={(event) => void handleSubmit(event)} className="space-y-3.5">
-              {errorMessage ? (
-                <div
-                  role="alert"
-                  aria-live="assertive"
-                  className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm ${authStatusToneClassNames.destructive.container} ${authStatusToneClassNames.destructive.text}`}
-                >
-                  <CircleAlert className="mt-0.5 size-4 shrink-0" />
-                  <span>{errorMessage}</span>
-                </div>
-              ) : null}
-
-              <div className="space-y-2">
-                <Label htmlFor="admin-forgot-password-email" className={authLabelClassName}>
-                  {emailLabel}
-                </Label>
-                <div className="relative">
-                  <Mail className={authIconClassName} />
-                  <Input
-                    id="admin-forgot-password-email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder={emailPlaceholder}
-                    className={authInputClassName.replace('pr-11', '')}
-                  />
-                </div>
-              </div>
-
-              <Button
-                type="submit"
-                size="lg"
-                className={`${authPrimaryButtonClassName} h-12`}
-                loading={submitting}
+            <Form {...form}>
+              <form
+                onSubmit={(event) => {
+                  void handleSubmit(event)
+                }}
+                className="space-y-3.5"
               >
-                {submitting ? submittingLabel : submitLabel}
-              </Button>
-            </form>
+                {errorMessage ? (
+                  <div
+                    role="alert"
+                    aria-live="assertive"
+                    className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm ${authStatusToneClassNames.destructive.container} ${authStatusToneClassNames.destructive.text}`}
+                  >
+                    <CircleAlert className="mt-0.5 size-4 shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                ) : null}
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel className={authLabelClassName}>{emailLabel}</FormLabel>
+                      <div className="relative">
+                        <Mail className={authIconClassName} />
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="email"
+                            autoComplete="email"
+                            placeholder={emailPlaceholder}
+                            className={authInputClassName.replace('pr-11', '')}
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  className={`${authPrimaryButtonClassName} h-12`}
+                  loading={submitting}
+                >
+                  {submitting ? submittingLabel : submitLabel}
+                </Button>
+              </form>
+            </Form>
           )}
 
           <div className="border-border flex items-center justify-between gap-3 border-t pt-3 text-sm">

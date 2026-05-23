@@ -2,10 +2,13 @@
 
 import {
   Button,
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
   Select,
   SelectContent,
@@ -14,6 +17,7 @@ import {
   SelectValue,
   Textarea,
   Typography,
+  type UseFormReturn,
 } from '@ecom/core-ui'
 import { ArrowLeft, ArrowRight, Check, Upload } from 'lucide-react'
 import { useMemo } from 'react'
@@ -227,303 +231,371 @@ function SellerOnboardingHeader({
 }
 
 function SellerOnboardingAccountStep({
-  values,
-  updateAccount,
+  control,
 }: {
-  values: SellerOnboardingFormValues
-  updateAccount: SellerOnboardingController['updateAccount']
+  control: UseFormReturn<SellerOnboardingFormValues>['control']
 }) {
   return (
     <div className="grid gap-5">
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Email *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.account.email}
-              onChange={(event) => updateAccount('email', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="account.email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Mobile number *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.account.mobileNumber}
-              onChange={(event) => updateAccount('mobileNumber', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="account.mobileNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Mobile number *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Password *</FieldLabel>
-          <FieldContent>
-            <Input
-              type="password"
-              value={values.account.password}
-              onChange={(event) => updateAccount('password', event.target.value)}
-            />
-          </FieldContent>
-          <FieldDescription>At least 8 characters with a number</FieldDescription>
-        </Field>
+        <FormField
+          control={control}
+          name="account.password"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Password *</FormLabel>
+              <FormControl>
+                <Input type="password" {...field} />
+              </FormControl>
+              <FormDescription>At least 8 characters with a number</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>OTP</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.account.otp}
-              onChange={(event) => updateAccount('otp', event.target.value)}
-            />
-          </FieldContent>
-          <FieldDescription>We sent a 6-digit code</FieldDescription>
-        </Field>
+        <FormField
+          control={control}
+          name="account.otp"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>OTP</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>We sent a 6-digit code</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </div>
   )
 }
 
 function SellerOnboardingShopStep({
-  values,
+  control,
   categoryOptions,
   countryOptions,
-  updateShop,
 }: {
-  values: SellerOnboardingFormValues
+  control: UseFormReturn<SellerOnboardingFormValues>['control']
   categoryOptions: string[]
   countryOptions: string[]
-  updateShop: SellerOnboardingController['updateShop']
 }) {
   return (
     <div className="grid gap-5">
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Shop name *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.shop.shopName}
-              onChange={(event) => updateShop('shopName', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="shop.shopName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Shop name *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Shop URL</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.shop.shopUrl}
-              onChange={(event) => updateShop('shopUrl', event.target.value)}
-            />
-          </FieldContent>
-          <FieldDescription>halomarket.co/shop/{values.shop.shopUrl}</FieldDescription>
-        </Field>
+        <FormField
+          control={control}
+          name="shop.shopUrl"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Shop URL</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>halomarket.co/shop/{field.value}</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Primary category *</FieldLabel>
-          <FieldContent>
-            <Select
-              value={values.shop.category}
-              onValueChange={(value) => updateShop('category', value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categoryOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="shop.category"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Primary category *</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {categoryOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Country *</FieldLabel>
-          <FieldContent>
-            <Select
-              value={values.shop.country}
-              onValueChange={(value) => updateShop('country', value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent>
-                {countryOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="shop.country"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Country *</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {countryOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
-      <Field>
-        <FieldLabel>Pickup address *</FieldLabel>
-        <FieldContent>
-          <Textarea
-            rows={5}
-            value={values.shop.pickupAddress}
-            onChange={(event) => updateShop('pickupAddress', event.target.value)}
-          />
-        </FieldContent>
-      </Field>
+      <FormField
+        control={control}
+        name="shop.pickupAddress"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Pickup address *</FormLabel>
+            <FormControl>
+              <Textarea rows={5} {...field} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
     </div>
   )
 }
 
 function SellerOnboardingKycStep({
-  values,
+  control,
   businessTypeOptions,
   idTypeOptions,
   documentSlots,
   documentInputRefs,
-  updateKyc,
   updateDocument,
 }: {
-  values: SellerOnboardingFormValues
+  control: UseFormReturn<SellerOnboardingFormValues>['control']
   businessTypeOptions: string[]
   idTypeOptions: string[]
   documentSlots: SellerOnboardingDocumentSlot[]
   documentInputRefs: React.RefObject<Record<SellerOnboardingDocumentKey, HTMLInputElement | null>>
-  updateKyc: SellerOnboardingController['updateKyc']
   updateDocument: SellerOnboardingController['updateDocument']
 }) {
   return (
     <div className="grid gap-5">
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Business type *</FieldLabel>
-          <FieldContent>
-            <Select
-              value={values.kyc.businessType}
-              onValueChange={(value) => updateKyc('businessType', value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select business type" />
-              </SelectTrigger>
-              <SelectContent>
-                {businessTypeOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="kyc.businessType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Business type *</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select business type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {businessTypeOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>ID type *</FieldLabel>
-          <FieldContent>
-            <Select value={values.kyc.idType} onValueChange={(value) => updateKyc('idType', value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select ID type" />
-              </SelectTrigger>
-              <SelectContent>
-                {idTypeOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="kyc.idType"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ID type *</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select ID type" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {idTypeOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Legal name *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.kyc.legalName}
-              onChange={(event) => updateKyc('legalName', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="kyc.legalName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Legal name *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>ID number *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.kyc.idNumber}
-              onChange={(event) => updateKyc('idNumber', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="kyc.idNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ID number *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        {documentSlots.map((slot) => (
-          <DocumentUploadSlot
-            key={slot.key}
-            label={slot.label}
-            fileName={values.kyc.documents[slot.key]}
-            inputRef={(node) => {
-              documentInputRefs.current[slot.key] = node
-            }}
-            onOpen={() => documentInputRefs.current[slot.key]?.click()}
-            onFileChange={(event) => {
-              const file = event.target.files?.[0]
+      <FormField
+        control={control}
+        name="kyc.documents"
+        render={({ field }) => (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            {documentSlots.map((slot) => (
+              <DocumentUploadSlot
+                key={slot.key}
+                label={slot.label}
+                fileName={field.value[slot.key] ?? ''}
+                inputRef={(node) => {
+                  documentInputRefs.current[slot.key] = node
+                }}
+                onOpen={() => documentInputRefs.current[slot.key]?.click()}
+                onFileChange={(event) => {
+                  const file = event.target.files?.[0]
+                  if (file) {
+                    updateDocument(slot.key, file.name)
+                  }
+                }}
+              />
+            ))}
+          </div>
+        )}
+      />
 
-              if (file) {
-                updateDocument(slot.key, file.name)
-              }
-            }}
-          />
-        ))}
+      <div className="grid gap-4 md:grid-cols-2">
+        <FormField
+          control={control}
+          name="kyc.bankName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bank name *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="kyc.accountHolder"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Account holder *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Bank name *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.kyc.bankName}
-              onChange={(event) => updateKyc('bankName', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="kyc.accountNumber"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Account number *</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Account holder *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.kyc.accountHolder}
-              onChange={(event) => updateKyc('accountHolder', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Account number *</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.kyc.accountNumber}
-              onChange={(event) => updateKyc('accountNumber', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
-
-        <Field>
-          <FieldLabel>SWIFT / Routing</FieldLabel>
-          <FieldContent>
-            <Input
-              value={values.kyc.swiftRouting}
-              onChange={(event) => updateKyc('swiftRouting', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={control}
+          name="kyc.swiftRouting"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>SWIFT / Routing</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </div>
   )
@@ -584,21 +656,15 @@ function SellerOnboardingStepContent({
   reviewBannerMessage: string
 }) {
   if (controller.activeStep === 1) {
-    return (
-      <SellerOnboardingAccountStep
-        values={controller.values}
-        updateAccount={controller.updateAccount}
-      />
-    )
+    return <SellerOnboardingAccountStep control={controller.form.control} />
   }
 
   if (controller.activeStep === 2) {
     return (
       <SellerOnboardingShopStep
-        values={controller.values}
+        control={controller.form.control}
         categoryOptions={categoryOptions}
         countryOptions={countryOptions}
-        updateShop={controller.updateShop}
       />
     )
   }
@@ -606,12 +672,11 @@ function SellerOnboardingStepContent({
   if (controller.activeStep === 3) {
     return (
       <SellerOnboardingKycStep
-        values={controller.values}
+        control={controller.form.control}
         businessTypeOptions={businessTypeOptions}
         idTypeOptions={idTypeOptions}
         documentSlots={documentSlots}
         documentInputRefs={controller.documentInputRefs}
-        updateKyc={controller.updateKyc}
         updateDocument={controller.updateDocument}
       />
     )
@@ -619,7 +684,7 @@ function SellerOnboardingStepContent({
 
   return (
     <SellerOnboardingReviewStep
-      values={controller.values}
+      values={controller.form.getValues()}
       reviewBannerMessage={reviewBannerMessage}
     />
   )
@@ -689,26 +754,28 @@ function SellerOnboardingMain({
     <main className="mx-auto flex max-w-5xl flex-col gap-5 px-4 py-8 sm:px-6 lg:px-8">
       <SellerOnboardingStepRail currentStep={controller.activeStep} stepLabels={stepLabels} />
 
-      <SectionCard
-        title={stepLabels[controller.activeStep - 1]}
-        className="rounded-[24px] bg-white"
-      >
-        {controller.actionError ? (
-          <div className="border-destructive/20 bg-destructive/10 text-destructive mb-4 rounded-2xl border px-4 py-3 text-sm">
-            {controller.actionError}
-          </div>
-        ) : null}
+      <Form {...controller.form}>
+        <SectionCard
+          title={stepLabels[controller.activeStep - 1]}
+          className="rounded-[24px] bg-white"
+        >
+          {controller.actionError ? (
+            <div className="border-destructive/20 bg-destructive/10 text-destructive mb-4 rounded-2xl border px-4 py-3 text-sm">
+              {controller.actionError}
+            </div>
+          ) : null}
 
-        <SellerOnboardingStepContent
-          controller={controller}
-          categoryOptions={categoryOptions}
-          countryOptions={countryOptions}
-          businessTypeOptions={businessTypeOptions}
-          idTypeOptions={idTypeOptions}
-          documentSlots={documentSlots}
-          reviewBannerMessage={reviewBannerMessage}
-        />
-      </SectionCard>
+          <SellerOnboardingStepContent
+            controller={controller}
+            categoryOptions={categoryOptions}
+            countryOptions={countryOptions}
+            businessTypeOptions={businessTypeOptions}
+            idTypeOptions={idTypeOptions}
+            documentSlots={documentSlots}
+            reviewBannerMessage={reviewBannerMessage}
+          />
+        </SectionCard>
+      </Form>
 
       <SellerOnboardingFooter
         activeStep={controller.activeStep}

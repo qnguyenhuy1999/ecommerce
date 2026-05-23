@@ -25,11 +25,15 @@ export const loginDefaultProps: Required<
   description: 'Sign in to manage your seller account, inventory and orders.',
   emailLabel: 'Email',
   emailPlaceholder: 'seller@example.com',
+  // eslint-disable-next-line sonarjs/no-hardcoded-passwords
   passwordLabel: 'Password',
+  // eslint-disable-next-line sonarjs/no-hardcoded-passwords
   passwordPlaceholder: 'Enter your password',
   submitLabel: 'Sign in',
   submittingLabel: 'Signing in...',
+  // eslint-disable-next-line sonarjs/no-hardcoded-passwords
   forgotPasswordHref: '/forgot-password',
+  // eslint-disable-next-line sonarjs/no-hardcoded-passwords
   forgotPasswordLabel: 'Forgot password?',
   registerHref: '/register',
   registerLabel: 'Register',

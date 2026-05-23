@@ -23,7 +23,7 @@ import {
   YAxis,
 } from 'recharts'
 import { SectionCard } from '../../atoms/SectionCard'
-import { formatCurrency } from './Analytics.constants'
+import { formatCurrency } from '@ecom/shared/utils'
 import { analyticsDefaultProps } from './Analytics.fixtures'
 import { TrafficLegend } from './Analytics.server'
 import type {

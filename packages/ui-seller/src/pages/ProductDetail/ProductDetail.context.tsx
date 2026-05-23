@@ -1,11 +1,13 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
+import { Form, useForm, useWatch, zodResolver } from '@ecom/core-ui'
 import type {
   ProductDetailFormData,
   ProductDetailOptionGroup,
   ProductDetailStatus,
 } from './ProductDetail.types'
+import { productDetailSchema, type ProductDetailFormValues } from './ProductDetail.schema'
 import type {
   ProductEditorAction,
   ProductEditorProps,
@@ -49,6 +51,23 @@ function createInitialState(initialData: ProductDetailFormData): ProductEditorSt
     variantDrafts: createVariantDraftMap(initialData.variantSeeds),
     draftValueInputs: {},
     slugTouched: false,
+  }
+}
+
+function createFormDefaultValues(initialData: ProductDetailFormData): ProductDetailFormValues {
+  return {
+    name: initialData.name,
+    category: initialData.category,
+    brand: initialData.brand,
+    shortDescription: initialData.shortDescription,
+    fullDescription: initialData.fullDescription,
+    weightKg: initialData.weightKg,
+    lengthCm: initialData.lengthCm,
+    widthCm: initialData.widthCm,
+    heightCm: initialData.heightCm,
+    slug: initialData.slug,
+    metaTitle: initialData.metaTitle,
+    metaDescription: initialData.metaDescription,
   }
 }
 
@@ -189,6 +208,7 @@ function productEditorReducer(
 }
 
 interface ProductEditorContextValue {
+  form: ReturnType<typeof useForm<ProductDetailFormValues>>
   state: ProductEditorState
   categories: ProductEditorProps['categories']
   brands: ProductEditorProps['brands']
@@ -214,7 +234,6 @@ interface ProductEditorContextValue {
     value: string,
   ) => void
   setShippingMethod: (id: string, checked: boolean) => void
-  setSeoField: (field: keyof ProductEditorState['seo'], value: string) => void
   handleSlugChange: (value: string) => void
 }
 
@@ -242,11 +261,18 @@ export function ProductEditorProvider({
   'categories' | 'brands' | 'statuses' | 'lastSavedLabel' | 'initialData'
 > & { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(productEditorReducer, initialData, createInitialState)
+  const form = useForm<ProductDetailFormValues>({
+    resolver: zodResolver(productDetailSchema),
+    defaultValues: createFormDefaultValues(initialData),
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+  })
   const validationTemplate = useMemo(
     () => initialData.validationItems.map((item) => ({ ...item })),
     [initialData.validationItems],
   )
   const mediaObjectUrlsRef = useRef<Set<string>>(new Set())
+  const formValues = useWatch({ control: form.control })
 
   useEffect(() => {
     return () => {
@@ -264,16 +290,26 @@ export function ProductEditorProvider({
   const validationForm = useMemo<ProductDetailFormData>(
     () => ({
       ...initialData,
-      ...state.basicInfo,
+      name: formValues.name ?? initialData.name,
+      category: formValues.category ?? initialData.category,
+      brand: formValues.brand ?? initialData.brand,
+      shortDescription: formValues.shortDescription ?? initialData.shortDescription,
+      fullDescription: formValues.fullDescription ?? initialData.fullDescription,
       status: state.status,
       media: state.media,
       optionGroups: state.optionGroups,
-      ...state.shipping,
-      ...state.seo,
+      weightKg: formValues.weightKg ?? initialData.weightKg,
+      lengthCm: formValues.lengthCm ?? initialData.lengthCm,
+      widthCm: formValues.widthCm ?? initialData.widthCm,
+      heightCm: formValues.heightCm ?? initialData.heightCm,
+      shippingMethods: state.shipping.shippingMethods,
+      slug: formValues.slug ?? initialData.slug,
+      metaTitle: formValues.metaTitle ?? initialData.metaTitle,
+      metaDescription: formValues.metaDescription ?? initialData.metaDescription,
       visibility: state.visibility,
       validationItems: validationTemplate,
     }),
-    [initialData, state, validationTemplate],
+    [formValues, initialData, state, validationTemplate],
   )
 
   const validationItems = useMemo(
@@ -283,6 +319,7 @@ export function ProductEditorProvider({
 
   const value = useMemo<ProductEditorContextValue>(
     () => ({
+      form,
       state,
       categories,
       brands,
@@ -290,14 +327,19 @@ export function ProductEditorProvider({
       lastSavedLabel,
       validationItems,
       variantRows,
-      setBasicInfoField: (field, value) => dispatch({ type: 'SET_BASIC_INFO_FIELD', field, value }),
+      setBasicInfoField: (field, value) =>
+        form.setValue(field, value, { shouldDirty: true, shouldTouch: true, shouldValidate: true }),
       setStatus: (value) => dispatch({ type: 'SET_STATUS', value }),
       setVisibility: (id, checked) => dispatch({ type: 'SET_VISIBILITY', id, checked }),
       handleNameChange: (value) => {
-        dispatch({ type: 'SET_BASIC_INFO_FIELD', field: 'name', value })
+        form.setValue('name', value, { shouldDirty: true, shouldTouch: true, shouldValidate: true })
 
         if (!state.slugTouched) {
-          dispatch({ type: 'SET_SEO_FIELD', field: 'slug', value: slugify(value) })
+          form.setValue('slug', slugify(value), {
+            shouldDirty: true,
+            shouldTouch: true,
+            shouldValidate: true,
+          })
         }
       },
       addMediaFiles: (files) => {
@@ -342,25 +384,33 @@ export function ProductEditorProvider({
         dispatch({ type: 'SET_VARIANT_DRAFT', key, field, value }),
       setDraftValueInput: (groupId, value) =>
         dispatch({ type: 'SET_DRAFT_VALUE_INPUT', groupId, value }),
-      setShippingField: (field, value) => dispatch({ type: 'SET_SHIPPING_FIELD', field, value }),
+      setShippingField: (field, value) =>
+        form.setValue(field, value, { shouldDirty: true, shouldTouch: true, shouldValidate: true }),
       setShippingMethod: (id, checked) => dispatch({ type: 'SET_SHIPPING_METHOD', id, checked }),
-      setSeoField: (field, value) => dispatch({ type: 'SET_SEO_FIELD', field, value }),
       handleSlugChange: (value) => {
         dispatch({ type: 'SET_SLUG_TOUCHED', value: true })
-        dispatch({ type: 'SET_SEO_FIELD', field: 'slug', value: slugify(value) })
+        form.setValue('slug', slugify(value), {
+          shouldDirty: true,
+          shouldTouch: true,
+          shouldValidate: true,
+        })
       },
     }),
-    [brands, categories, lastSavedLabel, state, statuses, validationItems, variantRows],
+    [brands, categories, form, lastSavedLabel, state, statuses, validationItems, variantRows],
   )
 
-  return <ProductEditorContext.Provider value={value}>{children}</ProductEditorContext.Provider>
+  return (
+    <Form {...form}>
+      <ProductEditorContext.Provider value={value}>{children}</ProductEditorContext.Provider>
+    </Form>
+  )
 }
 
 export function useProductEditorBasicInfo() {
   const context = useProductEditorContext()
 
   return {
-    form: context.state.basicInfo,
+    form: context.form,
     categories: context.categories,
     brands: context.brands,
     onNameChange: context.handleNameChange,
@@ -413,7 +463,8 @@ export function useProductEditorShipping() {
   const context = useProductEditorContext()
 
   return {
-    form: context.state.shipping,
+    form: context.form,
+    shippingMethods: context.state.shipping.shippingMethods,
     updateDimension: context.setShippingField,
     onShippingMethodChange: context.setShippingMethod,
   }
@@ -423,8 +474,21 @@ export function useProductEditorSeo() {
   const context = useProductEditorContext()
 
   return {
-    form: context.state.seo,
+    form: context.form,
     onSlugChange: context.handleSlugChange,
-    updateForm: context.setSeoField,
+    updateForm: (field: keyof ProductEditorState['seo'], value: string) =>
+      context.form.setValue(field, value, {
+        shouldDirty: true,
+        shouldTouch: true,
+        shouldValidate: true,
+      }),
+  }
+}
+
+export function useProductEditorForm() {
+  const context = useProductEditorContext()
+
+  return {
+    form: context.form,
   }
 }

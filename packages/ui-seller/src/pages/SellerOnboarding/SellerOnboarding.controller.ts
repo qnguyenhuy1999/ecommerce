@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react'
+import { useForm, zodResolver, type UseFormReturn } from '@ecom/core-ui'
 import { useControllableState } from '../../hooks'
 import {
   SELLER_ONBOARDING_ERRORS,
   SELLER_ONBOARDING_MAX_STEP,
   SELLER_ONBOARDING_STEP_SEQUENCE,
 } from './SellerOnboarding.constants'
+import { sellerOnboardingSchema } from './SellerOnboarding.schema'
 import type {
   SellerOnboardingDocumentKey,
   SellerOnboardingDocumentSlot,
@@ -25,7 +27,7 @@ interface SellerOnboardingControllerParams {
 
 export interface SellerOnboardingController {
   activeStep: SellerOnboardingStepIndex
-  values: SellerOnboardingFormValues
+  form: UseFormReturn<SellerOnboardingFormValues>
   submitting: boolean
   actionError: string | null
   documentInputRefs: React.RefObject<Record<SellerOnboardingDocumentKey, HTMLInputElement | null>>
@@ -33,18 +35,6 @@ export interface SellerOnboardingController {
   handleNext: () => void
   handleSaveExit: () => Promise<boolean>
   handleSubmit: () => Promise<boolean>
-  updateAccount: <T extends keyof SellerOnboardingFormValues['account']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['account'][T],
-  ) => void
-  updateShop: <T extends keyof SellerOnboardingFormValues['shop']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['shop'][T],
-  ) => void
-  updateKyc: <T extends keyof Omit<SellerOnboardingFormValues['kyc'], 'documents'>>(
-    key: T,
-    nextValue: Omit<SellerOnboardingFormValues['kyc'], 'documents'>[T],
-  ) => void
   updateDocument: (key: SellerOnboardingDocumentKey, fileName: string) => void
 }
 
@@ -87,61 +77,17 @@ export function useSellerOnboardingController({
     ...(normalizedCurrentStep !== undefined ? { value: normalizedCurrentStep } : {}),
     ...(onCurrentStepChange !== undefined ? { onChange: onCurrentStepChange } : {}),
   })
-  const [values, setValues] = useState<SellerOnboardingFormValues>(defaultValues)
   const [submitting, setSubmitting] = useState(false)
   const [actionError, setActionError] = useState<string | null>(null)
   const documentInputRefs = useRef(getInitialDocumentInputs(documentSlots))
 
-  const updateAccount = <T extends keyof SellerOnboardingFormValues['account']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['account'][T],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      account: {
-        ...current.account,
-        [key]: nextValue,
-      },
-    }))
-  }
-
-  const updateShop = <T extends keyof SellerOnboardingFormValues['shop']>(
-    key: T,
-    nextValue: SellerOnboardingFormValues['shop'][T],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      shop: {
-        ...current.shop,
-        [key]: nextValue,
-      },
-    }))
-  }
-
-  const updateKyc = <T extends keyof Omit<SellerOnboardingFormValues['kyc'], 'documents'>>(
-    key: T,
-    nextValue: Omit<SellerOnboardingFormValues['kyc'], 'documents'>[T],
-  ) => {
-    setValues((current) => ({
-      ...current,
-      kyc: {
-        ...current.kyc,
-        [key]: nextValue,
-      },
-    }))
-  }
+  const form = useForm<SellerOnboardingFormValues>({
+    resolver: zodResolver(sellerOnboardingSchema),
+    defaultValues,
+  })
 
   const updateDocument = (key: SellerOnboardingDocumentKey, fileName: string) => {
-    setValues((current) => ({
-      ...current,
-      kyc: {
-        ...current.kyc,
-        documents: {
-          ...current.kyc.documents,
-          [key]: fileName,
-        },
-      },
-    }))
+    form.setValue(`kyc.documents.${key}`, fileName)
   }
 
   const handleNext = () => {
@@ -166,7 +112,7 @@ export function useSellerOnboardingController({
     setActionError(null)
 
     try {
-      await Promise.resolve(onSaveExit(values))
+      await Promise.resolve(onSaveExit(form.getValues()))
       return true
     } catch {
       setActionError(SELLER_ONBOARDING_ERRORS.saveExit)
@@ -183,7 +129,7 @@ export function useSellerOnboardingController({
     setActionError(null)
 
     try {
-      await Promise.resolve(onSubmit(values))
+      await Promise.resolve(onSubmit(form.getValues()))
       return true
     } catch {
       setActionError(SELLER_ONBOARDING_ERRORS.submit)
@@ -195,7 +141,7 @@ export function useSellerOnboardingController({
 
   return {
     activeStep,
-    values,
+    form,
     submitting,
     actionError,
     documentInputRefs,
@@ -203,9 +149,6 @@ export function useSellerOnboardingController({
     handleNext,
     handleSaveExit,
     handleSubmit,
-    updateAccount,
-    updateShop,
-    updateKyc,
     updateDocument,
   }
 }

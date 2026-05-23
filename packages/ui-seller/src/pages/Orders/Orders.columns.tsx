@@ -1,5 +1,6 @@
 import { Checkbox } from '@ecom/core-ui'
 import type { DataTableColumn } from '@ecom/core-ui'
+import { formatCurrency } from '@ecom/shared/utils'
 import { ORDERS_STATUS_BADGE_STYLES, ORDERS_STATUS_LABELS } from './Orders.constants'
 import type { OrderRow, OrdersStatusTab } from './Orders.types'
 
@@ -117,18 +118,12 @@ const itemsColumn: DataTableColumn<OrderRow> = {
   },
 }
 
-const moneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-})
-
 const totalColumn: DataTableColumn<OrderRow> = {
   accessorKey: 'total',
   header: 'Total',
   cell: ({ row }) => (
     <span className="text-foreground font-semibold">
-      {moneyFormatter.format(row.original.total)}
+      {formatCurrency(row.original.total, { fractionDigits: 0 })}
     </span>
   ),
 }

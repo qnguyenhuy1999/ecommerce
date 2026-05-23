@@ -38,7 +38,7 @@ export interface AuditLogProps {
   emptyStateMessage?: string
   actorOptions?: AuditLogFilterOption<'ALL' | AuditLogActorRole>[]
   resourceOptions?: AuditLogFilterOption<'ALL' | AuditLogResource>[]
-  actionOptions?: AuditLogFilterOption<'ALL' | string>[]
+  actionOptions?: AuditLogFilterOption<string>[]
   dateRangeOptions?: AuditLogFilterOption<AuditLogDateRange>[]
   items?: AuditLogEntry[]
   onExport?: (() => void | Promise<void>) | undefined

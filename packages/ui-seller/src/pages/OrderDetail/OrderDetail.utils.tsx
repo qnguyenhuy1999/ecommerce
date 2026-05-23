@@ -3,14 +3,10 @@ import type {
   OrderDetailStatus,
   OrderDetailStatusAction,
 } from './OrderDetail.types'
+import { formatCurrency } from '@ecom/shared/utils'
 import { formatStatusLabel } from '../../utils'
 
 export { formatStatusLabel }
-
-const currencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-})
 
 const STATUS_ACTIONS: Record<OrderDetailStatus, OrderDetailStatusAction[]> = {
   PENDING: [{ id: 'confirm', label: 'Confirm order', nextStatus: 'CONFIRMED' }],
@@ -25,7 +21,7 @@ const STATUS_ACTIONS: Record<OrderDetailStatus, OrderDetailStatusAction[]> = {
 }
 
 export function formatOrderCurrency(amount: number) {
-  return currencyFormatter.format(amount)
+  return formatCurrency(amount)
 }
 
 export function buildOrderDetailStatusActions(

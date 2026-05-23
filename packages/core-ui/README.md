@@ -60,6 +60,22 @@ src/
   index.ts
 ```
 
+## Public API
+
+- Import only from `@ecom/core-ui`.
+- Keep new exports wired through `src/index.ts`.
+- Public form stack now lives here:
+  - `useForm`, `useFormContext`, `useWatch`, `useController`, `useFieldArray`
+  - `zodResolver`
+  - `z`
+  - `Form`, `FormField`, `FormItem`, `FormLabel`, `FormControl`, `FormDescription`, `FormMessage`
+
+Example:
+
+```tsx
+import { Form, FormField, Input, useForm, z, zodResolver } from '@ecom/core-ui'
+```
+
 ## Layering rules
 
 - `core-ui` exports public building blocks only.
@@ -107,6 +123,7 @@ pnpm --filter @ecom/core-ui storybook
 ## Verification
 
 ```bash
+pnpm --filter @ecom/core-ui build
 pnpm --filter @ecom/core-ui type-check
 pnpm --filter @ecom/core-ui lint
 ```

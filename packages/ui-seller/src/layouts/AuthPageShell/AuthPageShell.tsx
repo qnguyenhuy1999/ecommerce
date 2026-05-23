@@ -53,8 +53,8 @@ export function AuthPageShell({ title, description, children }: AuthPageShellPro
                   Run the daily work behind your catalog, fulfillment and growth.
                 </Typography>
                 <Typography variant="body" className="text-muted-foreground max-w-xl">
-                  Seller authentication pages live in the same shared UI layer as the rest of
-                  the console, so account access feels consistent with the tools behind it.
+                  Seller authentication pages live in the same shared UI layer as the rest of the
+                  console, so account access feels consistent with the tools behind it.
                 </Typography>
               </div>
             </div>
@@ -83,7 +83,10 @@ export function AuthPageShell({ title, description, children }: AuthPageShellPro
         <section className="mx-auto w-full max-w-lg">{children}</section>
 
         <div className="lg:hidden">
-          <Typography variant="caption" className="text-muted-foreground mb-2 block text-center uppercase">
+          <Typography
+            variant="caption"
+            className="text-muted-foreground mb-2 block text-center uppercase"
+          >
             Seller Center
           </Typography>
           <Typography as="h1" variant="h2" className="text-foreground text-center">

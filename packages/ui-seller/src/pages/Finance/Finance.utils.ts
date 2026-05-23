@@ -1,13 +1,8 @@
+import { formatCurrency } from '@ecom/shared/utils'
 import type { FinanceEntryKind, FinanceLedgerEntry, FinanceTab } from './Finance.types'
 
-const currencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-})
-
 export function formatFinanceAmount(amount: number) {
-  return currencyFormatter.format(Math.abs(amount))
+  return formatCurrency(Math.abs(amount), { fractionDigits: 0 })
 }
 
 export function formatSignedFinanceAmount(amount: number) {

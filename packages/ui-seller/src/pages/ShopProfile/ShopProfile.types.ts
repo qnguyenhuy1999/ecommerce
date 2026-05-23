@@ -22,7 +22,7 @@ export interface ShopProfileProps {
   initialData?: ShopProfileFormData
   countryOptions?: string[]
   responseTargetOptions?: string[]
-  onSubmit?: (data: ShopProfileFormData) => void
+  onSubmit?: (data: ShopProfileFormData) => void | Promise<void>
   onReplaceLogo?: () => void
   onReplaceBanner?: () => void
 }

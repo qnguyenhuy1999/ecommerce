@@ -3,14 +3,13 @@
 import {
   Badge,
   Button,
-  Card,
-  CardContent,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   Label,
+  Separator,
   Textarea,
   Typography,
 } from '@ecom/core-ui'
@@ -178,53 +177,43 @@ export function ProductApprovalDetailSheet({ item }: { item: ProductApprovalItem
   }
 
   return (
-    <>
-      <div className="flex flex-col gap-6 px-4">
-        <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
-          {item.images.map((image) => (
-            <div
-              key={image.id}
-              className="border-border aspect-square w-full rounded-md border object-cover"
-            >
-              <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
-            </div>
-          ))}
-        </div>
-
-        <Card>
-          <CardContent className="space-y-3">
-            <div>
-              <Typography as="p" variant="label" className="text-foreground font-semibold">
-                {item.title}
-              </Typography>
-              <Typography variant="body-sm" className="text-primary mt-3 scroll-m-0 font-semibold">
-                {item.priceLabel}
-              </Typography>
-            </div>
-            <div className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm font-normal">
-              <span>{item.stockLabel}</span>
-              <span>·</span>
-              <span>{item.soldLabel}</span>
-              <span>·</span>
-              <span>{item.ratingLabel}</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <div className="space-y-4">
-          <Typography
-            as="h3"
-            variant="label"
-            className="text-foreground text-base font-semibold sm:text-lg"
-          >
-            Policy tags
-          </Typography>
-          <div className="flex flex-wrap gap-3">
-            <ReasonTags item={item} emptyLabel="No policy tags" tone="neutral" />
+    <div className="flex flex-col gap-5">
+      <div className="grid grid-cols-2 gap-2">
+        {item.images.map((image) => (
+          <div key={image.id} className="bg-muted aspect-square overflow-hidden rounded-xl">
+            <img src={image.src} alt={image.alt} className="h-full w-full object-cover" />
           </div>
+        ))}
+      </div>
+
+      <div className="border-border/60 bg-muted/30 rounded-xl border px-4 py-3">
+        <div className="flex items-start justify-between gap-3">
+          <Typography as="p" variant="label" className="text-foreground leading-snug font-semibold">
+            {item.title}
+          </Typography>
+          <Typography as="span" variant="label" className="text-primary shrink-0 font-semibold">
+            {item.priceLabel}
+          </Typography>
+        </div>
+        <Separator className="my-3" />
+        <div className="text-muted-foreground flex flex-wrap items-center gap-x-2 gap-y-1 text-sm">
+          <span>{item.stockLabel}</span>
+          <span>·</span>
+          <span>{item.soldLabel}</span>
+          <span>·</span>
+          <span>{item.ratingLabel}</span>
         </div>
       </div>
-    </>
+
+      <div className="space-y-2">
+        <Typography as="h3" variant="label" className="text-foreground font-semibold">
+          Policy tags
+        </Typography>
+        <div className="mt-2">
+          <ReasonTags item={item} emptyLabel="No policy tags" tone="neutral" />
+        </div>
+      </div>
+    </div>
   )
 }
 

@@ -2,6 +2,7 @@
 
 import { Button, ConsolePageLayout } from '@ecom/core-ui'
 import { Eye, FileText, Send } from 'lucide-react'
+import type { MouseEvent } from 'react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { ProductMediaUpload } from '../../molecules/ProductMediaUpload'
 import { BasicInfoSection } from './BasicInfoSection'
@@ -11,7 +12,11 @@ import {
   PRODUCT_DETAIL_MEDIA_SUBTITLE,
   PRODUCT_DETAIL_MEDIA_TITLE,
 } from './ProductDetail.constants'
-import { ProductEditorProvider, useProductEditorMedia } from './ProductDetail.context'
+import {
+  ProductEditorProvider,
+  useProductEditorForm,
+  useProductEditorMedia,
+} from './ProductDetail.context'
 import type { ProductDetailProps } from './ProductDetail.types'
 import { ProductSidebar } from './ProductSidebar'
 import { SeoSection } from './SeoSection'
@@ -47,6 +52,21 @@ function ProductDetailContent({
   ProductEditorProps,
   'title' | 'breadcrumb' | 'previewHref' | 'saveDraftHref' | 'publishHref'
 >) {
+  const { form } = useProductEditorForm()
+
+  const handleValidatedNavigation = async (event: MouseEvent<HTMLAnchorElement>, href: string) => {
+    const isValid = await form.trigger(undefined, { shouldFocus: true })
+
+    if (!isValid) {
+      event.preventDefault()
+      return
+    }
+
+    if (href === '#') {
+      event.preventDefault()
+    }
+  }
+
   return (
     <ConsolePageLayout
       title={title}
@@ -60,13 +80,19 @@ function ProductDetailContent({
             </a>
           </Button>
           <Button asChild size="sm" variant="outline">
-            <a href={saveDraftHref}>
+            <a
+              href={saveDraftHref}
+              onClick={(event) => void handleValidatedNavigation(event, saveDraftHref)}
+            >
               <FileText />
               {PRODUCT_DETAIL_ACTION_LABELS.saveDraft}
             </a>
           </Button>
           <Button asChild size="sm">
-            <a href={publishHref}>
+            <a
+              href={publishHref}
+              onClick={(event) => void handleValidatedNavigation(event, publishHref)}
+            >
               <Send />
               {PRODUCT_DETAIL_ACTION_LABELS.publish}
             </a>

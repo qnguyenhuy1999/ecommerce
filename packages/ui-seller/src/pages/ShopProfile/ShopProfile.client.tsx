@@ -6,10 +6,13 @@ import {
   AvatarImage,
   Button,
   ConsolePageLayout,
-  Field,
-  FieldContent,
-  FieldDescription,
-  FieldLabel,
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
   Select,
   SelectContent,
@@ -18,6 +21,7 @@ import {
   SelectValue,
   Textarea,
   Typography,
+  type UseFormReturn,
 } from '@ecom/core-ui'
 import { slugify } from '@ecom/shared/utils'
 import { ImagePlus, Star } from 'lucide-react'
@@ -71,16 +75,15 @@ function LivePreview({ form }: { form: ShopProfileFormData }) {
 
 function IdentitySection({
   form,
+  shopName,
+  logoUrl,
   previewUrl,
-  onFieldChange,
   onReplaceLogo,
 }: {
-  form: ShopProfileFormData
+  form: UseFormReturn<ShopProfileFormData>
+  shopName: string
+  logoUrl: string
   previewUrl: string
-  onFieldChange: <K extends keyof ShopProfileFormData>(
-    key: K,
-    value: ShopProfileFormData[K],
-  ) => void
   onReplaceLogo?: () => void
 }) {
   return (
@@ -88,8 +91,8 @@ function IdentitySection({
       <div className="space-y-5">
         <div className="flex flex-wrap items-center gap-4">
           <Avatar className="size-18 rounded-full">
-            <AvatarImage alt={form.shopName} src={form.logoUrl} />
-            <AvatarFallback>{getInitials(form.shopName)}</AvatarFallback>
+            <AvatarImage alt={shopName} src={logoUrl} />
+            <AvatarFallback>{getInitials(shopName)}</AvatarFallback>
           </Avatar>
           <Button type="button" variant="outline" onClick={onReplaceLogo}>
             <ImagePlus />
@@ -98,48 +101,68 @@ function IdentitySection({
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <Field>
-            <FieldLabel>Shop name *</FieldLabel>
-            <FieldContent>
-              <Input
-                value={form.shopName}
-                onChange={(event) => onFieldChange('shopName', event.target.value)}
-              />
-            </FieldContent>
-          </Field>
+          <FormField
+            control={form.control}
+            name="shopName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Shop name *</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-          <Field>
-            <FieldLabel>Slug</FieldLabel>
-            <FieldContent>
-              <Input
-                value={form.slug}
-                onChange={(event) => onFieldChange('slug', slugify(event.target.value))}
-              />
-            </FieldContent>
-            <FieldDescription>{`${previewUrl.replace(/\/$/, '')}/${form.slug || 'your-shop'}`}</FieldDescription>
-          </Field>
+          <FormField
+            control={form.control}
+            name="slug"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Slug</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    onChange={(event) => field.onChange(slugify(event.target.value))}
+                  />
+                </FormControl>
+                <FormDescription>
+                  {`${previewUrl.replace(/\/$/, '')}/${field.value || 'your-shop'}`}
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
-        <Field>
-          <FieldLabel>Tagline</FieldLabel>
-          <FieldContent>
-            <Input
-              value={form.tagline}
-              onChange={(event) => onFieldChange('tagline', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={form.control}
+          name="tagline"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tagline</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>About</FieldLabel>
-          <FieldContent>
-            <Textarea
-              rows={5}
-              value={form.about}
-              onChange={(event) => onFieldChange('about', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={form.control}
+          name="about"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>About</FormLabel>
+              <FormControl>
+                <Textarea {...field} rows={5} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </SectionCard>
   )
@@ -171,77 +194,91 @@ function ContactOperationsSection({
   form,
   countryOptions,
   responseTargetOptions,
-  onFieldChange,
 }: {
-  form: ShopProfileFormData
+  form: UseFormReturn<ShopProfileFormData>
   countryOptions: string[]
   responseTargetOptions: string[]
-  onFieldChange: <K extends keyof ShopProfileFormData>(
-    key: K,
-    value: ShopProfileFormData[K],
-  ) => void
 }) {
   return (
     <SectionCard title="Contact & operations" className="rounded-[24px]">
       <div className="grid gap-4 md:grid-cols-2">
-        <Field>
-          <FieldLabel>Support email</FieldLabel>
-          <FieldContent>
-            <Input
-              value={form.supportEmail}
-              onChange={(event) => onFieldChange('supportEmail', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={form.control}
+          name="supportEmail"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Support email</FormLabel>
+              <FormControl>
+                <Input {...field} type="email" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Support phone</FieldLabel>
-          <FieldContent>
-            <Input
-              value={form.supportPhone}
-              onChange={(event) => onFieldChange('supportPhone', event.target.value)}
-            />
-          </FieldContent>
-        </Field>
+        <FormField
+          control={form.control}
+          name="supportPhone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Support phone</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Country</FieldLabel>
-          <FieldContent>
-            <Select value={form.country} onValueChange={(value) => onFieldChange('country', value)}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent>
-                {countryOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FieldContent>
-        </Field>
+        <FormField
+          control={form.control}
+          name="country"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Country</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select country" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {countryOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-        <Field>
-          <FieldLabel>Response target</FieldLabel>
-          <FieldContent>
-            <Select
-              value={form.responseTarget}
-              onValueChange={(value) => onFieldChange('responseTarget', value)}
-            >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select response target" />
-              </SelectTrigger>
-              <SelectContent>
-                {responseTargetOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FieldContent>
-        </Field>
+        <FormField
+          control={form.control}
+          name="responseTarget"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Response target</FormLabel>
+              <Select value={field.value} onValueChange={field.onChange}>
+                <FormControl>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select response target" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {responseTargetOptions.map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
       </div>
     </SectionCard>
   )
@@ -275,39 +312,47 @@ export function ShopProfileClient({
   })
 
   const { form } = state
-  const { updateForm, handleSubmit } = handlers
+  const { form: formApi, handleSubmit } = handlers
 
   return (
-    <ConsolePageLayout
-      title={title}
-      description={description}
-      breadcrumb={breadcrumb}
-      actions={
-        <Button type="button" onClick={handleSubmit}>
-          {submitLabel}
-        </Button>
-      }
-      aside={<LivePreview form={form} />}
-      mainClassName="space-y-6"
-    >
-      <IdentitySection
-        form={form}
-        previewUrl={form.previewUrl}
-        onFieldChange={updateForm}
-        {...(handlers.onReplaceLogo !== undefined ? { onReplaceLogo: handlers.onReplaceLogo } : {})}
-      />
-      <BannerSection
-        bannerUrl={form.bannerUrl}
-        {...(handlers.onReplaceBanner !== undefined
-          ? { onReplaceBanner: handlers.onReplaceBanner }
-          : {})}
-      />
-      <ContactOperationsSection
-        form={form}
-        countryOptions={countryOptions}
-        responseTargetOptions={responseTargetOptions}
-        onFieldChange={updateForm}
-      />
-    </ConsolePageLayout>
+    <Form {...formApi}>
+      <ConsolePageLayout
+        title={title}
+        description={description}
+        breadcrumb={breadcrumb}
+        actions={
+          <Button
+            type="button"
+            onClick={() => void handleSubmit()}
+            loading={formApi.formState.isSubmitting}
+          >
+            {submitLabel}
+          </Button>
+        }
+        aside={<LivePreview form={form} />}
+        mainClassName="space-y-6"
+      >
+        <IdentitySection
+          form={formApi}
+          shopName={form.shopName}
+          logoUrl={form.logoUrl}
+          previewUrl={form.previewUrl}
+          {...(handlers.onReplaceLogo !== undefined
+            ? { onReplaceLogo: handlers.onReplaceLogo }
+            : {})}
+        />
+        <BannerSection
+          bannerUrl={form.bannerUrl}
+          {...(handlers.onReplaceBanner !== undefined
+            ? { onReplaceBanner: handlers.onReplaceBanner }
+            : {})}
+        />
+        <ContactOperationsSection
+          form={formApi}
+          countryOptions={countryOptions}
+          responseTargetOptions={responseTargetOptions}
+        />
+      </ConsolePageLayout>
+    </Form>
   )
 }

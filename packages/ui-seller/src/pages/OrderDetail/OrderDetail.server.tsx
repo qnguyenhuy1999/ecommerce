@@ -1,13 +1,8 @@
 import { StatusBadge, Typography } from '@ecom/core-ui'
 import { Package, Truck } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
-import type {
-  ensureAuditLogs} from './OrderDetail.utils';
-import {
-  formatOrderCurrency,
-  formatStatusLabel,
-  getOrderSummaryRows,
-} from './OrderDetail.utils'
+import type { ensureAuditLogs } from './OrderDetail.utils'
+import { formatOrderCurrency, formatStatusLabel, getOrderSummaryRows } from './OrderDetail.utils'
 import type { OrderRecord } from './OrderDetail.controller'
 
 export function OrderDetailSidebar({ order }: { order: OrderRecord }) {

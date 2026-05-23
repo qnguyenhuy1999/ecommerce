@@ -1,3 +1,4 @@
+import { formatCurrency } from '@ecom/shared/utils'
 import type {
   RefundMethod,
   ReturnRow,
@@ -8,11 +9,9 @@ import type {
   ReturnsRefundsStatusTab,
 } from './ReturnsRefunds.types'
 
-export const returnsMoneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 2,
-})
+export function formatReturnAmount(amount: number) {
+  return formatCurrency(amount)
+}
 
 export const returnStatusClassNames = {
   OPEN: {

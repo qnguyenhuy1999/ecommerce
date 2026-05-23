@@ -1,11 +1,24 @@
 'use client'
 
-import { Button, Input } from '@ecom/core-ui'
+import { Button, CurrencyInput, Input, NumberInput } from '@ecom/core-ui'
 import { Plus, X } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { useProductEditorVariants } from './ProductDetail.context'
 import type { ProductDetailOptionGroup } from './ProductDetail.types'
 import type { VariantDraft, VariantRow } from './ProductDetail.utils'
+
+function toNumberInputValue(value: string) {
+  if (value.trim() === '') {
+    return ''
+  }
+
+  const parsed = Number(value)
+  return Number.isNaN(parsed) ? '' : parsed
+}
+
+function toStringValue(value: number | '') {
+  return value === '' ? '' : String(value)
+}
 
 function VariantOptionGroupEditor({
   group,
@@ -139,21 +152,22 @@ function VariantRowsTable({
                     />
                   </td>
                   <td className="px-4 py-3">
-                    <Input
-                      value={row.draft.price}
-                      onChange={(event) =>
-                        handleVariantDraftChange(row.key, 'price', event.target.value)
+                    <CurrencyInput
+                      min={0}
+                      value={toNumberInputValue(row.draft.price)}
+                      onChange={(value) =>
+                        handleVariantDraftChange(row.key, 'price', toStringValue(value))
                       }
-                      inputMode="decimal"
                     />
                   </td>
                   <td className="px-4 py-3">
-                    <Input
-                      value={row.draft.stock}
-                      onChange={(event) =>
-                        handleVariantDraftChange(row.key, 'stock', event.target.value)
+                    <NumberInput
+                      min={0}
+                      step={1}
+                      value={toNumberInputValue(row.draft.stock)}
+                      onChange={(value) =>
+                        handleVariantDraftChange(row.key, 'stock', toStringValue(value))
                       }
-                      inputMode="numeric"
                     />
                   </td>
                 </tr>

@@ -32,7 +32,7 @@ function FilterSelect<TValue extends string>({
   onChange: (value: TValue) => void
 }) {
   return (
-    <div className="min-w-40">
+    <div>
       <Select value={value} onValueChange={(next) => onChange(next as TValue)}>
         <SelectTrigger className="border-input bg-background h-10 rounded-2xl shadow-none">
           <SelectValue />
@@ -59,7 +59,7 @@ function DateRangeSelect({
   onChange: (value: AuditLogDateRange) => void
 }) {
   return (
-    <div className="min-w-44">
+    <div>
       <Select value={value} onValueChange={(next) => onChange(next as AuditLogDateRange)}>
         <SelectTrigger className="border-input bg-background h-10 rounded-2xl shadow-none">
           <Calendar className="text-muted-foreground size-4 shrink-0" />
@@ -85,7 +85,7 @@ export interface AuditLogClientProps {
   emptyStateMessage: string
   actorOptions: AuditLogFilterOption<'ALL' | AuditLogActorRole>[]
   resourceOptions: AuditLogFilterOption<'ALL' | AuditLogResource>[]
-  actionOptions: AuditLogFilterOption<'ALL' | string>[]
+  actionOptions: AuditLogFilterOption<string>[]
   dateRangeOptions: AuditLogFilterOption<AuditLogDateRange>[]
   items: AuditLogEntry[]
   onExport?: AuditLogProps['onExport']
@@ -121,13 +121,13 @@ export function AuditLogClient({
         data={computed.filteredItems}
         emptyMessage={emptyStateMessage}
         toolbar={
-          <SellerListPage.Filters className="items-stretch justify-between gap-3 xl:flex-row xl:items-center">
+          <SellerListPage.Filters className="items-stretch justify-between xl:flex-row xl:items-center">
             <SellerListPage.Search
               value={state.search}
               onChange={handlers.setSearch}
               placeholder={searchPlaceholder}
             />
-            <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-col gap-3 xl:flex-row xl:items-center">
               <div className="flex flex-wrap gap-3">
                 <FilterSelect
                   value={state.actorFilter}

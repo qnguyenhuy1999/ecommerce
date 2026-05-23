@@ -18,7 +18,7 @@ import {
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { createReturnsColumns } from './ReturnsRefunds.columns'
-import { refundMethodLabels, returnsMoneyFormatter } from './ReturnsRefunds.constants'
+import { refundMethodLabels, formatReturnAmount } from './ReturnsRefunds.constants'
 import { useReturnsRefundsController } from './ReturnsRefunds.controller'
 import { returnsDefaultProps } from './ReturnsRefunds.fixtures'
 import type { RefundMethod, ReturnRow, ReturnsRefundsProps } from './ReturnsRefunds.types'
@@ -66,7 +66,7 @@ function ApproveReturnModal({
                 Refund amount
               </Typography>
               <Typography variant="body-sm" className="font-semibold">
-                {returnsMoneyFormatter.format(row.amount)}
+                {formatReturnAmount(row.amount)}
               </Typography>
             </div>
             <div className="mt-3 flex items-center justify-between gap-4">
@@ -135,9 +135,7 @@ function ReturnCaseDetail({
         </Typography>
         <div className="mb-4 flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Requested amount</span>
-          <span className="text-foreground font-semibold">
-            {returnsMoneyFormatter.format(row.amount)}
-          </span>
+          <span className="text-foreground font-semibold">{formatReturnAmount(row.amount)}</span>
         </div>
         <Select
           value={refundMethod}

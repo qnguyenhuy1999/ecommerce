@@ -30,6 +30,18 @@ src/
   index.ts
 ```
 
+## Public API
+
+- Export seller-facing pages and reusable compounds through `src/index.ts`.
+- Reuse `@ecom/core-ui` form primitives for seller forms instead of local input state when validation exists.
+- Keep app integration concerns outside package. `ui-seller` accepts callbacks; apps own API calls and navigation.
+
+Example:
+
+```tsx
+import { Login, ShopProfile } from '@ecom/ui-seller'
+```
+
 ## Important patterns
 
 - `core-ui` stays generic; seller-specific page composition lives here.
@@ -147,6 +159,7 @@ pnpm --filter @ecom/ui-seller storybook
 ## Verification
 
 ```bash
+pnpm --filter @ecom/ui-seller build
 pnpm --filter @ecom/ui-seller type-check
 pnpm --filter @ecom/ui-seller lint
 ```

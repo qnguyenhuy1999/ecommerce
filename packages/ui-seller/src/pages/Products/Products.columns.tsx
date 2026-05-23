@@ -1,12 +1,7 @@
 import { Checkbox, StatusBadge } from '@ecom/core-ui'
 import type { DataTableColumn } from '@ecom/core-ui'
+import { formatCurrency } from '@ecom/shared/utils'
 import type { ProductRow } from './Products.types'
-
-const priceFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-})
 
 const selectColumn: DataTableColumn<ProductRow> = {
   id: 'select',
@@ -56,7 +51,9 @@ const priceColumn: DataTableColumn<ProductRow> = {
   accessorKey: 'price',
   header: 'Price',
   cell: ({ row }) => (
-    <span className="text-primary font-medium">{priceFormatter.format(row.original.price)}</span>
+    <span className="text-primary font-medium">
+      {formatCurrency(row.original.price, { fractionDigits: 0 })}
+    </span>
   ),
 }
 

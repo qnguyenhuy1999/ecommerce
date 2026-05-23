@@ -7,14 +7,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
   Input,
-  Label,
   Typography,
+  useForm,
+  zodResolver,
 } from '@ecom/core-ui'
 import { CircleAlert, CircleCheckBig, KeyRound, ShieldAlert } from 'lucide-react'
 import { useState } from 'react'
 import { AuthPageShell } from '../../layouts/AuthPageShell'
 import { resetPasswordDefaultProps } from './ResetPassword.fixtures'
+import { resetPasswordSchema } from './ResetPassword.schema'
 import type { ResetPasswordProps, ResetPasswordSubmitValues } from './ResetPassword.types'
 
 interface ResetPasswordClientProps {
@@ -40,14 +48,6 @@ interface ResetPasswordStatusProps {
   tone: 'warning' | 'success'
   title: string
   message: string
-}
-
-interface PasswordFieldProps {
-  id: string
-  label: string
-  placeholder: string
-  value: string
-  onChange: (value: string) => void
 }
 
 function getErrorMessage(error: unknown) {
@@ -85,28 +85,6 @@ function ResetPasswordStatus({ tone, title, message }: ResetPasswordStatusProps)
   )
 }
 
-function PasswordField({ id, label, placeholder, value, onChange }: PasswordFieldProps) {
-  return (
-    <div className="space-y-2">
-      <Label htmlFor={id}>{label}</Label>
-      <div className="relative">
-        <KeyRound className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
-        <Input
-          id={id}
-          type="password"
-          autoComplete="new-password"
-          required
-          minLength={8}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-          placeholder={placeholder}
-          className="bg-background h-11 pl-10"
-        />
-      </div>
-    </div>
-  )
-}
-
 export function ResetPasswordClient({
   title,
   description,
@@ -126,50 +104,39 @@ export function ResetPasswordClient({
   onSubmit,
 }: ResetPasswordClientProps) {
   const submitHandler = onSubmit ?? resetPasswordDefaultProps.onSubmit
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
-  const [submitting, setSubmitting] = useState(false)
   const [completed, setCompleted] = useState(false)
 
-  const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const form = useForm<{ password: string; confirmPassword: string }>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: { password: '', confirmPassword: '' },
+  })
 
+  const submitting = form.formState.isSubmitting
+
+  const handleSubmit = form.handleSubmit(async (values) => {
     if (!token) {
       setErrorMessage(missingTokenMessage)
       return
     }
-
-    if (password.length < 8) {
-      setErrorMessage('Password must be at least 8 characters.')
-      return
-    }
-
-    if (password !== confirmPassword) {
-      setErrorMessage('Passwords do not match.')
-      return
-    }
-
     setErrorMessage('')
-    setSubmitting(true)
-
-    const values: ResetPasswordSubmitValues = { token, password }
-
+    const submitValues: ResetPasswordSubmitValues = { token, password: values.password }
     try {
-      await submitHandler(values)
+      await submitHandler(submitValues)
       setCompleted(true)
     } catch (error) {
       setErrorMessage(getErrorMessage(error))
-    } finally {
-      setSubmitting(false)
     }
-  }
+  })
 
   return (
     <AuthPageShell title={title} description={description}>
       <Card className="bg-card border-border shadow-sm">
         <CardHeader className="space-y-3 pb-2">
-          <Typography variant="caption" className="text-muted-foreground tracking-[0.24em] uppercase">
+          <Typography
+            variant="caption"
+            className="text-muted-foreground tracking-[0.24em] uppercase"
+          >
             Password reset
           </Typography>
           <div className="space-y-1">
@@ -189,34 +156,66 @@ export function ResetPasswordClient({
           ) : completed ? (
             <ResetPasswordStatus tone="success" title={successTitle} message={successMessage} />
           ) : (
-            <form onSubmit={(event) => void handleSubmit(event)} className="space-y-4">
-              {errorMessage ? (
-                <div className="bg-destructive/10 text-destructive flex items-start gap-3 rounded-2xl border border-destructive/20 px-4 py-3 text-sm">
-                  <CircleAlert className="mt-0.5 size-4 shrink-0" />
-                  <span>{errorMessage}</span>
-                </div>
-              ) : null}
+            <Form {...form}>
+              <form onSubmit={(event) => void handleSubmit(event)} className="space-y-4">
+                {errorMessage ? (
+                  <div className="bg-destructive/10 text-destructive border-destructive/20 flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm">
+                    <CircleAlert className="mt-0.5 size-4 shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                ) : null}
 
-              <PasswordField
-                id="seller-reset-password"
-                label={passwordLabel}
-                placeholder={passwordPlaceholder}
-                value={password}
-                onChange={setPassword}
-              />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel>{passwordLabel}</FormLabel>
+                      <div className="relative">
+                        <KeyRound className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="password"
+                            autoComplete="new-password"
+                            placeholder={passwordPlaceholder}
+                            className="bg-background h-11 pl-10"
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <PasswordField
-                id="seller-reset-password-confirm"
-                label={confirmPasswordLabel}
-                placeholder={confirmPasswordPlaceholder}
-                value={confirmPassword}
-                onChange={setConfirmPassword}
-              />
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem className="space-y-2">
+                      <FormLabel>{confirmPasswordLabel}</FormLabel>
+                      <div className="relative">
+                        <KeyRound className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2" />
+                        <FormControl>
+                          <Input
+                            {...field}
+                            type="password"
+                            autoComplete="new-password"
+                            placeholder={confirmPasswordPlaceholder}
+                            className="bg-background h-11 pl-10"
+                          />
+                        </FormControl>
+                      </div>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
-              <Button type="submit" size="lg" className="w-full" loading={submitting}>
-                {submitting ? submittingLabel : submitLabel}
-              </Button>
-            </form>
+                <Button type="submit" size="lg" className="w-full" loading={submitting}>
+                  {submitting ? submittingLabel : submitLabel}
+                </Button>
+              </form>
+            </Form>
           )}
         </CardContent>
         <CardFooter>

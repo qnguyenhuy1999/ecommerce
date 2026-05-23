@@ -510,7 +510,7 @@ export function SupportClient({
     ...(selectedTicketId !== undefined && { selectedTicketId }),
     assigneeOptions,
     macroOptions,
-    ...(draftReply !== undefined && { draftReply }),
+    draftReply,
     ...(onSelectedTicketChange !== undefined && { onSelectedTicketChange }),
     ...(onDraftReplyChange !== undefined && { onDraftReplyChange }),
     ...(onSendReply !== undefined && { onSendReply }),

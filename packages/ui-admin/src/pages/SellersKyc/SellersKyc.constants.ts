@@ -1,3 +1,4 @@
+import { formatCurrency } from '@ecom/shared/utils'
 import type {
   SellerKycRow,
   SellerKycStatus,
@@ -5,12 +6,6 @@ import type {
   SellerKycStatusTab,
   SellerKycStatusTabOption,
 } from './SellersKyc.types'
-
-export const sellersKycCurrencyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-})
 
 export const sellerKycStatusLabels = {
   ALL: 'All',
@@ -35,7 +30,7 @@ export const sellerKycStatusToneClassNames = {
 } as const satisfies Record<SellerKycStatus, { badge: string; dot: string }>
 
 export function formatSellerKycGmv(value: number) {
-  return sellersKycCurrencyFormatter.format(value)
+  return formatCurrency(value, { fractionDigits: 0 })
 }
 
 export function buildSellerKycStatusCounts(

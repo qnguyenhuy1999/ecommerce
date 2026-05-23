@@ -1,6 +1,7 @@
 import { voucherDetailDefaultProps } from './VoucherDetail.fixtures'
 import type { VoucherDetailProps } from './VoucherDetail.types'
 import { VoucherDetailClient } from './VoucherDetail.client'
+import { withDefined } from '@ecom/shared'
 
 export function VoucherDetail({
   title = voucherDetailDefaultProps.title,
@@ -12,10 +13,10 @@ export function VoucherDetail({
   onSubmit,
   onCancel,
 }: VoucherDetailProps) {
-  const optionalProps = {
-    ...(onSubmit ? { onSubmit } : {}),
-    ...(onCancel ? { onCancel } : {}),
-  }
+  const optionalProps = withDefined({
+    onSubmit: onSubmit,
+    onCancel: onCancel,
+  })
 
   return (
     <VoucherDetailClient

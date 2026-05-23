@@ -218,7 +218,7 @@ function ConversationSidebar({
   onSelectConversation,
 }: ConversationSidebarProps) {
   return (
-    <aside className="border-border/80 flex min-h-0 min-w-0 flex-col border-b md:w-88 md:shrink-0 md:border-r md:border-b-0">
+    <aside className="border-border/80 flex h-full min-h-0 min-w-0 flex-col border-b md:w-88 md:shrink-0 md:border-r md:border-b-0">
       <div className="border-border/80 border-b p-4">
         <div className="relative">
           <Search className="text-muted-foreground absolute top-1/2 left-4 size-4 -translate-y-1/2" />

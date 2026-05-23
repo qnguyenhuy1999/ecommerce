@@ -1,12 +1,7 @@
 import { Badge } from '@ecom/core-ui'
 import type { DataTableColumn } from '@ecom/core-ui'
+import { formatCurrency } from '@ecom/shared/utils'
 import type { VoucherRow, VoucherStatus, VoucherType } from './Vouchers.types'
-
-const moneyFormatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  maximumFractionDigits: 0,
-})
 
 const VOUCHER_TYPE_LABELS: Record<VoucherType, string> = {
   AMOUNT: 'amount',
@@ -30,7 +25,7 @@ const VOUCHER_STATUS_DOT_CLASS_NAMES: Record<VoucherStatus, string> = {
 }
 
 export function formatVoucherMinSpend(value: number) {
-  return moneyFormatter.format(value)
+  return formatCurrency(value, { fractionDigits: 0 })
 }
 
 export function formatVoucherWindow(voucher: VoucherRow) {

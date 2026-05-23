@@ -1,5 +1,6 @@
 export * from './types'
 export * from './cn'
+export * from './format'
 export * from './slugify'
 export * from './truncate'
 export * from './build-query'

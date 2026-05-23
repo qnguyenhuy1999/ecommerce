@@ -1,56 +1,114 @@
 'use client'
 
-import { Checkbox, Field, FieldContent, FieldLabel, Input } from '@ecom/core-ui'
+import {
+  Checkbox,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  NumberInput,
+} from '@ecom/core-ui'
 import { SectionCard } from '../../atoms/SectionCard'
 import { useProductEditorShipping } from './ProductDetail.context'
 
+function toNumberInputValue(value: string) {
+  if (value.trim() === '') {
+    return ''
+  }
+
+  const parsed = Number(value)
+  return Number.isNaN(parsed) ? '' : parsed
+}
+
+function toStringValue(value: number | '') {
+  return value === '' ? '' : String(value)
+}
+
 export function ShippingSection() {
-  const { form, updateDimension, onShippingMethodChange } = useProductEditorShipping()
+  const { form, shippingMethods, updateDimension, onShippingMethodChange } =
+    useProductEditorShipping()
 
   return (
     <SectionCard title="Shipping">
       <div className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <Field>
-            <FieldLabel>Weight (kg)</FieldLabel>
-            <FieldContent>
-              <Input
-                value={form.weightKg}
-                onChange={(event) => updateDimension('weightKg', event.target.value)}
-              />
-            </FieldContent>
-          </Field>
-          <Field>
-            <FieldLabel>Length (cm)</FieldLabel>
-            <FieldContent>
-              <Input
-                value={form.lengthCm}
-                onChange={(event) => updateDimension('lengthCm', event.target.value)}
-              />
-            </FieldContent>
-          </Field>
-          <Field>
-            <FieldLabel>Width (cm)</FieldLabel>
-            <FieldContent>
-              <Input
-                value={form.widthCm}
-                onChange={(event) => updateDimension('widthCm', event.target.value)}
-              />
-            </FieldContent>
-          </Field>
-          <Field>
-            <FieldLabel>Height (cm)</FieldLabel>
-            <FieldContent>
-              <Input
-                value={form.heightCm}
-                onChange={(event) => updateDimension('heightCm', event.target.value)}
-              />
-            </FieldContent>
-          </Field>
+          <FormField
+            control={form.control}
+            name="weightKg"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Weight (kg)</FormLabel>
+                <FormControl>
+                  <NumberInput
+                    min={0}
+                    step={0.01}
+                    value={toNumberInputValue(field.value ?? '')}
+                    onChange={(value) => updateDimension('weightKg', toStringValue(value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="lengthCm"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Length (cm)</FormLabel>
+                <FormControl>
+                  <NumberInput
+                    min={0}
+                    step={0.01}
+                    value={toNumberInputValue(field.value ?? '')}
+                    onChange={(value) => updateDimension('lengthCm', toStringValue(value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="widthCm"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Width (cm)</FormLabel>
+                <FormControl>
+                  <NumberInput
+                    min={0}
+                    step={0.01}
+                    value={toNumberInputValue(field.value ?? '')}
+                    onChange={(value) => updateDimension('widthCm', toStringValue(value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="heightCm"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Height (cm)</FormLabel>
+                <FormControl>
+                  <NumberInput
+                    min={0}
+                    step={0.01}
+                    value={toNumberInputValue(field.value ?? '')}
+                    onChange={(value) => updateDimension('heightCm', toStringValue(value))}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="space-y-2">
-          {form.shippingMethods.map((method) => (
+          {shippingMethods.map((method) => (
             <label
               key={method.id}
               className="bg-muted/45 flex items-center gap-3 rounded-2xl border px-4 py-3 text-sm"

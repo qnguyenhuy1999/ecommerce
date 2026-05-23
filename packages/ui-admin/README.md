@@ -30,6 +30,19 @@ src/
   index.ts
 ```
 
+## Public API
+
+- Export reusable admin compounds through `src/index.ts`.
+- Import shared primitives from `@ecom/core-ui`, not internal source paths.
+- Keep page-private helpers inside `pages/<Feature>/`.
+
+Example:
+
+```tsx
+import { SellerListPage } from '@ecom/ui-admin'
+import { Button, DataTable } from '@ecom/core-ui'
+```
+
 ## Important patterns
 
 - `core-ui` stays generic; admin-specific page composition lives here.
@@ -146,6 +159,7 @@ pnpm --filter @ecom/ui-admin storybook
 ## Verification
 
 ```bash
+pnpm --filter @ecom/ui-admin build
 pnpm --filter @ecom/ui-admin type-check
 pnpm --filter @ecom/ui-admin lint
 ```

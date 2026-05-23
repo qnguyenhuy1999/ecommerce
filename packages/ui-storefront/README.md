@@ -30,6 +30,21 @@ src/
   index.ts
 ```
 
+## Public API
+
+- Export storefront building blocks through `src/index.ts` barrel folders.
+- Keep package consumable from built output only:
+  - `dist/index.js`
+  - `dist/index.cjs`
+  - `dist/index.d.ts`
+- Keep `./styles/globals.css` as only extra public subpath unless new stable entrypoint is required.
+
+Example:
+
+```tsx
+import { FeaturedProducts } from '@ecom/ui-storefront'
+```
+
 ## Important patterns
 
 - `core-ui` stays generic; storefront-specific page composition lives here.
@@ -146,6 +161,7 @@ pnpm --filter @ecom/ui-storefront storybook
 ## Verification
 
 ```bash
+pnpm --filter @ecom/ui-storefront build
 pnpm --filter @ecom/ui-storefront type-check
 pnpm --filter @ecom/ui-storefront lint
 ```

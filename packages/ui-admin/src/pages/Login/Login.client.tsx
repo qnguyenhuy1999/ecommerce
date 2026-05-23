@@ -1,8 +1,24 @@
 'use client'
 
-import { Button, Card, CardContent, Checkbox, Input, Label, Typography } from '@ecom/core-ui'
+import {
+  Button,
+  Card,
+  CardContent,
+  Checkbox,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+  Input,
+  Typography,
+  useForm,
+  zodResolver,
+  type UseFormReturn,
+} from '@ecom/core-ui'
 import { ArrowLeft, CircleAlert, Eye, EyeOff, KeyRound, Mail, ShieldCheck } from 'lucide-react'
-import { useState, type ReactNode, type SyntheticEvent } from 'react'
+import { useState, useEffect } from 'react'
 import {
   authIconClassName,
   authInputClassName,
@@ -16,6 +32,7 @@ import {
 import { AuthPageShell } from '../../layouts/AuthPageShell'
 import { loginDefaultProps } from './Login.fixtures'
 import type { LoginProps, LoginSubmitValues } from './Login.types'
+import { loginSchema } from './Login.schema'
 
 interface LoginClientProps {
   title: string
@@ -48,22 +65,12 @@ interface LoginClientProps {
   onSubmit: NonNullable<LoginProps['onSubmit']>
 }
 
-interface FieldShellProps {
-  id: string
-  label: string
-  children: ReactNode
-  trailingContent?: ReactNode
-}
-
 interface LoginFormProps {
+  form: UseFormReturn<LoginSubmitValues>
   emailLabel: string
   emailPlaceholder: string
-  email: string
-  onEmailChange: (value: string) => void
   passwordLabel: string
   passwordPlaceholder: string
-  password: string
-  onPasswordChange: (value: string) => void
   showPassword: boolean
   onTogglePassword: () => void
   forgotPasswordHref: string
@@ -71,17 +78,13 @@ interface LoginFormProps {
   otpLabel: string
   otpPlaceholder: string
   otpHint: string
-  otp: string
-  onOtpChange: (value: string) => void
   trustDeviceLabel: string
   trustDeviceHint: string
-  trustDevice: boolean
-  onTrustDeviceChange: (checked: boolean) => void
   passkeyLabel: string
   submitLabel: string
   submittingLabel: string
   submitting: boolean
-  onSubmit: (event: SyntheticEvent<HTMLFormElement>) => Promise<void>
+  onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void
 }
 
 function getErrorMessage(error: unknown) {
@@ -90,20 +93,6 @@ function getErrorMessage(error: unknown) {
   }
 
   return 'Sign in failed'
-}
-
-function FieldShell({ id, label, children, trailingContent }: FieldShellProps) {
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between gap-3">
-        <Label htmlFor={id} className={authLabelClassName}>
-          {label}
-        </Label>
-        {trailingContent}
-      </div>
-      {children}
-    </div>
-  )
 }
 
 function LoginHeader({
@@ -163,14 +152,11 @@ function LoginError({ message }: { message: string }) {
 }
 
 function LoginForm({
+  form,
   emailLabel,
   emailPlaceholder,
-  email,
-  onEmailChange,
   passwordLabel,
   passwordPlaceholder,
-  password,
-  onPasswordChange,
   showPassword,
   onTogglePassword,
   forgotPasswordHref,
@@ -178,12 +164,8 @@ function LoginForm({
   otpLabel,
   otpPlaceholder,
   otpHint,
-  otp,
-  onOtpChange,
   trustDeviceLabel,
   trustDeviceHint,
-  trustDevice,
-  onTrustDeviceChange,
   passkeyLabel,
   submitLabel,
   submittingLabel,
@@ -191,116 +173,139 @@ function LoginForm({
   onSubmit,
 }: LoginFormProps) {
   return (
-    <form onSubmit={(event) => void onSubmit(event)} className="space-y-3.5">
-      <FieldShell id="admin-login-email" label={emailLabel}>
-        <div className="relative">
-          <Mail className={authIconClassName} />
-          <Input
-            id="admin-login-email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(event) => onEmailChange(event.target.value)}
-            placeholder={emailPlaceholder}
-            className={authInputClassName}
-          />
-        </div>
-      </FieldShell>
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-3.5">
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className={authLabelClassName}>{emailLabel}</FormLabel>
+              <div className="relative">
+                <Mail className={authIconClassName} />
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="email"
+                    autoComplete="email"
+                    placeholder={emailPlaceholder}
+                    className={authInputClassName}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FieldShell
-        id="admin-login-password"
-        label={passwordLabel}
-        trailingContent={
-          <a href={forgotPasswordHref} className={authPrimaryLinkClassName}>
-            {forgotPasswordLabel}
-          </a>
-        }
-      >
-        <div className="relative">
-          <KeyRound className={authIconClassName} />
-          <Input
-            id="admin-login-password"
-            type={showPassword ? 'text' : 'password'}
-            autoComplete="current-password"
-            required
-            value={password}
-            onChange={(event) => onPasswordChange(event.target.value)}
-            placeholder={passwordPlaceholder}
-            className={authInputClassName}
-          />
-          <Button
-            type="button"
-            variant="ghost"
-            size="icon-sm"
-            className="text-muted-foreground hover:text-foreground absolute top-1/2 right-2 -translate-y-1/2 hover:bg-transparent"
-            onClick={onTogglePassword}
-            aria-label={showPassword ? 'Hide password' : 'Show password'}
-          >
-            {showPassword ? <EyeOff /> : <Eye />}
-          </Button>
-        </div>
-      </FieldShell>
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <FormLabel className={authLabelClassName}>{passwordLabel}</FormLabel>
+                <a href={forgotPasswordHref} className={authPrimaryLinkClassName}>
+                  {forgotPasswordLabel}
+                </a>
+              </div>
+              <div className="relative">
+                <KeyRound className={authIconClassName} />
+                <FormControl>
+                  <Input
+                    {...field}
+                    type={showPassword ? 'text' : 'password'}
+                    autoComplete="current-password"
+                    placeholder={passwordPlaceholder}
+                    className={authInputClassName}
+                  />
+                </FormControl>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  className="text-muted-foreground hover:text-foreground absolute top-1/2 right-2 -translate-y-1/2 hover:bg-transparent"
+                  onClick={onTogglePassword}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff /> : <Eye />}
+                </Button>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FieldShell
-        id="admin-login-otp"
-        label={otpLabel}
-        trailingContent={
-          <Typography variant="body-sm" className="text-muted-foreground">
-            {otpHint}
-          </Typography>
-        }
-      >
-        <div className="relative">
-          <ShieldCheck className={authIconClassName} />
-          <Input
-            id="admin-login-otp"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            required
-            value={otp}
-            onChange={(event) => onOtpChange(event.target.value)}
-            placeholder={otpPlaceholder}
-            className={`${authInputClassName} tracking-[0.36em]`}
-          />
-        </div>
-      </FieldShell>
+        <FormField
+          control={form.control}
+          name="otp"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <div className="flex items-center justify-between gap-3">
+                <FormLabel className={authLabelClassName}>{otpLabel}</FormLabel>
+                <Typography variant="body-sm" className="text-muted-foreground">
+                  {otpHint}
+                </Typography>
+              </div>
+              <div className="relative">
+                <ShieldCheck className={authIconClassName} />
+                <FormControl>
+                  <Input
+                    {...field}
+                    inputMode="numeric"
+                    autoComplete="one-time-code"
+                    placeholder={otpPlaceholder}
+                    className={`${authInputClassName} tracking-[0.36em]`}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <label
-          htmlFor="admin-login-trust-device"
-          className="text-foreground flex items-center gap-3 text-sm"
+        <FormField
+          control={form.control}
+          name="trustDevice"
+          render={({ field }) => (
+            <FormItem>
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                <label className="text-foreground flex items-center gap-3 text-sm">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(checked) => field.onChange(checked === true)}
+                      className="border-input"
+                    />
+                  </FormControl>
+                  <span className="flex items-center gap-1.5">
+                    <span>{trustDeviceLabel}</span>
+                    <span className="text-muted-foreground">{trustDeviceHint}</span>
+                  </span>
+                </label>
+
+                <span
+                  aria-disabled="true"
+                  className="text-muted-foreground inline-flex items-center gap-2 text-sm font-medium"
+                >
+                  <ShieldCheck className="text-muted-foreground/70 size-4" />
+                  <span>{passkeyLabel}</span>
+                </span>
+              </div>
+            </FormItem>
+          )}
+        />
+
+        <Button
+          type="submit"
+          size="lg"
+          className={`${authPrimaryButtonClassName} h-12`}
+          loading={submitting}
         >
-          <Checkbox
-            id="admin-login-trust-device"
-            checked={trustDevice}
-            onCheckedChange={(checked) => onTrustDeviceChange(checked === true)}
-            className="border-input"
-          />
-          <span className="flex items-center gap-1.5">
-            <span>{trustDeviceLabel}</span>
-            <span className="text-muted-foreground">{trustDeviceHint}</span>
-          </span>
-        </label>
-
-        <span
-          aria-disabled="true"
-          className="text-muted-foreground inline-flex items-center gap-2 text-sm font-medium"
-        >
-          <ShieldCheck className="text-muted-foreground/70 size-4" />
-          <span>{passkeyLabel}</span>
-        </span>
-      </div>
-
-      <Button
-        type="submit"
-        size="lg"
-        className={`${authPrimaryButtonClassName} h-12`}
-        loading={submitting}
-      >
-        {submitting ? submittingLabel : submitLabel}
-      </Button>
-    </form>
+          {submitting ? submittingLabel : submitLabel}
+        </Button>
+      </form>
+    </Form>
   )
 }
 
@@ -372,29 +377,38 @@ export function LoginClient({
   onSubmit,
 }: LoginClientProps) {
   const submitHandler = onSubmit ?? loginDefaultProps.onSubmit
-  const [email, setEmail] = useState(defaultEmail ?? loginDefaultProps.defaultEmail)
-  const [password, setPassword] = useState('')
-  const [otp, setOtp] = useState(defaultOtp ?? loginDefaultProps.defaultOtp)
-  const [trustDevice, setTrustDevice] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const [submitting, setSubmitting] = useState(false)
 
-  const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const form = useForm<LoginSubmitValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: defaultEmail ?? '',
+      password: '',
+      otp: defaultOtp ?? '',
+      trustDevice: false,
+    },
+  })
+
+  useEffect(() => {
+    form.reset({
+      email: defaultEmail ?? '',
+      password: '',
+      otp: defaultOtp ?? '',
+      trustDevice: false,
+    })
+  }, [defaultEmail, defaultOtp, form])
+
+  const handleSubmit = form.handleSubmit(async (values) => {
     setErrorMessage('')
-    setSubmitting(true)
-
-    const values: LoginSubmitValues = { email, password, otp, trustDevice }
-
     try {
       await submitHandler(values)
     } catch (error) {
       setErrorMessage(getErrorMessage(error))
-    } finally {
-      setSubmitting(false)
     }
-  }
+  })
+
+  const submitting = form.formState.isSubmitting
 
   return (
     <AuthPageShell title={title}>
@@ -407,14 +421,11 @@ export function LoginClient({
             {errorMessage ? <LoginError message={errorMessage} /> : null}
 
             <LoginForm
+              form={form}
               emailLabel={emailLabel}
               emailPlaceholder={emailPlaceholder}
-              email={email}
-              onEmailChange={setEmail}
               passwordLabel={passwordLabel}
               passwordPlaceholder={passwordPlaceholder}
-              password={password}
-              onPasswordChange={setPassword}
               showPassword={showPassword}
               onTogglePassword={() => setShowPassword((current) => !current)}
               forgotPasswordHref={forgotPasswordHref}
@@ -422,17 +433,15 @@ export function LoginClient({
               otpLabel={otpLabel}
               otpPlaceholder={otpPlaceholder}
               otpHint={otpHint}
-              otp={otp}
-              onOtpChange={setOtp}
               trustDeviceLabel={trustDeviceLabel}
               trustDeviceHint={trustDeviceHint}
-              trustDevice={trustDevice}
-              onTrustDeviceChange={setTrustDevice}
               passkeyLabel={passkeyLabel}
               submitLabel={submitLabel}
               submittingLabel={submittingLabel}
               submitting={submitting}
-              onSubmit={handleSubmit}
+              onSubmit={(event) => {
+                void handleSubmit(event)
+              }}
             />
 
             <LoginFooterLinks
