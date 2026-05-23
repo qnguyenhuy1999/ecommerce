@@ -13,6 +13,7 @@ import { HomepageModule } from './homepage/homepage.module'
 import { ShopPageModule } from './shop-page/shop-page.module'
 import { NotificationsModule } from './notifications/notifications.module'
 import { ProfileModule } from './profile/profile.module'
+import { ProductsModule } from './products/products.module'
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { ProfileModule } from './profile/profile.module'
     CheckoutModule,
     CategoryPageModule,
     HomepageModule,
+    ProductsModule,
     ShopPageModule,
     NotificationsModule,
     ProfileModule,

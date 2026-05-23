@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { FlashSaleStatus, ProductStatus, ReviewStatus } from '@ecom/contracts/enums'
 
 type DecimalLike = { toNumber(): number } | null | undefined
@@ -28,6 +28,18 @@ type BreadcrumbDto = {
   id: string
   name: string
   slug: string
+}
+
+type RecommendationDto = {
+  id: string
+  name: string
+  slug: string
+  shopId: string
+  price: number
+  coverImage: string | null
+  rating: number | null
+  reviewCount: number
+  shop: { id: string; name: string; slug: string; logo: string | null }
 }
 
 type ReviewAggregateRow = {
@@ -116,7 +128,9 @@ export class ProductsService {
     const product = await this.prisma.product.findFirst({
       where: { slug, status: ProductStatus.PUBLISHED, deletedAt: null },
       include: {
-        shop: { select: { id: true, name: true, slug: true, logo: true, city: true, country: true } },
+        shop: {
+          select: { id: true, name: true, slug: true, logo: true, city: true, country: true },
+        },
         category: { select: { id: true, name: true, slug: true, parentId: true } },
         images: { orderBy: [{ isCover: 'desc' }, { sortOrder: 'asc' }, { createdAt: 'asc' }] },
         variantOptionGroups: {
@@ -169,7 +183,14 @@ export class ProductsService {
       this.getRecommendations(product.id, product.categoryId),
     ])
 
-    return this.mapProductDetail(product, reviewRows[0], soldRows, flashSaleSlot, breadcrumbs, recommendations)
+    return this.mapProductDetail(
+      product,
+      reviewRows[0],
+      soldRows,
+      flashSaleSlot,
+      breadcrumbs,
+      recommendations,
+    )
   }
 
   private async buildBreadcrumbs(categoryId: string | null) {
@@ -190,17 +211,67 @@ export class ProductsService {
       cursor = category.parentId
     }
 
-    return chain.reverse().map(({ id, name, slug }) => ({ id, name, slug }))
+    chain.reverse()
+
+    return chain.map(({ id, name, slug }) => ({ id, name, slug }))
   }
 
   private async getRecommendations(productId: string, categoryId: string | null) {
-    const where = {
+    const sameCategoryWhere: Record<string, unknown> = {
       id: { not: productId },
       status: ProductStatus.PUBLISHED,
       deletedAt: null,
-      ...(categoryId ? { categoryId } : {}),
     }
 
+    if (categoryId) {
+      sameCategoryWhere.categoryId = categoryId
+    }
+
+    const sameCategory = await this.queryRecommendationProducts(sameCategoryWhere)
+
+    if (sameCategory.length >= 6) return sameCategory.slice(0, 6)
+
+    const scores =
+      (await this.prisma.productScore.findMany({
+        where: {
+          productId: { not: productId },
+          scoreType: 'POPULARITY',
+        },
+        orderBy: { score: 'desc' },
+        take: 12,
+        select: { productId: true },
+      })) ?? []
+
+    if (scores.length === 0) return sameCategory
+
+    const scoreIds = scores.map((score) => score.productId)
+    const fallbackRows = await this.queryRecommendationProducts(
+      {
+        id: { in: scoreIds, not: productId },
+        status: ProductStatus.PUBLISHED,
+        deletedAt: null,
+      },
+      12,
+    )
+
+    const fallbackById = new Map(fallbackRows.map((row) => [row.id, row] as const))
+    const deduped = [...sameCategory]
+
+    for (const productIdFromScore of scoreIds) {
+      const row = fallbackById.get(productIdFromScore)
+      if (!row || deduped.some((item) => item.id === row.id)) continue
+
+      deduped.push(row)
+      if (deduped.length === 6) break
+    }
+
+    return deduped
+  }
+
+  private async queryRecommendationProducts(
+    where: Record<string, unknown>,
+    take = 6,
+  ): Promise<RecommendationDto[]> {
     const rows = await this.prisma.product.findMany({
       where,
       include: {
@@ -208,18 +279,25 @@ export class ProductsService {
         shop: { select: { id: true, name: true, slug: true, logo: true } },
         _count: { select: { reviews: true } },
         reviews: { where: { status: ReviewStatus.APPROVED }, select: { rating: true } },
-        variants: { where: { isActive: true }, select: { price: true }, orderBy: { price: 'asc' }, take: 1 },
+        variants: {
+          where: { isActive: true },
+          select: { price: true },
+          orderBy: { price: 'asc' },
+          take: 1,
+        },
       },
-      take: 6,
+      take,
     })
 
     return rows.map((row) => this.mapRecommendation(row))
   }
 
-  private mapRecommendation(row: RecommendationRow) {
+  private mapRecommendation(row: RecommendationRow): RecommendationDto {
     const rating =
       row.reviews.length > 0
-        ? Math.round((row.reviews.reduce((sum, review) => sum + review.rating, 0) / row.reviews.length) * 10) / 10
+        ? Math.round(
+            (row.reviews.reduce((sum, review) => sum + review.rating, 0) / row.reviews.length) * 10,
+          ) / 10
         : null
 
     return {
@@ -241,13 +319,15 @@ export class ProductsService {
     soldRows: SoldAggregateRow[],
     flashSaleSlot: FlashSaleSlotRow,
     breadcrumbs: BreadcrumbDto[],
-    recommendations: Array<Record<string, unknown>>,
+    recommendations: RecommendationDto[],
   ) {
     const variantPrices = product.variants
       .map((variant) => this.toNumber(variant.price))
       .filter((price: number | null): price is number => price !== null)
     const effectivePrice =
-      variantPrices.length > 0 ? Math.min(...variantPrices) : this.toNumber(product.basePrice) ?? 0
+      variantPrices.length > 0
+        ? Math.min(...variantPrices)
+        : (this.toNumber(product.basePrice) ?? 0)
     const soldCount = soldRows.reduce((sum, row) => sum + (row._sum.quantity ?? 0), 0)
     const reviewCount = reviewRow?._count.productId ?? 0
     const averageRating = reviewRow?._avg.rating ?? 0
@@ -272,7 +352,9 @@ export class ProductsService {
         price: salePrice ?? effectivePrice,
         originalPrice,
         discountPercent:
-          originalPrice && salePrice ? Math.round(((originalPrice - salePrice) / originalPrice) * 100) : null,
+          originalPrice && salePrice
+            ? Math.round(((originalPrice - salePrice) / originalPrice) * 100)
+            : null,
         currency: 'VND',
         statusFlags: { isFlashSale: Boolean(flashSaleSlot) },
       },

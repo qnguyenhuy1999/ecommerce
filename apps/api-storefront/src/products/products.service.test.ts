@@ -11,8 +11,22 @@ function createPrismaMock() {
     review: { groupBy: vi.fn() },
     sellerOrderItem: { groupBy: vi.fn() },
     flashSaleSlot: { findFirst: vi.fn() },
+    productScore: { findMany: vi.fn() },
     category: { findUnique: vi.fn() },
   }
+}
+
+type RecommendationFetchArgs = {
+  where: {
+    id?: { not?: string; in?: string[] }
+    categoryId?: string
+    status?: string
+    deletedAt?: null
+    productId?: { not?: string }
+    scoreType?: string
+  }
+  take?: number
+  orderBy?: { score: 'desc' }
 }
 
 describe('ProductsService', () => {
@@ -51,8 +65,22 @@ describe('ProductsService', () => {
       },
       category: { id: 'cat-phones', name: 'Audio', slug: 'audio', parentId: 'cat-root' },
       images: [
-        { id: 'img-cover', url: 'cover.jpg', alt: 'Cover', isCover: true, sortOrder: 0, createdAt: now },
-        { id: 'img-2', url: 'detail-2.jpg', alt: 'Side', isCover: false, sortOrder: 1, createdAt: now },
+        {
+          id: 'img-cover',
+          url: 'cover.jpg',
+          alt: 'Cover',
+          isCover: true,
+          sortOrder: 0,
+          createdAt: now,
+        },
+        {
+          id: 'img-2',
+          url: 'detail-2.jpg',
+          alt: 'Side',
+          isCover: false,
+          sortOrder: 1,
+          createdAt: now,
+        },
       ],
       variantOptionGroups: [
         {
@@ -73,7 +101,15 @@ describe('ProductsService', () => {
           stock: 120,
           reservedStock: 20,
           isActive: true,
-          optionValues: [{ option: { id: 'opt-onyx', value: 'Onyx', group: { id: 'group-color', name: 'Color' } } }],
+          optionValues: [
+            {
+              option: {
+                id: 'opt-onyx',
+                value: 'Onyx',
+                group: { id: 'group-color', name: 'Color' },
+              },
+            },
+          ],
         },
         {
           id: 'var-2',
@@ -82,15 +118,37 @@ describe('ProductsService', () => {
           stock: 80,
           reservedStock: 7,
           isActive: true,
-          optionValues: [{ option: { id: 'opt-sand', value: 'Sand', group: { id: 'group-color', name: 'Color' } } }],
+          optionValues: [
+            {
+              option: {
+                id: 'opt-sand',
+                value: 'Sand',
+                group: { id: 'group-color', name: 'Color' },
+              },
+            },
+          ],
         },
       ],
     })
     prisma.category.findUnique
-      .mockResolvedValueOnce({ id: 'cat-phones', name: 'Audio', slug: 'audio', parentId: 'cat-root' })
-      .mockResolvedValueOnce({ id: 'cat-root', name: 'Electronics', slug: 'electronics', parentId: null })
-    prisma.review.groupBy.mockResolvedValue([{ productId: 'prod-1', _avg: { rating: 4.4 }, _count: { productId: 1000 } }])
-    prisma.sellerOrderItem.groupBy.mockResolvedValue([{ variantId: 'var-1', _sum: { quantity: 2200 } }])
+      .mockResolvedValueOnce({
+        id: 'cat-phones',
+        name: 'Audio',
+        slug: 'audio',
+        parentId: 'cat-root',
+      })
+      .mockResolvedValueOnce({
+        id: 'cat-root',
+        name: 'Electronics',
+        slug: 'electronics',
+        parentId: null,
+      })
+    prisma.review.groupBy.mockResolvedValue([
+      { productId: 'prod-1', _avg: { rating: 4.4 }, _count: { productId: 1000 } },
+    ])
+    prisma.sellerOrderItem.groupBy.mockResolvedValue([
+      { variantId: 'var-1', _sum: { quantity: 2200 } },
+    ])
     prisma.flashSaleSlot.findFirst.mockResolvedValue({
       originalPrice: decimal(129.6),
       salePrice: decimal(81),
@@ -141,5 +199,108 @@ describe('ProductsService', () => {
       shipsFrom: 'Manila, PH',
     })
     expect(result.recommendations).toHaveLength(1)
+  })
+
+  it('throws when product slug is missing or unpublished', async () => {
+    const prisma = createPrismaMock()
+    const service = new ProductsService(prisma as never)
+
+    prisma.product.findFirst.mockResolvedValue(null)
+
+    await expect(service.getProductDetail('missing-product')).rejects.toThrow('Product not found')
+  })
+
+  it('excludes current product from recommendations and falls back to score query when needed', async () => {
+    const prisma = createPrismaMock()
+    const service = new ProductsService(prisma as never)
+
+    prisma.product.findFirst.mockResolvedValue({
+      id: 'prod-1',
+      shopId: 'shop-1',
+      categoryId: null,
+      name: 'Headphones',
+      slug: 'headphones',
+      description: null,
+      status: 'PUBLISHED',
+      basePrice: decimal(99),
+      baseSku: null,
+      baseStock: 10,
+      reservedStock: 0,
+      hasVariants: false,
+      shop: { id: 'shop-1', name: 'Shop 1', slug: 'shop-1', logo: null, city: null, country: null },
+      category: null,
+      images: [],
+      variantOptionGroups: [],
+      variants: [],
+    })
+    prisma.review.groupBy.mockResolvedValue([])
+    prisma.sellerOrderItem.groupBy.mockResolvedValue([])
+    prisma.flashSaleSlot.findFirst.mockResolvedValue(null)
+    prisma.product.findMany.mockResolvedValueOnce([]).mockResolvedValueOnce([
+      {
+        id: 'prod-9',
+        name: 'Fallback Product',
+        slug: 'fallback-product',
+        shopId: 'shop-2',
+        basePrice: decimal(49),
+        images: [],
+        shop: { id: 'shop-2', name: 'Shop 2', slug: 'shop-2', logo: null },
+        _count: { reviews: 0 },
+        reviews: [],
+        variants: [],
+      },
+    ])
+    prisma.productScore.findMany.mockResolvedValue([{ productId: 'prod-9', score: 9.8 }])
+
+    const result = await service.getProductDetail('headphones')
+    const firstRecommendationFetch = prisma.product.findMany.mock.calls[0]?.[0] as
+      | RecommendationFetchArgs
+      | undefined
+    const fallbackScoreFetch = prisma.productScore.findMany.mock.calls[0]?.[0] as
+      | RecommendationFetchArgs
+      | undefined
+    const secondRecommendationFetch = prisma.product.findMany.mock.calls[1]?.[0] as
+      | RecommendationFetchArgs
+      | undefined
+    const firstRecommendationCallOrder = prisma.product.findMany.mock.invocationCallOrder[0] ?? -1
+    const fallbackScoreCallOrder = prisma.productScore.findMany.mock.invocationCallOrder[0] ?? -1
+    const secondRecommendationCallOrder = prisma.product.findMany.mock.invocationCallOrder[1] ?? -1
+
+    expect(result.recommendations).toEqual([
+      expect.objectContaining({ id: 'prod-9', slug: 'fallback-product' }),
+    ])
+    expect(
+      result.recommendations.find((item: { id: string }) => item.id === 'prod-1'),
+    ).toBeUndefined()
+    expect(prisma.product.findMany).toHaveBeenCalledTimes(2)
+    expect(prisma.productScore.findMany).toHaveBeenCalledTimes(1)
+    expect(firstRecommendationFetch).toMatchObject({
+      where: {
+        id: { not: 'prod-1' },
+        status: 'PUBLISHED',
+        deletedAt: null,
+      },
+      take: 6,
+    })
+    expect(firstRecommendationFetch?.where).not.toHaveProperty('categoryId')
+    expect(fallbackScoreFetch).toMatchObject({
+      where: {
+        productId: { not: 'prod-1' },
+        scoreType: 'POPULARITY',
+      },
+      orderBy: { score: 'desc' },
+    })
+    expect(secondRecommendationFetch).toMatchObject({
+      where: {
+        id: { in: ['prod-9'], not: 'prod-1' },
+        status: 'PUBLISHED',
+        deletedAt: null,
+      },
+    })
+    expect(firstRecommendationCallOrder).toBeGreaterThan(-1)
+    expect(fallbackScoreCallOrder).toBeGreaterThan(-1)
+    expect(secondRecommendationCallOrder).toBeGreaterThan(-1)
+    expect(firstRecommendationCallOrder).toBeLessThan(fallbackScoreCallOrder)
+    expect(fallbackScoreCallOrder).toBeLessThan(secondRecommendationCallOrder)
   })
 })
