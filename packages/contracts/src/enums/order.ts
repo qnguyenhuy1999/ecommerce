@@ -75,3 +75,40 @@ export const ShipmentStatus = {
 } as const
 
 export type ShipmentStatus = (typeof ShipmentStatus)[keyof typeof ShipmentStatus]
+
+// ─── Checkout Step ───────────────────────────────────────────────
+export const CheckoutStep = {
+  ADDRESS: 'ADDRESS',
+  SHIPPING: 'SHIPPING',
+  PAYMENT: 'PAYMENT',
+  REVIEW: 'REVIEW',
+  CONFIRMED: 'CONFIRMED',
+  FAILED: 'FAILED',
+  EXPIRED: 'EXPIRED',
+} as const
+
+export type CheckoutStep = (typeof CheckoutStep)[keyof typeof CheckoutStep]
+
+// ─── Distribution Event ──────────────────────────────────────────
+export const DistributionEvent = {
+  INVENTORY_RESERVED: 'INVENTORY_RESERVED',
+  INVENTORY_DEDUCTED: 'INVENTORY_DEDUCTED',
+  ORDER_CREATED: 'ORDER_CREATED',
+  SELLER_ORDERS_SPLIT: 'SELLER_ORDERS_SPLIT',
+  PAYMENT_INITIATED: 'PAYMENT_INITIATED',
+  NOTIFICATION_SENT: 'NOTIFICATION_SENT',
+  INVENTORY_RELEASED: 'INVENTORY_RELEASED',
+  FAILED: 'FAILED',
+} as const
+
+export type DistributionEvent = (typeof DistributionEvent)[keyof typeof DistributionEvent]
+
+// ─── Distribution Status ─────────────────────────────────────────
+export const DistributionStatus = {
+  PENDING: 'PENDING',
+  SUCCESS: 'SUCCESS',
+  FAILED: 'FAILED',
+} as const
+
+export type DistributionStatus = (typeof DistributionStatus)[keyof typeof DistributionStatus]
+

@@ -3,6 +3,7 @@ import { APP_GUARD } from '@nestjs/core'
 import { ThrottlerGuard } from '@nestjs/throttler'
 import { AuthController } from './auth.controller'
 import { AuthService } from './auth.service'
+import { AuthGuard } from './guards/auth.guard'
 import { SessionProvider } from './session.provider'
 
 @Module({
@@ -10,11 +11,12 @@ import { SessionProvider } from './session.provider'
   providers: [
     AuthService,
     SessionProvider,
+    AuthGuard,
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
   ],
-  exports: [AuthService, SessionProvider],
+  exports: [AuthService, SessionProvider, AuthGuard],
 })
 export class AuthModule {}

@@ -19,7 +19,7 @@ import {
   ApiOkResponseData,
   ApiCreatedResponseData,
 } from '@ecom/nestjs-core/openapi'
-import type { AuthService } from './auth.service'
+import { AuthService } from './auth.service'
 
 @ApiTags('Storefront/Auth')
 @ApiErrorResponses()

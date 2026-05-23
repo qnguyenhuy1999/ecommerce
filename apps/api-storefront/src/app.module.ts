@@ -5,6 +5,14 @@ import { EmailModule } from '@ecom/email'
 import { DatabaseModule } from '@ecom/database'
 import { getDefaultThrottleConfig, getRedisConfig, getSmtpConfig } from '@ecom/config'
 import { AuthModule } from './auth/auth.module'
+import { CartModule } from './cart/cart.module'
+import { AddressesModule } from './addresses/addresses.module'
+import { CheckoutModule } from './checkout/checkout.module'
+import { CategoryPageModule } from './categories/category-page.module'
+import { HomepageModule } from './homepage/homepage.module'
+import { ShopPageModule } from './shop-page/shop-page.module'
+import { NotificationsModule } from './notifications/notifications.module'
+import { ProfileModule } from './profile/profile.module'
 
 @Module({
   imports: [
@@ -20,6 +28,14 @@ import { AuthModule } from './auth/auth.module'
     EmailModule.forRoot(getSmtpConfig()),
     DatabaseModule,
     AuthModule,
+    CartModule,
+    AddressesModule,
+    CheckoutModule,
+    CategoryPageModule,
+    HomepageModule,
+    ShopPageModule,
+    NotificationsModule,
+    ProfileModule,
   ],
 })
 export class AppModule {}
