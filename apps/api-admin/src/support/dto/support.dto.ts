@@ -6,7 +6,10 @@ import { SupportTicketStatus } from '@ecom/database'
 export class SupportTicketQueryDto {
   @ApiPropertyOptional() @IsOptional() @Type(() => Number) @IsInt() @Min(1) page?: number
   @ApiPropertyOptional() @IsOptional() @Type(() => Number) @IsInt() @Min(1) limit?: number
-  @ApiPropertyOptional({ enum: SupportTicketStatus }) @IsOptional() @IsEnum(SupportTicketStatus) status?: SupportTicketStatus
+  @ApiPropertyOptional({ enum: SupportTicketStatus })
+  @IsOptional()
+  @IsEnum(SupportTicketStatus)
+  status?: SupportTicketStatus
   @ApiPropertyOptional() @IsOptional() @IsString() search?: string
 }
 

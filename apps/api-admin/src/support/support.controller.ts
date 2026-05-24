@@ -1,20 +1,26 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiAuth, ApiErrorResponses, ApiOkResponseData, ApiPaginatedResponse } from '@ecom/nestjs-core/openapi'
+import {
+  ApiAuth,
+  ApiErrorResponses,
+  ApiOkResponseData,
+  ApiPaginatedResponse,
+} from '@ecom/nestjs-core/openapi'
 import { CurrentAdmin, type AdminSessionData } from '../auth/decorators/current-admin.decorator'
 import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'
 import { PermissionGuard } from '../auth/guards/permission.guard'
 import { AuditLog } from '../common/decorators/audit-log.decorator'
-import {
+import type {
   ChangeAssigneeDto,
   ChangeStatusDto,
   SendReplyDto,
+  SupportTicketQueryDto} from './dto/support.dto';
+import {
   SupportMessageResponseDto,
-  SupportTicketQueryDto,
   SupportTicketResponseDto,
 } from './dto/support.dto'
-import { SupportService } from './support.service'
+import type { SupportService } from './support.service'
 
 @ApiTags('Admin/Support')
 @Controller('support')

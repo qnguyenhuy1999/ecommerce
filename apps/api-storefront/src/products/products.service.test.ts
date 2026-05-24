@@ -29,11 +29,13 @@ type RecommendationFetchArgs = {
   orderBy?: { score: 'desc' }
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('ProductsService', () => {
   afterEach(() => {
     vi.useRealTimers()
   })
 
+  // eslint-disable-next-line max-lines-per-function
   it('returns product detail payload for published product slug', async () => {
     const prisma = createPrismaMock()
     const service = new ProductsService(prisma as never)

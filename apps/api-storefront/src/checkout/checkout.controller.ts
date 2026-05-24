@@ -1,25 +1,18 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Patch,
-  Post,
-  UseGuards,
-} from '@nestjs/common'
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import type { SessionData } from '@ecom/auth'
 import { ApiAuth, ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import { AuthGuard } from '../auth/guards/auth.guard'
-import { CheckoutService } from './checkout.service'
-import {
-  CheckoutSessionDto,
+import type { CheckoutService } from './checkout.service'
+import type {
   ConfirmCheckoutDto,
-  ConfirmCheckoutResponseDto,
   SetCheckoutAddressDto,
   SetCheckoutPaymentDto,
-  SetCheckoutShippingDto,
+  SetCheckoutShippingDto} from './dto/checkout.dto';
+import {
+  CheckoutSessionDto,
+  ConfirmCheckoutResponseDto
 } from './dto/checkout.dto'
 
 @ApiTags('Storefront/Checkout')

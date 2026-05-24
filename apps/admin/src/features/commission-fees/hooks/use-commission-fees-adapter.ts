@@ -1,7 +1,11 @@
 'use client'
 
 import type { CommissionFeesProps } from '@ecom/ui-admin'
-import { useCommissionRules, useCreateCommissionRule, useUpdateCommissionRule } from './use-commission-fees'
+import {
+  useCommissionRules,
+  useCreateCommissionRule,
+  useUpdateCommissionRule,
+} from './use-commission-fees'
 import { mapApiRuleToCommissionRule } from '../mappers/commission-fees.mapper'
 
 interface CommissionFeesAdapterResult {

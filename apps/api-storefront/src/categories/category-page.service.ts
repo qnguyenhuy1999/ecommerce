@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import { ProductStatus, ReviewStatus } from '@ecom/contracts/enums'
 import type { CategoryPageQueryDto } from './dto/category-page.dto'
@@ -72,55 +72,21 @@ export class CategoryPageService {
     const descendantIds = treeNodes.map((node) => node.id)
     const treeByParent = this.groupByParent(treeNodes)
 
-    const [breadcrumb, subcategories, candidateProducts] = await Promise.all([
-      this.getBreadcrumb(category.id),
-      this.prisma.category.findMany({
-        where: { parentId: category.id, isActive: true },
-        select: { id: true, name: true, slug: true, parentId: true, sortOrder: true },
-        orderBy: { sortOrder: 'asc' },
-      }),
-      this.prisma.product.findMany({
-        where: {
-          status: ProductStatus.PUBLISHED,
-          deletedAt: null,
-          categoryId: { in: descendantIds },
-        },
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-          categoryId: true,
-          basePrice: true,
-          createdAt: true,
-        },
-      }),
-    ])
-
-    const candidateIds = candidateProducts.map((product) => product.id)
-    const [variantMinRows, reviewRows] = candidateIds.length
-      ? await Promise.all([
-          this.prisma.productVariant.groupBy({
-            by: ['productId'],
-            where: { productId: { in: candidateIds }, isActive: true },
-            _min: { price: true },
-          }),
-          this.prisma.review.groupBy({
-            by: ['productId'],
-            where: { productId: { in: candidateIds }, status: ReviewStatus.APPROVED },
-            _avg: { rating: true },
-            _count: { productId: true },
-          }),
-        ])
-      : [[], []]
-
-    const priceByProductId = this.buildEffectivePriceMap(candidateProducts, variantMinRows)
-    const reviewStatsByProductId = this.buildReviewStatsMap(reviewRows)
+    const {
+      breadcrumb,
+      subcategories,
+      candidateProducts,
+      priceByProductId,
+      reviewStatsByProductId,
+    } = await this.loadCandidateData(category.id, descendantIds)
 
     const selectedCategoryIds = this.parseSelectedCategoryIds(query.categoryIds, descendantIds)
     const selectedSubtreeIds =
       selectedCategoryIds.length > 0
         ? [
-            ...new Set(selectedCategoryIds.flatMap((id) => this.collectSubtreeIds(id, treeByParent))),
+            ...new Set(
+              selectedCategoryIds.flatMap((id) => this.collectSubtreeIds(id, treeByParent)),
+            ),
           ]
         : descendantIds
 
@@ -158,7 +124,13 @@ export class CategoryPageService {
     )
 
     const sortedProducts = [...filteredProducts].sort((left, right) =>
-      this.compareProducts(left, right, query.sort ?? 'popular', priceByProductId, popularityByProductId),
+      this.compareProducts(
+        left,
+        right,
+        query.sort ?? 'popular',
+        priceByProductId,
+        popularityByProductId,
+      ),
     )
 
     const page = query.page ?? 1
@@ -167,68 +139,12 @@ export class CategoryPageService {
     const pagedProducts = sortedProducts.slice(start, start + limit)
     const pagedIds = pagedProducts.map((product) => product.id)
 
-    const detailedProducts: DetailedProduct[] = pagedIds.length
-      ? await this.prisma.product.findMany({
-          where: { id: { in: pagedIds } },
-          include: {
-            shop: { select: { id: true, name: true, slug: true } },
-            category: { select: { id: true, name: true, slug: true } },
-            images: { where: { isCover: true }, orderBy: { sortOrder: 'asc' }, take: 1 },
-            variants: {
-              where: { isActive: true },
-              select: { id: true, price: true },
-            },
-          },
-        })
-      : []
-
-    const variantIds = detailedProducts.flatMap((product) => product.variants.map((variant) => variant.id))
-    const soldCounts = variantIds.length
-      ? await this.prisma.sellerOrderItem.groupBy({
-          by: ['variantId'],
-          where: { variantId: { in: variantIds } },
-          _sum: { quantity: true },
-        })
-      : []
-
-    const soldCountByVariantId: Map<string, number> = new Map(
-      soldCounts.map((row) => [row.variantId, row._sum.quantity ?? 0]),
+    const productCards = await this.fetchPagedProductCards(
+      pagedIds,
+      priceByProductId,
+      reviewStatsByProductId,
+      category,
     )
-
-    const detailedProductById = new Map(detailedProducts.map((product) => [product.id, product] as const))
-    const productCards = pagedIds
-      .map((id) => detailedProductById.get(id))
-      .filter((product): product is NonNullable<typeof product> => Boolean(product))
-      .map((product) => {
-        const reviewStats = reviewStatsByProductId.get(product.id)
-        const soldCount = product.variants.reduce(
-          (sum, variant) => sum + (soldCountByVariantId.get(variant.id) ?? 0),
-          0,
-        )
-
-        return {
-          id: product.id,
-          name: product.name,
-          slug: product.slug,
-          description: product.description,
-          price: priceByProductId.get(product.id) ?? 0,
-          imageUrl: product.images[0]?.url ?? null,
-          averageRating: reviewStats?.averageRating ?? 0,
-          reviewCount: reviewStats?.reviewCount ?? 0,
-          soldCount,
-          createdAt: product.createdAt,
-          category: {
-            id: product.category?.id ?? category.id,
-            name: product.category?.name ?? category.name,
-            slug: product.category?.slug ?? category.slug,
-          },
-          shop: {
-            id: product.shop.id,
-            name: product.shop.name,
-            slug: product.shop.slug,
-          },
-        }
-      })
 
     const categoryCounts = this.buildCategoryFilterCounts(
       category,
@@ -278,6 +194,127 @@ export class CategoryPageService {
         options: [...SORT_OPTIONS],
       },
     }
+  }
+
+  private async loadCandidateData(categoryId: string, descendantIds: string[]) {
+    const [breadcrumb, subcategories, candidateProducts] = await Promise.all([
+      this.getBreadcrumb(categoryId),
+      this.prisma.category.findMany({
+        where: { parentId: categoryId, isActive: true },
+        select: { id: true, name: true, slug: true, parentId: true, sortOrder: true },
+        orderBy: { sortOrder: 'asc' },
+      }),
+      this.prisma.product.findMany({
+        where: {
+          status: ProductStatus.PUBLISHED,
+          deletedAt: null,
+          categoryId: { in: descendantIds },
+        },
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          categoryId: true,
+          basePrice: true,
+          createdAt: true,
+        },
+      }),
+    ])
+
+    const candidateIds = candidateProducts.map((product) => product.id)
+    const [variantMinRows, reviewRows] = candidateIds.length
+      ? await Promise.all([
+          this.prisma.productVariant.groupBy({
+            by: ['productId'],
+            where: { productId: { in: candidateIds }, isActive: true },
+            _min: { price: true },
+          }),
+          this.prisma.review.groupBy({
+            by: ['productId'],
+            where: { productId: { in: candidateIds }, status: ReviewStatus.APPROVED },
+            _avg: { rating: true },
+            _count: { productId: true },
+          }),
+        ])
+      : [[], []]
+
+    return {
+      breadcrumb,
+      subcategories,
+      candidateProducts,
+      priceByProductId: this.buildEffectivePriceMap(candidateProducts, variantMinRows),
+      reviewStatsByProductId: this.buildReviewStatsMap(reviewRows),
+    }
+  }
+
+  private async fetchPagedProductCards(
+    pagedIds: string[],
+    priceByProductId: Map<string, number | null>,
+    reviewStatsByProductId: Map<string, ReviewStats>,
+    category: { id: string; name: string; slug: string },
+  ) {
+    const detailedProducts: DetailedProduct[] = pagedIds.length
+      ? await this.prisma.product.findMany({
+          where: { id: { in: pagedIds } },
+          include: {
+            shop: { select: { id: true, name: true, slug: true } },
+            category: { select: { id: true, name: true, slug: true } },
+            images: { where: { isCover: true }, orderBy: { sortOrder: 'asc' }, take: 1 },
+            variants: { where: { isActive: true }, select: { id: true, price: true } },
+          },
+        })
+      : []
+
+    const variantIds = detailedProducts.flatMap((product) =>
+      product.variants.map((variant) => variant.id),
+    )
+    const soldCounts = variantIds.length
+      ? await this.prisma.sellerOrderItem.groupBy({
+          by: ['variantId'],
+          where: { variantId: { in: variantIds } },
+          _sum: { quantity: true },
+        })
+      : []
+
+    const soldCountByVariantId: Map<string, number> = new Map(
+      soldCounts.map((row) => [row.variantId, row._sum.quantity ?? 0]),
+    )
+
+    const detailedProductById = new Map(
+      detailedProducts.map((product) => [product.id, product] as const),
+    )
+    return pagedIds
+      .map((id) => detailedProductById.get(id))
+      .filter((product): product is NonNullable<typeof product> => Boolean(product))
+      .map((product) => {
+        const reviewStats = reviewStatsByProductId.get(product.id)
+        const soldCount = product.variants.reduce(
+          (sum, variant) => sum + (soldCountByVariantId.get(variant.id) ?? 0),
+          0,
+        )
+        return {
+          id: product.id,
+          name: product.name,
+          slug: product.slug,
+          description: product.description,
+          price: priceByProductId.get(product.id) ?? 0,
+          imageUrl: product.images[0]?.url ?? null,
+          averageRating: reviewStats?.averageRating ?? 0,
+          reviewCount: reviewStats?.reviewCount ?? 0,
+          soldCount,
+          createdAt: product.createdAt,
+          category: {
+            id: product.category?.id ?? category.id,
+            name: product.category?.name ?? category.name,
+            slug: product.category?.slug ?? category.slug,
+          },
+          shop: {
+            id: product.shop.id,
+            name: product.shop.name,
+            slug: product.shop.slug,
+          },
+        }
+      })
   }
 
   private async getDescendantNodes(rootId: string) {
@@ -348,7 +385,14 @@ export class CategoryPageService {
   private parseSelectedCategoryIds(categoryIds: string | undefined, allowedIds: string[]) {
     if (!categoryIds) return []
     const allowed = new Set(allowedIds)
-    return [...new Set(categoryIds.split(',').map((value) => value.trim()).filter((value) => allowed.has(value)))]
+    return [
+      ...new Set(
+        categoryIds
+          .split(',')
+          .map((value) => value.trim())
+          .filter((value) => allowed.has(value)),
+      ),
+    ]
   }
 
   private parseSelectedMinRating(ratings: string | undefined) {
@@ -412,8 +456,9 @@ export class CategoryPageService {
         id: subcategory.id,
         name: subcategory.name,
         slug: subcategory.slug,
-        productCount: products.filter((product) => product.categoryId && subtreeIds.has(product.categoryId))
-          .length,
+        productCount: products.filter(
+          (product) => product.categoryId && subtreeIds.has(product.categoryId),
+        ).length,
         isSelected: false,
       })
     }
@@ -485,7 +530,15 @@ export class CategoryPageService {
             sortOrder: true,
             children: {
               where: { isActive: true },
-              select: { id: true, name: true, slug: true, icon: true, banner: true, description: true, sortOrder: true },
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+                icon: true,
+                banner: true,
+                description: true,
+                sortOrder: true,
+              },
               orderBy: { sortOrder: 'asc' },
             },
           },

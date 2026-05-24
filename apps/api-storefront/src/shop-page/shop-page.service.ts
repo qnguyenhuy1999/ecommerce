@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database';
+import { type Prisma } from '@ecom/database'
 import { CouponStatus, ProductStatus, ReviewStatus, ShopStatus } from '@ecom/contracts/enums'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import type { ShopProductsQueryDto, ShopReviewsQueryDto } from './dto/shop-page.dto'
@@ -49,7 +50,7 @@ type ScoreAggregate = {
   score: unknown
 }
 
-type RatingAggregate = {
+type ShopRatingBreakdownRow = {
   rating: number
   _count: { rating: number }
 }
@@ -80,58 +81,68 @@ export class ShopPageService {
     const shop = await this.getShopOrThrow(slug)
     const now = new Date()
 
-    const [productCount, vouchersCount, reviewCount, latestMetrics, vouchers, ratingBreakdown, productCards] =
-      await Promise.all([
-        this.prisma.product.count({
-          where: { shopId: shop.id, status: ProductStatus.PUBLISHED, deletedAt: null },
-        }),
-        this.prisma.coupon.count({
-          where: {
-            shopId: shop.id,
-            status: CouponStatus.ACTIVE,
-            startsAt: { lte: now },
-            expiresAt: { gte: now },
-          },
-        }),
-        this.prisma.review.count({
-          where: {
-            status: ReviewStatus.APPROVED,
-            product: { shopId: shop.id },
-          },
-        }),
-        this.prisma.sellerMetricSnapshot.findFirst({
-          where: { shopId: shop.id },
-          orderBy: { date: 'desc' },
-          select: { responseRate: true },
-        }),
-        this.prisma.coupon.findMany({
-          where: {
-            shopId: shop.id,
-            status: CouponStatus.ACTIVE,
-            startsAt: { lte: now },
-            expiresAt: { gte: now },
-          },
-          select: {
-            id: true,
-            code: true,
-            name: true,
-            description: true,
-            type: true,
-            discountValue: true,
-            maxDiscountAmount: true,
-            minOrderAmount: true,
-            expiresAt: true,
-          },
-          orderBy: [{ discountValue: 'desc' }, { expiresAt: 'asc' }],
-          take: 4,
-        }),
-        this.getShopRatingBreakdown(shop.id),
-        this.getShopProductCards(shop.id),
-      ])
+    const [
+      productCount,
+      vouchersCount,
+      reviewCount,
+      latestMetrics,
+      vouchers,
+      ratingBreakdown,
+      productCards,
+    ] = await Promise.all([
+      this.prisma.product.count({
+        where: { shopId: shop.id, status: ProductStatus.PUBLISHED, deletedAt: null },
+      }),
+      this.prisma.coupon.count({
+        where: {
+          shopId: shop.id,
+          status: CouponStatus.ACTIVE,
+          startsAt: { lte: now },
+          expiresAt: { gte: now },
+        },
+      }),
+      this.prisma.review.count({
+        where: {
+          status: ReviewStatus.APPROVED,
+          product: { shopId: shop.id },
+        },
+      }),
+      this.prisma.sellerMetricSnapshot.findFirst({
+        where: { shopId: shop.id },
+        orderBy: { date: 'desc' },
+        select: { responseRate: true },
+      }),
+      this.prisma.coupon.findMany({
+        where: {
+          shopId: shop.id,
+          status: CouponStatus.ACTIVE,
+          startsAt: { lte: now },
+          expiresAt: { gte: now },
+        },
+        select: {
+          id: true,
+          code: true,
+          name: true,
+          description: true,
+          type: true,
+          discountValue: true,
+          maxDiscountAmount: true,
+          minOrderAmount: true,
+          expiresAt: true,
+        },
+        orderBy: [{ discountValue: 'desc' }, { expiresAt: 'asc' }],
+        take: 4,
+      }),
+      this.getShopRatingBreakdown(shop.id),
+      this.getShopProductCards(shop.id),
+    ])
 
     const featuredProducts = this.selectFeaturedProducts(productCards)
     const bestSellers = [...productCards]
-      .sort((left, right) => right.soldCount - left.soldCount || right.createdAt.getTime() - left.createdAt.getTime())
+      .sort(
+        (left, right) =>
+          right.soldCount - left.soldCount || right.createdAt.getTime() - left.createdAt.getTime(),
+      )
       .slice(0, 6)
       .map(({ popularityScore: _popularityScore, ...product }) => product)
     const previewProducts = [...productCards]
@@ -192,11 +203,15 @@ export class ShopPageService {
       return true
     })
 
-    const sortedProducts = [...filteredProducts].sort((left, right) => this.compareProducts(left, right, query.sort ?? 'popular'))
+    const sortedProducts = [...filteredProducts].sort((left, right) =>
+      this.compareProducts(left, right, query.sort ?? 'popular'),
+    )
     const page = query.page ?? 1
     const limit = query.limit ?? 20
     const start = (page - 1) * limit
-    const pagedProducts = sortedProducts.slice(start, start + limit).map(({ popularityScore: _popularityScore, ...product }) => product)
+    const pagedProducts = sortedProducts
+      .slice(start, start + limit)
+      .map(({ popularityScore: _popularityScore, ...product }) => product)
     const allPrices = productCards.map((product) => product.price)
 
     return {
@@ -291,7 +306,11 @@ export class ShopPageService {
       comment: review.comment,
       createdAt: review.createdAt,
       buyer: {
-        displayName: this.toBuyerDisplayName(review.buyer.firstName, review.buyer.lastName, review.buyer.email),
+        displayName: this.toBuyerDisplayName(
+          review.buyer.firstName,
+          review.buyer.lastName,
+          review.buyer.email,
+        ),
       },
       product: review.product,
       images: review.images,
@@ -335,15 +354,18 @@ export class ShopPageService {
     return shop
   }
 
-  private async getShopRatingBreakdown(shopId: string): Promise<RatingAggregate[]> {
-    return this.prisma.review.groupBy({
+  private async getShopRatingBreakdown(shopId: string) {
+    const args = {
       by: ['rating'],
       where: {
         status: ReviewStatus.APPROVED,
         product: { shopId },
       },
       _count: { rating: true },
-    })
+    } satisfies Prisma.ReviewGroupByArgs
+
+    const rows = await this.prisma.review.groupBy(args)
+    return rows as ShopRatingBreakdownRow[]
   }
 
   private async getShopProductCards(shopId: string): Promise<ProductCard[]> {
@@ -381,11 +403,15 @@ export class ShopPageService {
       orderBy: { createdAt: 'desc' },
     })
 
-    const uniqueProducts = [...new Map(products.map((product) => [product.id, product])).values()] as ProductRecord[]
+    const uniqueProducts = [
+      ...new Map(products.map((product) => [product.id, product])).values(),
+    ] as ProductRecord[]
     if (uniqueProducts.length === 0) return []
 
     const productIds = uniqueProducts.map((product) => product.id)
-    const variantIds = uniqueProducts.flatMap((product) => product.variants.map((variant) => variant.id))
+    const variantIds = uniqueProducts.flatMap((product) =>
+      product.variants.map((variant) => variant.id),
+    )
 
     const [reviewRows, soldRows, scoreRows] = await Promise.all([
       this.prisma.review.groupBy({
@@ -435,7 +461,10 @@ export class ShopPageService {
     return uniqueProducts.map((product) => {
       const price = this.getEffectivePrice(product)
       const reviewStats = reviewByProductId.get(product.id) ?? { averageRating: 0, reviewCount: 0 }
-      const soldCount = product.variants.reduce((sum, variant) => sum + (soldByVariantId.get(variant.id) ?? 0), 0)
+      const soldCount = product.variants.reduce(
+        (sum, variant) => sum + (soldByVariantId.get(variant.id) ?? 0),
+        0,
+      )
 
       return {
         id: product.id,
@@ -473,15 +502,22 @@ export class ShopPageService {
     return [...products]
       .sort(
         (left, right) =>
-          right.popularityScore - left.popularityScore || right.createdAt.getTime() - left.createdAt.getTime(),
+          right.popularityScore - left.popularityScore ||
+          right.createdAt.getTime() - left.createdAt.getTime(),
       )
       .slice(0, 6)
       .map(({ popularityScore: _popularityScore, ...product }) => product)
   }
 
-  private compareProducts(left: ProductCard, right: ProductCard, sort: (typeof SHOP_PRODUCT_SORTS)[number]) {
-    if (sort === 'price-asc') return left.price - right.price || right.createdAt.getTime() - left.createdAt.getTime()
-    if (sort === 'price-desc') return right.price - left.price || right.createdAt.getTime() - left.createdAt.getTime()
+  private compareProducts(
+    left: ProductCard,
+    right: ProductCard,
+    sort: (typeof SHOP_PRODUCT_SORTS)[number],
+  ) {
+    if (sort === 'price-asc')
+      return left.price - right.price || right.createdAt.getTime() - left.createdAt.getTime()
+    if (sort === 'price-desc')
+      return right.price - left.price || right.createdAt.getTime() - left.createdAt.getTime()
     if (sort === 'newest') return right.createdAt.getTime() - left.createdAt.getTime()
 
     const leftScore = left.popularityScore + left.soldCount + left.averageRating
@@ -500,7 +536,7 @@ export class ShopPageService {
     return parsed.length > 0 ? Math.max(...parsed) : null
   }
 
-  private averageFromRatingBreakdown(rows: RatingAggregate[]) {
+  private averageFromRatingBreakdown(rows: ShopRatingBreakdownRow[]) {
     const totalReviews = rows.reduce((sum, row) => sum + row._count.rating, 0)
     if (totalReviews === 0) return 0
 
@@ -537,7 +573,10 @@ export class ShopPageService {
   }
 
   private toBuyerDisplayName(firstName: string | null, lastName: string | null, email: string) {
-    const fullName = [firstName, lastName].filter((value): value is string => Boolean(value)).join(' ').trim()
+    const fullName = [firstName, lastName]
+      .filter((value): value is string => Boolean(value))
+      .join(' ')
+      .trim()
     if (fullName.length > 0) return fullName
 
     return email.split('@')[0] ?? email

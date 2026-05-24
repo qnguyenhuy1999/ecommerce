@@ -1,14 +1,5 @@
 import { Type } from 'class-transformer'
-import {
-  IsIn,
-  IsInt,
-  IsOptional,
-  IsString,
-  Matches,
-  Max,
-  Min,
-  IsNumber,
-} from 'class-validator'
+import { IsIn, IsInt, IsOptional, IsString, Matches, Max, Min, IsNumber } from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 
 const CATEGORY_PAGE_SORTS = ['popular', 'newest', 'price-asc', 'price-desc'] as const
@@ -61,7 +52,9 @@ export class CategoryPageQueryDto {
   })
   @IsOptional()
   @IsString()
-  @Matches(/^\s*[1-5](\s*,\s*[1-5])*\s*$/, { message: 'ratings must be comma-separated 1-5 values' })
+  @Matches(/^\s*[1-5](\s*,\s*[1-5])*\s*$/, {
+    message: 'ratings must be comma-separated 1-5 values',
+  })
   ratings?: string
 }
 

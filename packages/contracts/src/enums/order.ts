@@ -111,4 +111,3 @@ export const DistributionStatus = {
 } as const
 
 export type DistributionStatus = (typeof DistributionStatus)[keyof typeof DistributionStatus]
-

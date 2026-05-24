@@ -86,5 +86,6 @@ export class CartDto {
   @ApiProperty() shippingTotal!: number
   @ApiProperty() discountTotal!: number
   @ApiProperty() total!: number
-  @ApiProperty({ nullable: true, type: AppliedCartVoucherDto }) voucher!: AppliedCartVoucherDto | null
+  @ApiProperty({ nullable: true, type: AppliedCartVoucherDto })
+  voucher!: AppliedCartVoucherDto | null
 }

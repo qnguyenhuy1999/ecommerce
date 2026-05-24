@@ -1,7 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import type { SessionData } from '@ecom/auth'
-import type { AddCartItemDto, ApplyCartVoucherDto, CartDto, UpdateCartItemDto } from './dto/cart.dto'
+import type {
+  AddCartItemDto,
+  ApplyCartVoucherDto,
+  CartDto,
+  UpdateCartItemDto,
+} from './dto/cart.dto'
 import { calculateVoucherDiscount, roundMoney } from './cart.utils'
 
 const CART_INCLUDE = {
@@ -333,7 +338,12 @@ export class CartService {
       },
     })
 
-    if (!product || product.deletedAt !== null || product.status !== 'PUBLISHED' || product.shop.status !== 'ACTIVE') {
+    if (
+      !product ||
+      product.deletedAt !== null ||
+      product.status !== 'PUBLISHED' ||
+      product.shop.status !== 'ACTIVE'
+    ) {
       throw new BadRequestException('Product is not available')
     }
 

@@ -58,6 +58,6 @@ export type {
   FieldPath,
   FieldPathValue,
 } from 'react-hook-form'
-export { zodResolver } from '@hookform/resolvers/zod'
+export { standardSchemaResolver as zodResolver } from '@hookform/resolvers/standard-schema'
 export { z } from 'zod'
 export type { ZodType, ZodSchema } from 'zod'

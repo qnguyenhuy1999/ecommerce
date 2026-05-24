@@ -1,12 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import {
-  IsBoolean,
-  IsOptional,
-  IsString,
-  Length,
-  MaxLength,
-  MinLength,
-} from 'class-validator'
+import { IsBoolean, IsOptional, IsString, Length, MaxLength, MinLength } from 'class-validator'
 
 export class CreateAddressDto {
   @ApiProperty()

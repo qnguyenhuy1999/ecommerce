@@ -47,17 +47,7 @@ export class CheckoutProcessor extends WorkerHost {
       `Processing order ${orderId} for session ${sessionId} (attempt ${job.attemptsMade + 1})`,
     )
 
-    const session = await this.prisma.checkoutSession.findUnique({
-      where: { id: sessionId },
-      include: {
-        address: true,
-      },
-    })
-
-    if (!session) {
-      this.logger.error(`Session ${sessionId} not found`)
-      throw new Error(`Session ${sessionId} not found`)
-    }
+    const session = await this.getSessionOrThrow(sessionId)
 
     // Already fully processed — idempotent
     if (session.step === 'CONFIRMED' && session.orderId) {
@@ -68,6 +58,53 @@ export class CheckoutProcessor extends WorkerHost {
       }
     }
 
+    const cart = await this.getCartOrThrow(userId, sessionId, orderId)
+
+    const items = cart.items as CartItemWithVariant[]
+    const shopMap = new Map<string, CartItemWithVariant[]>()
+
+    try {
+      await this.processOrderTransaction({
+        cartId: cart.id,
+        items,
+        orderId,
+        session,
+        sessionId,
+        shopMap,
+        userId,
+      })
+      await this.enqueueNotifications(orderId, shopMap, userId)
+
+      this.logger.log(`Order ${orderId} processed successfully`)
+      return { orderId }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error'
+      this.logger.error(`Order ${orderId} failed: ${message}`)
+
+      await this.failSession(sessionId, orderId, message)
+
+      // Release inventory reservations on failure
+      await this.releaseReservations(sessionId, items)
+
+      throw error
+    }
+  }
+
+  private async getSessionOrThrow(sessionId: string) {
+    const session = await this.prisma.checkoutSession.findUnique({
+      where: { id: sessionId },
+      include: { address: true },
+    })
+
+    if (!session) {
+      this.logger.error(`Session ${sessionId} not found`)
+      throw new Error(`Session ${sessionId} not found`)
+    }
+
+    return session
+  }
+
+  private async getCartOrThrow(userId: string, sessionId: string, orderId: string) {
     const cart = await this.prisma.cart.findUnique({
       where: { userId },
       include: {
@@ -99,199 +136,198 @@ export class CheckoutProcessor extends WorkerHost {
       throw new Error('Cart is empty')
     }
 
-    const items = cart.items as CartItemWithVariant[]
-    const shopMap = new Map<string, CartItemWithVariant[]>()
+    return cart
+  }
 
-    try {
-      await this.prisma.$transaction(async (tx) => {
-        // Step 1: Atomically deduct inventory
-        for (const item of items) {
-          if (item.product.hasVariants && item.variant) {
-            const updated = await tx.productVariant.updateMany({
-              where: {
-                id: item.variant.id,
-                stock: { gte: item.quantity },
-              },
-              data: {
-                stock: { decrement: item.quantity },
-                reservedStock: { decrement: item.quantity },
-              },
-            })
+  private async processOrderTransaction(params: {
+    cartId: string
+    items: CartItemWithVariant[]
+    orderId: string
+    session: Awaited<ReturnType<CheckoutProcessor['getSessionOrThrow']>>
+    sessionId: string
+    shopMap: Map<string, CartItemWithVariant[]>
+    userId: string
+  }) {
+    const { cartId, items, orderId, session, sessionId, shopMap, userId } = params
 
-            if (updated.count === 0) {
-              throw new Error(`Insufficient stock for variant ${item.variant.id}`)
-            }
-
-            await tx.inventoryTransaction.create({
-              data: {
-                variantId: item.variant.id,
-                type: 'STOCK_OUT',
-                quantity: item.quantity,
-                reference: `order:${orderId}`,
-                note: `Order deduction`,
-              },
-            })
-          } else {
-            const updated = await tx.product.updateMany({
-              where: {
-                id: item.product.id,
-                baseStock: { gte: item.quantity },
-              },
-              data: {
-                baseStock: { decrement: item.quantity },
-                reservedStock: { decrement: item.quantity },
-              },
-            })
-
-            if (updated.count === 0) {
-              throw new Error(`Insufficient stock for product ${item.product.id}`)
-            }
-          }
-        }
-
-        await tx.checkoutDistributionLog.create({
-          data: {
-            sessionId,
-            orderId,
-            event: 'INVENTORY_DEDUCTED',
-            status: 'SUCCESS',
-            payload: { itemCount: items.length },
-          },
-        })
-
-        // Step 2: Create top-level Order
-        const shippingAddress = session.address
-        const order = await tx.order.create({
-          data: {
-            id: orderId,
-            buyerId: userId,
-            totalAmount: session.total,
-            status: 'CONFIRMED',
-            shippingName: shippingAddress?.recipientName ?? null,
-            shippingPhone: shippingAddress?.phone ?? null,
-            shippingAddress: shippingAddress
-              ? `${shippingAddress.addressLine}, ${shippingAddress.city}, ${shippingAddress.province} ${shippingAddress.postalCode}`
-              : null,
-          },
-        })
-
-        await tx.checkoutDistributionLog.create({
-          data: {
-            sessionId,
-            orderId: order.id,
-            event: 'ORDER_CREATED',
-            status: 'SUCCESS',
-            payload: { totalAmount: session.total.toNumber() },
-          },
-        })
-
-        // Step 3: Split items by shopId → create SellerOrder per shop
-        for (const item of items) {
-          const existing = shopMap.get(item.product.shopId) ?? []
-          existing.push(item)
-          shopMap.set(item.product.shopId, existing)
-        }
-
-        for (const [shopId, shopItems] of shopMap) {
-          const subtotal = shopItems.reduce((sum, item) => {
-            const price =
-              item.product.hasVariants && item.variant
-                ? item.variant.price.toNumber()
-                : (item.product.basePrice?.toNumber() ?? 0)
-            return sum + price * item.quantity
-          }, 0)
-
-          const sellerOrder = await tx.sellerOrder.create({
+    await this.prisma.$transaction(async (tx) => {
+      for (const item of items) {
+        if (item.product.hasVariants && item.variant) {
+          const updated = await tx.productVariant.updateMany({
+            where: {
+              id: item.variant.id,
+              stock: { gte: item.quantity },
+            },
             data: {
-              orderId: order.id,
-              shopId,
-              subtotal,
-              status: 'CONFIRMED',
+              stock: { decrement: item.quantity },
+              reservedStock: { decrement: item.quantity },
             },
           })
 
-          for (const item of shopItems) {
-            const unitPrice =
-              item.product.hasVariants && item.variant
-                ? item.variant.price.toNumber()
-                : (item.product.basePrice?.toNumber() ?? 0)
-
-            const productDetails = await tx.product.findUnique({
-              where: { id: item.product.id },
-              select: { name: true },
-            })
-
-            await tx.sellerOrderItem.create({
-              data: {
-                sellerOrderId: sellerOrder.id,
-                variantId: item.variantId ?? item.product.id,
-                productName: productDetails?.name ?? 'Unknown',
-                variantLabel: null,
-                quantity: item.quantity,
-                unitPrice,
-                totalPrice: unitPrice * item.quantity,
-              },
-            })
+          if (updated.count === 0) {
+            throw new Error(`Insufficient stock for variant ${item.variant.id}`)
           }
 
-          await tx.orderAuditLog.create({
+          await tx.inventoryTransaction.create({
             data: {
-              sellerOrderId: sellerOrder.id,
-              fromStatus: 'PENDING',
-              toStatus: 'CONFIRMED',
-              note: 'Order created via checkout',
-              performedBy: userId,
+              variantId: item.variant.id,
+              type: 'STOCK_OUT',
+              quantity: item.quantity,
+              reference: `order:${orderId}`,
+              note: `Order deduction`,
             },
           })
+          continue
         }
 
-        await tx.checkoutDistributionLog.create({
+        const updated = await tx.product.updateMany({
+          where: {
+            id: item.product.id,
+            baseStock: { gte: item.quantity },
+          },
           data: {
-            sessionId,
-            orderId: order.id,
-            event: 'SELLER_ORDERS_SPLIT',
-            status: 'SUCCESS',
-            payload: { shopCount: shopMap.size },
+            baseStock: { decrement: item.quantity },
+            reservedStock: { decrement: item.quantity },
           },
         })
 
-        // Step 4: Clear cart after successful order
-        await tx.cartItem.deleteMany({ where: { cartId: cart.id } })
-      })
-
-      for (const shopId of shopMap.keys()) {
-        await this.notificationQueue.add(NOTIFICATION_JOBS.SELLER_NOTIFICATION, {
-          kind: 'seller',
-          shopId,
-          type: 'NEW_ORDER',
-          title: 'New Order Received',
-          message: `Order ${orderId} has been placed`,
-        } satisfies SellerNotificationJobPayload)
+        if (updated.count === 0) {
+          throw new Error(`Insufficient stock for product ${item.product.id}`)
+        }
       }
 
-      await this.notificationQueue.add(NOTIFICATION_JOBS.USER_NOTIFICATION, {
-        kind: 'user',
-        userId,
-        type: 'ORDER_CONFIRMED',
-        title: 'Order Confirmed',
-        message: `Your order ${orderId} has been confirmed`,
-      } satisfies UserNotificationJobPayload)
+      await tx.checkoutDistributionLog.create({
+        data: {
+          sessionId,
+          orderId,
+          event: 'INVENTORY_DEDUCTED',
+          status: 'SUCCESS',
+          payload: { itemCount: items.length },
+        },
+      })
 
-      this.logger.log(`Notifications enqueued for order ${orderId}`)
+      const shippingAddress = session.address
+      const order = await tx.order.create({
+        data: {
+          id: orderId,
+          buyerId: userId,
+          totalAmount: session.total,
+          status: 'CONFIRMED',
+          shippingName: shippingAddress?.recipientName ?? null,
+          shippingPhone: shippingAddress?.phone ?? null,
+          shippingAddress: shippingAddress
+            ? `${shippingAddress.addressLine}, ${shippingAddress.city}, ${shippingAddress.province} ${shippingAddress.postalCode}`
+            : null,
+        },
+      })
 
-      this.logger.log(`Order ${orderId} processed successfully`)
-      return { orderId }
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown error'
-      this.logger.error(`Order ${orderId} failed: ${message}`)
+      await tx.checkoutDistributionLog.create({
+        data: {
+          sessionId,
+          orderId: order.id,
+          event: 'ORDER_CREATED',
+          status: 'SUCCESS',
+          payload: { totalAmount: session.total.toNumber() },
+        },
+      })
 
-      await this.failSession(sessionId, orderId, message)
+      for (const item of items) {
+        const existing = shopMap.get(item.product.shopId) ?? []
+        existing.push(item)
+        shopMap.set(item.product.shopId, existing)
+      }
 
-      // Release inventory reservations on failure
-      await this.releaseReservations(sessionId, items)
+      for (const [shopId, shopItems] of shopMap) {
+        const subtotal = shopItems.reduce((sum, item) => {
+          const price =
+            item.product.hasVariants && item.variant
+              ? item.variant.price.toNumber()
+              : (item.product.basePrice?.toNumber() ?? 0)
+          return sum + price * item.quantity
+        }, 0)
 
-      throw error
+        const sellerOrder = await tx.sellerOrder.create({
+          data: {
+            orderId: order.id,
+            shopId,
+            subtotal,
+            status: 'CONFIRMED',
+          },
+        })
+
+        for (const item of shopItems) {
+          const unitPrice =
+            item.product.hasVariants && item.variant
+              ? item.variant.price.toNumber()
+              : (item.product.basePrice?.toNumber() ?? 0)
+
+          const productDetails = await tx.product.findUnique({
+            where: { id: item.product.id },
+            select: { name: true },
+          })
+
+          await tx.sellerOrderItem.create({
+            data: {
+              sellerOrderId: sellerOrder.id,
+              variantId: item.variantId ?? item.product.id,
+              productName: productDetails?.name ?? 'Unknown',
+              variantLabel: null,
+              quantity: item.quantity,
+              unitPrice,
+              totalPrice: unitPrice * item.quantity,
+            },
+          })
+        }
+
+        await tx.orderAuditLog.create({
+          data: {
+            sellerOrderId: sellerOrder.id,
+            fromStatus: 'PENDING',
+            toStatus: 'CONFIRMED',
+            note: 'Order created via checkout',
+            performedBy: userId,
+          },
+        })
+      }
+
+      await tx.checkoutDistributionLog.create({
+        data: {
+          sessionId,
+          orderId: order.id,
+          event: 'SELLER_ORDERS_SPLIT',
+          status: 'SUCCESS',
+          payload: { shopCount: shopMap.size },
+        },
+      })
+
+      await tx.cartItem.deleteMany({ where: { cartId } })
+    })
+  }
+
+  private async enqueueNotifications(
+    orderId: string,
+    shopMap: Map<string, CartItemWithVariant[]>,
+    userId: string,
+  ) {
+    for (const shopId of shopMap.keys()) {
+      await this.notificationQueue.add(NOTIFICATION_JOBS.SELLER_NOTIFICATION, {
+        kind: 'seller',
+        shopId,
+        type: 'NEW_ORDER',
+        title: 'New Order Received',
+        message: `Order ${orderId} has been placed`,
+      } satisfies SellerNotificationJobPayload)
     }
+
+    await this.notificationQueue.add(NOTIFICATION_JOBS.USER_NOTIFICATION, {
+      kind: 'user',
+      userId,
+      type: 'ORDER_CONFIRMED',
+      title: 'Order Confirmed',
+      message: `Your order ${orderId} has been confirmed`,
+    } satisfies UserNotificationJobPayload)
+
+    this.logger.log(`Notifications enqueued for order ${orderId}`)
   }
 
   private async failSession(sessionId: string, orderId: string, errorMessage: string) {

@@ -3,7 +3,10 @@
 import type { RolesPermissionsProps } from '@ecom/ui-admin'
 import { ALL_PERMISSION_ROWS } from '@ecom/ui-admin'
 import { useRoles, useUpdateRolePermissions } from './use-roles'
-import { mapApiRoleToRoleRecord, mapPermissionKeysToAdminPermissions } from '../mappers/roles.mapper'
+import {
+  mapApiRoleToRoleRecord,
+  mapPermissionKeysToAdminPermissions,
+} from '../mappers/roles.mapper'
 
 export function useRolesPermissionsAdapter(): RolesPermissionsProps & {
   loading: boolean

@@ -1,6 +1,16 @@
 import { Type } from 'class-transformer'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsBoolean, IsIn, IsInt, IsNumber, IsOptional, IsString, Matches, Max, Min } from 'class-validator'
+import {
+  IsBoolean,
+  IsIn,
+  IsInt,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
+  Max,
+  Min,
+} from 'class-validator'
 
 const SHOP_PRODUCT_SORTS = ['popular', 'newest', 'price-asc', 'price-desc'] as const
 
@@ -78,7 +88,8 @@ export class ShopProductCardDto {
   @ApiProperty() soldCount!: number
   @ApiProperty({ type: 'string', format: 'date-time' }) createdAt!: Date
   @ApiProperty({ type: () => ShopCardSummaryDto }) shop!: ShopCardSummaryDto
-  @ApiPropertyOptional({ nullable: true, type: () => ShopCategorySummaryDto }) category!: ShopCategorySummaryDto | null
+  @ApiPropertyOptional({ nullable: true, type: () => ShopCategorySummaryDto })
+  category!: ShopCategorySummaryDto | null
 }
 
 export class ShopTabCountsDto {
@@ -154,7 +165,11 @@ export class ShopProductsQueryDto {
   @Max(100)
   limit?: number = 20
 
-  @ApiPropertyOptional({ description: 'Sort option', enum: [...SHOP_PRODUCT_SORTS], default: 'popular' })
+  @ApiPropertyOptional({
+    description: 'Sort option',
+    enum: [...SHOP_PRODUCT_SORTS],
+    default: 'popular',
+  })
   @IsOptional()
   @IsIn(SHOP_PRODUCT_SORTS)
   sort?: (typeof SHOP_PRODUCT_SORTS)[number] = 'popular'
@@ -177,7 +192,9 @@ export class ShopProductsQueryDto {
   })
   @IsOptional()
   @IsString()
-  @Matches(/^\s*[1-5](\s*,\s*[1-5])*\s*$/, { message: 'ratings must be comma-separated 1-5 values' })
+  @Matches(/^\s*[1-5](\s*,\s*[1-5])*\s*$/, {
+    message: 'ratings must be comma-separated 1-5 values',
+  })
   ratings?: string
 }
 

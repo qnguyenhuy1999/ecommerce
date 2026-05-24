@@ -6,7 +6,11 @@ export function mapApiTicketToSupportTicket(item: SupportTicketApiItem): Support
   const submitterRole: SupportTicket['submitterRole'] = role === 'SELLER' ? 'Seller' : 'Buyer'
 
   const createdDate = new Date(item.createdAt)
-  const dateLabel = createdDate.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })
+  const dateLabel = createdDate.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 
   return {
     id: item.id,

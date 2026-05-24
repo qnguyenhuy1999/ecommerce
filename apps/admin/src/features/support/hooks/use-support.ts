@@ -25,7 +25,7 @@ export function useSupportMessages(ticketId: string | null) {
   return useQuery({
     queryKey: supportKeys.messages(ticketId ?? ''),
     queryFn: async () => {
-      const res = await getSupportMessages(ticketId!)
+      const res = await getSupportMessages(ticketId ?? '')
       return res.data
     },
     enabled: !!ticketId,
@@ -36,7 +36,7 @@ export function useSendSupportReply(ticketId: string | null) {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: ({ content, isInternal }: { content: string; isInternal: boolean }) =>
-      sendSupportReply(ticketId!, content, isInternal),
+      sendSupportReply(ticketId ?? '', content, isInternal),
     onSuccess: () => {
       if (ticketId) void qc.invalidateQueries({ queryKey: supportKeys.messages(ticketId) })
     },
@@ -46,8 +46,13 @@ export function useSendSupportReply(ticketId: string | null) {
 export function useChangeSupportStatus() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ ticketId, status }: { ticketId: string; status: SupportTicketApiItem['status'] }) =>
-      changeSupportTicketStatus(ticketId, status),
+    mutationFn: ({
+      ticketId,
+      status,
+    }: {
+      ticketId: string
+      status: SupportTicketApiItem['status']
+    }) => changeSupportTicketStatus(ticketId, status),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: supportKeys.tickets() })
     },
@@ -57,8 +62,13 @@ export function useChangeSupportStatus() {
 export function useChangeSupportAssignee() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ ticketId, assignedAdminId }: { ticketId: string; assignedAdminId: string | null }) =>
-      changeSupportTicketAssignee(ticketId, assignedAdminId),
+    mutationFn: ({
+      ticketId,
+      assignedAdminId,
+    }: {
+      ticketId: string
+      assignedAdminId: string | null
+    }) => changeSupportTicketAssignee(ticketId, assignedAdminId),
     onSuccess: () => {
       void qc.invalidateQueries({ queryKey: supportKeys.tickets() })
     },

@@ -68,7 +68,8 @@ export class ProductDetailProductDto {
   @ApiPropertyOptional({ nullable: true, type: Number }) originalPrice!: number | null
   @ApiPropertyOptional({ nullable: true, type: Number }) discountPercent!: number | null
   @ApiProperty() currency!: string
-  @ApiProperty({ type: ProductDetailProductStatusFlagsDto }) statusFlags!: ProductDetailProductStatusFlagsDto
+  @ApiProperty({ type: ProductDetailProductStatusFlagsDto })
+  statusFlags!: ProductDetailProductStatusFlagsDto
 }
 
 export class ProductDetailRatingDto {
@@ -110,7 +111,8 @@ export class ProductDetailRecommendationDto {
   @ApiPropertyOptional({ nullable: true, type: String }) coverImage!: string | null
   @ApiPropertyOptional({ nullable: true, type: Number }) rating!: number | null
   @ApiProperty() reviewCount!: number
-  @ApiProperty({ type: ProductDetailRecommendationShopDto }) shop!: ProductDetailRecommendationShopDto
+  @ApiProperty({ type: ProductDetailRecommendationShopDto })
+  shop!: ProductDetailRecommendationShopDto
 }
 
 export class ProductDetailSpecificationDto {
@@ -123,9 +125,13 @@ export class ProductDetailResponseDto {
   @ApiProperty({ type: [ProductDetailMediaDto] }) media!: ProductDetailMediaDto[]
   @ApiProperty({ type: [ProductDetailBreadcrumbDto] }) breadcrumbs!: ProductDetailBreadcrumbDto[]
   @ApiProperty({ type: ProductDetailRatingDto }) rating!: ProductDetailRatingDto
-  @ApiProperty({ type: ProductDetailPurchaseOptionsDto }) purchaseOptions!: ProductDetailPurchaseOptionsDto
+  @ApiProperty({ type: ProductDetailPurchaseOptionsDto })
+  purchaseOptions!: ProductDetailPurchaseOptionsDto
   @ApiProperty({ type: ProductDetailShopDto }) shop!: ProductDetailShopDto
-  @ApiProperty({ type: ProductDetailShippingReturnsDto }) shippingReturns!: ProductDetailShippingReturnsDto
-  @ApiProperty({ type: [ProductDetailSpecificationDto] }) specifications!: ProductDetailSpecificationDto[]
-  @ApiProperty({ type: [ProductDetailRecommendationDto] }) recommendations!: ProductDetailRecommendationDto[]
+  @ApiProperty({ type: ProductDetailShippingReturnsDto })
+  shippingReturns!: ProductDetailShippingReturnsDto
+  @ApiProperty({ type: [ProductDetailSpecificationDto] })
+  specifications!: ProductDetailSpecificationDto[]
+  @ApiProperty({ type: [ProductDetailRecommendationDto] })
+  recommendations!: ProductDetailRecommendationDto[]
 }

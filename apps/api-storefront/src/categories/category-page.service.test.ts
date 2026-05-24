@@ -42,19 +42,21 @@ describe('CategoryPageService', () => {
       metaDesc: 'Shop electronics',
     })
     prisma.category.findMany
-      .mockResolvedValueOnce([{ id: 'phones', parentId: 'root' }, { id: 'audio', parentId: 'root' }])
+      .mockResolvedValueOnce([
+        { id: 'phones', parentId: 'root' },
+        { id: 'audio', parentId: 'root' },
+      ])
       .mockResolvedValueOnce([])
       .mockResolvedValueOnce([
         { id: 'phones', name: 'Phones', slug: 'phones', parentId: 'root', sortOrder: 1 },
         { id: 'audio', name: 'Audio', slug: 'audio', parentId: 'root', sortOrder: 2 },
       ])
-    prisma.category.findUnique
-      .mockResolvedValueOnce({
-        id: 'root',
-        name: 'Electronics',
-        slug: 'electronics',
-        parentId: null,
-      })
+    prisma.category.findUnique.mockResolvedValueOnce({
+      id: 'root',
+      name: 'Electronics',
+      slug: 'electronics',
+      parentId: null,
+    })
     prisma.product.findMany
       .mockResolvedValueOnce([
         {

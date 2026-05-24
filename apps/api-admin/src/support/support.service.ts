@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService, type Prisma } from '@ecom/database'
+import type { PrismaService} from '@ecom/database';
+import { type Prisma } from '@ecom/database'
 import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import type {
@@ -44,7 +45,10 @@ export class SupportService {
   async sendReply(ticketId: string, dto: SendReplyDto, adminId: string) {
     const [ticket, admin] = await Promise.all([
       this.prisma.supportTicket.findUnique({ where: { id: ticketId } }),
-      this.prisma.admin.findUnique({ where: { id: adminId }, select: { firstName: true, lastName: true } }),
+      this.prisma.admin.findUnique({
+        where: { id: adminId },
+        select: { firstName: true, lastName: true },
+      }),
     ])
     if (!ticket) throw new NotFoundException('Ticket not found')
     const senderName = admin ? `${admin.firstName} ${admin.lastName}` : 'Admin'

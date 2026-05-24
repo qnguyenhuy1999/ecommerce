@@ -9,7 +9,10 @@ import {
   useSupportMessages,
   useSupportTickets,
 } from './use-support'
-import { mapApiMessageToSupportMessage, mapApiTicketToSupportTicket } from '../mappers/support.mapper'
+import {
+  mapApiMessageToSupportMessage,
+  mapApiTicketToSupportTicket,
+} from '../mappers/support.mapper'
 
 interface SupportAdapterResult {
   loading: boolean

@@ -58,7 +58,8 @@ export async function getSupportTickets(params?: SupportTicketQueryParams) {
   if (params?.status) query.set('status', params.status)
   if (params?.search) query.set('search', params.search)
   const qs = query.toString()
-  return apiFetch<SupportTicketListResponse>(`/admin/support/tickets${qs ? `?${qs}` : ''}`)
+  const path = qs ? `/admin/support/tickets?${qs}` : '/admin/support/tickets'
+  return apiFetch<SupportTicketListResponse>(path)
 }
 
 export async function getSupportMessages(ticketId: string) {
@@ -72,14 +73,20 @@ export async function sendSupportReply(ticketId: string, content: string, isInte
   })
 }
 
-export async function changeSupportTicketStatus(ticketId: string, status: SupportTicketApiItem['status']) {
+export async function changeSupportTicketStatus(
+  ticketId: string,
+  status: SupportTicketApiItem['status'],
+) {
   return apiFetch<ChangeStatusResponse>(`/admin/support/tickets/${ticketId}/status`, {
     method: 'PATCH',
     body: JSON.stringify({ status }),
   })
 }
 
-export async function changeSupportTicketAssignee(ticketId: string, assignedAdminId: string | null) {
+export async function changeSupportTicketAssignee(
+  ticketId: string,
+  assignedAdminId: string | null,
+) {
   return apiFetch<ChangeAssigneeResponse>(`/admin/support/tickets/${ticketId}/assignee`, {
     method: 'PATCH',
     body: JSON.stringify({ assignedAdminId }),

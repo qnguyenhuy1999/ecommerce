@@ -46,7 +46,9 @@ export function calculateVoucherDiscount(
     case PlatformVoucherType.PERCENTAGE: {
       const rawDiscount = (subtotal * voucher.discountValue) / 100
       const cappedDiscount =
-        voucher.maxDiscountAmount !== null ? Math.min(rawDiscount, voucher.maxDiscountAmount) : rawDiscount
+        voucher.maxDiscountAmount !== null
+          ? Math.min(rawDiscount, voucher.maxDiscountAmount)
+          : rawDiscount
       return { discountTotal: roundMoney(Math.min(cappedDiscount, subtotal)), reason: null }
     }
     case PlatformVoucherType.FIXED_AMOUNT:

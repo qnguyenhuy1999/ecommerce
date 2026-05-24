@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
 import { FlashSaleStatus, PlatformVoucherStatus } from '@ecom/contracts/enums'
 import type {
   CategoryDto,
@@ -17,7 +17,12 @@ const PRODUCT_WITH_RATING_INCLUDE = {
   shop: { select: { id: true, name: true, slug: true, logo: true } },
   _count: { select: { reviews: true } },
   reviews: { where: { status: 'APPROVED' as const }, select: { rating: true } },
-  variants: { where: { isActive: true }, select: { price: true }, orderBy: { price: 'asc' as const }, take: 1 },
+  variants: {
+    where: { isActive: true },
+    select: { price: true },
+    orderBy: { price: 'asc' as const },
+    take: 1,
+  },
 } as const
 
 type ProductWithRating = {
@@ -70,18 +75,33 @@ export class HomepageService {
   async getHomepage(): Promise<HomepageDto> {
     const now = new Date()
 
-    const [categories, vouchers, flashSale, featuredSections, trendingShops, recommendedProducts, newArrivals] =
-      await Promise.all([
-        this.getCategories(),
-        this.getVouchers(now),
-        this.getFlashSale(now),
-        this.getFeaturedSections(),
-        this.getTrendingShops(),
-        this.getRecommendedProducts(),
-        this.getNewArrivals(now),
-      ])
+    const [
+      categories,
+      vouchers,
+      flashSale,
+      featuredSections,
+      trendingShops,
+      recommendedProducts,
+      newArrivals,
+    ] = await Promise.all([
+      this.getCategories(),
+      this.getVouchers(now),
+      this.getFlashSale(now),
+      this.getFeaturedSections(),
+      this.getTrendingShops(),
+      this.getRecommendedProducts(),
+      this.getNewArrivals(now),
+    ])
 
-    return { categories, vouchers, flashSale, featuredSections, trendingShops, recommendedProducts, newArrivals }
+    return {
+      categories,
+      vouchers,
+      flashSale,
+      featuredSections,
+      trendingShops,
+      recommendedProducts,
+      newArrivals,
+    }
   }
 
   private async getCategories(): Promise<CategoryDto[]> {
@@ -189,7 +209,11 @@ export class HomepageService {
 
   private async getFeaturedSections(): Promise<FeaturedSectionDto[]> {
     const topCategories = await this.prisma.category.findMany({
-      where: { parentId: null, isActive: true, products: { some: { status: 'PUBLISHED', deletedAt: null } } },
+      where: {
+        parentId: null,
+        isActive: true,
+        products: { some: { status: 'PUBLISHED', deletedAt: null } },
+      },
       select: { id: true, name: true, slug: true, _count: { select: { products: true } } },
       orderBy: { products: { _count: 'desc' } },
       take: 4,

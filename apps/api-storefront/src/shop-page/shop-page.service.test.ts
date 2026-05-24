@@ -32,6 +32,7 @@ function createPrismaMock() {
   }
 }
 
+// eslint-disable-next-line max-lines-per-function
 describe('ShopPageService', () => {
   it('throws when shop slug does not exist', async () => {
     const prisma = createPrismaMock()
@@ -48,9 +49,9 @@ describe('ShopPageService', () => {
 
     const service = new ShopPageService(prisma as never)
 
-    await expect(service.getShopProducts('inactive', { page: 1, limit: 20, sort: 'popular' })).rejects.toBeInstanceOf(
-      NotFoundException,
-    )
+    await expect(
+      service.getShopProducts('inactive', { page: 1, limit: 20, sort: 'popular' }),
+    ).rejects.toBeInstanceOf(NotFoundException)
   })
 
   it('returns shop page bootstrap payload with null followers and zero response fallback', async () => {
@@ -195,7 +196,10 @@ describe('ShopPageService', () => {
       { variantId: 'v1', _sum: { quantity: 7 } },
       { variantId: 'v2', _sum: { quantity: 1 } },
     ])
-    prisma.productScore.findMany.mockResolvedValue([{ productId: 'p1', score: '10' }, { productId: 'p2', score: '2' }])
+    prisma.productScore.findMany.mockResolvedValue([
+      { productId: 'p1', score: '10' },
+      { productId: 'p2', score: '2' },
+    ])
 
     const result = await service.getShopProducts('verdant-co', {
       page: 1,
@@ -248,7 +252,9 @@ describe('ShopPageService', () => {
         buyer: { firstName: 'Ada', lastName: 'L', email: 'ada@example.com' },
         product: { id: 'p1', name: 'Monstera', slug: 'monstera' },
         images: [{ id: 'img-1', url: 'img.jpg', sortOrder: 0 }],
-        replies: [{ id: 'reply-1', message: 'Thanks', createdAt: new Date('2026-01-06T00:00:00.000Z') }],
+        replies: [
+          { id: 'reply-1', message: 'Thanks', createdAt: new Date('2026-01-06T00:00:00.000Z') },
+        ],
       },
     ])
 

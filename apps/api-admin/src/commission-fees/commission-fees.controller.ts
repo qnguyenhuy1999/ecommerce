@@ -6,12 +6,13 @@ import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'
 import { PermissionGuard } from '../auth/guards/permission.guard'
 import { AuditLog } from '../common/decorators/audit-log.decorator'
-import {
-  CommissionRuleResponseDto,
+import type {
   CreateCommissionRuleDto,
-  UpdateCommissionRuleDto,
+  UpdateCommissionRuleDto} from './dto/commission-fees.dto';
+import {
+  CommissionRuleResponseDto
 } from './dto/commission-fees.dto'
-import { CommissionFeesService } from './commission-fees.service'
+import type { CommissionFeesService } from './commission-fees.service'
 
 @ApiTags('Admin/CommissionFees')
 @Controller('commission-fees')
@@ -35,10 +36,7 @@ export class CommissionFeesController {
   @AuditLog('SETTINGS_CHANGED', 'CommissionRule', {})
   @ApiOperation({ summary: 'Create a commission rule' })
   @ApiOkResponseData(CommissionRuleResponseDto)
-  async create(
-    @Body() dto: CreateCommissionRuleDto,
-    @CurrentAdmin() _admin: AdminSessionData,
-  ) {
+  async create(@Body() dto: CreateCommissionRuleDto, @CurrentAdmin() _admin: AdminSessionData) {
     return this.commissionFeesService.create(dto)
   }
 

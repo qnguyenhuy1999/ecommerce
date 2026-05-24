@@ -1,4 +1,4 @@
-import { randomUUID } from 'crypto'
+import { randomUUID } from 'node:crypto'
 import {
   BadRequestException,
   ConflictException,
@@ -8,9 +8,9 @@ import {
   NotFoundException,
 } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
-import { Queue } from 'bullmq'
-import { PrismaService } from '@ecom/database'
-import { RedisService } from '@ecom/redis'
+import type { Queue } from 'bullmq'
+import type { PrismaService } from '@ecom/database'
+import type { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'
 import { QUEUES } from '@ecom/shared'
 import type {
@@ -80,7 +80,8 @@ export class CheckoutService {
 
       if (p.hasVariants) {
         const v = item.variant
-        if (!v || !v.isActive) throw new BadRequestException('A cart variant is no longer available')
+        if (!v || !v.isActive)
+          throw new BadRequestException('A cart variant is no longer available')
         const available = v.stock - v.reservedStock
         if (available < item.quantity)
           throw new BadRequestException('Insufficient stock for a cart item')
@@ -174,7 +175,7 @@ export class CheckoutService {
 
     // Calculate shipping fee (flat $0 per provider for now; real integration varies)
     const shippingSelections: Record<string, { providerId: string; shippingFee: number }> = {}
-    let shippingFee = 0
+    const shippingFee = 0
 
     for (const s of dto.selections) {
       const method = await this.prisma.sellerShippingMethod.findFirst({
@@ -208,6 +209,7 @@ export class CheckoutService {
 
     const updated = await this.prisma.checkoutSession.update({
       where: { id: sessionId },
+       
       data: { paymentMethod: dto.paymentMethod as object, step: 'REVIEW' },
       include: { distributionLogs: true },
     })
@@ -225,7 +227,8 @@ export class CheckoutService {
 
     if (session.step === 'FAILED') throw new BadRequestException('Checkout session has failed')
     if (session.step === 'EXPIRED') throw new BadRequestException('Checkout session has expired')
-    if (session.step !== 'REVIEW') throw new BadRequestException('Complete all steps before confirming')
+    if (session.step !== 'REVIEW')
+      throw new BadRequestException('Complete all steps before confirming')
 
     // Distributed lock: prevent duplicate confirms hitting the queue
     const lockKey = `${CONFIRM_LOCK_PREFIX}${sessionId}`
@@ -306,8 +309,15 @@ export class CheckoutService {
     if (!session) throw new NotFoundException('Checkout session not found')
     if (session.userId !== userId) throw new ForbiddenException()
 
-    if (session.step !== 'CONFIRMED' && session.step !== 'FAILED' && new Date() > session.expiresAt) {
-      await this.prisma.checkoutSession.update({ where: { id: sessionId }, data: { step: 'EXPIRED' } })
+    if (
+      session.step !== 'CONFIRMED' &&
+      session.step !== 'FAILED' &&
+      new Date() > session.expiresAt
+    ) {
+      await this.prisma.checkoutSession.update({
+        where: { id: sessionId },
+        data: { step: 'EXPIRED' },
+      })
       throw new BadRequestException('Checkout session has expired')
     }
 
