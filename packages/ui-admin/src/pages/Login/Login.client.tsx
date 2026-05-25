@@ -87,6 +87,10 @@ interface LoginFormProps {
   onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void
 }
 
+interface LoginFormFieldProps {
+  form: UseFormReturn<LoginSubmitValues>
+}
+
 function getErrorMessage(error: unknown) {
   if (error instanceof Error && error.message) {
     return error.message
@@ -151,6 +155,79 @@ function LoginError({ message }: { message: string }) {
   )
 }
 
+function LoginEmailField({
+  form,
+  emailLabel,
+  emailPlaceholder,
+}: LoginFormFieldProps & Pick<LoginFormProps, 'emailLabel' | 'emailPlaceholder'>) {
+  return (
+    <FormField
+      control={form.control}
+      name="email"
+      render={({ field }) => (
+        <FormItem className="space-y-2">
+          <FormLabel className={authLabelClassName}>{emailLabel}</FormLabel>
+          <div className="relative">
+            <Mail className={authIconClassName} />
+            <FormControl>
+              <Input
+                {...field}
+                type="email"
+                autoComplete="email"
+                placeholder={emailPlaceholder}
+                className={authInputClassName}
+              />
+            </FormControl>
+          </div>
+          <FormMessage />
+        </FormItem>
+      )}
+    />
+  )
+}
+
+function LoginTrustDeviceField({
+  form,
+  trustDeviceLabel,
+  trustDeviceHint,
+  passkeyLabel,
+}: LoginFormFieldProps &
+  Pick<LoginFormProps, 'trustDeviceLabel' | 'trustDeviceHint' | 'passkeyLabel'>) {
+  return (
+    <FormField
+      control={form.control}
+      name="trustDevice"
+      render={({ field }) => (
+        <FormItem>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <label className="text-foreground flex items-center gap-3 text-sm">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={(checked) => field.onChange(checked === true)}
+                  className="border-input"
+                />
+              </FormControl>
+              <span className="flex items-center gap-1.5">
+                <span>{trustDeviceLabel}</span>
+                <span className="text-muted-foreground">{trustDeviceHint}</span>
+              </span>
+            </label>
+
+            <span
+              aria-disabled="true"
+              className="text-muted-foreground inline-flex items-center gap-2 text-sm font-medium"
+            >
+              <ShieldCheck className="text-muted-foreground/70 size-4" />
+              <span>{passkeyLabel}</span>
+            </span>
+          </div>
+        </FormItem>
+      )}
+    />
+  )
+}
+
 function LoginForm({
   form,
   emailLabel,
@@ -175,28 +252,7 @@ function LoginForm({
   return (
     <Form {...form}>
       <form onSubmit={onSubmit} className="space-y-3.5">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <FormLabel className={authLabelClassName}>{emailLabel}</FormLabel>
-              <div className="relative">
-                <Mail className={authIconClassName} />
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="email"
-                    autoComplete="email"
-                    placeholder={emailPlaceholder}
-                    className={authInputClassName}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <LoginEmailField form={form} emailLabel={emailLabel} emailPlaceholder={emailPlaceholder} />
 
         <FormField
           control={form.control}
@@ -264,36 +320,11 @@ function LoginForm({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="trustDevice"
-          render={({ field }) => (
-            <FormItem>
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <label className="text-foreground flex items-center gap-3 text-sm">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(checked) => field.onChange(checked === true)}
-                      className="border-input"
-                    />
-                  </FormControl>
-                  <span className="flex items-center gap-1.5">
-                    <span>{trustDeviceLabel}</span>
-                    <span className="text-muted-foreground">{trustDeviceHint}</span>
-                  </span>
-                </label>
-
-                <span
-                  aria-disabled="true"
-                  className="text-muted-foreground inline-flex items-center gap-2 text-sm font-medium"
-                >
-                  <ShieldCheck className="text-muted-foreground/70 size-4" />
-                  <span>{passkeyLabel}</span>
-                </span>
-              </div>
-            </FormItem>
-          )}
+        <LoginTrustDeviceField
+          form={form}
+          trustDeviceLabel={trustDeviceLabel}
+          trustDeviceHint={trustDeviceHint}
+          passkeyLabel={passkeyLabel}
         />
 
         <Button

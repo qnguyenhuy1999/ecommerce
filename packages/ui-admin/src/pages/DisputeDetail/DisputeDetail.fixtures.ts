@@ -1,4 +1,4 @@
-import { disputesDefaultProps } from '../Disputes/Disputes.fixtures'
+import { refundsDefaultProps as disputesDefaultProps } from '../Disputes/Disputes.fixtures'
 import type { RefundDetailProps } from './DisputeDetail.types'
 
 const defaultItem = disputesDefaultProps.items?.[0]

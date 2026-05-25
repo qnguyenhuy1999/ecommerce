@@ -1,3 +1,4 @@
+import { Typography } from '@ecom/core-ui'
 import { SellerListPage } from '../../organisms'
 import { ordersDefaultProps } from './Orders.fixtures'
 import type { OrdersProps } from './Orders.types'
@@ -5,10 +6,10 @@ import type { OrdersProps } from './Orders.types'
 export function Orders({
   title = ordersDefaultProps.title,
   description = ordersDefaultProps.description,
-  searchPlaceholder = ordersDefaultProps.searchPlaceholder,
+  searchPlaceholder: _searchPlaceholder = ordersDefaultProps.searchPlaceholder,
   viewLabel = ordersDefaultProps.viewLabel,
   emptyMessage = ordersDefaultProps.emptyMessage,
-  statusTabs = ordersDefaultProps.statusTabs,
+  statusTabs: _statusTabs = ordersDefaultProps.statusTabs,
   items = ordersDefaultProps.items,
   onView = ordersDefaultProps.onView,
 }: OrdersProps) {
@@ -21,21 +22,20 @@ export function Orders({
     >
       <div className="space-y-4">
         {items && items.length > 0 ? (
-          <ul className="divide-y divide-border">
+          <ul className="divide-border divide-y">
             {items.map((item) => (
               <li key={item.id} className="flex items-center justify-between py-3">
                 <div className="space-y-1">
-                  <p className="text-sm font-medium">{item.id}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {item.status} · {item.totalAmountLabel} · {item.itemCount} item(s) · {item.createdAtLabel}
-                  </p>
+                  <Typography variant="body-sm" className="font-medium">
+                    {item.id}
+                  </Typography>
+                  <Typography variant="caption" className="text-muted-foreground">
+                    {item.status} · {item.totalAmountLabel} · {item.itemCount} item(s) ·{' '}
+                    {item.createdAtLabel}
+                  </Typography>
                 </div>
                 {onView && (
-                  <button
-                    type="button"
-                    className="text-xs underline"
-                    onClick={() => onView(item)}
-                  >
+                  <button type="button" className="text-xs underline" onClick={() => onView(item)}>
                     {viewLabel ?? 'View'}
                   </button>
                 )}
@@ -43,7 +43,9 @@ export function Orders({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-muted-foreground">{emptyMessage ?? 'No orders match current filters.'}</p>
+          <Typography variant="muted">
+            {emptyMessage ?? 'No orders match current filters.'}
+          </Typography>
         )}
       </div>
     </SellerListPage>

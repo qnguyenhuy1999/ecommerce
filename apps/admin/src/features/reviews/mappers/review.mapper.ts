@@ -19,7 +19,7 @@ export function mapReviewToRecord(item: ReviewListItem): ReviewRecord {
     id: item.id,
     rating: item.rating,
     commentPreview: toCommentPreview(item.comment),
-    status: item.status as ReviewRecord['status'],
+    status: item.status,
     reportCount: item._count.reports,
     createdAtLabel: toCreatedAtLabel(item.createdAt),
   }

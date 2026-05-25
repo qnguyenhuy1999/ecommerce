@@ -1,3 +1,4 @@
+import { Typography } from '@ecom/core-ui'
 import { SellerListPage } from '../../organisms'
 import { bannersDefaultProps } from './Banners.fixtures'
 import type { BannersProps } from './Banners.types'
@@ -22,9 +23,9 @@ export function Banners({
       mainClassName="space-y-5"
     >
       <div className="flex items-center justify-between">
-        <p className="text-muted-foreground text-sm">
+        <Typography variant="muted">
           {emptyMessage ?? 'No banners match current filters.'}
-        </p>
+        </Typography>
         {onNew && (
           <button
             onClick={onNew}
@@ -36,9 +37,9 @@ export function Banners({
       </div>
 
       {(items ?? []).length === 0 ? (
-        <p className="text-muted-foreground py-12 text-center text-sm">
+        <Typography variant="muted" className="py-12 text-center">
           {emptyMessage ?? 'No banners match current filters.'}
-        </p>
+        </Typography>
       ) : (
         <div className="divide-y rounded-xl border">
           {(items ?? []).map((item) => (
@@ -53,10 +54,12 @@ export function Banners({
                 <div className="bg-muted h-12 w-20 rounded" />
               )}
               <div className="min-w-0 flex-1">
-                <p className="truncate font-medium">{item.title}</p>
-                <p className="text-muted-foreground text-xs">
+                <Typography variant="body-sm" className="truncate font-medium">
+                  {item.title}
+                </Typography>
+                <Typography variant="caption" className="text-muted-foreground">
                   {item.position} · {item.dateRangeLabel}
-                </p>
+                </Typography>
               </div>
               <span className="text-xs font-medium uppercase">{item.status}</span>
               <span className="text-muted-foreground text-xs">#{item.sortOrder}</span>

@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
-import { PrismaService } from '@ecom/database'
-import { RedisService } from '@ecom/redis'
+import type { Prisma, PrismaService } from '@ecom/database'
+import type { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'
 import { QUEUES } from '@ecom/shared'
 import type {
@@ -23,6 +23,15 @@ import type {
 const CHECKOUT_SESSION_TTL_SECONDS = 15 * 60 // 15 minutes
 const CONFIRM_LOCK_TTL_SECONDS = 30
 const CONFIRM_LOCK_PREFIX = 'checkout:confirm:'
+
+function toPaymentMethodInput(
+  paymentMethod: SetCheckoutPaymentDto['paymentMethod'],
+): Prisma.InputJsonObject {
+  return {
+    method: paymentMethod.method,
+    ...(paymentMethod.details ? { details: paymentMethod.details as Prisma.InputJsonValue } : {}),
+  }
+}
 
 @Injectable()
 export class CheckoutService {
@@ -210,7 +219,7 @@ export class CheckoutService {
     const updated = await this.prisma.checkoutSession.update({
       where: { id: sessionId },
 
-      data: { paymentMethod: dto.paymentMethod as object, step: 'REVIEW' },
+      data: { paymentMethod: toPaymentMethodInput(dto.paymentMethod), step: 'REVIEW' },
       include: { distributionLogs: true },
     })
 
