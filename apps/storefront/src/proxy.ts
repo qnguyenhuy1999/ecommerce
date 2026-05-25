@@ -6,7 +6,7 @@ const withAuth = createWithAuth({
   loginPath: '/login',
 })
 
-export async function middleware(request: NextRequest): Promise<Response> {
+export async function proxy(request: NextRequest): Promise<Response> {
   return withAuth(request)
 }
 
