@@ -10,6 +10,8 @@ export interface WarehouseRow {
 }
 
 export interface WarehousesProps {
+  warehouses?: WarehouseRow[]
+  loading?: boolean
   initialSearch?: string
   onCreateClick?: () => void
 }

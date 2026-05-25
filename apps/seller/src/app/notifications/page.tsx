@@ -16,7 +16,6 @@ interface ApiNotification {
 
 interface NotificationsResponse {
   data: ApiNotification[]
-  meta: { page: number; limit: number; total: number; totalPages: number }
 }
 
 function toRow(n: ApiNotification): NotificationRow {

@@ -9,5 +9,7 @@ export interface ApprovalRow {
 }
 
 export interface ApprovalsProps {
+  approvals?: ApprovalRow[]
+  loading?: boolean
   onResubmit?: (approvalId: string) => Promise<void>
 }

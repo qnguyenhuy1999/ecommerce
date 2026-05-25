@@ -12,6 +12,8 @@ export interface BulkJobRow {
 }
 
 export interface BulkProps {
+  jobs?: BulkJobRow[]
+  loading?: boolean
   onExport?: () => Promise<void>
   onImport?: (file: File) => Promise<void>
 }
