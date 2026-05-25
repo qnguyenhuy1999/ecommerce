@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { WarehouseDetail } from '@ecom/ui-seller'
 import { DashboardLayout } from '../../../components/dashboard-layout'
-import { PageHeader } from '../../../components/page-header'
 import { api } from '../../../lib/api'
 import type { SellerPaths } from '@ecom/contracts/generated'
+import type { WarehouseFormValues } from '@ecom/ui-seller'
 
 type CreateWarehouseResponse =
   SellerPaths['/warehouses']['post']['responses']['201']['content']['application/json']
@@ -13,110 +14,30 @@ type CreateWarehouseResponse =
 export default function NewWarehousePage() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
-  const [form, setForm] = useState({
-    name: '',
-    code: '',
-    address: '',
-    isDefault: false,
-  })
 
-  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
-    try {
-      const payload = {
-        ...form,
-        ...(form.address ? { address: form.address } : {}),
+  const handleSubmit = useCallback(
+    async (values: WarehouseFormValues) => {
+      setLoading(true)
+      try {
+        await api<CreateWarehouseResponse>('/warehouses', {
+          method: 'POST',
+          body: JSON.stringify(values),
+        })
+        router.push('/warehouses')
+      } finally {
+        setLoading(false)
       }
+    },
+    [router],
+  )
 
-      await api<CreateWarehouseResponse>('/warehouses', {
-        method: 'POST',
-        body: JSON.stringify(payload),
-      })
-      router.push('/warehouses')
-    } catch {
-      /* empty */
-    } finally {
-      setLoading(false)
-    }
-  }
+  const handleCancel = useCallback(() => {
+    router.push('/warehouses')
+  }, [router])
 
   return (
     <DashboardLayout>
-      <PageHeader title="Add Warehouse" description="Create a new warehouse location" />
-
-      <form
-        onSubmit={(e) => void handleSubmit(e)}
-        className="max-w-2xl rounded-lg border border-gray-200 bg-white p-6"
-      >
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">Name</label>
-              <input
-                type="text"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Main Warehouse"
-              />
-            </div>
-            <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">Code</label>
-              <input
-                type="text"
-                required
-                value={form.code}
-                onChange={(e) => setForm({ ...form, code: e.target.value.toUpperCase() })}
-                className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="WH-MAIN"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="mb-1 block text-sm font-medium text-gray-700">Address</label>
-            <textarea
-              value={form.address}
-              onChange={(e) => setForm({ ...form, address: e.target.value })}
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-              rows={3}
-              placeholder="Full warehouse address"
-            />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="isDefault"
-              checked={form.isDefault}
-              onChange={(e) => setForm({ ...form, isDefault: e.target.checked })}
-              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label htmlFor="isDefault" className="text-sm text-gray-700">
-              Set as default warehouse
-            </label>
-          </div>
-        </div>
-
-        <div className="mt-6 flex gap-3">
-          <button
-            type="submit"
-            disabled={loading}
-            className="rounded-lg bg-blue-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
-          >
-            {loading ? 'Creating...' : 'Create Warehouse'}
-          </button>
-          <button
-            type="button"
-            onClick={() => router.push('/warehouses')}
-            className="rounded-lg border border-gray-300 px-6 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
+      <WarehouseDetail onSubmit={handleSubmit} onCancel={handleCancel} isLoading={loading} />
     </DashboardLayout>
   )
 }
