@@ -1,238 +1,85 @@
 'use client'
 
-/* eslint-disable max-lines-per-function */
-
 import { useState, useEffect } from 'react'
-import { Search, RotateCcw, Clock, CheckCircle } from 'lucide-react'
 import { DashboardLayout } from '../../components/dashboard-layout'
-import { PageHeader } from '../../components/page-header'
-import { DataTable } from '@ecom/core-ui'
-import { StatusBadge } from '../../components/status-badge'
-import { StatCard } from '@ecom/core-ui'
 import { api } from '../../lib/api'
+import { ReturnsRefunds } from '@ecom/ui-seller'
+import type { ReturnRow, ReturnsRefundsActionPayload } from '@ecom/ui-seller'
 
-interface ReturnRequest {
+interface ApiReturnItem {
+  id: string
+  variantId: string
+  quantity: number
+}
+
+interface ApiReturn {
   id: string
   orderId: string
   reason: string
-  description: string | null
   status: string
   refundAmount: number
   createdAt: string
-  items: { id: string; variantId: string; quantity: number }[]
-  _count: { evidence: number; timeline: number }
+  items: ApiReturnItem[]
+  buyer?: { name?: string }
 }
 
 interface ReturnsResponse {
-  data: ReturnRequest[]
+  data: ApiReturn[]
   meta: { page: number; limit: number; total: number; totalPages: number }
 }
 
-interface ReturnStats {
-  total: number
-  pending: number
-  approved: number
-  refunded: number
+function mapStatus(status: string): ReturnRow['status'] {
+  const allowed = ['OPEN', 'APPROVED', 'REFUNDED', 'REJECTED'] as const
+  return (allowed as readonly string[]).includes(status) ? (status as ReturnRow['status']) : 'OPEN'
+}
+
+function toReturnRow(r: ApiReturn): ReturnRow {
+  return {
+    id: r.id,
+    caseId: r.id.slice(0, 8).toUpperCase(),
+    orderNumber: r.orderId.slice(0, 8).toUpperCase(),
+    buyerName: r.buyer?.name ?? '—',
+    reason: r.reason.replace(/_/g, ' '),
+    amount: Number(r.refundAmount),
+    status: mapStatus(r.status),
+    openedAtLabel: new Date(r.createdAt).toLocaleDateString(),
+  }
 }
 
 export default function ReturnsPage() {
-  const [returns, setReturns] = useState<ReturnRequest[]>([])
-  const [stats, setStats] = useState<ReturnStats>({
-    total: 0,
-    pending: 0,
-    approved: 0,
-    refunded: 0,
-  })
-  const [loading, setLoading] = useState(true)
-  const [search, setSearch] = useState('')
-  const [statusFilter, setStatusFilter] = useState('')
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
-  const [refreshKey, setRefreshKey] = useState(0)
+  const [returns, setReturns] = useState<ReturnRow[]>([])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
-      try {
-        const [returnsRes, statsRes] = await Promise.all([
-          api<ReturnsResponse>('/returns', {
-            params: {
-              page,
-              limit: 20,
-              search: search || undefined,
-              status: statusFilter || undefined,
-            },
-          }),
-          api<ReturnStats>('/returns/stats'),
-        ])
-        setReturns(returnsRes.data)
-        setTotalPages(returnsRes.meta.totalPages)
-        setStats(statsRes)
-      } catch {
-        /* empty */
-      } finally {
-        setLoading(false)
-      }
-    }
-    void fetchData()
-  }, [page, search, statusFilter, refreshKey])
-
-  const handleUpdateStatus = async (returnId: string, status: string) => {
+  const fetchReturns = async () => {
     try {
-      await api(`/returns/${returnId}/status`, {
-        method: 'PUT',
-        body: JSON.stringify({ status }),
+      const res = await api<ReturnsResponse>('/returns', {
+        params: { page: 1, limit: 100 },
       })
-      setRefreshKey((k) => k + 1)
+      setReturns(res.data.map(toReturnRow))
     } catch {
       /* empty */
     }
   }
 
-  const columns = [
-    {
-      key: 'id',
-      header: 'Return ID',
-      render: (row: ReturnRequest) => (
-        <span className="font-mono text-xs">{row.id.slice(0, 8)}...</span>
-      ),
-    },
-    {
-      key: 'reason',
-      header: 'Reason',
-      render: (row: ReturnRequest) => row.reason.replace(/_/g, ' '),
-    },
-    {
-      key: 'refundAmount',
-      header: 'Refund',
-      render: (row: ReturnRequest) => `$${Number(row.refundAmount).toFixed(2)}`,
-    },
-    {
-      key: 'items',
-      header: 'Items',
-      render: (row: ReturnRequest) => `${row.items.length} item(s)`,
-    },
-    {
-      key: 'status',
-      header: 'Status',
-      render: (row: ReturnRequest) => <StatusBadge status={row.status} />,
-    },
-    {
-      key: 'actions',
-      header: 'Actions',
-      render: (row: ReturnRequest) => {
-        if (row.status === 'REQUESTED') {
-          return (
-            <div className="flex gap-1">
-              <button
-                onClick={() => void handleUpdateStatus(row.id, 'REVIEWING')}
-                className="text-xs text-blue-600 hover:underline"
-              >
-                Review
-              </button>
-            </div>
-          )
-        }
-        if (row.status === 'REVIEWING') {
-          return (
-            <div className="flex gap-1">
-              <button
-                onClick={() => void handleUpdateStatus(row.id, 'APPROVED')}
-                className="text-xs text-green-600 hover:underline"
-              >
-                Approve
-              </button>
-              <button
-                onClick={() => void handleUpdateStatus(row.id, 'REJECTED')}
-                className="text-xs text-red-600 hover:underline"
-              >
-                Reject
-              </button>
-            </div>
-          )
-        }
-        return null
-      },
-    },
-    {
-      key: 'createdAt',
-      header: 'Date',
-      render: (row: ReturnRequest) => new Date(row.createdAt).toLocaleDateString(),
-    },
-  ]
+  useEffect(() => {
+    void fetchReturns()
+  }, [])
+
+  const handleAction = async (payload: ReturnsRefundsActionPayload) => {
+    const statusMap: Record<ReturnsRefundsActionPayload['action'], string> = {
+      approve: 'APPROVED',
+      partial: 'APPROVED',
+      reject: 'REJECTED',
+    }
+    await api(`/returns/${payload.id}/status`, {
+      method: 'PUT',
+      body: JSON.stringify({ status: statusMap[payload.action] }),
+    })
+    void fetchReturns()
+  }
 
   return (
     <DashboardLayout>
-      <PageHeader title="Returns & Refunds" description="Manage return requests and refunds" />
-
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-4">
-        <StatCard label="Total Returns" value={stats.total} icon={RotateCcw} />
-        <StatCard label="Pending" value={stats.pending} icon={Clock} />
-        <StatCard label="Approved" value={stats.approved} icon={CheckCircle} />
-        <StatCard label="Refunded" value={stats.refunded} icon={CheckCircle} />
-      </div>
-
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-        <div className="relative flex-1">
-          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search returns..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-              setPage(1)
-            }}
-            className="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <select
-          value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value)
-            setPage(1)
-          }}
-          className="rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">All Status</option>
-          <option value="REQUESTED">Requested</option>
-          <option value="REVIEWING">Reviewing</option>
-          <option value="APPROVED">Approved</option>
-          <option value="REJECTED">Rejected</option>
-          <option value="RETURN_SHIPPING">Return Shipping</option>
-          <option value="RECEIVED">Received</option>
-          <option value="REFUNDED">Refunded</option>
-        </select>
-      </div>
-
-      <DataTable
-        columns={columns}
-        data={returns}
-        loading={loading}
-        emptyMessage="No return requests"
-      />
-
-      {totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-center gap-2">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="rounded border border-gray-300 px-3 py-1 text-sm disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="text-sm text-gray-600">
-            Page {page} of {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className="rounded border border-gray-300 px-3 py-1 text-sm disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      )}
+      <ReturnsRefunds returns={returns} onAction={handleAction} />
     </DashboardLayout>
   )
 }

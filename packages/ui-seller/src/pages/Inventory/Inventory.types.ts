@@ -21,6 +21,7 @@ export interface InventoryProps {
   description?: string
   exportHref?: string
   inventory?: InventoryRow[]
+  loading?: boolean
   columns?: DataTableProps<InventoryRow>['columns']
   searchPlaceholder?: string
   emptyMessage?: string

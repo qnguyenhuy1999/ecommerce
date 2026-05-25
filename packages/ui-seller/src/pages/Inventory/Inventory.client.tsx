@@ -12,6 +12,7 @@ import { filterInventory, inventoryColumns } from './Inventory.utils'
 
 interface InventoryClientProps {
   inventory: InventoryRow[]
+  loading?: InventoryProps['loading']
   columns?: InventoryProps['columns']
   searchPlaceholder?: InventoryProps['searchPlaceholder']
   emptyMessage?: InventoryProps['emptyMessage']
@@ -20,6 +21,7 @@ interface InventoryClientProps {
 
 export function InventoryClient({
   inventory,
+  loading = false,
   columns = inventoryColumns,
   searchPlaceholder = inventoryDefaultProps.searchPlaceholder,
   emptyMessage = inventoryDefaultProps.emptyMessage,
@@ -42,6 +44,7 @@ export function InventoryClient({
     <SellerListPage.Table
       columns={columns}
       data={filteredInventory}
+      loading={loading}
       enableRowSelection
       toolbar={
         <SellerListPage.Filters>

@@ -1,52 +1,54 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Search, AlertTriangle } from 'lucide-react'
 import { DashboardLayout } from '../../components/dashboard-layout'
-import { PageHeader } from '../../components/page-header'
-import { DataTable } from '@ecom/core-ui'
+import { Inventory } from '@ecom/ui-seller'
 import { api } from '../../lib/api'
+import type { InventoryRow } from '@ecom/ui-seller'
 
-interface InventoryItem {
-  id: string
+interface ApiInventoryItem {
   variantId: string
-  productId: string
   productName: string
   sku: string | null
   stock: number
   reservedStock: number
   availableStock: number
   isLowStock: boolean
-  options: { group: string; value: string }[]
 }
 
 interface InventoryResponse {
-  data: InventoryItem[]
+  data: ApiInventoryItem[]
   meta: { page: number; limit: number; total: number; totalPages: number }
 }
 
+function toInventoryRow(item: ApiInventoryItem): InventoryRow {
+  return {
+    id: item.variantId,
+    image: '',
+    name: item.productName,
+    category: '',
+    sku: item.sku ?? '',
+    onHand: item.stock,
+    incoming: 0,
+    reserved: item.reservedStock,
+    available: item.availableStock,
+    threshold: 10,
+    status: item.isLowStock ? 'Low' : 'OK',
+  }
+}
+
 export default function InventoryPage() {
-  const [items, setItems] = useState<InventoryItem[]>([])
+  const [rows, setRows] = useState<InventoryRow[]>([])
   const [loading, setLoading] = useState(true)
-  const [search, setSearch] = useState('')
-  const [lowStockOnly, setLowStockOnly] = useState(false)
-  const [page, setPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
 
   useEffect(() => {
     const fetchInventory = async () => {
       setLoading(true)
       try {
         const res = await api<{ data: InventoryResponse }>('/inventory', {
-          params: {
-            page,
-            limit: 20,
-            search: search || undefined,
-            lowStock: lowStockOnly || undefined,
-          },
+          params: { limit: 100 },
         })
-        setItems(res.data.data.map((item) => ({ ...item, id: item.variantId })))
-        setTotalPages(res.data.meta.totalPages)
+        setRows(res.data.data.map(toInventoryRow))
       } catch {
         /* empty */
       } finally {
@@ -54,102 +56,11 @@ export default function InventoryPage() {
       }
     }
     void fetchInventory()
-  }, [page, search, lowStockOnly])
-
-  const columns = [
-    {
-      key: 'product',
-      header: 'Product',
-      render: (row: InventoryItem) => (
-        <div>
-          <div className="font-medium">{row.productName}</div>
-          {row.options.length > 0 && (
-            <div className="text-xs text-gray-500">
-              {row.options.map((o) => `${o.group}: ${o.value}`).join(', ')}
-            </div>
-          )}
-        </div>
-      ),
-    },
-    { key: 'sku', header: 'SKU', render: (row: InventoryItem) => row.sku ?? '—' },
-    { key: 'stock', header: 'Total Stock', render: (row: InventoryItem) => String(row.stock) },
-    {
-      key: 'reserved',
-      header: 'Reserved',
-      render: (row: InventoryItem) => String(row.reservedStock),
-    },
-    {
-      key: 'available',
-      header: 'Available',
-      render: (row: InventoryItem) => (
-        <span className={row.isLowStock ? 'font-medium text-red-600' : ''}>
-          {row.availableStock}
-          {row.isLowStock && <AlertTriangle className="ml-1 inline h-3 w-3" />}
-        </span>
-      ),
-    },
-  ]
+  }, [])
 
   return (
     <DashboardLayout>
-      <PageHeader title="Inventory" description="Monitor and manage stock levels" />
-
-      <div className="mb-4 flex flex-col gap-3 sm:flex-row">
-        <div className="relative flex-1">
-          <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search by product or SKU..."
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value)
-              setPage(1)
-            }}
-            className="w-full rounded-lg border border-gray-300 py-2 pr-4 pl-10 text-sm outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm">
-          <input
-            type="checkbox"
-            checked={lowStockOnly}
-            onChange={(e) => {
-              setLowStockOnly(e.target.checked)
-              setPage(1)
-            }}
-            className="rounded border-gray-300"
-          />
-          Low stock only
-        </label>
-      </div>
-
-      <DataTable
-        columns={columns}
-        data={items}
-        loading={loading}
-        emptyMessage="No inventory items found"
-      />
-
-      {totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-center gap-2">
-          <button
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-            className="rounded border border-gray-300 px-3 py-1 text-sm disabled:opacity-50"
-          >
-            Previous
-          </button>
-          <span className="text-sm text-gray-600">
-            Page {page} of {totalPages}
-          </span>
-          <button
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-            className="rounded border border-gray-300 px-3 py-1 text-sm disabled:opacity-50"
-          >
-            Next
-          </button>
-        </div>
-      )}
+      <Inventory inventory={rows} loading={loading} />
     </DashboardLayout>
   )
 }

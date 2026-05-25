@@ -10,6 +10,7 @@ export function Inventory({
   description = inventoryDefaultProps.description,
   exportHref = inventoryDefaultProps.exportHref,
   inventory = inventoryDefaultProps.inventory,
+  loading = false,
   columns = inventoryColumns,
   searchPlaceholder = inventoryDefaultProps.searchPlaceholder,
   emptyMessage = inventoryDefaultProps.emptyMessage,
@@ -34,6 +35,7 @@ export function Inventory({
     >
       <InventoryClient
         inventory={inventory}
+        loading={loading}
         columns={columns}
         searchPlaceholder={searchPlaceholder}
         emptyMessage={emptyMessage}
