@@ -413,23 +413,17 @@ function SellerOnboardingShopStep({
   )
 }
 
-function SellerOnboardingKycStep({
+function SellerOnboardingKycIdentityFields({
   control,
   businessTypeOptions,
   idTypeOptions,
-  documentSlots,
-  documentInputRefs,
-  updateDocument,
 }: {
   control: UseFormReturn<SellerOnboardingFormValues>['control']
   businessTypeOptions: string[]
   idTypeOptions: string[]
-  documentSlots: SellerOnboardingDocumentSlot[]
-  documentInputRefs: React.RefObject<Record<SellerOnboardingDocumentKey, HTMLInputElement | null>>
-  updateDocument: SellerOnboardingController['updateDocument']
 }) {
   return (
-    <div className="grid gap-5">
+    <>
       <div className="grid gap-4 md:grid-cols-2">
         <FormField
           control={control}
@@ -511,33 +505,57 @@ function SellerOnboardingKycStep({
           )}
         />
       </div>
+    </>
+  )
+}
 
-      <FormField
-        control={control}
-        name="kyc.documents"
-        render={({ field }) => (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {documentSlots.map((slot) => (
-              <DocumentUploadSlot
-                key={slot.key}
-                label={slot.label}
-                fileName={field.value[slot.key] ?? ''}
-                inputRef={(node) => {
-                  documentInputRefs.current[slot.key] = node
-                }}
-                onOpen={() => documentInputRefs.current[slot.key]?.click()}
-                onFileChange={(event) => {
-                  const file = event.target.files?.[0]
-                  if (file) {
-                    updateDocument(slot.key, file.name)
-                  }
-                }}
-              />
-            ))}
-          </div>
-        )}
-      />
+function SellerOnboardingKycDocumentFields({
+  control,
+  documentSlots,
+  documentInputRefs,
+  updateDocument,
+}: {
+  control: UseFormReturn<SellerOnboardingFormValues>['control']
+  documentSlots: SellerOnboardingDocumentSlot[]
+  documentInputRefs: React.RefObject<Record<SellerOnboardingDocumentKey, HTMLInputElement | null>>
+  updateDocument: SellerOnboardingController['updateDocument']
+}) {
+  return (
+    <FormField
+      control={control}
+      name="kyc.documents"
+      render={({ field }) => (
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {documentSlots.map((slot) => (
+            <DocumentUploadSlot
+              key={slot.key}
+              label={slot.label}
+              fileName={field.value[slot.key] ?? ''}
+              inputRef={(node) => {
+                documentInputRefs.current[slot.key] = node
+              }}
+              onOpen={() => documentInputRefs.current[slot.key]?.click()}
+              onFileChange={(event) => {
+                const file = event.target.files?.[0]
+                if (file) {
+                  updateDocument(slot.key, file.name)
+                }
+              }}
+            />
+          ))}
+        </div>
+      )}
+    />
+  )
+}
 
+function SellerOnboardingKycBankFields({
+  control,
+}: {
+  control: UseFormReturn<SellerOnboardingFormValues>['control']
+}) {
+  return (
+    <>
       <div className="grid gap-4 md:grid-cols-2">
         <FormField
           control={control}
@@ -597,6 +615,39 @@ function SellerOnboardingKycStep({
           )}
         />
       </div>
+    </>
+  )
+}
+
+function SellerOnboardingKycStep({
+  control,
+  businessTypeOptions,
+  idTypeOptions,
+  documentSlots,
+  documentInputRefs,
+  updateDocument,
+}: {
+  control: UseFormReturn<SellerOnboardingFormValues>['control']
+  businessTypeOptions: string[]
+  idTypeOptions: string[]
+  documentSlots: SellerOnboardingDocumentSlot[]
+  documentInputRefs: React.RefObject<Record<SellerOnboardingDocumentKey, HTMLInputElement | null>>
+  updateDocument: SellerOnboardingController['updateDocument']
+}) {
+  return (
+    <div className="grid gap-5">
+      <SellerOnboardingKycIdentityFields
+        control={control}
+        businessTypeOptions={businessTypeOptions}
+        idTypeOptions={idTypeOptions}
+      />
+      <SellerOnboardingKycDocumentFields
+        control={control}
+        documentSlots={documentSlots}
+        documentInputRefs={documentInputRefs}
+        updateDocument={updateDocument}
+      />
+      <SellerOnboardingKycBankFields control={control} />
     </div>
   )
 }

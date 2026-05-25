@@ -57,6 +57,20 @@ interface ResetPasswordStatusProps {
   message: string
 }
 
+interface ResetPasswordFormProps {
+  errorMessage: string
+  form: ReturnType<typeof useForm<{ password: string; confirmPassword: string }>>
+  passwordLabel: string
+  passwordPlaceholder: string
+  confirmPasswordLabel: string
+  confirmPasswordPlaceholder: string
+  passwordHint: string
+  submitLabel: string
+  submittingLabel: string
+  submitting: boolean
+  onSubmit: (event: React.SyntheticEvent<HTMLFormElement>) => void
+}
+
 function getErrorMessage(error: unknown) {
   if (error instanceof Error && error.message) {
     return error.message
@@ -91,6 +105,116 @@ function ResetPasswordStatus({ tone, title, message }: ResetPasswordStatusProps)
         </Typography>
       </div>
     </div>
+  )
+}
+
+function ResetPasswordHeader({
+  title,
+  description,
+}: Pick<ResetPasswordClientProps, 'title' | 'description'>) {
+  return (
+    <div className="space-y-1">
+      <Typography
+        as="h2"
+        variant="h3"
+        className="text-foreground text-[1.6rem] leading-tight font-semibold tracking-[-0.03em] text-balance"
+      >
+        {title}
+      </Typography>
+      <Typography variant="body-sm" className="text-muted-foreground text-[0.9rem] leading-5">
+        {description}
+      </Typography>
+    </div>
+  )
+}
+
+function ResetPasswordForm({
+  errorMessage,
+  form,
+  passwordLabel,
+  passwordPlaceholder,
+  confirmPasswordLabel,
+  confirmPasswordPlaceholder,
+  passwordHint,
+  submitLabel,
+  submittingLabel,
+  submitting,
+  onSubmit,
+}: ResetPasswordFormProps) {
+  return (
+    <Form {...form}>
+      <form onSubmit={onSubmit} className="space-y-3.5">
+        {errorMessage ? (
+          <div
+            role="alert"
+            aria-live="assertive"
+            className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm ${authStatusToneClassNames.destructive.container} ${authStatusToneClassNames.destructive.text}`}
+          >
+            <CircleAlert className="mt-0.5 size-4 shrink-0" />
+            <span>{errorMessage}</span>
+          </div>
+        ) : null}
+
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className={authLabelClassName}>{passwordLabel}</FormLabel>
+              <div className="relative">
+                <KeyRound className={authIconClassName} />
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder={passwordPlaceholder}
+                    className={authInputClassName.replace('pr-11', '')}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel className={authLabelClassName}>{confirmPasswordLabel}</FormLabel>
+              <div className="relative">
+                <KeyRound className={authIconClassName} />
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="password"
+                    autoComplete="new-password"
+                    placeholder={confirmPasswordPlaceholder}
+                    className={authInputClassName.replace('pr-11', '')}
+                  />
+                </FormControl>
+              </div>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Typography variant="body-sm" className="text-muted-foreground text-[0.95rem]">
+          {passwordHint}
+        </Typography>
+
+        <Button
+          type="submit"
+          size="lg"
+          className={`${authPrimaryButtonClassName} h-12`}
+          loading={submitting}
+        >
+          {submitting ? submittingLabel : submitLabel}
+        </Button>
+      </form>
+    </Form>
   )
 }
 
@@ -143,18 +267,7 @@ export function ResetPasswordClient({
     <AuthPageShell title={title}>
       <Card className={authSurfaceClassName}>
         <CardContent className="space-y-4 p-4 sm:p-5">
-          <div className="space-y-1">
-            <Typography
-              as="h2"
-              variant="h3"
-              className="text-foreground text-[1.6rem] leading-tight font-semibold tracking-[-0.03em] text-balance"
-            >
-              {title}
-            </Typography>
-            <Typography variant="body-sm" className="text-muted-foreground text-[0.9rem] leading-5">
-              {description}
-            </Typography>
-          </div>
+          <ResetPasswordHeader title={title} description={description} />
 
           {!token ? (
             <ResetPasswordStatus
@@ -165,84 +278,21 @@ export function ResetPasswordClient({
           ) : completed ? (
             <ResetPasswordStatus tone="success" title={successTitle} message={successMessage} />
           ) : (
-            <Form {...form}>
-              <form
-                onSubmit={(event) => {
-                  void handleSubmit(event)
-                }}
-                className="space-y-3.5"
-              >
-                {errorMessage ? (
-                  <div
-                    role="alert"
-                    aria-live="assertive"
-                    className={`flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm ${authStatusToneClassNames.destructive.container} ${authStatusToneClassNames.destructive.text}`}
-                  >
-                    <CircleAlert className="mt-0.5 size-4 shrink-0" />
-                    <span>{errorMessage}</span>
-                  </div>
-                ) : null}
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className={authLabelClassName}>{passwordLabel}</FormLabel>
-                      <div className="relative">
-                        <KeyRound className={authIconClassName} />
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            autoComplete="new-password"
-                            placeholder={passwordPlaceholder}
-                            className={authInputClassName.replace('pr-11', '')}
-                          />
-                        </FormControl>
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem className="space-y-2">
-                      <FormLabel className={authLabelClassName}>{confirmPasswordLabel}</FormLabel>
-                      <div className="relative">
-                        <KeyRound className={authIconClassName} />
-                        <FormControl>
-                          <Input
-                            {...field}
-                            type="password"
-                            autoComplete="new-password"
-                            placeholder={confirmPasswordPlaceholder}
-                            className={authInputClassName.replace('pr-11', '')}
-                          />
-                        </FormControl>
-                      </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <Typography variant="body-sm" className="text-muted-foreground text-[0.95rem]">
-                  {passwordHint}
-                </Typography>
-
-                <Button
-                  type="submit"
-                  size="lg"
-                  className={`${authPrimaryButtonClassName} h-12`}
-                  loading={submitting}
-                >
-                  {submitting ? submittingLabel : submitLabel}
-                </Button>
-              </form>
-            </Form>
+            <ResetPasswordForm
+              errorMessage={errorMessage}
+              form={form}
+              passwordLabel={passwordLabel}
+              passwordPlaceholder={passwordPlaceholder}
+              confirmPasswordLabel={confirmPasswordLabel}
+              confirmPasswordPlaceholder={confirmPasswordPlaceholder}
+              passwordHint={passwordHint}
+              submitLabel={submitLabel}
+              submittingLabel={submittingLabel}
+              submitting={submitting}
+              onSubmit={(event) => {
+                void handleSubmit(event)
+              }}
+            />
           )}
 
           <div className="border-border border-t pt-3 text-sm">

@@ -25,10 +25,12 @@ function toBannerPosition(position: string): BannerPosition {
 
 function toDateRangeLabel(startsAt: string | null, endsAt: string | null): string {
   if (!startsAt && !endsAt) return '—'
-  const fmt = (d: string) => new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  const fmt = (d: string) =>
+    new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   if (startsAt && endsAt) return `${fmt(startsAt)} – ${fmt(endsAt)}`
   if (startsAt) return `From ${fmt(startsAt)}`
-  return `Until ${fmt(endsAt!)}`
+  if (endsAt) return `Until ${fmt(endsAt)}`
+  return 'â€”'
 }
 
 export function mapBannerToRecord(banner: BannerListItem): BannerRecord {

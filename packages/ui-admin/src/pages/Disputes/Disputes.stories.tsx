@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ConsoleLayout } from '../../layouts/ConsoleLayout'
-import { Disputes } from './Disputes'
-import { disputesDefaultProps } from './Disputes.fixtures'
+import { Refunds } from './Disputes'
+import { refundsDefaultProps } from './Disputes.fixtures'
 
 const meta = {
   title: 'Pages/Disputes',
-  component: Disputes,
+  component: Refunds,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Disputes>
+} satisfies Meta<typeof Refunds>
 
 export default meta
 
@@ -17,11 +17,11 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    ...disputesDefaultProps,
+    ...refundsDefaultProps,
   },
   render: (args) => (
     <ConsoleLayout>
-      <Disputes {...args} />
+      <Refunds {...args} />
     </ConsoleLayout>
   ),
 }
