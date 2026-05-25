@@ -1,0 +1,60 @@
+import type { ReviewsProps } from './Reviews.types'
+
+export const reviewsDefaultProps: ReviewsProps = {
+  title: 'Reviews',
+  description: 'Moderate user reviews & reports',
+  searchPlaceholder: 'Search comment...',
+  approveLabel: 'Approve',
+  hideLabel: 'Hide',
+  rejectLabel: 'Reject',
+  emptyMessage: 'No reviews match current filters.',
+  statusTabs: [
+    { value: 'ALL', label: 'All', count: 5 },
+    { value: 'PENDING', label: 'Pending', count: 2 },
+    { value: 'APPROVED', label: 'Approved', count: 1 },
+    { value: 'HIDDEN', label: 'Hidden', count: 1 },
+    { value: 'REJECTED', label: 'Rejected', count: 1 },
+  ],
+  items: [
+    {
+      id: 'review-1',
+      rating: 5,
+      commentPreview: 'Absolutely love this product! Fast shipping and great quality.',
+      status: 'PENDING',
+      reportCount: 0,
+      createdAtLabel: 'May 20, 2026',
+    },
+    {
+      id: 'review-2',
+      rating: 1,
+      commentPreview: 'Terrible experience. Item arrived broken and seller ignored messages.',
+      status: 'PENDING',
+      reportCount: 3,
+      createdAtLabel: 'May 19, 2026',
+    },
+    {
+      id: 'review-3',
+      rating: 4,
+      commentPreview: 'Good value for the price. Would buy again.',
+      status: 'APPROVED',
+      reportCount: 0,
+      createdAtLabel: 'May 18, 2026',
+    },
+    {
+      id: 'review-4',
+      rating: 2,
+      commentPreview: 'Contains inappropriate language that violates community guidelines.',
+      status: 'HIDDEN',
+      reportCount: 5,
+      createdAtLabel: 'May 17, 2026',
+    },
+    {
+      id: 'review-5',
+      rating: 3,
+      commentPreview: 'Spam review with unrelated promotional content.',
+      status: 'REJECTED',
+      reportCount: 2,
+      createdAtLabel: 'May 16, 2026',
+    },
+  ],
+}

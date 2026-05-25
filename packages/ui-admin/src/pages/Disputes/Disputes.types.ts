@@ -1,25 +1,26 @@
-export const disputeStatuses = [
-  'OPEN',
-  'UNDER_REVIEW',
-  'ESCALATED',
-  'REFUNDED_BUYER',
-  'CLOSED_SELLER',
+export const refundStatuses = [
+  'REQUESTED',
+  'REVIEWING',
+  'APPROVED',
+  'REJECTED',
+  'REFUNDED',
+  'CLOSED',
 ] as const
 
-export type DisputeStatus = (typeof disputeStatuses)[number]
+export type RefundStatus = (typeof refundStatuses)[number]
 
-export type DisputePriority = 'HIGH' | 'MEDIUM' | 'LOW'
+export type RefundCasePriority = 'HIGH' | 'MEDIUM' | 'LOW'
 
-export type DisputeQueue = 'OPS' | 'RISK' | 'SUPPORT'
+export type RefundCaseQueue = 'OPS' | 'RISK' | 'SUPPORT'
 
-export type DisputeResolution = 'UNRESOLVED' | 'BUYER_REFUND' | 'SELLER_CLOSED'
+export type RefundCaseResolution = 'UNRESOLVED' | 'BUYER_REFUND' | 'SELLER_CLOSED'
 
-export interface DisputeFilterOption<TValue extends string = string> {
+export interface RefundCaseFilterOption<TValue extends string = string> {
   value: TValue
   label: string
 }
 
-export interface DisputeRecord {
+export interface RefundRecord {
   id: string
   orderId: string
   buyerName: string
@@ -27,16 +28,16 @@ export interface DisputeRecord {
   amountLabel: string
   reason: string
   openedAtLabel: string
-  status: DisputeStatus
-  priority: DisputePriority
-  queue: DisputeQueue
-  resolution: DisputeResolution
+  status: RefundStatus
+  priority: RefundCasePriority
+  queue: RefundCaseQueue
+  resolution: RefundCaseResolution
   note: string
   ownerLabel: string
   timelineLabel: string
 }
 
-export interface DisputesProps {
+export interface RefundsProps {
   title?: string
   description?: string
   searchPlaceholder?: string
@@ -44,10 +45,10 @@ export interface DisputesProps {
   summaryLabel?: string
   filtersLabel?: string
   emptyStateMessage?: string
-  priorityOptions?: DisputeFilterOption<'ALL' | DisputePriority>[]
-  statusOptions?: DisputeFilterOption<'ALL' | DisputeStatus>[]
-  queueOptions?: DisputeFilterOption<'ALL' | DisputeQueue>[]
-  resolutionOptions?: DisputeFilterOption<'ALL' | DisputeResolution>[]
-  items?: DisputeRecord[]
-  onOpenCase?: ((item: DisputeRecord) => void | Promise<void>) | undefined
+  priorityOptions?: RefundCaseFilterOption<'ALL' | RefundCasePriority>[]
+  statusOptions?: RefundCaseFilterOption<'ALL' | RefundStatus>[]
+  queueOptions?: RefundCaseFilterOption<'ALL' | RefundCaseQueue>[]
+  resolutionOptions?: RefundCaseFilterOption<'ALL' | RefundCaseResolution>[]
+  items?: RefundRecord[]
+  onOpenCase?: ((item: RefundRecord) => void | Promise<void>) | undefined
 }

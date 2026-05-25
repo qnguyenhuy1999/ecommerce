@@ -1,7 +1,7 @@
 import { Logger } from '@nestjs/common'
 import { InjectQueue, Processor, WorkerHost } from '@nestjs/bullmq'
 import type { Job, Queue } from 'bullmq'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { QUEUES, NOTIFICATION_JOBS } from '@ecom/shared'
 import type { SellerNotificationJobPayload, UserNotificationJobPayload } from '@ecom/shared'
 

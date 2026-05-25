@@ -15,12 +15,10 @@ import type {
   ChangeAssigneeDto,
   ChangeStatusDto,
   SendReplyDto,
-  SupportTicketQueryDto} from './dto/support.dto';
-import {
-  SupportMessageResponseDto,
-  SupportTicketResponseDto,
+  SupportTicketQueryDto,
 } from './dto/support.dto'
-import type { SupportService } from './support.service'
+import { SupportMessageResponseDto, SupportTicketResponseDto } from './dto/support.dto'
+import { SupportService } from './support.service'
 
 @ApiTags('Admin/Support')
 @Controller('support')

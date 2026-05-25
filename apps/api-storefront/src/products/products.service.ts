@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { FlashSaleStatus, ProductStatus, ReviewStatus } from '@ecom/contracts/enums'
 
 type DecimalLike = { toNumber(): number } | null | undefined

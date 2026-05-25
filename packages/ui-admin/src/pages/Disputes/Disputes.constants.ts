@@ -1,22 +1,22 @@
-import type { DisputeFilterOption, DisputePriority } from './Disputes.types'
+import type { RefundCaseFilterOption, RefundCasePriority } from './Disputes.types'
 
-export const DISPUTES_PRIORITY_DOT_CLASS_NAMES: Record<DisputePriority, string> = {
+export const REFUNDS_PRIORITY_DOT_CLASS_NAMES: Record<RefundCasePriority, string> = {
   HIGH: 'fill-destructive text-destructive',
   MEDIUM: 'fill-warning text-warning',
   LOW: 'fill-muted-foreground text-muted-foreground',
 } as const
 
-export function getDisputePriorityDotClassName(priority: DisputePriority): string {
+export function getDisputePriorityDotClassName(priority: RefundCasePriority): string {
   return (
-    DISPUTES_PRIORITY_DOT_CLASS_NAMES[priority] ?? 'fill-muted-foreground text-muted-foreground'
+    REFUNDS_PRIORITY_DOT_CLASS_NAMES[priority] ?? 'fill-muted-foreground text-muted-foreground'
   )
 }
 
-export const DISPUTES_DEFAULT_FILTER = 'ALL' as const
+export const REFUNDS_DEFAULT_FILTER = 'ALL' as const
 
-export type DisputesFilterAllOption = typeof DISPUTES_DEFAULT_FILTER
+export type RefundsFilterAllOption = typeof REFUNDS_DEFAULT_FILTER
 
-export function filterDisputeItems<
+export function filterRefundItems<
   TItem extends {
     id: string
     orderId: string
@@ -56,15 +56,15 @@ export function filterDisputeItems<
       item.reason.toLowerCase().includes(query)
 
     const matchesPriority =
-      priorityFilter === DISPUTES_DEFAULT_FILTER || item.priority === priorityFilter
-    const matchesStatus = statusFilter === DISPUTES_DEFAULT_FILTER || item.status === statusFilter
-    const matchesQueue = queueFilter === DISPUTES_DEFAULT_FILTER || item.queue === queueFilter
+      priorityFilter === REFUNDS_DEFAULT_FILTER || item.priority === priorityFilter
+    const matchesStatus = statusFilter === REFUNDS_DEFAULT_FILTER || item.status === statusFilter
+    const matchesQueue = queueFilter === REFUNDS_DEFAULT_FILTER || item.queue === queueFilter
     const matchesResolution =
-      resolutionFilter === DISPUTES_DEFAULT_FILTER || item.resolution === resolutionFilter
+      resolutionFilter === REFUNDS_DEFAULT_FILTER || item.resolution === resolutionFilter
 
     return matchesSearch && matchesPriority && matchesStatus && matchesQueue && matchesResolution
   })
 }
 
 // Re-export type alias for local use
-export type { DisputeFilterOption }
+export type { RefundCaseFilterOption }

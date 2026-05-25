@@ -1,5 +1,5 @@
-import { CampaignsPageClient } from './CampaignsPage.client'
+import { VouchersPageClient } from './CampaignsPage.client'
 
 export default function Vouchers() {
-  return <CampaignsPageClient />
+  return <VouchersPageClient />
 }

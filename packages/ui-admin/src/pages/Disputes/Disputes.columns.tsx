@@ -1,16 +1,16 @@
 import { Button, Typography, type DataTableColumn } from '@ecom/core-ui'
 import { ArrowRight, Circle } from 'lucide-react'
-import { DisputeStatusBadge } from './Disputes.client'
+import { RefundStatusBadge } from './Disputes.client'
 import { getDisputePriorityDotClassName } from './Disputes.constants'
-import type { DisputeRecord } from './Disputes.types'
+import type { RefundRecord } from './Disputes.types'
 
-export function buildDisputeColumns({
+export function buildRefundColumns({
   openLabel,
   onOpen,
 }: {
   openLabel: string
-  onOpen: (item: DisputeRecord) => void
-}): DataTableColumn<DisputeRecord>[] {
+  onOpen: (item: RefundRecord) => void
+}): DataTableColumn<RefundRecord>[] {
   return [
     {
       accessorKey: 'id',
@@ -68,7 +68,7 @@ export function buildDisputeColumns({
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => <DisputeStatusBadge status={row.original.status} />,
+      cell: ({ row }) => <RefundStatusBadge status={row.original.status} />,
     },
     {
       id: 'actions',

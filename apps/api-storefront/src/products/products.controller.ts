@@ -2,7 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common'
 import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
 import { ProductDetailResponseDto } from './dto/product-detail.dto'
-import type { ProductsService } from './products.service'
+import { ProductsService } from './products.service'
 
 @ApiTags('Storefront/Products')
 @ApiErrorResponses()

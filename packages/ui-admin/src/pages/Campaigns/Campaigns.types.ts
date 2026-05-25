@@ -1,14 +1,14 @@
-export const campaignStatuses = ['LIVE', 'SCHEDULED', 'ENDED', 'DRAFT'] as const
+export const voucherStatuses = ['DRAFT', 'ACTIVE', 'PAUSED', 'EXPIRED'] as const
 
-export type CampaignStatus = (typeof campaignStatuses)[number]
+export type VoucherStatus = (typeof voucherStatuses)[number]
 
-export interface CampaignRecord {
+export interface VoucherRecord {
   id: string
   name: string
   type: string
   category: string
   dateRange: string
-  status: CampaignStatus
+  status: VoucherStatus
   impressions: string
   ctr: string
   redemptions: string
@@ -17,19 +17,19 @@ export interface CampaignRecord {
   budgetPercent: number
 }
 
-export interface CampaignsProps {
+export interface VouchersProps {
   title?: string
   description?: string
-  newCampaignLabel?: string
+  newVoucherLabel?: string
   budgetLabel?: string
   editLabel?: string
   performanceLabel?: string
   impressionsLabel?: string
   ctrLabel?: string
   redemptionsLabel?: string
-  tabLabels?: Partial<Record<CampaignStatus, string>>
-  items?: CampaignRecord[]
-  onNewCampaign?: (() => void | Promise<void>) | undefined
-  onEdit?: ((item: CampaignRecord) => void | Promise<void>) | undefined
-  onPerformance?: ((item: CampaignRecord) => void | Promise<void>) | undefined
+  tabLabels?: Partial<Record<VoucherStatus, string>>
+  items?: VoucherRecord[]
+  onNewVoucher?: (() => void | Promise<void>) | undefined
+  onEdit?: ((item: VoucherRecord) => void | Promise<void>) | undefined
+  onPerformance?: ((item: VoucherRecord) => void | Promise<void>) | undefined
 }

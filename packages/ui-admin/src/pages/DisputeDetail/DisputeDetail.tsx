@@ -1,14 +1,14 @@
 import { ConsolePageLayout } from '@ecom/core-ui'
 import { ResolutionPanelClient } from './DisputeDetail.client'
-import { disputeDetailDefaultProps } from './DisputeDetail.fixtures'
+import { refundDetailDefaultProps } from './DisputeDetail.fixtures'
 import { AuditTrailCard, ConversationEvidenceCard, OrderSummaryCard } from './DisputeDetail.server'
-import type { DisputeDetailProps } from './DisputeDetail.types'
+import type { RefundDetailProps } from './DisputeDetail.types'
 
-export function DisputeDetail({
-  item = disputeDetailDefaultProps.item,
-  backHref = disputeDetailDefaultProps.backHref,
-  onApplyResolution = disputeDetailDefaultProps.onApplyResolution,
-}: DisputeDetailProps) {
+export function RefundDetail({
+  item = refundDetailDefaultProps.item,
+  backHref = refundDetailDefaultProps.backHref,
+  onApplyResolution = refundDetailDefaultProps.onApplyResolution,
+}: RefundDetailProps) {
   if (!item) {
     return null
   }
@@ -19,7 +19,7 @@ export function DisputeDetail({
       description={`${item.reason} · opened ${item.openedAtLabel}`}
       breadcrumb={[
         { label: 'Admin', href: '#' },
-        backHref ? { label: 'Disputes', href: backHref } : { label: 'Disputes' },
+        backHref ? { label: 'Refunds', href: backHref } : { label: 'Refunds' },
         { label: item.id },
       ]}
       actions={

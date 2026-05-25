@@ -10,7 +10,7 @@ import {
   ApiErrorResponses,
   ApiAuth,
 } from '@ecom/nestjs-core/openapi'
-import type { GrowthService } from './growth.service'
+import { GrowthService } from './growth.service'
 import type { CreateExperimentDto, CreateFeatureFlagDto, CreateCampaignDto } from './dto/growth.dto'
 import type { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
 

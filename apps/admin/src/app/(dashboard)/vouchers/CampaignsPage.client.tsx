@@ -1,9 +1,9 @@
 'use client'
 
-import { Campaigns } from '@ecom/ui-admin'
-import { useCampaignsAdapter } from '@/features/promotions/hooks/use-campaigns-adapter'
+import { Vouchers } from '@ecom/ui-admin'
+import { useVouchersAdapter } from '@/features/promotions/hooks/use-campaigns-adapter'
 import { stripAdapterMeta } from '@/lib/adapter-utils'
 
-export function CampaignsPageClient() {
-  return <Campaigns {...stripAdapterMeta(useCampaignsAdapter())} />
+export function VouchersPageClient() {
+  return <Vouchers {...stripAdapterMeta(useVouchersAdapter())} />
 }

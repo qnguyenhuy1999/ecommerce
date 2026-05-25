@@ -4,8 +4,8 @@ import type { SessionData } from '@ecom/auth'
 import { ApiAuth, ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import { AuthGuard } from '../auth/guards/auth.guard'
-import type { AddressesService } from './addresses.service'
-import type { CreateAddressDto, UpdateAddressDto } from './dto/address.dto';
+import { AddressesService } from './addresses.service'
+import type { CreateAddressDto, UpdateAddressDto } from './dto/address.dto'
 import { AddressDto } from './dto/address.dto'
 
 @ApiTags('Storefront/Addresses')

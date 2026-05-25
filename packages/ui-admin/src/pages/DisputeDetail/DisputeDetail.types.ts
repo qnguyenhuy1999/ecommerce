@@ -1,15 +1,15 @@
-import type { DisputeRecord } from '../Disputes/Disputes.types'
+import type { RefundRecord } from '../Disputes/Disputes.types'
 
-export type DisputeParticipantRole = 'BUYER' | 'SELLER' | 'ADMIN'
+export type RefundParticipantRole = 'BUYER' | 'SELLER' | 'ADMIN'
 
-export interface DisputeConversationItem {
+export interface RefundConversationItem {
   id: string
-  role: DisputeParticipantRole
+  role: RefundParticipantRole
   message: string
   dateLabel: string
 }
 
-export interface DisputeEvidenceItem {
+export interface RefundEvidenceItem {
   id: string
   label: string
   caption: string
@@ -17,20 +17,20 @@ export interface DisputeEvidenceItem {
   imageAlt: string
 }
 
-export interface DisputeResolutionOption {
+export interface RefundResolutionOption {
   value: string
   title: string
   description: string
 }
 
-export interface DisputeAuditEvent {
+export interface RefundAuditEvent {
   id: string
   actor: string
   action: string
   dateLabel: string
 }
 
-export interface DisputeDetailRecord extends DisputeRecord {
+export interface RefundDetailRecord extends RefundRecord {
   shopName: string
   placedAtLabel: string
   itemTitle: string
@@ -42,20 +42,20 @@ export interface DisputeDetailRecord extends DisputeRecord {
   internalNotePlaceholder: string
   resolutionActionLabel: string
   selectedResolution: string
-  conversation: DisputeConversationItem[]
-  evidence: DisputeEvidenceItem[]
-  resolutionOptions: DisputeResolutionOption[]
-  auditTrail: DisputeAuditEvent[]
+  conversation: RefundConversationItem[]
+  evidence: RefundEvidenceItem[]
+  resolutionOptions: RefundResolutionOption[]
+  auditTrail: RefundAuditEvent[]
 }
 
-export interface DisputeDetailSubmitPayload {
-  item: DisputeDetailRecord
+export interface RefundDetailSubmitPayload {
+  item: RefundDetailRecord
   resolution: string
   note: string
 }
 
-export interface DisputeDetailProps {
-  item?: DisputeDetailRecord
+export interface RefundDetailProps {
+  item?: RefundDetailRecord
   backHref?: string
-  onApplyResolution?: ((payload: DisputeDetailSubmitPayload) => void | Promise<void>) | undefined
+  onApplyResolution?: ((payload: RefundDetailSubmitPayload) => void | Promise<void>) | undefined
 }

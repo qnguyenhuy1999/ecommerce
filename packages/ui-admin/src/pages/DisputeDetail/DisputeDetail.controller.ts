@@ -1,21 +1,21 @@
 import { useCallback, useState } from 'react'
-import type { DisputeDetailProps, DisputeDetailRecord } from './DisputeDetail.types'
+import type { RefundDetailProps, RefundDetailRecord } from './DisputeDetail.types'
 
-interface DisputeDetailControllerProps {
-  item: DisputeDetailRecord
-  onApplyResolution: DisputeDetailProps['onApplyResolution']
+interface RefundDetailControllerProps {
+  item: RefundDetailRecord
+  onApplyResolution: RefundDetailProps['onApplyResolution']
 }
 
-interface DisputeDetailState {
+interface RefundDetailState {
   selectedResolution: string
   internalNote: string
 }
 
-export function useDisputeDetailController({
+export function useRefundDetailController({
   item,
   onApplyResolution,
-}: DisputeDetailControllerProps) {
-  const [state, setState] = useState<DisputeDetailState>({
+}: RefundDetailControllerProps) {
+  const [state, setState] = useState<RefundDetailState>({
     selectedResolution: item.selectedResolution,
     internalNote: '',
   })

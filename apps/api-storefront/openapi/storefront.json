@@ -333,2257 +333,55 @@
         ]
       }
     },
-    "/cart": {
+    "/notifications": {
       "get": {
-        "operationId": "CartController_getCart",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CartDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Get current user cart",
-        "tags": [
-          "Storefront/Cart"
-        ]
-      }
-    },
-    "/cart/items": {
-      "post": {
-        "operationId": "CartController_addItem",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddCartItemDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CartDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Add product to cart",
-        "tags": [
-          "Storefront/Cart"
-        ]
-      }
-    },
-    "/cart/items/{itemId}": {
-      "patch": {
-        "operationId": "CartController_updateItem",
+        "operationId": "NotificationsController_list",
         "parameters": [
-          {
-            "name": "itemId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCartItemDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CartDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Update cart item quantity",
-        "tags": [
-          "Storefront/Cart"
-        ]
-      },
-      "delete": {
-        "operationId": "CartController_removeItem",
-        "parameters": [
-          {
-            "name": "itemId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CartDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Remove cart item",
-        "tags": [
-          "Storefront/Cart"
-        ]
-      }
-    },
-    "/cart/voucher": {
-      "post": {
-        "operationId": "CartController_applyVoucher",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApplyCartVoucherDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CartDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Apply platform voucher to cart",
-        "tags": [
-          "Storefront/Cart"
-        ]
-      },
-      "delete": {
-        "operationId": "CartController_removeVoucher",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CartDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Remove platform voucher from cart",
-        "tags": [
-          "Storefront/Cart"
-        ]
-      }
-    },
-    "/addresses": {
-      "get": {
-        "operationId": "AddressesController_listAddresses",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/AddressDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "List saved delivery addresses",
-        "tags": [
-          "Storefront/Addresses"
-        ]
-      },
-      "post": {
-        "operationId": "AddressesController_createAddress",
-        "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAddressDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/AddressDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Create a new delivery address",
-        "tags": [
-          "Storefront/Addresses"
-        ]
-      }
-    },
-    "/addresses/{id}": {
-      "put": {
-        "operationId": "AddressesController_updateAddress",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateAddressDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/AddressDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Update a delivery address",
-        "tags": [
-          "Storefront/Addresses"
-        ]
-      },
-      "delete": {
-        "operationId": "AddressesController_deleteAddress",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Delete a delivery address",
-        "tags": [
-          "Storefront/Addresses"
-        ]
-      }
-    },
-    "/checkout/sessions": {
-      "post": {
-        "operationId": "CheckoutController_createSession",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CheckoutSessionDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Create checkout session from cart (reserves inventory)",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/checkout/sessions/{id}": {
-      "get": {
-        "operationId": "CheckoutController_getSession",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CheckoutSessionDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Get checkout session state",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/checkout/sessions/{id}/address": {
-      "patch": {
-        "operationId": "CheckoutController_setAddress",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SetCheckoutAddressDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CheckoutSessionDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Set delivery address (step 1 → 2)",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/checkout/sessions/{id}/shipping": {
-      "patch": {
-        "operationId": "CheckoutController_setShipping",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SetCheckoutShippingDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CheckoutSessionDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Set shipping methods per shop (step 2 → 3)",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/checkout/sessions/{id}/payment": {
-      "patch": {
-        "operationId": "CheckoutController_setPayment",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SetCheckoutPaymentDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CheckoutSessionDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Set payment method (step 3 → 4 review)",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/checkout/sessions/{id}/confirm": {
-      "post": {
-        "operationId": "CheckoutController_confirm",
-        "parameters": [
-          {
-            "name": "id",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmCheckoutDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/ConfirmCheckoutResponseDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Confirm order — idempotent, enqueues async processing",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/checkout/orders/{orderId}/status": {
-      "get": {
-        "operationId": "CheckoutController_getOrderStatus",
-        "parameters": [
-          {
-            "name": "orderId",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/ConfirmCheckoutResponseDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearer": []
-          },
-          {
-            "sessionId": []
-          }
-        ],
-        "summary": "Poll order processing status and distribution log",
-        "tags": [
-          "Storefront/Checkout"
-        ]
-      }
-    },
-    "/categories/{slug}": {
-      "get": {
-        "operationId": "CategoryPageController_getCategoryPage",
-        "parameters": [
-          {
-            "name": "slug",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
           {
             "name": "page",
             "required": false,
             "in": "query",
-            "description": "1-based page index",
-            "schema": {
-              "default": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "Page size",
-            "schema": {
-              "maximum": 100,
-              "default": 20,
-              "type": "number"
-            }
-          },
-          {
-            "name": "sort",
-            "required": false,
-            "in": "query",
-            "description": "Sort option",
-            "schema": {
-              "default": "popular",
-              "type": "string",
-              "enum": [
-                "popular",
-                "newest",
-                "price-asc",
-                "price-desc"
-              ]
-            }
-          },
-          {
-            "name": "categoryIds",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated descendant category ids",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "minPrice",
-            "required": false,
-            "in": "query",
-            "description": "Minimum price filter",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "maxPrice",
-            "required": false,
-            "in": "query",
-            "description": "Maximum price filter",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "ratings",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated rating bucket selections such as 5,4,3",
-            "schema": {
-              "example": "4,5",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/CategoryPageResponseDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Get category page data",
-        "tags": [
-          "Storefront/Categories"
-        ]
-      }
-    },
-    "/homepage": {
-      "get": {
-        "operationId": "HomepageController_getHomepage",
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/HomepageDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Get all landing page data (categories, vouchers, flash sale, featured products, shops)",
-        "tags": [
-          "Storefront/Homepage"
-        ]
-      }
-    },
-    "/shops/{slug}": {
-      "get": {
-        "operationId": "ShopPageController_getShopPage",
-        "parameters": [
-          {
-            "name": "slug",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/ShopDetailResponseDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Get shop detail page bootstrap data",
-        "tags": [
-          "Storefront/Shops"
-        ]
-      }
-    },
-    "/shops/{slug}/products": {
-      "get": {
-        "operationId": "ShopPageController_getShopProducts",
-        "parameters": [
-          {
-            "name": "slug",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "description": "1-based page index",
-            "schema": {
-              "default": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "Page size",
-            "schema": {
-              "maximum": 100,
-              "default": 20,
-              "type": "number"
-            }
-          },
-          {
-            "name": "sort",
-            "required": false,
-            "in": "query",
-            "description": "Sort option",
-            "schema": {
-              "default": "popular",
-              "type": "string",
-              "enum": [
-                "popular",
-                "newest",
-                "price-asc",
-                "price-desc"
-              ]
-            }
-          },
-          {
-            "name": "minPrice",
-            "required": false,
-            "in": "query",
-            "description": "Minimum price filter",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "maxPrice",
-            "required": false,
-            "in": "query",
-            "description": "Maximum price filter",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "ratings",
-            "required": false,
-            "in": "query",
-            "description": "Comma-separated rating bucket selections such as 5,4,3",
-            "schema": {
-              "example": "4,5",
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/ApiResponseDto"
-                    },
-                    {
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/ShopProductsResponseDto"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponseDto"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Get shop products tab data",
-        "tags": [
-          "Storefront/Shops"
-        ]
-      }
-    },
-    "/shops/{slug}/reviews": {
-      "get": {
-        "operationId": "ShopPageController_getShopReviews",
-        "parameters": [
-          {
-            "name": "slug",
-            "required": true,
-            "in": "path",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "description": "1-based page index",
-            "schema": {
-              "default": 1,
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "description": "Page size",
-            "schema": {
-              "maximum": 100,
-              "default": 20,
-              "type": "number"
-            }
-          },
-          {
-            "name": "rating",
-            "required": false,
-            "in": "query",
-            "description": "Filter by exact rating",
+            "description": "Page number (1-indexed)",
             "schema": {
               "minimum": 1,
-              "maximum": 5,
+              "default": 1,
               "type": "number"
             }
           },
           {
-            "name": "withMedia",
+            "name": "limit",
             "required": false,
             "in": "query",
-            "description": "Only reviews with images",
+            "description": "Items per page",
             "schema": {
-              "default": false,
-              "type": "boolean"
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "default": "createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort direction",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -2595,12 +393,23 @@
                 "schema": {
                   "allOf": [
                     {
-                      "$ref": "#/components/schemas/ApiResponseDto"
+                      "$ref": "#/components/schemas/PaginatedResponseDto"
                     },
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/ShopReviewsResponseDto"
+                          "type": "object",
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/Object"
+                              }
+                            }
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMetaDto"
                         }
                       }
                     }
@@ -2660,9 +469,295 @@
             }
           }
         },
-        "summary": "Get shop reviews tab data",
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
         "tags": [
-          "Storefront/Shops"
+          "Storefront/Notifications"
+        ]
+      }
+    },
+    "/notifications/unread-count": {
+      "get": {
+        "operationId": "NotificationsController_unreadCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/Object"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": [
+          "Storefront/Notifications"
+        ]
+      }
+    },
+    "/notifications/{id}/read": {
+      "post": {
+        "operationId": "NotificationsController_markAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/Object"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": [
+          "Storefront/Notifications"
+        ]
+      }
+    },
+    "/notifications/read-all": {
+      "post": {
+        "operationId": "NotificationsController_markAllAsRead",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/Object"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": [
+          "Storefront/Notifications"
         ]
       }
     }
@@ -2773,1431 +868,38 @@
           "timestamp"
         ]
       },
-      "CartShopDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "logo": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "logo"
-        ]
-      },
-      "CartVariantDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "sku": {
-            "type": "string",
-            "nullable": true
-          },
-          "label": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "sku",
-          "label"
-        ]
-      },
-      "CartItemDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "productId": {
-            "type": "string"
-          },
-          "productName": {
-            "type": "string"
-          },
-          "productSlug": {
-            "type": "string"
-          },
-          "coverImage": {
-            "type": "string",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "number"
-          },
-          "unitPrice": {
-            "type": "number"
-          },
-          "lineTotal": {
-            "type": "number"
-          },
-          "availableStock": {
-            "type": "number"
-          },
-          "shop": {
-            "$ref": "#/components/schemas/CartShopDto"
-          },
-          "variant": {
-            "nullable": true,
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/CartVariantDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "productId",
-          "productName",
-          "productSlug",
-          "coverImage",
-          "quantity",
-          "unitPrice",
-          "lineTotal",
-          "availableStock",
-          "shop",
-          "variant"
-        ]
-      },
-      "AppliedCartVoucherDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "PERCENTAGE",
-              "FIXED_AMOUNT",
-              "FREE_SHIPPING"
-            ]
-          },
-          "discountValue": {
-            "type": "number"
-          },
-          "maxDiscountAmount": {
-            "type": "number",
-            "nullable": true
-          },
-          "minOrderAmount": {
-            "type": "number",
-            "nullable": true
-          },
-          "discountTotal": {
-            "type": "number"
-          },
-          "expiresAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "code",
-          "name",
-          "type",
-          "discountValue",
-          "maxDiscountAmount",
-          "minOrderAmount",
-          "discountTotal",
-          "expiresAt"
-        ]
-      },
-      "CartDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CartItemDto"
-            }
-          },
-          "totalItems": {
-            "type": "number"
-          },
-          "subtotal": {
-            "type": "number"
-          },
-          "shippingTotal": {
-            "type": "number"
-          },
-          "discountTotal": {
-            "type": "number"
-          },
-          "total": {
-            "type": "number"
-          },
-          "voucher": {
-            "nullable": true,
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/AppliedCartVoucherDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "items",
-          "totalItems",
-          "subtotal",
-          "shippingTotal",
-          "discountTotal",
-          "total",
-          "voucher"
-        ]
-      },
-      "AddCartItemDto": {
-        "type": "object",
-        "properties": {
-          "productId": {
-            "type": "string"
-          },
-          "variantId": {
-            "type": "string"
-          },
-          "quantity": {
-            "type": "number",
-            "minimum": 1
-          }
-        },
-        "required": [
-          "productId",
-          "quantity"
-        ]
-      },
-      "UpdateCartItemDto": {
-        "type": "object",
-        "properties": {
-          "quantity": {
-            "type": "number",
-            "minimum": 1
-          }
-        },
-        "required": [
-          "quantity"
-        ]
-      },
-      "ApplyCartVoucherDto": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "code"
-        ]
-      },
-      "AddressDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "recipientName": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "addressLine": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "province": {
-            "type": "string"
-          },
-          "postalCode": {
-            "type": "string"
-          },
-          "countryCode": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string",
-            "nullable": true
-          },
-          "isDefault": {
-            "type": "boolean"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "updatedAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "recipientName",
-          "phone",
-          "addressLine",
-          "city",
-          "province",
-          "postalCode",
-          "countryCode",
-          "label",
-          "isDefault",
-          "createdAt",
-          "updatedAt"
-        ]
-      },
-      "CreateAddressDto": {
-        "type": "object",
-        "properties": {
-          "recipientName": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "addressLine": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "province": {
-            "type": "string"
-          },
-          "postalCode": {
-            "type": "string"
-          },
-          "countryCode": {
-            "type": "string",
-            "default": "SG"
-          },
-          "label": {
-            "type": "string"
-          },
-          "isDefault": {
-            "type": "boolean",
-            "default": false
-          }
-        },
-        "required": [
-          "recipientName",
-          "phone",
-          "addressLine",
-          "city",
-          "province",
-          "postalCode"
-        ]
-      },
-      "UpdateAddressDto": {
-        "type": "object",
-        "properties": {
-          "recipientName": {
-            "type": "string"
-          },
-          "phone": {
-            "type": "string"
-          },
-          "addressLine": {
-            "type": "string"
-          },
-          "city": {
-            "type": "string"
-          },
-          "province": {
-            "type": "string"
-          },
-          "postalCode": {
-            "type": "string"
-          },
-          "countryCode": {
-            "type": "string"
-          },
-          "label": {
-            "type": "string"
-          },
-          "isDefault": {
-            "type": "boolean"
-          }
-        }
-      },
-      "DistributionLogDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "event": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "errorMessage": {
-            "type": "object",
-            "nullable": true
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "event",
-          "status",
-          "createdAt"
-        ]
-      },
-      "CheckoutSessionDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "idempotencyKey": {
-            "type": "string"
-          },
-          "step": {
-            "type": "string"
-          },
-          "addressId": {
-            "type": "string",
-            "nullable": true
-          },
-          "shippingSelections": {
-            "type": "object",
-            "nullable": true
-          },
-          "paymentMethod": {
-            "type": "object",
-            "nullable": true
-          },
-          "couponCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "subtotal": {
-            "type": "number"
-          },
-          "shippingFee": {
-            "type": "number"
-          },
-          "discount": {
-            "type": "number"
-          },
-          "total": {
-            "type": "number"
-          },
-          "orderId": {
-            "type": "string",
-            "nullable": true
-          },
-          "expiresAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "createdAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "distributionLogs": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/DistributionLogDto"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "idempotencyKey",
-          "step",
-          "subtotal",
-          "shippingFee",
-          "discount",
-          "total",
-          "expiresAt",
-          "createdAt",
-          "distributionLogs"
-        ]
-      },
-      "SetCheckoutAddressDto": {
-        "type": "object",
-        "properties": {
-          "addressId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "addressId"
-        ]
-      },
-      "ShippingSelectionItemDto": {
-        "type": "object",
-        "properties": {
-          "shopId": {
-            "type": "string"
-          },
-          "providerId": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "shopId",
-          "providerId"
-        ]
-      },
-      "SetCheckoutShippingDto": {
-        "type": "object",
-        "properties": {
-          "selections": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShippingSelectionItemDto"
-            }
-          }
-        },
-        "required": [
-          "selections"
-        ]
-      },
-      "PaymentMethodDto": {
-        "type": "object",
-        "properties": {
-          "method": {
-            "type": "string",
-            "enum": [
-              "COD",
-              "CARD",
-              "WALLET"
-            ]
-          },
-          "details": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "method"
-        ]
-      },
-      "SetCheckoutPaymentDto": {
-        "type": "object",
-        "properties": {
-          "paymentMethod": {
-            "$ref": "#/components/schemas/PaymentMethodDto"
-          }
-        },
-        "required": [
-          "paymentMethod"
-        ]
-      },
-      "ConfirmCheckoutResponseDto": {
-        "type": "object",
-        "properties": {
-          "sessionId": {
-            "type": "string"
-          },
-          "orderId": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "sessionId",
-          "status"
-        ]
-      },
-      "ConfirmCheckoutDto": {
-        "type": "object",
-        "properties": {
-          "idempotencyKey": {
-            "type": "string"
-          }
-        }
-      },
-      "CategorySummaryDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "parentId": {
-            "type": "object"
-          },
-          "description": {
-            "type": "object"
-          },
-          "banner": {
-            "type": "object"
-          },
-          "metaTitle": {
-            "type": "object"
-          },
-          "metaDesc": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug"
-        ]
-      },
-      "CategoryBreadcrumbDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug"
-        ]
-      },
-      "CategoryFilterOptionDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "productCount": {
-            "type": "number"
-          },
-          "isSelected": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "productCount",
-          "isSelected"
-        ]
-      },
-      "PriceRangeFilterDto": {
-        "type": "object",
-        "properties": {
-          "min": {
-            "type": "object"
-          },
-          "max": {
-            "type": "object"
-          },
-          "selectedMin": {
-            "type": "object"
-          },
-          "selectedMax": {
-            "type": "object"
-          }
-        },
-        "required": [
-          "min",
-          "max",
-          "selectedMin",
-          "selectedMax"
-        ]
-      },
-      "RatingBucketFilterDto": {
-        "type": "object",
-        "properties": {
-          "rating": {
-            "type": "number"
-          },
-          "count": {
-            "type": "number"
-          },
-          "isSelected": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "rating",
-          "count",
-          "isSelected"
-        ]
-      },
-      "CategoryPageFiltersDto": {
-        "type": "object",
-        "properties": {
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryFilterOptionDto"
-            }
-          },
-          "priceRange": {
-            "$ref": "#/components/schemas/PriceRangeFilterDto"
-          },
-          "ratingBuckets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RatingBucketFilterDto"
-            }
-          }
-        },
-        "required": [
-          "categories",
-          "priceRange",
-          "ratingBuckets"
-        ]
-      },
-      "ProductCardDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "description": {
-            "type": "object"
-          },
-          "price": {
-            "type": "number"
-          },
-          "imageUrl": {
-            "type": "object"
-          },
-          "averageRating": {
-            "type": "number"
-          },
-          "reviewCount": {
-            "type": "number"
-          },
-          "soldCount": {
-            "type": "number"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "category": {
-            "$ref": "#/components/schemas/CategoryBreadcrumbDto"
-          },
-          "shop": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "slug": {
-                "type": "string"
-              }
-            }
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "price",
-          "averageRating",
-          "reviewCount",
-          "soldCount",
-          "createdAt",
-          "category",
-          "shop"
-        ]
-      },
-      "CategoryProductsDto": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductCardDto"
-            }
-          },
-          "meta": {
-            "type": "object",
-            "properties": {
-              "total": {
-                "type": "number"
-              },
-              "page": {
-                "type": "number"
-              },
-              "limit": {
-                "type": "number"
-              },
-              "totalPages": {
-                "type": "number"
-              },
-              "hasNextPage": {
-                "type": "boolean"
-              },
-              "hasPreviousPage": {
-                "type": "boolean"
-              }
-            }
-          }
-        },
-        "required": [
-          "items",
-          "meta"
-        ]
-      },
-      "CategoryPageResponseDto": {
-        "type": "object",
-        "properties": {
-          "category": {
-            "$ref": "#/components/schemas/CategorySummaryDto"
-          },
-          "breadcrumb": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryBreadcrumbDto"
-            }
-          },
-          "subcategories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryFilterOptionDto"
-            }
-          },
-          "filters": {
-            "$ref": "#/components/schemas/CategoryPageFiltersDto"
-          },
-          "products": {
-            "$ref": "#/components/schemas/CategoryProductsDto"
-          },
-          "sort": {
-            "type": "object",
-            "properties": {
-              "current": {
-                "type": "string",
-                "enum": [
-                  "popular",
-                  "newest",
-                  "price-asc",
-                  "price-desc"
-                ]
-              },
-              "options": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "popular",
-                    "newest",
-                    "price-asc",
-                    "price-desc"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "required": [
-          "category",
-          "breadcrumb",
-          "subcategories",
-          "filters",
-          "products",
-          "sort"
-        ]
-      },
-      "CategoryDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "icon": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "icon"
-        ]
-      },
-      "PlatformVoucherDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string",
-            "description": "PERCENTAGE | FIXED_AMOUNT"
-          },
-          "discountValue": {
-            "type": "number"
-          },
-          "maxDiscountAmount": {
-            "type": "number",
-            "nullable": true
-          },
-          "minOrderAmount": {
-            "type": "number",
-            "nullable": true
-          },
-          "expiresAt": {
-            "format": "date-time",
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "code",
-          "name",
-          "type",
-          "discountValue",
-          "maxDiscountAmount",
-          "minOrderAmount",
-          "expiresAt"
-        ]
-      },
-      "ShopSummaryDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "logo": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "logo"
-        ]
-      },
-      "FlashSaleProductDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "shopId": {
-            "type": "string"
-          },
-          "salePrice": {
-            "type": "number"
-          },
-          "originalPrice": {
-            "type": "number"
-          },
-          "discountPercent": {
-            "type": "number"
-          },
-          "totalStock": {
-            "type": "number"
-          },
-          "soldCount": {
-            "type": "number"
-          },
-          "stockLeft": {
-            "type": "number"
-          },
-          "coverImage": {
-            "type": "string",
-            "nullable": true
-          },
-          "rating": {
-            "type": "number",
-            "nullable": true
-          },
-          "reviewCount": {
-            "type": "number"
-          },
-          "shop": {
-            "$ref": "#/components/schemas/ShopSummaryDto"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "shopId",
-          "salePrice",
-          "originalPrice",
-          "discountPercent",
-          "totalStock",
-          "soldCount",
-          "stockLeft",
-          "coverImage",
-          "rating",
-          "reviewCount",
-          "shop"
-        ]
-      },
-      "FlashSaleDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "endsAt": {
-            "format": "date-time",
-            "type": "string"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FlashSaleProductDto"
-            }
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "endsAt",
-          "products"
-        ]
-      },
-      "FeaturedSectionDto": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "type": "string"
-          },
-          "categorySlug": {
-            "type": "string"
-          },
-          "categoryId": {
-            "type": "string"
-          },
-          "products": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductCardDto"
-            }
-          }
-        },
-        "required": [
-          "title",
-          "categorySlug",
-          "categoryId",
-          "products"
-        ]
-      },
-      "TrendingShopDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "logo": {
-            "type": "string",
-            "nullable": true
-          },
-          "banner": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "logo",
-          "banner"
-        ]
-      },
-      "HomepageDto": {
-        "type": "object",
-        "properties": {
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CategoryDto"
-            }
-          },
-          "vouchers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlatformVoucherDto"
-            }
-          },
-          "flashSale": {
-            "nullable": true,
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/FlashSaleDto"
-              }
-            ]
-          },
-          "featuredSections": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FeaturedSectionDto"
-            }
-          },
-          "trendingShops": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TrendingShopDto"
-            }
-          },
-          "recommendedProducts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductCardDto"
-            }
-          },
-          "newArrivals": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductCardDto"
-            }
-          }
-        },
-        "required": [
-          "categories",
-          "vouchers",
-          "flashSale",
-          "featuredSections",
-          "trendingShops",
-          "recommendedProducts",
-          "newArrivals"
-        ]
-      },
-      "ShopStatsDto": {
-        "type": "object",
-        "properties": {
-          "productCount": {
-            "type": "number"
-          },
-          "reviewCount": {
-            "type": "number"
-          },
-          "averageRating": {
-            "type": "number"
-          },
-          "responseRate": {
-            "type": "number"
-          },
-          "soldCount": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "productCount",
-          "reviewCount",
-          "averageRating",
-          "responseRate",
-          "soldCount"
-        ]
-      },
-      "ShopSocialDto": {
-        "type": "object",
-        "properties": {
-          "followersCount": {
-            "type": "number",
-            "nullable": true
-          }
-        }
-      },
-      "ShopHighlightsDto": {
-        "type": "object",
-        "properties": {
-          "joinedYear": {
-            "type": "number"
-          },
-          "shipsFrom": {
-            "type": "string",
-            "nullable": true
-          },
-          "officialShop": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "joinedYear",
-          "officialShop"
-        ]
-      },
-      "ShopVoucherDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "type": {
-            "type": "string",
-            "description": "PERCENTAGE | FIXED_AMOUNT"
-          },
-          "discountValue": {
-            "type": "number"
-          },
-          "maxDiscountAmount": {
-            "type": "number",
-            "nullable": true
-          },
-          "minOrderAmount": {
-            "type": "number",
-            "nullable": true
-          },
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "code",
-          "name",
-          "type",
-          "discountValue",
-          "expiresAt"
-        ]
-      },
-      "ShopCardSummaryDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "logo": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug"
-        ]
-      },
-      "ShopCategorySummaryDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug"
-        ]
-      },
-      "ShopProductCardDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number"
-          },
-          "imageUrl": {
-            "type": "string",
-            "nullable": true
-          },
-          "averageRating": {
-            "type": "number"
-          },
-          "reviewCount": {
-            "type": "number"
-          },
-          "soldCount": {
-            "type": "number"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "shop": {
-            "$ref": "#/components/schemas/ShopCardSummaryDto"
-          },
-          "category": {
-            "nullable": true,
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ShopCategorySummaryDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "price",
-          "averageRating",
-          "reviewCount",
-          "soldCount",
-          "createdAt",
-          "shop"
-        ]
-      },
-      "ShopTabCountsDto": {
-        "type": "object",
-        "properties": {
-          "home": {
-            "type": "boolean"
-          },
-          "products": {
-            "type": "number"
-          },
-          "vouchers": {
-            "type": "number"
-          },
-          "reviews": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "home",
-          "products",
-          "vouchers",
-          "reviews"
-        ]
-      },
-      "OffsetMetaDto": {
+      "PaginationMetaDto": {
         "type": "object",
         "properties": {
           "total": {
-            "type": "number"
+            "type": "number",
+            "description": "Total number of items",
+            "example": 100
           },
           "page": {
-            "type": "number"
+            "type": "number",
+            "description": "Current page number",
+            "example": 1
           },
           "limit": {
-            "type": "number"
+            "type": "number",
+            "description": "Items per page",
+            "example": 20
           },
           "totalPages": {
-            "type": "number"
+            "type": "number",
+            "description": "Total number of pages",
+            "example": 5
           },
           "hasNextPage": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether there is a next page",
+            "example": true
           },
           "hasPreviousPage": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether there is a previous page",
+            "example": false
           }
         },
         "required": [
@@ -4209,381 +911,48 @@
           "hasPreviousPage"
         ]
       },
-      "ShopProductsOffsetDto": {
+      "PaginatedResponseDto": {
         "type": "object",
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopProductCardDto"
-            }
+          "success": {
+            "type": "boolean",
+            "example": true
           },
-          "meta": {
-            "$ref": "#/components/schemas/OffsetMetaDto"
-          }
-        },
-        "required": [
-          "items",
-          "meta"
-        ]
-      },
-      "ShopDetailResponseDto": {
-        "type": "object",
-        "properties": {
-          "shop": {
-            "$ref": "#/components/schemas/ShopSummaryDto"
-          },
-          "stats": {
-            "$ref": "#/components/schemas/ShopStatsDto"
-          },
-          "social": {
-            "$ref": "#/components/schemas/ShopSocialDto"
-          },
-          "highlights": {
-            "$ref": "#/components/schemas/ShopHighlightsDto"
-          },
-          "vouchersPreview": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopVoucherDto"
-            }
-          },
-          "featuredProducts": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopProductCardDto"
-            }
-          },
-          "bestSellers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopProductCardDto"
-            }
-          },
-          "tabs": {
-            "$ref": "#/components/schemas/ShopTabCountsDto"
-          },
-          "productsPreview": {
-            "$ref": "#/components/schemas/ShopProductsOffsetDto"
-          }
-        },
-        "required": [
-          "shop",
-          "stats",
-          "social",
-          "highlights",
-          "vouchersPreview",
-          "featuredProducts",
-          "bestSellers",
-          "tabs",
-          "productsPreview"
-        ]
-      },
-      "ShopPriceRangeFilterDto": {
-        "type": "object",
-        "properties": {
-          "min": {
-            "type": "number",
-            "nullable": true
-          },
-          "max": {
-            "type": "number",
-            "nullable": true
-          },
-          "selectedMin": {
-            "type": "number",
-            "nullable": true
-          },
-          "selectedMax": {
-            "type": "number",
-            "nullable": true
-          }
-        }
-      },
-      "ShopRatingBucketDto": {
-        "type": "object",
-        "properties": {
-          "rating": {
-            "type": "number"
-          },
-          "count": {
-            "type": "number"
-          },
-          "isSelected": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "rating",
-          "count",
-          "isSelected"
-        ]
-      },
-      "ShopProductFiltersDto": {
-        "type": "object",
-        "properties": {
-          "priceRange": {
-            "$ref": "#/components/schemas/ShopPriceRangeFilterDto"
-          },
-          "ratingBuckets": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopRatingBucketDto"
-            }
-          }
-        },
-        "required": [
-          "priceRange",
-          "ratingBuckets"
-        ]
-      },
-      "ShopSortDto": {
-        "type": "object",
-        "properties": {
-          "current": {
-            "type": "string",
-            "enum": [
-              "popular",
-              "newest",
-              "price-asc",
-              "price-desc"
+          "data": {
+            "type": "object",
+            "properties": {
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              }
+            },
+            "required": [
+              "items"
             ]
-          },
-          "options": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "popular",
-                "newest",
-                "price-asc",
-                "price-desc"
-              ]
-            }
-          }
-        },
-        "required": [
-          "current",
-          "options"
-        ]
-      },
-      "ShopProductsResponseDto": {
-        "type": "object",
-        "properties": {
-          "shop": {
-            "$ref": "#/components/schemas/ShopCardSummaryDto"
-          },
-          "products": {
-            "$ref": "#/components/schemas/ShopProductsOffsetDto"
-          },
-          "filters": {
-            "$ref": "#/components/schemas/ShopProductFiltersDto"
-          },
-          "sort": {
-            "$ref": "#/components/schemas/ShopSortDto"
-          }
-        },
-        "required": [
-          "shop",
-          "products",
-          "filters",
-          "sort"
-        ]
-      },
-      "ShopRatingBreakdownDto": {
-        "type": "object",
-        "properties": {
-          "rating": {
-            "type": "number"
-          },
-          "count": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "rating",
-          "count"
-        ]
-      },
-      "ShopReviewSummaryDto": {
-        "type": "object",
-        "properties": {
-          "averageRating": {
-            "type": "number"
-          },
-          "reviewCount": {
-            "type": "number"
-          },
-          "ratingBreakdown": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopRatingBreakdownDto"
-            }
-          }
-        },
-        "required": [
-          "averageRating",
-          "reviewCount",
-          "ratingBreakdown"
-        ]
-      },
-      "ReviewBuyerDto": {
-        "type": "object",
-        "properties": {
-          "displayName": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "displayName"
-        ]
-      },
-      "ReviewProductDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "slug"
-        ]
-      },
-      "ReviewImageDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "url": {
-            "type": "string"
-          },
-          "sortOrder": {
-            "type": "number"
-          }
-        },
-        "required": [
-          "id",
-          "url",
-          "sortOrder"
-        ]
-      },
-      "ReviewReplyDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
           },
           "message": {
-            "type": "string"
-          },
-          "createdAt": {
             "type": "string",
-            "format": "date-time"
-          }
-        },
-        "required": [
-          "id",
-          "message",
-          "createdAt"
-        ]
-      },
-      "ShopReviewDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "rating": {
-            "type": "number"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "comment": {
-            "type": "string",
-            "nullable": true
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "buyer": {
-            "$ref": "#/components/schemas/ReviewBuyerDto"
-          },
-          "product": {
-            "$ref": "#/components/schemas/ReviewProductDto"
-          },
-          "images": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ReviewImageDto"
-            }
-          },
-          "reply": {
-            "nullable": true,
-            "type": "object",
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/ReviewReplyDto"
-              }
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "rating",
-          "createdAt",
-          "buyer",
-          "product",
-          "images"
-        ]
-      },
-      "ShopReviewsOffsetDto": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ShopReviewDto"
-            }
+            "example": "Items fetched successfully"
           },
           "meta": {
-            "$ref": "#/components/schemas/OffsetMetaDto"
+            "$ref": "#/components/schemas/PaginationMetaDto"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2024-01-01T00:00:00.000Z"
           }
         },
         "required": [
-          "items",
-          "meta"
+          "success",
+          "meta",
+          "timestamp"
         ]
       },
-      "ShopReviewsResponseDto": {
+      "Object": {
         "type": "object",
-        "properties": {
-          "shop": {
-            "$ref": "#/components/schemas/ShopCardSummaryDto"
-          },
-          "summary": {
-            "$ref": "#/components/schemas/ShopReviewSummaryDto"
-          },
-          "reviews": {
-            "$ref": "#/components/schemas/ShopReviewsOffsetDto"
-          }
-        },
-        "required": [
-          "shop",
-          "summary",
-          "reviews"
-        ]
+        "properties": {}
       }
     }
   },

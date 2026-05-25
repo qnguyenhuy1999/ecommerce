@@ -2,7 +2,7 @@ import { Controller, Get } from '@nestjs/common'
 import { ApiTags, ApiOperation } from '@nestjs/swagger'
 import { ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
 import { HomepageDto } from './dto/homepage.dto'
-import type { HomepageService } from './homepage.service'
+import { HomepageService } from './homepage.service'
 
 @ApiTags('Storefront/Homepage')
 @ApiErrorResponses()

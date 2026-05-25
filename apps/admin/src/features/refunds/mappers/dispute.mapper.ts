@@ -1,20 +1,21 @@
-import type { DisputeRecord, DisputeStatus } from '@ecom/ui-admin'
+import type { RefundRecord, RefundStatus } from '@ecom/ui-admin'
 import type { RefundListItem } from '../api/refunds.api'
 
-function toDisputeStatus(status: string): DisputeStatus {
-  const map: Record<string, DisputeStatus> = {
-    PENDING: 'OPEN',
-    REVIEWING: 'UNDER_REVIEW',
-    ESCALATED: 'ESCALATED',
-    APPROVED: 'REFUNDED_BUYER',
-    REJECTED: 'CLOSED_SELLER',
-    RESOLVED: 'REFUNDED_BUYER',
-    CLOSED: 'CLOSED_SELLER',
+function toRefundStatus(status: string): RefundStatus {
+  const map: Record<string, RefundStatus> = {
+    REQUESTED: 'REQUESTED',
+    REVIEWING: 'REVIEWING',
+    APPROVED: 'APPROVED',
+    REJECTED: 'REJECTED',
+    RETURN_SHIPPING: 'REQUESTED',
+    RECEIVED: 'REVIEWING',
+    REFUNDED: 'REFUNDED',
+    CLOSED: 'CLOSED',
   }
-  return map[status] ?? 'OPEN'
+  return map[status] ?? 'REQUESTED'
 }
 
-export function mapRefundToDisputeRecord(refund: RefundListItem): DisputeRecord {
+export function mapRefundToRefundRecord(refund: RefundListItem): RefundRecord {
   return {
     id: refund.id,
     orderId: refund.id,
@@ -23,7 +24,7 @@ export function mapRefundToDisputeRecord(refund: RefundListItem): DisputeRecord 
     amountLabel: refund.refundAmount ? `$${Number(refund.refundAmount).toFixed(2)}` : '—',
     reason: refund.reason,
     openedAtLabel: new Date(refund.createdAt).toLocaleDateString(),
-    status: toDisputeStatus(refund.status),
+    status: toRefundStatus(refund.status),
     priority: 'MEDIUM',
     queue: 'SUPPORT',
     resolution:
@@ -35,5 +36,5 @@ export function mapRefundToDisputeRecord(refund: RefundListItem): DisputeRecord 
     note: '',
     ownerLabel: '—',
     timelineLabel: refund.timeline?.length ? `${refund.timeline.length} events` : '—',
-  } satisfies DisputeRecord
+  } satisfies RefundRecord
 }

@@ -4,16 +4,14 @@ import type { SessionData } from '@ecom/auth'
 import { ApiAuth, ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import { AuthGuard } from '../auth/guards/auth.guard'
-import type { CheckoutService } from './checkout.service'
+import { CheckoutService } from './checkout.service'
 import type {
   ConfirmCheckoutDto,
   SetCheckoutAddressDto,
   SetCheckoutPaymentDto,
-  SetCheckoutShippingDto} from './dto/checkout.dto';
-import {
-  CheckoutSessionDto,
-  ConfirmCheckoutResponseDto
+  SetCheckoutShippingDto,
 } from './dto/checkout.dto'
+import { CheckoutSessionDto, ConfirmCheckoutResponseDto } from './dto/checkout.dto'
 
 @ApiTags('Storefront/Checkout')
 @ApiAuth()

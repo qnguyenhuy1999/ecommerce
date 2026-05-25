@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
-import type { PrismaService } from '@ecom/database'
-import type { RedisService } from '@ecom/redis'
+import { PrismaService } from '@ecom/database'
+import { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'
 import { QUEUES } from '@ecom/shared'
 import type {
@@ -209,7 +209,7 @@ export class CheckoutService {
 
     const updated = await this.prisma.checkoutSession.update({
       where: { id: sessionId },
-       
+
       data: { paymentMethod: dto.paymentMethod as object, step: 'REVIEW' },
       include: { distributionLogs: true },
     })

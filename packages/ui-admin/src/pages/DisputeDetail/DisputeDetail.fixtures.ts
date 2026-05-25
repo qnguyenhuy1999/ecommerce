@@ -1,5 +1,5 @@
 import { disputesDefaultProps } from '../Disputes/Disputes.fixtures'
-import type { DisputeDetailProps } from './DisputeDetail.types'
+import type { RefundDetailProps } from './DisputeDetail.types'
 
 const defaultItem = disputesDefaultProps.items?.[0]
 const disputePlaceholderImage =
@@ -9,7 +9,7 @@ if (!defaultItem) {
   throw new Error('Dispute detail fixture requires at least one dispute item.')
 }
 
-export const disputeDetailDefaultProps: DisputeDetailProps = {
+export const refundDetailDefaultProps: RefundDetailProps = {
   backHref: '/disputes',
   item: {
     ...defaultItem,

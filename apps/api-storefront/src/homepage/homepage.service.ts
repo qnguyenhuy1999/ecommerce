@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { FlashSaleStatus, PlatformVoucherStatus } from '@ecom/contracts/enums'
 import type {
   CategoryDto,

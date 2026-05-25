@@ -1,0 +1,51 @@
+import type { NotificationsProps } from './Notifications.types'
+
+export const notificationsDefaultProps: NotificationsProps = {
+  title: 'Notifications',
+  description: '4 notifications · platform-wide',
+  newLabel: 'New Notification',
+  sendLabel: 'Send',
+  emptyMessage: 'No notifications found.',
+  items: [
+    {
+      id: 'notif-1',
+      title: 'Welcome to Halo Market',
+      message: 'Thanks for joining! Start exploring thousands of products.',
+      channel: 'EMAIL',
+      status: 'SENT',
+      targetAll: true,
+      sentAtLabel: 'May 11, 2026',
+      createdAtLabel: 'May 10, 2026',
+    },
+    {
+      id: 'notif-2',
+      title: 'Flash Sale Starts Tonight',
+      message: 'Up to 70% off selected items. Limited time only.',
+      channel: 'PUSH',
+      status: 'QUEUED',
+      targetAll: true,
+      sentAtLabel: '—',
+      createdAtLabel: 'May 12, 2026',
+    },
+    {
+      id: 'notif-3',
+      title: 'Order Shipped',
+      message: 'Your order #10042 has been shipped and is on its way.',
+      channel: 'SMS',
+      status: 'FAILED',
+      targetAll: false,
+      sentAtLabel: '—',
+      createdAtLabel: 'May 13, 2026',
+    },
+    {
+      id: 'notif-4',
+      title: 'New Message from Seller',
+      message: 'You have a new message regarding your recent order.',
+      channel: 'IN_APP',
+      status: 'DRAFT',
+      targetAll: false,
+      sentAtLabel: '—',
+      createdAtLabel: 'May 14, 2026',
+    },
+  ],
+}

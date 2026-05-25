@@ -1,0 +1,60 @@
+import type { OrdersProps } from './Orders.types'
+
+export const ordersDefaultProps: OrdersProps = {
+  title: 'Orders',
+  description: 'Platform-wide order management',
+  searchPlaceholder: 'Search order ID...',
+  viewLabel: 'View',
+  emptyMessage: 'No orders match current filters.',
+  statusTabs: [
+    { value: 'ALL', label: 'All', count: 5 },
+    { value: 'PENDING', label: 'Pending', count: 1 },
+    { value: 'CONFIRMED', label: 'Confirmed', count: 1 },
+    { value: 'PACKING', label: 'Packing', count: 1 },
+    { value: 'SHIPPED', label: 'Shipped', count: 1 },
+    { value: 'DELIVERED', label: 'Delivered', count: 1 },
+    { value: 'CANCELLED', label: 'Cancelled', count: 0 },
+  ],
+  items: [
+    {
+      id: 'ORD-1001',
+      status: 'PENDING',
+      totalAmountLabel: '$42.00',
+      sellerCount: 1,
+      itemCount: 2,
+      createdAtLabel: 'May 20, 2026',
+    },
+    {
+      id: 'ORD-1002',
+      status: 'CONFIRMED',
+      totalAmountLabel: '$118.50',
+      sellerCount: 2,
+      itemCount: 4,
+      createdAtLabel: 'May 21, 2026',
+    },
+    {
+      id: 'ORD-1003',
+      status: 'PACKING',
+      totalAmountLabel: '$75.00',
+      sellerCount: 1,
+      itemCount: 3,
+      createdAtLabel: 'May 22, 2026',
+    },
+    {
+      id: 'ORD-1004',
+      status: 'SHIPPED',
+      totalAmountLabel: '$210.99',
+      sellerCount: 3,
+      itemCount: 7,
+      createdAtLabel: 'May 23, 2026',
+    },
+    {
+      id: 'ORD-1005',
+      status: 'DELIVERED',
+      totalAmountLabel: '$55.25',
+      sellerCount: 1,
+      itemCount: 1,
+      createdAtLabel: 'May 24, 2026',
+    },
+  ],
+}

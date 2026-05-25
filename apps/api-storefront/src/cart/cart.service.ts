@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import type { SessionData } from '@ecom/auth'
 import type {
   AddCartItemDto,

@@ -1,34 +1,34 @@
 import { SellerListPage } from '../../organisms'
-import { CampaignsClient } from './Campaigns.client'
-import { campaignsDefaultProps } from './Campaigns.fixtures'
-import type { CampaignsProps } from './Campaigns.types'
+import { VouchersClient } from './Campaigns.client'
+import { vouchersDefaultProps } from './Campaigns.fixtures'
+import type { VouchersProps } from './Campaigns.types'
 
-export function Campaigns({
-  title = campaignsDefaultProps.title,
-  description = campaignsDefaultProps.description,
-  newCampaignLabel = campaignsDefaultProps.newCampaignLabel,
-  budgetLabel = campaignsDefaultProps.budgetLabel,
-  editLabel = campaignsDefaultProps.editLabel,
-  performanceLabel = campaignsDefaultProps.performanceLabel,
-  impressionsLabel = campaignsDefaultProps.impressionsLabel,
-  ctrLabel = campaignsDefaultProps.ctrLabel,
-  redemptionsLabel = campaignsDefaultProps.redemptionsLabel,
-  tabLabels = campaignsDefaultProps.tabLabels,
-  items = campaignsDefaultProps.items,
-  onNewCampaign = campaignsDefaultProps.onNewCampaign,
-  onEdit = campaignsDefaultProps.onEdit,
-  onPerformance = campaignsDefaultProps.onPerformance,
-}: CampaignsProps) {
+export function Vouchers({
+  title = vouchersDefaultProps.title,
+  description = vouchersDefaultProps.description,
+  newVoucherLabel = vouchersDefaultProps.newVoucherLabel,
+  budgetLabel = vouchersDefaultProps.budgetLabel,
+  editLabel = vouchersDefaultProps.editLabel,
+  performanceLabel = vouchersDefaultProps.performanceLabel,
+  impressionsLabel = vouchersDefaultProps.impressionsLabel,
+  ctrLabel = vouchersDefaultProps.ctrLabel,
+  redemptionsLabel = vouchersDefaultProps.redemptionsLabel,
+  tabLabels = vouchersDefaultProps.tabLabels,
+  items = vouchersDefaultProps.items,
+  onNewVoucher = vouchersDefaultProps.onNewVoucher,
+  onEdit = vouchersDefaultProps.onEdit,
+  onPerformance = vouchersDefaultProps.onPerformance,
+}: VouchersProps) {
   return (
     <SellerListPage
       title={title}
       description={description}
-      breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Campaigns' }]}
+      breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Vouchers' }]}
       mainClassName="space-y-5"
     >
-      <CampaignsClient
-        newCampaignLabel={newCampaignLabel ?? '+ New campaign'}
-        budgetLabel={budgetLabel ?? 'Budget'}
+      <VouchersClient
+        newVoucherLabel={newVoucherLabel ?? '+ New voucher'}
+        budgetLabel={budgetLabel ?? 'Usage'}
         editLabel={editLabel ?? 'Edit'}
         performanceLabel={performanceLabel ?? 'Performance'}
         impressionsLabel={impressionsLabel ?? 'Impr'}
@@ -36,7 +36,7 @@ export function Campaigns({
         redemptionsLabel={redemptionsLabel ?? 'Redm'}
         tabLabels={tabLabels ?? {}}
         items={items ?? []}
-        onNewCampaign={onNewCampaign}
+        onNewVoucher={onNewVoucher}
         onEdit={onEdit}
         onPerformance={onPerformance}
       />

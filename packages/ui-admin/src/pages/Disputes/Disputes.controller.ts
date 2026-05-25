@@ -1,29 +1,29 @@
 import { useCallback, useMemo, useState } from 'react'
-import { filterDisputeItems } from './Disputes.constants'
+import { filterRefundItems } from './Disputes.constants'
 import type {
-  DisputePriority,
-  DisputeQueue,
-  DisputeRecord,
-  DisputeResolution,
-  DisputeStatus,
-  DisputesProps,
+  RefundCasePriority,
+  RefundCaseQueue,
+  RefundRecord,
+  RefundCaseResolution,
+  RefundStatus,
+  RefundsProps,
 } from './Disputes.types'
 
-interface DisputesControllerProps {
-  items: DisputeRecord[]
-  onOpenCase: DisputesProps['onOpenCase']
+interface RefundsControllerProps {
+  items: RefundRecord[]
+  onOpenCase: RefundsProps['onOpenCase']
 }
 
-interface DisputesState {
+interface RefundsState {
   search: string
-  priorityFilter: 'ALL' | DisputePriority
-  statusFilter: 'ALL' | DisputeStatus
-  queueFilter: 'ALL' | DisputeQueue
-  resolutionFilter: 'ALL' | DisputeResolution
+  priorityFilter: 'ALL' | RefundCasePriority
+  statusFilter: 'ALL' | RefundStatus
+  queueFilter: 'ALL' | RefundCaseQueue
+  resolutionFilter: 'ALL' | RefundCaseResolution
 }
 
-export function useDisputesController({ items, onOpenCase }: DisputesControllerProps) {
-  const [state, setState] = useState<DisputesState>({
+export function useRefundsController({ items, onOpenCase }: RefundsControllerProps) {
+  const [state, setState] = useState<RefundsState>({
     search: '',
     priorityFilter: 'ALL',
     statusFilter: 'ALL',
@@ -33,7 +33,7 @@ export function useDisputesController({ items, onOpenCase }: DisputesControllerP
 
   const filteredItems = useMemo(
     () =>
-      filterDisputeItems(items, {
+      filterRefundItems(items, {
         search: state.search,
         priorityFilter: state.priorityFilter,
         statusFilter: state.statusFilter,
@@ -47,24 +47,24 @@ export function useDisputesController({ items, onOpenCase }: DisputesControllerP
     setState((current) => ({ ...current, search }))
   }, [])
 
-  const setPriorityFilter = useCallback((priorityFilter: 'ALL' | DisputePriority) => {
+  const setPriorityFilter = useCallback((priorityFilter: 'ALL' | RefundCasePriority) => {
     setState((current) => ({ ...current, priorityFilter }))
   }, [])
 
-  const setStatusFilter = useCallback((statusFilter: 'ALL' | DisputeStatus) => {
+  const setStatusFilter = useCallback((statusFilter: 'ALL' | RefundStatus) => {
     setState((current) => ({ ...current, statusFilter }))
   }, [])
 
-  const setQueueFilter = useCallback((queueFilter: 'ALL' | DisputeQueue) => {
+  const setQueueFilter = useCallback((queueFilter: 'ALL' | RefundCaseQueue) => {
     setState((current) => ({ ...current, queueFilter }))
   }, [])
 
-  const setResolutionFilter = useCallback((resolutionFilter: 'ALL' | DisputeResolution) => {
+  const setResolutionFilter = useCallback((resolutionFilter: 'ALL' | RefundCaseResolution) => {
     setState((current) => ({ ...current, resolutionFilter }))
   }, [])
 
   const handleOpen = useCallback(
-    (item: DisputeRecord) => {
+    (item: RefundRecord) => {
       void onOpenCase?.(item)
     },
     [onOpenCase],

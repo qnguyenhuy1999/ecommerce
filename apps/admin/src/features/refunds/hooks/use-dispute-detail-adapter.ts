@@ -1,16 +1,16 @@
 'use client'
 
-import type { DisputeDetailRecord, DisputeDetailSubmitPayload } from '@ecom/ui-admin'
+import type { RefundDetailRecord, RefundDetailSubmitPayload } from '@ecom/ui-admin'
 import { useRefund, useApproveRefund, useRejectRefund } from '../hooks/use-refunds'
-import { mapRefundToDisputeRecord } from '../mappers/dispute.mapper'
+import { mapRefundToRefundRecord } from '../mappers/dispute.mapper'
 
-export function useDisputeDetailAdapter(id: string) {
+export function useRefundDetailAdapter(id: string) {
   const refundQuery = useRefund(id)
   const approve = useApproveRefund()
   const reject = useRejectRefund()
 
-  const base = refundQuery.data ? mapRefundToDisputeRecord(refundQuery.data) : undefined
-  const item: DisputeDetailRecord | undefined = base
+  const base = refundQuery.data ? mapRefundToRefundRecord(refundQuery.data) : undefined
+  const item: RefundDetailRecord | undefined = base
     ? {
         ...base,
         shopName: '—',
@@ -61,7 +61,7 @@ export function useDisputeDetailAdapter(id: string) {
     error: refundQuery.error,
     ...(item !== undefined && { item }),
     backHref: '/refunds',
-    onApplyResolution: async (payload: DisputeDetailSubmitPayload) => {
+    onApplyResolution: async (payload: RefundDetailSubmitPayload) => {
       if (payload.resolution === 'BUYER_REFUND') {
         await approve.mutateAsync({ id, note: payload.note })
       } else {

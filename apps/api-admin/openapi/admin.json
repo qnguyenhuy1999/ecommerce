@@ -7794,16 +7794,6 @@
       "post": {
         "operationId": "CommissionFeesController_create",
         "parameters": [],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateCommissionRuleDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -7904,16 +7894,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCommissionRuleDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -8004,46 +7984,7 @@
     "/admin/support/tickets": {
       "get": {
         "operationId": "SupportController_findAll",
-        "parameters": [
-          {
-            "name": "page",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "limit",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "number"
-            }
-          },
-          {
-            "name": "status",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "NEW",
-                "OPEN",
-                "PENDING",
-                "SOLVED"
-              ]
-            }
-          },
-          {
-            "name": "search",
-            "required": false,
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
+        "parameters": [],
         "responses": {
           "200": {
             "description": "",
@@ -8258,16 +8199,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/SendReplyDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -8368,16 +8299,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeStatusDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -8478,16 +8399,6 @@
             }
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ChangeAssigneeDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "",
@@ -10036,58 +9947,6 @@
           "updatedAt"
         ]
       },
-      "CreateCommissionRuleDto": {
-        "type": "object",
-        "properties": {
-          "scope": {
-            "type": "string",
-            "enum": [
-              "GLOBAL",
-              "CATEGORY",
-              "VENDOR"
-            ]
-          },
-          "label": {
-            "type": "string"
-          },
-          "targetId": {
-            "type": "string"
-          },
-          "commissionPct": {
-            "type": "number"
-          },
-          "paymentFeePct": {
-            "type": "number"
-          },
-          "effectiveFrom": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "scope",
-          "label",
-          "commissionPct",
-          "paymentFeePct",
-          "effectiveFrom"
-        ]
-      },
-      "UpdateCommissionRuleDto": {
-        "type": "object",
-        "properties": {
-          "label": {
-            "type": "string"
-          },
-          "commissionPct": {
-            "type": "number"
-          },
-          "paymentFeePct": {
-            "type": "number"
-          },
-          "effectiveFrom": {
-            "type": "string"
-          }
-        }
-      },
       "SupportTicketResponseDto": {
         "type": "object",
         "properties": {
@@ -10176,47 +10035,6 @@
           "isInternal",
           "createdAt"
         ]
-      },
-      "SendReplyDto": {
-        "type": "object",
-        "properties": {
-          "content": {
-            "type": "string"
-          },
-          "isInternal": {
-            "type": "boolean"
-          }
-        },
-        "required": [
-          "content",
-          "isInternal"
-        ]
-      },
-      "ChangeStatusDto": {
-        "type": "object",
-        "properties": {
-          "status": {
-            "type": "string",
-            "enum": [
-              "NEW",
-              "OPEN",
-              "PENDING",
-              "SOLVED"
-            ]
-          }
-        },
-        "required": [
-          "status"
-        ]
-      },
-      "ChangeAssigneeDto": {
-        "type": "object",
-        "properties": {
-          "assignedAdminId": {
-            "type": "object",
-            "nullable": true
-          }
-        }
       }
     }
   },

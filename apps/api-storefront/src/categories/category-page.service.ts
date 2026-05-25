@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import { ProductStatus, ReviewStatus } from '@ecom/contracts/enums'
 import type { CategoryPageQueryDto } from './dto/category-page.dto'

@@ -18,8 +18,8 @@ import {
   ApiErrorResponses,
   ApiAuth,
 } from '@ecom/nestjs-core/openapi'
-import type { NotificationsService } from './notifications.service'
-import type { NotificationQueryDto } from './dto/notification.dto'
+import { NotificationsService } from './notifications.service'
+import { NotificationQueryDto } from './dto/notification.dto'
 
 @ApiTags('Storefront/Notifications')
 @ApiAuth()

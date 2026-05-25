@@ -4,32 +4,32 @@ import { Button, Progress, Typography } from '@ecom/core-ui'
 import { cn } from '@ecom/shared/utils'
 import { Megaphone, Plus } from 'lucide-react'
 import {
-  CAMPAIGNS_EMPTY_MESSAGE,
-  CAMPAIGN_STATUS_DOT_CLASS,
-  CAMPAIGN_STATUS_LABEL_CLASS,
-  CAMPAIGN_STATUS_TEXT,
+  VOUCHERS_EMPTY_MESSAGE,
+  VOUCHER_STATUS_DOT_CLASS,
+  VOUCHER_STATUS_LABEL_CLASS,
+  VOUCHER_STATUS_TEXT,
 } from './Campaigns.constants'
-import { useCampaignsController } from './Campaigns.controller'
+import { useVouchersController } from './Campaigns.controller'
 import {
-  campaignStatuses,
-  type CampaignRecord,
-  type CampaignStatus,
-  type CampaignsProps,
+  voucherStatuses,
+  type VoucherRecord,
+  type VoucherStatus,
+  type VouchersProps,
 } from './Campaigns.types'
 
-function StatusDot({ status }: { status: CampaignStatus }) {
+function StatusDot({ status }: { status: VoucherStatus }) {
   return (
-    <span className={cn('inline-block size-2 rounded-full', CAMPAIGN_STATUS_DOT_CLASS[status])} />
+    <span className={cn('inline-block size-2 rounded-full', VOUCHER_STATUS_DOT_CLASS[status])} />
   )
 }
 
-function StatusLabel({ status }: { status: CampaignStatus }) {
+function StatusLabel({ status }: { status: VoucherStatus }) {
   return (
     <Typography
       variant="caption"
-      className={cn('font-medium', CAMPAIGN_STATUS_LABEL_CLASS[status])}
+      className={cn('font-medium', VOUCHER_STATUS_LABEL_CLASS[status])}
     >
-      {CAMPAIGN_STATUS_TEXT[status]}
+      {VOUCHER_STATUS_TEXT[status]}
     </Typography>
   )
 }
@@ -47,7 +47,7 @@ function StatBox({ label, value }: { label: string; value: string }) {
   )
 }
 
-function CampaignCard({
+function VoucherCard({
   item,
   budgetLabel,
   editLabel,
@@ -58,15 +58,15 @@ function CampaignCard({
   onEdit,
   onPerformance,
 }: {
-  item: CampaignRecord
+  item: VoucherRecord
   budgetLabel: string
   editLabel: string
   performanceLabel: string
   impressionsLabel: string
   ctrLabel: string
   redemptionsLabel: string
-  onEdit?: CampaignsProps['onEdit']
-  onPerformance?: CampaignsProps['onPerformance']
+  onEdit?: VouchersProps['onEdit']
+  onPerformance?: VouchersProps['onPerformance']
 }) {
   return (
     <div className="bg-card border-border flex flex-col gap-4 rounded-xl border p-5 shadow-sm">
@@ -133,27 +133,27 @@ function CampaignCard({
   )
 }
 
-export type { CampaignStatus, CampaignRecord }
+export type { VoucherStatus, VoucherRecord }
 
-interface CampaignsClientProps {
-  newCampaignLabel: string
+interface VouchersClientProps {
+  newVoucherLabel: string
   budgetLabel: string
   editLabel: string
   performanceLabel: string
   impressionsLabel: string
   ctrLabel: string
   redemptionsLabel: string
-  tabLabels: NonNullable<CampaignsProps['tabLabels']>
-  items: CampaignRecord[]
-  onNewCampaign?: CampaignsProps['onNewCampaign']
-  onEdit?: CampaignsProps['onEdit']
-  onPerformance?: CampaignsProps['onPerformance']
+  tabLabels: NonNullable<VouchersProps['tabLabels']>
+  items: VoucherRecord[]
+  onNewVoucher?: VouchersProps['onNewVoucher']
+  onEdit?: VouchersProps['onEdit']
+  onPerformance?: VouchersProps['onPerformance']
 }
 
-export type { CampaignsClientProps }
+export type { VouchersClientProps }
 
-export function CampaignsClient({
-  newCampaignLabel,
+export function VouchersClient({
+  newVoucherLabel,
   budgetLabel,
   editLabel,
   performanceLabel,
@@ -162,17 +162,17 @@ export function CampaignsClient({
   redemptionsLabel,
   tabLabels,
   items,
-  onNewCampaign,
+  onNewVoucher,
   onEdit,
   onPerformance,
-}: CampaignsClientProps) {
-  const { state, computed, handlers } = useCampaignsController({ items })
+}: VouchersClientProps) {
+  const { state, computed, handlers } = useVouchersController({ items })
 
   return (
     <div className="space-y-6">
       <div className="border-border flex items-center justify-between border-b">
         <div className="flex">
-          {campaignStatuses.map((status) => {
+          {voucherStatuses.map((status) => {
             const isActive = state.activeTab === status
             return (
               <button
@@ -202,20 +202,20 @@ export function CampaignsClient({
           })}
         </div>
 
-        <Button type="button" onClick={() => void onNewCampaign?.()}>
+        <Button type="button" onClick={() => void onNewVoucher?.()}>
           <Plus className="size-4" />
-          {newCampaignLabel}
+          {newVoucherLabel}
         </Button>
       </div>
 
       {computed.filtered.length === 0 ? (
         <div className="border-border text-muted-foreground flex min-h-48 items-center justify-center rounded-xl border border-dashed text-sm">
-          {CAMPAIGNS_EMPTY_MESSAGE}
+          {VOUCHERS_EMPTY_MESSAGE}
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {computed.filtered.map((item) => (
-            <CampaignCard
+            <VoucherCard
               key={item.id}
               item={item}
               budgetLabel={budgetLabel}

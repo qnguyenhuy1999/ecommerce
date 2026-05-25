@@ -1,5 +1,5 @@
-import { DisputesPageClient } from './DisputesPage.client'
+import { RefundsPageClient } from './DisputesPage.client'
 
 export default function Refunds() {
-  return <DisputesPageClient />
+  return <RefundsPageClient />
 }

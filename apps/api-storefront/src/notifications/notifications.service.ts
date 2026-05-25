@@ -1,5 +1,4 @@
-import type { PrismaService } from '@ecom/database'
-import { type Prisma, type UserNotificationType } from '@ecom/database'
+import { PrismaService, type Prisma, type UserNotificationType } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { Injectable } from '@nestjs/common'

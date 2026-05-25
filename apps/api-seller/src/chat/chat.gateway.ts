@@ -7,7 +7,7 @@ import {
   ConnectedSocket,
 } from '@nestjs/websockets'
 import type { Server, Socket } from 'socket.io'
-import type { ChatService } from './chat.service'
+import { ChatService } from './chat.service'
 
 @WebSocketGateway({
   cors: { origin: '*' },

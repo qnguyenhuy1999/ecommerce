@@ -14,7 +14,7 @@ function toKycStatus(status: string): SellerKycStatus {
     ACTIVE: 'APPROVED',
     APPROVED: 'APPROVED',
     SUSPENDED: 'SUSPENDED',
-    REJECTED: 'PENDING',
+    REJECTED: 'REJECTED',
     BANNED: 'SUSPENDED',
   }
   return map[status] ?? 'PENDING'
@@ -52,6 +52,7 @@ export function buildSellerKycStatusTabs(
     { value: 'ALL', label: 'All', count: Object.values(counts).reduce((a, b) => a + b, 0) },
     { value: 'PENDING', label: 'Pending', count: counts['PENDING'] ?? 0 },
     { value: 'APPROVED', label: 'Approved', count: counts['ACTIVE'] ?? counts['APPROVED'] ?? 0 },
+    { value: 'REJECTED', label: 'Rejected', count: counts['REJECTED'] ?? 0 },
     { value: 'SUSPENDED', label: 'Suspended', count: counts['SUSPENDED'] ?? 0 },
   ]
 }

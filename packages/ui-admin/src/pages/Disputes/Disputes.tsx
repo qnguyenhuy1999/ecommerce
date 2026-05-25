@@ -1,23 +1,23 @@
 import { SellerListPage } from '../../organisms'
-import { DisputesClient } from './Disputes.client'
-import { disputesDefaultProps } from './Disputes.fixtures'
-import type { DisputesProps } from './Disputes.types'
+import { RefundsClient } from './Disputes.client'
+import { refundsDefaultProps } from './Disputes.fixtures'
+import type { RefundsProps } from './Disputes.types'
 
-export function Disputes({
-  title = disputesDefaultProps.title,
-  description = disputesDefaultProps.description,
-  searchPlaceholder = disputesDefaultProps.searchPlaceholder,
-  openLabel = disputesDefaultProps.openLabel,
-  summaryLabel = disputesDefaultProps.summaryLabel,
-  filtersLabel = disputesDefaultProps.filtersLabel,
-  emptyStateMessage = disputesDefaultProps.emptyStateMessage,
-  priorityOptions = disputesDefaultProps.priorityOptions,
-  statusOptions = disputesDefaultProps.statusOptions,
-  queueOptions = disputesDefaultProps.queueOptions,
-  resolutionOptions = disputesDefaultProps.resolutionOptions,
-  items = disputesDefaultProps.items,
-  onOpenCase = disputesDefaultProps.onOpenCase,
-}: DisputesProps) {
+export function Refunds({
+  title = refundsDefaultProps.title,
+  description = refundsDefaultProps.description,
+  searchPlaceholder = refundsDefaultProps.searchPlaceholder,
+  openLabel = refundsDefaultProps.openLabel,
+  summaryLabel = refundsDefaultProps.summaryLabel,
+  filtersLabel = refundsDefaultProps.filtersLabel,
+  emptyStateMessage = refundsDefaultProps.emptyStateMessage,
+  priorityOptions = refundsDefaultProps.priorityOptions,
+  statusOptions = refundsDefaultProps.statusOptions,
+  queueOptions = refundsDefaultProps.queueOptions,
+  resolutionOptions = refundsDefaultProps.resolutionOptions,
+  items = refundsDefaultProps.items,
+  onOpenCase = refundsDefaultProps.onOpenCase,
+}: RefundsProps) {
   return (
     <SellerListPage
       title={title}
@@ -25,7 +25,7 @@ export function Disputes({
       breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Disputes' }]}
       mainClassName="space-y-5"
     >
-      <DisputesClient
+      <RefundsClient
         searchPlaceholder={searchPlaceholder ?? 'Search disputes'}
         openLabel={openLabel ?? 'Open'}
         summaryLabel={summaryLabel ?? 'cases'}

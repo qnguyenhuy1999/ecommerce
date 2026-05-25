@@ -1,10 +1,10 @@
-export { Disputes } from './Disputes'
+export { Refunds } from './Disputes'
 export type {
-  DisputeFilterOption,
-  DisputePriority,
-  DisputeQueue,
-  DisputeRecord,
-  DisputeResolution,
-  DisputesProps,
-  DisputeStatus,
+  RefundCaseFilterOption,
+  RefundCasePriority,
+  RefundCaseQueue,
+  RefundRecord,
+  RefundCaseResolution,
+  RefundsProps,
+  RefundStatus,
 } from './Disputes.types'

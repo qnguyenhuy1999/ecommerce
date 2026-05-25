@@ -1,5 +1,5 @@
-import { ReviewsPage } from '@/features/reviews/components/reviews-page'
+import { ReviewsPageClient } from './ReviewsPage.client'
 
 export default function Reviews() {
-  return <ReviewsPage />
+  return <ReviewsPageClient />
 }

@@ -1,12 +1,12 @@
 import { Card, CardContent, Typography } from '@ecom/core-ui'
 import { getConversationCardClassName } from './DisputeDetail.constants'
 import type {
-  DisputeConversationItem,
-  DisputeDetailProps,
-  DisputeEvidenceItem,
+  RefundConversationItem,
+  RefundDetailProps,
+  RefundEvidenceItem,
 } from './DisputeDetail.types'
 
-function ConversationCard({ item }: { item: DisputeConversationItem }) {
+function ConversationCard({ item }: { item: RefundConversationItem }) {
   return (
     <div className={`rounded-2xl border p-4 ${getConversationCardClassName(item.role)}`}>
       <div className="mb-2 flex items-center justify-between gap-3">
@@ -24,7 +24,7 @@ function ConversationCard({ item }: { item: DisputeConversationItem }) {
   )
 }
 
-function EvidenceCard({ item }: { item: DisputeEvidenceItem }) {
+function EvidenceCard({ item }: { item: RefundEvidenceItem }) {
   return (
     <div className="border-border bg-muted/40 relative size-28 overflow-hidden rounded-2xl border">
       <img src={item.imageSrc} alt={item.imageAlt} className="size-full object-cover" />
@@ -64,7 +64,7 @@ function SummaryRow({
   )
 }
 
-export function OrderSummaryCard({ item }: { item: NonNullable<DisputeDetailProps['item']> }) {
+export function OrderSummaryCard({ item }: { item: NonNullable<RefundDetailProps['item']> }) {
   return (
     <Card className="rounded-3xl shadow-none">
       <CardContent className="space-y-5 px-5">
@@ -107,7 +107,7 @@ export function OrderSummaryCard({ item }: { item: NonNullable<DisputeDetailProp
 export function ConversationEvidenceCard({
   item,
 }: {
-  item: NonNullable<DisputeDetailProps['item']>
+  item: NonNullable<RefundDetailProps['item']>
 }) {
   return (
     <Card className="rounded-3xl shadow-none">
@@ -140,7 +140,7 @@ export function ConversationEvidenceCard({
   )
 }
 
-export function AuditTrailCard({ item }: { item: NonNullable<DisputeDetailProps['item']> }) {
+export function AuditTrailCard({ item }: { item: NonNullable<RefundDetailProps['item']> }) {
   return (
     <Card className="rounded-3xl shadow-none">
       <CardContent className="space-y-4 p-5">

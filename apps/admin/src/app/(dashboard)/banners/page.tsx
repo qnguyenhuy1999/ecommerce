@@ -1,5 +1,5 @@
-import { BannersPage } from '@/features/banners/components/banners-page'
+import { BannersPageClient } from './BannersPage.client'
 
 export default function Banners() {
-  return <BannersPage />
+  return <BannersPageClient />
 }

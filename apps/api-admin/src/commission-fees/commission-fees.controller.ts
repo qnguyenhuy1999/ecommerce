@@ -6,13 +6,9 @@ import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'
 import { PermissionGuard } from '../auth/guards/permission.guard'
 import { AuditLog } from '../common/decorators/audit-log.decorator'
-import type {
-  CreateCommissionRuleDto,
-  UpdateCommissionRuleDto} from './dto/commission-fees.dto';
-import {
-  CommissionRuleResponseDto
-} from './dto/commission-fees.dto'
-import type { CommissionFeesService } from './commission-fees.service'
+import type { CreateCommissionRuleDto, UpdateCommissionRuleDto } from './dto/commission-fees.dto'
+import { CommissionRuleResponseDto } from './dto/commission-fees.dto'
+import { CommissionFeesService } from './commission-fees.service'
 
 @ApiTags('Admin/CommissionFees')
 @Controller('commission-fees')

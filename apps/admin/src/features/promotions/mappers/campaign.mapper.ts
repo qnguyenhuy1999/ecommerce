@@ -1,20 +1,20 @@
-import type { CampaignRecord, CampaignStatus } from '@ecom/ui-admin'
+import type { VoucherRecord, VoucherStatus } from '@ecom/ui-admin'
 import type { VoucherListItem } from '../api/promotions.api'
 
-function toCampaignStatus(status: string): CampaignStatus {
-  const map: Record<string, CampaignStatus> = {
-    ACTIVE: 'LIVE',
-    LIVE: 'LIVE',
-    SCHEDULED: 'SCHEDULED',
-    EXPIRED: 'ENDED',
-    ENDED: 'ENDED',
+function toVoucherStatus(status: string): VoucherStatus {
+  const map: Record<string, VoucherStatus> = {
+    ACTIVE: 'ACTIVE',
+    LIVE: 'ACTIVE',
+    SCHEDULED: 'PAUSED',
+    EXPIRED: 'EXPIRED',
+    ENDED: 'EXPIRED',
     INACTIVE: 'DRAFT',
     DRAFT: 'DRAFT',
   }
   return map[status] ?? 'DRAFT'
 }
 
-export function mapVoucherToCampaignRecord(voucher: VoucherListItem): CampaignRecord {
+export function mapVoucherToVoucherRecord(voucher: VoucherListItem): VoucherRecord {
   const dateRange = `${new Date(voucher.startsAt).toLocaleDateString()} — ${new Date(voucher.expiresAt).toLocaleDateString()}`
   const budgetPct = voucher.usageLimit
     ? Math.round((voucher.usedCount / voucher.usageLimit) * 100)
@@ -26,12 +26,12 @@ export function mapVoucherToCampaignRecord(voucher: VoucherListItem): CampaignRe
     type: voucher.type,
     category: '—',
     dateRange,
-    status: toCampaignStatus(voucher.status),
+    status: toVoucherStatus(voucher.status),
     impressions: '—',
     ctr: '—',
     redemptions: String(voucher.usedCount),
     budgetSpent: voucher.discountValue,
     budgetTotal: voucher.maxDiscountAmount ?? voucher.discountValue,
     budgetPercent: budgetPct,
-  } satisfies CampaignRecord
+  } satisfies VoucherRecord
 }

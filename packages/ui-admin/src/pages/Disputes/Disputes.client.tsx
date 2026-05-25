@@ -11,19 +11,19 @@ import {
 } from '@ecom/core-ui'
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms'
-import { buildDisputeColumns } from './Disputes.columns'
-import { useDisputesController } from './Disputes.controller'
+import { buildRefundColumns } from './Disputes.columns'
+import { useRefundsController } from './Disputes.controller'
 import type {
-  DisputePriority,
-  DisputeQueue,
-  DisputeRecord,
-  DisputeResolution,
-  DisputeStatus,
-  DisputeFilterOption,
-  DisputesProps,
+  RefundCasePriority,
+  RefundCaseQueue,
+  RefundRecord,
+  RefundCaseResolution,
+  RefundStatus,
+  RefundCaseFilterOption,
+  RefundsProps,
 } from './Disputes.types'
 
-export function DisputeStatusBadge({ status }: { status: DisputeStatus }) {
+export function RefundStatusBadge({ status }: { status: RefundStatus }) {
   return <StatusBadge status={status} />
 }
 
@@ -35,7 +35,7 @@ function FilterSelect<TValue extends string>({
 }: {
   label: string
   value: TValue
-  options: DisputeFilterOption<TValue>[]
+  options: RefundCaseFilterOption<TValue>[]
   onChange: (value: TValue) => void
 }) {
   return (
@@ -54,21 +54,21 @@ function FilterSelect<TValue extends string>({
   )
 }
 
-interface DisputesClientProps {
+interface RefundsClientProps {
   searchPlaceholder: string
   openLabel: string
   summaryLabel: string
   filtersLabel: string
   emptyStateMessage: string
-  priorityOptions: DisputeFilterOption<'ALL' | DisputePriority>[]
-  statusOptions: DisputeFilterOption<'ALL' | DisputeStatus>[]
-  queueOptions: DisputeFilterOption<'ALL' | DisputeQueue>[]
-  resolutionOptions: DisputeFilterOption<'ALL' | DisputeResolution>[]
-  items: DisputeRecord[]
-  onOpenCase?: DisputesProps['onOpenCase']
+  priorityOptions: RefundCaseFilterOption<'ALL' | RefundCasePriority>[]
+  statusOptions: RefundCaseFilterOption<'ALL' | RefundStatus>[]
+  queueOptions: RefundCaseFilterOption<'ALL' | RefundCaseQueue>[]
+  resolutionOptions: RefundCaseFilterOption<'ALL' | RefundCaseResolution>[]
+  items: RefundRecord[]
+  onOpenCase?: RefundsProps['onOpenCase']
 }
 
-export function DisputesClient({
+export function RefundsClient({
   searchPlaceholder,
   openLabel,
   summaryLabel,
@@ -80,12 +80,12 @@ export function DisputesClient({
   resolutionOptions,
   items,
   onOpenCase,
-}: DisputesClientProps) {
-  const controller = useDisputesController({ items, onOpenCase })
+}: RefundsClientProps) {
+  const controller = useRefundsController({ items, onOpenCase })
 
   const columns = useMemo(
     () =>
-      buildDisputeColumns({
+      buildRefundColumns({
         openLabel,
         onOpen: controller.handleOpen,
       }),

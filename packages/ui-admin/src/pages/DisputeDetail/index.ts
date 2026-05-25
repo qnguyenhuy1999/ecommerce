@@ -1,11 +1,11 @@
-export { DisputeDetail } from './DisputeDetail'
+export { RefundDetail } from './DisputeDetail'
 export type {
-  DisputeAuditEvent,
-  DisputeConversationItem,
-  DisputeDetailProps,
-  DisputeDetailRecord,
-  DisputeDetailSubmitPayload,
-  DisputeEvidenceItem,
-  DisputeParticipantRole,
-  DisputeResolutionOption,
+  RefundAuditEvent,
+  RefundConversationItem,
+  RefundDetailProps,
+  RefundDetailRecord,
+  RefundDetailSubmitPayload,
+  RefundEvidenceItem,
+  RefundParticipantRole,
+  RefundResolutionOption,
 } from './DisputeDetail.types'

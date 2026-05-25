@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react'
-import { campaignStatuses, type CampaignRecord, type CampaignStatus } from './Campaigns.types'
+import { voucherStatuses, type VoucherRecord, type VoucherStatus } from './Campaigns.types'
 
-export function useCampaignsController({ items }: { items: CampaignRecord[] }) {
-  const [activeTab, setActiveTab] = useState<CampaignStatus>('LIVE')
+export function useVouchersController({ items }: { items: VoucherRecord[] }) {
+  const [activeTab, setActiveTab] = useState<VoucherStatus>('ACTIVE')
 
   const counts = useMemo(() => {
-    const result = {} as Record<CampaignStatus, number>
-    for (const status of campaignStatuses) {
+    const result = {} as Record<VoucherStatus, number>
+    for (const status of voucherStatuses) {
       result[status] = items.filter((item) => item.status === status).length
     }
     return result

@@ -11,24 +11,24 @@ import {
   Typography,
 } from '@ecom/core-ui'
 import {
-  DISPUTE_RESOLUTION_CHECKED_CLASS_NAME,
-  DISPUTE_RESOLUTION_UNCHECKED_CLASS_NAME,
+  REFUND_RESOLUTION_CHECKED_CLASS_NAME,
+  REFUND_RESOLUTION_UNCHECKED_CLASS_NAME,
 } from './DisputeDetail.constants'
-import { useDisputeDetailController } from './DisputeDetail.controller'
-import type { DisputeDetailProps, DisputeResolutionOption } from './DisputeDetail.types'
+import { useRefundDetailController } from './DisputeDetail.controller'
+import type { RefundDetailProps, RefundResolutionOption } from './DisputeDetail.types'
 
 function ResolutionOptionCard({
   option,
   checked,
 }: {
-  option: DisputeResolutionOption
+  option: RefundResolutionOption
   checked: boolean
 }) {
   return (
     <Label
       htmlFor={`resolution-${option.value}`}
       className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
-        checked ? DISPUTE_RESOLUTION_CHECKED_CLASS_NAME : DISPUTE_RESOLUTION_UNCHECKED_CLASS_NAME
+        checked ? REFUND_RESOLUTION_CHECKED_CLASS_NAME : REFUND_RESOLUTION_UNCHECKED_CLASS_NAME
       }`}
     >
       <RadioGroupItem id={`resolution-${option.value}`} value={option.value} className="mt-1" />
@@ -47,8 +47,8 @@ function ResolutionOptionCard({
 export function ResolutionPanelClient({
   item,
   onApplyResolution,
-}: Required<Pick<DisputeDetailProps, 'item'>> & Pick<DisputeDetailProps, 'onApplyResolution'>) {
-  const controller = useDisputeDetailController({ item, onApplyResolution })
+}: Required<Pick<RefundDetailProps, 'item'>> & Pick<RefundDetailProps, 'onApplyResolution'>) {
+  const controller = useRefundDetailController({ item, onApplyResolution })
 
   return (
     <Card className="rounded-3xl shadow-none">
