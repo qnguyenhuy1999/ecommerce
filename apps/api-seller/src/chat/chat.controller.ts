@@ -20,8 +20,8 @@ import {
   ApiErrorResponses,
   ApiAuth,
 } from '@ecom/nestjs-core/openapi'
-import { ShopService } from '../shop/shop.service'
-import { ChatService } from './chat.service'
+import type { ShopService } from '../shop/shop.service'
+import type { ChatService } from './chat.service'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @ApiTags('Seller/Chat')
@@ -39,21 +39,21 @@ export class ChatController {
   @ApiPaginatedResponse(Object)
   async listConversations(@CurrentUser() user: SessionData, @Query() query: ConversationQueryDto) {
     const shopId = await this.shopService.getShopId(user.userId)
-    return this.chatService.listConversations(shopId, query)
+    return this.chatService.listConversations(user.userId, shopId, query)
   }
 
   @Get('unread')
   @ApiOkResponseData(Object)
   async unreadCount(@CurrentUser() user: SessionData) {
     const shopId = await this.shopService.getShopId(user.userId)
-    return this.chatService.getUnreadCount(shopId)
+    return this.chatService.getUnreadCount(user.userId, shopId)
   }
 
   @Get('conversations/:id')
   @ApiOkResponseData(Object)
   async getConversation(@CurrentUser() user: SessionData, @Param('id') id: string) {
     const shopId = await this.shopService.getShopId(user.userId)
-    return this.chatService.getConversation(shopId, id)
+    return this.chatService.getConversation(user.userId, shopId, id)
   }
 
   @Get('conversations/:id/messages')
@@ -64,7 +64,7 @@ export class ChatController {
     @Query() query: MessageQueryDto,
   ) {
     const shopId = await this.shopService.getShopId(user.userId)
-    return this.chatService.getMessages(shopId, id, query)
+    return this.chatService.getMessages(user.userId, shopId, id, query)
   }
 
   @Post('conversations/:id/messages')
@@ -81,9 +81,9 @@ export class ChatController {
   ) {
     const shopId = await this.shopService.getShopId(user.userId)
     return this.chatService.sendMessage(
+      user.userId,
       shopId,
       id,
-      user.userId,
       body.content,
       body.type,
       body.metadata,
@@ -95,6 +95,6 @@ export class ChatController {
   @ApiOkResponseData(Object)
   async markAsRead(@CurrentUser() user: SessionData, @Param('id') id: string) {
     const shopId = await this.shopService.getShopId(user.userId)
-    await this.chatService.markAsRead(shopId, user.userId, id)
+    await this.chatService.markAsRead(user.userId, shopId, id)
   }
 }

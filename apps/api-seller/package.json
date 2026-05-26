@@ -29,6 +29,7 @@
     "@nestjs/swagger": "^11.4.2",
     "@nestjs/throttler": "^6.5.0",
     "@nestjs/websockets": "^11.1.19",
+    "@socket.io/redis-adapter": "^8.3.0",
     "bcrypt": "^5.1.1",
     "bullmq": "^5.76.8",
     "class-transformer": "^0.5.1",

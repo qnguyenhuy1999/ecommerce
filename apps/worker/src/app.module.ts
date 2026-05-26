@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common'
 import { BullModule } from '@nestjs/bullmq'
 import { DatabaseModule } from '@ecom/database'
+import { EmailModule } from '@ecom/email'
 import { RedisModule } from '@ecom/redis'
-import { getRedisConfig } from '@ecom/config'
+import { getRedisConfig, getSmtpConfig } from '@ecom/config'
 import { CheckoutProcessorModule } from './checkout/checkout.module'
 import { NotificationProcessorModule } from './notification/notification.module'
+import { OutboxModule } from './outbox/outbox.module'
 
 @Module({
   imports: [
@@ -22,8 +24,10 @@ import { NotificationProcessorModule } from './notification/notification.module'
       },
     }),
     DatabaseModule,
+    EmailModule.forRoot(getSmtpConfig()),
     CheckoutProcessorModule,
     NotificationProcessorModule,
+    OutboxModule,
   ],
 })
 export class AppModule {}

@@ -1,8 +1,8 @@
 import { Logger } from '@nestjs/common'
 import { InjectQueue, Processor, WorkerHost } from '@nestjs/bullmq'
 import type { Job, Queue } from 'bullmq'
-import { PrismaService } from '@ecom/database'
-import { QUEUES, NOTIFICATION_JOBS } from '@ecom/shared'
+import type { PrismaService } from '@ecom/database'
+import { QUEUES, NOTIFICATION_JOBS, defaultJobOptions } from '@ecom/shared'
 import type { SellerNotificationJobPayload, UserNotificationJobPayload } from '@ecom/shared'
 
 interface OrderJobData {
@@ -310,22 +310,32 @@ export class CheckoutProcessor extends WorkerHost {
     userId: string,
   ) {
     for (const shopId of shopMap.keys()) {
-      await this.notificationQueue.add(NOTIFICATION_JOBS.SELLER_NOTIFICATION, {
-        kind: 'seller',
-        shopId,
-        type: 'NEW_ORDER',
-        title: 'New Order Received',
-        message: `Order ${orderId} has been placed`,
-      } satisfies SellerNotificationJobPayload)
+      await this.notificationQueue.add(
+        NOTIFICATION_JOBS.SELLER_NOTIFICATION,
+        {
+          kind: 'seller',
+          shopId,
+          type: 'NEW_ORDER',
+          title: 'New Order Received',
+          message: `Order ${orderId} has been placed`,
+          idempotencyKey: `order:${orderId}:shop:${shopId}:NEW_ORDER`,
+        } satisfies SellerNotificationJobPayload,
+        defaultJobOptions(),
+      )
     }
 
-    await this.notificationQueue.add(NOTIFICATION_JOBS.USER_NOTIFICATION, {
-      kind: 'user',
-      userId,
-      type: 'ORDER_CONFIRMED',
-      title: 'Order Confirmed',
-      message: `Your order ${orderId} has been confirmed`,
-    } satisfies UserNotificationJobPayload)
+    await this.notificationQueue.add(
+      NOTIFICATION_JOBS.USER_NOTIFICATION,
+      {
+        kind: 'user',
+        userId,
+        type: 'ORDER_CONFIRMED',
+        title: 'Order Confirmed',
+        message: `Your order ${orderId} has been confirmed`,
+        idempotencyKey: `order:${orderId}:user:${userId}:ORDER_CONFIRMED`,
+      } satisfies UserNotificationJobPayload,
+      defaultJobOptions(),
+    )
 
     this.logger.log(`Notifications enqueued for order ${orderId}`)
   }

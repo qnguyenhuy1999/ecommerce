@@ -1,12 +1,12 @@
-import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets'
+import type { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets'
 import {
+  ConnectedSocket,
+  MessageBody,
+  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
-  SubscribeMessage,
-  MessageBody,
-  ConnectedSocket,
 } from '@nestjs/websockets'
-import { Inject, Logger } from '@nestjs/common'
+import { Inject, Logger, type OnModuleDestroy } from '@nestjs/common'
 import type { Server, Socket } from 'socket.io'
 import type { SessionService} from '@ecom/auth';
 import { SESSION_COOKIE_NAME } from '@ecom/auth'
@@ -18,23 +18,39 @@ import {
 } from '@ecom/nestjs-core'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import type { ChatService } from './chat.service'
+import type { ChatBuyerService } from './chat-buyer.service'
 import { SESSION_SERVICE } from '../auth/session.provider'
 
-interface SellerChatSocketData {
+interface StorefrontChatSocketData {
   userId?: string
-  sellerProfileId?: string
 }
 
 const PRESENCE_TTL_SECONDS = 60
+const USER_NOTIFICATION_CHANNEL = 'notif:user:'
+
+function extractUserIdFromNotificationChannel(channel: string): string | undefined {
+  if (!channel.startsWith(USER_NOTIFICATION_CHANNEL)) {
+    return undefined
+  }
+
+  const userId = channel.slice(USER_NOTIFICATION_CHANNEL.length)
+  return userId.length > 0 ? userId : undefined
+}
 
 interface ChatErrorPayload {
   code: 'FORBIDDEN' | 'NOT_FOUND' | 'INTERNAL'
   message: string
 }
 
-function getSocketData(client: Socket): SellerChatSocketData {
-  return client.data as SellerChatSocketData
+interface UserNotificationPayload {
+  type: string
+  title: string
+  message: string
+  metadata?: Record<string, unknown>
+}
+
+function getSocketData(client: Socket): StorefrontChatSocketData {
+  return client.data as StorefrontChatSocketData
 }
 
 function toChatError(err: unknown): ChatErrorPayload {
@@ -50,19 +66,49 @@ function toChatError(err: unknown): ChatErrorPayload {
   cors: { origin: resolveSocketCorsOrigins(), credentials: true },
   namespace: '/chat',
 })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, OnModuleDestroy
+{
   @WebSocketServer()
   server!: Server
 
   private readonly logger = new Logger(ChatGateway.name)
+  private notificationSubscriber: Redis | undefined
 
   constructor(
-    private readonly chatService: ChatService,
+    private readonly chatBuyerService: ChatBuyerService,
     @Inject(SESSION_SERVICE)
     private readonly sessionService: SessionService,
     @Inject(REDIS_CLIENT)
     private readonly redis: Redis,
   ) {}
+
+  afterInit(): void {
+    this.notificationSubscriber = this.redis.duplicate()
+    this.notificationSubscriber.on('pmessage', (_pattern, channel, rawMessage) => {
+      const userId = extractUserIdFromNotificationChannel(channel)
+      if (!userId) return
+
+      try {
+        const payload = JSON.parse(rawMessage) as UserNotificationPayload
+        this.server.to(`user:${userId}`).emit('notification', payload)
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'unknown error'
+        this.logger.warn(`Failed to relay notification on ${channel}: ${message}`)
+      }
+    })
+    this.notificationSubscriber.on('error', (err: Error) => {
+      this.logger.error(`Notification subscriber error: ${err.message}`)
+    })
+    void this.notificationSubscriber.psubscribe(`${USER_NOTIFICATION_CHANNEL}*`)
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    if (this.notificationSubscriber) {
+      await this.notificationSubscriber.quit()
+      this.notificationSubscriber = undefined
+    }
+  }
 
   private async trackPresence(userId: string, socketId: string): Promise<void> {
     try {
@@ -96,7 +142,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
       session = await this.sessionService.get(sessionId)
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'unknown error'
-      this.logger.warn(`Chat WS session lookup failed: ${message}`)
+      this.logger.warn(`Storefront chat WS session lookup failed: ${message}`)
       client.disconnect(true)
       return
     }
@@ -107,19 +153,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     const userIdRaw = (session as Record<string, unknown>).userId
-    const sellerProfileIdRaw = (session as Record<string, unknown>).sellerProfileId
-
     if (typeof userIdRaw !== 'string' || userIdRaw.length === 0) {
       client.disconnect(true)
       return
     }
 
-    const socketData = getSocketData(client)
-    socketData.userId = userIdRaw
-    if (typeof sellerProfileIdRaw === 'string' && sellerProfileIdRaw.length > 0) {
-      socketData.sellerProfileId = sellerProfileIdRaw
-    }
-
+    getSocketData(client).userId = userIdRaw
     await this.trackPresence(userIdRaw, client.id)
     void client.join(`user:${userIdRaw}`)
   }
@@ -135,6 +174,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleHeartbeat(@ConnectedSocket() client: Socket): Promise<void> {
     const userId = getSocketData(client).userId
     if (typeof userId !== 'string' || userId.length === 0) return
+
     try {
       await this.redis.expire(createPresenceKey('user', userId), PRESENCE_TTL_SECONDS)
     } catch (err: unknown) {
@@ -147,12 +187,12 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleJoinConversation(
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
-  ) {
+  ): Promise<void> {
     const userId = getSocketData(client).userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
-      await this.chatService.ensureConversationAccessByUser(userId, data.conversationId)
+      await this.chatBuyerService.ensureConversationAccessByUser(userId, data.conversationId)
     } catch (err: unknown) {
       client.emit('chat_error', toChatError(err))
       return
@@ -165,9 +205,10 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   handleLeaveConversation(
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
-  ) {
+  ): void {
     const userId = getSocketData(client).userId
     if (typeof userId !== 'string' || userId.length === 0) return
+
     void client.leave(`conversation:${data.conversationId}`)
   }
 
@@ -176,19 +217,17 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody()
     data: {
-      shopId: string
       conversationId: string
       content: string
       type?: 'TEXT' | 'IMAGE' | 'PRODUCT'
     },
-  ) {
+  ): Promise<void> {
     const userId = getSocketData(client).userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
-      const message = await this.chatService.sendMessage(
+      const message = await this.chatBuyerService.sendMessage(
         userId,
-        data.shopId,
         data.conversationId,
         data.content,
         data.type,
@@ -203,15 +242,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleTyping(
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
-  ) {
+  ): Promise<void> {
     const userId = getSocketData(client).userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
-      await this.chatService.ensureConversationAccessByUser(userId, data.conversationId)
+      await this.chatBuyerService.ensureConversationAccessByUser(userId, data.conversationId)
     } catch {
-      // Swallow silently for high-frequency event; the client will already be
-      // blocked from join_conversation / send_message if they lack access.
       return
     }
 
@@ -224,13 +261,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('mark_read')
   async handleMarkRead(
     @ConnectedSocket() client: Socket,
-    @MessageBody() data: { shopId: string; conversationId: string },
-  ) {
+    @MessageBody() data: { conversationId: string },
+  ): Promise<void> {
     const userId = getSocketData(client).userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
-      await this.chatService.markAsRead(userId, data.shopId, data.conversationId)
+      await this.chatBuyerService.markAsRead(userId, data.conversationId)
       this.server.to(`conversation:${data.conversationId}`).emit('messages_read', {
         conversationId: data.conversationId,
       })

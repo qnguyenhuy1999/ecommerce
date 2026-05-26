@@ -2,16 +2,27 @@ import { NestFactory } from '@nestjs/core'
 import { Logger, ValidationPipe } from '@nestjs/common'
 import cookieParser from 'cookie-parser'
 import { ensureWorkspaceEnvFileLoaded } from '@ecom/config'
-import { AppModule } from './app.module'
-import { AllExceptionsFilter, ResponseInterceptor } from '@ecom/nestjs-core'
-import { buildSwaggerDocument } from '@ecom/nestjs-core/openapi'
-import { getCorsOrigins, getAdminPort } from '@ecom/config'
-
 async function bootstrap() {
   ensureWorkspaceEnvFileLoaded()
 
+  const [
+    { AppModule },
+    { AllExceptionsFilter, RedisIoAdapter, ResponseInterceptor },
+    { buildSwaggerDocument },
+    { getCorsOrigins, getAdminPort },
+  ] = await Promise.all([
+    import('./app.module'),
+    import('@ecom/nestjs-core'),
+    import('@ecom/nestjs-core/openapi'),
+    import('@ecom/config'),
+  ])
+
   const app = await NestFactory.create(AppModule)
   const logger = new Logger('Bootstrap')
+
+  const redisIoAdapter = new RedisIoAdapter(app)
+  await redisIoAdapter.connectToRedis()
+  app.useWebSocketAdapter(redisIoAdapter)
 
   app.setGlobalPrefix('admin')
   app.use(cookieParser())

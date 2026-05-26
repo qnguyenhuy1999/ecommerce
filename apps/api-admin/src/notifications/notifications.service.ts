@@ -1,5 +1,6 @@
+import type {
+  PrismaService} from '@ecom/database';
 import {
-  PrismaService,
   type AdminNotificationStatus,
   type NotificationChannel,
   type Prisma,
@@ -7,7 +8,7 @@ import {
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { NotificationsProducer } from './notifications.producer'
+import type { NotificationsProducer } from './notifications.producer'
 
 @Injectable()
 export class NotificationsService {
@@ -50,19 +51,29 @@ export class NotificationsService {
   }
 
   async send(id: string, adminId: string) {
-    await this.findById(id)
-    const updated = await this.prisma.adminNotification.update({
+    const notification = await this.findById(id)
+
+    try {
+      await this.notificationsProducer.enqueueAdminBroadcast({
+        kind: 'admin',
+        notificationId: id,
+        title: notification.title,
+        message: notification.message,
+        channel: notification.channel,
+        idempotencyKey: `admin-broadcast:${id}`,
+      })
+    } catch (error) {
+      await this.prisma.adminNotification.update({
+        where: { id },
+        data: { status: 'FAILED', sentBy: adminId },
+      })
+      throw error
+    }
+
+    return this.prisma.adminNotification.update({
       where: { id },
       data: { status: 'SENT', sentAt: new Date(), sentBy: adminId },
     })
-    await this.notificationsProducer.enqueueAdminBroadcast({
-      kind: 'admin',
-      notificationId: id,
-      title: updated.title,
-      message: updated.message,
-      channel: updated.channel,
-    })
-    return updated
   }
 
   async findTemplates() {

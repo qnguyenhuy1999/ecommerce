@@ -60,6 +60,7 @@ enum NotificationType {
   LOW_STOCK
   PRODUCT_REJECTED
   SYSTEM
+  MESSAGE
 }
 
 enum UserNotificationType {
@@ -69,6 +70,7 @@ enum UserNotificationType {
   ORDER_CANCELLED
   RETURN_APPROVED
   SYSTEM
+  NEW_MESSAGE
 }
 
 // ─── Auth & Users ───────────────────────────────────────────────
@@ -109,6 +111,7 @@ model User {
   addresses           UserAddress[]
   checkoutSessions    CheckoutSession[]
   userNotifications   UserNotification[]
+  notificationPreferences UserNotificationPreference[]
 
   @@map("users")
 }
@@ -589,13 +592,14 @@ model Shipment {
 // ─── Notifications ──────────────────────────────────────────────
 
 model Notification {
-  id       String           @id @default(uuid()) @db.Uuid
-  shopId   String           @map("shop_id") @db.Uuid
-  type     NotificationType
-  title    String
-  message  String           @db.Text
-  isRead   Boolean          @default(false) @map("is_read")
-  metadata Json?
+  id             String           @id @default(uuid()) @db.Uuid
+  shopId         String           @map("shop_id") @db.Uuid
+  type           NotificationType
+  title          String
+  message        String           @db.Text
+  isRead         Boolean          @default(false) @map("is_read")
+  metadata       Json?
+  idempotencyKey String?          @unique @map("idempotency_key")
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -607,13 +611,14 @@ model Notification {
 }
 
 model UserNotification {
-  id      String               @id @default(uuid()) @db.Uuid
-  userId  String               @map("user_id") @db.Uuid
-  type    UserNotificationType
-  title   String
-  message String               @db.Text
-  isRead  Boolean              @default(false) @map("is_read")
-  metadata Json?
+  id             String               @id @default(uuid()) @db.Uuid
+  userId         String               @map("user_id") @db.Uuid
+  type           UserNotificationType
+  title          String
+  message        String               @db.Text
+  isRead         Boolean              @default(false) @map("is_read")
+  metadata       Json?
+  idempotencyKey String?              @unique @map("idempotency_key")
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -622,6 +627,80 @@ model UserNotification {
   @@index([userId, isRead])
   @@index([createdAt])
   @@map("user_notifications")
+}
+
+// ─── Notification Reliability ───────────────────────────────────
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+  PUSH
+  SMS
+}
+
+enum DeliveryState {
+  QUEUED
+  SENT
+  DELIVERED
+  FAILED
+  SKIPPED
+}
+
+enum OutboxStatus {
+  PENDING
+  PUBLISHED
+  FAILED
+}
+
+model DeliveryStatus {
+  id               String              @id @default(cuid())
+  notificationId   String              @map("notification_id")
+  /// Discriminator: 'seller' | 'user' | 'admin'
+  notificationKind String              @map("notification_kind")
+  channel          NotificationChannel
+  status           DeliveryState       @default(QUEUED)
+  attempts         Int                 @default(0)
+  lastError        String?             @map("last_error")
+  deliveredAt      DateTime?           @map("delivered_at")
+  createdAt        DateTime            @default(now()) @map("created_at")
+  updatedAt        DateTime            @updatedAt @map("updated_at")
+
+  @@index([notificationId, channel])
+  @@index([status, createdAt])
+  @@map("delivery_statuses")
+}
+
+model UserNotificationPreference {
+  id        String               @id @default(cuid())
+  userId    String               @map("user_id") @db.Uuid
+  type      UserNotificationType
+  channel   NotificationChannel
+  enabled   Boolean              @default(true)
+  createdAt DateTime             @default(now()) @map("created_at")
+  updatedAt DateTime             @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, type, channel])
+  @@index([userId])
+  @@map("user_notification_preferences")
+}
+
+model OutboxEvent {
+  id            String       @id @default(cuid())
+  aggregateType String       @map("aggregate_type")
+  aggregateId   String       @map("aggregate_id")
+  eventType     String       @map("event_type")
+  payload       Json
+  status        OutboxStatus @default(PENDING)
+  attempts      Int          @default(0)
+  publishedAt   DateTime?    @map("published_at")
+  lastError     String?      @map("last_error")
+  createdAt     DateTime     @default(now()) @map("created_at")
+
+  @@index([status, createdAt])
+  @@index([aggregateType, aggregateId])
+  @@map("outbox_events")
 }
 
 // ─── Audit ──────────────────────────────────────────────────────
@@ -3056,12 +3135,6 @@ model Banner {
 }
 
 // ─── Phase 2: Platform Notifications ───────────────────────────
-
-enum NotificationChannel {
-  IN_APP
-  EMAIL
-  PUSH
-}
 
 enum AdminNotificationStatus {
   DRAFT

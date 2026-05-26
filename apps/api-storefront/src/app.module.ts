@@ -5,6 +5,7 @@ import { EmailModule } from '@ecom/email'
 import { DatabaseModule } from '@ecom/database'
 import { getDefaultThrottleConfig, getRedisConfig, getSmtpConfig } from '@ecom/config'
 import { AuthModule } from './auth/auth.module'
+import { ChatModule } from './chat/chat.module'
 import { NotificationsModule } from './notifications/notifications.module'
 
 @Module({
@@ -21,6 +22,7 @@ import { NotificationsModule } from './notifications/notifications.module'
     EmailModule.forRoot(getSmtpConfig()),
     DatabaseModule,
     AuthModule,
+    ChatModule,
     NotificationsModule,
   ],
 })

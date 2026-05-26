@@ -19,6 +19,7 @@ export type SellerNotificationJobPayload = {
   title: string
   message: string
   metadata?: Record<string, unknown>
+  idempotencyKey: string
 }
 
 export type UserNotificationJobPayload = {
@@ -28,6 +29,7 @@ export type UserNotificationJobPayload = {
   title: string
   message: string
   metadata?: Record<string, unknown>
+  idempotencyKey: string
 }
 
 export type AdminBroadcastJobPayload = {
@@ -36,9 +38,52 @@ export type AdminBroadcastJobPayload = {
   title: string
   message: string
   channel: string
+  idempotencyKey: string
 }
 
 export type NotificationJobPayload =
   | SellerNotificationJobPayload
   | UserNotificationJobPayload
   | AdminBroadcastJobPayload
+
+export const OUTBOX_EVENTS = {
+  MESSAGE_CREATED: 'message.created',
+} as const
+
+export type ChatMessageOutboxPayload =
+  | {
+      recipientKind: 'user'
+      recipientUserId: string
+      conversationId: string
+      messageId: string
+      senderId: string
+      content: string
+    }
+  | {
+      recipientKind: 'shop'
+      recipientShopId: string
+      conversationId: string
+      messageId: string
+      senderId: string
+      content: string
+    }
+
+/**
+ * Default BullMQ job options for notification jobs. Producers spread this on
+ * `queue.add(name, payload, defaultJobOptions())` to get retry + DLQ behavior.
+ */
+export type NotificationJobOptions = {
+  attempts: number
+  backoff: { type: 'exponential'; delay: number }
+  removeOnComplete: { count: number }
+  removeOnFail: boolean
+}
+
+export function defaultJobOptions(): NotificationJobOptions {
+  return {
+    attempts: 5,
+    backoff: { type: 'exponential', delay: 1000 },
+    removeOnComplete: { count: 1000 },
+    removeOnFail: false,
+  }
+}

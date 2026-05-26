@@ -22,6 +22,8 @@ import { CommissionFeesModule } from './commission-fees/commission-fees.module'
 import { SupportModule } from './support/support.module'
 import { SellersModule } from './sellers/sellers.module'
 import { UsersModule } from './users/users.module'
+import { ChatModule } from './chat/chat.module'
+import { HealthModule } from './health/health.module'
 
 @Module({
   imports: [
@@ -42,6 +44,8 @@ import { UsersModule } from './users/users.module'
     DatabaseModule,
     AuthModule,
     SellersModule,
+    ChatModule,
+    HealthModule,
     DashboardModule,
     AuditLogsModule,
     ProductsModule,

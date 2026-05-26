@@ -1,3 +1,5 @@
 export * from './response.interceptor'
 export * from './http-exception.filter'
 export * from './logger.module'
+export * from './websocket/chat-gateway.utils'
+export * from './websocket/redis-io.adapter'

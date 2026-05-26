@@ -9,7 +9,7 @@ async function bootstrap() {
   const [
     { AppModule },
     { getCorsOrigins, getSellerPort },
-    { AllExceptionsFilter, ResponseInterceptor },
+    { AllExceptionsFilter, RedisIoAdapter, ResponseInterceptor },
     { buildSwaggerDocument },
   ] = await Promise.all([
     import('./app.module'),
@@ -20,6 +20,10 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule)
   const logger = new Logger('Bootstrap')
+
+  const redisIoAdapter = new RedisIoAdapter(app)
+  await redisIoAdapter.connectToRedis()
+  app.useWebSocketAdapter(redisIoAdapter)
 
   app.use(cookieParser())
 
