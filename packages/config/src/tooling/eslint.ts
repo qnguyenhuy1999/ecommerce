@@ -51,6 +51,14 @@ const baseConfig: Linter.Config[] = [
       '@typescript-eslint/no-unsafe-call': 'error',
       '@typescript-eslint/no-unsafe-member-access': 'error',
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            'ImportDeclaration[importKind="type"][source.value="@ecom/database"] > ImportSpecifier[imported.name="PrismaService"]',
+          message: 'Use a value import for PrismaService so Nest DI can reflect it at runtime.',
+        },
+      ],
       '@typescript-eslint/no-non-null-assertion': 'warn',
       'unicorn/prefer-node-protocol': 'error',
       'unicorn/no-array-for-each': 'warn',

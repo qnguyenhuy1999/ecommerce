@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
-import type { PrismaService} from '@ecom/database';
+import type { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import type { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'

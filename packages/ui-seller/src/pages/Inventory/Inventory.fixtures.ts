@@ -131,6 +131,7 @@ export const inventoryPageRows: InventoryRow[] = [
 ]
 
 export const inventoryDefaultProps = {
+  loading: false,
   title: 'Inventory',
   description: 'Manage stock levels across all SKUs',
   exportHref: '#export',

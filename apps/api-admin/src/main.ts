@@ -21,7 +21,7 @@ async function bootstrap() {
   const logger = new Logger('Bootstrap')
 
   const redisIoAdapter = new RedisIoAdapter(app)
-  await redisIoAdapter.connectToRedis()
+  redisIoAdapter.connectToRedis()
   app.useWebSocketAdapter(redisIoAdapter)
 
   app.setGlobalPrefix('admin')
