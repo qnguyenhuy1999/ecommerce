@@ -6,6 +6,8 @@ export const ordersDefaultProps: OrdersProps = {
   searchPlaceholder: 'Search order ID...',
   viewLabel: 'View',
   emptyMessage: 'No orders match current filters.',
+  loading: false,
+  activeStatus: 'ALL',
   statusTabs: [
     { value: 'ALL', label: 'All', count: 5 },
     { value: 'PENDING', label: 'Pending', count: 1 },
@@ -17,7 +19,7 @@ export const ordersDefaultProps: OrdersProps = {
   ],
   items: [
     {
-      id: 'ORD-1001',
+      id: 'ord-1001-aaaa-bbbb',
       status: 'PENDING',
       totalAmountLabel: '$42.00',
       sellerCount: 1,
@@ -25,7 +27,7 @@ export const ordersDefaultProps: OrdersProps = {
       createdAtLabel: 'May 20, 2026',
     },
     {
-      id: 'ORD-1002',
+      id: 'ord-1002-cccc-dddd',
       status: 'CONFIRMED',
       totalAmountLabel: '$118.50',
       sellerCount: 2,
@@ -33,7 +35,7 @@ export const ordersDefaultProps: OrdersProps = {
       createdAtLabel: 'May 21, 2026',
     },
     {
-      id: 'ORD-1003',
+      id: 'ord-1003-eeee-ffff',
       status: 'PACKING',
       totalAmountLabel: '$75.00',
       sellerCount: 1,
@@ -41,7 +43,7 @@ export const ordersDefaultProps: OrdersProps = {
       createdAtLabel: 'May 22, 2026',
     },
     {
-      id: 'ORD-1004',
+      id: 'ord-1004-gggg-hhhh',
       status: 'SHIPPED',
       totalAmountLabel: '$210.99',
       sellerCount: 3,
@@ -49,7 +51,7 @@ export const ordersDefaultProps: OrdersProps = {
       createdAtLabel: 'May 23, 2026',
     },
     {
-      id: 'ORD-1005',
+      id: 'ord-1005-iiii-jjjj',
       status: 'DELIVERED',
       totalAmountLabel: '$55.25',
       sellerCount: 1,

@@ -1,3 +1,5 @@
+import type { PaginationMeta } from '@ecom/shared/pagination/core'
+
 export const orderStatuses = [
   'PENDING',
   'CONFIRMED',
@@ -33,5 +35,11 @@ export interface OrdersProps {
   emptyMessage?: string
   statusTabs?: OrderStatusTabOption[]
   items?: OrderRecord[]
+  loading?: boolean
+  meta?: PaginationMeta
+  activeStatus?: OrderStatusTab
   onView?: (item: OrderRecord) => void
+  onSearchChange?: (search: string) => void
+  onStatusChange?: (status: OrderStatusTab) => void
+  onPageChange?: (page: number) => void
 }

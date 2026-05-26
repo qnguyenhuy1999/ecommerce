@@ -1,10 +1,9 @@
 import { type NextRequest } from 'next/server'
+import { getWebAuthPreset } from '@ecom/auth'
 import { createWithAuth } from '@ecom/auth/middleware'
 
-const withAuth = createWithAuth({
-  publicPaths: ['/', '/products', '/search', '/login', '/register'],
-  loginPath: '/login',
-})
+const { middleware } = getWebAuthPreset('storefront')
+const withAuth = createWithAuth(middleware)
 
 export async function proxy(request: NextRequest): Promise<Response> {
   return withAuth(request)

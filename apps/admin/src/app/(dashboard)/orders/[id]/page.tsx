@@ -1,6 +1,6 @@
-import { OrderDetailPage } from '@/features/orders/components/order-detail-page'
+import { OrderDetailPageClient } from './OrderDetailPage.client'
 
-export default async function OrderDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function OrderDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  return <OrderDetailPage id={id} />
+  return <OrderDetailPageClient id={id} />
 }

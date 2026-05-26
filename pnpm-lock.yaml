@@ -544,6 +544,9 @@ importers:
       '@ecom/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@ecom/ui-storefront':
+        specifier: workspace:*
+        version: link:../../packages/ui-storefront
       next:
         specifier: ^16.2.6
         version: 16.2.6(@babel/core@7.29.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)

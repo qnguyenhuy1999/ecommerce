@@ -13,7 +13,9 @@
       "@ecom/shared/pagination/nestjs": ["../../packages/shared/src/pagination/nestjs"],
       "@ecom/shared/pagination/prisma": ["../../packages/shared/src/pagination/prisma"],
       "@ecom/shared/pagination/react": ["../../packages/shared/src/pagination/react"],
-      "@ecom/shared/utils": ["../../packages/shared/src/utils"]
+      "@ecom/shared/utils": ["../../packages/shared/src/utils"],
+      "@ecom/ui-storefront": ["../../packages/ui-storefront/src"],
+      "@ecom/ui-storefront/*": ["../../packages/ui-storefront/src/*"]
     },
     "allowJs": true,
     "noEmit": true,

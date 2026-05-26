@@ -1,12 +1,10 @@
 import type { NextResponse } from 'next/server'
 import { type NextRequest } from 'next/server'
+import { getWebAuthPreset } from '@ecom/auth'
 import { createWithAuth } from '@ecom/auth/middleware'
 
-const withAuth = createWithAuth({
-  apiUrl: process.env.NEXT_PUBLIC_ADMIN_API_URL ?? 'http://localhost:4001',
-  publicPaths: ['/login'],
-  loginPath: '/login',
-})
+const { middleware } = getWebAuthPreset('admin')
+const withAuth = createWithAuth(middleware)
 
 export async function proxy(request: NextRequest): Promise<NextResponse> {
   return withAuth(request)

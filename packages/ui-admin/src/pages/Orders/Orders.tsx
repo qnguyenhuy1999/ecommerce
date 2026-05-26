@@ -1,17 +1,23 @@
-import { Typography } from '@ecom/core-ui'
 import { SellerListPage } from '../../organisms'
 import { ordersDefaultProps } from './Orders.fixtures'
+import { OrdersClient } from './Orders.client'
 import type { OrdersProps } from './Orders.types'
 
 export function Orders({
   title = ordersDefaultProps.title,
   description = ordersDefaultProps.description,
-  searchPlaceholder: _searchPlaceholder = ordersDefaultProps.searchPlaceholder,
+  searchPlaceholder = ordersDefaultProps.searchPlaceholder,
   viewLabel = ordersDefaultProps.viewLabel,
   emptyMessage = ordersDefaultProps.emptyMessage,
-  statusTabs: _statusTabs = ordersDefaultProps.statusTabs,
+  statusTabs = ordersDefaultProps.statusTabs,
   items = ordersDefaultProps.items,
+  loading = ordersDefaultProps.loading,
+  meta = ordersDefaultProps.meta,
+  activeStatus = ordersDefaultProps.activeStatus,
   onView = ordersDefaultProps.onView,
+  onSearchChange = ordersDefaultProps.onSearchChange,
+  onStatusChange = ordersDefaultProps.onStatusChange,
+  onPageChange = ordersDefaultProps.onPageChange,
 }: OrdersProps) {
   return (
     <SellerListPage
@@ -20,34 +26,20 @@ export function Orders({
       breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Orders' }]}
       mainClassName="space-y-5"
     >
-      <div className="space-y-4">
-        {items && items.length > 0 ? (
-          <ul className="divide-border divide-y">
-            {items.map((item) => (
-              <li key={item.id} className="flex items-center justify-between py-3">
-                <div className="space-y-1">
-                  <Typography variant="body-sm" className="font-medium">
-                    {item.id}
-                  </Typography>
-                  <Typography variant="caption" className="text-muted-foreground">
-                    {item.status} · {item.totalAmountLabel} · {item.itemCount} item(s) ·{' '}
-                    {item.createdAtLabel}
-                  </Typography>
-                </div>
-                {onView && (
-                  <button type="button" className="text-xs underline" onClick={() => onView(item)}>
-                    {viewLabel ?? 'View'}
-                  </button>
-                )}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <Typography variant="muted">
-            {emptyMessage ?? 'No orders match current filters.'}
-          </Typography>
-        )}
-      </div>
+      <OrdersClient
+        searchPlaceholder={searchPlaceholder ?? 'Search order ID...'}
+        viewLabel={viewLabel ?? 'View'}
+        emptyMessage={emptyMessage ?? 'No orders match current filters.'}
+        statusTabs={statusTabs ?? []}
+        items={items ?? []}
+        activeStatus={activeStatus ?? 'ALL'}
+        {...(loading !== undefined ? { loading } : {})}
+        {...(meta !== undefined ? { meta } : {})}
+        {...(onView !== undefined ? { onView } : {})}
+        {...(onSearchChange !== undefined ? { onSearchChange } : {})}
+        {...(onStatusChange !== undefined ? { onStatusChange } : {})}
+        {...(onPageChange !== undefined ? { onPageChange } : {})}
+      />
     </SellerListPage>
   )
 }

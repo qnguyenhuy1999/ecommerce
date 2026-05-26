@@ -170,6 +170,47 @@ function applyIncomingMessageResult(conversations: Conversation[], incoming: Cha
   }
 }
 
+function buildUiConversations(conversations: Conversation[]): MessageConversation[] {
+  return conversations.map((conversation) => {
+    const lastMessageAtLabel = formatConversationTime(conversation.lastMessageAt)
+
+    return {
+      id: conversation.id,
+      buyerName: formatBuyerLabel(conversation.buyerId),
+      buyerInitials: 'BY',
+      orderLabel: formatOrderLabel(conversation.id),
+      productLabel: formatProductLabel(conversation.id),
+      lastMessagePreview: conversation.lastMessageText ?? 'No messages yet',
+      unreadCount: conversation.sellerUnread,
+      ...(conversation.lastMessageAt ? { lastActivityAt: conversation.lastMessageAt } : {}),
+      ...(lastMessageAtLabel ? { lastMessageAtLabel } : {}),
+    }
+  })
+}
+
+function buildUiMessages(
+  messages: ChatMessage[],
+  selectedConversation: Conversation | undefined,
+): MessageEntry[] {
+  const lastSellerMessageId = [...messages]
+    .reverse()
+    .find((message) => message.senderId !== selectedConversation?.buyerId)?.id
+
+  return messages.map((message) => {
+    const isBuyerMessage = message.senderId === selectedConversation?.buyerId
+
+    return {
+      id: message.id,
+      sender: isBuyerMessage ? 'BUYER' : 'SELLER',
+      content: message.content,
+      sentAtLabel: formatMessageTime(message.createdAt),
+      ...(!isBuyerMessage && message.id === lastSellerMessageId
+        ? { deliveryStatus: 'DELIVERED' as const }
+        : {}),
+    }
+  })
+}
+
 export default function MessagesPage() {
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -278,44 +319,14 @@ export default function MessagesPage() {
   }, [conversations, setChatUnreadCount])
 
   const uiConversations = useMemo<MessageConversation[]>(
-    () =>
-      conversations.map((conversation) => {
-        const lastMessageAtLabel = formatConversationTime(conversation.lastMessageAt)
-
-        return {
-          id: conversation.id,
-          buyerName: formatBuyerLabel(conversation.buyerId),
-          buyerInitials: 'BY',
-          orderLabel: formatOrderLabel(conversation.id),
-          productLabel: formatProductLabel(conversation.id),
-          lastMessagePreview: conversation.lastMessageText ?? 'No messages yet',
-          unreadCount: conversation.sellerUnread,
-          ...(conversation.lastMessageAt ? { lastActivityAt: conversation.lastMessageAt } : {}),
-          ...(lastMessageAtLabel ? { lastMessageAtLabel } : {}),
-        }
-      }),
+    () => buildUiConversations(conversations),
     [conversations],
   )
 
-  const uiMessages = useMemo<MessageEntry[]>(() => {
-    const lastSellerMessageId = [...messages]
-      .reverse()
-      .find((message) => message.senderId !== selectedConversation?.buyerId)?.id
-
-    return messages.map((message) => {
-      const isBuyerMessage = message.senderId === selectedConversation?.buyerId
-
-      return {
-        id: message.id,
-        sender: isBuyerMessage ? 'BUYER' : 'SELLER',
-        content: message.content,
-        sentAtLabel: formatMessageTime(message.createdAt),
-        ...(!isBuyerMessage && message.id === lastSellerMessageId
-          ? { deliveryStatus: 'DELIVERED' as const }
-          : {}),
-      }
-    })
-  }, [messages, selectedConversation?.buyerId])
+  const uiMessages = useMemo<MessageEntry[]>(
+    () => buildUiMessages(messages, selectedConversation),
+    [messages, selectedConversation],
+  )
 
   const handleSendMessage = async (conversation: MessageConversation, content: string) => {
     await api(`/chat/conversations/${conversation.id}/messages`, {

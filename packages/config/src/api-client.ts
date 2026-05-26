@@ -1,5 +1,6 @@
 export type ApiParams = Record<string, string | number | boolean>
 export type ApiParamsInput = Record<string, string | number | boolean | null | undefined>
+export type WebAppKind = 'admin' | 'seller' | 'storefront'
 
 export const API_PORTS = {
   admin: 4002,
@@ -65,4 +66,19 @@ export function createApiClient(defaultOptions: { baseUrl: string }) {
 
     return (await res.json()) as T
   }
+}
+
+export function getWebApiBaseUrl(app: WebAppKind): string {
+  switch (app) {
+    case 'admin':
+      return process.env.NEXT_PUBLIC_ADMIN_API_URL ?? `http://localhost:${API_PORTS.admin}`
+    case 'seller':
+      return process.env.NEXT_PUBLIC_SELLER_API_URL ?? `http://localhost:${API_PORTS.seller}`
+    case 'storefront':
+      return process.env.NEXT_PUBLIC_API_URL ?? `http://localhost:${API_PORTS.storefront}`
+  }
+}
+
+export function createWebApiClient(app: WebAppKind) {
+  return createApiClient({ baseUrl: getWebApiBaseUrl(app) })
 }

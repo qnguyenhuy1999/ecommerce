@@ -1,6 +1,6 @@
-import { UserDetailPage } from '@/features/users/components/user-detail-page'
+import { UserDetailPageClient } from './UserDetailPage.client'
 
-export default async function BuyerDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function BuyerDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  return <UserDetailPage id={id} />
+  return <UserDetailPageClient id={id} />
 }

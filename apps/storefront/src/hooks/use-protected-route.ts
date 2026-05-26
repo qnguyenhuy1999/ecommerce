@@ -1,9 +1,7 @@
 'use client'
 
-import { withDefined } from '@ecom/shared/utils'
-
+import { getWebAuthPreset } from '@ecom/auth'
 import { useProtectedRoute as useProtectedRouteBase } from '@ecom/auth/protected-route'
-import type { AuthUser } from '@ecom/auth/client'
 import { useAuth } from '../providers/auth-provider'
 
 interface UseProtectedRouteOptions {
@@ -11,17 +9,14 @@ interface UseProtectedRouteOptions {
   redirectTo?: string
 }
 
-function getForbiddenRedirect(user: AuthUser): string {
-  if (user.sellerProfile && typeof user.sellerProfile === 'object') return '/seller/dashboard'
-  return '/'
-}
+const { protectedRoute } = getWebAuthPreset('storefront')
 
 export function useProtectedRoute(options: UseProtectedRouteOptions = {}) {
   const { requiredRoles, redirectTo = '/login' } = options
 
   return useProtectedRouteBase(useAuth, {
-    ...withDefined({ requiredRoles: requiredRoles }),
+    ...(requiredRoles ? { requiredRoles } : {}),
+    ...protectedRoute,
     redirectTo,
-    onForbiddenRedirect: getForbiddenRedirect,
   })
 }

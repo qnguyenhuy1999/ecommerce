@@ -1,5 +1,5 @@
-import { OrdersPage } from '@/features/orders/components/orders-page'
+import { OrdersPageClient } from './OrdersPage.client'
 
-export default function Orders() {
-  return <OrdersPage />
+export default function OrdersPage() {
+  return <OrdersPageClient />
 }

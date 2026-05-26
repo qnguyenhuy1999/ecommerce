@@ -78,7 +78,13 @@ export default function ShippingPage() {
 
   return (
     <DashboardLayout>
-      <Shipping rows={rows} loading={loading} onToggle={handleToggle} />
+      <Shipping
+        rows={rows}
+        loading={loading}
+        onToggle={(providerId, enabled) => {
+          void handleToggle(providerId, enabled)
+        }}
+      />
     </DashboardLayout>
   )
 }
