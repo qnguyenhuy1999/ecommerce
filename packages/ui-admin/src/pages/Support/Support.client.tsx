@@ -22,7 +22,6 @@ import {
   SUPPORT_STATUS_LABELS,
 } from './Support.constants'
 import { useSupportController } from './Support.controller'
-import { supportDefaultProps } from './Support.fixtures'
 import type {
   SupportAssigneeOption,
   SupportMacroOption,
@@ -569,6 +568,3 @@ export function SupportClient({
     </div>
   )
 }
-
-// Re-export default props for convenience
-export { supportDefaultProps }

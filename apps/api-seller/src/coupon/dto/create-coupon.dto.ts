@@ -106,6 +106,3 @@ export class CreateCouponDto {
   @IsString({ each: true })
   categoryIds?: string[]
 }
-
-// Re-export CouponType for convenience in the module
-export { CouponType }

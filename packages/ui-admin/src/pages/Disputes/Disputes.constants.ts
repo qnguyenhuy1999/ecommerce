@@ -1,4 +1,4 @@
-import type { RefundCaseFilterOption, RefundCasePriority } from './Disputes.types'
+import type { RefundCasePriority } from './Disputes.types'
 
 export const REFUNDS_PRIORITY_DOT_CLASS_NAMES: Record<RefundCasePriority, string> = {
   HIGH: 'fill-destructive text-destructive',
@@ -63,6 +63,3 @@ export function filterRefundItems<
     return matchesSearch && matchesPriority && matchesStatus && matchesQueue && matchesResolution
   })
 }
-
-// Re-export type alias for local use
-export type { RefundCaseFilterOption }
