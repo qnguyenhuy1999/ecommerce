@@ -5,7 +5,7 @@ import { ConsoleLayout } from '../../layouts/ConsoleLayout'
 import { productsDefaultProps } from '../../pages/Products/Products.fixtures'
 import type { ProductsStatusTab } from '../../pages/Products/Products.types'
 import { filterProductsBySearchAndStatus, productsColumns } from '../../pages/Products/Products.utils'
-import { SellerListPage } from './SellerListPage'
+import { SellerListPage } from '.'
 
 const meta: Meta<typeof SellerListPage> = {
   title: 'organisms/SellerListPage',

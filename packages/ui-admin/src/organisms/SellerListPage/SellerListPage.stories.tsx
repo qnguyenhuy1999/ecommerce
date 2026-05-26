@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ConsoleLayout } from '../../layouts/ConsoleLayout'
-import { SellerListPage } from './SellerListPage'
+import { SellerListPage } from '.'
 
 const meta = {
   title: 'Organisms/SellerListPage',
