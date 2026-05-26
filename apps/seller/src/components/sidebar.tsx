@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '../providers/auth-provider'
+import { useSellerRealtime } from '../providers/realtime-provider'
 
 const NAV_ITEMS = [
   { href: '/', label: 'Dashboard', icon: LayoutDashboard },
@@ -50,6 +51,7 @@ export function Sidebar() {
   const pathname = usePathname()
   const { logout } = useAuth()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { chatUnreadCount, notificationCount } = useSellerRealtime()
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/'
@@ -78,7 +80,17 @@ export function Sidebar() {
               }`}
             >
               <Icon className="h-5 w-5 shrink-0" />
-              {item.label}
+              <span className="flex-1">{item.label}</span>
+              {item.href === '/chat' && chatUnreadCount > 0 ? (
+                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs text-white">
+                  {chatUnreadCount}
+                </span>
+              ) : null}
+              {item.href === '/notifications' && notificationCount > 0 ? (
+                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs text-white">
+                  {notificationCount}
+                </span>
+              ) : null}
             </Link>
           )
         })}

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { Notifications, type NotificationRow } from '@ecom/ui-seller'
 import { DashboardLayout } from '../../components/dashboard-layout'
 import { api } from '../../lib/api'
+import { useSellerRealtime } from '../../providers/realtime-provider'
 
 interface ApiNotification {
   id: string
@@ -32,6 +33,7 @@ function toRow(n: ApiNotification): NotificationRow {
 export default function NotificationsPage() {
   const [rows, setRows] = useState<NotificationRow[]>([])
   const [loading, setLoading] = useState(true)
+  const { lastNotification, markAllNotificationsRead, markNotificationRead } = useSellerRealtime()
 
   useEffect(() => {
     const fetch = async () => {
@@ -50,23 +52,55 @@ export default function NotificationsPage() {
     void fetch()
   }, [])
 
-  const handleMarkRead = useCallback(async (id: string) => {
-    await api(`/notifications/${id}/read`, { method: 'POST' })
-    setRows((prev) => prev.map((r) => (r.id === id ? { ...r, isRead: true } : r)))
-  }, [])
+  useEffect(() => {
+    if (!lastNotification) {
+      return
+    }
+
+    setRows((current) => {
+      if (current.some((row) => row.id === lastNotification.id)) {
+        return current
+      }
+
+      return [
+        toRow({
+          id: lastNotification.id,
+          type: lastNotification.type,
+          title: lastNotification.title,
+          message: lastNotification.message,
+          isRead: false,
+          createdAt: lastNotification.createdAt,
+        }),
+        ...current,
+      ]
+    })
+  }, [lastNotification])
+
+  const handleMarkRead = useCallback(
+    async (id: string) => {
+      await api(`/notifications/${id}/read`, { method: 'POST' })
+      setRows((prev) => prev.map((r) => (r.id === id ? { ...r, isRead: true } : r)))
+      markNotificationRead()
+    },
+    [markNotificationRead],
+  )
 
   const handleMarkAllRead = useCallback(async () => {
     await api('/notifications/read-all', { method: 'POST' })
     setRows((prev) => prev.map((r) => ({ ...r, isRead: true })))
-  }, [])
-
+    markAllNotificationsRead()
+  }, [markAllNotificationsRead])
   return (
     <DashboardLayout>
       <Notifications
         rows={rows}
         loading={loading}
-        onMarkRead={handleMarkRead}
-        onMarkAllRead={handleMarkAllRead}
+        onMarkRead={(id) => {
+          void handleMarkRead(id)
+        }}
+        onMarkAllRead={() => {
+          void handleMarkAllRead()
+        }}
       />
     </DashboardLayout>
   )

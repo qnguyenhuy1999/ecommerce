@@ -1,4 +1,4 @@
-import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets'
+import type { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets'
 import {
   WebSocketGateway,
   WebSocketServer,
@@ -6,7 +6,7 @@ import {
   MessageBody,
   ConnectedSocket,
 } from '@nestjs/websockets'
-import { Inject, Logger } from '@nestjs/common'
+import { Inject, Logger, type OnModuleDestroy } from '@nestjs/common'
 import type { Server, Socket } from 'socket.io'
 import type { SessionService} from '@ecom/auth';
 import { SESSION_COOKIE_NAME } from '@ecom/auth'
@@ -19,13 +19,16 @@ import {
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 import type { ChatService } from './chat.service'
+import type { ShopService } from '../shop/shop.service'
 import { SESSION_SERVICE } from '../auth/session.provider'
 
 interface SellerChatSocketData {
   userId?: string
+  shopId?: string
   sellerProfileId?: string
 }
 
+const SHOP_NOTIFICATION_CHANNEL = 'notif:shop:'
 const PRESENCE_TTL_SECONDS = 60
 
 interface ChatErrorPayload {
@@ -35,6 +38,14 @@ interface ChatErrorPayload {
 
 function getSocketData(client: Socket): SellerChatSocketData {
   return client.data as SellerChatSocketData
+}
+function extractShopIdFromNotificationChannel(channel: string): string | undefined {
+  if (!channel.startsWith(SHOP_NOTIFICATION_CHANNEL)) {
+    return undefined
+  }
+
+  const shopId = channel.slice(SHOP_NOTIFICATION_CHANNEL.length)
+  return shopId.length > 0 ? shopId : undefined
 }
 
 function toChatError(err: unknown): ChatErrorPayload {
@@ -50,19 +61,56 @@ function toChatError(err: unknown): ChatErrorPayload {
   cors: { origin: resolveSocketCorsOrigins(), credentials: true },
   namespace: '/chat',
 })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, OnModuleDestroy
+{
   @WebSocketServer()
   server!: Server
 
+  private notificationSubscriber: Redis | undefined
   private readonly logger = new Logger(ChatGateway.name)
 
   constructor(
+    private readonly shopService: ShopService,
     private readonly chatService: ChatService,
     @Inject(SESSION_SERVICE)
     private readonly sessionService: SessionService,
     @Inject(REDIS_CLIENT)
     private readonly redis: Redis,
   ) {}
+  afterInit(): void {
+    this.notificationSubscriber = this.redis.duplicate()
+    this.notificationSubscriber.on('pmessage', (_pattern, channel, rawMessage) => {
+      const shopId = extractShopIdFromNotificationChannel(channel)
+      if (!shopId) return
+
+      try {
+        const payload = JSON.parse(rawMessage) as {
+          id: string
+          type: string
+          title: string
+          message: string
+          createdAt: string
+          metadata?: Record<string, unknown>
+        }
+        this.server.to(`shop:${shopId}`).emit('notification', payload)
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'unknown error'
+        this.logger.warn(`Failed to relay seller notification on ${channel}: ${message}`)
+      }
+    })
+    this.notificationSubscriber.on('error', (err: Error) => {
+      this.logger.error(`Seller notification subscriber error: ${err.message}`)
+    })
+    void this.notificationSubscriber.psubscribe(`${SHOP_NOTIFICATION_CHANNEL}*`)
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    if (this.notificationSubscriber) {
+      await this.notificationSubscriber.quit()
+      this.notificationSubscriber = undefined
+    }
+  }
 
   private async trackPresence(userId: string, socketId: string): Promise<void> {
     try {
@@ -119,8 +167,19 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     if (typeof sellerProfileIdRaw === 'string' && sellerProfileIdRaw.length > 0) {
       socketData.sellerProfileId = sellerProfileIdRaw
     }
+    try {
+      socketData.shopId = await this.shopService.getShopId(userIdRaw)
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'unknown error'
+      this.logger.warn(`Chat WS shop lookup failed: ${message}`)
+      client.disconnect(true)
+      return
+    }
 
     await this.trackPresence(userIdRaw, client.id)
+    if (socketData.shopId) {
+      void client.join(`shop:${socketData.shopId}`)
+    }
     void client.join(`user:${userIdRaw}`)
   }
 

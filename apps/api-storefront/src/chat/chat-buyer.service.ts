@@ -1,7 +1,10 @@
 import type { PrismaService} from '@ecom/database';
 import { type Prisma } from '@ecom/database'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
 import { NotFoundException, Injectable } from '@nestjs/common'
+import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
 export class ChatBuyerService {
@@ -23,6 +26,71 @@ export class ChatBuyerService {
     return {
       shopId: conversation.shopId,
     }
+  }
+
+  async listConversations(userId: string, query: ConversationQueryDto) {
+    const { page = 1, limit = PAGINATION_DEFAULTS.DEFAULT_LIMIT, search } = query
+    const where: Prisma.ConversationWhereInput = {
+      buyerId: userId,
+      ...(search ? { lastMessageText: { contains: search, mode: 'insensitive' } } : {}),
+    }
+
+    const { items, total } = await offsetPaginate(this.prisma.conversation, {
+      page,
+      limit,
+      where,
+      orderBy: { lastMessageAt: { sort: 'desc', nulls: 'last' } },
+    })
+
+    return buildOffsetResponse(items, page, limit, total)
+  }
+
+  async createConversation(userId: string, shopId: string, productId?: string) {
+    const existing = await this.prisma.conversation.findFirst({
+      where: {
+        buyerId: userId,
+        shopId,
+        ...(productId !== undefined ? { productId } : { productId: null }),
+      },
+    })
+
+    if (existing) {
+      return existing
+    }
+
+    return this.prisma.conversation.create({
+      data: {
+        buyerId: userId,
+        shopId,
+        ...(productId !== undefined ? { productId } : {}),
+      },
+    })
+  }
+
+  async getConversation(userId: string, conversationId: string) {
+    const conversation = await this.prisma.conversation.findFirst({
+      where: { id: conversationId, buyerId: userId },
+    })
+
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found')
+    }
+
+    return conversation
+  }
+
+  async getMessages(userId: string, conversationId: string, query: MessageQueryDto) {
+    await this.assertConversationAccess(userId, conversationId)
+    const { page = 1, limit = 50 } = query
+
+    const { items, total } = await offsetPaginate(this.prisma.chatMessage, {
+      page,
+      limit,
+      where: { conversationId },
+      orderBy: { createdAt: 'desc' },
+    })
+
+    return buildOffsetResponse(items.slice().reverse(), page, limit, total)
   }
 
   async sendMessage(
@@ -92,5 +160,14 @@ export class ChatBuyerService {
 
   async ensureConversationAccessByUser(userId: string, conversationId: string): Promise<void> {
     await this.assertConversationAccess(userId, conversationId)
+  }
+
+  async getUnreadCount(userId: string) {
+    const result = await this.prisma.conversation.aggregate({
+      where: { buyerId: userId },
+      _sum: { buyerUnread: true },
+    })
+
+    return { unreadCount: result._sum.buyerUnread ?? 0 }
   }
 }

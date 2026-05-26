@@ -43,9 +43,11 @@ interface ChatErrorPayload {
 }
 
 interface UserNotificationPayload {
+  id: string
   type: string
   title: string
   message: string
+  createdAt: string
   metadata?: Record<string, unknown>
 }
 

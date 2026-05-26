@@ -16,6 +16,7 @@ import {
   Settings,
   Percent,
   Headphones,
+  MessageSquare,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -126,6 +127,13 @@ export const sidebarGroups: SidebarGroup[] = [
         label: 'Support',
         href: '/support',
         icon: Headphones,
+        permission: 'SUPPORT_MANAGE',
+      },
+      {
+        id: 'chat',
+        label: 'Chat',
+        href: '/chat',
+        icon: MessageSquare,
         permission: 'SUPPORT_MANAGE',
       },
     ],

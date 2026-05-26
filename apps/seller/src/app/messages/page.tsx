@@ -4,6 +4,8 @@ import { Messages, type MessageConversation, type MessageEntry } from '@ecom/ui-
 import { useEffect, useMemo, useState } from 'react'
 import { DashboardLayout } from '../../components/dashboard-layout'
 import { api } from '../../lib/api'
+import { type RealtimeChatMessagePayload } from '../../lib/realtime'
+import { useSellerRealtime } from '../../providers/realtime-provider'
 
 interface Conversation {
   id: string
@@ -15,6 +17,7 @@ interface Conversation {
 
 interface ChatMessage {
   id: string
+  conversationId: string
   senderId: string
   content: string
   createdAt: string
@@ -26,6 +29,18 @@ interface ConversationsResponse {
 
 interface MessagesResponse {
   data: ChatMessage[]
+}
+
+function getUnreadConversationCount(conversations: Conversation[]) {
+  return conversations.reduce((sum, conversation) => sum + conversation.sellerUnread, 0)
+}
+
+function appendMessage(messages: ChatMessage[], incoming: ChatMessage) {
+  if (messages.some((message) => message.id === incoming.id)) {
+    return messages
+  }
+
+  return [...messages, incoming]
 }
 
 function sortConversationsByActivity(conversations: Conversation[]) {
@@ -120,6 +135,41 @@ function markConversationAsRead(conversations: Conversation[], conversationId: s
   )
 }
 
+function applyIncomingMessage(conversations: Conversation[], incoming: ChatMessage) {
+  const sentAt = incoming.createdAt
+  const updated = conversations.map((conversation) =>
+    conversation.id === incoming.conversationId
+      ? {
+          ...conversation,
+          lastMessageText: incoming.content,
+          lastMessageAt: sentAt,
+          sellerUnread:
+            incoming.senderId === conversation.buyerId
+              ? conversation.sellerUnread + 1
+              : conversation.sellerUnread,
+        }
+      : conversation,
+  )
+
+  return sortConversationsByActivity(updated)
+}
+
+function markConversationAsReadResult(conversations: Conversation[], conversationId: string) {
+  const next = markConversationAsRead(conversations, conversationId)
+  return {
+    conversations: next,
+    unreadCount: getUnreadConversationCount(next),
+  }
+}
+
+function applyIncomingMessageResult(conversations: Conversation[], incoming: ChatMessage) {
+  const next = applyIncomingMessage(conversations, incoming)
+  return {
+    conversations: next,
+    unreadCount: getUnreadConversationCount(next),
+  }
+}
+
 export default function MessagesPage() {
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [messages, setMessages] = useState<ChatMessage[]>([])
@@ -127,6 +177,11 @@ export default function MessagesPage() {
   const [search, setSearch] = useState('')
   const [loadingConversations, setLoadingConversations] = useState(true)
   const [loadingMessages, setLoadingMessages] = useState(false)
+  const { socket, setChatUnreadCount } = useSellerRealtime()
+  const selectedConversation = useMemo(
+    () => conversations.find((conversation) => conversation.id === selectedConversationId),
+    [conversations, selectedConversationId],
+  )
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -168,7 +223,11 @@ export default function MessagesPage() {
         )
         setMessages(response.data)
         await api(`/chat/conversations/${selectedConversationId}/read`, { method: 'POST' })
-        setConversations((current) => markConversationAsRead(current, selectedConversationId))
+        setConversations((current) => {
+          const result = markConversationAsReadResult(current, selectedConversationId)
+          setChatUnreadCount(result.unreadCount)
+          return result.conversations
+        })
       } catch {
         setMessages([])
       } finally {
@@ -179,10 +238,44 @@ export default function MessagesPage() {
     void fetchMessages()
   }, [selectedConversationId])
 
-  const selectedConversation = useMemo(
-    () => conversations.find((conversation) => conversation.id === selectedConversationId),
-    [conversations, selectedConversationId],
-  )
+  useEffect(() => {
+    if (!socket || !selectedConversationId) {
+      return
+    }
+
+    socket.emit('join_conversation', { conversationId: selectedConversationId })
+
+    const handleIncomingMessage = (incoming: RealtimeChatMessagePayload) => {
+      setConversations((current) => {
+        const result = applyIncomingMessageResult(current, incoming)
+        setChatUnreadCount(result.unreadCount)
+        return result.conversations
+      })
+
+      if (incoming.conversationId === selectedConversationId) {
+        setMessages((current) => appendMessage(current, incoming))
+        if (selectedConversation?.buyerId === incoming.senderId) {
+          void api(`/chat/conversations/${selectedConversationId}/read`, { method: 'POST' })
+          setConversations((current) => {
+            const result = markConversationAsReadResult(current, selectedConversationId)
+            setChatUnreadCount(result.unreadCount)
+            return result.conversations
+          })
+        }
+      }
+    }
+
+    socket.on('new_message', handleIncomingMessage)
+
+    return () => {
+      socket.emit('leave_conversation', { conversationId: selectedConversationId })
+      socket.off('new_message', handleIncomingMessage)
+    }
+  }, [selectedConversation?.buyerId, selectedConversationId, setChatUnreadCount, socket])
+
+  useEffect(() => {
+    setChatUnreadCount(getUnreadConversationCount(conversations))
+  }, [conversations, setChatUnreadCount])
 
   const uiConversations = useMemo<MessageConversation[]>(
     () =>
