@@ -1,3 +1,5 @@
+'use client'
+
 import { ConsoleLayout } from '@ecom/ui-admin'
 import { sidebarGroups } from '@/components/layout/sidebar-config'
 

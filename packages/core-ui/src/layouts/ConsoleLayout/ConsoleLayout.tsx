@@ -1,3 +1,5 @@
+'use client'
+
 import { withDefined } from '@ecom/shared/utils'
 import { SidebarInset, SidebarMenuRenderer, SidebarShell } from '../../organisms/Sidebar'
 import { cn } from '../../lib/utils'

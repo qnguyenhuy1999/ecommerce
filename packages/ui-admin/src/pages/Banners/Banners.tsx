@@ -1,3 +1,5 @@
+'use client'
+
 import { Typography } from '@ecom/core-ui'
 import { SellerListPage } from '../../organisms'
 import { bannersDefaultProps } from './Banners.fixtures'
