@@ -20,7 +20,7 @@ function StorefrontLayoutBase({
   footerColumns = storefrontFooterColumns,
 }: StorefrontLayoutProps) {
   return (
-    <div className="min-h-screen bg-accent">
+    <div className="bg-accent min-h-screen">
       <StorefrontAnnouncement announcement={announcement} links={utilityLinks} />
       <StorefrontHeader />
       <StorefrontNavigation navigation={navigation} />

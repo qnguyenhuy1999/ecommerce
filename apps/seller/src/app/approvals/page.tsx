@@ -30,9 +30,7 @@ export default function ApprovalsPage() {
 
   const handleResubmit = useCallback(async (approvalId: string) => {
     await api(`/approvals/${approvalId}/resubmit`, { method: 'POST' })
-    setApprovals((prev) =>
-      prev.map((a) => (a.id === approvalId ? { ...a, status: 'PENDING' } : a)),
-    )
+    setApprovals((prev) => prev.map((a) => (a.id === approvalId ? { ...a, status: 'PENDING' } : a)))
   }, [])
 
   return (

@@ -7,9 +7,7 @@ export const REFUNDS_PRIORITY_DOT_CLASS_NAMES: Record<RefundCasePriority, string
 } as const
 
 export function getDisputePriorityDotClassName(priority: RefundCasePriority): string {
-  return (
-    REFUNDS_PRIORITY_DOT_CLASS_NAMES[priority] ?? 'fill-muted-foreground text-muted-foreground'
-  )
+  return REFUNDS_PRIORITY_DOT_CLASS_NAMES[priority] ?? 'fill-muted-foreground text-muted-foreground'
 }
 
 export const REFUNDS_DEFAULT_FILTER = 'ALL' as const

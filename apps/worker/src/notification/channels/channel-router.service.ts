@@ -1,4 +1,4 @@
-import type { PrismaService} from '@ecom/database';
+import type { PrismaService } from '@ecom/database'
 import { type NotificationChannel, type UserNotificationType } from '@ecom/database'
 import { Injectable, Logger } from '@nestjs/common'
 import type { EmailChannel } from './email.channel'

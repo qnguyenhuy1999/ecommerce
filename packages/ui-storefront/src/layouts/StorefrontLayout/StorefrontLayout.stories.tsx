@@ -17,7 +17,7 @@ export const Default: Story = {
   render: () => (
     <StorefrontLayout>
       <StorefrontLayout.Content>
-        <div className="rounded-2xl border bg-card p-10">
+        <div className="bg-card rounded-2xl border p-10">
           <Typography variant="h3">Page content slot</Typography>
         </div>
       </StorefrontLayout.Content>

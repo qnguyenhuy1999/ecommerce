@@ -7,24 +7,19 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
   return (
     <Card className="min-w-48 gap-0 py-0">
       <div className="relative aspect-square overflow-hidden">
-        <img
-          className="size-full object-cover"
-          src={product.imageUrl}
-          alt=""
-          aria-hidden="true"
-        />
+        <img className="size-full object-cover" src={product.imageUrl} alt="" aria-hidden="true" />
         {product.discount && (
-          <div className="absolute left-2 top-2">
+          <div className="absolute top-2 left-2">
             <PromotionalBadge label={product.discount} />
           </div>
         )}
         {product.flash && (
-          <div className="absolute right-2 top-2">
+          <div className="absolute top-2 right-2">
             <PromotionalBadge kind="flash" label="FLASH" />
           </div>
         )}
         {product.stockLabel && (
-          <div className="absolute inset-x-0 bottom-0 bg-foreground/70 px-3 py-2 text-background">
+          <div className="bg-foreground/70 text-background absolute inset-x-0 bottom-0 px-3 py-2">
             <div className="flex justify-between">
               <Typography variant="caption" className="font-medium">
                 {product.stockLabel}
@@ -36,12 +31,12 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
       </div>
       <div className={compact ? 'space-y-2 p-3' : 'space-y-3 p-4'}>
         {!compact && (
-          <Typography variant="body-sm" className="line-clamp-2 font-medium text-foreground">
+          <Typography variant="body-sm" className="text-foreground line-clamp-2 font-medium">
             {product.name}
           </Typography>
         )}
         <div className="flex items-baseline gap-2">
-          <Typography variant="label" className="font-semibold text-primary">
+          <Typography variant="label" className="text-primary font-semibold">
             {product.price}
           </Typography>
           {product.originalPrice && (
@@ -51,7 +46,7 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
           )}
         </div>
         {typeof product.soldPercent === 'number' && (
-          <Progress value={product.soldPercent} className="h-2 bg-primary-soft" />
+          <Progress value={product.soldPercent} className="bg-primary-soft h-2" />
         )}
         {!compact && (
           <>
@@ -60,7 +55,7 @@ export function ProductCard({ product, compact = false }: ProductCardProps) {
               {product.freeShipping && <PromotionalBadge kind="shipping" label="FREE SHIP" />}
             </div>
             {product.rating && (
-              <div className="flex items-center gap-1 text-warning">
+              <div className="text-warning flex items-center gap-1">
                 <Star className="size-4 fill-current" />
                 <Typography variant="caption" className="text-foreground">
                   {product.rating}

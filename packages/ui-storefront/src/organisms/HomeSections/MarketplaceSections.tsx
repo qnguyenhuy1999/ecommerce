@@ -8,7 +8,13 @@ import {
   TrustItem,
   VoucherCard,
 } from '../../molecules'
-import type { ProductCardData, ShopCardProps, TrustItemProps, VoucherCardProps, CategoryTileProps } from '../../molecules'
+import type {
+  ProductCardData,
+  ShopCardProps,
+  TrustItemProps,
+  VoucherCardProps,
+  CategoryTileProps,
+} from '../../molecules'
 
 export function CategorySection({ categories }: { categories: CategoryTileProps[] }) {
   return (
@@ -42,10 +48,10 @@ export function VoucherSection({ vouchers }: { vouchers: VoucherCardProps[] }) {
 
 export function FlashSaleSection({ products }: { products: ProductCardData[] }) {
   return (
-    <section className="overflow-hidden rounded-3xl border bg-card">
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-primary p-5 text-primary-foreground">
+    <section className="bg-card overflow-hidden rounded-3xl border">
+      <div className="bg-primary text-primary-foreground flex flex-wrap items-center justify-between gap-4 p-5">
         <div className="flex items-center gap-3">
-          <span className="flex size-12 items-center justify-center rounded-xl bg-primary-foreground/20">
+          <span className="bg-primary-foreground/20 flex size-12 items-center justify-center rounded-xl">
             <Flame className="size-6" />
           </span>
           <div>
@@ -56,7 +62,10 @@ export function FlashSaleSection({ products }: { products: ProductCardData[] }) 
         <div className="flex items-center gap-2">
           <Clock3 className="size-4" />
           {['03', '27', '32'].map((unit) => (
-            <span key={unit} className="rounded-md bg-primary-foreground/20 px-2 py-1 text-sm font-semibold">
+            <span
+              key={unit}
+              className="bg-primary-foreground/20 rounded-md px-2 py-1 text-sm font-semibold"
+            >
               {unit}
             </span>
           ))}

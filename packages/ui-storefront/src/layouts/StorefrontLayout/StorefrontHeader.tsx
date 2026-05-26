@@ -29,26 +29,26 @@ export function StorefrontAnnouncement({
 
 export function StorefrontHeader() {
   return (
-    <header className="border-b bg-card">
+    <header className="bg-card border-b">
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 sm:px-6">
         <a href="#" className="flex shrink-0 items-center gap-2">
-          <span className="flex size-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+          <span className="bg-primary-soft text-primary flex size-11 items-center justify-center rounded-2xl">
             <span className="size-4 rounded-full border-2 border-current" />
           </span>
-          <Typography variant="h3" className="hidden border-0 p-0 text-foreground sm:block">
+          <Typography variant="h3" className="text-foreground hidden border-0 p-0 sm:block">
             Halo
           </Typography>
-          <Typography variant="label" className="hidden text-muted-foreground lg:block">
+          <Typography variant="label" className="text-muted-foreground hidden lg:block">
             Market
           </Typography>
         </a>
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 size-5 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-1/2 left-4 size-5 -translate-y-1/2" />
           <Input
-            className="h-12 rounded-full pl-12 pr-28"
+            className="h-12 rounded-full pr-28 pl-12"
             placeholder="Search shops, products, brands..."
           />
-          <Button className="absolute right-1 top-1/2 hidden -translate-y-1/2 rounded-full px-6 sm:inline-flex">
+          <Button className="absolute top-1/2 right-1 hidden -translate-y-1/2 rounded-full px-6 sm:inline-flex">
             Search
           </Button>
         </div>
@@ -58,13 +58,13 @@ export function StorefrontHeader() {
           </Button>
           <Button variant="ghost" size="icon" aria-label="Cart" className="relative">
             <ShoppingCart />
-            <span className="absolute right-0 top-0 flex size-5 items-center justify-center rounded-full bg-destructive text-xs text-destructive-foreground">
+            <span className="bg-destructive text-destructive-foreground absolute top-0 right-0 flex size-5 items-center justify-center rounded-full text-xs">
               3
             </span>
           </Button>
           <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
             <Bell />
-            <span className="absolute right-0 top-0 flex size-5 items-center justify-center rounded-full bg-destructive text-xs text-destructive-foreground">
+            <span className="bg-destructive text-destructive-foreground absolute top-0 right-0 flex size-5 items-center justify-center rounded-full text-xs">
               3
             </span>
           </Button>
@@ -84,7 +84,7 @@ export function StorefrontHeader() {
 
 export function StorefrontNavigation({ navigation }: { navigation: StorefrontNavItem[] }) {
   return (
-    <nav className="border-b bg-card">
+    <nav className="bg-card border-b">
       <div className="no-scrollbar mx-auto flex max-w-7xl gap-8 overflow-x-auto px-4 py-4 sm:px-6">
         {navigation.map((item, index) => (
           <a
@@ -92,8 +92,8 @@ export function StorefrontNavigation({ navigation }: { navigation: StorefrontNav
             href={item.href ?? '#'}
             className={
               index === 0
-                ? 'shrink-0 text-sm font-semibold text-primary'
-                : 'shrink-0 text-sm font-medium text-muted-foreground hover:text-foreground'
+                ? 'text-primary shrink-0 text-sm font-semibold'
+                : 'text-muted-foreground hover:text-foreground shrink-0 text-sm font-medium'
             }
           >
             {item.label}

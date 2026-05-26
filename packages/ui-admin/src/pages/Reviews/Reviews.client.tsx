@@ -43,7 +43,14 @@ export function ReviewsClient({
         onHide: controller.handleHide,
         onReject: controller.handleReject,
       }),
-    [approveLabel, hideLabel, rejectLabel, controller.handleApprove, controller.handleHide, controller.handleReject],
+    [
+      approveLabel,
+      hideLabel,
+      rejectLabel,
+      controller.handleApprove,
+      controller.handleHide,
+      controller.handleReject,
+    ],
   )
 
   return (
@@ -51,7 +58,9 @@ export function ReviewsClient({
       <SellerListPage.StatusTabs
         tabs={controller.statusTabOrder}
         value={controller.state.activeTab}
-        onChange={(tab) => controller.setActiveTab(tab as ReviewsClientProps['statusTabs'][number]['value'])}
+        onChange={(tab) =>
+          controller.setActiveTab(tab as ReviewsClientProps['statusTabs'][number]['value'])
+        }
         counts={controller.counts}
       />
 

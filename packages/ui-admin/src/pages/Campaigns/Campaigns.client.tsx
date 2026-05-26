@@ -25,10 +25,7 @@ function StatusDot({ status }: { status: VoucherStatus }) {
 
 function StatusLabel({ status }: { status: VoucherStatus }) {
   return (
-    <Typography
-      variant="caption"
-      className={cn('font-medium', VOUCHER_STATUS_LABEL_CLASS[status])}
-    >
+    <Typography variant="caption" className={cn('font-medium', VOUCHER_STATUS_LABEL_CLASS[status])}>
       {VOUCHER_STATUS_TEXT[status]}
     </Typography>
   )

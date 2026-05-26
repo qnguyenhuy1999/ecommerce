@@ -10,7 +10,7 @@ export interface VoucherCardProps {
 export function VoucherCard({ title, minimum, code }: VoucherCardProps) {
   return (
     <Card className="min-w-72 flex-row gap-0 py-0">
-      <div className="flex w-24 shrink-0 flex-col items-center justify-center gap-2 bg-primary p-4 text-primary-foreground">
+      <div className="bg-primary text-primary-foreground flex w-24 shrink-0 flex-col items-center justify-center gap-2 p-4">
         <TicketPercent className="size-5" />
         <Typography variant="caption" className="font-semibold">
           VOUCHER

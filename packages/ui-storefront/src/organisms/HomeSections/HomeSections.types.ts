@@ -1,4 +1,10 @@
-import type { CategoryTileProps, ProductCardData, ShopCardProps, TrustItemProps, VoucherCardProps } from '../../molecules'
+import type {
+  CategoryTileProps,
+  ProductCardData,
+  ShopCardProps,
+  TrustItemProps,
+  VoucherCardProps,
+} from '../../molecules'
 
 export interface HeroContent {
   eyebrow: string

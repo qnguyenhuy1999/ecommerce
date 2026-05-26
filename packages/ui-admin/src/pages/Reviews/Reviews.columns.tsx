@@ -70,22 +70,12 @@ export function buildReviewColumns({
         return (
           <div className="flex gap-2">
             {item.status === 'PENDING' && (
-              <Button
-                type="button"
-                size="sm"
-                variant="default"
-                onClick={() => onApprove?.(item)}
-              >
+              <Button type="button" size="sm" variant="default" onClick={() => onApprove?.(item)}>
                 {approveLabel}
               </Button>
             )}
             {(item.status === 'PENDING' || item.status === 'APPROVED') && (
-              <Button
-                type="button"
-                size="sm"
-                variant="outline"
-                onClick={() => onHide?.(item)}
-              >
+              <Button type="button" size="sm" variant="outline" onClick={() => onHide?.(item)}>
                 {hideLabel}
               </Button>
             )}

@@ -21,3 +21,7 @@ packages/database/src/generated/
 # Environment & logs
 .env
 *.log
+
+# IDE & OS files
+.vscode
+.claude

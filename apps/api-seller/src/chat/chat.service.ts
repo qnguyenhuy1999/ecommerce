@@ -1,4 +1,4 @@
-import type { PrismaService } from '@ecom/database'
+import type { PrismaService} from '@ecom/database';
 import { type Prisma } from '@ecom/database'
 import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'

@@ -23,14 +23,29 @@ export const storefrontNavigation: StorefrontNavItem[] = [
 export const storefrontFooterColumns: StorefrontFooterColumn[] = [
   {
     title: 'Shop',
-    links: [{ label: 'Flash sale' }, { label: 'New arrivals' }, { label: 'Top picks' }, { label: 'Gift cards' }],
+    links: [
+      { label: 'Flash sale' },
+      { label: 'New arrivals' },
+      { label: 'Top picks' },
+      { label: 'Gift cards' },
+    ],
   },
   {
     title: 'Customer care',
-    links: [{ label: 'Help center' }, { label: 'Track order' }, { label: 'Returns' }, { label: 'Contact us' }],
+    links: [
+      { label: 'Help center' },
+      { label: 'Track order' },
+      { label: 'Returns' },
+      { label: 'Contact us' },
+    ],
   },
   {
     title: 'Sell with Halo',
-    links: [{ label: 'Open a shop' }, { label: 'Seller center' }, { label: 'Affiliate program' }, { label: 'Policies' }],
+    links: [
+      { label: 'Open a shop' },
+      { label: 'Seller center' },
+      { label: 'Affiliate program' },
+      { label: 'Policies' },
+    ],
   },
 ]

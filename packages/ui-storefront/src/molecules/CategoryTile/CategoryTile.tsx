@@ -9,7 +9,7 @@ export interface CategoryTileProps {
 export function CategoryTile({ label, icon: Icon }: CategoryTileProps) {
   return (
     <a href="#" className="group flex min-w-20 flex-col items-center gap-3 text-center">
-      <span className="flex size-14 items-center justify-center rounded-full bg-primary-soft text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+      <span className="bg-primary-soft text-primary group-hover:bg-primary group-hover:text-primary-foreground flex size-14 items-center justify-center rounded-full transition-colors">
         <Icon className="size-6" />
       </span>
       <Typography variant="label" className="text-foreground">

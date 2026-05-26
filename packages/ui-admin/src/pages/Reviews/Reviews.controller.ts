@@ -33,8 +33,7 @@ export function useReviewsController({
     const query = state.search.trim().toLowerCase()
 
     return items.filter((item) => {
-      const matchesSearch =
-        query.length === 0 || item.commentPreview.toLowerCase().includes(query)
+      const matchesSearch = query.length === 0 || item.commentPreview.toLowerCase().includes(query)
       const matchesTab = state.activeTab === 'ALL' || item.status === state.activeTab
 
       return matchesSearch && matchesTab

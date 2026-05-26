@@ -18,7 +18,7 @@ export function SectionHeading({
     <div className="mb-5 flex items-end justify-between gap-4">
       <div className="space-y-1">
         <div className="flex items-center gap-2">
-          {Icon && <Icon className="size-5 text-primary" />}
+          {Icon && <Icon className="text-primary size-5" />}
           <Typography variant="h3" className="text-foreground">
             {title}
           </Typography>

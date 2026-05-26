@@ -1,10 +1,5 @@
-import type {
-  PrismaService} from '@ecom/database';
-import {
-  type AdminNotificationStatus,
-  type NotificationChannel,
-  type Prisma,
-} from '@ecom/database'
+import type { PrismaService } from '@ecom/database'
+import { type AdminNotificationStatus, type NotificationChannel, type Prisma } from '@ecom/database'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import { Injectable, NotFoundException } from '@nestjs/common'

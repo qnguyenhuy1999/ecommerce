@@ -4,7 +4,7 @@ import type { HeroContent } from './HomeSections.types'
 
 export function HeroSection({ eyebrow, title, highlight, description, gallery }: HeroContent) {
   return (
-    <section className="grid gap-8 rounded-3xl border bg-card p-6 lg:grid-cols-2 lg:p-8">
+    <section className="bg-card grid gap-8 rounded-3xl border p-6 lg:grid-cols-2 lg:p-8">
       <div className="flex flex-col justify-center gap-5">
         <Badge className="bg-primary-soft text-primary">
           <WandSparkles data-icon="inline-start" />
@@ -15,7 +15,7 @@ export function HeroSection({ eyebrow, title, highlight, description, gallery }:
           <br />
           {description}
         </Typography>
-        <Typography variant="body" className="max-w-xl text-muted-foreground">
+        <Typography variant="body" className="text-muted-foreground max-w-xl">
           Verified shops · flash deals every hour · free-ship vouchers for new accounts. Built for
           the way you actually shop.
         </Typography>
@@ -29,7 +29,7 @@ export function HeroSection({ eyebrow, title, highlight, description, gallery }:
         </div>
         <div className="flex flex-wrap items-center gap-4 pt-2">
           <span className="flex items-center gap-1">
-            <Star className="size-4 fill-current text-warning" />
+            <Star className="text-warning size-4 fill-current" />
             <Typography variant="label">4.9</Typography>
           </span>
           <Typography variant="caption" className="text-muted-foreground">
@@ -44,7 +44,11 @@ export function HeroSection({ eyebrow, title, highlight, description, gallery }:
         {gallery.map((image, index) => (
           <img
             key={image}
-            className={index === 1 ? 'row-span-2 h-full rounded-2xl object-cover' : 'aspect-square rounded-2xl object-cover'}
+            className={
+              index === 1
+                ? 'row-span-2 h-full rounded-2xl object-cover'
+                : 'aspect-square rounded-2xl object-cover'
+            }
             src={image}
             alt=""
             aria-hidden="true"

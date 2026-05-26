@@ -4,11 +4,11 @@ import type { StorefrontFooterColumn } from './StorefrontLayout.types'
 
 export function StorefrontFooter({ columns }: { columns: StorefrontFooterColumn[] }) {
   return (
-    <footer className="mt-16 border-t bg-card">
+    <footer className="bg-card mt-16 border-t">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-5">
         <div className="space-y-4 lg:col-span-2">
           <div className="flex items-center gap-2">
-            <span className="flex size-11 items-center justify-center rounded-2xl bg-primary-soft text-primary">
+            <span className="bg-primary-soft text-primary flex size-11 items-center justify-center rounded-2xl">
               <span className="size-4 rounded-full border-2 border-current" />
             </span>
             <Typography variant="h3" className="border-0 p-0">
@@ -46,7 +46,7 @@ export function StorefrontFooter({ columns }: { columns: StorefrontFooterColumn[
                 <li key={link.label}>
                   <a
                     href={link.href ?? '#'}
-                    className="text-sm text-muted-foreground transition-colors hover:text-primary"
+                    className="text-muted-foreground hover:text-primary text-sm transition-colors"
                   >
                     {link.label}
                   </a>
@@ -61,12 +61,12 @@ export function StorefrontFooter({ columns }: { columns: StorefrontFooterColumn[
         <Typography variant="caption" className="text-muted-foreground">
           Copyright 2026 Halo Market. All rights reserved.
         </Typography>
-        <div className="flex flex-wrap items-center gap-5 text-muted-foreground">
+        <div className="text-muted-foreground flex flex-wrap items-center gap-5">
           <span className="flex items-center gap-2 text-xs">
-            <ShieldCheck className="size-4 text-primary" /> Secure payments
+            <ShieldCheck className="text-primary size-4" /> Secure payments
           </span>
           <span className="flex items-center gap-2 text-xs">
-            <Truck className="size-4 text-primary" /> Fast shipping
+            <Truck className="text-primary size-4" /> Fast shipping
           </span>
           <a className="text-xs" href="#">
             Privacy

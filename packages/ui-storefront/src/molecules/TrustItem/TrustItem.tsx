@@ -10,7 +10,7 @@ export interface TrustItemProps {
 export function TrustItem({ title, description, icon: Icon }: TrustItemProps) {
   return (
     <div className="flex items-center gap-4">
-      <span className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+      <span className="bg-primary-soft text-primary flex size-12 shrink-0 items-center justify-center rounded-xl">
         <Icon className="size-6" />
       </span>
       <div>
