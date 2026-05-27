@@ -188,6 +188,18 @@ const baseConfig: Linter.Config[] = [
     },
   },
   {
+    files: [
+      'apps/api-*/**',
+      'apps/worker/**',
+      'packages/auth/**',
+      'packages/database/**',
+      'packages/nestjs-core/**',
+    ],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'off',
+    },
+  },
+  {
     files: ['**/generated/**'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',

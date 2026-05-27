@@ -9,7 +9,8 @@ import {
 import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'
 import { PermissionGuard } from '../auth/guards/permission.guard'
-import type { ChatAdminService } from './chat-admin.service'
+import { Inject } from '@nestjs/common'
+import { ChatAdminService } from './chat-admin.service'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @ApiTags('Admin/Chat')
@@ -18,7 +19,7 @@ import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto
 @Controller('chat')
 @UseGuards(AdminAuthGuard, PermissionGuard)
 export class ChatController {
-  constructor(private readonly chatAdminService: ChatAdminService) {}
+  constructor(@Inject(ChatAdminService) private readonly chatAdminService: ChatAdminService) {}
 
   @Get('conversations')
   @Permissions('SETTINGS_MANAGE')

@@ -1,58 +1,70 @@
-# Caveman field notes (ecommerce-v2)
+Here's a tightened `CLAUDE.md` — cuts ~60% of the text while keeping all actionable info:
 
-Few words. Less tokens. More code. Ugg.
+````md
+# CLAUDE.md — ecommerce-v2
 
-## Repo grunt
+## Repo
 
 PNPM + Turborepo monorepo. Node >=24, pnpm >=11.
 
-- `apps/` — storefront, seller, admin (Next.js 16, React 19, Tailwind v4) + api-storefront, api-seller, api-admin, worker (NestJS + Prisma)
-- `packages/` — `shared`, `contracts`, `nestjs-core`, `database`, `auth`, `redis`, `email`, `config`, `core-ui`, `ui-storefront`, `ui-seller`, `ui-admin`, `eslint-config`
+**Apps:** `storefront`, `seller`, `admin` (Next.js) · `api-storefront`, `api-seller`, `api-admin` (NestJS) · `worker`
 
-Leaf rule: `@ecom/shared` and `@ecom/contracts` import nothing internal.
+**Packages:** `shared`, `contracts`, `nestjs-core`, `database`, `auth`, `redis`, `email`, `config`, `core-ui`, `ui-storefront`, `ui-seller`, `ui-admin`, `eslint-config`
 
-## Cave commands
+**Leaf rule:** `@ecom/shared` and `@ecom/contracts` import no internal packages.
+
+## Commands
 
 ```bash
-pnpm dev            # all apps watch
-pnpm build          # turbo build
-pnpm lint           # eslint
-pnpm type-check     # tsc
-pnpm test           # unit
-pnpm test:e2e       # e2e
-pnpm format         # prettier write
-pnpm db:generate    # prisma client
-pnpm db:migrate     # prisma migrate dev
-pnpm openapi:sync   # swagger gen + types
-pnpm contracts:check# openapi + types sanity
+pnpm dev / build / lint / type-check / test / test:e2e / format
+pnpm db:generate / db:migrate
+pnpm openapi:sync / contracts:check
+pnpm lint:circular / lint:deps
+pnpm --filter @ecom/<name> <script>
+```
+````
+
+## Must follow
+
+- TypeScript strict. No `any`. No fake casts.
+- No circular deps. No app-to-app imports.
+- Enums/types from `@ecom/contracts`. Never redefine them.
+- API responses use `ApiResponse` from `@ecom/contracts`.
+- Common filters/interceptors from `@ecom/nestjs-core`.
+- Swagger/OpenAPI is source of truth. After API changes: `pnpm openapi:sync && pnpm contracts:check`.
+
+## Before coding
+
+1. Find similar feature/bug. Follow current pattern.
+2. Reuse existing code. Smallest correct change.
+3. Extract to `packages/shared` only if pure + truly shared.
+
+## Pattern docs
+
+Read proper document before changing related code:
+
+```
+docs/ai/rules-engineering.md   docs/ai/rules-nextjs.md
+docs/ai/rules-ui-packages.md   docs/ai/rules-nestjs.md
+docs/ai/rules-contracts.md     docs/ai/rules-database.md
+docs/ai/rules-testing.md       docs/ai/rules-graphify.md
+docs/engineering-rules.md      docs/project-context.md
 ```
 
-Filter one pkg: `pnpm --filter @ecom/<name> <script>`.
+## Graphify
 
-## Fire rules
+Before architecture questions, read `graphify-out/GRAPH_REPORT.md` (prefer `graphify-out/wiki/index.md` if it exists).
 
-- TypeScript strict. No `any`. Ugg bad.
-- Import enums from `@ecom/contracts`, never redefine.
-- Use explicit shared layer: `@ecom/shared/constants`, not bare root.
-- API shape = `ApiResponse` from `@ecom/contracts`. Filters/interceptors from `@ecom/nestjs-core`.
-- Swagger is source of truth. Run `pnpm openapi:sync` after API changes.
-- Conventional commits (`feat:`, `fix:`, `chore:` ...). Husky will grunt at you.
-- No circular deps. `pnpm lint:circular` + `pnpm lint:deps` must pass.
+After editing code:
 
-## Deeper cave drawings
+```bash
+python3 -c "from graphify.watch import _rebuild_code; from pathlib import Path; _rebuild_code(Path('.'))"
+```
 
-Docs in `docs/`. Read before inventing.
+## Final answer rule
 
-- `docs/engineering-rules.md` — engineering rules
-- `docs/project-context.md` — project context
+State what changed. State checks run. If not run, say so. No fake green.
 
-## graphify
+```
 
-Knowledge graph at `graphify-out/`.
-
-- Before architecture or codebase questions: read `graphify-out/GRAPH_REPORT.md`.
-- If `graphify-out/wiki/index.md` exists, walk it instead of raw files.
-- After editing code this session, keep graph fresh:
-  ```bash
-  python3 -c "from graphify.watch import _rebuild_code; from pathlib import Path; _rebuild_code(Path('.'))"
-  ```
+```

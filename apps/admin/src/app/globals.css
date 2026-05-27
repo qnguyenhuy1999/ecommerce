@@ -1,1 +1,2 @@
+@source '../**/*.{ts,tsx,js,jsx,mdx}';
 @import '@ecom/ui-admin/styles/globals.css';

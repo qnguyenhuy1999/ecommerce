@@ -18,7 +18,7 @@ import {
 } from '@ecom/nestjs-core'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import type { ChatAdminService } from './chat-admin.service'
+import { ChatAdminService } from './chat-admin.service'
 import { SESSION_SERVICE } from '../auth/session.provider'
 
 interface AdminChatSocketData {
