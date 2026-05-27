@@ -74,11 +74,14 @@ export function LedgerSectionClient({
   entries,
   emptyMessage,
 }: LedgerSectionClientProps) {
-  const { currentTab, setCurrentTab, visibleEntries } = useFinanceController({
+  const controllerProps = {
     entries,
-    tab,
     defaultTab,
-    onTabChange,
+    ...(tab !== undefined ? { tab } : {}),
+    ...(onTabChange ? { onTabChange } : {}),
+  }
+  const { currentTab, setCurrentTab, visibleEntries } = useFinanceController({
+    ...controllerProps,
   })
   const columns = useMemo(() => buildFinanceColumns(), [])
 

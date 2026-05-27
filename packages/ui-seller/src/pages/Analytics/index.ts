@@ -1,2 +1,10 @@
 export { Analytics } from './Analytics'
-export type { AnalyticsProps } from './Analytics.types'
+export type {
+  AnalyticsDateRangeOption,
+  AnalyticsFunnelStage,
+  AnalyticsOrdersByDayPoint,
+  AnalyticsProps,
+  AnalyticsRevenuePoint,
+  AnalyticsTopProduct,
+  AnalyticsTrafficSource,
+} from './Analytics.types'

@@ -1,7 +1,7 @@
 export interface WarehouseFormValues {
   name: string
   code: string
-  address?: string
+  address?: string | undefined
   isDefault: boolean
 }
 

@@ -3,6 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
+      "@ecom/ui-seller": ["../../packages/ui-seller/src/index.ts"],
+      "@ecom/ui-seller/*": ["../../packages/ui-seller/src/*"],
       "@ecom/contracts": ["../../packages/contracts/src"],
       "@ecom/contracts/*": ["../../packages/contracts/src/*"],
       "@ecom/nestjs-core": ["../../packages/nestjs-core/src"],

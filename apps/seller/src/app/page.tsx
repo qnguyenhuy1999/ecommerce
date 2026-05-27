@@ -1,33 +1,42 @@
 'use client'
 
-import { ShoppingCart, Package, Warehouse, Bell } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Dashboard, type DashboardProps } from '@ecom/ui-seller'
 import { DashboardLayout } from '../components/dashboard-layout'
-import { PageHeader } from '@ecom/ui-seller'
-import { StatCard } from '@ecom/core-ui'
+import { getDashboardBundle } from '@/features/integration/seller-page-api'
+import { buildDashboardProps } from '@/features/integration/seller-page-adapters'
 
 export default function DashboardPage() {
+  const [props, setProps] = useState<DashboardProps>()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const bundle = await getDashboardBundle()
+      setProps(
+        buildDashboardProps({
+          summary: bundle.summary,
+          revenue: bundle.revenue,
+          orders: bundle.orders,
+          topProducts: bundle.products,
+          lowStockItems: bundle.lowStock,
+          unreadCount: bundle.unreadCount,
+          notifications: bundle.notifications,
+          pendingOrders: bundle.pendingOrders,
+          returnStats: bundle.returnStats,
+        }),
+      )
+    }
+
+    void fetchData()
+  }, [])
+
   return (
     <DashboardLayout>
-      <PageHeader title="Dashboard" description="Overview of your seller performance" />
-
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <StatCard label="Pending Orders" value={0} icon={ShoppingCart} />
-        <StatCard label="Active Products" value={0} icon={Package} />
-        <StatCard label="Low Stock Items" value={0} icon={Warehouse} />
-        <StatCard label="Unread Notifications" value={0} icon={Bell} />
-      </div>
-
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Recent Orders</h2>
-          <p className="text-sm text-gray-500">No recent orders</p>
-        </div>
-
-        <div className="rounded-lg border border-gray-200 bg-white p-6">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">Low Stock Alerts</h2>
-          <p className="text-sm text-gray-500">No low stock items</p>
-        </div>
-      </div>
+      {props ? (
+        <Dashboard {...props} />
+      ) : (
+        <p className="p-6 text-sm text-gray-500">Loading dashboard...</p>
+      )}
     </DashboardLayout>
   )
 }

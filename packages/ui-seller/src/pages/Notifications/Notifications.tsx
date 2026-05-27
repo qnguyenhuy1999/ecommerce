@@ -13,16 +13,20 @@ export function Notifications({
   onMarkAllRead,
   emptyMessage = notificationsDefaultProps.emptyMessage,
 }: NotificationsProps) {
+  const optionalProps = {
+    ...(unreadOnly !== undefined ? { unreadOnly } : {}),
+    ...(onUnreadOnlyChange ? { onUnreadOnlyChange } : {}),
+    ...(onMarkRead ? { onMarkRead } : {}),
+    ...(onMarkAllRead ? { onMarkAllRead } : {}),
+  }
+
   return (
     <NotificationsClient
       title={title}
       description={description}
       rows={rows}
       loading={loading}
-      unreadOnly={unreadOnly}
-      onUnreadOnlyChange={onUnreadOnlyChange}
-      onMarkRead={onMarkRead}
-      onMarkAllRead={onMarkAllRead}
+      {...optionalProps}
       emptyMessage={emptyMessage}
     />
   )

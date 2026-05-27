@@ -68,9 +68,14 @@ export function buildReturnActionPayload(
   row: ReturnRow,
   refundMethod: RefundMethod,
 ): ReturnsRefundsActionPayload {
-  return {
-    action,
-    id: row.id,
-    refundMethod: action === 'reject' ? undefined : refundMethod,
-  }
+  return action === 'reject'
+    ? {
+        action,
+        id: row.id,
+      }
+    : {
+        action,
+        id: row.id,
+        refundMethod,
+      }
 }

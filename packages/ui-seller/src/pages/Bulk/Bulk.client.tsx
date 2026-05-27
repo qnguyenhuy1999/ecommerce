@@ -6,7 +6,6 @@ import { Button } from '@ecom/core-ui'
 import type { PaginationMeta } from '@ecom/shared/pagination/core'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { bulkColumns } from './Bulk.utils'
-import { defaultProps } from './Bulk.fixtures'
 import type { BulkJobRow, BulkProps } from './Bulk.types'
 
 interface BulkClientProps extends BulkProps {
@@ -21,10 +20,14 @@ export function BulkClient({
   loading = false,
   meta,
   onPageChange,
-  onExport = defaultProps.onExport,
-  onImport = defaultProps.onImport,
+  onExport,
+  onImport,
 }: BulkClientProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const tableProps = {
+    ...(meta ? { meta } : {}),
+    ...(onPageChange ? { onPageChange } : {}),
+  }
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -65,8 +68,7 @@ export function BulkClient({
         columns={bulkColumns}
         data={jobs}
         loading={loading}
-        meta={meta}
-        onPageChange={onPageChange}
+        {...tableProps}
         emptyMessage="No bulk jobs yet"
       />
     </SellerListPage>

@@ -1,2 +1,6 @@
 export { ProductDetail } from './ProductDetail'
-export type { ProductDetailProps } from './ProductDetail.types'
+export type {
+  ProductDetailFormData,
+  ProductDetailProps,
+  ProductDetailStatus,
+} from './ProductDetail.types'

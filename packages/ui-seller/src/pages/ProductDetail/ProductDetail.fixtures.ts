@@ -12,7 +12,9 @@ export const productDetailBrands = ['Lumen', 'Nimbus', 'Halo Market', 'Northwave
 
 export const productDetailStatuses = ['DRAFT', 'PENDING', 'LIVE', 'OUT_OF_STOCK'] as const
 
-export const productDetailDefaultProps: Required<ProductDetailProps> = {
+export const productDetailDefaultProps: Required<
+  Omit<ProductDetailProps, 'onSaveDraft' | 'onPublish'>
+> = {
   title: 'New product',
   breadcrumb: [{ label: 'Seller', href: '#' }, { label: 'Products', href: '#' }, { label: 'New' }],
   previewHref: '#',

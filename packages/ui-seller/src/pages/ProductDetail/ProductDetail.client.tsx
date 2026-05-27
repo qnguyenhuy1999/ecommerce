@@ -17,14 +17,15 @@ import {
   useProductEditorForm,
   useProductEditorMedia,
 } from './ProductDetail.context'
-import type { ProductDetailProps } from './ProductDetail.types'
+import type { ProductDetailFormData, ProductDetailProps } from './ProductDetail.types'
 import { ProductSidebar } from './ProductSidebar'
 import { SeoSection } from './SeoSection'
 import { ShippingSection } from './ShippingSection'
 import { VariantsSection } from './VariantsSection'
 import type { ProductEditorProps } from './ProductEditor.types'
 
-type ProductDetailClientProps = Required<ProductDetailProps>
+type ProductDetailClientProps = Required<Omit<ProductDetailProps, 'onSaveDraft' | 'onPublish'>> &
+  Pick<ProductDetailProps, 'onSaveDraft' | 'onPublish'>
 
 function ProductMediaSection() {
   const { media, onAdd, onRemove } = useProductEditorMedia()
@@ -48,10 +49,13 @@ function ProductDetailContent({
   previewHref,
   saveDraftHref,
   publishHref,
+  onSaveDraft,
+  onPublish,
 }: Pick<
   ProductEditorProps,
   'title' | 'breadcrumb' | 'previewHref' | 'saveDraftHref' | 'publishHref'
->) {
+> &
+  Pick<ProductDetailProps, 'onSaveDraft' | 'onPublish'>) {
   const { form } = useProductEditorForm()
 
   const handleValidatedNavigation = async (event: MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -65,6 +69,23 @@ function ProductDetailContent({
     if (href === '#') {
       event.preventDefault()
     }
+  }
+
+  const handleValidatedSubmit = async (
+    event: MouseEvent<HTMLAnchorElement>,
+    callback?: (data: ProductDetailFormData) => void | Promise<void>,
+  ) => {
+    if (!callback) return
+
+    const isValid = await form.trigger(undefined, { shouldFocus: true })
+
+    if (!isValid) {
+      event.preventDefault()
+      return
+    }
+
+    event.preventDefault()
+    await callback(form.getValues() as ProductDetailFormData)
   }
 
   return (
@@ -82,7 +103,11 @@ function ProductDetailContent({
           <Button asChild size="sm" variant="outline">
             <a
               href={saveDraftHref}
-              onClick={(event) => void handleValidatedNavigation(event, saveDraftHref)}
+              onClick={(event) =>
+                void (onSaveDraft
+                  ? handleValidatedSubmit(event, onSaveDraft)
+                  : handleValidatedNavigation(event, saveDraftHref))
+              }
             >
               <FileText />
               {PRODUCT_DETAIL_ACTION_LABELS.saveDraft}
@@ -91,7 +116,11 @@ function ProductDetailContent({
           <Button asChild size="sm">
             <a
               href={publishHref}
-              onClick={(event) => void handleValidatedNavigation(event, publishHref)}
+              onClick={(event) =>
+                void (onPublish
+                  ? handleValidatedSubmit(event, onPublish)
+                  : handleValidatedNavigation(event, publishHref))
+              }
             >
               <Send />
               {PRODUCT_DETAIL_ACTION_LABELS.publish}
@@ -122,7 +151,14 @@ export function ProductDetailClient({
   brands,
   statuses,
   initialData,
+  onSaveDraft,
+  onPublish,
 }: ProductDetailClientProps) {
+  const optionalProps = {
+    ...(onSaveDraft ? { onSaveDraft } : {}),
+    ...(onPublish ? { onPublish } : {}),
+  }
+
   return (
     <ProductEditorProvider
       categories={categories}
@@ -137,6 +173,7 @@ export function ProductDetailClient({
         previewHref={previewHref}
         saveDraftHref={saveDraftHref}
         publishHref={publishHref}
+        {...optionalProps}
       />
     </ProductEditorProvider>
   )

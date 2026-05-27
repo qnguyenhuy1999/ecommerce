@@ -19,11 +19,12 @@ export function NotificationsClient({
   onMarkAllRead,
   emptyMessage = notificationsDefaultProps.emptyMessage,
 }: NotificationsProps) {
-  const [unreadOnly, setUnreadOnly] = useControllableState<boolean>({
-    value: unreadOnlyProp,
+  const controllableStateOptions = {
     defaultValue: false,
-    onChange: onUnreadOnlyChange,
-  })
+    ...(unreadOnlyProp !== undefined ? { value: unreadOnlyProp } : {}),
+    ...(onUnreadOnlyChange ? { onChange: onUnreadOnlyChange } : {}),
+  }
+  const [unreadOnly, setUnreadOnly] = useControllableState<boolean>(controllableStateOptions)
 
   const filtered = useMemo(
     () => (unreadOnly ? rows.filter((r) => !r.isRead) : rows),

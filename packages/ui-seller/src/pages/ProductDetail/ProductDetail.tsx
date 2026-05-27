@@ -13,7 +13,14 @@ export function ProductDetail({
   brands = productDetailDefaultProps.brands,
   statuses = productDetailDefaultProps.statuses,
   initialData = productDetailDefaultProps.initialData,
+  onSaveDraft,
+  onPublish,
 }: ProductDetailProps) {
+  const optionalProps = {
+    ...(onSaveDraft ? { onSaveDraft } : {}),
+    ...(onPublish ? { onPublish } : {}),
+  }
+
   return (
     <ProductDetailClient
       title={title}
@@ -26,6 +33,7 @@ export function ProductDetail({
       brands={brands}
       statuses={statuses}
       initialData={initialData}
+      {...optionalProps}
     />
   )
 }

@@ -27,6 +27,10 @@ export function WarehousesClient({
 }: WarehousesClientProps) {
   const [search, setSearch] = useControllableState({ defaultValue: initialSearch })
   const deferredSearch = useDeferredValue(search)
+  const tableProps = {
+    ...(meta ? { meta } : {}),
+    ...(onPageChange ? { onPageChange } : {}),
+  }
 
   const filtered = deferredSearch
     ? warehouses.filter(
@@ -62,8 +66,7 @@ export function WarehousesClient({
         columns={warehousesColumns}
         data={filtered}
         loading={loading}
-        meta={meta}
-        onPageChange={onPageChange}
+        {...tableProps}
         emptyMessage="No warehouses yet."
       />
     </SellerListPage>

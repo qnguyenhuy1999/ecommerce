@@ -1,8 +1,6 @@
 import type { ApprovalsProps } from './Approvals.types'
 
-export const defaultProps = {
-  onResubmit: undefined,
-} satisfies ApprovalsProps
+export const defaultProps = {} satisfies ApprovalsProps
 
 export const mockApprovals = [
   {

@@ -5,7 +5,6 @@ import type { PaginationMeta } from '@ecom/shared/pagination/core'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { makeApprovalsColumns } from './Approvals.utils'
 import { APPROVAL_STATUS_OPTIONS } from './Approvals.constants'
-import { defaultProps } from './Approvals.fixtures'
 import type { ApprovalRow, ApprovalsProps } from './Approvals.types'
 
 interface ApprovalsClientProps extends ApprovalsProps {
@@ -20,12 +19,17 @@ export function ApprovalsClient({
   loading = false,
   meta,
   onPageChange,
-  onResubmit = defaultProps.onResubmit,
+  onResubmit,
 }: ApprovalsClientProps) {
   const [statusFilter, setStatusFilter] = useState('')
-  const columns = useMemo(() => makeApprovalsColumns(onResubmit), [onResubmit])
+  const handleResubmit = onResubmit ?? (async () => {})
+  const columns = useMemo(() => makeApprovalsColumns(handleResubmit), [handleResubmit])
 
   const filtered = statusFilter ? approvals.filter((a) => a.status === statusFilter) : approvals
+  const tableProps = {
+    ...(meta ? { meta } : {}),
+    ...(onPageChange ? { onPageChange } : {}),
+  }
 
   return (
     <SellerListPage title="Product Approvals" description="Track product approval status">
@@ -43,8 +47,7 @@ export function ApprovalsClient({
         columns={columns}
         data={filtered}
         loading={loading}
-        meta={meta}
-        onPageChange={onPageChange}
+        {...tableProps}
         emptyMessage="No approval requests found"
       />
     </SellerListPage>

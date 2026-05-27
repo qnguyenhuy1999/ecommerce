@@ -304,12 +304,13 @@ export function ShopProfileClient({
   onReplaceLogo,
   onReplaceBanner,
 }: ShopProfileClientProps) {
-  const { state, handlers } = useShopProfileController({
+  const controllerProps = {
     initialData,
-    onSubmit,
-    onReplaceLogo,
-    onReplaceBanner,
-  })
+    ...(onSubmit ? { onSubmit } : {}),
+    ...(onReplaceLogo ? { onReplaceLogo } : {}),
+    ...(onReplaceBanner ? { onReplaceBanner } : {}),
+  }
+  const { state, handlers } = useShopProfileController(controllerProps)
 
   const { form } = state
   const { form: formApi, handleSubmit } = handlers

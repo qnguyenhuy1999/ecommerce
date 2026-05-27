@@ -1,9 +1,6 @@
 import type { BulkProps } from './Bulk.types'
 
-export const defaultProps = {
-  onExport: undefined,
-  onImport: undefined,
-} satisfies BulkProps
+export const defaultProps = {} satisfies BulkProps
 
 export const mockJobs = [
   {

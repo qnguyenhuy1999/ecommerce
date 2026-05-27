@@ -276,7 +276,12 @@ export function VoucherDetailClient({
   onSubmit,
   onCancel,
 }: VoucherDetailClientProps) {
-  const { state, handlers } = useVoucherDetailController({ initialData, onSubmit, onCancel })
+  const controllerProps = {
+    initialData,
+    ...(onSubmit ? { onSubmit } : {}),
+    ...(onCancel ? { onCancel } : {}),
+  }
+  const { state, handlers } = useVoucherDetailController(controllerProps)
   const { form } = state
   const { updateForm, handleGenerateCode, handleTypeChange, handleSubmit } = handlers
 

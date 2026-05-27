@@ -10,13 +10,16 @@ export function Shipping({
   onToggle,
   emptyMessage = shippingDefaultProps.emptyMessage,
 }: ShippingProps) {
+  const optionalProps = {
+    ...(onToggle ? { onToggle } : {}),
+  }
   return (
     <ShippingClient
       title={title}
       description={description}
       rows={rows}
       loading={loading}
-      onToggle={onToggle}
+      {...optionalProps}
       emptyMessage={emptyMessage}
     />
   )

@@ -2,7 +2,6 @@ import type { WarehousesProps } from './Warehouses.types'
 
 export const defaultProps = {
   initialSearch: '',
-  onCreateClick: undefined,
 } satisfies WarehousesProps
 
 export const mockWarehouses = [

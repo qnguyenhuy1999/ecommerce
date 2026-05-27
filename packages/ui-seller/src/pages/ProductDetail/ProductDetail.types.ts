@@ -66,4 +66,6 @@ export interface ProductDetailProps {
   brands?: string[]
   statuses?: ProductDetailStatus[]
   initialData?: ProductDetailFormData
+  onSaveDraft?: (data: ProductDetailFormData) => void | Promise<void>
+  onPublish?: (data: ProductDetailFormData) => void | Promise<void>
 }
