@@ -12,7 +12,7 @@ import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
-import type { RedisService } from '@ecom/redis'
+import { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'
 import { QUEUES } from '@ecom/shared'
 import type {

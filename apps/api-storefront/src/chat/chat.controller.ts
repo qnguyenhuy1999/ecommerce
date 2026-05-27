@@ -14,13 +14,13 @@ import type { SessionData } from '@ecom/auth'
 import {
   ApiAuth,
   ApiCreatedResponseData,
-  ApiErrorResponses,
   ApiOkResponseData,
   ApiPaginatedResponse,
+  ApiErrorResponses,
 } from '@ecom/nestjs-core/openapi'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import { AuthGuard } from '../auth/guards/auth.guard'
-import type { ChatBuyerService } from './chat-buyer.service'
+import { ChatBuyerService } from './chat-buyer.service'
 import { ChatConversationDto, ChatMessageDto, ChatUnreadCountDto } from './dto/chat.dto'
 import type {
   ConversationQueryDto,

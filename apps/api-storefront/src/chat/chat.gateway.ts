@@ -8,7 +8,7 @@ import {
 } from '@nestjs/websockets'
 import { Inject, Logger, type OnModuleDestroy } from '@nestjs/common'
 import type { Server, Socket } from 'socket.io'
-import type { SessionService } from '@ecom/auth';
+import { SessionService } from '@ecom/auth'
 import { SESSION_COOKIE_NAME } from '@ecom/auth'
 import {
   createPresenceKey,
@@ -18,7 +18,7 @@ import {
 } from '@ecom/nestjs-core'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import type { ChatBuyerService } from './chat-buyer.service'
+import { ChatBuyerService } from './chat-buyer.service'
 import { SESSION_SERVICE } from '../auth/session.provider'
 
 interface StorefrontChatSocketData {

@@ -29,7 +29,6 @@ import {
   authStatusToneClassNames,
   authSurfaceClassName,
 } from '../../lib/auth-theme'
-import { AuthPageShell } from '../../layouts/AuthPageShell'
 import { loginDefaultProps } from './Login.fixtures'
 import type { LoginProps, LoginSubmitValues } from './Login.types'
 import { createLoginSchema } from './Login.schema'
@@ -448,58 +447,56 @@ export function LoginClient({
   const submitting = form.formState.isSubmitting
 
   return (
-    <AuthPageShell title={title}>
-      <div className="space-y-3">
-        <Card className={authSurfaceClassName}>
-          <CardContent className="space-y-4 p-4 sm:p-5">
-            <LoginHeader title={title} description={description} securityBadge={securityBadge} />
+    <div className="space-y-3">
+      <Card className={authSurfaceClassName}>
+        <CardContent className="space-y-4 p-4 sm:p-5">
+          <LoginHeader title={title} description={description} securityBadge={securityBadge} />
 
-            {noticeMessage ? <LoginNotice message={noticeMessage} /> : null}
-            {errorMessage ? <LoginError message={errorMessage} /> : null}
+          {noticeMessage ? <LoginNotice message={noticeMessage} /> : null}
+          {errorMessage ? <LoginError message={errorMessage} /> : null}
 
-            <LoginForm
-              form={form}
-              emailLabel={emailLabel}
-              emailPlaceholder={emailPlaceholder}
-              passwordLabel={passwordLabel}
-              passwordPlaceholder={passwordPlaceholder}
-              showOtp={showOtp}
-              showPassword={showPassword}
-              onTogglePassword={() => setShowPassword((current) => !current)}
-              forgotPasswordHref={forgotPasswordHref}
-              forgotPasswordLabel={forgotPasswordLabel}
-              otpLabel={otpLabel}
-              otpPlaceholder={otpPlaceholder}
-              otpHint={otpHint}
-              trustDeviceLabel={trustDeviceLabel}
-              trustDeviceHint={trustDeviceHint}
-              passkeyLabel={passkeyLabel}
-              submitLabel={submitLabel}
-              submittingLabel={submittingLabel}
-              submitting={submitting}
-              onSubmit={(event) => {
-                void handleSubmit(event)
-              }}
-            />
+          <LoginForm
+            form={form}
+            emailLabel={emailLabel}
+            emailPlaceholder={emailPlaceholder}
+            passwordLabel={passwordLabel}
+            passwordPlaceholder={passwordPlaceholder}
+            showOtp={showOtp}
+            showPassword={showPassword}
+            onTogglePassword={() => setShowPassword((current) => !current)}
+            forgotPasswordHref={forgotPasswordHref}
+            forgotPasswordLabel={forgotPasswordLabel}
+            otpLabel={otpLabel}
+            otpPlaceholder={otpPlaceholder}
+            otpHint={otpHint}
+            trustDeviceLabel={trustDeviceLabel}
+            trustDeviceHint={trustDeviceHint}
+            passkeyLabel={passkeyLabel}
+            submitLabel={submitLabel}
+            submittingLabel={submittingLabel}
+            submitting={submitting}
+            onSubmit={(event) => {
+              void handleSubmit(event)
+            }}
+          />
 
-            <LoginFooterLinks
-              marketplaceHref={marketplaceHref}
-              marketplaceLabel={marketplaceLabel}
-              sellerLoginHref={sellerLoginHref}
-              sellerLoginLabel={sellerLoginLabel}
-              requestAccessHref={requestAccessHref}
-              requestAccessLabel={requestAccessLabel}
-            />
-          </CardContent>
-        </Card>
+          <LoginFooterLinks
+            marketplaceHref={marketplaceHref}
+            marketplaceLabel={marketplaceLabel}
+            sellerLoginHref={sellerLoginHref}
+            sellerLoginLabel={sellerLoginLabel}
+            requestAccessHref={requestAccessHref}
+            requestAccessLabel={requestAccessLabel}
+          />
+        </CardContent>
+      </Card>
 
-        <Typography
-          variant="caption"
-          className="text-muted-foreground block px-1 text-center text-[0.875rem] lg:text-left"
-        >
-          {policyMessage}
-        </Typography>
-      </div>
-    </AuthPageShell>
+      <Typography
+        variant="caption"
+        className="text-muted-foreground block px-1 text-center text-[0.875rem] lg:text-left"
+      >
+        {policyMessage}
+      </Typography>
+    </div>
   )
 }

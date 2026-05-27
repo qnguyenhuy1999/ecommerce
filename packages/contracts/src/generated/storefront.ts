@@ -336,10 +336,6 @@ export type components = {
       /** Format: date-time */
       updatedAt: string
     }
-    CreateConversationDto: {
-      shopId: string
-      productId?: string
-    }
     ChatUnreadCountDto: {
       unreadCount: number
     }
@@ -356,11 +352,6 @@ export type components = {
       createdAt: string
       /** Format: date-time */
       updatedAt: string
-    }
-    SendMessageDto: {
-      content: string
-      /** @enum {string} */
-      type?: 'TEXT' | 'IMAGE' | 'PRODUCT'
     }
     CategoryDto: {
       id: string
@@ -742,17 +733,7 @@ export interface operations {
   }
   ChatController_listConversations: {
     parameters: {
-      query?: {
-        /** @description Page number (1-indexed) */
-        page?: number
-        /** @description Items per page */
-        limit?: number
-        /** @description Field to sort by */
-        sortBy?: string
-        /** @description Sort direction */
-        sortOrder?: 'asc' | 'desc'
-        search?: string
-      }
+      query?: never
       header?: never
       path?: never
       cookie?: never
@@ -826,11 +807,7 @@ export interface operations {
       path?: never
       cookie?: never
     }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateConversationDto']
-      }
-    }
+    requestBody?: never
     responses: {
       201: {
         headers: {
@@ -1025,16 +1002,7 @@ export interface operations {
   }
   ChatController_getMessages: {
     parameters: {
-      query?: {
-        /** @description Page number (1-indexed) */
-        page?: number
-        /** @description Items per page */
-        limit?: number
-        /** @description Field to sort by */
-        sortBy?: string
-        /** @description Sort direction */
-        sortOrder?: 'asc' | 'desc'
-      }
+      query?: never
       header?: never
       path: {
         id: string
@@ -1112,11 +1080,7 @@ export interface operations {
       }
       cookie?: never
     }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['SendMessageDto']
-      }
-    }
+    requestBody?: never
     responses: {
       201: {
         headers: {
@@ -1307,18 +1271,7 @@ export interface operations {
   }
   NotificationsController_list: {
     parameters: {
-      query?: {
-        /** @description Page number (1-indexed) */
-        page?: number
-        /** @description Items per page */
-        limit?: number
-        /** @description Field to sort by */
-        sortBy?: string
-        /** @description Sort direction */
-        sortOrder?: 'asc' | 'desc'
-        unreadOnly?: boolean
-        type?: string
-      }
+      query?: never
       header?: never
       path?: never
       cookie?: never

@@ -3,6 +3,8 @@
   "compilerOptions": {
     "paths": {
       "@/*": ["./src/*"],
+      "@ecom/auth": ["../../packages/auth/src"],
+      "@ecom/auth/*": ["../../packages/auth/src/*"],
       "@ecom/contracts": ["../../packages/contracts/src"],
       "@ecom/contracts/*": ["../../packages/contracts/src/*"],
       "@ecom/nestjs-core": ["../../packages/nestjs-core/src"],
