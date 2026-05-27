@@ -2,12 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Approvals, type ApprovalRow } from '@ecom/ui-seller'
+import { getApprovals, resubmitApproval } from '@/features/integration/seller-page-api'
+import { mapApprovalsToRows } from '@/features/integration/seller-page-adapters'
 import { DashboardLayout } from '../../components/dashboard-layout'
-import { api } from '../../lib/api'
-
-interface ApprovalsResponse {
-  data: ApprovalRow[]
-}
 
 export default function ApprovalsPage() {
   const [approvals, setApprovals] = useState<ApprovalRow[]>([])
@@ -17,10 +14,9 @@ export default function ApprovalsPage() {
     const fetch = async () => {
       setLoading(true)
       try {
-        const res = await api<ApprovalsResponse>('/approvals', { params: { limit: 50 } })
-        setApprovals(res.data)
+        setApprovals(mapApprovalsToRows(await getApprovals()))
       } catch {
-        /* empty */
+        setApprovals([])
       } finally {
         setLoading(false)
       }
@@ -29,7 +25,7 @@ export default function ApprovalsPage() {
   }, [])
 
   const handleResubmit = useCallback(async (approvalId: string) => {
-    await api(`/approvals/${approvalId}/resubmit`, { method: 'POST' })
+    await resubmitApproval(approvalId)
     setApprovals((prev) => prev.map((a) => (a.id === approvalId ? { ...a, status: 'PENDING' } : a)))
   }, [])
 

@@ -1,14 +1,30 @@
 import type { ProductStatus } from '@ecom/contracts'
 import type {
+  ApprovalRow,
   AnalyticsDateRangeOption,
   AnalyticsProps,
+  BulkJobRow,
   DashboardProps,
   FinanceBalanceMetric,
   FinanceEntryKind,
   FinanceProps,
   FinanceTab,
+  InventoryRow,
+  MessageConversation,
+  MessageEntry,
+  NotificationRow,
+  OrderDetailRecord,
+  OrderDetailStatus,
+  OrderRow,
+  OrdersStatusTab,
   ProductDetailFormData,
+  ProductRow,
+  ReviewAnalytics,
+  ReviewRow,
+  ReturnRow,
+  ShippingProviderRow,
   ShopProfileFormData,
+  WarehouseRow,
   VoucherDetailFormData,
   VoucherRow,
 } from '@ecom/ui-seller'
@@ -95,8 +111,12 @@ export interface SellerOrderListItem {
   items?: Array<{
     id: string
     productName?: string
+    variantLabel?: string | null
     product?: { name?: string | null; images?: Array<{ url: string }> }
   }>
+  _count?: {
+    items: number
+  }
 }
 
 export interface SellerWallet {
@@ -260,6 +280,13 @@ function formatDateLabel(value: string) {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+  }).format(new Date(value))
+}
+
+function formatDateTime(value: string) {
+  return new Intl.DateTimeFormat('en-US', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
   }).format(new Date(value))
 }
 
@@ -812,4 +839,532 @@ export function mapProductFormToCreatePayload(
   }
 
   return payload
+}
+
+export type SellerApproval = ApprovalRow
+
+export type SellerBulkJob = BulkJobRow
+
+export interface SellerNotification extends SellerNotificationListItem {
+  type: string
+  isRead: boolean
+}
+
+export type SellerWarehouse = WarehouseRow
+
+export interface SellerProductListItem {
+  id: string
+  name: string
+  baseSku: string | null
+  basePrice: number | null
+  baseStock: number
+  status: string
+  images: Array<{ url: string }>
+  category: { name: string } | null
+}
+
+export interface SellerInventoryItem {
+  variantId: string
+  productName: string
+  sku: string | null
+  stock: number
+  reservedStock: number
+  availableStock: number
+  isLowStock: boolean
+}
+
+export interface SellerReview {
+  id: string
+  rating: number
+  title: string | null
+  comment: string | null
+  status: string
+  createdAt: string
+  replies: Array<{ id: string; message: string }>
+}
+
+export type SellerReviewAnalytics = ReviewAnalytics
+
+export interface SellerReturnItem {
+  id: string
+  variantId: string
+  quantity: number
+}
+
+export interface SellerReturn {
+  id: string
+  orderId: string
+  reason: string
+  status: string
+  refundAmount: number
+  createdAt: string
+  items: SellerReturnItem[]
+  buyer?: { name?: string }
+}
+
+export interface SellerShippingProvider {
+  id: string
+  name: string
+  code: string
+  isActive: boolean
+}
+
+export interface SellerShippingMethod {
+  id: string
+  providerId: string
+  isEnabled: boolean
+}
+
+export interface SellerChatConversation {
+  id: string
+  buyerId: string
+  lastMessageText: string | null
+  lastMessageAt: string | null
+  sellerUnread: number
+}
+
+export interface SellerChatMessage {
+  id: string
+  conversationId: string
+  senderId: string
+  content: string
+  createdAt: string
+}
+
+export interface SellerMessageSendPayload {
+  content: string
+}
+
+export interface SellerOrderDetail {
+  id: string
+  status: OrderDetailStatus
+  totalAmount: number
+  subtotal: number
+  shippingFee: number
+  createdAt: string
+  updatedAt: string
+  order: {
+    id: string
+    shippingName: string
+    shippingPhone: string | null
+    shippingAddress: string | null
+  }
+  items: Array<{
+    id: string
+    productName: string
+    variantLabel: string | null
+    quantity: number
+    unitPrice: number
+    totalPrice: number
+    variant: {
+      sku: string
+      product: {
+        id: string
+        name: string
+      }
+    }
+  }>
+  shipment: null | {
+    status: string
+    trackingNumber: string | null
+    provider: null | {
+      name: string
+    }
+  }
+  auditLogs: Array<{
+    id: string
+    fromStatus: string | null
+    toStatus: string | null
+    note: string | null
+    createdAt: string
+  }>
+}
+
+const PRODUCT_STATUS_MAP: Record<string, ProductRow['status']> = {
+  PUBLISHED: 'LIVE',
+  DRAFT: 'DRAFT',
+  ARCHIVED: 'OUT_OF_STOCK',
+  PENDING: 'PENDING',
+  BLOCKED: 'BLOCKED',
+  SCHEDULED: 'SCHEDULED',
+}
+
+const ORDER_STATUS_MAP: Record<string, Exclude<OrdersStatusTab, 'ALL'>> = {
+  PENDING: 'TO_PAY',
+  CONFIRMED: 'TO_SHIP',
+  PACKING: 'PACKING',
+  SHIPPED: 'SHIPPING',
+  DELIVERED: 'COMPLETED',
+  CANCELLED: 'CANCELLED',
+}
+
+export const SELLER_ORDER_STATUS_TO_QUERY: Record<Exclude<OrdersStatusTab, 'ALL'>, string> = {
+  TO_PAY: 'PENDING',
+  TO_SHIP: 'CONFIRMED',
+  PACKING: 'PACKING',
+  SHIPPING: 'SHIPPED',
+  COMPLETED: 'DELIVERED',
+  CANCELLED: 'CANCELLED',
+}
+
+function formatConversationTime(value: string | null) {
+  if (!value) {
+    return null
+  }
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return null
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date)
+}
+
+function formatMessageTime(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
+  return new Intl.DateTimeFormat('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+  }).format(date)
+}
+
+function formatBuyerLabel(buyerId: string) {
+  return `Buyer ${buyerId.slice(0, 6).toUpperCase()}`
+}
+
+function formatOrderLabel(conversationId: string) {
+  return `Order ${conversationId.slice(0, 8).toUpperCase()}`
+}
+
+function formatProductLabel(conversationId: string) {
+  return `Product ${conversationId.slice(-4).toUpperCase()}`
+}
+
+function mapOrderStatus(status: string): Exclude<OrdersStatusTab, 'ALL'> {
+  return ORDER_STATUS_MAP[status] ?? 'TO_PAY'
+}
+
+function formatAuditLabel(fromStatus: string | null, toStatus: string | null) {
+  if (fromStatus && toStatus) {
+    return `${fromStatus} -> ${toStatus}`
+  }
+
+  if (toStatus) {
+    return `Moved to ${toStatus}`
+  }
+
+  return 'Status updated'
+}
+
+export function mapApprovalsToRows(approvals: SellerApproval[]): ApprovalRow[] {
+  return approvals
+}
+
+export function mapNotificationsToRows(notifications: SellerNotification[]): NotificationRow[] {
+  return notifications.map((notification) => ({
+    id: notification.id,
+    type: notification.type,
+    title: notification.title,
+    message: notification.message,
+    isRead: notification.isRead,
+    createdAtLabel: new Date(notification.createdAt).toLocaleString(),
+  }))
+}
+
+export function mapProductsToRows(products: SellerProductListItem[]): ProductRow[] {
+  return products.map((product) => ({
+    id: product.id,
+    image: product.images[0]?.url ?? '',
+    name: product.name,
+    sku: product.baseSku ?? '',
+    category: product.category?.name ?? '',
+    status: PRODUCT_STATUS_MAP[product.status] ?? 'DRAFT',
+    price: product.basePrice ?? 0,
+    stock: product.baseStock,
+    sold: '-',
+    rating: 0,
+  }))
+}
+
+export function mapOrdersToRows(orders: SellerOrderListItem[]): OrderRow[] {
+  return orders.map((order) => ({
+    id: order.id,
+    orderNumber: order.order?.id ?? order.id,
+    buyerName: order.order?.shippingName ?? 'Unknown buyer',
+    items: (order.items ?? []).map((item) => ({
+      id: item.id,
+      productName: item.productName ?? item.product?.name ?? 'Unnamed product',
+      ...(item.variantLabel ? { variantLabel: item.variantLabel } : {}),
+      ...(item.product?.images?.[0]?.url ? { image: item.product.images[0].url } : {}),
+    })),
+    itemCount: order._count?.items ?? order.items?.length ?? 0,
+    total: Number(order.totalAmount ?? order.subtotal ?? 0),
+    status: mapOrderStatus(order.status),
+    createdAtLabel: formatDateLabel(order.createdAt),
+    href: `/orders/${order.id}`,
+  }))
+}
+
+export function mapInventoryToRows(items: SellerInventoryItem[]): InventoryRow[] {
+  return items.map((item) => ({
+    id: item.variantId,
+    image: '',
+    name: item.productName,
+    category: '',
+    sku: item.sku ?? '',
+    onHand: item.stock,
+    incoming: 0,
+    reserved: item.reservedStock,
+    available: item.availableStock,
+    threshold: 10,
+    status: item.isLowStock ? 'Low' : 'OK',
+  }))
+}
+
+export function mapReviewsToRows(reviews: SellerReview[]): ReviewRow[] {
+  return reviews.map((review) => ({
+    id: review.id,
+    rating: Math.min(5, Math.max(1, review.rating)) as ReviewRow['rating'],
+    title: review.title,
+    comment: review.comment,
+    status:
+      review.status === 'PUBLISHED' || review.status === 'HIDDEN' || review.status === 'PENDING'
+        ? review.status
+        : 'PENDING',
+    hasReply: review.replies.length > 0,
+    replyMessage: review.replies[0]?.message ?? null,
+    createdAtLabel: new Date(review.createdAt).toLocaleDateString(),
+  }))
+}
+
+export function mapReturnsToRows(items: SellerReturn[]): ReturnRow[] {
+  return items.map((item) => ({
+    id: item.id,
+    caseId: item.id.slice(0, 8).toUpperCase(),
+    orderNumber: item.orderId.slice(0, 8).toUpperCase(),
+    buyerName: item.buyer?.name ?? '-',
+    reason: item.reason.replace(/_/g, ' '),
+    amount: Number(item.refundAmount),
+    status:
+      item.status === 'OPEN' ||
+      item.status === 'APPROVED' ||
+      item.status === 'REFUNDED' ||
+      item.status === 'REJECTED'
+        ? item.status
+        : 'OPEN',
+    openedAtLabel: new Date(item.createdAt).toLocaleDateString(),
+  }))
+}
+
+export function mapShippingProviders(
+  providers: SellerShippingProvider[],
+  methods: SellerShippingMethod[],
+): ShippingProviderRow[] {
+  return providers.map((provider) => ({
+    id: provider.id,
+    name: provider.name,
+    code: provider.code,
+    isEnabled: methods.some((method) => method.providerId === provider.id && method.isEnabled),
+  }))
+}
+
+export function mapConversationsToUi(
+  conversations: SellerChatConversation[],
+): MessageConversation[] {
+  return conversations.map((conversation) => {
+    const lastMessageAtLabel = formatConversationTime(conversation.lastMessageAt)
+
+    return {
+      id: conversation.id,
+      buyerName: formatBuyerLabel(conversation.buyerId),
+      buyerInitials: 'BY',
+      orderLabel: formatOrderLabel(conversation.id),
+      productLabel: formatProductLabel(conversation.id),
+      lastMessagePreview: conversation.lastMessageText ?? 'No messages yet',
+      unreadCount: conversation.sellerUnread,
+      ...(conversation.lastMessageAt ? { lastActivityAt: conversation.lastMessageAt } : {}),
+      ...(lastMessageAtLabel ? { lastMessageAtLabel } : {}),
+    }
+  })
+}
+
+export function mapMessagesToUi(
+  messages: SellerChatMessage[],
+  selectedConversation: SellerChatConversation | undefined,
+): MessageEntry[] {
+  const lastSellerMessageId = [...messages]
+    .reverse()
+    .find((message) => message.senderId !== selectedConversation?.buyerId)?.id
+
+  return messages.map((message) => {
+    const isBuyerMessage = message.senderId === selectedConversation?.buyerId
+
+    return {
+      id: message.id,
+      sender: isBuyerMessage ? 'BUYER' : 'SELLER',
+      content: message.content,
+      sentAtLabel: formatMessageTime(message.createdAt),
+      ...(!isBuyerMessage && message.id === lastSellerMessageId
+        ? { deliveryStatus: 'DELIVERED' as const }
+        : {}),
+    }
+  })
+}
+
+export function sortConversationsByActivity(conversations: SellerChatConversation[]) {
+  return [...conversations].sort((left, right) => {
+    const leftTime = left.lastMessageAt ? new Date(left.lastMessageAt).getTime() : 0
+    const rightTime = right.lastMessageAt ? new Date(right.lastMessageAt).getTime() : 0
+    return rightTime - leftTime
+  })
+}
+
+export function getUnreadConversationCount(conversations: SellerChatConversation[]) {
+  return conversations.reduce((sum, conversation) => sum + conversation.sellerUnread, 0)
+}
+
+export function getSelectedConversationId(
+  currentConversationId: string | undefined,
+  conversations: SellerChatConversation[],
+) {
+  if (
+    currentConversationId &&
+    conversations.some((conversation) => conversation.id === currentConversationId)
+  ) {
+    return currentConversationId
+  }
+
+  return conversations[0]?.id
+}
+
+export function markConversationAsRead(
+  conversations: SellerChatConversation[],
+  conversationId: string,
+) {
+  return conversations.map((conversation) =>
+    conversation.id === conversationId ? { ...conversation, sellerUnread: 0 } : conversation,
+  )
+}
+
+export function markConversationAsReadResult(
+  conversations: SellerChatConversation[],
+  conversationId: string,
+) {
+  const next = markConversationAsRead(conversations, conversationId)
+  return {
+    conversations: next,
+    unreadCount: getUnreadConversationCount(next),
+  }
+}
+
+export function appendMessage(messages: SellerChatMessage[], incoming: SellerChatMessage) {
+  if (messages.some((message) => message.id === incoming.id)) {
+    return messages
+  }
+
+  return [...messages, incoming]
+}
+
+export function applyIncomingMessage(
+  conversations: SellerChatConversation[],
+  incoming: SellerChatMessage,
+) {
+  const updated = conversations.map((conversation) =>
+    conversation.id === incoming.conversationId
+      ? {
+          ...conversation,
+          lastMessageText: incoming.content,
+          lastMessageAt: incoming.createdAt,
+          sellerUnread:
+            incoming.senderId === conversation.buyerId
+              ? conversation.sellerUnread + 1
+              : conversation.sellerUnread,
+        }
+      : conversation,
+  )
+
+  return sortConversationsByActivity(updated)
+}
+
+export function applyIncomingMessageResult(
+  conversations: SellerChatConversation[],
+  incoming: SellerChatMessage,
+) {
+  const next = applyIncomingMessage(conversations, incoming)
+  return {
+    conversations: next,
+    unreadCount: getUnreadConversationCount(next),
+  }
+}
+
+export function updateConversationsAfterSend(
+  conversations: SellerChatConversation[],
+  conversationId: string,
+  content: string,
+) {
+  const sentAt = new Date().toISOString()
+  const updated = conversations.map((conversation) =>
+    conversation.id === conversationId
+      ? {
+          ...conversation,
+          lastMessageText: content,
+          lastMessageAt: sentAt,
+          sellerUnread: 0,
+        }
+      : conversation,
+  )
+
+  return sortConversationsByActivity(updated)
+}
+
+export function mapOrderDetail(order: SellerOrderDetail): OrderDetailRecord {
+  const shipment = order.shipment
+    ? {
+        status: order.shipment.status,
+        ...(order.shipment.trackingNumber ? { trackingNumber: order.shipment.trackingNumber } : {}),
+        ...(order.shipment.provider?.name ? { providerName: order.shipment.provider.name } : {}),
+      }
+    : undefined
+
+  return {
+    id: order.id,
+    orderNumber: order.order.id,
+    status: order.status,
+    createdAt: formatDateTime(order.createdAt),
+    updatedAt: formatDateTime(order.updatedAt),
+    totalAmount: Number(order.totalAmount),
+    subtotalAmount: Number(order.subtotal),
+    shippingAmount: Number(order.shippingFee),
+    itemCount: order.items.reduce((count, item) => count + item.quantity, 0),
+    customer: {
+      name: order.order.shippingName,
+      ...(order.order.shippingPhone ? { phone: order.order.shippingPhone } : {}),
+      ...(order.order.shippingAddress ? { address: order.order.shippingAddress } : {}),
+    },
+    items: order.items.map((item) => ({
+      id: item.id,
+      productName: item.productName,
+      ...(item.variantLabel ? { variantLabel: item.variantLabel } : {}),
+      sku: item.variant.sku,
+      quantity: item.quantity,
+      unitPrice: Number(item.unitPrice),
+      totalPrice: Number(item.totalPrice),
+    })),
+    ...(shipment ? { shipment } : {}),
+    auditLogs: order.auditLogs.map((log) => ({
+      id: log.id,
+      label: formatAuditLabel(log.fromStatus, log.toStatus),
+      timestamp: formatDateTime(log.createdAt),
+      ...(log.note ? { note: log.note } : {}),
+    })),
+  }
 }

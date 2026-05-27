@@ -2,48 +2,47 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Bulk, type BulkJobRow } from '@ecom/ui-seller'
+import {
+  createBulkExport,
+  createBulkImport,
+  getBulkJobs,
+} from '@/features/integration/seller-page-api'
 import { DashboardLayout } from '../../components/dashboard-layout'
-import { api } from '../../lib/api'
-
-interface BulkJobsResponse {
-  data: BulkJobRow[]
-}
 
 export default function BulkPage() {
   const [jobs, setJobs] = useState<BulkJobRow[]>([])
   const [loading, setLoading] = useState(true)
 
+  const refreshJobs = useCallback(async () => {
+    setJobs(await getBulkJobs())
+  }, [])
+
   useEffect(() => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const res = await api<BulkJobsResponse>('/bulk/jobs', { params: { limit: 50 } })
-        setJobs(res.data)
+        await refreshJobs()
       } catch {
-        /* empty */
+        setJobs([])
       } finally {
         setLoading(false)
       }
     }
     void fetch()
-  }, [])
+  }, [refreshJobs])
 
   const handleExport = useCallback(async () => {
-    await api('/bulk/export', {
-      method: 'POST',
-      body: JSON.stringify({ fileName: `products-export-${Date.now()}.csv` }),
-    })
-    const res = await api<BulkJobsResponse>('/bulk/jobs', { params: { limit: 50 } })
-    setJobs(res.data)
-  }, [])
+    await createBulkExport(`products-export-${Date.now()}.csv`)
+    await refreshJobs()
+  }, [refreshJobs])
 
-  const handleImport = useCallback(async (file: File) => {
-    const formData = new FormData()
-    formData.append('file', file)
-    await api('/bulk/import', { method: 'POST', body: formData })
-    const res = await api<BulkJobsResponse>('/bulk/jobs', { params: { limit: 50 } })
-    setJobs(res.data)
-  }, [])
+  const handleImport = useCallback(
+    async (file: File) => {
+      await createBulkImport(file)
+      await refreshJobs()
+    },
+    [refreshJobs],
+  )
 
   return (
     <DashboardLayout>

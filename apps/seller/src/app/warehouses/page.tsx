@@ -3,12 +3,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Warehouses, type WarehouseRow } from '@ecom/ui-seller'
+import { getWarehouses } from '@/features/integration/seller-page-api'
 import { DashboardLayout } from '../../components/dashboard-layout'
-import { api } from '../../lib/api'
-
-interface WarehousesResponse {
-  data: WarehouseRow[]
-}
 
 export default function WarehousesPage() {
   const router = useRouter()
@@ -19,10 +15,9 @@ export default function WarehousesPage() {
     const fetch = async () => {
       setLoading(true)
       try {
-        const res = await api<WarehousesResponse>('/warehouses')
-        setWarehouses(res.data)
+        setWarehouses(await getWarehouses())
       } catch {
-        /* empty */
+        setWarehouses([])
       } finally {
         setLoading(false)
       }

@@ -21,7 +21,6 @@ import {
   RotateCcw,
   ClipboardCheck,
   TrendingUp,
-  Search,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth } from '../providers/auth-provider'
@@ -37,14 +36,13 @@ const NAV_ITEMS = [
   { href: '/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/bulk', label: 'Bulk Operations', icon: Upload },
   { href: '/reviews', label: 'Reviews', icon: Star },
-  { href: '/chat', label: 'Chat', icon: MessageSquare },
+  { href: '/messages', label: 'Chat', icon: MessageSquare },
   { href: '/returns', label: 'Returns', icon: RotateCcw },
   { href: '/approvals', label: 'Approvals', icon: ClipboardCheck },
   { href: '/warehouses', label: 'Warehouses', icon: Warehouse },
   { href: '/metrics', label: 'Performance', icon: TrendingUp },
-  { href: '/search', label: 'Search', icon: Search },
   { href: '/notifications', label: 'Notifications', icon: Bell },
-  { href: '/settings', label: 'Shop Settings', icon: Store },
+  { href: '/shop-profile', label: 'Shop Settings', icon: Store },
 ]
 
 export function Sidebar() {
@@ -81,7 +79,7 @@ export function Sidebar() {
             >
               <Icon className="h-5 w-5 shrink-0" />
               <span className="flex-1">{item.label}</span>
-              {item.href === '/chat' && chatUnreadCount > 0 ? (
+              {item.href === '/messages' && chatUnreadCount > 0 ? (
                 <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs text-white">
                   {chatUnreadCount}
                 </span>

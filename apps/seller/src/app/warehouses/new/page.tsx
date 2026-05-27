@@ -3,13 +3,9 @@
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { WarehouseDetail } from '@ecom/ui-seller'
+import { createWarehouse } from '@/features/integration/seller-page-api'
 import { DashboardLayout } from '../../../components/dashboard-layout'
-import { api } from '../../../lib/api'
-import type { SellerPaths } from '@ecom/contracts/generated'
 import type { WarehouseFormValues } from '@ecom/ui-seller'
-
-type CreateWarehouseResponse =
-  SellerPaths['/warehouses']['post']['responses']['201']['content']['application/json']
 
 export default function NewWarehousePage() {
   const router = useRouter()
@@ -19,10 +15,7 @@ export default function NewWarehousePage() {
     async (values: WarehouseFormValues) => {
       setLoading(true)
       try {
-        await api<CreateWarehouseResponse>('/warehouses', {
-          method: 'POST',
-          body: JSON.stringify(values),
-        })
+        await createWarehouse(values)
         router.push('/warehouses')
       } finally {
         setLoading(false)

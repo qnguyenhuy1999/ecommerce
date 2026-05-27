@@ -209,7 +209,13 @@ export function ReviewsClient({
               rows={3}
             />
             <div className="flex gap-2">
-              <Button size="sm" onClick={handleSendReply} disabled={!replyText.trim()}>
+              <Button
+                size="sm"
+                onClick={() => {
+                  void handleSendReply()
+                }}
+                disabled={!replyText.trim()}
+              >
                 Send
               </Button>
               <Button

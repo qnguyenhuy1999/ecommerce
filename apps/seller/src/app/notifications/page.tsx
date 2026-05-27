@@ -2,49 +2,31 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Notifications, type NotificationRow } from '@ecom/ui-seller'
+import {
+  getNotifications,
+  markAllNotificationsRead as markAllNotificationsReadApi,
+  markNotificationRead as markNotificationReadApi,
+} from '@/features/integration/seller-page-api'
+import { mapNotificationsToRows } from '@/features/integration/seller-page-adapters'
 import { DashboardLayout } from '../../components/dashboard-layout'
-import { api } from '../../lib/api'
 import { useSellerRealtime } from '../../providers/realtime-provider'
-
-interface ApiNotification {
-  id: string
-  type: string
-  title: string
-  message: string
-  isRead: boolean
-  createdAt: string
-}
-
-interface NotificationsResponse {
-  data: ApiNotification[]
-}
-
-function toRow(n: ApiNotification): NotificationRow {
-  return {
-    id: n.id,
-    type: n.type,
-    title: n.title,
-    message: n.message,
-    isRead: n.isRead,
-    createdAtLabel: new Date(n.createdAt).toLocaleString(),
-  }
-}
 
 export default function NotificationsPage() {
   const [rows, setRows] = useState<NotificationRow[]>([])
   const [loading, setLoading] = useState(true)
-  const { lastNotification, markAllNotificationsRead, markNotificationRead } = useSellerRealtime()
+  const {
+    lastNotification,
+    markAllNotificationsRead: markAllNotificationsReadRealtime,
+    markNotificationRead: markNotificationReadRealtime,
+  } = useSellerRealtime()
 
   useEffect(() => {
     const fetch = async () => {
       setLoading(true)
       try {
-        const res = await api<NotificationsResponse>('/notifications', {
-          params: { page: 1, limit: 50 },
-        })
-        setRows(res.data.map(toRow))
+        setRows(mapNotificationsToRows(await getNotifications()))
       } catch {
-        /* empty */
+        setRows([])
       } finally {
         setLoading(false)
       }
@@ -63,14 +45,16 @@ export default function NotificationsPage() {
       }
 
       return [
-        toRow({
-          id: lastNotification.id,
-          type: lastNotification.type,
-          title: lastNotification.title,
-          message: lastNotification.message,
-          isRead: false,
-          createdAt: lastNotification.createdAt,
-        }),
+        ...mapNotificationsToRows([
+          {
+            id: lastNotification.id,
+            type: lastNotification.type,
+            title: lastNotification.title,
+            message: lastNotification.message,
+            isRead: false,
+            createdAt: lastNotification.createdAt,
+          },
+        ]),
         ...current,
       ]
     })
@@ -78,18 +62,18 @@ export default function NotificationsPage() {
 
   const handleMarkRead = useCallback(
     async (id: string) => {
-      await api(`/notifications/${id}/read`, { method: 'POST' })
+      await markNotificationReadApi(id)
       setRows((prev) => prev.map((r) => (r.id === id ? { ...r, isRead: true } : r)))
-      markNotificationRead()
+      markNotificationReadRealtime()
     },
-    [markNotificationRead],
+    [markNotificationReadRealtime],
   )
 
   const handleMarkAllRead = useCallback(async () => {
-    await api('/notifications/read-all', { method: 'POST' })
+    await markAllNotificationsReadApi()
     setRows((prev) => prev.map((r) => ({ ...r, isRead: true })))
-    markAllNotificationsRead()
-  }, [markAllNotificationsRead])
+    markAllNotificationsReadRealtime()
+  }, [markAllNotificationsReadRealtime])
   return (
     <DashboardLayout>
       <Notifications

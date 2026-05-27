@@ -23,7 +23,9 @@ export default function NewVoucherPage() {
           { label: 'New' },
         ]}
         cancelHref="/vouchers"
-        onSubmit={handleSubmit}
+        onSubmit={(data) => {
+          void handleSubmit(data)
+        }}
       />
     </DashboardLayout>
   )

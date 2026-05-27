@@ -13,5 +13,5 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {}
 
 export const WithData: Story = {
-  args: { approvals: mockApprovals } as never,
+  args: { approvals: mockApprovals },
 }
