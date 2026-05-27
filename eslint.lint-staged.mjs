@@ -74,5 +74,17 @@ export default [
       'max-lines-per-function': ['warn', { max: 150, skipBlankLines: true, skipComments: true }],
     },
   },
+  {
+    files: [
+      'apps/api-*/**',
+      'apps/worker/**',
+      'packages/auth/**',
+      'packages/database/**',
+      'packages/nestjs-core/**',
+    ],
+    rules: {
+      '@typescript-eslint/consistent-type-imports': 'off',
+    },
+  },
   prettier,
 ]

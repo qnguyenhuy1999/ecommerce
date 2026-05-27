@@ -9,6 +9,7 @@ export function Login({
   emailPlaceholder = loginDefaultProps.emailPlaceholder,
   passwordLabel = loginDefaultProps.passwordLabel,
   passwordPlaceholder = loginDefaultProps.passwordPlaceholder,
+  showOtp = loginDefaultProps.showOtp,
   otpLabel = loginDefaultProps.otpLabel,
   otpPlaceholder = loginDefaultProps.otpPlaceholder,
   otpHint = loginDefaultProps.otpHint,
@@ -43,6 +44,7 @@ export function Login({
       emailPlaceholder={emailPlaceholder}
       passwordLabel={passwordLabel}
       passwordPlaceholder={passwordPlaceholder}
+      showOtp={showOtp}
       otpLabel={otpLabel}
       otpPlaceholder={otpPlaceholder}
       otpHint={otpHint}

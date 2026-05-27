@@ -32,7 +32,7 @@ import {
 import { AuthPageShell } from '../../layouts/AuthPageShell'
 import { loginDefaultProps } from './Login.fixtures'
 import type { LoginProps, LoginSubmitValues } from './Login.types'
-import { loginSchema } from './Login.schema'
+import { createLoginSchema } from './Login.schema'
 
 interface LoginClientProps {
   title: string
@@ -41,6 +41,7 @@ interface LoginClientProps {
   emailPlaceholder: string
   passwordLabel: string
   passwordPlaceholder: string
+  showOtp: boolean
   otpLabel: string
   otpPlaceholder: string
   otpHint: string
@@ -71,6 +72,7 @@ interface LoginFormProps {
   emailPlaceholder: string
   passwordLabel: string
   passwordPlaceholder: string
+  showOtp: boolean
   showPassword: boolean
   onTogglePassword: () => void
   forgotPasswordHref: string
@@ -234,6 +236,7 @@ function LoginForm({
   emailPlaceholder,
   passwordLabel,
   passwordPlaceholder,
+  showOtp,
   showPassword,
   onTogglePassword,
   forgotPasswordHref,
@@ -292,33 +295,35 @@ function LoginForm({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="otp"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center justify-between gap-3">
-                <FormLabel className={authLabelClassName}>{otpLabel}</FormLabel>
-                <Typography variant="body-sm" className="text-muted-foreground">
-                  {otpHint}
-                </Typography>
-              </div>
-              <div className="relative">
-                <ShieldCheck className={authIconClassName} />
-                <FormControl>
-                  <Input
-                    {...field}
-                    inputMode="numeric"
-                    autoComplete="one-time-code"
-                    placeholder={otpPlaceholder}
-                    className={`${authInputClassName} tracking-[0.36em]`}
-                  />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {showOtp ? (
+          <FormField
+            control={form.control}
+            name="otp"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center justify-between gap-3">
+                  <FormLabel className={authLabelClassName}>{otpLabel}</FormLabel>
+                  <Typography variant="body-sm" className="text-muted-foreground">
+                    {otpHint}
+                  </Typography>
+                </div>
+                <div className="relative">
+                  <ShieldCheck className={authIconClassName} />
+                  <FormControl>
+                    <Input
+                      {...field}
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
+                      placeholder={otpPlaceholder}
+                      className={`${authInputClassName} tracking-[0.36em]`}
+                    />
+                  </FormControl>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ) : null}
 
         <LoginTrustDeviceField
           form={form}
@@ -384,6 +389,7 @@ export function LoginClient({
   emailPlaceholder,
   passwordLabel,
   passwordPlaceholder,
+  showOtp = loginDefaultProps.showOtp,
   otpLabel,
   otpPlaceholder,
   otpHint,
@@ -412,7 +418,7 @@ export function LoginClient({
   const [errorMessage, setErrorMessage] = useState('')
 
   const form = useForm<LoginSubmitValues>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(createLoginSchema(showOtp)),
     defaultValues: {
       email: defaultEmail ?? '',
       password: '',
@@ -457,6 +463,7 @@ export function LoginClient({
               emailPlaceholder={emailPlaceholder}
               passwordLabel={passwordLabel}
               passwordPlaceholder={passwordPlaceholder}
+              showOtp={showOtp}
               showPassword={showPassword}
               onTogglePassword={() => setShowPassword((current) => !current)}
               forgotPasswordHref={forgotPasswordHref}

@@ -15,6 +15,7 @@ export const loginDefaultProps: Required<
     | 'emailPlaceholder'
     | 'passwordLabel'
     | 'passwordPlaceholder'
+    | 'showOtp'
     | 'otpLabel'
     | 'otpPlaceholder'
     | 'otpHint'
@@ -42,6 +43,7 @@ export const loginDefaultProps: Required<
   emailPlaceholder: 'you@halo.market',
   passwordLabel: secretLabel,
   passwordPlaceholder: secretPlaceholder,
+  showOtp: false,
   otpLabel: '2FA code',
   otpPlaceholder: '123456',
   otpHint: 'Authenticator app',

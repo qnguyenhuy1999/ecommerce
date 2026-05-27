@@ -12,6 +12,7 @@ export interface LoginProps {
   emailPlaceholder?: string
   passwordLabel?: string
   passwordPlaceholder?: string
+  showOtp?: boolean
   otpLabel?: string
   otpPlaceholder?: string
   otpHint?: string
