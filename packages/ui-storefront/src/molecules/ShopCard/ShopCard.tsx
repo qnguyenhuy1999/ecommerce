@@ -5,8 +5,8 @@ import { PromotionalBadge } from '../../atoms/PromotionalBadge'
 export interface ShopCardProps {
   name: string
   imageUrl: string
-  rating: string
-  followers: string
+  rating?: string
+  followers?: string
   mall?: boolean
   verified?: boolean
 }
@@ -36,17 +36,23 @@ export function ShopCard({
           {verified && <BadgeCheck className="text-info size-4" />}
           {mall && <PromotionalBadge kind="mall" label="MALL" />}
         </div>
-        <div className="flex items-center gap-3">
-          <span className="text-warning flex items-center gap-1">
-            <Star className="size-4 fill-current" />
-            <Typography variant="caption" className="text-muted-foreground">
-              {rating}
-            </Typography>
-          </span>
-          <Typography variant="caption" className="text-muted-foreground">
-            {followers} followers
-          </Typography>
-        </div>
+        {(rating || followers) && (
+          <div className="flex items-center gap-3">
+            {rating && (
+              <span className="text-warning flex items-center gap-1">
+                <Star className="size-4 fill-current" />
+                <Typography variant="caption" className="text-muted-foreground">
+                  {rating}
+                </Typography>
+              </span>
+            )}
+            {followers && (
+              <Typography variant="caption" className="text-muted-foreground">
+                {followers} followers
+              </Typography>
+            )}
+          </div>
+        )}
         <Button variant="outline" className="border-primary text-primary w-full">
           Follow shop
         </Button>

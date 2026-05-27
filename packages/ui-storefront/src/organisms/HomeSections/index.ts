@@ -9,4 +9,4 @@ export {
   TrustSection,
   VoucherSection,
 } from './MarketplaceSections'
-export type { HeroContent, HomeContent } from './HomeSections.types'
+export type { FeaturedShelfContent, HeroContent, HomeContent } from './HomeSections.types'

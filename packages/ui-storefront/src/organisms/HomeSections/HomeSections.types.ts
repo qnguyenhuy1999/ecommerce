@@ -14,12 +14,19 @@ export interface HeroContent {
   gallery: string[]
 }
 
+export interface FeaturedShelfContent {
+  title: string
+  description?: string
+  products: ProductCardData[]
+}
+
 export interface HomeContent {
   hero: HeroContent
   categories: CategoryTileProps[]
   vouchers: VoucherCardProps[]
   flashSale: ProductCardData[]
   trustItems: TrustItemProps[]
+  featuredSections: FeaturedShelfContent[]
   electronics: ProductCardData[]
   fashion: ProductCardData[]
   shops: ShopCardProps[]

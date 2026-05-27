@@ -3,17 +3,16 @@
 import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { api } from '../lib/api'
 import {
+  type ChatUnreadCountResponse,
+  type NotificationUnreadCountResponse,
+} from '../lib/storefront-contracts'
+import {
   createStorefrontRealtimeSocket,
   startHeartbeat,
   type RealtimeNotificationPayload,
   type StorefrontRealtimeSocket,
 } from '../lib/realtime'
 import { useAuth } from './auth-provider'
-
-interface UnreadCountResponse {
-  count?: number
-  unreadCount?: number
-}
 
 interface StorefrontRealtimeContextValue {
   socket: StorefrontRealtimeSocket | null
@@ -32,13 +31,13 @@ async function fetchUnreadCounts(): Promise<{
   chatUnreadCount: number
 }> {
   const [notification, chat] = await Promise.all([
-    api<UnreadCountResponse>('/notifications/unread-count'),
-    api<UnreadCountResponse>('/chat/unread'),
+    api<NotificationUnreadCountResponse>('/notifications/unread-count'),
+    api<ChatUnreadCountResponse>('/chat/unread'),
   ])
 
   return {
-    notificationCount: notification.count ?? 0,
-    chatUnreadCount: chat.unreadCount ?? 0,
+    notificationCount: notification.data.count,
+    chatUnreadCount: chat.data.unreadCount,
   }
 }
 

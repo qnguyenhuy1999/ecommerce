@@ -1,8 +1,10 @@
-export default function Home() {
-  return (
-    <main style={{ display: 'grid', gap: 12 }}>
-      <h1>Storefront</h1>
-      <p>Buyer chat and notifications are now available from the links above.</p>
-    </main>
-  )
+import { Home } from '@ecom/ui-storefront'
+import { mapHomepageToHomeContent } from '../features/home/homepage-adapter'
+import { api } from '../lib/api'
+import type { HomepageResponse } from '../lib/storefront-contracts'
+
+export default async function StorefrontHomePage() {
+  const response = await api<HomepageResponse>('/homepage', { cache: 'no-store' })
+
+  return <Home content={mapHomepageToHomeContent(response.data)} />
 }

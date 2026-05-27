@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react'
 import { Notifications } from '@ecom/ui-storefront'
 import type { NotificationRecord } from '@ecom/ui-storefront'
 import { api } from '../../lib/api'
+import { type NotificationsResponse } from '../../lib/storefront-contracts'
+import { useProtectedRoute } from '../../hooks/use-protected-route'
 import { useStorefrontRealtime } from '../../providers/realtime-provider'
 
-interface NotificationItem {
+type NotificationState = {
   id: string
   type: string
   title: string
@@ -15,19 +17,18 @@ interface NotificationItem {
   createdAt: string
 }
 
-interface NotificationsResponse {
-  data: NotificationItem[]
-}
-
 function prependNotification(
-  notifications: NotificationItem[],
-  notification: NotificationItem,
-): NotificationItem[] {
-  if (notifications.some((item) => item.id === notification.id)) return notifications
+  notifications: NotificationState[],
+  notification: NotificationState,
+): NotificationState[] {
+  if (notifications.some((item) => item.id === notification.id)) {
+    return notifications
+  }
+
   return [notification, ...notifications]
 }
 
-function mapNotification(item: NotificationItem): NotificationRecord {
+function mapNotification(item: NotificationState): NotificationRecord {
   return {
     id: item.id,
     title: item.title,
@@ -37,10 +38,24 @@ function mapNotification(item: NotificationItem): NotificationRecord {
   }
 }
 
+function toNotificationState(
+  item: NotificationsResponse['data']['items'][number],
+): NotificationState {
+  return {
+    id: item.id ?? '',
+    type: item.type ?? '',
+    title: item.title ?? '',
+    message: item.message ?? '',
+    isRead: item.isRead ?? false,
+    createdAt: item.createdAt ?? '',
+  }
+}
+
 export function NotificationsPageClient() {
+  const { loading: routeLoading } = useProtectedRoute()
   const { lastNotification, markAllNotificationsRead, markNotificationRead } =
     useStorefrontRealtime()
-  const [notifications, setNotifications] = useState<NotificationItem[]>([])
+  const [notifications, setNotifications] = useState<NotificationState[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -49,18 +64,22 @@ export function NotificationsPageClient() {
         const response = await api<NotificationsResponse>('/notifications', {
           params: { page: 1, limit: 50 },
         })
-        setNotifications(response.data)
+        setNotifications(response.data.items.map(toNotificationState))
       } catch {
         setNotifications([])
       } finally {
         setLoading(false)
       }
     }
+
     void load()
   }, [])
 
   useEffect(() => {
-    if (!lastNotification) return
+    if (!lastNotification) {
+      return
+    }
+
     setNotifications((current) =>
       prependNotification(current, {
         id: lastNotification.id,
@@ -89,7 +108,7 @@ export function NotificationsPageClient() {
 
   return (
     <Notifications
-      loading={loading}
+      loading={loading || routeLoading}
       notifications={notifications.map(mapNotification)}
       onMarkAllRead={() => {
         void handleMarkAllRead()

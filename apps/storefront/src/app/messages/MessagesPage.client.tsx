@@ -4,19 +4,17 @@ import { useEffect, useMemo, useState } from 'react'
 import { Messages } from '@ecom/ui-storefront'
 import type { MessagesConversationRecord, MessagesMessageRecord } from '@ecom/ui-storefront'
 import { api } from '../../lib/api'
+import {
+  type ChatConversation,
+  type ChatConversationsResponse,
+  type ChatConversationResponse,
+  type ChatMessagesResponse,
+} from '../../lib/storefront-contracts'
 import { type RealtimeChatMessagePayload } from '../../lib/realtime'
+import { useProtectedRoute } from '../../hooks/use-protected-route'
 import { useStorefrontRealtime } from '../../providers/realtime-provider'
 
-interface Conversation {
-  id: string
-  shopId: string
-  productId: string | null
-  lastMessageText: string | null
-  lastMessageAt: string | null
-  buyerUnread: number
-}
-
-interface ChatMessage {
+type ChatMessageState = {
   id: string
   conversationId: string
   senderId: string
@@ -24,15 +22,7 @@ interface ChatMessage {
   createdAt: string
 }
 
-interface ConversationsResponse {
-  data: Conversation[]
-}
-
-interface MessagesResponse {
-  data: ChatMessage[]
-}
-
-function sortConversations(conversations: Conversation[]) {
+function sortConversations(conversations: ChatConversation[]) {
   return [...conversations].sort((left, right) => {
     const leftTime = left.lastMessageAt ? new Date(left.lastMessageAt).getTime() : 0
     const rightTime = right.lastMessageAt ? new Date(right.lastMessageAt).getTime() : 0
@@ -40,63 +30,98 @@ function sortConversations(conversations: Conversation[]) {
   })
 }
 
-function getUnreadCount(conversations: Conversation[]) {
-  return conversations.reduce((sum, c) => sum + c.buyerUnread, 0)
+function getUnreadCount(conversations: ChatConversation[]) {
+  return conversations.reduce((sum, conversation) => sum + conversation.buyerUnread, 0)
 }
 
-function appendMessage(messages: ChatMessage[], incoming: ChatMessage) {
-  if (messages.some((m) => m.id === incoming.id)) return messages
+function appendMessage(messages: ChatMessageState[], incoming: ChatMessageState) {
+  if (messages.some((message) => message.id === incoming.id)) {
+    return messages
+  }
+
   return [...messages, incoming]
 }
 
-function getSelectedConversationId(current: string | undefined, conversations: Conversation[]) {
-  return current && conversations.some((c) => c.id === current) ? current : conversations[0]?.id
+function getSelectedConversationId(
+  currentConversationId: string | undefined,
+  conversations: ChatConversation[],
+) {
+  return currentConversationId &&
+    conversations.some((conversation) => conversation.id === currentConversationId)
+    ? currentConversationId
+    : conversations[0]?.id
 }
 
-function markConversationRead(conversations: Conversation[], conversationId: string) {
-  return conversations.map((c) => (c.id === conversationId ? { ...c, buyerUnread: 0 } : c))
+function markConversationRead(conversations: ChatConversation[], conversationId: string) {
+  return conversations.map((conversation) =>
+    conversation.id === conversationId ? { ...conversation, buyerUnread: 0 } : conversation,
+  )
 }
 
 function applyIncomingConversationUpdate(
-  conversations: Conversation[],
+  conversations: ChatConversation[],
   incoming: RealtimeChatMessagePayload,
   selectedConversationId: string,
 ) {
   return sortConversations(
-    conversations.map((c) =>
-      c.id === incoming.conversationId
+    conversations.map((conversation) =>
+      conversation.id === incoming.conversationId
         ? {
-            ...c,
+            ...conversation,
             lastMessageText: incoming.content,
             lastMessageAt: incoming.createdAt,
-            buyerUnread: incoming.conversationId === selectedConversationId ? 0 : c.buyerUnread + 1,
+            buyerUnread:
+              incoming.conversationId === selectedConversationId ? 0 : conversation.buyerUnread + 1,
           }
-        : c,
+        : conversation,
     ),
   )
 }
 
-function mapConversation(c: Conversation): MessagesConversationRecord {
+function mapConversation(conversation: ChatConversation): MessagesConversationRecord {
   return {
-    id: c.id,
-    shopIdShort: c.shopId.slice(0, 8),
-    lastMessageText: c.lastMessageText,
-    unreadCount: c.buyerUnread,
+    id: conversation.id,
+    shopIdShort: conversation.shopId.slice(0, 8),
+    lastMessageText: conversation.lastMessageText,
+    unreadCount: conversation.buyerUnread,
   }
 }
 
-function mapMessage(m: ChatMessage): MessagesMessageRecord {
+function mapMessage(message: ChatMessageState): MessagesMessageRecord {
   return {
-    id: m.id,
-    content: m.content,
-    createdAtLabel: new Date(m.createdAt).toLocaleString(),
+    id: message.id,
+    content: message.content,
+    createdAtLabel: new Date(message.createdAt).toLocaleString(),
+  }
+}
+
+function toRealtimeMessage(payload: RealtimeChatMessagePayload): ChatMessageState {
+  return {
+    id: payload.id,
+    conversationId: payload.conversationId,
+    senderId: payload.senderId,
+    content: payload.content,
+    createdAt: payload.createdAt,
+  }
+}
+
+function toChatMessageState(
+  message: ChatMessagesResponse['data']['items'][number],
+): ChatMessageState {
+  return {
+    id: message.id ?? '',
+    conversationId: message.conversationId ?? '',
+    senderId: message.senderId ?? '',
+    content: message.content ?? '',
+    createdAt: message.createdAt ?? '',
   }
 }
 
 export function MessagesPageClient() {
+  const { loading: routeLoading } = useProtectedRoute()
   const { socket, setChatUnreadCount } = useStorefrontRealtime()
-  const [conversations, setConversations] = useState<Conversation[]>([])
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [conversations, setConversations] = useState<ChatConversation[]>([])
+  const [messages, setMessages] = useState<ChatMessageState[]>([])
   const [selectedConversationId, setSelectedConversationId] = useState<string>()
   const [draft, setDraft] = useState('')
   const [newShopId, setNewShopId] = useState('')
@@ -106,8 +131,8 @@ export function MessagesPageClient() {
   useEffect(() => {
     const load = async () => {
       try {
-        const response = await api<ConversationsResponse>('/chat/conversations')
-        const next = sortConversations(response.data)
+        const response = await api<ChatConversationsResponse>('/chat/conversations')
+        const next = sortConversations(response.data.items)
         setConversations(next)
         setSelectedConversationId((current) => getSelectedConversationId(current, next))
         setChatUnreadCount(getUnreadCount(next))
@@ -117,6 +142,7 @@ export function MessagesPageClient() {
         setLoading(false)
       }
     }
+
     void load()
   }, [setChatUnreadCount])
 
@@ -125,12 +151,13 @@ export function MessagesPageClient() {
       setMessages([])
       return
     }
+
     const loadMessages = async () => {
       try {
-        const response = await api<MessagesResponse>(
+        const response = await api<ChatMessagesResponse>(
           `/chat/conversations/${selectedConversationId}/messages`,
         )
-        setMessages(response.data)
+        setMessages(response.data.items.map(toChatMessageState))
         await api(`/chat/conversations/${selectedConversationId}/read`, { method: 'POST' })
         setConversations((current) => {
           const next = markConversationRead(current, selectedConversationId)
@@ -141,11 +168,14 @@ export function MessagesPageClient() {
         setMessages([])
       }
     }
+
     void loadMessages()
   }, [selectedConversationId, setChatUnreadCount])
 
   useEffect(() => {
-    if (!socket || !selectedConversationId) return
+    if (!socket || !selectedConversationId) {
+      return
+    }
 
     socket.emit('join_conversation', { conversationId: selectedConversationId })
 
@@ -155,13 +185,15 @@ export function MessagesPageClient() {
         setChatUnreadCount(getUnreadCount(next))
         return next
       })
+
       if (incoming.conversationId === selectedConversationId) {
-        setMessages((current) => appendMessage(current, incoming))
+        setMessages((current) => appendMessage(current, toRealtimeMessage(incoming)))
         void api(`/chat/conversations/${selectedConversationId}/read`, { method: 'POST' })
       }
     }
 
     socket.on('new_message', handleMessage)
+
     return () => {
       socket.emit('leave_conversation', { conversationId: selectedConversationId })
       socket.off('new_message', handleMessage)
@@ -169,13 +201,15 @@ export function MessagesPageClient() {
   }, [selectedConversationId, setChatUnreadCount, socket])
 
   const handleStartConversation = async () => {
-    const conversation = await api<Conversation>('/chat/conversations', {
+    const response = await api<ChatConversationResponse>('/chat/conversations', {
       method: 'POST',
       body: JSON.stringify({
         shopId: newShopId,
         ...(newProductId ? { productId: newProductId } : {}),
       }),
     })
+    const conversation = response.data
+
     setConversations((current) => sortConversations([conversation, ...current]))
     setSelectedConversationId(conversation.id)
     setNewShopId('')
@@ -183,21 +217,28 @@ export function MessagesPageClient() {
   }
 
   const handleSendMessage = async () => {
-    if (!selectedConversationId || draft.trim().length === 0) return
+    if (!selectedConversationId || draft.trim().length === 0) {
+      return
+    }
+
     await api(`/chat/conversations/${selectedConversationId}/messages`, {
       method: 'POST',
       body: JSON.stringify({ content: draft }),
     })
-    const response = await api<MessagesResponse>(
+    const response = await api<ChatMessagesResponse>(
       `/chat/conversations/${selectedConversationId}/messages`,
     )
-    setMessages(response.data)
+    setMessages(response.data.items.map(toChatMessageState))
     setConversations((current) =>
       sortConversations(
-        current.map((c) =>
-          c.id === selectedConversationId
-            ? { ...c, lastMessageText: draft, lastMessageAt: new Date().toISOString() }
-            : c,
+        current.map((conversation) =>
+          conversation.id === selectedConversationId
+            ? {
+                ...conversation,
+                lastMessageText: draft,
+                lastMessageAt: new Date().toISOString(),
+              }
+            : conversation,
         ),
       ),
     )
@@ -215,7 +256,7 @@ export function MessagesPageClient() {
 
   return (
     <Messages
-      loading={loading}
+      loading={loading || routeLoading}
       conversations={mappedConversations}
       messages={mappedMessages}
       selectedConversationId={selectedConversationId}

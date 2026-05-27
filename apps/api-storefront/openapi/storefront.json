@@ -79,9 +79,7 @@
           }
         },
         "summary": "Register a new user",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/auth/login": {
@@ -162,9 +160,7 @@
           }
         },
         "summary": "Login and receive session cookie",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/auth/logout": {
@@ -245,9 +241,7 @@
           }
         },
         "summary": "Logout and clear session cookie",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/auth/me": {
@@ -328,14 +322,12 @@
           }
         },
         "summary": "Get current user session info",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
-    "/notifications": {
+    "/chat/conversations": {
       "get": {
-        "operationId": "NotificationsController_list",
+        "operationId": "ChatController_listConversations",
         "parameters": [
           {
             "name": "page",
@@ -378,10 +370,15 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": [
-                "asc",
-                "desc"
-              ]
+              "enum": ["asc", "desc"]
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -403,7 +400,7 @@
                             "items": {
                               "type": "array",
                               "items": {
-                                "$ref": "#/components/schemas/Object"
+                                "$ref": "#/components/schemas/ChatConversationDto"
                               }
                             }
                           }
@@ -477,17 +474,23 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
-      }
-    },
-    "/notifications/unread-count": {
-      "get": {
-        "operationId": "NotificationsController_unreadCount",
+        "tags": ["Storefront/Chat"]
+      },
+      "post": {
+        "operationId": "ChatController_createConversation",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateConversationDto"
+              }
+            }
+          }
+        },
         "responses": {
-          "200": {
+          "201": {
             "description": "",
             "content": {
               "application/json": {
@@ -499,7 +502,7 @@
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/Object"
+                          "$ref": "#/components/schemas/ChatConversationDto"
                         }
                       }
                     }
@@ -567,9 +570,857 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Chat"]
+      }
+    },
+    "/chat/unread": {
+      "get": {
+        "operationId": "ChatController_unreadCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ChatUnreadCountDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Chat"]
+      }
+    },
+    "/chat/conversations/{id}": {
+      "get": {
+        "operationId": "ChatController_getConversation",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ChatConversationDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Chat"]
+      }
+    },
+    "/chat/conversations/{id}/messages": {
+      "get": {
+        "operationId": "ChatController_getMessages",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-indexed)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "default": "createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort direction",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/ChatMessageDto"
+                              }
+                            }
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMetaDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Chat"]
+      },
+      "post": {
+        "operationId": "ChatController_sendMessage",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ChatMessageDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Chat"]
+      }
+    },
+    "/chat/conversations/{id}/read": {
+      "post": {
+        "operationId": "ChatController_markAsRead",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Chat"]
+      }
+    },
+    "/homepage": {
+      "get": {
+        "operationId": "HomepageController_getHomepage",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/HomepageDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get all landing page data (categories, vouchers, flash sale, featured products, shops)",
+        "tags": ["Storefront/Homepage"]
+      }
+    },
+    "/notifications": {
+      "get": {
+        "operationId": "NotificationsController_list",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number (1-indexed)",
+            "schema": {
+              "minimum": 1,
+              "default": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20,
+              "type": "number"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "default": "createdAt",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort direction",
+            "schema": {
+              "default": "desc",
+              "type": "string",
+              "enum": ["asc", "desc"]
+            }
+          },
+          {
+            "name": "unreadOnly",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/PaginatedResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "type": "object",
+                          "properties": {
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "$ref": "#/components/schemas/NotificationResponseDto"
+                              }
+                            }
+                          }
+                        },
+                        "meta": {
+                          "$ref": "#/components/schemas/PaginationMetaDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Notifications"]
+      }
+    },
+    "/notifications/unread-count": {
+      "get": {
+        "operationId": "NotificationsController_unreadCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/NotificationUnreadCountDto"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "tags": ["Storefront/Notifications"]
       }
     },
     "/notifications/{id}/read": {
@@ -598,7 +1449,7 @@
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/Object"
+                          "$ref": "#/components/schemas/MarkNotificationReadDto"
                         }
                       }
                     }
@@ -666,9 +1517,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Notifications"]
       }
     },
     "/notifications/read-all": {
@@ -688,7 +1537,7 @@
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/Object"
+                          "$ref": "#/components/schemas/MarkAllNotificationsReadDto"
                         }
                       }
                     }
@@ -756,9 +1605,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Notifications"]
       }
     }
   },
@@ -812,10 +1659,7 @@
                 "additionalProperties": true
               }
             },
-            "required": [
-              "code",
-              "message"
-            ]
+            "required": ["code", "message"]
           },
           "statusCode": {
             "type": "number",
@@ -830,13 +1674,7 @@
             "example": "/admin/products/123"
           }
         },
-        "required": [
-          "success",
-          "message",
-          "statusCode",
-          "timestamp",
-          "path"
-        ]
+        "required": ["success", "message", "statusCode", "timestamp", "path"]
       },
       "ApiResponseDto": {
         "type": "object",
@@ -862,11 +1700,7 @@
             "example": "2024-01-01T00:00:00.000Z"
           }
         },
-        "required": [
-          "success",
-          "data",
-          "timestamp"
-        ]
+        "required": ["success", "data", "timestamp"]
       },
       "PaginationMetaDto": {
         "type": "object",
@@ -902,14 +1736,7 @@
             "example": false
           }
         },
-        "required": [
-          "total",
-          "page",
-          "limit",
-          "totalPages",
-          "hasNextPage",
-          "hasPreviousPage"
-        ]
+        "required": ["total", "page", "limit", "totalPages", "hasNextPage", "hasPreviousPage"]
       },
       "PaginatedResponseDto": {
         "type": "object",
@@ -928,9 +1755,7 @@
                 }
               }
             },
-            "required": [
-              "items"
-            ]
+            "required": ["items"]
           },
           "message": {
             "type": "string",
@@ -944,15 +1769,532 @@
             "example": "2024-01-01T00:00:00.000Z"
           }
         },
+        "required": ["success", "meta", "timestamp"]
+      },
+      "ChatConversationDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "buyerId": {
+            "type": "string"
+          },
+          "shopId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastMessageText": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastMessageAt": {
+            "format": "date-time",
+            "type": "string",
+            "nullable": true
+          },
+          "buyerUnread": {
+            "type": "number"
+          },
+          "sellerUnread": {
+            "type": "number"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
         "required": [
-          "success",
-          "meta",
-          "timestamp"
+          "id",
+          "buyerId",
+          "shopId",
+          "productId",
+          "lastMessageText",
+          "lastMessageAt",
+          "buyerUnread",
+          "sellerUnread",
+          "createdAt",
+          "updatedAt"
         ]
       },
-      "Object": {
+      "CreateConversationDto": {
         "type": "object",
-        "properties": {}
+        "properties": {
+          "shopId": {
+            "type": "string"
+          },
+          "productId": {
+            "type": "string"
+          }
+        },
+        "required": ["shopId"]
+      },
+      "ChatUnreadCountDto": {
+        "type": "object",
+        "properties": {
+          "unreadCount": {
+            "type": "number"
+          }
+        },
+        "required": ["unreadCount"]
+      },
+      "ChatMessageDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "conversationId": {
+            "type": "string"
+          },
+          "senderId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "nullable": true
+          },
+          "isReadByBuyer": {
+            "type": "boolean"
+          },
+          "isReadBySeller": {
+            "type": "boolean"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "updatedAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "conversationId",
+          "senderId",
+          "type",
+          "content",
+          "metadata",
+          "isReadByBuyer",
+          "isReadBySeller",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "SendMessageDto": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": ["TEXT", "IMAGE", "PRODUCT"]
+          }
+        },
+        "required": ["content"]
+      },
+      "CategoryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "icon": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["id", "name", "slug", "icon"]
+      },
+      "PlatformVoucherDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "PERCENTAGE | FIXED_AMOUNT"
+          },
+          "discountValue": {
+            "type": "number"
+          },
+          "maxDiscountAmount": {
+            "type": "number",
+            "nullable": true
+          },
+          "minOrderAmount": {
+            "type": "number",
+            "nullable": true
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": ["id", "code", "name", "type", "discountValue", "maxDiscountAmount", "minOrderAmount", "expiresAt"]
+      },
+      "ShopSummaryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["id", "name", "slug", "logo"]
+      },
+      "FlashSaleProductDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "shopId": {
+            "type": "string"
+          },
+          "salePrice": {
+            "type": "number"
+          },
+          "originalPrice": {
+            "type": "number"
+          },
+          "discountPercent": {
+            "type": "number"
+          },
+          "totalStock": {
+            "type": "number"
+          },
+          "soldCount": {
+            "type": "number"
+          },
+          "stockLeft": {
+            "type": "number"
+          },
+          "coverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "nullable": true
+          },
+          "reviewCount": {
+            "type": "number"
+          },
+          "shop": {
+            "$ref": "#/components/schemas/ShopSummaryDto"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "shopId",
+          "salePrice",
+          "originalPrice",
+          "discountPercent",
+          "totalStock",
+          "soldCount",
+          "stockLeft",
+          "coverImage",
+          "rating",
+          "reviewCount",
+          "shop"
+        ]
+      },
+      "FlashSaleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "endsAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FlashSaleProductDto"
+            }
+          }
+        },
+        "required": ["id", "name", "endsAt", "products"]
+      },
+      "ProductCardDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "shopId": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "originalPrice": {
+            "type": "number",
+            "nullable": true
+          },
+          "discountPercent": {
+            "type": "number",
+            "nullable": true
+          },
+          "coverImage": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "nullable": true
+          },
+          "reviewCount": {
+            "type": "number"
+          },
+          "shop": {
+            "$ref": "#/components/schemas/ShopSummaryDto"
+          },
+          "isFlash": {
+            "type": "boolean"
+          },
+          "isNew": {
+            "type": "boolean"
+          },
+          "stockLeft": {
+            "type": "number",
+            "nullable": true
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "slug",
+          "shopId",
+          "price",
+          "originalPrice",
+          "discountPercent",
+          "coverImage",
+          "rating",
+          "reviewCount",
+          "shop",
+          "isFlash",
+          "isNew",
+          "stockLeft"
+        ]
+      },
+      "FeaturedSectionDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "categorySlug": {
+            "type": "string"
+          },
+          "categoryId": {
+            "type": "string"
+          },
+          "products": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductCardDto"
+            }
+          }
+        },
+        "required": ["title", "categorySlug", "categoryId", "products"]
+      },
+      "TrendingShopDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "logo": {
+            "type": "string",
+            "nullable": true
+          },
+          "banner": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": ["id", "name", "slug", "logo", "banner"]
+      },
+      "HomepageDto": {
+        "type": "object",
+        "properties": {
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategoryDto"
+            }
+          },
+          "vouchers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PlatformVoucherDto"
+            }
+          },
+          "flashSale": {
+            "nullable": true,
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/FlashSaleDto"
+              }
+            ]
+          },
+          "featuredSections": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FeaturedSectionDto"
+            }
+          },
+          "trendingShops": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TrendingShopDto"
+            }
+          },
+          "recommendedProducts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductCardDto"
+            }
+          },
+          "newArrivals": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductCardDto"
+            }
+          }
+        },
+        "required": [
+          "categories",
+          "vouchers",
+          "flashSale",
+          "featuredSections",
+          "trendingShops",
+          "recommendedProducts",
+          "newArrivals"
+        ]
+      },
+      "NotificationResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "isRead": {
+            "type": "boolean"
+          },
+          "metadata": {
+            "type": "object"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": ["id", "userId", "type", "title", "message", "isRead", "createdAt"]
+      },
+      "NotificationUnreadCountDto": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "number"
+          }
+        },
+        "required": ["count"]
+      },
+      "MarkNotificationReadDto": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["message"]
+      },
+      "MarkAllNotificationsReadDto": {
+        "type": "object",
+        "properties": {
+          "updated": {
+            "type": "number"
+          }
+        },
+        "required": ["updated"]
       }
     }
   },

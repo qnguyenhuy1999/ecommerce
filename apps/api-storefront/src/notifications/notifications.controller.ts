@@ -18,8 +18,15 @@ import {
   ApiErrorResponses,
   ApiAuth,
 } from '@ecom/nestjs-core/openapi'
-import { NotificationsService } from './notifications.service'
-import { NotificationQueryDto } from './dto/notification.dto'
+import type { NotificationsService } from './notifications.service'
+import type {
+  NotificationQueryDto} from './dto/notification.dto';
+import {
+  MarkAllNotificationsReadDto,
+  MarkNotificationReadDto,
+  NotificationResponseDto,
+  NotificationUnreadCountDto,
+} from './dto/notification.dto'
 
 @ApiTags('Storefront/Notifications')
 @ApiAuth()
@@ -30,20 +37,20 @@ export class NotificationsController {
   constructor(private readonly notificationsService: NotificationsService) {}
 
   @Get()
-  @ApiPaginatedResponse(Object)
+  @ApiPaginatedResponse(NotificationResponseDto)
   async list(@CurrentUser() user: SessionData, @Query() query: NotificationQueryDto) {
     return this.notificationsService.list(user.userId, query)
   }
 
   @Get('unread-count')
-  @ApiOkResponseData(Object)
+  @ApiOkResponseData(NotificationUnreadCountDto)
   async unreadCount(@CurrentUser() user: SessionData) {
     return this.notificationsService.getUnreadCount(user.userId)
   }
 
   @Post(':id/read')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponseData(Object)
+  @ApiOkResponseData(MarkNotificationReadDto)
   async markAsRead(@CurrentUser() user: SessionData, @Param('id') id: string) {
     await this.notificationsService.markAsRead(user.userId, id)
     return { message: 'Marked as read' }
@@ -51,7 +58,7 @@ export class NotificationsController {
 
   @Post('read-all')
   @HttpCode(HttpStatus.OK)
-  @ApiOkResponseData(Object)
+  @ApiOkResponseData(MarkAllNotificationsReadDto)
   async markAllAsRead(@CurrentUser() user: SessionData) {
     return this.notificationsService.markAllAsRead(user.userId)
   }

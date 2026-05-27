@@ -14,6 +14,13 @@ import type { HomeProps } from './Home.types'
 
 export function Home({ content = {} }: HomeProps) {
   const data = { ...homeContent, ...content }
+  const featuredSections =
+    data.featuredSections.length > 0
+      ? data.featuredSections
+      : [
+          { title: 'Electronics top picks', products: data.electronics },
+          { title: 'Fashion edit', products: data.fashion },
+        ]
 
   return (
     <StorefrontLayout>
@@ -24,8 +31,14 @@ export function Home({ content = {} }: HomeProps) {
           <VoucherSection vouchers={data.vouchers} />
           <FlashSaleSection products={data.flashSale} />
           <TrustSection items={data.trustItems} />
-          <ProductShelf title="Electronics top picks" products={data.electronics} />
-          <ProductShelf title="Fashion edit" products={data.fashion} />
+          {featuredSections.map((section) => (
+            <ProductShelf
+              key={section.title}
+              title={section.title}
+              {...(section.description ? { description: section.description } : {})}
+              products={section.products}
+            />
+          ))}
           <TrendingShopsSection shops={data.shops} />
           <RecommendedSection products={data.recommended} />
           <ProductShelf
