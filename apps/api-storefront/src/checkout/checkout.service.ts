@@ -3,13 +3,14 @@ import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
+  Inject,
   Injectable,
   Logger,
   NotFoundException,
 } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import type { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'
@@ -39,7 +40,7 @@ export class CheckoutService {
   private readonly logger = new Logger(CheckoutService.name)
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     private readonly redis: RedisService,
     @InjectQueue(QUEUES.ORDER_PROCESSING) private readonly orderQueue: Queue,
   ) {}

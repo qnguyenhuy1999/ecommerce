@@ -1,10 +1,10 @@
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { QUEUES } from '@ecom/shared'
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common'
+import { ForbiddenException, Inject, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
@@ -12,7 +12,7 @@ import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto
 @Injectable()
 export class ChatService {
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     @InjectQueue(QUEUES.NOTIFICATION) private readonly notificationQueue: Queue,
   ) {}
 

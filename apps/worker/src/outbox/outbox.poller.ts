@@ -1,8 +1,8 @@
 import type { OnModuleInit, OnModuleDestroy } from '@nestjs/common'
-import { Injectable, Logger } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { QUEUES, NOTIFICATION_JOBS, OUTBOX_EVENTS, defaultJobOptions } from '@ecom/shared'
 import type {
   ChatMessageOutboxPayload,
@@ -20,7 +20,7 @@ export class OutboxPoller implements OnModuleInit, OnModuleDestroy {
   private timer: ReturnType<typeof setInterval> | null = null
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     @InjectQueue(QUEUES.NOTIFICATION) private readonly notificationQueue: Queue,
   ) {}
 

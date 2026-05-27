@@ -1,6 +1,6 @@
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import type { EmailService } from '@ecom/email'
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { join } from 'node:path'
 import type { ChannelDeliveryResult, NotificationDeliveryPayload } from './types'
 
@@ -9,7 +9,7 @@ const TEMPLATE_PATH = join(__dirname, '..', 'templates', 'notification-email.hbs
 @Injectable()
 export class EmailChannel {
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     private readonly emailService: EmailService,
   ) {}
 

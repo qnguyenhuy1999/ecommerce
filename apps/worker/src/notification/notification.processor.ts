@@ -1,7 +1,7 @@
-import { Logger } from '@nestjs/common'
+import { Inject, Logger } from '@nestjs/common'
 import { Processor, WorkerHost } from '@nestjs/bullmq'
 import type { Job } from 'bullmq'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type NotificationType, type UserNotificationType, type Prisma } from '@ecom/database'
 import { QUEUES, NOTIFICATION_JOBS } from '@ecom/shared'
 import type { NotificationJobPayload } from '@ecom/shared'
@@ -12,7 +12,7 @@ export class NotificationProcessor extends WorkerHost {
   private readonly logger = new Logger(NotificationProcessor.name)
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     private readonly channelRouter: ChannelRouterService,
   ) {
     super()

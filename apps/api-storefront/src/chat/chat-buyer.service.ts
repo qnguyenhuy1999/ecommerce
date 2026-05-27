@@ -1,14 +1,14 @@
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
-import { NotFoundException, Injectable } from '@nestjs/common'
+import { Inject, NotFoundException, Injectable } from '@nestjs/common'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
 export class ChatBuyerService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   private async assertConversationAccess(
     userId: string,

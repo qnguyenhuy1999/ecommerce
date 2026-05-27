@@ -1,6 +1,5 @@
 import { homeContent } from '@ecom/ui-storefront'
 import type {
-  CategoryTileProps,
   HomeContent,
   ProductCardData,
   ShopCardProps,
@@ -37,7 +36,9 @@ function normalizeKey(value: string) {
   return value.trim().toLowerCase().replace('&', '').replaceAll(/\s+/g, '-')
 }
 
-function getCategoryIcon(slug: string, name: string): CategoryTileProps['icon'] | undefined {
+type CategoryIcon = NonNullable<(typeof homeContent.categories)[number]['icon']>
+
+function getCategoryIcon(slug: string, name: string): CategoryIcon | undefined {
   const normalizedSlug = normalizeKey(slug)
   const normalizedName = normalizeKey(name)
   const match = homeContent.categories.find((category) => {
@@ -123,10 +124,11 @@ function mapShop(shop: HomepageData['trendingShops'][number]): ShopCardProps {
 export function mapHomepageToHomeContent(homepage: HomepageData): Partial<HomeContent> {
   return {
     hero: homeContent.hero,
-    categories: homepage.categories.map((category) => ({
-      label: category.name,
-      icon: getCategoryIcon(category.slug, category.name),
-    })),
+    categories: homepage.categories.map((category) => {
+      const icon = getCategoryIcon(category.slug, category.name)
+
+      return icon ? { label: category.name, icon } : { label: category.name }
+    }),
     vouchers: homepage.vouchers.map(mapVoucher),
     flashSale: homepage.flashSale?.products.map(mapFlashProduct) ?? [],
     trustItems,

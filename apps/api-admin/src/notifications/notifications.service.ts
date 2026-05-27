@@ -1,14 +1,14 @@
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type AdminNotificationStatus, type NotificationChannel, type Prisma } from '@ecom/database'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import type { NotificationsProducer } from './notifications.producer'
 
 @Injectable()
 export class NotificationsService {
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     private readonly notificationsProducer: NotificationsProducer,
   ) {}
   async findAll(query: { page?: number; limit?: number; status?: AdminNotificationStatus }) {

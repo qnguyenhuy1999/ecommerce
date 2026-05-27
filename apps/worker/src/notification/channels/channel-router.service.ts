@@ -1,6 +1,6 @@
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type NotificationChannel, type UserNotificationType } from '@ecom/database'
-import { Injectable, Logger } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import type { EmailChannel } from './email.channel'
 import type { InAppChannel } from './in-app.channel'
 import type { PushChannel } from './push.channel'
@@ -11,7 +11,7 @@ export class ChannelRouterService {
   private readonly logger = new Logger(ChannelRouterService.name)
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     private readonly inAppChannel: InAppChannel,
     private readonly emailChannel: EmailChannel,
     private readonly pushChannel: PushChannel,

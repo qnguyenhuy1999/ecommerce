@@ -56,7 +56,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix --no-error-on-unmatched-pattern --cache --config eslint.lint-staged.mjs"
+      "eslint --no-error-on-unmatched-pattern --cache --config eslint.lint-staged.mjs"
     ],
     "*.{json,yaml,yml,md,mdx}": [
       "prettier --write"

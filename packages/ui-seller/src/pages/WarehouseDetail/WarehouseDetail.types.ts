@@ -1,9 +1,6 @@
-export interface WarehouseFormValues {
-  name: string
-  code: string
-  address?: string
-  isDefault: boolean
-}
+import type { WarehouseDetailSchemaData } from './WarehouseDetail.schema'
+
+export type WarehouseFormValues = WarehouseDetailSchemaData
 
 export interface WarehouseDetailProps {
   initialValues?: Partial<WarehouseFormValues>

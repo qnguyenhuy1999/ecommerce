@@ -1,7 +1,7 @@
-import { Logger } from '@nestjs/common'
+import { Inject, Logger } from '@nestjs/common'
 import { InjectQueue, Processor, WorkerHost } from '@nestjs/bullmq'
 import type { Job, Queue } from 'bullmq'
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { QUEUES, NOTIFICATION_JOBS, defaultJobOptions } from '@ecom/shared'
 import type { SellerNotificationJobPayload, UserNotificationJobPayload } from '@ecom/shared'
 
@@ -35,7 +35,7 @@ export class CheckoutProcessor extends WorkerHost {
   private readonly logger = new Logger(CheckoutProcessor.name)
 
   constructor(
-    private readonly prisma: PrismaService,
+    @Inject(PrismaService) private readonly prisma: PrismaService,
     @InjectQueue(QUEUES.NOTIFICATION) private readonly notificationQueue: Queue,
   ) {
     super()

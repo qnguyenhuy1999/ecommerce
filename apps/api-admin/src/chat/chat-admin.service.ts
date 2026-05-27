@@ -1,13 +1,13 @@
-import type { PrismaService } from '@ecom/database'
+import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, NotFoundException } from '@nestjs/common'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
 export class ChatAdminService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
 
   async listConversations(query: ConversationQueryDto) {
     const { page = 1, limit = PAGINATION_DEFAULTS.DEFAULT_LIMIT, search } = query
