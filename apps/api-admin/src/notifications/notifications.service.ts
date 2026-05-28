@@ -3,14 +3,14 @@ import { type AdminNotificationStatus, type NotificationChannel, type Prisma } f
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { NotificationsProducer } from './notifications.producer'
+import { NotificationProducer } from '@ecom/notification'
 
 @Injectable()
 export class NotificationsService {
   constructor(
     @Inject(PrismaService) private readonly prisma: PrismaService,
-    @Inject(NotificationsProducer)
-    private readonly notificationsProducer: NotificationsProducer,
+    @Inject(NotificationProducer)
+    private readonly notificationProducer: NotificationProducer,
   ) {}
   async findAll(query: { page?: number; limit?: number; status?: AdminNotificationStatus }) {
     const where: Prisma.AdminNotificationWhereInput = {}
@@ -50,7 +50,7 @@ export class NotificationsService {
     const notification = await this.findById(id)
 
     try {
-      await this.notificationsProducer.enqueueAdminBroadcast({
+      await this.notificationProducer.enqueueAdminBroadcast({
         kind: 'admin',
         notificationId: id,
         title: notification.title,

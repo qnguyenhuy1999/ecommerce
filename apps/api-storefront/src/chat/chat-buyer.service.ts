@@ -11,16 +11,19 @@ import {
 import { Inject, NotFoundException, Injectable, Logger } from '@nestjs/common'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
+import { BaseChatService } from '@ecom/chat'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
-export class ChatBuyerService {
+export class ChatBuyerService extends BaseChatService {
   private readonly logger = new Logger(ChatBuyerService.name)
 
   constructor(
-    @Inject(PrismaService) private readonly prisma: PrismaService,
+    @Inject(PrismaService) prisma: PrismaService,
     @Inject(REDIS_CLIENT) private readonly redis: Redis,
-  ) {}
+  ) {
+    super(prisma)
+  }
 
   private async assertConversationAccess(
     userId: string,
@@ -93,16 +96,7 @@ export class ChatBuyerService {
 
   async getMessages(userId: string, conversationId: string, query: MessageQueryDto) {
     await this.assertConversationAccess(userId, conversationId)
-    const { page = 1, limit = 50 } = query
-
-    const { items, total } = await offsetPaginate(this.prisma.chatMessage, {
-      page,
-      limit,
-      where: { conversationId },
-      orderBy: { createdAt: 'desc' },
-    })
-
-    return buildOffsetResponse(items.slice().reverse(), page, limit, total)
+    return this.getMessagesForConversation(conversationId, query)
   }
 
   async sendMessage(

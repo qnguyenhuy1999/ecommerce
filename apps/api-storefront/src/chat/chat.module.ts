@@ -3,9 +3,10 @@ import { AuthModule } from '../auth/auth.module'
 import { ChatBuyerService } from './chat-buyer.service'
 import { ChatController } from './chat.controller'
 import { ChatGateway } from './chat.gateway'
+import { ChatModule as EcomChatModule } from '@ecom/chat'
 
 @Module({
-  imports: [AuthModule],
+  imports: [AuthModule, EcomChatModule],
   controllers: [ChatController],
   providers: [ChatBuyerService, ChatGateway],
   exports: [ChatBuyerService],

@@ -6,9 +6,15 @@ import { ChatService } from './chat.service'
 import { ChatGateway } from './chat.gateway'
 import { AuthModule } from '../auth/auth.module'
 import { ShopModule } from '../shop/shop.module'
+import { ChatModule as EcomChatModule } from '@ecom/chat'
 
 @Module({
-  imports: [AuthModule, ShopModule, BullModule.registerQueue({ name: QUEUES.NOTIFICATION })],
+  imports: [
+    AuthModule,
+    ShopModule,
+    BullModule.registerQueue({ name: QUEUES.NOTIFICATION }),
+    EcomChatModule,
+  ],
   controllers: [ChatController],
   providers: [ChatService, ChatGateway],
   exports: [ChatService],

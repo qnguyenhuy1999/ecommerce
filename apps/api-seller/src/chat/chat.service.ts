@@ -14,17 +14,20 @@ import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
+import { BaseChatService } from '@ecom/chat'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
-export class ChatService {
+export class ChatService extends BaseChatService {
   private readonly logger = new Logger(ChatService.name)
 
   constructor(
-    @Inject(PrismaService) private readonly prisma: PrismaService,
+    @Inject(PrismaService) prisma: PrismaService,
     @InjectQueue(QUEUES.NOTIFICATION) private readonly notificationQueue: Queue,
     @Inject(REDIS_CLIENT) private readonly redis: Redis,
-  ) {}
+  ) {
+    super(prisma)
+  }
 
   private async assertSellerOwnsShop(userId: string, shopId: string): Promise<void> {
     const shop = await this.prisma.shop.findFirst({
@@ -82,14 +85,7 @@ export class ChatService {
     query: MessageQueryDto,
   ) {
     await this.assertConversationAccess(userId, shopId, conversationId)
-    const { page = 1, limit = 50 } = query
-    const { items, total } = await offsetPaginate(this.prisma.chatMessage, {
-      page,
-      limit,
-      where: { conversationId },
-      orderBy: { createdAt: 'desc' },
-    })
-    return buildOffsetResponse(items.slice().reverse(), page, limit, total)
+    return this.getMessagesForConversation(conversationId, query)
   }
 
   async sendMessage(

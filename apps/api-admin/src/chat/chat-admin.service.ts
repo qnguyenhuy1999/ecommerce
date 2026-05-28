@@ -3,6 +3,7 @@ import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { BaseChatService } from '@ecom/chat'
 import {
   ChatConversationDetailDto,
   ChatConversationSummaryDto,
@@ -11,8 +12,10 @@ import {
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
-export class ChatAdminService {
-  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
+export class ChatAdminService extends BaseChatService {
+  constructor(@Inject(PrismaService) prisma: PrismaService) {
+    super(prisma)
+  }
 
   private toConversationSummary(
     conversation: Prisma.ConversationGetPayload<Record<string, never>>,
@@ -87,24 +90,13 @@ export class ChatAdminService {
 
   async getMessages(conversationId: string, query: MessageQueryDto) {
     await this.ensureConversationExists(conversationId)
-    const { page = 1, limit = 50 } = query
-
-    const { items, total } = await offsetPaginate(this.prisma.chatMessage, {
-      page,
-      limit,
-      where: { conversationId },
-      orderBy: { createdAt: 'desc' },
-    })
-
-    return buildOffsetResponse(
-      items
-        .slice()
-        .reverse()
-        .map((item) => this.toMessageDto(item)),
-      page,
-      limit,
-      total,
-    )
+    const result = await this.getMessagesForConversation(conversationId, query)
+    return {
+      items: result.items.map((item) =>
+        this.toMessageDto(item as Prisma.ChatMessageGetPayload<Record<string, never>>),
+      ),
+      meta: result.meta,
+    }
   }
 
   async createConversation(buyerId: string, shopId: string, productId?: string) {
