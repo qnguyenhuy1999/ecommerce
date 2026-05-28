@@ -2813,6 +2813,7 @@ enum AdminPermission {
   AUDIT_VIEW
   SETTINGS_MANAGE
   DASHBOARD_VIEW
+  SUPPORT_MANAGE
 }
 
 model AdminRole {

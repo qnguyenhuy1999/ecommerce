@@ -1,6 +1,11 @@
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
-import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
+import {
+  OUTBOX_EVENTS,
+  type ChatMessageOutboxPayload,
+  CHAT_MESSAGE_CREATED_CHANNEL,
+  LAST_MESSAGE_PREVIEW_LENGTH,
+} from '@ecom/shared'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { QUEUES } from '@ecom/shared'
@@ -10,8 +15,6 @@ import type { Queue } from 'bullmq'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
-
-const CHAT_MESSAGE_CREATED_CHANNEL = 'chat:message:created'
 
 @Injectable()
 export class ChatService {
@@ -115,7 +118,7 @@ export class ChatService {
         where: { id: conversationId },
         data: {
           lastMessageAt: new Date(),
-          lastMessageText: content.substring(0, 200),
+          lastMessageText: content.substring(0, LAST_MESSAGE_PREVIEW_LENGTH),
           buyerUnread: { increment: 1 },
         },
       })
@@ -132,7 +135,7 @@ export class ChatService {
             conversationId,
             senderId: userId,
             recipientUserId: buyerId,
-            content: content.substring(0, 500),
+            content: content.substring(0, LAST_MESSAGE_PREVIEW_LENGTH),
           } satisfies ChatMessageOutboxPayload,
         },
       })
@@ -177,15 +180,8 @@ export class ChatService {
   }
 
   async ensureConversationAccessByUser(userId: string, conversationId: string): Promise<void> {
-    const shop = await this.prisma.shop.findFirst({
-      where: { seller: { userId } },
-      select: { id: true },
-    })
-
-    if (!shop) throw new NotFoundException('Conversation not found')
-
     const conversation = await this.prisma.conversation.findFirst({
-      where: { id: conversationId, shopId: shop.id },
+      where: { id: conversationId, shop: { seller: { userId } } },
       select: { id: true },
     })
     if (!conversation) throw new NotFoundException('Conversation not found')

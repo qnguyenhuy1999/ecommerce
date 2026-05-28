@@ -45,6 +45,7 @@ export const backendEnvSchema = z.object({
   JWT_ACCESS_SECRET: z.string().min(1, 'JWT_ACCESS_SECRET is required'),
   JWT_REFRESH_SECRET: z.string().min(1, 'JWT_REFRESH_SECRET is required'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
+  CHAT_CORS_ORIGINS: z.string().optional(),
 })
 
 export type BackendEnv = z.infer<typeof backendEnvSchema>

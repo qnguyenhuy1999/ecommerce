@@ -3,6 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { getAdminProfile, loginAdmin, logoutAdmin, type AdminProfile } from '../api/auth.api'
+import { resetChatSocketManager } from '../../chat/utils/chat-socket-manager'
 
 export function useAdminProfile() {
   return useQuery({
@@ -36,6 +37,7 @@ export function useLogout() {
   return useMutation({
     mutationFn: logoutAdmin,
     onSuccess: () => {
+      resetChatSocketManager()
       queryClient.clear()
       router.push('/login')
     },

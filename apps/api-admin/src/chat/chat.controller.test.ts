@@ -33,12 +33,12 @@ describe('ChatController metadata', () => {
     expect(JSON.stringify(messageResponses)).not.toContain('Object')
   })
 
-  it('requires SETTINGS_MANAGE on chat endpoints', () => {
+  it('requires SUPPORT_MANAGE on chat endpoints', () => {
     const permissions = Reflect.getMetadata(
       PERMISSIONS_KEY,
       ChatController.prototype.createConversation,
     ) as string[]
 
-    expect(permissions).toEqual(['SETTINGS_MANAGE'])
+    expect(permissions).toEqual(['SUPPORT_MANAGE'])
   })
 })

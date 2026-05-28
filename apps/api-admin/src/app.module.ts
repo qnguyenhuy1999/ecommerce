@@ -5,6 +5,7 @@ import { RedisModule } from '@ecom/redis'
 import { Module } from '@nestjs/common'
 import { APP_INTERCEPTOR } from '@nestjs/core'
 import { ThrottlerModule } from '@nestjs/throttler'
+import { BullModule } from '@nestjs/bullmq'
 import { AuditLogsModule } from './audit-logs/audit-logs.module'
 import { AuthModule } from './auth/auth.module'
 import { BannersModule } from './banners/banners.module'
@@ -40,6 +41,16 @@ import { HealthModule } from './health/health.module'
         }
       })(),
     ),
+    BullModule.forRoot({
+      connection: (() => {
+        const redis = getRedisConfig()
+        return {
+          host: redis.host,
+          port: redis.port,
+          ...(redis.password !== undefined ? { password: redis.password } : {}),
+        }
+      })(),
+    }),
     EmailModule.forRoot(getSmtpConfig()),
     DatabaseModule,
     AuthModule,

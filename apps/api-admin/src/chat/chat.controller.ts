@@ -28,28 +28,28 @@ export class ChatController {
   constructor(@Inject(ChatAdminService) private readonly chatAdminService: ChatAdminService) {}
 
   @Get('conversations')
-  @Permissions('SETTINGS_MANAGE')
+  @Permissions('SUPPORT_MANAGE')
   @ApiPaginatedResponse(ChatConversationSummaryDto)
   async listConversations(@Query() query: ConversationQueryDto) {
     return this.chatAdminService.listConversations(query)
   }
 
   @Post('conversations')
-  @Permissions('SETTINGS_MANAGE')
+  @Permissions('SUPPORT_MANAGE')
   @ApiCreatedResponseData(ChatConversationSummaryDto)
   async createConversation(@Body() body: CreateConversationDto) {
     return this.chatAdminService.createConversation(body.buyerId, body.shopId, body.productId)
   }
 
   @Get('conversations/:id')
-  @Permissions('SETTINGS_MANAGE')
+  @Permissions('SUPPORT_MANAGE')
   @ApiOkResponseData(ChatConversationDetailDto)
   async getConversation(@Param('id') id: string) {
     return this.chatAdminService.getConversation(id)
   }
 
   @Get('conversations/:id/messages')
-  @Permissions('SETTINGS_MANAGE')
+  @Permissions('SUPPORT_MANAGE')
   @ApiPaginatedResponse(ChatMessageDto)
   async getMessages(@Param('id') id: string, @Query() query: MessageQueryDto) {
     return this.chatAdminService.getMessages(id, query)

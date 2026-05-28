@@ -2,13 +2,16 @@ import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
+import {
+  OUTBOX_EVENTS,
+  type ChatMessageOutboxPayload,
+  CHAT_MESSAGE_CREATED_CHANNEL,
+  LAST_MESSAGE_PREVIEW_LENGTH,
+} from '@ecom/shared'
 import { Inject, NotFoundException, Injectable, Logger } from '@nestjs/common'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
-
-const CHAT_MESSAGE_CREATED_CHANNEL = 'chat:message:created'
 
 @Injectable()
 export class ChatBuyerService {
@@ -127,7 +130,7 @@ export class ChatBuyerService {
         where: { id: conversationId },
         data: {
           lastMessageAt: new Date(),
-          lastMessageText: content.substring(0, 200),
+          lastMessageText: content.substring(0, LAST_MESSAGE_PREVIEW_LENGTH),
           sellerUnread: { increment: 1 },
         },
       })
@@ -143,7 +146,7 @@ export class ChatBuyerService {
             messageId: message.id,
             conversationId,
             senderId: userId,
-            content: content.substring(0, 500),
+            content: content.substring(0, LAST_MESSAGE_PREVIEW_LENGTH),
           } satisfies ChatMessageOutboxPayload,
         },
       })

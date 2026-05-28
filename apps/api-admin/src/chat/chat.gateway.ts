@@ -20,6 +20,7 @@ import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 import { ChatAdminService } from './chat-admin.service'
 import { SESSION_SERVICE } from '../auth/session.provider'
+import { CHAT_MESSAGE_CREATED_CHANNEL } from '@ecom/shared'
 
 interface AdminChatSocketData {
   adminId?: string
@@ -27,29 +28,6 @@ interface AdminChatSocketData {
 
 const PRESENCE_TTL_SECONDS = 60
 const ADMIN_ROOM = 'admins'
-const USER_NOTIFICATION_CHANNEL = 'notif:user:'
-const SHOP_NOTIFICATION_CHANNEL = 'notif:shop:'
-const CHAT_MESSAGE_CREATED_CHANNEL = 'chat:message:created'
-
-function isChatNotificationPayload(
-  value: unknown,
-): value is { metadata?: { conversationId?: unknown; messageId?: unknown } } {
-  return !!value && typeof value === 'object'
-}
-
-function extractMessageIdFromNotification(rawMessage: string): string | undefined {
-  try {
-    const payload = JSON.parse(rawMessage) as unknown
-    if (!isChatNotificationPayload(payload)) {
-      return undefined
-    }
-
-    const messageId = payload.metadata?.messageId
-    return typeof messageId === 'string' && messageId.length > 0 ? messageId : undefined
-  } catch {
-    return undefined
-  }
-}
 
 function extractMessageIdFromChatEvent(rawMessage: string): string | undefined {
   try {
@@ -98,15 +76,6 @@ export class ChatGateway
 
   afterInit(): void {
     this.notificationSubscriber = this.redis.duplicate()
-    this.notificationSubscriber.on('pmessage', (_pattern, _channel, rawMessage) => {
-      const messageId = extractMessageIdFromNotification(rawMessage)
-
-      if (!messageId) {
-        return
-      }
-
-      void this.broadcastIncomingMessage(messageId)
-    })
     this.notificationSubscriber.on('message', (channel, rawMessage) => {
       if (channel !== CHAT_MESSAGE_CREATED_CHANNEL) {
         return
@@ -122,8 +91,6 @@ export class ChatGateway
     this.notificationSubscriber.on('error', (err: Error) => {
       this.logger.error(`Admin chat notification subscriber error: ${err.message}`)
     })
-    void this.notificationSubscriber.psubscribe(`${USER_NOTIFICATION_CHANNEL}*`)
-    void this.notificationSubscriber.psubscribe(`${SHOP_NOTIFICATION_CHANNEL}*`)
     void this.notificationSubscriber.subscribe(CHAT_MESSAGE_CREATED_CHANNEL)
   }
 

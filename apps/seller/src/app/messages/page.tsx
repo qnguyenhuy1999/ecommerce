@@ -32,11 +32,10 @@ export default function MessagesPage() {
   const [search, setSearch] = useState('')
   const [loadingConversations, setLoadingConversations] = useState(true)
   const [loadingMessages, setLoadingMessages] = useState(false)
+  const [conversationsError, setConversationsError] = useState<string | null>(null)
+  const [messagesError, setMessagesError] = useState<string | null>(null)
   const { socket, setChatUnreadCount } = useSellerRealtime()
-  const selectedConversation = useMemo(
-    () => conversations.find((conversation) => conversation.id === selectedConversationId),
-    [conversations, selectedConversationId],
-  )
+  const selectedConversation = conversations.find((c) => c.id === selectedConversationId)
 
   useEffect(() => {
     const fetchConversations = async () => {
@@ -50,9 +49,11 @@ export default function MessagesPage() {
         setSelectedConversationId((current) =>
           getSelectedConversationId(current, sortedConversations),
         )
+        setConversationsError(null)
       } catch {
         setConversations([])
         setSelectedConversationId(undefined)
+        setConversationsError('Failed to load conversations.')
       } finally {
         setLoadingConversations(false)
       }
@@ -71,21 +72,23 @@ export default function MessagesPage() {
       setLoadingMessages(true)
 
       try {
-        const { items: messages } = await getConversationMessages(selectedConversationId)
-        setMessages(messages)
+        const { items: fetched } = await getConversationMessages(selectedConversationId)
+        setMessages(fetched)
         await markConversationRead(selectedConversationId)
         setConversations(
           (current) => markConversationAsReadResult(current, selectedConversationId).conversations,
         )
+        setMessagesError(null)
       } catch {
         setMessages([])
+        setMessagesError('Failed to load messages.')
       } finally {
         setLoadingMessages(false)
       }
     }
 
     void fetchMessages()
-  }, [selectedConversationId, setChatUnreadCount])
+  }, [selectedConversationId])
 
   useEffect(() => {
     if (!socket || !selectedConversationId) {
@@ -115,7 +118,7 @@ export default function MessagesPage() {
       socket.emit('leave_conversation', { conversationId: selectedConversationId })
       socket.off('new_message', handleIncomingMessage)
     }
-  }, [selectedConversation?.buyerId, selectedConversationId, setChatUnreadCount, socket])
+  }, [selectedConversation?.buyerId, selectedConversationId, socket])
 
   useEffect(() => {
     setChatUnreadCount(getUnreadConversationCount(conversations))
@@ -128,11 +131,36 @@ export default function MessagesPage() {
   )
 
   const handleSendMessage = async (conversationId: string, content: string) => {
-    await sendConversationMessage(conversationId, { content })
-    const { items: messages } = await getConversationMessages(conversationId)
-    setMessages(messages)
+    const optimistic: SellerChatMessage = {
+      id: `optimistic-${Date.now()}`,
+      conversationId,
+      senderId: '',
+      content,
+      createdAt: new Date().toISOString(),
+    }
+    setMessages((current) => appendMessage(current, optimistic))
     setConversations((current) => updateConversationsAfterSend(current, conversationId, content))
+
+    try {
+      await sendConversationMessage(conversationId, { content })
+    } catch {
+      setMessages((current) => current.filter((m) => m.id !== optimistic.id))
+      const { items: fresh } = await getConversationMessages(conversationId)
+      setMessages(fresh)
+    }
   }
+
+  const emptyConversationsMessage = conversationsError
+    ? conversationsError
+    : loadingConversations
+      ? 'Loading conversations...'
+      : 'No conversations found.'
+
+  const emptyMessagesMessage = messagesError
+    ? messagesError
+    : loadingMessages
+      ? 'Loading messages...'
+      : 'No messages yet.'
 
   return (
     <DashboardLayout>
@@ -146,10 +174,8 @@ export default function MessagesPage() {
         loadingConversations={loadingConversations}
         loadingMessages={loadingMessages}
         onSendMessage={(conversation, content) => handleSendMessage(conversation.id, content)}
-        emptyConversationsMessage={
-          loadingConversations ? 'Loading conversations...' : 'No conversations found.'
-        }
-        emptyMessagesMessage={loadingMessages ? 'Loading messages...' : 'No messages yet.'}
+        emptyConversationsMessage={emptyConversationsMessage}
+        emptyMessagesMessage={emptyMessagesMessage}
       />
     </DashboardLayout>
   )

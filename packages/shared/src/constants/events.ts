@@ -2,6 +2,10 @@
  * Domain event names used across the platform.
  * Producers emit these; consumers subscribe to them via the event bus or queue.
  */
+export const CHAT_MESSAGE_CREATED_CHANNEL = 'chat:message:created'
+
+export const LAST_MESSAGE_PREVIEW_LENGTH = 200
+
 export const EVENTS = {
   // Orders
   ORDER_CREATED: 'order.created',

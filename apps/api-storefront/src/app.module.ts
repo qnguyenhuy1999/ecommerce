@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common'
 import { ThrottlerModule } from '@nestjs/throttler'
+import { BullModule } from '@nestjs/bullmq'
 import { RedisModule } from '@ecom/redis'
 import { EmailModule } from '@ecom/email'
 import { DatabaseModule } from '@ecom/database'
@@ -20,6 +21,12 @@ import { NotificationsModule } from './notifications/notifications.module'
         return password !== undefined ? { ...rest, password } : rest
       })(),
     ),
+    BullModule.forRoot({
+      connection: (() => {
+        const { password, ...rest } = getRedisConfig()
+        return password !== undefined ? { ...rest, password } : rest
+      })(),
+    }),
     EmailModule.forRoot(getSmtpConfig()),
     DatabaseModule,
     AuthModule,

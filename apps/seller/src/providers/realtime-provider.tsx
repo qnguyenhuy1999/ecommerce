@@ -43,6 +43,10 @@ async function fetchUnreadCounts(): Promise<{
   }
 }
 
+// Notification types that represent chat messages — these are already handled
+// by the chat socket layer and must not inflate the notification badge.
+const CHAT_NOTIFICATION_TYPES = new Set(['MESSAGE'])
+
 export function SellerRealtimeProvider({ children }: Readonly<{ children: ReactNode }>) {
   const { user, loading } = useAuth()
   const [socket, setSocket] = useState<SellerRealtimeSocket | null>(null)
@@ -80,9 +84,6 @@ export function SellerRealtimeProvider({ children }: Readonly<{ children: ReactN
     }
 
     void refresh()
-    const pollHandle = window.setInterval(() => {
-      void refresh()
-    }, 60_000)
 
     const nextSocket = createSellerRealtimeSocket(
       process.env.NEXT_PUBLIC_SELLER_API_URL ?? 'http://localhost:4003',
@@ -91,6 +92,9 @@ export function SellerRealtimeProvider({ children }: Readonly<{ children: ReactN
     const stopHeartbeat = startHeartbeat(nextSocket)
 
     nextSocket.on('notification', (payload: RealtimeNotificationPayload) => {
+      if (CHAT_NOTIFICATION_TYPES.has(payload.type)) {
+        return
+      }
       setLastNotification(payload)
       setNotificationCount((current) => current + 1)
     })
@@ -99,7 +103,6 @@ export function SellerRealtimeProvider({ children }: Readonly<{ children: ReactN
 
     return () => {
       cancelled = true
-      window.clearInterval(pollHandle)
       stopHeartbeat()
       nextSocket.disconnect()
       setSocket(null)
