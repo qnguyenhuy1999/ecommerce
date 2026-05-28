@@ -1,10 +1,10 @@
 'use client'
 
-import type { DashboardProps } from '@ecom/ui-admin'
 import { useDashboardMetrics, useDashboardAnalytics } from '../hooks/use-dashboard'
 import { mapDashboardMetricsToProps } from '../mappers/dashboard.mapper'
+import type { DashboardAdapterState } from '../types/dashboard.types'
 
-export function useDashboardAdapter(): DashboardProps & { loading: boolean; error: Error | null } {
+export function useDashboardAdapter(): DashboardAdapterState {
   const metricsQuery = useDashboardMetrics()
   const analyticsQuery = useDashboardAnalytics()
 

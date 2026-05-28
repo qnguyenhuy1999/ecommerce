@@ -1,19 +1,84 @@
+import { formatCurrency } from '@ecom/shared'
 import type { DashboardProps } from '@ecom/ui-admin'
-import type { DashboardMetrics, DashboardAnalytics } from '../api/dashboard.api'
+import type { DashboardAnalytics, DashboardMetrics } from '../api/dashboard.api'
 
 export function mapDashboardMetricsToProps(
   metrics: DashboardMetrics,
   analytics: DashboardAnalytics | undefined,
-): Pick<DashboardProps, 'metrics' | 'pendingApprovals' | 'moderationQueue' | 'revenueSeries'> {
+): Pick<
+  DashboardProps,
+  | 'metrics'
+  | 'pendingApprovals'
+  | 'moderationQueue'
+  | 'revenueSeries'
+  | 'revenueValueLabel'
+  | 'revenueTrendLabel'
+> {
+  const totalRevenue = analytics?.totalRevenue ?? 0
+  const revenueTrendLabel =
+    analytics?.revenueTrendPercent !== null && analytics?.revenueTrendPercent !== undefined
+      ? `${analytics.revenueTrendPercent >= 0 ? '+' : ''}${analytics.revenueTrendPercent.toFixed(1)}% vs prev`
+      : 'No prior period'
+
+  const revenueValueLabel = formatCurrency(totalRevenue, {
+    currency: 'USD',
+    fractionDigits: 0,
+  })
+
   return {
     metrics: [
-      { label: 'Total Sellers', value: String(metrics.totalSellers) },
-      { label: 'Active Sellers', value: String(metrics.activeSellers) },
-      { label: 'Total Users', value: String(metrics.totalUsers) },
-      { label: 'Total Orders', value: String(metrics.totalOrders) },
-      { label: 'Total Products', value: String(metrics.totalProducts) },
-      { label: 'Pending Refunds', value: String(metrics.pendingRefunds) },
+      {
+        label: 'Total Sellers',
+        value: String(metrics.totalSellers),
+        trend: 0,
+        spark: [],
+        accent: 'primary',
+      },
+      {
+        label: 'Active Sellers',
+        value: String(metrics.activeSellers),
+        trend: 0,
+        spark: [],
+        accent: 'success',
+      },
+      {
+        label: 'Total Users',
+        value: String(metrics.totalUsers),
+        trend: 0,
+        spark: [],
+        accent: 'info',
+      },
+      {
+        label: 'Total Orders',
+        value: String(metrics.totalOrders),
+        trend: 0,
+        spark: [],
+        accent: 'warning',
+      },
+      {
+        label: 'Total Products',
+        value: String(metrics.totalProducts),
+        trend: 0,
+        spark: [],
+        accent: 'primary',
+      },
+      {
+        label: 'Total Reviews',
+        value: String(metrics.totalReviews),
+        trend: 0,
+        spark: [],
+        accent: 'info',
+      },
+      {
+        label: 'Pending Refunds',
+        value: String(metrics.pendingRefunds),
+        trend: 0,
+        spark: [],
+        accent: 'destructive',
+      },
     ],
+    revenueValueLabel,
+    revenueTrendLabel,
     pendingApprovals: [
       { id: 'sellers', label: 'Seller KYC', countLabel: String(metrics.pendingSellers) },
       { id: 'refunds', label: 'Refunds', countLabel: String(metrics.pendingRefunds) },
@@ -27,8 +92,11 @@ export function mapDashboardMetricsToProps(
     })),
     revenueSeries:
       analytics?.ordersByDay.map((d) => ({
-        label: d.status,
-        revenue: Number(d._sum.totalAmount ?? 0),
+        label: new Intl.DateTimeFormat('en-US', {
+          month: 'short',
+          day: 'numeric',
+        }).format(new Date(d.date)),
+        revenue: d.revenue,
       })) ?? [],
   }
 }

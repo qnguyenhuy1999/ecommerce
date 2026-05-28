@@ -19,8 +19,8 @@ import {
   ApiCreatedResponseData,
   ApiErrorResponses,
 } from '@ecom/nestjs-core/openapi'
-import { LoginDto } from '@ecom/contracts'
 import { AuthService } from './auth.service'
+import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
 import { ResetPasswordDto } from './dto/reset-password.dto'

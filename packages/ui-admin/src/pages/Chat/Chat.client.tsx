@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@ecom/core-ui'
 import { Typography } from '@ecom/core-ui'
 import type { ChatConversationRecord, ChatMessageRecord, ChatProps } from './Chat.types'
 
@@ -42,6 +43,55 @@ function MessageItem({ message }: { message: ChatMessageRecord }) {
   )
 }
 
+function StartConversationForm({
+  newBuyerId,
+  newShopId,
+  newProductId,
+  onNewBuyerIdChange,
+  onNewShopIdChange,
+  onNewProductIdChange,
+  onStartConversation,
+}: {
+  newBuyerId: string
+  newShopId: string
+  newProductId: string
+  onNewBuyerIdChange?: (value: string) => void
+  onNewShopIdChange?: (value: string) => void
+  onNewProductIdChange?: (value: string) => void
+  onStartConversation?: () => void
+}) {
+  return (
+    <div className="bg-card rounded-xl border p-4">
+      <Typography variant="label" className="mb-3 block">
+        Create conversation
+      </Typography>
+      <div className="flex flex-wrap gap-2">
+        <input
+          value={newBuyerId}
+          onChange={(event) => onNewBuyerIdChange?.(event.target.value)}
+          placeholder="Buyer ID"
+          className="border-input rounded-lg border px-3 py-2 text-sm"
+        />
+        <input
+          value={newShopId}
+          onChange={(event) => onNewShopIdChange?.(event.target.value)}
+          placeholder="Shop ID"
+          className="border-input rounded-lg border px-3 py-2 text-sm"
+        />
+        <input
+          value={newProductId}
+          onChange={(event) => onNewProductIdChange?.(event.target.value)}
+          placeholder="Product ID (optional)"
+          className="border-input rounded-lg border px-3 py-2 text-sm"
+        />
+        <Button type="button" size="sm" onClick={onStartConversation}>
+          Create
+        </Button>
+      </div>
+    </div>
+  )
+}
+
 interface ChatClientProps {
   title: string
   description: string
@@ -50,6 +100,13 @@ interface ChatClientProps {
   selectedConversationId?: string
   selectedConversationShortId?: string
   onSelectConversation?: ChatProps['onSelectConversation']
+  newBuyerId: string
+  newShopId: string
+  newProductId: string
+  onNewBuyerIdChange?: ChatProps['onNewBuyerIdChange']
+  onNewShopIdChange?: ChatProps['onNewShopIdChange']
+  onNewProductIdChange?: ChatProps['onNewProductIdChange']
+  onStartConversation?: ChatProps['onStartConversation']
 }
 
 export function ChatClient({
@@ -60,6 +117,13 @@ export function ChatClient({
   selectedConversationId,
   selectedConversationShortId,
   onSelectConversation,
+  newBuyerId,
+  newShopId,
+  newProductId,
+  onNewBuyerIdChange,
+  onNewShopIdChange,
+  onNewProductIdChange,
+  onStartConversation,
 }: ChatClientProps) {
   return (
     <div className="grid gap-4">
@@ -69,6 +133,16 @@ export function ChatClient({
           {description}
         </Typography>
       </div>
+
+      <StartConversationForm
+        newBuyerId={newBuyerId}
+        newShopId={newShopId}
+        newProductId={newProductId}
+        {...(onNewBuyerIdChange !== undefined ? { onNewBuyerIdChange } : {})}
+        {...(onNewShopIdChange !== undefined ? { onNewShopIdChange } : {})}
+        {...(onNewProductIdChange !== undefined ? { onNewProductIdChange } : {})}
+        {...(onStartConversation !== undefined ? { onStartConversation } : {})}
+      />
 
       <div className="grid gap-4 lg:grid-cols-[320px_1fr]">
         <aside className="bg-card rounded-xl border p-4">
@@ -95,7 +169,7 @@ export function ChatClient({
                 : 'Conversation'}
             </Typography>
             <Typography variant="body-sm" className="text-muted-foreground">
-              Admin chat is monitor-only.
+              Live admin view of buyer and seller chat activity.
             </Typography>
           </div>
 

@@ -2209,7 +2209,24 @@ export type components = {
       timestamp: string
     }
     Object: Record<string, never>
-    RegisterDto: Record<string, never>
+    RegisterDto: {
+      /**
+       * Format: email
+       * @description User email address
+       * @example user@example.com
+       */
+      email: string
+      /**
+       * Format: password
+       * @description User password (minimum 8 characters)
+       */
+      password: string
+      /**
+       * @description Optional shop name
+       * @example Marketplace Store
+       */
+      shopName?: string
+    }
     LoginDto: {
       /**
        * Format: email

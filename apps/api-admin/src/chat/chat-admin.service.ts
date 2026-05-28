@@ -3,11 +3,48 @@ import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import {
+  ChatConversationDetailDto,
+  ChatConversationSummaryDto,
+  ChatMessageDto,
+} from './dto/chat-response.dto'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()
 export class ChatAdminService {
   constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
+
+  private toConversationSummary(
+    conversation: Prisma.ConversationGetPayload<Record<string, never>>,
+  ): ChatConversationSummaryDto {
+    return {
+      id: conversation.id,
+      buyerId: conversation.buyerId,
+      shopId: conversation.shopId,
+      lastMessageText: conversation.lastMessageText,
+      updatedAt: conversation.updatedAt.toISOString(),
+    }
+  }
+
+  private toConversationDetail(
+    conversation: Prisma.ConversationGetPayload<Record<string, never>>,
+  ): ChatConversationDetailDto {
+    return {
+      conversation: this.toConversationSummary(conversation),
+    }
+  }
+
+  private toMessageDto(
+    message: Prisma.ChatMessageGetPayload<Record<string, never>>,
+  ): ChatMessageDto {
+    return {
+      id: message.id,
+      conversationId: message.conversationId,
+      senderId: message.senderId,
+      content: message.content,
+      createdAt: message.createdAt.toISOString(),
+    }
+  }
 
   async listConversations(query: ConversationQueryDto) {
     const { page = 1, limit = PAGINATION_DEFAULTS.DEFAULT_LIMIT, search } = query
@@ -28,7 +65,12 @@ export class ChatAdminService {
       orderBy: { lastMessageAt: { sort: 'desc', nulls: 'last' } },
     })
 
-    return buildOffsetResponse(items, page, limit, total)
+    return buildOffsetResponse(
+      items.map((item) => this.toConversationSummary(item)),
+      page,
+      limit,
+      total,
+    )
   }
 
   async getConversation(conversationId: string) {
@@ -40,7 +82,7 @@ export class ChatAdminService {
       throw new NotFoundException('Conversation not found')
     }
 
-    return conversation
+    return this.toConversationDetail(conversation)
   }
 
   async getMessages(conversationId: string, query: MessageQueryDto) {
@@ -54,7 +96,51 @@ export class ChatAdminService {
       orderBy: { createdAt: 'desc' },
     })
 
-    return buildOffsetResponse(items.slice().reverse(), page, limit, total)
+    return buildOffsetResponse(
+      items
+        .slice()
+        .reverse()
+        .map((item) => this.toMessageDto(item)),
+      page,
+      limit,
+      total,
+    )
+  }
+
+  async createConversation(buyerId: string, shopId: string, productId?: string) {
+    const existing = await this.prisma.conversation.findFirst({
+      where: {
+        buyerId,
+        shopId,
+        ...(productId !== undefined ? { productId } : { productId: null }),
+      },
+    })
+
+    if (existing) {
+      return this.toConversationSummary(existing)
+    }
+
+    const conversation = await this.prisma.conversation.create({
+      data: {
+        buyerId,
+        shopId,
+        ...(productId !== undefined ? { productId } : {}),
+      },
+    })
+
+    return this.toConversationSummary(conversation)
+  }
+
+  async getMessage(messageId: string) {
+    const message = await this.prisma.chatMessage.findUnique({
+      where: { id: messageId },
+    })
+
+    if (!message) {
+      throw new NotFoundException('Message not found')
+    }
+
+    return this.toMessageDto(message)
   }
 
   async ensureConversationExists(conversationId: string): Promise<void> {

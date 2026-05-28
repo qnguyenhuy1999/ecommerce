@@ -1376,7 +1376,7 @@
                             "items": {
                               "type": "array",
                               "items": {
-                                "$ref": "#/components/schemas/Object"
+                                "$ref": "#/components/schemas/ChatConversationSummaryDto"
                               }
                             }
                           }
@@ -1479,7 +1479,7 @@
                     {
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/Object"
+                          "$ref": "#/components/schemas/ChatConversationDetailDto"
                         }
                       }
                     }
@@ -1581,7 +1581,7 @@
                             "items": {
                               "type": "array",
                               "items": {
-                                "$ref": "#/components/schemas/Object"
+                                "$ref": "#/components/schemas/ChatMessageDto"
                               }
                             }
                           }
@@ -8708,13 +8708,13 @@
         "properties": {
           "email": {
             "type": "string",
-            "description": "User email address",
+            "description": "Admin email address",
             "format": "email",
             "example": "admin@marketplace.com"
           },
           "password": {
             "type": "string",
-            "description": "User password",
+            "description": "Admin password",
             "format": "password",
             "example": "admin123"
           }
@@ -8971,6 +8971,99 @@
           }
         }
       },
+      "ChatConversationSummaryDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "conv_123"
+          },
+          "buyerId": {
+            "type": "string",
+            "example": "buyer_123"
+          },
+          "shopId": {
+            "type": "string",
+            "example": "shop_123"
+          },
+          "lastMessageText": {
+            "type": "object",
+            "example": "Need help with my order",
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "example": "2026-05-27T10:00:00.000Z"
+          }
+        },
+        "required": ["id", "buyerId", "shopId", "updatedAt"]
+      },
+      "ChatConversationDetailDto": {
+        "type": "object",
+        "properties": {
+          "conversation": {
+            "$ref": "#/components/schemas/ChatConversationSummaryDto"
+          }
+        },
+        "required": ["conversation"]
+      },
+      "ChatMessageDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "msg_123"
+          },
+          "conversationId": {
+            "type": "string",
+            "example": "conv_123"
+          },
+          "senderId": {
+            "type": "string",
+            "example": "user_123"
+          },
+          "content": {
+            "type": "string",
+            "example": "Can you check this order?"
+          },
+          "createdAt": {
+            "type": "string",
+            "example": "2026-05-27T10:01:00.000Z"
+          }
+        },
+        "required": ["id", "conversationId", "senderId", "content", "createdAt"]
+      },
+      "DashboardSellerUserDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": ["email"]
+      },
+      "DashboardRecentSellerDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "shopName": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "createdAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "user": {
+            "$ref": "#/components/schemas/DashboardSellerUserDto"
+          }
+        },
+        "required": ["id", "shopName", "status", "createdAt", "user"]
+      },
       "DashboardMetricsDto": {
         "type": "object",
         "properties": {
@@ -9001,7 +9094,7 @@
           "recentSellers": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/DashboardRecentSellerDto"
             }
           }
         },
@@ -9017,23 +9110,57 @@
           "recentSellers"
         ]
       },
+      "DashboardOrdersByDayDto": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "example": "2026-05-01"
+          },
+          "revenue": {
+            "type": "number"
+          }
+        },
+        "required": ["date", "revenue"]
+      },
+      "DashboardTopCategoryDto": {
+        "type": "object",
+        "properties": {
+          "categoryId": {
+            "type": "string"
+          },
+          "count": {
+            "type": "number"
+          }
+        },
+        "required": ["categoryId", "count"]
+      },
       "DashboardAnalyticsDto": {
         "type": "object",
         "properties": {
-          "ordersByStatus": {
+          "totalRevenue": {
+            "type": "number",
+            "format": "double"
+          },
+          "revenueTrendPercent": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "ordersByDay": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/DashboardOrdersByDayDto"
             }
           },
           "topCategories": {
             "type": "array",
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/DashboardTopCategoryDto"
             }
           }
         },
-        "required": ["ordersByStatus", "topCategories"]
+        "required": ["totalRevenue", "revenueTrendPercent", "ordersByDay", "topCategories"]
       },
       "ProductResponseDto": {
         "type": "object",

@@ -26,25 +26,15 @@
       "import": "./dist/http/index.js",
       "require": "./dist/http/index.cjs"
     },
-    "./product": {
-      "types": "./src/product/index.ts",
-      "import": "./dist/product/index.js",
-      "require": "./dist/product/index.cjs"
-    },
-    "./order": {
-      "types": "./src/order/index.ts",
-      "import": "./dist/order/index.js",
-      "require": "./dist/order/index.cjs"
-    },
-    "./auth": {
-      "types": "./src/auth/index.ts",
-      "import": "./dist/auth/index.js",
-      "require": "./dist/auth/index.cjs"
-    },
     "./common": {
       "types": "./src/common/index.ts",
       "import": "./dist/common/index.js",
       "require": "./dist/common/index.cjs"
+    },
+    "./admin/chat": {
+      "types": "./src/admin/chat/index.ts",
+      "import": "./dist/admin/chat/index.js",
+      "require": "./dist/admin/chat/index.cjs"
     },
     "./generated": {
       "types": "./src/generated/index.ts",

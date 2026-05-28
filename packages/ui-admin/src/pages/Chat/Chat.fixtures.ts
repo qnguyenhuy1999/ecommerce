@@ -2,7 +2,10 @@ import type { ChatProps } from './Chat.types'
 
 export const chatDefaultProps: ChatProps = {
   title: 'Chat Monitor',
-  description: 'Read-only live view of buyer and seller conversations.',
+  description: 'Live view of buyer and seller conversations, with manual conversation creation.',
+  newBuyerId: '',
+  newShopId: '',
+  newProductId: '',
   selectedConversationId: 'conv-001',
   conversations: [
     {

@@ -18,5 +18,12 @@ export interface ChatProps {
   conversations?: ChatConversationRecord[]
   messages?: ChatMessageRecord[]
   selectedConversationId?: string
+  newBuyerId?: string
+  newShopId?: string
+  newProductId?: string
   onSelectConversation?: (id: string) => void
+  onNewBuyerIdChange?: (value: string) => void
+  onNewShopIdChange?: (value: string) => void
+  onNewProductIdChange?: (value: string) => void
+  onStartConversation?: () => void
 }

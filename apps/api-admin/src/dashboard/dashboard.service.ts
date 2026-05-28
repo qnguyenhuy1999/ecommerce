@@ -55,12 +55,18 @@ export class DashboardService {
     const since = new Date()
     since.setDate(since.getDate() - days)
 
-    const [ordersByStatus, topCategories] = await Promise.all([
-      this.prisma.order.groupBy({
-        by: ['status'],
-        _count: { id: true },
-        _sum: { totalAmount: true },
+    const previousSince = new Date(since)
+    previousSince.setDate(previousSince.getDate() - days)
+
+    const [orders, previousOrders, topCategories] = await Promise.all([
+      this.prisma.order.findMany({
         where: { createdAt: { gte: since } },
+        select: { createdAt: true, totalAmount: true },
+        orderBy: { createdAt: 'asc' },
+      }),
+      this.prisma.order.findMany({
+        where: { createdAt: { gte: previousSince, lt: since } },
+        select: { totalAmount: true },
       }),
       this.prisma.product.groupBy({
         by: ['categoryId'],
@@ -71,6 +77,33 @@ export class DashboardService {
       }),
     ])
 
-    return { ordersByStatus, topCategories }
+    const orderTotalsByDay = new Map<string, number>()
+
+    for (const order of orders) {
+      const day = order.createdAt.toISOString().slice(0, 10)
+      const existingTotal = orderTotalsByDay.get(day) ?? 0
+      orderTotalsByDay.set(day, existingTotal + Number(order.totalAmount))
+    }
+
+    const totalRevenue = orders.reduce((sum, order) => sum + Number(order.totalAmount), 0)
+    const previousRevenue = previousOrders.reduce(
+      (sum, order) => sum + Number(order.totalAmount),
+      0,
+    )
+    const revenueTrendPercent =
+      previousRevenue > 0 ? ((totalRevenue - previousRevenue) / previousRevenue) * 100 : null
+
+    return {
+      totalRevenue,
+      revenueTrendPercent,
+      ordersByDay: Array.from(orderTotalsByDay.entries()).map(([date, revenue]) => ({
+        date,
+        revenue,
+      })),
+      topCategories: topCategories.map((category) => ({
+        categoryId: category.categoryId,
+        count: category._count.id,
+      })),
+    }
   }
 }

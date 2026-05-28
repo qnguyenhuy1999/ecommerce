@@ -1,4 +1,4 @@
-import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websockets'
+import type { OnGatewayConnection, OnGatewayDisconnect, OnGatewayInit } from '@nestjs/websockets'
 import {
   ConnectedSocket,
   MessageBody,
@@ -6,7 +6,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets'
-import { Inject, Logger } from '@nestjs/common'
+import { Inject, Logger, type OnModuleDestroy } from '@nestjs/common'
 import type { Server, Socket } from 'socket.io'
 import type { SessionService } from '@ecom/auth'
 import { SESSION_COOKIE_NAME } from '@ecom/auth'
@@ -26,6 +26,29 @@ interface AdminChatSocketData {
 }
 
 const PRESENCE_TTL_SECONDS = 60
+const ADMIN_ROOM = 'admins'
+const USER_NOTIFICATION_CHANNEL = 'notif:user:'
+const SHOP_NOTIFICATION_CHANNEL = 'notif:shop:'
+
+function isChatNotificationPayload(
+  value: unknown,
+): value is { metadata?: { conversationId?: unknown; messageId?: unknown } } {
+  return !!value && typeof value === 'object'
+}
+
+function extractMessageIdFromNotification(rawMessage: string): string | undefined {
+  try {
+    const payload = JSON.parse(rawMessage) as unknown
+    if (!isChatNotificationPayload(payload)) {
+      return undefined
+    }
+
+    const messageId = payload.metadata?.messageId
+    return typeof messageId === 'string' && messageId.length > 0 ? messageId : undefined
+  } catch {
+    return undefined
+  }
+}
 
 interface ChatErrorPayload {
   code: 'NOT_FOUND' | 'INTERNAL'
@@ -44,11 +67,14 @@ function toChatError(err: unknown): ChatErrorPayload {
   cors: { origin: resolveSocketCorsOrigins(), credentials: true },
   namespace: '/chat',
 })
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ChatGateway
+  implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, OnModuleDestroy
+{
   @WebSocketServer()
   server!: Server
 
   private readonly logger = new Logger(ChatGateway.name)
+  private notificationSubscriber: Redis | undefined
 
   constructor(
     private readonly chatAdminService: ChatAdminService,
@@ -57,6 +83,41 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @Inject(REDIS_CLIENT)
     private readonly redis: Redis,
   ) {}
+
+  afterInit(): void {
+    this.notificationSubscriber = this.redis.duplicate()
+    this.notificationSubscriber.on('pmessage', (_pattern, _channel, rawMessage) => {
+      const messageId = extractMessageIdFromNotification(rawMessage)
+
+      if (!messageId) {
+        return
+      }
+
+      void this.broadcastIncomingMessage(messageId)
+    })
+    this.notificationSubscriber.on('error', (err: Error) => {
+      this.logger.error(`Admin chat notification subscriber error: ${err.message}`)
+    })
+    void this.notificationSubscriber.psubscribe(`${USER_NOTIFICATION_CHANNEL}*`)
+    void this.notificationSubscriber.psubscribe(`${SHOP_NOTIFICATION_CHANNEL}*`)
+  }
+
+  async onModuleDestroy(): Promise<void> {
+    if (this.notificationSubscriber) {
+      await this.notificationSubscriber.quit()
+      this.notificationSubscriber = undefined
+    }
+  }
+
+  private async broadcastIncomingMessage(messageId: string): Promise<void> {
+    try {
+      const message = await this.chatAdminService.getMessage(messageId)
+      this.server.to(ADMIN_ROOM).emit('new_message', message)
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'unknown error'
+      this.logger.warn(`Failed to broadcast admin chat message ${messageId}: ${errorMessage}`)
+    }
+  }
 
   private async trackPresence(adminId: string, socketId: string): Promise<void> {
     try {
@@ -109,6 +170,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     getSocketData(client).adminId = adminIdRaw
     await this.trackPresence(adminIdRaw, client.id)
     void client.join(`admin:${adminIdRaw}`)
+    void client.join(ADMIN_ROOM)
   }
 
   async handleDisconnect(client: Socket): Promise<void> {

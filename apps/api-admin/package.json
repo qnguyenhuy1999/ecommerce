@@ -9,6 +9,7 @@
     "start": "node --env-file=../../.env dist/main.js",
     "start:prod": "node dist/main.js",
     "lint": "pnpm exec eslint --no-error-on-unmatched-pattern src/",
+    "test": "vitest run src/**/*.test.ts",
     "type-check": "tsc --noEmit",
     "swagger:gen": "node --env-file-if-exists=../../.env ../../scripts/run-nest-swagger-gen.cjs"
   },
@@ -51,6 +52,7 @@
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
   }
 }

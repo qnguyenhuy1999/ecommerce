@@ -5,6 +5,16 @@
       "post": {
         "operationId": "AuthController_register",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": "",
@@ -86,6 +96,16 @@
       "post": {
         "operationId": "AuthController_login",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "",
@@ -1523,6 +1543,42 @@
           }
         },
         "required": ["success", "data", "timestamp"]
+      },
+      "RegisterDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email address",
+            "format": "email",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password (minimum 8 characters)",
+            "format": "password",
+            "minLength": 8
+          }
+        },
+        "required": ["email", "password"]
+      },
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User email address",
+            "format": "email",
+            "example": "admin@marketplace.com"
+          },
+          "password": {
+            "type": "string",
+            "description": "User password",
+            "format": "password",
+            "example": "admin123"
+          }
+        },
+        "required": ["email", "password"]
       },
       "PaginationMetaDto": {
         "type": "object",

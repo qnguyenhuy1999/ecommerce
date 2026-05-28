@@ -1334,13 +1334,13 @@ export type components = {
     LoginDto: {
       /**
        * Format: email
-       * @description User email address
+       * @description Admin email address
        * @example admin@marketplace.com
        */
       email: string
       /**
        * Format: password
-       * @description User password
+       * @description Admin password
        * @example admin123
        */
       password: string
@@ -1483,6 +1483,44 @@ export type components = {
       reason?: string
       note?: string
     }
+    ChatConversationSummaryDto: {
+      /** @example conv_123 */
+      id: string
+      /** @example buyer_123 */
+      buyerId: string
+      /** @example shop_123 */
+      shopId: string
+      /** @example Need help with my order */
+      lastMessageText?: Record<string, never> | null
+      /** @example 2026-05-27T10:00:00.000Z */
+      updatedAt: string
+    }
+    ChatConversationDetailDto: {
+      conversation: components['schemas']['ChatConversationSummaryDto']
+    }
+    ChatMessageDto: {
+      /** @example msg_123 */
+      id: string
+      /** @example conv_123 */
+      conversationId: string
+      /** @example user_123 */
+      senderId: string
+      /** @example Can you check this order? */
+      content: string
+      /** @example 2026-05-27T10:01:00.000Z */
+      createdAt: string
+    }
+    DashboardSellerUserDto: {
+      email: string
+    }
+    DashboardRecentSellerDto: {
+      id: string
+      shopName: string
+      status: string
+      /** Format: date-time */
+      createdAt: string
+      user: components['schemas']['DashboardSellerUserDto']
+    }
     DashboardMetricsDto: {
       totalSellers: number
       activeSellers: number
@@ -1492,11 +1530,24 @@ export type components = {
       totalProducts: number
       pendingRefunds: number
       totalReviews: number
-      recentSellers: Record<string, never>[]
+      recentSellers: components['schemas']['DashboardRecentSellerDto'][]
+    }
+    DashboardOrdersByDayDto: {
+      /** @example 2026-05-01 */
+      date: string
+      revenue: number
+    }
+    DashboardTopCategoryDto: {
+      categoryId: string
+      count: number
     }
     DashboardAnalyticsDto: {
-      ordersByStatus: Record<string, never>[]
-      topCategories: Record<string, never>[]
+      /** Format: double */
+      totalRevenue: number
+      /** Format: double */
+      revenueTrendPercent: number | null
+      ordersByDay: components['schemas']['DashboardOrdersByDayDto'][]
+      topCategories: components['schemas']['DashboardTopCategoryDto'][]
     }
     ProductResponseDto: {
       /** @description Product ID */
@@ -2821,7 +2872,7 @@ export interface operations {
         content: {
           'application/json': components['schemas']['PaginatedResponseDto'] & {
             data?: {
-              items?: components['schemas']['Object'][]
+              items?: components['schemas']['ChatConversationSummaryDto'][]
             }
             meta?: components['schemas']['PaginationMetaDto']
           }
@@ -2891,7 +2942,7 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['Object']
+            data?: components['schemas']['ChatConversationDetailDto']
           }
         }
       }
@@ -2960,7 +3011,7 @@ export interface operations {
         content: {
           'application/json': components['schemas']['PaginatedResponseDto'] & {
             data?: {
-              items?: components['schemas']['Object'][]
+              items?: components['schemas']['ChatMessageDto'][]
             }
             meta?: components['schemas']['PaginationMetaDto']
           }

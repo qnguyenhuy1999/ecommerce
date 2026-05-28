@@ -1,3 +1,4 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsString } from 'class-validator'
 import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
 
@@ -8,3 +9,18 @@ export class ConversationQueryDto extends OffsetPaginationDto {
 }
 
 export class MessageQueryDto extends OffsetPaginationDto {}
+
+export class CreateConversationDto {
+  @ApiProperty()
+  @IsString()
+  buyerId!: string
+
+  @ApiProperty()
+  @IsString()
+  shopId!: string
+
+  @IsOptional()
+  @ApiPropertyOptional()
+  @IsString()
+  productId?: string
+}

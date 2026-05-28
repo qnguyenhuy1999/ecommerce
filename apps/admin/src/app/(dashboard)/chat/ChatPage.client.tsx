@@ -1,9 +1,9 @@
 'use client'
 
-import { Chat, type ChatProps } from '@ecom/ui-admin'
+import { Chat } from '@ecom/ui-admin'
 import { useChatAdapter } from '@/features/chat/hooks/use-chat-adapter'
 
 export function ChatPageClient() {
-  const props: ChatProps = useChatAdapter()
+  const props = useChatAdapter()
   return <Chat {...props} />
 }

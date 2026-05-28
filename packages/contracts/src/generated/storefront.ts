@@ -277,6 +277,33 @@ export type components = {
       /** @example 2024-01-01T00:00:00.000Z */
       timestamp: string
     }
+    RegisterDto: {
+      /**
+       * Format: email
+       * @description User email address
+       * @example user@example.com
+       */
+      email: string
+      /**
+       * Format: password
+       * @description User password (minimum 8 characters)
+       */
+      password: string
+    }
+    LoginDto: {
+      /**
+       * Format: email
+       * @description User email address
+       * @example admin@marketplace.com
+       */
+      email: string
+      /**
+       * Format: password
+       * @description User password
+       * @example admin123
+       */
+      password: string
+    }
     PaginationMetaDto: {
       /**
        * @description Total number of items
@@ -474,7 +501,11 @@ export interface operations {
       path?: never
       cookie?: never
     }
-    requestBody?: never
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RegisterDto']
+      }
+    }
     responses: {
       201: {
         headers: {
@@ -540,7 +571,11 @@ export interface operations {
       path?: never
       cookie?: never
     }
-    requestBody?: never
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['LoginDto']
+      }
+    }
     responses: {
       200: {
         headers: {
