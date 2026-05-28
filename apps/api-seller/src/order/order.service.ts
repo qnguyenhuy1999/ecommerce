@@ -58,7 +58,12 @@ export class OrderService {
       throw new NotFoundException('Order not found')
     }
 
-    return sellerOrder
+    const primaryShipment = sellerOrder.shipments[0] ?? null
+
+    return {
+      ...sellerOrder,
+      shipment: primaryShipment,
+    }
   }
 
   async updateStatus(

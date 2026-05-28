@@ -40,7 +40,7 @@ import type {
 } from './seller-page-adapters'
 
 interface ApiEnvelope<T> {
-  data: T
+  data: { items: T }
   meta?: unknown
 }
 

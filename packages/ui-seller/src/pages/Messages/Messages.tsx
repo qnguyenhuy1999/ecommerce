@@ -15,7 +15,7 @@ export function Messages({
   search,
   onSearchChange,
   searchPlaceholder = messagesDefaultProps.searchPlaceholder,
-  draftMessage = messagesDefaultProps.draftMessage,
+  draftMessage,
   onDraftMessageChange,
   composerPlaceholder = messagesDefaultProps.composerPlaceholder,
   onSendMessage = messagesDefaultProps.onSendMessage,
@@ -37,7 +37,7 @@ export function Messages({
         {...(search !== undefined ? { search } : {})}
         {...(onSearchChange !== undefined ? { onSearchChange } : {})}
         searchPlaceholder={searchPlaceholder}
-        draftMessage={draftMessage}
+        {...(draftMessage !== undefined ? { draftMessage } : {})}
         {...(onDraftMessageChange ? { onDraftMessageChange } : {})}
         composerPlaceholder={composerPlaceholder}
         onSendMessage={onSendMessage}

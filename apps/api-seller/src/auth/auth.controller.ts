@@ -6,11 +6,12 @@ import {
   Req,
   Res,
   Query,
+  UseGuards,
   UnauthorizedException,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { Throttle } from '@nestjs/throttler'
 import type { Request, Response } from 'express'
 import { getSessionCookieOptions, SESSION_COOKIE_NAME } from '@ecom/auth'
@@ -18,8 +19,10 @@ import {
   ApiOkResponseData,
   ApiCreatedResponseData,
   ApiErrorResponses,
+  ApiAuth,
 } from '@ecom/nestjs-core/openapi'
 import { AuthService } from './auth.service'
+import { AuthGuard } from './guards/auth.guard'
 import { LoginDto } from './dto/login.dto'
 import { RegisterDto } from './dto/register.dto'
 import { ForgotPasswordDto } from './dto/forgot-password.dto'
@@ -31,6 +34,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto'
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @ApiOperation({ summary: 'Register seller account' })
   @Post('register')
   @ApiCreatedResponseData(Object)
   async register(@Body() dto: RegisterDto) {
@@ -38,6 +42,7 @@ export class AuthController {
     return user
   }
 
+  @ApiOperation({ summary: 'Login to seller panel' })
   @Post('login')
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @HttpCode(HttpStatus.OK)
@@ -50,15 +55,10 @@ export class AuthController {
     const userAgent = req.headers['user-agent']
     const ipAddress = getClientIp(req)
 
-    const { sessionId, userId, sellerProfileId } = await this.authService.login(
-      dto.email,
-      dto.password,
-      userAgent,
-      ipAddress,
-    )
+    const result = await this.authService.login(dto.email, dto.password, userAgent, ipAddress)
 
     const cookieOptions = getSessionCookieOptions(process.env.COOKIE_DOMAIN)
-    res.cookie(cookieOptions.name, sessionId, {
+    res.cookie(cookieOptions.name, result.sessionId, {
       httpOnly: cookieOptions.httpOnly,
       secure: cookieOptions.secure,
       sameSite: cookieOptions.sameSite,
@@ -67,10 +67,13 @@ export class AuthController {
       ...(cookieOptions.domain ? { domain: cookieOptions.domain } : {}),
     })
 
-    return { userId, sellerProfileId }
+    return result.seller
   }
 
+  @ApiOperation({ summary: 'Logout from seller panel' })
+  @ApiAuth()
   @Post('logout')
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
   @ApiOkResponseData(Object)
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
@@ -88,10 +91,13 @@ export class AuthController {
       ...(cookieOptions.domain ? { domain: cookieOptions.domain } : {}),
     })
 
-    return { data: { message: 'Logged out' } }
+    return { data: { success: true } }
   }
 
+  @ApiOperation({ summary: 'Get current seller profile' })
+  @ApiAuth()
   @Get('me')
+  @UseGuards(AuthGuard)
   @ApiOkResponseData(Object)
   async me(@Req() req: Request) {
     const sessionId = getSessionIdFromRequest(req)
@@ -101,23 +107,42 @@ export class AuthController {
     return this.authService.getMe(sessionId)
   }
 
+  @ApiOperation({ summary: 'Refresh session' })
+  @ApiAuth()
+  @Post('refresh')
+  @UseGuards(AuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @ApiOkResponseData(Object)
+  async refresh(@Req() req: Request) {
+    const sessionId = getSessionIdFromRequest(req)
+    if (!sessionId) {
+      throw new UnauthorizedException('No session cookie')
+    }
+
+    await this.authService.refreshSession(sessionId)
+    return { data: { success: true } }
+  }
+
+  @ApiOperation({ summary: 'Request seller password reset email' })
   @Post('forgot-password')
   @Throttle({ default: { limit: 3, ttl: 60_000 } })
   @HttpCode(HttpStatus.OK)
   @ApiOkResponseData(Object)
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
     await this.authService.forgotPassword(dto.email)
-    return { data: { message: 'If that email exists, a reset link has been sent' } }
+    return { data: { success: true } }
   }
 
+  @ApiOperation({ summary: 'Reset seller password with token' })
   @Post('reset-password')
   @HttpCode(HttpStatus.OK)
   @ApiOkResponseData(Object)
   async resetPassword(@Body() dto: ResetPasswordDto) {
     await this.authService.resetPassword(dto.token, dto.password)
-    return { data: { message: 'Password reset successful' } }
+    return { data: { success: true } }
   }
 
+  @ApiOperation({ summary: 'Verify seller email' })
   @Get('verify-email')
   @ApiOkResponseData(Object)
   async verifyEmail(@Query('token') token: string) {

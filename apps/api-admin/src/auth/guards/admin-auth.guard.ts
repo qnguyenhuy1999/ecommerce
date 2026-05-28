@@ -26,6 +26,8 @@ export class AdminAuthGuard implements CanActivate {
       throw new UnauthorizedException('Session expired or invalid')
     }
 
+    await this.sessionService.refresh(sessionId)
+
     const adminSession = toAdminSessionData(session)
     ;(request as Request & { admin: AdminSessionData }).admin = adminSession
     return true

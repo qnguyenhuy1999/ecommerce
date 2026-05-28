@@ -63,7 +63,7 @@ export class AuthService {
     const permissions: string[] = [...permissionSet]
 
     const sessionId = randomUUID()
-    const expiresAt = new Date(Date.now() + SESSION_EXPIRY_DAYS * 24 * 60 * 60 * 1000)
+    const expiresAt = this.getSessionExpiresAt()
 
     const sessionData: SessionData & AdminSessionData = {
       userId: admin.id,
@@ -114,6 +114,8 @@ export class AuthService {
       throw new UnauthorizedException('Session expired or invalid')
     }
 
+    await this.refreshSession(sessionId)
+
     const adminSession = parseAdminSessionData(session)
     const admin = await this.prisma.admin.findUnique({
       where: { id: adminSession.adminId, deletedAt: null },
@@ -141,6 +143,12 @@ export class AuthService {
 
   async refreshSession(sessionId: string) {
     await this.sessionService.refresh(sessionId)
+    await this.prisma.adminSession
+      .update({
+        where: { id: sessionId },
+        data: { expiresAt: this.getSessionExpiresAt() },
+      })
+      .catch(() => {})
   }
 
   async forgotPassword(email: string) {
@@ -190,6 +198,10 @@ export class AuthService {
         data: { usedAt: new Date() },
       }),
     ])
+  }
+
+  private getSessionExpiresAt(): Date {
+    return new Date(Date.now() + SESSION_EXPIRY_DAYS * 24 * 60 * 60 * 1000)
   }
 }
 

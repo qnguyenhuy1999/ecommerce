@@ -9,1568 +9,1568 @@
  */
 
 export type paths = {
-  '/auth/register': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Register a new user */
-    post: operations['AuthController_register']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/auth/login': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Login and receive session cookie */
-    post: operations['AuthController_login']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/auth/logout': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Logout and clear session cookie */
-    post: operations['AuthController_logout']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/auth/me': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get current user session info */
-    get: operations['AuthController_me']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/chat/conversations': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['ChatController_listConversations']
-    put?: never
-    post: operations['ChatController_createConversation']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/chat/unread': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['ChatController_unreadCount']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/chat/conversations/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['ChatController_getConversation']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/chat/conversations/{id}/messages': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['ChatController_getMessages']
-    put?: never
-    post: operations['ChatController_sendMessage']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/chat/conversations/{id}/read': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post: operations['ChatController_markAsRead']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/homepage': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get all landing page data (categories, vouchers, flash sale, featured products, shops) */
-    get: operations['HomepageController_getHomepage']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/notifications': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['NotificationsController_list']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/notifications/unread-count': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get: operations['NotificationsController_unreadCount']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/notifications/{id}/read': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post: operations['NotificationsController_markAsRead']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/notifications/read-all': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post: operations['NotificationsController_markAllAsRead']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-}
-export type webhooks = Record<string, never>
+    "/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Register a new user */
+        post: operations["AuthController_register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Login and receive session cookie */
+        post: operations["AuthController_login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Logout and clear session cookie */
+        post: operations["AuthController_logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get current user session info */
+        get: operations["AuthController_me"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/chat/conversations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_listConversations"];
+        put?: never;
+        post: operations["ChatController_createConversation"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/chat/unread": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_unreadCount"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/chat/conversations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_getConversation"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/chat/conversations/{id}/messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["ChatController_getMessages"];
+        put?: never;
+        post: operations["ChatController_sendMessage"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/chat/conversations/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["ChatController_markAsRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/homepage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get all landing page data (categories, vouchers, flash sale, featured products, shops) */
+        get: operations["HomepageController_getHomepage"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["NotificationsController_list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/notifications/unread-count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get: operations["NotificationsController_unreadCount"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/notifications/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["NotificationsController_markAsRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/notifications/read-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post: operations["NotificationsController_markAllAsRead"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+};
+export type webhooks = Record<string, never>;
 export type components = {
-  schemas: {
-    ErrorResponseDto: {
-      /** @example false */
-      success: boolean
-      /** @example The requested resource was not found. */
-      message: string
-      error?: {
-        /** @example NOT_FOUND */
-        code: string
-        /** @example The requested resource was not found. */
-        message: string
-        details?: {
-          [key: string]: unknown
-        } | null
-      }
-      /** @example 404 */
-      statusCode: number
-      /** @example 2024-01-01T00:00:00.000Z */
-      timestamp: string
-      /** @example /admin/products/123 */
-      path: string
-    }
-    ApiResponseDto: {
-      /** @example true */
-      success: boolean
-      data: {
-        [key: string]: unknown
-      }
-      /** @example Operation completed successfully */
-      message?: string
-      meta?: {
-        [key: string]: unknown
-      }
-      /** @example 2024-01-01T00:00:00.000Z */
-      timestamp: string
-    }
-    RegisterDto: {
-      /**
-       * Format: email
-       * @description User email address
-       * @example user@example.com
-       */
-      email: string
-      /**
-       * Format: password
-       * @description User password (minimum 8 characters)
-       */
-      password: string
-    }
-    LoginDto: {
-      /**
-       * Format: email
-       * @description User email address
-       * @example admin@marketplace.com
-       */
-      email: string
-      /**
-       * Format: password
-       * @description User password
-       * @example admin123
-       */
-      password: string
-    }
-    PaginationMetaDto: {
-      /**
-       * @description Total number of items
-       * @example 100
-       */
-      total: number
-      /**
-       * @description Current page number
-       * @example 1
-       */
-      page: number
-      /**
-       * @description Items per page
-       * @example 20
-       */
-      limit: number
-      /**
-       * @description Total number of pages
-       * @example 5
-       */
-      totalPages: number
-      /**
-       * @description Whether there is a next page
-       * @example true
-       */
-      hasNextPage: boolean
-      /**
-       * @description Whether there is a previous page
-       * @example false
-       */
-      hasPreviousPage: boolean
-    }
-    PaginatedResponseDto: {
-      /** @example true */
-      success: boolean
-      data?: {
-        items: Record<string, never>[]
-      }
-      /** @example Items fetched successfully */
-      message?: string
-      meta: components['schemas']['PaginationMetaDto']
-      /** @example 2024-01-01T00:00:00.000Z */
-      timestamp: string
-    }
-    ChatConversationDto: {
-      id: string
-      buyerId: string
-      shopId: string
-      productId: string | null
-      lastMessageText: string | null
-      /** Format: date-time */
-      lastMessageAt: string | null
-      buyerUnread: number
-      sellerUnread: number
-      /** Format: date-time */
-      createdAt: string
-      /** Format: date-time */
-      updatedAt: string
-    }
-    ChatUnreadCountDto: {
-      unreadCount: number
-    }
-    ChatMessageDto: {
-      id: string
-      conversationId: string
-      senderId: string
-      type: string
-      content: string
-      metadata: Record<string, never> | null
-      isReadByBuyer: boolean
-      isReadBySeller: boolean
-      /** Format: date-time */
-      createdAt: string
-      /** Format: date-time */
-      updatedAt: string
-    }
-    CategoryDto: {
-      id: string
-      name: string
-      slug: string
-      icon: string | null
-    }
-    PlatformVoucherDto: {
-      id: string
-      code: string
-      name: string
-      /** @description PERCENTAGE | FIXED_AMOUNT */
-      type: string
-      discountValue: number
-      maxDiscountAmount: number | null
-      minOrderAmount: number | null
-      /** Format: date-time */
-      expiresAt: string
-    }
-    ShopSummaryDto: {
-      id: string
-      name: string
-      slug: string
-      logo: string | null
-    }
-    FlashSaleProductDto: {
-      id: string
-      name: string
-      slug: string
-      shopId: string
-      salePrice: number
-      originalPrice: number
-      discountPercent: number
-      totalStock: number
-      soldCount: number
-      stockLeft: number
-      coverImage: string | null
-      rating: number | null
-      reviewCount: number
-      shop: components['schemas']['ShopSummaryDto']
-    }
-    FlashSaleDto: {
-      id: string
-      name: string
-      /** Format: date-time */
-      endsAt: string
-      products: components['schemas']['FlashSaleProductDto'][]
-    }
-    ProductCardDto: {
-      id: string
-      name: string
-      slug: string
-      shopId: string
-      price: number
-      originalPrice: number | null
-      discountPercent: number | null
-      coverImage: string | null
-      rating: number | null
-      reviewCount: number
-      shop: components['schemas']['ShopSummaryDto']
-      isFlash: boolean
-      isNew: boolean
-      stockLeft: number | null
-    }
-    FeaturedSectionDto: {
-      title: string
-      categorySlug: string
-      categoryId: string
-      products: components['schemas']['ProductCardDto'][]
-    }
-    TrendingShopDto: {
-      id: string
-      name: string
-      slug: string
-      logo: string | null
-      banner: string | null
-    }
-    HomepageDto: {
-      categories: components['schemas']['CategoryDto'][]
-      vouchers: components['schemas']['PlatformVoucherDto'][]
-      flashSale: components['schemas']['FlashSaleDto'] | null
-      featuredSections: components['schemas']['FeaturedSectionDto'][]
-      trendingShops: components['schemas']['TrendingShopDto'][]
-      recommendedProducts: components['schemas']['ProductCardDto'][]
-      newArrivals: components['schemas']['ProductCardDto'][]
-    }
-    NotificationResponseDto: {
-      id: string
-      userId: string
-      type: string
-      title: string
-      message: string
-      isRead: boolean
-      metadata?: Record<string, never>
-      /** Format: date-time */
-      createdAt: string
-    }
-    NotificationUnreadCountDto: {
-      count: number
-    }
-    MarkNotificationReadDto: {
-      message: string
-    }
-    MarkAllNotificationsReadDto: {
-      updated: number
-    }
-  }
-  responses: never
-  parameters: never
-  requestBodies: never
-  headers: never
-  pathItems: never
-}
-export type $defs = Record<string, never>
+    schemas: {
+        ErrorResponseDto: {
+            /** @example false */
+            success: boolean;
+            /** @example The requested resource was not found. */
+            message: string;
+            error?: {
+                /** @example NOT_FOUND */
+                code: string;
+                /** @example The requested resource was not found. */
+                message: string;
+                details?: {
+                    [key: string]: unknown;
+                } | null;
+            };
+            /** @example 404 */
+            statusCode: number;
+            /** @example 2024-01-01T00:00:00.000Z */
+            timestamp: string;
+            /** @example /admin/products/123 */
+            path: string;
+        };
+        ApiResponseDto: {
+            /** @example true */
+            success: boolean;
+            data: {
+                [key: string]: unknown;
+            };
+            /** @example Operation completed successfully */
+            message?: string;
+            meta?: {
+                [key: string]: unknown;
+            };
+            /** @example 2024-01-01T00:00:00.000Z */
+            timestamp: string;
+        };
+        RegisterDto: {
+            /**
+             * Format: email
+             * @description User email address
+             * @example user@example.com
+             */
+            email: string;
+            /**
+             * Format: password
+             * @description User password (minimum 8 characters)
+             */
+            password: string;
+        };
+        LoginDto: {
+            /**
+             * Format: email
+             * @description User email address
+             * @example admin@marketplace.com
+             */
+            email: string;
+            /**
+             * Format: password
+             * @description User password
+             * @example admin123
+             */
+            password: string;
+        };
+        PaginationMetaDto: {
+            /**
+             * @description Total number of items
+             * @example 100
+             */
+            total: number;
+            /**
+             * @description Current page number
+             * @example 1
+             */
+            page: number;
+            /**
+             * @description Items per page
+             * @example 20
+             */
+            limit: number;
+            /**
+             * @description Total number of pages
+             * @example 5
+             */
+            totalPages: number;
+            /**
+             * @description Whether there is a next page
+             * @example true
+             */
+            hasNextPage: boolean;
+            /**
+             * @description Whether there is a previous page
+             * @example false
+             */
+            hasPreviousPage: boolean;
+        };
+        PaginatedResponseDto: {
+            /** @example true */
+            success: boolean;
+            data?: {
+                items: Record<string, never>[];
+            };
+            /** @example Items fetched successfully */
+            message?: string;
+            meta: components["schemas"]["PaginationMetaDto"];
+            /** @example 2024-01-01T00:00:00.000Z */
+            timestamp: string;
+        };
+        ChatConversationDto: {
+            id: string;
+            buyerId: string;
+            shopId: string;
+            productId: string | null;
+            lastMessageText: string | null;
+            /** Format: date-time */
+            lastMessageAt: string | null;
+            buyerUnread: number;
+            sellerUnread: number;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        ChatUnreadCountDto: {
+            unreadCount: number;
+        };
+        ChatMessageDto: {
+            id: string;
+            conversationId: string;
+            senderId: string;
+            type: string;
+            content: string;
+            metadata: Record<string, never> | null;
+            isReadByBuyer: boolean;
+            isReadBySeller: boolean;
+            /** Format: date-time */
+            createdAt: string;
+            /** Format: date-time */
+            updatedAt: string;
+        };
+        CategoryDto: {
+            id: string;
+            name: string;
+            slug: string;
+            icon: string | null;
+        };
+        PlatformVoucherDto: {
+            id: string;
+            code: string;
+            name: string;
+            /** @description PERCENTAGE | FIXED_AMOUNT */
+            type: string;
+            discountValue: number;
+            maxDiscountAmount: number | null;
+            minOrderAmount: number | null;
+            /** Format: date-time */
+            expiresAt: string;
+        };
+        ShopSummaryDto: {
+            id: string;
+            name: string;
+            slug: string;
+            logo: string | null;
+        };
+        FlashSaleProductDto: {
+            id: string;
+            name: string;
+            slug: string;
+            shopId: string;
+            salePrice: number;
+            originalPrice: number;
+            discountPercent: number;
+            totalStock: number;
+            soldCount: number;
+            stockLeft: number;
+            coverImage: string | null;
+            rating: number | null;
+            reviewCount: number;
+            shop: components["schemas"]["ShopSummaryDto"];
+        };
+        FlashSaleDto: {
+            id: string;
+            name: string;
+            /** Format: date-time */
+            endsAt: string;
+            products: components["schemas"]["FlashSaleProductDto"][];
+        };
+        ProductCardDto: {
+            id: string;
+            name: string;
+            slug: string;
+            shopId: string;
+            price: number;
+            originalPrice: number | null;
+            discountPercent: number | null;
+            coverImage: string | null;
+            rating: number | null;
+            reviewCount: number;
+            shop: components["schemas"]["ShopSummaryDto"];
+            isFlash: boolean;
+            isNew: boolean;
+            stockLeft: number | null;
+        };
+        FeaturedSectionDto: {
+            title: string;
+            categorySlug: string;
+            categoryId: string;
+            products: components["schemas"]["ProductCardDto"][];
+        };
+        TrendingShopDto: {
+            id: string;
+            name: string;
+            slug: string;
+            logo: string | null;
+            banner: string | null;
+        };
+        HomepageDto: {
+            categories: components["schemas"]["CategoryDto"][];
+            vouchers: components["schemas"]["PlatformVoucherDto"][];
+            flashSale: components["schemas"]["FlashSaleDto"] | null;
+            featuredSections: components["schemas"]["FeaturedSectionDto"][];
+            trendingShops: components["schemas"]["TrendingShopDto"][];
+            recommendedProducts: components["schemas"]["ProductCardDto"][];
+            newArrivals: components["schemas"]["ProductCardDto"][];
+        };
+        NotificationResponseDto: {
+            id: string;
+            userId: string;
+            type: string;
+            title: string;
+            message: string;
+            isRead: boolean;
+            metadata?: Record<string, never>;
+            /** Format: date-time */
+            createdAt: string;
+        };
+        NotificationUnreadCountDto: {
+            count: number;
+        };
+        MarkNotificationReadDto: {
+            message: string;
+        };
+        MarkAllNotificationsReadDto: {
+            updated: number;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
+};
+export type $defs = Record<string, never>;
 export interface operations {
-  AuthController_register: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['RegisterDto']
-      }
-    }
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: Record<string, never>
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  AuthController_login: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['LoginDto']
-      }
-    }
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: Record<string, never>
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  AuthController_logout: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: Record<string, never>
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  AuthController_me: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: Record<string, never>
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_listConversations: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['PaginatedResponseDto'] & {
-            data?: {
-              items?: components['schemas']['ChatConversationDto'][]
-            }
-            meta?: components['schemas']['PaginationMetaDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_createConversation: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['ChatConversationDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_unreadCount: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['ChatUnreadCountDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_getConversation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['ChatConversationDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_getMessages: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['PaginatedResponseDto'] & {
-            data?: {
-              items?: components['schemas']['ChatMessageDto'][]
-            }
-            meta?: components['schemas']['PaginationMetaDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_sendMessage: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['ChatMessageDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  ChatController_markAsRead: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      204: {
-        headers: {
-          [name: string]: unknown
-        }
-        content?: never
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  HomepageController_getHomepage: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['HomepageDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  NotificationsController_list: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['PaginatedResponseDto'] & {
-            data?: {
-              items?: components['schemas']['NotificationResponseDto'][]
-            }
-            meta?: components['schemas']['PaginationMetaDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  NotificationsController_unreadCount: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['NotificationUnreadCountDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  NotificationsController_markAsRead: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['MarkNotificationReadDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
-  NotificationsController_markAllAsRead: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ApiResponseDto'] & {
-            data?: components['schemas']['MarkAllNotificationsReadDto']
-          }
-        }
-      }
-      /** @description Bad Request */
-      400: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Unauthorized */
-      401: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Forbidden */
-      403: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Not Found */
-      404: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-      /** @description Internal Server Error */
-      500: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ErrorResponseDto']
-        }
-      }
-    }
-  }
+    AuthController_register: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterDto"];
+            };
+        };
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AuthController_login: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["LoginDto"];
+            };
+        };
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AuthController_logout: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    AuthController_me: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: Record<string, never>;
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_listConversations: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedResponseDto"] & {
+                        data?: {
+                            items?: components["schemas"]["ChatConversationDto"][];
+                        };
+                        meta?: components["schemas"]["PaginationMetaDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_createConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["ChatConversationDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_unreadCount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["ChatUnreadCountDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_getConversation: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["ChatConversationDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_getMessages: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedResponseDto"] & {
+                        data?: {
+                            items?: components["schemas"]["ChatMessageDto"][];
+                        };
+                        meta?: components["schemas"]["PaginationMetaDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_sendMessage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["ChatMessageDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    ChatController_markAsRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    HomepageController_getHomepage: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["HomepageDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    NotificationsController_list: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedResponseDto"] & {
+                        data?: {
+                            items?: components["schemas"]["NotificationResponseDto"][];
+                        };
+                        meta?: components["schemas"]["PaginationMetaDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    NotificationsController_unreadCount: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["NotificationUnreadCountDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    NotificationsController_markAsRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["MarkNotificationReadDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
+    NotificationsController_markAllAsRead: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponseDto"] & {
+                        data?: components["schemas"]["MarkAllNotificationsReadDto"];
+                    };
+                };
+            };
+            /** @description Bad Request */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Unauthorized */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Forbidden */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Not Found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+            /** @description Internal Server Error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ErrorResponseDto"];
+                };
+            };
+        };
+    };
 }

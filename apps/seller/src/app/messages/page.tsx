@@ -43,7 +43,7 @@ export default function MessagesPage() {
       setLoadingConversations(true)
 
       try {
-        const response = await getMessageConversations(search)
+        const { items: response } = await getMessageConversations(search)
         const sortedConversations = sortConversationsByActivity(response)
 
         setConversations(sortedConversations)
@@ -71,7 +71,8 @@ export default function MessagesPage() {
       setLoadingMessages(true)
 
       try {
-        setMessages(await getConversationMessages(selectedConversationId))
+        const { items: messages } = await getConversationMessages(selectedConversationId)
+        setMessages(messages)
         await markConversationRead(selectedConversationId)
         setConversations((current) => {
           const result = markConversationAsReadResult(current, selectedConversationId)
@@ -135,7 +136,8 @@ export default function MessagesPage() {
 
   const handleSendMessage = async (conversationId: string, content: string) => {
     await sendConversationMessage(conversationId, { content })
-    setMessages(await getConversationMessages(conversationId))
+    const { items: messages } = await getConversationMessages(conversationId)
+    setMessages(messages)
     setConversations((current) => updateConversationsAfterSend(current, conversationId, content))
   }
 

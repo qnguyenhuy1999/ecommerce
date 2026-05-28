@@ -32,6 +32,8 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException('Session expired or invalid')
     }
 
+    await this.sessionService.refresh(sessionId)
+
     if (typeof session.sellerProfileId !== 'string') {
       throw new UnauthorizedException('Seller access required')
     }

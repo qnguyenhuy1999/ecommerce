@@ -88,7 +88,10 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "summary": "Register seller account",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/auth/login": {
@@ -178,7 +181,10 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "summary": "Login to seller panel",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/auth/logout": {
@@ -258,7 +264,18 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "summary": "Logout from seller panel",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/auth/me": {
@@ -338,7 +355,109 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "summary": "Get current seller profile",
+        "tags": [
+          "Seller/Auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ApiResponseDto"
+                    },
+                    {
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/Object"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          },
+          {
+            "sessionId": []
+          }
+        ],
+        "summary": "Refresh session",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/auth/forgot-password": {
@@ -428,7 +547,10 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "summary": "Request seller password reset email",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/auth/reset-password": {
@@ -518,7 +640,10 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "summary": "Reset seller password with token",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/auth/verify-email": {
@@ -607,7 +732,10 @@
             }
           }
         },
-        "tags": ["Seller/Auth"]
+        "summary": "Verify seller email",
+        "tags": [
+          "Seller/Auth"
+        ]
       }
     },
     "/shop": {
@@ -695,7 +823,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shop"]
+        "tags": [
+          "Seller/Shop"
+        ]
       },
       "put": {
         "operationId": "ShopController_updateShop",
@@ -791,7 +921,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shop"]
+        "tags": [
+          "Seller/Shop"
+        ]
       }
     },
     "/products": {
@@ -839,7 +971,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           },
           {
@@ -858,7 +993,12 @@
             "description": "Filter by product status",
             "schema": {
               "type": "string",
-              "enum": ["DRAFT", "PUBLISHED", "ARCHIVED", "REJECTED"]
+              "enum": [
+                "DRAFT",
+                "PUBLISHED",
+                "ARCHIVED",
+                "REJECTED"
+              ]
             }
           },
           {
@@ -964,7 +1104,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       },
       "post": {
         "operationId": "ProductController_create",
@@ -1060,7 +1202,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       }
     },
     "/products/categories": {
@@ -1148,7 +1292,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       }
     },
     "/products/{id}": {
@@ -1245,7 +1391,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       },
       "put": {
         "operationId": "ProductController_update",
@@ -1350,7 +1498,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       },
       "delete": {
         "operationId": "ProductController_delete",
@@ -1445,7 +1595,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       }
     },
     "/products/bulk/status": {
@@ -1543,7 +1695,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       }
     },
     "/products/bulk/delete": {
@@ -1631,7 +1785,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Products"]
+        "tags": [
+          "Seller/Products"
+        ]
       }
     },
     "/orders": {
@@ -1679,7 +1835,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           },
           {
@@ -1689,7 +1848,14 @@
             "description": "Filter by order status",
             "schema": {
               "type": "string",
-              "enum": ["PENDING", "CONFIRMED", "PACKING", "SHIPPED", "DELIVERED", "CANCELLED"]
+              "enum": [
+                "PENDING",
+                "CONFIRMED",
+                "PACKING",
+                "SHIPPED",
+                "DELIVERED",
+                "CANCELLED"
+              ]
             }
           },
           {
@@ -1794,7 +1960,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Orders"]
+        "tags": [
+          "Seller/Orders"
+        ]
       }
     },
     "/orders/{id}": {
@@ -1891,7 +2059,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Orders"]
+        "tags": [
+          "Seller/Orders"
+        ]
       }
     },
     "/orders/{id}/status": {
@@ -1998,7 +2168,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Orders"]
+        "tags": [
+          "Seller/Orders"
+        ]
       }
     },
     "/inventory": {
@@ -2046,7 +2218,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -2142,7 +2317,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Inventory"]
+        "tags": [
+          "Seller/Inventory"
+        ]
       }
     },
     "/inventory/low-stock": {
@@ -2230,7 +2407,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Inventory"]
+        "tags": [
+          "Seller/Inventory"
+        ]
       }
     },
     "/inventory/{variantId}/history": {
@@ -2354,7 +2533,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Inventory"]
+        "tags": [
+          "Seller/Inventory"
+        ]
       }
     },
     "/inventory/update": {
@@ -2452,7 +2633,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Inventory"]
+        "tags": [
+          "Seller/Inventory"
+        ]
       }
     },
     "/inventory/bulk-update": {
@@ -2550,7 +2733,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Inventory"]
+        "tags": [
+          "Seller/Inventory"
+        ]
       }
     },
     "/shipping/providers": {
@@ -2638,7 +2823,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shipping"]
+        "tags": [
+          "Seller/Shipping"
+        ]
       }
     },
     "/shipping/methods": {
@@ -2726,7 +2913,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shipping"]
+        "tags": [
+          "Seller/Shipping"
+        ]
       }
     },
     "/shipping/methods/{providerId}/toggle": {
@@ -2823,7 +3012,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shipping"]
+        "tags": [
+          "Seller/Shipping"
+        ]
       }
     },
     "/shipping/shipments": {
@@ -2921,7 +3112,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shipping"]
+        "tags": [
+          "Seller/Shipping"
+        ]
       }
     },
     "/shipping/shipments/{id}/tracking": {
@@ -3018,7 +3211,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Shipping"]
+        "tags": [
+          "Seller/Shipping"
+        ]
       }
     },
     "/notifications": {
@@ -3066,7 +3261,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -3162,7 +3360,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Notifications"]
+        "tags": [
+          "Seller/Notifications"
+        ]
       }
     },
     "/notifications/unread-count": {
@@ -3250,7 +3450,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Notifications"]
+        "tags": [
+          "Seller/Notifications"
+        ]
       }
     },
     "/notifications/{id}/read": {
@@ -3347,7 +3549,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Notifications"]
+        "tags": [
+          "Seller/Notifications"
+        ]
       }
     },
     "/notifications/read-all": {
@@ -3435,7 +3639,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Notifications"]
+        "tags": [
+          "Seller/Notifications"
+        ]
       }
     },
     "/coupons": {
@@ -3483,7 +3689,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           },
           {
@@ -3502,7 +3711,13 @@
             "description": "Filter by coupon status",
             "schema": {
               "type": "string",
-              "enum": ["DRAFT", "ACTIVE", "PAUSED", "EXPIRED", "DEPLETED"]
+              "enum": [
+                "DRAFT",
+                "ACTIVE",
+                "PAUSED",
+                "EXPIRED",
+                "DEPLETED"
+              ]
             }
           },
           {
@@ -3512,7 +3727,10 @@
             "description": "Filter by coupon type",
             "schema": {
               "type": "string",
-              "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+              "enum": [
+                "PERCENTAGE",
+                "FIXED_AMOUNT"
+              ]
             }
           }
         ],
@@ -3608,7 +3826,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Coupons"]
+        "tags": [
+          "Seller/Coupons"
+        ]
       },
       "post": {
         "operationId": "CouponController_create",
@@ -3704,7 +3924,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Coupons"]
+        "tags": [
+          "Seller/Coupons"
+        ]
       }
     },
     "/coupons/stats": {
@@ -3792,7 +4014,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Coupons"]
+        "tags": [
+          "Seller/Coupons"
+        ]
       }
     },
     "/coupons/{id}": {
@@ -3889,7 +4113,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Coupons"]
+        "tags": [
+          "Seller/Coupons"
+        ]
       },
       "put": {
         "operationId": "CouponController_update",
@@ -3994,7 +4220,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Coupons"]
+        "tags": [
+          "Seller/Coupons"
+        ]
       },
       "delete": {
         "operationId": "CouponController_delete",
@@ -4089,7 +4317,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Coupons"]
+        "tags": [
+          "Seller/Coupons"
+        ]
       }
     },
     "/analytics/dashboard": {
@@ -4177,7 +4407,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Analytics"]
+        "tags": [
+          "Seller/Analytics"
+        ]
       }
     },
     "/analytics/revenue": {
@@ -4282,7 +4514,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Analytics"]
+        "tags": [
+          "Seller/Analytics"
+        ]
       }
     },
     "/analytics/orders": {
@@ -4387,7 +4621,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Analytics"]
+        "tags": [
+          "Seller/Analytics"
+        ]
       }
     },
     "/analytics/products": {
@@ -4492,7 +4728,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Analytics"]
+        "tags": [
+          "Seller/Analytics"
+        ]
       }
     },
     "/analytics/conversion": {
@@ -4597,7 +4835,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Analytics"]
+        "tags": [
+          "Seller/Analytics"
+        ]
       }
     },
     "/bulk/jobs": {
@@ -4645,7 +4885,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -4741,7 +4984,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Bulk"]
+        "tags": [
+          "Seller/Bulk"
+        ]
       }
     },
     "/bulk/jobs/{id}": {
@@ -4838,7 +5083,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Bulk"]
+        "tags": [
+          "Seller/Bulk"
+        ]
       }
     },
     "/bulk/import": {
@@ -4926,7 +5173,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Bulk"]
+        "tags": [
+          "Seller/Bulk"
+        ]
       }
     },
     "/bulk/export": {
@@ -5014,7 +5263,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Bulk"]
+        "tags": [
+          "Seller/Bulk"
+        ]
       }
     },
     "/reviews": {
@@ -5062,7 +5313,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -5158,7 +5412,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Reviews"]
+        "tags": [
+          "Seller/Reviews"
+        ]
       }
     },
     "/reviews/analytics": {
@@ -5246,7 +5502,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Reviews"]
+        "tags": [
+          "Seller/Reviews"
+        ]
       }
     },
     "/reviews/{id}": {
@@ -5343,7 +5601,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Reviews"]
+        "tags": [
+          "Seller/Reviews"
+        ]
       }
     },
     "/reviews/{id}/reply": {
@@ -5440,7 +5700,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Reviews"]
+        "tags": [
+          "Seller/Reviews"
+        ]
       }
     },
     "/reviews/{id}/report": {
@@ -5537,7 +5799,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Reviews"]
+        "tags": [
+          "Seller/Reviews"
+        ]
       }
     },
     "/chat/conversations": {
@@ -5636,7 +5900,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Chat"]
+        "tags": [
+          "Seller/Chat"
+        ]
       }
     },
     "/chat/unread": {
@@ -5724,7 +5990,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Chat"]
+        "tags": [
+          "Seller/Chat"
+        ]
       }
     },
     "/chat/conversations/{id}": {
@@ -5821,7 +6089,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Chat"]
+        "tags": [
+          "Seller/Chat"
+        ]
       }
     },
     "/chat/conversations/{id}/messages": {
@@ -5929,7 +6199,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Chat"]
+        "tags": [
+          "Seller/Chat"
+        ]
       },
       "post": {
         "operationId": "ChatController_sendMessage",
@@ -6024,7 +6296,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Chat"]
+        "tags": [
+          "Seller/Chat"
+        ]
       }
     },
     "/chat/conversations/{id}/read": {
@@ -6121,7 +6395,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Chat"]
+        "tags": [
+          "Seller/Chat"
+        ]
       }
     },
     "/returns": {
@@ -6169,7 +6445,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -6265,7 +6544,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Returns"]
+        "tags": [
+          "Seller/Returns"
+        ]
       }
     },
     "/returns/stats": {
@@ -6353,7 +6634,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Returns"]
+        "tags": [
+          "Seller/Returns"
+        ]
       }
     },
     "/returns/{id}": {
@@ -6450,7 +6733,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Returns"]
+        "tags": [
+          "Seller/Returns"
+        ]
       }
     },
     "/returns/{id}/status": {
@@ -6557,7 +6842,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Returns"]
+        "tags": [
+          "Seller/Returns"
+        ]
       }
     },
     "/returns/{id}/evidence": {
@@ -6654,7 +6941,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Returns"]
+        "tags": [
+          "Seller/Returns"
+        ]
       }
     },
     "/approvals": {
@@ -6702,7 +6991,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -6798,7 +7090,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Approvals"]
+        "tags": [
+          "Seller/Approvals"
+        ]
       }
     },
     "/approvals/{id}": {
@@ -6895,7 +7189,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Approvals"]
+        "tags": [
+          "Seller/Approvals"
+        ]
       }
     },
     "/approvals/product/{productId}": {
@@ -6992,7 +7288,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Approvals"]
+        "tags": [
+          "Seller/Approvals"
+        ]
       }
     },
     "/approvals/product/{productId}/submit": {
@@ -7089,7 +7387,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Approvals"]
+        "tags": [
+          "Seller/Approvals"
+        ]
       }
     },
     "/approvals/{id}/resubmit": {
@@ -7186,7 +7486,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Approvals"]
+        "tags": [
+          "Seller/Approvals"
+        ]
       }
     },
     "/warehouses": {
@@ -7234,7 +7536,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -7330,7 +7635,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       },
       "post": {
         "operationId": "WarehouseController_create",
@@ -7426,7 +7733,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       }
     },
     "/warehouses/alerts": {
@@ -7514,7 +7823,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       }
     },
     "/warehouses/transfers": {
@@ -7562,7 +7873,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -7658,7 +7972,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       },
       "post": {
         "operationId": "WarehouseController_createTransfer",
@@ -7744,7 +8060,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       }
     },
     "/warehouses/transfers/{id}/complete": {
@@ -7841,7 +8159,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       }
     },
     "/warehouses/{id}": {
@@ -7938,7 +8258,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       }
     },
     "/warehouses/{id}/stock": {
@@ -7994,7 +8316,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -8090,7 +8415,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       },
       "put": {
         "operationId": "WarehouseController_updateStock",
@@ -8185,7 +8512,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Warehouse"]
+        "tags": [
+          "Seller/Warehouse"
+        ]
       }
     },
     "/metrics": {
@@ -8273,7 +8602,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Metrics"]
+        "tags": [
+          "Seller/Metrics"
+        ]
       }
     },
     "/metrics/history": {
@@ -8370,7 +8701,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Metrics"]
+        "tags": [
+          "Seller/Metrics"
+        ]
       }
     },
     "/metrics/snapshot": {
@@ -8458,7 +8791,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Metrics"]
+        "tags": [
+          "Seller/Metrics"
+        ]
       }
     },
     "/search/products": {
@@ -8557,7 +8892,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/search/orders": {
@@ -8605,7 +8942,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -8701,7 +9041,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/search/filters": {
@@ -8798,7 +9140,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       },
       "post": {
         "operationId": "SearchController_saveFilter",
@@ -8884,7 +9228,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/search/filters/{id}": {
@@ -8981,7 +9327,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/flash-sales/campaigns": {
@@ -9029,7 +9377,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -9125,7 +9476,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/FlashSales"]
+        "tags": [
+          "Seller/FlashSales"
+        ]
       }
     },
     "/flash-sales/campaigns/{id}": {
@@ -9222,7 +9575,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/FlashSales"]
+        "tags": [
+          "Seller/FlashSales"
+        ]
       }
     },
     "/flash-sales/slots/apply": {
@@ -9320,7 +9675,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/FlashSales"]
+        "tags": [
+          "Seller/FlashSales"
+        ]
       }
     },
     "/flash-sales/slots": {
@@ -9368,7 +9725,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -9464,7 +9824,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/FlashSales"]
+        "tags": [
+          "Seller/FlashSales"
+        ]
       }
     },
     "/ads/campaigns": {
@@ -9512,7 +9874,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -9608,7 +9973,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       },
       "post": {
         "operationId": "AdsController_createCampaign",
@@ -9704,7 +10071,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       }
     },
     "/ads/campaigns/{id}": {
@@ -9801,7 +10170,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       }
     },
     "/ads/campaigns/{id}/status": {
@@ -9908,7 +10279,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       }
     },
     "/ads/groups": {
@@ -10006,7 +10379,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       }
     },
     "/ads/items": {
@@ -10104,7 +10479,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       }
     },
     "/ads/campaigns/{id}/analytics": {
@@ -10201,7 +10578,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Ads"]
+        "tags": [
+          "Seller/Ads"
+        ]
       }
     },
     "/affiliates/me": {
@@ -10289,7 +10668,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Affiliates"]
+        "tags": [
+          "Seller/Affiliates"
+        ]
       }
     },
     "/affiliates/me/analytics": {
@@ -10377,7 +10758,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Affiliates"]
+        "tags": [
+          "Seller/Affiliates"
+        ]
       }
     },
     "/affiliates/links": {
@@ -10475,7 +10858,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Affiliates"]
+        "tags": [
+          "Seller/Affiliates"
+        ]
       },
       "get": {
         "operationId": "AffiliateController_listLinks",
@@ -10521,7 +10906,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -10617,7 +11005,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Affiliates"]
+        "tags": [
+          "Seller/Affiliates"
+        ]
       }
     },
     "/affiliates/payouts": {
@@ -10715,7 +11105,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Affiliates"]
+        "tags": [
+          "Seller/Affiliates"
+        ]
       }
     },
     "/subscriptions/plans": {
@@ -10803,7 +11195,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/subscriptions/plans/{id}": {
@@ -10900,7 +11294,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/subscriptions/current": {
@@ -10988,7 +11384,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/subscriptions/subscribe": {
@@ -11086,7 +11484,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/subscriptions/cancel": {
@@ -11174,7 +11574,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/subscriptions/invoices": {
@@ -11222,7 +11624,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -11318,7 +11723,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/subscriptions/entitlements/{feature}": {
@@ -11415,7 +11822,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Subscriptions"]
+        "tags": [
+          "Seller/Subscriptions"
+        ]
       }
     },
     "/livestreams": {
@@ -11463,7 +11872,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -11559,7 +11971,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       },
       "post": {
         "operationId": "LivestreamController_createSession",
@@ -11655,7 +12069,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       }
     },
     "/livestreams/{id}": {
@@ -11752,7 +12168,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       }
     },
     "/livestreams/{id}/start": {
@@ -11849,7 +12267,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       }
     },
     "/livestreams/{id}/end": {
@@ -11946,7 +12366,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       }
     },
     "/livestreams/{id}/products": {
@@ -12053,7 +12475,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       }
     },
     "/livestreams/{id}/products/{productId}/pin": {
@@ -12168,7 +12592,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Livestream"]
+        "tags": [
+          "Seller/Livestream"
+        ]
       }
     },
     "/ai-tools/tasks": {
@@ -12266,7 +12692,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/AiTools"]
+        "tags": [
+          "Seller/AiTools"
+        ]
       },
       "get": {
         "operationId": "AiToolsController_listTasks",
@@ -12312,7 +12740,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -12408,7 +12839,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/AiTools"]
+        "tags": [
+          "Seller/AiTools"
+        ]
       }
     },
     "/ai-tools/tasks/{id}": {
@@ -12505,7 +12938,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/AiTools"]
+        "tags": [
+          "Seller/AiTools"
+        ]
       }
     },
     "/ai-tools/tasks/{id}/process": {
@@ -12602,7 +13037,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/AiTools"]
+        "tags": [
+          "Seller/AiTools"
+        ]
       }
     },
     "/ai-tools/usage": {
@@ -12690,7 +13127,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/AiTools"]
+        "tags": [
+          "Seller/AiTools"
+        ]
       }
     },
     "/recommendations/stats": {
@@ -12778,7 +13217,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Recommendations"]
+        "tags": [
+          "Seller/Recommendations"
+        ]
       }
     },
     "/loyalty/tiers": {
@@ -12866,7 +13307,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Loyalty"]
+        "tags": [
+          "Seller/Loyalty"
+        ]
       }
     },
     "/loyalty/missions": {
@@ -12914,7 +13357,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -13010,7 +13456,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Loyalty"]
+        "tags": [
+          "Seller/Loyalty"
+        ]
       }
     },
     "/wallet": {
@@ -13098,7 +13546,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Wallet"]
+        "tags": [
+          "Seller/Wallet"
+        ]
       }
     },
     "/wallet/transactions": {
@@ -13146,7 +13596,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -13242,7 +13695,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Wallet"]
+        "tags": [
+          "Seller/Wallet"
+        ]
       }
     },
     "/wallet/withdrawals": {
@@ -13340,7 +13795,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Wallet"]
+        "tags": [
+          "Seller/Wallet"
+        ]
       },
       "get": {
         "operationId": "WalletController_listWithdrawals",
@@ -13386,7 +13843,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -13482,7 +13942,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Wallet"]
+        "tags": [
+          "Seller/Wallet"
+        ]
       }
     },
     "/search/suggestions": {
@@ -13570,7 +14032,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/search/popular": {
@@ -13658,7 +14122,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/search/analytics": {
@@ -13746,7 +14212,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Search"]
+        "tags": [
+          "Seller/Search"
+        ]
       }
     },
     "/automations": {
@@ -13794,7 +14262,10 @@
             "schema": {
               "default": "desc",
               "type": "string",
-              "enum": ["asc", "desc"]
+              "enum": [
+                "asc",
+                "desc"
+              ]
             }
           }
         ],
@@ -13890,7 +14361,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Automation"]
+        "tags": [
+          "Seller/Automation"
+        ]
       },
       "post": {
         "operationId": "AutomationController_createRule",
@@ -13986,7 +14459,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Automation"]
+        "tags": [
+          "Seller/Automation"
+        ]
       }
     },
     "/automations/{id}": {
@@ -14083,7 +14558,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Automation"]
+        "tags": [
+          "Seller/Automation"
+        ]
       },
       "put": {
         "operationId": "AutomationController_updateRule",
@@ -14188,7 +14665,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Automation"]
+        "tags": [
+          "Seller/Automation"
+        ]
       },
       "delete": {
         "operationId": "AutomationController_deleteRule",
@@ -14283,7 +14762,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Automation"]
+        "tags": [
+          "Seller/Automation"
+        ]
       }
     },
     "/i18n/regions": {
@@ -14371,7 +14852,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/i18n/regions/{code}": {
@@ -14468,7 +14951,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/i18n/currencies": {
@@ -14556,7 +15041,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/i18n/translations": {
@@ -14654,7 +15141,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/i18n/translations/{entityType}/{entityId}": {
@@ -14767,7 +15256,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/i18n/pricing/{productId}": {
@@ -14864,7 +15355,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       },
       "post": {
         "operationId": "I18nController_setRegionalPricing",
@@ -14959,7 +15452,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/i18n/convert": {
@@ -15072,7 +15567,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/I18n"]
+        "tags": [
+          "Seller/I18n"
+        ]
       }
     },
     "/events": {
@@ -15170,7 +15667,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Events"]
+        "tags": [
+          "Seller/Events"
+        ]
       },
       "get": {
         "operationId": "EventStreamingController_listEvents",
@@ -15267,7 +15766,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Events"]
+        "tags": [
+          "Seller/Events"
+        ]
       }
     },
     "/events/stats": {
@@ -15355,7 +15856,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Events"]
+        "tags": [
+          "Seller/Events"
+        ]
       }
     },
     "/events/{id}": {
@@ -15452,7 +15955,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Events"]
+        "tags": [
+          "Seller/Events"
+        ]
       }
     },
     "/events/{id}/replay": {
@@ -15549,7 +16054,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Events"]
+        "tags": [
+          "Seller/Events"
+        ]
       }
     },
     "/growth/referrals/create": {
@@ -15637,7 +16144,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     },
     "/growth/experiments": {
@@ -15736,7 +16245,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       },
       "post": {
         "operationId": "GrowthController_createExperiment",
@@ -15822,7 +16333,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     },
     "/growth/experiments/{id}/variant": {
@@ -15919,7 +16432,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     },
     "/growth/feature-flags": {
@@ -16007,7 +16522,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       },
       "post": {
         "operationId": "GrowthController_createFeatureFlag",
@@ -16093,7 +16610,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     },
     "/growth/feature-flags/{key}/toggle": {
@@ -16190,7 +16709,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     },
     "/growth/feature-flags/{key}/check": {
@@ -16287,7 +16808,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     },
     "/growth/campaigns": {
@@ -16386,7 +16909,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       },
       "post": {
         "operationId": "GrowthController_createCampaign",
@@ -16472,7 +16997,9 @@
             "sessionId": []
           }
         ],
-        "tags": ["Seller/Growth"]
+        "tags": [
+          "Seller/Growth"
+        ]
       }
     }
   },
@@ -16526,7 +17053,10 @@
                 "additionalProperties": true
               }
             },
-            "required": ["code", "message"]
+            "required": [
+              "code",
+              "message"
+            ]
           },
           "statusCode": {
             "type": "number",
@@ -16541,7 +17071,13 @@
             "example": "/admin/products/123"
           }
         },
-        "required": ["success", "message", "statusCode", "timestamp", "path"]
+        "required": [
+          "success",
+          "message",
+          "statusCode",
+          "timestamp",
+          "path"
+        ]
       },
       "ApiResponseDto": {
         "type": "object",
@@ -16567,7 +17103,11 @@
             "example": "2024-01-01T00:00:00.000Z"
           }
         },
-        "required": ["success", "data", "timestamp"]
+        "required": [
+          "success",
+          "data",
+          "timestamp"
+        ]
       },
       "Object": {
         "type": "object",
@@ -16594,7 +17134,10 @@
             "example": "Marketplace Store"
           }
         },
-        "required": ["email", "password"]
+        "required": [
+          "email",
+          "password"
+        ]
       },
       "LoginDto": {
         "type": "object",
@@ -16612,7 +17155,10 @@
             "example": "admin123"
           }
         },
-        "required": ["email", "password"]
+        "required": [
+          "email",
+          "password"
+        ]
       },
       "ForgotPasswordDto": {
         "type": "object",
@@ -16660,7 +17206,14 @@
             "example": false
           }
         },
-        "required": ["total", "page", "limit", "totalPages", "hasNextPage", "hasPreviousPage"]
+        "required": [
+          "total",
+          "page",
+          "limit",
+          "totalPages",
+          "hasNextPage",
+          "hasPreviousPage"
+        ]
       },
       "PaginatedResponseDto": {
         "type": "object",
@@ -16679,7 +17232,9 @@
                 }
               }
             },
-            "required": ["items"]
+            "required": [
+              "items"
+            ]
           },
           "message": {
             "type": "string",
@@ -16693,7 +17248,11 @@
             "example": "2024-01-01T00:00:00.000Z"
           }
         },
-        "required": ["success", "meta", "timestamp"]
+        "required": [
+          "success",
+          "meta",
+          "timestamp"
+        ]
       },
       "VariantOptionValueDto": {
         "type": "object",
@@ -16703,7 +17262,9 @@
             "description": "Option value (e.g. \"Red\", \"XL\")"
           }
         },
-        "required": ["value"]
+        "required": [
+          "value"
+        ]
       },
       "VariantOptionGroupDto": {
         "type": "object",
@@ -16720,7 +17281,10 @@
             }
           }
         },
-        "required": ["name", "options"]
+        "required": [
+          "name",
+          "options"
+        ]
       },
       "ProductVariantDto": {
         "type": "object",
@@ -16747,7 +17311,11 @@
             }
           }
         },
-        "required": ["price", "stock", "optionValues"]
+        "required": [
+          "price",
+          "stock",
+          "optionValues"
+        ]
       },
       "ProductImageDto": {
         "type": "object",
@@ -16766,7 +17334,9 @@
             "default": false
           }
         },
-        "required": ["url"]
+        "required": [
+          "url"
+        ]
       },
       "CreateProductDto": {
         "type": "object",
@@ -16833,12 +17403,19 @@
           },
           "status": {
             "type": "string",
-            "enum": ["DRAFT", "PUBLISHED", "ARCHIVED", "REJECTED"],
+            "enum": [
+              "DRAFT",
+              "PUBLISHED",
+              "ARCHIVED",
+              "REJECTED"
+            ],
             "default": "DRAFT",
             "description": "Initial product status"
           }
         },
-        "required": ["name"]
+        "required": [
+          "name"
+        ]
       },
       "UpdateProductDto": {
         "type": "object",
@@ -16883,7 +17460,12 @@
           },
           "status": {
             "type": "string",
-            "enum": ["DRAFT", "PUBLISHED", "ARCHIVED", "REJECTED"],
+            "enum": [
+              "DRAFT",
+              "PUBLISHED",
+              "ARCHIVED",
+              "REJECTED"
+            ],
             "description": "Product status"
           }
         }
@@ -16897,7 +17479,14 @@
         "properties": {
           "status": {
             "type": "string",
-            "enum": ["PENDING", "CONFIRMED", "PACKING", "SHIPPED", "DELIVERED", "CANCELLED"],
+            "enum": [
+              "PENDING",
+              "CONFIRMED",
+              "PACKING",
+              "SHIPPED",
+              "DELIVERED",
+              "CANCELLED"
+            ],
             "description": "New order status"
           },
           "note": {
@@ -16905,7 +17494,9 @@
             "description": "Optional note for the status change"
           }
         },
-        "required": ["status"]
+        "required": [
+          "status"
+        ]
       },
       "UpdateStockDto": {
         "type": "object",
@@ -16938,12 +17529,19 @@
           },
           "type": {
             "type": "string",
-            "enum": ["PERCENTAGE", "FIXED_AMOUNT"],
+            "enum": [
+              "PERCENTAGE",
+              "FIXED_AMOUNT"
+            ],
             "description": "Discount type"
           },
           "scope": {
             "type": "string",
-            "enum": ["ALL_PRODUCTS", "SPECIFIC_PRODUCTS", "SPECIFIC_CATEGORIES"],
+            "enum": [
+              "ALL_PRODUCTS",
+              "SPECIFIC_PRODUCTS",
+              "SPECIFIC_CATEGORIES"
+            ],
             "description": "Coupon applicability scope"
           },
           "discountValue": {
@@ -17001,7 +17599,14 @@
             }
           }
         },
-        "required": ["code", "name", "type", "discountValue", "startsAt", "expiresAt"]
+        "required": [
+          "code",
+          "name",
+          "type",
+          "discountValue",
+          "startsAt",
+          "expiresAt"
+        ]
       },
       "UpdateCouponDto": {
         "type": "object",
@@ -17017,17 +17622,30 @@
           },
           "type": {
             "type": "string",
-            "enum": ["PERCENTAGE", "FIXED_AMOUNT"],
+            "enum": [
+              "PERCENTAGE",
+              "FIXED_AMOUNT"
+            ],
             "description": "Discount type"
           },
           "scope": {
             "type": "string",
-            "enum": ["ALL_PRODUCTS", "SPECIFIC_PRODUCTS", "SPECIFIC_CATEGORIES"],
+            "enum": [
+              "ALL_PRODUCTS",
+              "SPECIFIC_PRODUCTS",
+              "SPECIFIC_CATEGORIES"
+            ],
             "description": "Coupon applicability scope"
           },
           "status": {
             "type": "string",
-            "enum": ["DRAFT", "ACTIVE", "PAUSED", "EXPIRED", "DEPLETED"],
+            "enum": [
+              "DRAFT",
+              "ACTIVE",
+              "PAUSED",
+              "EXPIRED",
+              "DEPLETED"
+            ],
             "description": "Coupon status"
           },
           "discountValue": {

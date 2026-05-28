@@ -156,7 +156,10 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
       },
     })
 
-    return { sessionId, userId: user.id, sellerProfileId: user.sellerProfile.id }
+    return {
+      sessionId,
+      seller: this.toSellerAuthUser(user, sessionData),
+    }
   }
 
   async logout(sessionId: string) {
@@ -179,6 +182,8 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
       throw new UnauthorizedException('Session expired or invalid')
     }
 
+    await this.refreshSession(sessionId)
+
     const user = await this.prisma.user.findUnique({
       where: { id: session.userId },
       include: {
@@ -190,21 +195,27 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
       throw new UnauthorizedException('User account is not active')
     }
 
-    return {
-      userId: session.userId,
-      email: user?.email,
-      firstName: user?.firstName,
-      lastName: user?.lastName,
-      emailVerified: user?.emailVerified,
-      isStaff: user?.isStaff,
-      sellerProfile: user?.sellerProfile ? { id: user.sellerProfile.id } : null,
-      shop: user?.sellerProfile?.shop ?? null,
-    }
+    return this.toSellerAuthUser(user, session)
+  }
+
+  async refreshSession(sessionId: string) {
+    await this.sessionService.refresh(sessionId)
+    await this.prisma.session
+      .update({
+        where: { id: sessionId },
+        data: {
+          expiresAt: this.getSessionExpiresAt(),
+        },
+      })
+      .catch(() => {})
   }
 
   async forgotPassword(email: string) {
-    const user = await this.prisma.user.findUnique({ where: { email } })
-    if (!user) return
+    const user = await this.prisma.user.findUnique({
+      where: { email },
+      include: { sellerProfile: true },
+    })
+    if (!user || user.status !== UserStatus.ACTIVE || !user.sellerProfile) return
 
     const token = randomUUID()
     await this.prisma.passwordResetToken.create({
@@ -234,7 +245,7 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
     const resetToken = await this.prisma.passwordResetToken.findUnique({ where: { token } })
 
     if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
-      throw new BadRequestException('Invalid or expired reset token')
+      throw new UnauthorizedException('Invalid or expired reset token')
     }
 
     const hashedPassword = await hashPassword(newPassword)
@@ -249,5 +260,36 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
         data: { usedAt: new Date() },
       }),
     ])
+  }
+
+  private toSellerAuthUser(
+    user: {
+      id: string
+      email: string
+      firstName: string | null
+      lastName: string | null
+      emailVerified: boolean
+      isStaff: boolean
+      sellerProfile: {
+        id: string
+        shop?: { id: string; name: string; status: string } | null
+      } | null
+    },
+    session: SessionData,
+  ) {
+    return {
+      userId: session.userId,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailVerified: user.emailVerified,
+      isStaff: user.isStaff,
+      sellerProfile: user.sellerProfile ? { id: user.sellerProfile.id } : null,
+      shop: user.sellerProfile?.shop ?? null,
+    }
+  }
+
+  private getSessionExpiresAt(): Date {
+    return new Date(Date.now() + SESSION_EXPIRY_DAYS * 24 * 60 * 60 * 1000)
   }
 }

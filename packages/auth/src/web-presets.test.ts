@@ -6,13 +6,13 @@ import { getWebAuthPreset } from './web-presets'
 void test('getWebAuthPreset returns admin auth overrides', () => {
   const preset = getWebAuthPreset('admin')
 
-  assert.equal(preset.client.apiUrl, 'http://localhost:4002')
+  assert.equal(preset.client.apiUrl, '/api')
   assert.equal(preset.client.meEndpoint, '/admin/auth/me')
   assert.equal(preset.client.loginEndpoint, '/admin/auth/login')
   assert.equal(preset.client.logoutEndpoint, '/admin/auth/logout')
   assert.equal(preset.middleware.apiUrl, 'http://localhost:4002')
   assert.equal(preset.middleware.meEndpoint, '/admin/auth/me')
-  assert.deepEqual(preset.middleware.publicPaths, ['/login'])
+  assert.deepEqual(preset.middleware.publicPaths, ['/login', '/api'])
   assert.equal(preset.middleware.loginPath, '/login')
   assert.equal(preset.protectedRoute, undefined)
 })
@@ -20,9 +20,13 @@ void test('getWebAuthPreset returns admin auth overrides', () => {
 void test('getWebAuthPreset returns seller auth restrictions', () => {
   const preset = getWebAuthPreset('seller')
 
-  assert.equal(preset.client.apiUrl, 'http://localhost:4003')
+  assert.equal(preset.client.apiUrl, '/api')
+  assert.equal(preset.client.meEndpoint, '/auth/me')
+  assert.equal(preset.client.loginEndpoint, '/auth/login')
+  assert.equal(preset.client.logoutEndpoint, '/auth/logout')
   assert.equal(preset.client.requireSeller, true)
   assert.equal(preset.client.forbiddenRedirectTo, '/')
+  assert.equal(preset.client.logoutRedirectTo, '/login')
   assert.equal(preset.middleware.apiUrl, 'http://localhost:4003')
   assert.equal(preset.middleware.requireSeller, true)
   assert.equal(preset.middleware.forbiddenRedirectTo, '/login')
@@ -31,6 +35,7 @@ void test('getWebAuthPreset returns seller auth restrictions', () => {
     '/register',
     '/forgot-password',
     '/reset-password',
+    '/api',
   ])
   assert.equal(preset.protectedRoute?.requireSeller, true)
   assert.equal(preset.protectedRoute?.redirectTo, '/login')

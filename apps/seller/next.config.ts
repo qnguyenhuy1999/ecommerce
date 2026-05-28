@@ -1,9 +1,9 @@
 import type { NextConfig } from 'next'
 
-const ADMIN_BE_URL = process.env.ADMIN_BE_INTERNAL_URL ?? 'http://localhost:4002'
+const SELLER_BE_URL = process.env.SELLER_BE_INTERNAL_URL ?? 'http://localhost:4003'
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@ecom/core-ui', '@ecom/ui-admin', '@ecom/contracts', '@ecom/shared'],
+  transpilePackages: ['@ecom/core-ui', '@ecom/ui-seller', '@ecom/contracts', '@ecom/shared'],
   turbopack: {
     resolveAlias: {
       'tw-animate-css': './node_modules/tw-animate-css/dist/tw-animate.css',
@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     },
   },
   async rewrites() {
-    return [{ source: '/api/:path*', destination: `${ADMIN_BE_URL}/:path*` }]
+    return [{ source: '/api/:path*', destination: `${SELLER_BE_URL}/:path*` }]
   },
 }
 

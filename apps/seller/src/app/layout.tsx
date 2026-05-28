@@ -1,3 +1,5 @@
+import './globals.css'
+
 import { AuthProvider } from '../providers/auth-provider'
 import { SellerRealtimeProvider } from '../providers/realtime-provider'
 

@@ -33,7 +33,6 @@ export class OrderRepository {
             totalPrice: true,
           },
         },
-        shipment: { select: { id: true, trackingNumber: true, status: true } },
         _count: { select: { items: true } },
       },
       orderBy: options.orderBy,
@@ -52,7 +51,7 @@ export class OrderRepository {
         items: {
           include: { variant: { include: { product: { select: { id: true, name: true } } } } },
         },
-        shipment: { include: { provider: true } },
+        shipments: { include: { provider: true } },
         auditLogs: { orderBy: { createdAt: 'desc' } },
       },
     })

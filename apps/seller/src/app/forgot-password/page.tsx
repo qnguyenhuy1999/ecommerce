@@ -4,7 +4,9 @@ import { api } from '../../lib/api'
 import { ForgotPassword } from '@ecom/ui-seller'
 
 interface ForgotPasswordResponse {
-  message: string
+  data: {
+    success: boolean
+  }
 }
 
 export default function ForgotPasswordPage() {

@@ -15,14 +15,14 @@ export function getWebAuthPreset(app: WebAppKind): WebAuthPreset {
     case 'admin':
       return {
         client: {
-          apiUrl: process.env.NEXT_PUBLIC_ADMIN_API_URL ?? 'http://localhost:4002',
+          apiUrl: process.env.NEXT_PUBLIC_ADMIN_API_URL ?? '/api',
           meEndpoint: '/admin/auth/me',
           loginEndpoint: '/admin/auth/login',
           logoutEndpoint: '/admin/auth/logout',
         },
         middleware: {
-          apiUrl: process.env.NEXT_PUBLIC_ADMIN_API_URL ?? 'http://localhost:4002',
-          publicPaths: ['/login'],
+          apiUrl: process.env.ADMIN_BE_INTERNAL_URL ?? 'http://localhost:4002',
+          publicPaths: ['/login', '/api'],
           loginPath: '/login',
           meEndpoint: '/admin/auth/me',
         },
@@ -30,14 +30,21 @@ export function getWebAuthPreset(app: WebAppKind): WebAuthPreset {
     case 'seller':
       return {
         client: {
-          apiUrl: process.env.NEXT_PUBLIC_SELLER_API_URL ?? 'http://localhost:4003',
+          apiUrl: process.env.NEXT_PUBLIC_SELLER_API_URL ?? '/api',
+          meEndpoint: '/auth/me',
+          loginEndpoint: '/auth/login',
+          logoutEndpoint: '/auth/logout',
           requireSeller: true,
           forbiddenRedirectTo: '/',
+          loginRedirectTo: '/',
+          logoutRedirectTo: '/login',
+          unauthenticatedRedirectTo: '/login',
         },
         middleware: {
-          apiUrl: process.env.NEXT_PUBLIC_SELLER_API_URL ?? 'http://localhost:4003',
-          publicPaths: ['/login', '/register', '/forgot-password', '/reset-password'],
+          apiUrl: process.env.SELLER_BE_INTERNAL_URL ?? 'http://localhost:4003',
+          publicPaths: ['/login', '/register', '/forgot-password', '/reset-password', '/api'],
           loginPath: '/login',
+          meEndpoint: '/auth/me',
           requireSeller: true,
           forbiddenRedirectTo: '/login',
         },

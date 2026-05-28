@@ -29,8 +29,10 @@ export class ChatService {
     shopId: string,
     conversationId: string,
   ): Promise<{ buyerId: string }> {
+    await this.assertSellerOwnsShop(userId, shopId)
+
     const conversation = await this.prisma.conversation.findFirst({
-      where: { id: conversationId, shopId, shop: { seller: { userId } } },
+      where: { id: conversationId, shopId },
       select: { id: true, buyerId: true },
     })
     if (!conversation) throw new NotFoundException('Conversation not found')
@@ -54,8 +56,10 @@ export class ChatService {
   }
 
   async getConversation(userId: string, shopId: string, conversationId: string) {
+    await this.assertSellerOwnsShop(userId, shopId)
+
     const conversation = await this.prisma.conversation.findFirst({
-      where: { id: conversationId, shopId, shop: { seller: { userId } } },
+      where: { id: conversationId, shopId },
     })
     if (!conversation) throw new NotFoundException('Conversation not found')
     return conversation
@@ -154,8 +158,15 @@ export class ChatService {
   }
 
   async ensureConversationAccessByUser(userId: string, conversationId: string): Promise<void> {
+    const shop = await this.prisma.shop.findFirst({
+      where: { seller: { userId } },
+      select: { id: true },
+    })
+
+    if (!shop) throw new NotFoundException('Conversation not found')
+
     const conversation = await this.prisma.conversation.findFirst({
-      where: { id: conversationId, shop: { seller: { userId } } },
+      where: { id: conversationId, shopId: shop.id },
       select: { id: true },
     })
     if (!conversation) throw new NotFoundException('Conversation not found')
