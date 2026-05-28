@@ -29,6 +29,7 @@ const PRESENCE_TTL_SECONDS = 60
 const ADMIN_ROOM = 'admins'
 const USER_NOTIFICATION_CHANNEL = 'notif:user:'
 const SHOP_NOTIFICATION_CHANNEL = 'notif:shop:'
+const CHAT_MESSAGE_CREATED_CHANNEL = 'chat:message:created'
 
 function isChatNotificationPayload(
   value: unknown,
@@ -45,6 +46,17 @@ function extractMessageIdFromNotification(rawMessage: string): string | undefine
 
     const messageId = payload.metadata?.messageId
     return typeof messageId === 'string' && messageId.length > 0 ? messageId : undefined
+  } catch {
+    return undefined
+  }
+}
+
+function extractMessageIdFromChatEvent(rawMessage: string): string | undefined {
+  try {
+    const payload = JSON.parse(rawMessage) as { messageId?: unknown }
+    return typeof payload.messageId === 'string' && payload.messageId.length > 0
+      ? payload.messageId
+      : undefined
   } catch {
     return undefined
   }
@@ -95,11 +107,24 @@ export class ChatGateway
 
       void this.broadcastIncomingMessage(messageId)
     })
+    this.notificationSubscriber.on('message', (channel, rawMessage) => {
+      if (channel !== CHAT_MESSAGE_CREATED_CHANNEL) {
+        return
+      }
+
+      const messageId = extractMessageIdFromChatEvent(rawMessage)
+      if (!messageId) {
+        return
+      }
+
+      void this.broadcastIncomingMessage(messageId)
+    })
     this.notificationSubscriber.on('error', (err: Error) => {
       this.logger.error(`Admin chat notification subscriber error: ${err.message}`)
     })
     void this.notificationSubscriber.psubscribe(`${USER_NOTIFICATION_CHANNEL}*`)
     void this.notificationSubscriber.psubscribe(`${SHOP_NOTIFICATION_CHANNEL}*`)
+    void this.notificationSubscriber.subscribe(CHAT_MESSAGE_CREATED_CHANNEL)
   }
 
   async onModuleDestroy(): Promise<void> {

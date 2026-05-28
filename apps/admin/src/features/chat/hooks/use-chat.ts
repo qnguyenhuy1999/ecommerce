@@ -12,6 +12,7 @@ import {
   mergeIncomingChatMessage,
   sortChatsByLastMessage,
 } from '../utils/chat-realtime'
+import { acquireChatSocket, releaseChatSocket } from '../utils/chat-socket-manager'
 
 export function useChats() {
   return useQuery({
@@ -60,10 +61,12 @@ export function useChatRealtime(chatId: string | undefined) {
   })
 
   useEffect(() => {
-    const socket = io(`${process.env.NEXT_PUBLIC_ADMIN_API_URL ?? 'http://localhost:4002'}/chat`, {
-      withCredentials: true,
-      transports: ['websocket'],
-    })
+    const socket = acquireChatSocket(() =>
+      io(`${process.env.NEXT_PUBLIC_ADMIN_API_URL ?? 'http://localhost:4002'}/chat`, {
+        withCredentials: true,
+        transports: ['websocket'],
+      }),
+    )
 
     socketRef.current = socket
 
@@ -77,7 +80,7 @@ export function useChatRealtime(chatId: string | undefined) {
       socketRef.current = null
       window.clearInterval(heartbeat)
       socket.off('new_message', handleIncomingChatMessage)
-      socket.disconnect()
+      releaseChatSocket(socket)
     }
   }, [handleIncomingChatMessage])
 

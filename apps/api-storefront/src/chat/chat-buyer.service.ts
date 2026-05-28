@@ -3,12 +3,21 @@ import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { OUTBOX_EVENTS, type ChatMessageOutboxPayload } from '@ecom/shared'
-import { Inject, NotFoundException, Injectable } from '@nestjs/common'
+import { Inject, NotFoundException, Injectable, Logger } from '@nestjs/common'
+import { REDIS_CLIENT } from '@ecom/redis'
+import type Redis from 'ioredis'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
+
+const CHAT_MESSAGE_CREATED_CHANNEL = 'chat:message:created'
 
 @Injectable()
 export class ChatBuyerService {
-  constructor(@Inject(PrismaService) private readonly prisma: PrismaService) {}
+  private readonly logger = new Logger(ChatBuyerService.name)
+
+  constructor(
+    @Inject(PrismaService) private readonly prisma: PrismaService,
+    @Inject(REDIS_CLIENT) private readonly redis: Redis,
+  ) {}
 
   private async assertConversationAccess(
     userId: string,
@@ -102,7 +111,7 @@ export class ChatBuyerService {
   ) {
     const { shopId } = await this.assertConversationAccess(userId, conversationId)
 
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    const message = await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
       const message = await tx.chatMessage.create({
         data: {
           conversationId,
@@ -141,6 +150,18 @@ export class ChatBuyerService {
 
       return message
     })
+
+    try {
+      await this.redis.publish(
+        CHAT_MESSAGE_CREATED_CHANNEL,
+        JSON.stringify({ messageId: message.id }),
+      )
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'unknown error'
+      this.logger.warn(`Failed to publish immediate chat event ${message.id}: ${errorMessage}`)
+    }
+
+    return message
   }
 
   async markAsRead(userId: string, conversationId: string): Promise<void> {

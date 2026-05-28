@@ -74,11 +74,9 @@ export default function MessagesPage() {
         const { items: messages } = await getConversationMessages(selectedConversationId)
         setMessages(messages)
         await markConversationRead(selectedConversationId)
-        setConversations((current) => {
-          const result = markConversationAsReadResult(current, selectedConversationId)
-          setChatUnreadCount(result.unreadCount)
-          return result.conversations
-        })
+        setConversations(
+          (current) => markConversationAsReadResult(current, selectedConversationId).conversations,
+        )
       } catch {
         setMessages([])
       } finally {
@@ -97,21 +95,16 @@ export default function MessagesPage() {
     socket.emit('join_conversation', { conversationId: selectedConversationId })
 
     const handleIncomingMessage = (incoming: RealtimeChatMessagePayload) => {
-      setConversations((current) => {
-        const result = applyIncomingMessageResult(current, incoming)
-        setChatUnreadCount(result.unreadCount)
-        return result.conversations
-      })
+      setConversations((current) => applyIncomingMessageResult(current, incoming).conversations)
 
       if (incoming.conversationId === selectedConversationId) {
         setMessages((current) => appendMessage(current, incoming))
         if (selectedConversation?.buyerId === incoming.senderId) {
           void markConversationRead(selectedConversationId)
-          setConversations((current) => {
-            const result = markConversationAsReadResult(current, selectedConversationId)
-            setChatUnreadCount(result.unreadCount)
-            return result.conversations
-          })
+          setConversations(
+            (current) =>
+              markConversationAsReadResult(current, selectedConversationId).conversations,
+          )
         }
       }
     }

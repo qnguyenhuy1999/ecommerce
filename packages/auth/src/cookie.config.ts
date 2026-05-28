@@ -22,14 +22,7 @@ export function getSessionCookieOptions(domain?: string): CookieOptions {
   const secureBase = secureFromEnv ? secureFromEnv === 'true' : isProduction
   const secure = sameSite === 'none' ? true : secureBase
 
-  let cookieDomain: string | undefined
-  if (domain && domain !== '.yourdomain.com') {
-    cookieDomain = domain
-  } else if (isProduction) {
-    cookieDomain = domain
-  } else {
-    cookieDomain = undefined
-  }
+  const cookieDomain = resolveCookieDomain(domain, isProduction)
 
   const options: CookieOptions = {
     name: SESSION_COOKIE_NAME,
@@ -45,4 +38,40 @@ export function getSessionCookieOptions(domain?: string): CookieOptions {
   }
 
   return options
+}
+
+function resolveCookieDomain(
+  domain: string | undefined,
+  isProduction: boolean,
+): string | undefined {
+  if (!domain) return undefined
+
+  const normalizedDomain = domain.trim().toLowerCase()
+
+  const invalidDomains = new Set(['', '.', '.yourdomain.com'])
+
+  if (invalidDomains.has(normalizedDomain)) {
+    return undefined
+  }
+
+  if (isLocalhostDomain(normalizedDomain)) {
+    return undefined
+  }
+
+  if (isProduction && !normalizedDomain.startsWith('.')) {
+    return `.${normalizedDomain}`
+  }
+
+  return normalizedDomain
+}
+
+function isLocalhostDomain(domain: string): boolean {
+  return (
+    domain === 'localhost' ||
+    domain === '.localhost' ||
+    domain === '127.0.0.1' ||
+    domain === '.127.0.0.1' ||
+    domain === '[::1]' ||
+    domain === '::1'
+  )
 }

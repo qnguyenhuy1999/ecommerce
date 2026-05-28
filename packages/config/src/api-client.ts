@@ -13,6 +13,8 @@ export interface ApiOptions extends RequestInit {
   params?: ApiParamsInput
 }
 
+const inflightGetRequests = new Map<string, Promise<unknown>>()
+
 export class ApiError extends Error {
   constructor(
     public status: number,
@@ -26,6 +28,14 @@ export class ApiError extends Error {
 
 function isApiErrorBody(value: unknown): value is Record<string, unknown> & { message?: string } {
   return !!value && typeof value === 'object'
+}
+
+function getRequestMethod(options: RequestInit): string {
+  return (options.method ?? 'GET').toUpperCase()
+}
+
+function getInflightRequestKey(method: string, url: string): string {
+  return `${method} ${url}`
 }
 
 export function createApiClient(defaultOptions: { baseUrl: string }) {
@@ -45,26 +55,48 @@ export function createApiClient(defaultOptions: { baseUrl: string }) {
       const qs = searchParams.toString()
       if (qs) url += `?${qs}`
     }
+    const method = getRequestMethod(fetchOptions)
 
-    const res = await fetch(url, {
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        ...fetchOptions.headers,
-      },
-      ...fetchOptions,
-    })
+    const performRequest = async (): Promise<T> => {
+      const res = await fetch(url, {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          ...fetchOptions.headers,
+        },
+        ...fetchOptions,
+      })
 
-    if (!res.ok) {
-      const body: unknown = await res.json().catch(() => ({}))
-      const message =
-        isApiErrorBody(body) && typeof body.message === 'string' ? body.message : 'Request failed'
-      throw new ApiError(res.status, message, isApiErrorBody(body) ? body : undefined)
+      if (!res.ok) {
+        const body: unknown = await res.json().catch(() => ({}))
+        const message =
+          isApiErrorBody(body) && typeof body.message === 'string' ? body.message : 'Request failed'
+        throw new ApiError(res.status, message, isApiErrorBody(body) ? body : undefined)
+      }
+
+      if (res.status === 204) return undefined as unknown as T
+
+      return (await res.json()) as T
     }
 
-    if (res.status === 204) return undefined as unknown as T
+    if (method !== 'GET' || fetchOptions.signal) {
+      return performRequest()
+    }
 
-    return (await res.json()) as T
+    const requestKey = getInflightRequestKey(method, url)
+    const existingRequest = inflightGetRequests.get(requestKey)
+
+    if (existingRequest) {
+      return existingRequest as Promise<T>
+    }
+
+    const request = performRequest().finally(() => {
+      inflightGetRequests.delete(requestKey)
+    })
+
+    inflightGetRequests.set(requestKey, request)
+
+    return request
   }
 }
 
