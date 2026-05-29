@@ -3,7 +3,6 @@ import type {
   ConsoleLayoutProps as CoreConsoleLayoutProps,
   ConsoleLayoutSwitcher,
   ConsoleLayoutUserMenu,
-  SidebarGroup,
 } from '@ecom/core-ui'
 import { sidebarGroups as defaultSidebarGroups } from './ConsoleLayout.fixtures'
 
@@ -69,15 +68,20 @@ export function buildSidebarGroups({
   return sidebarGroups.map((group) => ({
     ...group,
     items: group.items.map((item) => {
-      let badge = item.badge
-      if (item.href === '/messages' && chatUnreadCount > 0) badge = chatUnreadCount
-      if (item.href === '/notifications' && (notificationCount ?? 0) > 0) badge = notificationCount
+      const badge =
+        item.href === '/messages' && chatUnreadCount > 0
+          ? chatUnreadCount
+          : item.href === '/notifications' && (notificationCount ?? 0) > 0
+            ? notificationCount
+            : item.badge
+
+      const isActive = activePath ? isActivePath(activePath, item.href) : item.isActive
 
       return {
         ...item,
-        badge,
-        isActive: activePath ? isActivePath(activePath, item.href) : item.isActive,
+        ...(badge !== undefined ? { badge } : {}),
+        ...(isActive !== undefined ? { isActive } : {}),
       }
     }),
-  })) satisfies SidebarGroup[]
+  }))
 }

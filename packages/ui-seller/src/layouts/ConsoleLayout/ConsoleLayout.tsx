@@ -33,10 +33,10 @@ function ConsoleLayoutBase({
   onLogout,
 }: ConsoleLayoutProps) {
   const resolvedSidebarGroups: SidebarGroup[] = buildSidebarGroups({
-    pathname,
     sidebarGroups,
     chatUnreadCount,
     notificationCount,
+    ...(pathname !== undefined ? { pathname } : {}),
   })
 
   if (loading) {

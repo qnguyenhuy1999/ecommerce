@@ -128,7 +128,11 @@ describe('mergeIncomingChatMessage', () => {
       },
     ]
 
-    const result = mergeIncomingChatMessage(current, current[0]!)
+    if (!current[0]) {
+      throw new Error('Test setup failed: current[0] is undefined')
+    }
+
+    const result = mergeIncomingChatMessage(current, current[0])
 
     expect(result).toEqual(current)
   })

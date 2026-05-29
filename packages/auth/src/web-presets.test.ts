@@ -11,7 +11,7 @@ void test('getWebAuthPreset returns admin auth overrides', () => {
   assert.equal(preset.client.loginEndpoint, '/admin/auth/login')
   assert.equal(preset.client.logoutEndpoint, '/admin/auth/logout')
   assert.equal(preset.middleware.apiUrl, 'http://localhost:4002')
-  assert.equal(preset.middleware.meEndpoint, '/admin/auth/me')
+  assert.equal(preset.middleware.meEndpoint, undefined)
   assert.deepEqual(preset.middleware.publicPaths, ['/login', '/api'])
   assert.equal(preset.middleware.loginPath, '/login')
   assert.equal(preset.protectedRoute, undefined)
@@ -28,6 +28,7 @@ void test('getWebAuthPreset returns seller auth restrictions', () => {
   assert.equal(preset.client.forbiddenRedirectTo, '/')
   assert.equal(preset.client.logoutRedirectTo, '/login')
   assert.equal(preset.middleware.apiUrl, 'http://localhost:4003')
+  assert.equal(preset.middleware.meEndpoint, undefined)
   assert.equal(preset.middleware.requireSeller, true)
   assert.equal(preset.middleware.forbiddenRedirectTo, '/login')
   assert.deepEqual(preset.middleware.publicPaths, [

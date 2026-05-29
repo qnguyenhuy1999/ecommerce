@@ -17,7 +17,7 @@ export async function getDashboardBundle(): Promise<SellerDashboardViewModel> {
 
   const response = await api<DashboardBundleEnvelope>('/dashboard/bundle', {
     cache: 'no-store',
-    headers: cookie ? { cookie } : undefined,
+    ...(cookie ? { headers: { cookie } } : {}),
   })
 
   return normalizeDashboardBundle(response.data.items)

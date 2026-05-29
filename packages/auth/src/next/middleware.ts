@@ -28,7 +28,7 @@ export function createWithAuth(options: WithAuthOptions = {}) {
     requiredRole,
     requiredRoles,
     requireSeller = false,
-    meEndpoint = '/auth/me',
+    meEndpoint,
     forbiddenRedirectTo = '/',
     fetchTimeoutMs = 5000,
     preserveRedirect = true,
@@ -50,6 +50,10 @@ export function createWithAuth(options: WithAuthOptions = {}) {
 
     if (!sid) {
       return redirectToLogin(request, loginPath, preserveRedirect)
+    }
+
+    if (!meEndpoint) {
+      return NextResponse.next()
     }
 
     try {

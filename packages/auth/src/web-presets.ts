@@ -24,7 +24,6 @@ export function getWebAuthPreset(app: WebAppKind): WebAuthPreset {
           apiUrl: process.env.ADMIN_BE_INTERNAL_URL ?? 'http://localhost:4002',
           publicPaths: ['/login', '/api'],
           loginPath: '/login',
-          meEndpoint: '/admin/auth/me',
         },
       }
     case 'seller':
@@ -44,7 +43,6 @@ export function getWebAuthPreset(app: WebAppKind): WebAuthPreset {
           apiUrl: process.env.SELLER_BE_INTERNAL_URL ?? 'http://localhost:4003',
           publicPaths: ['/login', '/register', '/forgot-password', '/reset-password', '/api'],
           loginPath: '/login',
-          meEndpoint: '/auth/me',
           requireSeller: true,
           forbiddenRedirectTo: '/login',
         },

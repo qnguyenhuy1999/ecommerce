@@ -28,7 +28,11 @@ export function useChatMessages(chatId: string | undefined) {
   return useQuery({
     queryKey: chatKeys.messages(chatId ?? '__none__'),
     queryFn: async () => {
-      const res = await getChatMessages(chatId!)
+      if (!chatId) {
+        return []
+      }
+
+      const res = await getChatMessages(chatId)
       return res.data?.items ?? []
     },
     enabled: chatId !== undefined,
