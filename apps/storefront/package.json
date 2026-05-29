@@ -7,13 +7,15 @@
     "build": "next build",
     "start": "next start --port ${PORT:-3000}",
     "lint": "pnpm exec eslint --no-error-on-unmatched-pattern src/",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@ecom/api-client": "workspace:*",
     "@ecom/auth": "workspace:*",
     "@ecom/ui-storefront": "workspace:*",
     "@ecom/shared": "workspace:*",
+    "@tanstack/react-query": "^5.100.10",
     "next": "^16.2.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
@@ -23,6 +25,8 @@
     "@types/node": "^25.7.0",
     "@types/react": "^19.1.0",
     "@types/react-dom": "^19.1.0",
-    "typescript": "^6.0.3"
+    "jsdom": "^26.1.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.6"
   }
 }

@@ -1,31 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { ReturnsRefunds, type ReturnRow, type ReturnsRefundsActionPayload } from '@ecom/ui-seller'
-import { getReturns, updateReturnStatus } from '@/features/returns/api'
-import { mapReturnsToRows } from '@/features/returns/mappers'
-
-const RETURN_ACTION_STATUS_MAP: Record<ReturnsRefundsActionPayload['action'], string> = {
-  approve: 'APPROVED',
-  partial: 'APPROVED',
-  reject: 'REJECTED',
-}
+import { ReturnsRefunds } from '@ecom/ui-seller'
+import { useReturnsAdapter } from '@/features/returns/hooks/use-returns-adapter'
 
 export default function ReturnsPage() {
-  const [returns, setReturns] = useState<ReturnRow[]>([])
+  const { loading, returns, onAction } = useReturnsAdapter()
 
-  const refreshReturns = async () => {
-    setReturns(mapReturnsToRows(await getReturns()))
-  }
-
-  useEffect(() => {
-    void refreshReturns()
-  }, [])
-
-  const handleAction = async (payload: ReturnsRefundsActionPayload) => {
-    await updateReturnStatus(payload.id, RETURN_ACTION_STATUS_MAP[payload.action])
-    await refreshReturns()
-  }
-
-  return <ReturnsRefunds returns={returns} onAction={handleAction} />
+  return <ReturnsRefunds returns={returns} onAction={onAction} />
 }

@@ -9,8 +9,8 @@
   "scripts": {
     "prepare": "husky",
     "dev": "turbo dev",
-    "build": "turbo build --concurrency=1",
-    "lint": "turbo lint --concurrency=1",
+    "build": "turbo build",
+    "lint": "turbo lint",
     "lint:circular": "madge --circular --extensions ts,tsx apps packages --exclude 'node_modules|dist|\\.next'",
     "lint:deps": "depcruise apps packages --config .dependency-cruiser.js",
     "format": "pnpm -w exec prettier --write \"**/*.{ts,tsx,md,stories.tsx}\" --ignore-path .prettierignore",

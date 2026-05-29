@@ -1,21 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Finance, type FinanceProps } from '@ecom/ui-seller'
-import { getFinanceBundle } from '@/features/finance/api'
-import { buildFinanceProps } from '@/features/finance/mappers'
+import { Finance } from '@ecom/ui-seller'
+import { useFinanceAdapter } from '@/features/finance/hooks/use-finance-adapter'
 
 export default function FinancePage() {
-  const [props, setProps] = useState<FinanceProps>()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const bundle = await getFinanceBundle()
-      setProps(buildFinanceProps(bundle))
-    }
-
-    void fetchData()
-  }, [])
+  const { loading, props } = useFinanceAdapter()
 
   return props ? (
     <Finance {...props} />

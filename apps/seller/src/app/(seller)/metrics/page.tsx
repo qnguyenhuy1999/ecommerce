@@ -1,21 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Analytics, type AnalyticsProps } from '@ecom/ui-seller'
-import { getMetricsBundle } from '@/features/metrics/api'
-import { buildMetricsAnalyticsProps } from '@/features/metrics/mappers'
+import { Analytics } from '@ecom/ui-seller'
+import { useMetricsAdapter } from '@/features/metrics/hooks/use-metrics-adapter'
 
 export default function MetricsPage() {
-  const [props, setProps] = useState<AnalyticsProps>()
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const bundle = await getMetricsBundle()
-      setProps(buildMetricsAnalyticsProps(bundle))
-    }
-
-    void fetchData()
-  }, [])
+  const { loading, props } = useMetricsAdapter()
 
   return props ? (
     <Analytics {...props} />

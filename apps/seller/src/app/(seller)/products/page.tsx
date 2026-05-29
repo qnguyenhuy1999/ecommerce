@@ -1,29 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Products, type ProductRow } from '@ecom/ui-seller'
-import { getProductsList } from '@/features/products/api'
-import { mapProductsToRows } from '@/features/products/mappers'
+import { Products } from '@ecom/ui-seller'
+import { useProductsAdapter } from '@/features/products/hooks/use-products-adapter'
 
 export default function ProductsPage() {
-  const [products, setProducts] = useState<ProductRow[]>([])
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true)
-      try {
-        const { items } = await getProductsList()
-        setProducts(mapProductsToRows(items))
-      } catch {
-        setProducts([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    void fetchProducts()
-  }, [])
+  const { loading, products } = useProductsAdapter()
 
   return (
     <Products

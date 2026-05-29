@@ -1,28 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { Inventory, type InventoryRow } from '@ecom/ui-seller'
-import { getInventory } from '@/features/inventory/api'
-import { mapInventoryToRows } from '@/features/inventory/mappers'
+import { Inventory } from '@ecom/ui-seller'
+import { useInventoryAdapter } from '@/features/inventory/hooks/use-inventory-adapter'
 
 export default function InventoryPage() {
-  const [rows, setRows] = useState<InventoryRow[]>([])
-  const [loading, setLoading] = useState(true)
+  const { loading, inventory } = useInventoryAdapter()
 
-  useEffect(() => {
-    const fetchInventory = async () => {
-      setLoading(true)
-      try {
-        setRows(mapInventoryToRows(await getInventory()))
-      } catch {
-        setRows([])
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    void fetchInventory()
-  }, [])
-
-  return <Inventory inventory={rows} loading={loading} />
+  return <Inventory inventory={inventory} loading={loading} />
 }
