@@ -1,11 +1,19 @@
 'use client'
 
-import { OrderDetail } from '@ecom/ui-seller'
+import { OrderDetail } from '@ecom/ui-seller/pages/OrderDetail'
 import { useOrderDetailAdapter } from '@/features/orders/hooks/use-order-detail-adapter'
 
 export default function SellerOrderDetailPage({ params }: { params: { id: string } }) {
-  const { loading, order, statusActions, actionInFlight, onStatusAction, backHref, breadcrumb, emptyMessage } =
-    useOrderDetailAdapter(params.id)
+  const {
+    loading,
+    order,
+    statusActions,
+    actionInFlight,
+    onStatusAction,
+    backHref,
+    breadcrumb,
+    emptyMessage,
+  } = useOrderDetailAdapter(params.id)
 
   return (
     <OrderDetail

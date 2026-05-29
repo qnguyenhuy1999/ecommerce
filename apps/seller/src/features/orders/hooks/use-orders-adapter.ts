@@ -1,19 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import {
-  Orders,
-  buildOrderStatusCounts,
-  type OrderRow,
-  type OrdersStatusTab,
-} from '@ecom/ui-seller'
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import { buildOrderStatusCounts, type OrdersStatusTab } from '@ecom/ui-seller'
 import { useOrdersList } from './use-order-queries'
 import { mapOrdersToRows, SELLER_ORDER_STATUS_TO_QUERY } from '../mappers'
 
 export function useOrdersAdapter() {
-  const router = useRouter()
   const [page, setPage] = useState(1)
   const [search, setSearch] = useState('')
   const [status, setStatus] = useState<OrdersStatusTab>('ALL')
@@ -28,7 +20,7 @@ export function useOrdersAdapter() {
   })
 
   const orders = ordersQuery.data?.items ? mapOrdersToRows(ordersQuery.data.items) : []
-  const meta = ordersQuery.data?.meta as PaginationMeta | undefined
+  const meta = ordersQuery.data?.meta
   const statusCounts = buildOrderStatusCounts(orders)
 
   return {

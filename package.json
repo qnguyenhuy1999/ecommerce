@@ -18,19 +18,22 @@
     "type-check": "turbo type-check",
     "test": "turbo test",
     "test:e2e": "turbo test:e2e",
-    "db:generate": "cd packages/database && npx prisma generate",
-    "db:migrate": "cd packages/database && npx prisma migrate dev",
-    "db:deploy": "cd packages/database && npx prisma migrate deploy",
-    "db:seed": "cd packages/database && npx prisma db seed",
+    "db:generate": "pnpm --filter @ecom/database exec prisma generate --generator runtime_client",
+    "db:migrate": "pnpm --filter @ecom/database exec prisma migrate dev",
+    "db:deploy": "pnpm --filter @ecom/database exec prisma migrate deploy",
+    "db:seed": "pnpm --filter @ecom/database exec prisma db seed",
     "swagger:gen:all": "turbo swagger:gen",
     "openapi:gen": "node packages/contracts/scripts/generate-types.mjs",
-    "openapi:validate": "npx @apidevtools/swagger-cli validate apps/api-admin/openapi/admin.json && npx @apidevtools/swagger-cli validate apps/api-seller/openapi/seller.json && npx @apidevtools/swagger-cli validate apps/api-storefront/openapi/storefront.json",
+    "openapi:validate": "pnpm exec swagger-cli validate apps/api-admin/openapi/admin.json && pnpm exec swagger-cli validate apps/api-seller/openapi/seller.json && pnpm exec swagger-cli validate apps/api-storefront/openapi/storefront.json",
     "openapi:sync": "pnpm swagger:gen:all && pnpm openapi:gen",
-    "contracts:check": "pnpm openapi:sync && pnpm openapi:validate && pnpm type-check --filter=@ecom/contracts"
+    "contracts:generate": "pnpm swagger:gen:all && pnpm openapi:gen",
+    "contracts:validate": "pnpm openapi:validate && pnpm --filter @ecom/contracts type-check",
+    "contracts:check": "pnpm contracts:generate && pnpm contracts:validate && git diff --exit-code packages/contracts/src/generated apps/api-admin/openapi apps/api-seller/openapi apps/api-storefront/openapi"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
+    "@apidevtools/swagger-cli": "^4.0.4",
     "@tailwindcss/postcss": "^4.3.0",
     "@ecom/config": "workspace:*",
     "@eslint/js": "^10.0.1",
@@ -66,7 +69,7 @@
   "prettier": "./.prettierrc.mjs",
   "engines": {
     "node": ">=24.0.0",
-    "npm": ">=11.0.0"
+    "pnpm": ">=11.0.0"
   },
   "packageManager": "pnpm@11.0.4",
   "pnpm": {

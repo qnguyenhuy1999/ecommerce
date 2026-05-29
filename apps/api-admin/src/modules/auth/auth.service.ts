@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt'
 import { PrismaService } from '@ecom/database'
 import { SessionService } from '@ecom/auth'
 import { type SessionData } from '@ecom/auth'
-import { RESET_TOKEN_TTL, hashPassword } from '@ecom/auth'
+import { RESET_TOKEN_TTL, hashPassword, hashToken } from '@ecom/auth'
 import { EmailService } from '@ecom/email'
 import { AdminStatus } from '@ecom/contracts/enums'
 import { SESSION_SERVICE } from './session.provider'
@@ -158,10 +158,11 @@ export class AuthService {
     if (!admin || admin.status !== AdminStatus.ACTIVE) return
 
     const token = randomUUID()
+    const tokenHash = hashToken(token)
     await this.prisma.adminPasswordResetToken.create({
       data: {
         adminId: admin.id,
-        token,
+        token: tokenHash,
         expiresAt: new Date(Date.now() + RESET_TOKEN_TTL * 1000),
       },
     })
@@ -180,7 +181,9 @@ export class AuthService {
   }
 
   async resetPassword(token: string, password: string) {
-    const resetToken = await this.prisma.adminPasswordResetToken.findUnique({ where: { token } })
+    const resetToken = await this.prisma.adminPasswordResetToken.findUnique({
+      where: { token: hashToken(token) },
+    })
 
     if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
       throw new UnauthorizedException('Invalid or expired reset token')

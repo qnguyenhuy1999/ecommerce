@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { Analytics, type AnalyticsProps } from '@ecom/ui-seller'
 import { getAnalyticsBundle } from '../api'
 import { buildAnalyticsProps, buildDateRangeParams } from '../mappers'
 import { analyticsKeys } from '../query-keys'
@@ -27,7 +26,7 @@ export function useAnalyticsAdapter() {
   return {
     loading: query.isPending,
     error: query.error,
-    props: query.data as AnalyticsProps | undefined,
+    props: query.data,
     onDateRangeChange: setRange,
   }
 }

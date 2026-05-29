@@ -2,9 +2,9 @@
 
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { WarehouseDetail } from '@ecom/ui-seller'
+import { WarehouseDetail } from '@ecom/ui-seller/pages/WarehouseDetail'
 import { createWarehouse } from '@/features/warehouses/api'
-import type { WarehouseFormValues } from '@ecom/ui-seller'
+import type { WarehouseFormValues } from '@ecom/ui-seller/pages/WarehouseDetail'
 
 export default function NewWarehousePage() {
   const router = useRouter()

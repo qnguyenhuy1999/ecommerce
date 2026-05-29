@@ -1,0 +1,25 @@
+{
+  "name": "@ecom/testing",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ecom/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@ecom/config": "workspace:*",
+    "typescript": "^6.0.3"
+  }
+}

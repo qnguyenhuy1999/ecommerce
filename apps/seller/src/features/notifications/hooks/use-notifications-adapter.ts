@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   getNotifications,
@@ -43,19 +43,22 @@ export function useNotificationsAdapter() {
     const exists = query.data.some((row) => row.id === lastNotification.id)
     if (exists) return
 
-    queryClient.setQueryData(notificationKeys.list(), (old: ReturnType<typeof mapNotificationsToRows>) => [
-      ...mapNotificationsToRows([
-        {
-          id: lastNotification.id,
-          type: lastNotification.type,
-          title: lastNotification.title,
-          message: lastNotification.message,
-          isRead: false,
-          createdAt: lastNotification.createdAt,
-        },
-      ]),
-      ...(old ?? []),
-    ])
+    queryClient.setQueryData(
+      notificationKeys.list(),
+      (old: ReturnType<typeof mapNotificationsToRows>) => [
+        ...mapNotificationsToRows([
+          {
+            id: lastNotification.id,
+            type: lastNotification.type,
+            title: lastNotification.title,
+            message: lastNotification.message,
+            isRead: false,
+            createdAt: lastNotification.createdAt,
+          },
+        ]),
+        ...(old ?? []),
+      ],
+    )
   }, [lastNotification, query.data, queryClient])
 
   const handleMarkRead = useCallback(

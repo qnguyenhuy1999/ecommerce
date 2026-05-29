@@ -8,7 +8,7 @@ import { parseISO, isValid } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { Button } from '../../primitives/ui/button'
-import type { DatePickerProps, DateRangePickerProps } from './DatePicker.types'
+import type { DatePickerProps, DateRangePickerProps, DateRangeValue } from './DatePicker.types'
 
 import 'react-day-picker/style.css'
 
@@ -134,10 +134,14 @@ export function DateRangePicker({
             mode="range"
             selected={from || to ? { from, to } : undefined}
             onSelect={(range) => {
-              onChange({
-                from: range?.from ? formatDate(range.from, 'yyyy-MM-dd') : undefined,
-                to: range?.to ? formatDate(range.to, 'yyyy-MM-dd') : undefined,
-              })
+              const nextRange: DateRangeValue = {}
+              if (range?.from) {
+                nextRange.from = formatDate(range.from, 'yyyy-MM-dd')
+              }
+              if (range?.to) {
+                nextRange.to = formatDate(range.to, 'yyyy-MM-dd')
+              }
+              onChange(nextRange)
             }}
             disabled={[
               ...(fromDate ? [{ before: fromDate }] : []),

@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import {
   getConversationMessages,
   getMessageConversations,
@@ -26,7 +26,6 @@ import { type RealtimeChatMessagePayload } from '../../../lib/realtime'
 import { useSellerRealtime } from '../../../core/providers/realtime-provider'
 
 export function useMessagesAdapter() {
-  const queryClient = useQueryClient()
   const { socket, setChatUnreadCount } = useSellerRealtime()
   const [selectedConversationId, setSelectedConversationId] = useState<string>()
   const [search, setSearch] = useState('')
@@ -47,7 +46,7 @@ export function useMessagesAdapter() {
     if (conversationsQuery.data) {
       setLocalConversations(conversationsQuery.data)
       setSelectedConversationId((current) =>
-        getSelectedConversationId(current, conversationsQuery.data!),
+        getSelectedConversationId(current, conversationsQuery.data),
       )
     }
   }, [conversationsQuery.data])
@@ -55,7 +54,10 @@ export function useMessagesAdapter() {
   const messagesQuery = useQuery({
     queryKey: messageKeys.detail(selectedConversationId ?? ''),
     queryFn: async () => {
-      const { items } = await getConversationMessages(selectedConversationId!)
+      if (!selectedConversationId) {
+        return []
+      }
+      const { items } = await getConversationMessages(selectedConversationId)
       return items
     },
     enabled: !!selectedConversationId,
@@ -73,8 +75,8 @@ export function useMessagesAdapter() {
     if (!selectedConversationId) return
 
     void markConversationRead(selectedConversationId)
-    setLocalConversations((current) =>
-      markConversationAsReadResult(current, selectedConversationId).conversations,
+    setLocalConversations(
+      (current) => markConversationAsReadResult(current, selectedConversationId).conversations,
     )
   }, [selectedConversationId])
 
@@ -84,7 +86,9 @@ export function useMessagesAdapter() {
     socket.emit('join_conversation', { conversationId: selectedConversationId })
 
     const handleIncomingMessage = (incoming: RealtimeChatMessagePayload) => {
-      setLocalConversations((current) => applyIncomingMessageResult(current, incoming).conversations)
+      setLocalConversations(
+        (current) => applyIncomingMessageResult(current, incoming).conversations,
+      )
 
       if (incoming.conversationId === selectedConversationId) {
         setLocalMessages((current) => appendMessage(current, incoming))
@@ -123,7 +127,9 @@ export function useMessagesAdapter() {
       createdAt: new Date().toISOString(),
     }
     setLocalMessages((current) => appendMessage(current, optimistic))
-    setLocalConversations((current) => updateConversationsAfterSend(current, conversationId, content))
+    setLocalConversations((current) =>
+      updateConversationsAfterSend(current, conversationId, content),
+    )
 
     try {
       await sendMutation.mutateAsync({ conversationId, content })

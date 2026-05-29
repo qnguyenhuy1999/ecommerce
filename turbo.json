@@ -7,29 +7,39 @@
       "dependsOn": ["^build"],
       "inputs": [
         "src/**",
+        "prisma/**",
+        "public/**",
+        "components.json",
         "tsconfig.json",
+        "tsconfig*.json",
         "package.json",
         "tsup.config.ts",
+        "vite.config.*",
         "tailwind.config.*",
         "next.config.*",
+        "nest-cli.json",
         "postcss.config.*",
+        ".storybook/**",
         "$NODE_ENV"
       ],
-      "outputs": ["dist/**", ".next/**"]
+      "outputs": ["dist/**", ".next/**", "storybook-static/**"]
     },
     "dev": {
       "cache": false,
-      "persistent": true,
-      "dependsOn": ["^build"]
+      "persistent": true
     },
     "lint": {
-      "dependsOn": ["^build"]
+      "cache": true,
+      "inputs": ["src/**", "eslint.config.*", "eslint.lint-staged.mjs", "package.json", "tsconfig*.json"]
     },
     "test": {
-      "dependsOn": ["^build"]
+      "cache": true,
+      "inputs": ["src/**", "test/**", "tests/**", "**/*.test.*", "**/*.spec.*", "vitest.config.*", "package.json"],
+      "outputs": ["coverage/**"]
     },
     "type-check": {
-      "dependsOn": ["^build"]
+      "cache": true,
+      "inputs": ["src/**", "tsconfig*.json", "package.json"]
     },
     "swagger:gen": {
       "cache": false,

@@ -26,7 +26,7 @@ export function useShopProfileAdapter() {
   return {
     loading: query.isPending,
     error: query.error,
-    formData: query.data as ShopProfileFormData | undefined,
+    formData: query.data,
     onSubmit: async (data: ShopProfileFormData) => {
       await updateMutation.mutateAsync(data)
     },

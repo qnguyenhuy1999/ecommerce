@@ -1,6 +1,6 @@
 'use client'
 
-import { Login, type LoginSubmitValues } from '@ecom/ui-seller'
+import { Login, type LoginSubmitValues } from '@ecom/ui-seller/pages/Login'
 import { useAuth } from '../../core/auth/auth-provider'
 
 export default function LoginPage() {

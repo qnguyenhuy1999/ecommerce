@@ -4,33 +4,38 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.cjs",
+  "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "development": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./dtos": {
       "types": "./src/dtos/index.ts",
-      "import": "./dist/dtos/index.js",
-      "require": "./dist/dtos/index.cjs"
+      "development": "./src/dtos/index.ts",
+      "import": "./src/dtos/index.ts",
+      "default": "./src/dtos/index.ts"
     },
     "./openapi": {
       "types": "./src/openapi/index.ts",
-      "import": "./dist/openapi.js",
-      "require": "./dist/openapi.cjs"
+      "development": "./src/openapi/index.ts",
+      "import": "./src/openapi/index.ts",
+      "default": "./src/openapi/index.ts"
     },
     "./notification": {
       "types": "./src/notification/index.ts",
-      "import": "./dist/notification.js",
-      "require": "./dist/notification.cjs"
+      "development": "./src/notification/index.ts",
+      "import": "./src/notification/index.ts",
+      "default": "./src/notification/index.ts"
     },
     "./chat": {
       "types": "./src/chat/index.ts",
-      "import": "./dist/chat.js",
-      "require": "./dist/chat.cjs"
+      "development": "./src/chat/index.ts",
+      "import": "./src/chat/index.ts",
+      "default": "./src/chat/index.ts"
     }
   },
   "scripts": {

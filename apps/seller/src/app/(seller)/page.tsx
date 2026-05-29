@@ -1,4 +1,4 @@
-import { Dashboard } from '@ecom/ui-seller'
+import { Dashboard } from '@ecom/ui-seller/pages/Dashboard'
 import { getDashboardBundle } from '@/features/dashboard/api'
 import { buildDashboardProps } from '@/features/dashboard/mappers'
 

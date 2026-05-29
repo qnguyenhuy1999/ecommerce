@@ -12,9 +12,11 @@ export const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
   ) => {
     const [focused, setFocused] = useState(false)
 
+    const formatOptions = locale ? { currency, locale } : { currency }
+
     const displayValue =
       !focused && value !== '' && value != null
-        ? formatCurrency(Number(value), { currency, locale })
+        ? formatCurrency(Number(value), formatOptions)
         : (value ?? '')
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {

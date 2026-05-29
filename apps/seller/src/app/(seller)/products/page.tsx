@@ -1,6 +1,6 @@
 'use client'
 
-import { Products } from '@ecom/ui-seller'
+import { Products } from '@ecom/ui-seller/pages/Products'
 import { useProductsAdapter } from '@/features/products/hooks/use-products-adapter'
 
 export default function ProductsPage() {

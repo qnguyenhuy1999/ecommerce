@@ -1,12 +1,10 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { ProductDetailFormData } from '@ecom/ui-seller'
 import type { ProductStatus } from '@ecom/contracts'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { createProduct, getProductCategories } from '../api'
-import type { SellerCategory } from '../mappers'
 import { flattenCategories, mapProductFormToCreatePayload } from '../mappers'
 import { productKeys } from '../query-keys'
 
@@ -19,12 +17,17 @@ export function useNewProductAdapter() {
   })
 
   const createMutation = useMutation({
-    mutationFn: ({ payload, status }: { payload: ReturnType<typeof mapProductFormToCreatePayload>; status: ProductStatus }) =>
-      createProduct(payload, status),
+    mutationFn: ({
+      payload,
+      status,
+    }: {
+      payload: ReturnType<typeof mapProductFormToCreatePayload>
+      status: ProductStatus
+    }) => createProduct(payload, status),
     onSuccess: () => router.push('/products'),
   })
 
-  const categories = (categoriesQuery.data ?? []) as SellerCategory[]
+  const categories = categoriesQuery.data ?? []
 
   const handlePersist = async (data: ProductDetailFormData, status: ProductStatus) => {
     const payload = mapProductFormToCreatePayload(data, categories, status)

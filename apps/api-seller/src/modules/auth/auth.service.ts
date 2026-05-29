@@ -18,6 +18,7 @@ import {
   VERIFY_TOKEN_TTL,
   RESET_TOKEN_TTL,
   hashPassword,
+  hashToken,
   comparePassword,
 } from '@ecom/auth'
 import { EmailService } from '@ecom/email'
@@ -218,10 +219,11 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
     if (!user || user.status !== UserStatus.ACTIVE || !user.sellerProfile) return
 
     const token = randomUUID()
+    const tokenHash = hashToken(token)
     await this.prisma.passwordResetToken.create({
       data: {
         userId: user.id,
-        token,
+        token: tokenHash,
         expiresAt: new Date(Date.now() + RESET_TOKEN_TTL * 1000),
       },
     })
@@ -242,7 +244,9 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
   }
 
   async resetPassword(token: string, newPassword: string) {
-    const resetToken = await this.prisma.passwordResetToken.findUnique({ where: { token } })
+    const resetToken = await this.prisma.passwordResetToken.findUnique({
+      where: { token: hashToken(token) },
+    })
 
     if (!resetToken || resetToken.usedAt || resetToken.expiresAt < new Date()) {
       throw new UnauthorizedException('Invalid or expired reset token')

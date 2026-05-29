@@ -1,7 +1,9 @@
 import type { ExceptionFilter, ArgumentsHost } from '@nestjs/common'
 import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common'
-import type { ApiErrorBody, ApiErrorResponse } from '@ecom/contracts'
+import { API_ERROR_CODE, isApiErrorCode } from '@ecom/contracts'
+import type { ApiErrorBody, ApiErrorCode, ApiErrorResponse } from '@ecom/contracts'
 import type { Request, Response } from 'express'
+import { getRequestId } from '../request-context'
 
 /** Duck-typed shape of our AppError from @ecom/shared/errors. */
 interface AppErrorLike extends Error {
@@ -35,7 +37,7 @@ function isPrismaValidationError(err: unknown): err is Error {
 /** Map common Prisma error codes to HTTP status + canonical error code. */
 function mapPrismaError(err: PrismaKnownError): {
   status: number
-  code: string
+  code: ApiErrorCode
   message: string
   details?: unknown
 } {
@@ -43,35 +45,35 @@ function mapPrismaError(err: PrismaKnownError): {
     case 'P2002':
       return {
         status: HttpStatus.CONFLICT,
-        code: 'UNIQUE_CONSTRAINT_VIOLATION',
+        code: API_ERROR_CODE.UNIQUE_CONSTRAINT_VIOLATION,
         message: 'A record with the given data already exists.',
         details: err.meta,
       }
     case 'P2025':
       return {
         status: HttpStatus.NOT_FOUND,
-        code: 'RECORD_NOT_FOUND',
+        code: API_ERROR_CODE.RECORD_NOT_FOUND,
         message: 'The requested record was not found.',
         details: err.meta,
       }
     case 'P2003':
       return {
         status: HttpStatus.BAD_REQUEST,
-        code: 'FOREIGN_KEY_CONSTRAINT_VIOLATION',
+        code: API_ERROR_CODE.FOREIGN_KEY_CONSTRAINT_VIOLATION,
         message: 'A related record was not found.',
         details: err.meta,
       }
     case 'P2014':
       return {
         status: HttpStatus.BAD_REQUEST,
-        code: 'RELATION_VIOLATION',
+        code: API_ERROR_CODE.RELATION_VIOLATION,
         message: 'The change would violate a required relation.',
         details: err.meta,
       }
     default:
       return {
         status: HttpStatus.INTERNAL_SERVER_ERROR,
-        code: `PRISMA_${err.code}`,
+        code: API_ERROR_CODE.INTERNAL_SERVER_ERROR,
         message: 'A database error occurred.',
       }
   }
@@ -87,6 +89,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const request = ctx.getRequest<Request>()
     const timestamp = new Date().toISOString()
     const path = request?.url ?? ''
+    const requestId = getRequestId(request)
 
     const { status, code, message, details } = this.mapException(exception)
     const error: ApiErrorBody = { code, message }
@@ -104,12 +107,16 @@ export class AllExceptionsFilter implements ExceptionFilter {
       path,
     }
 
+    if (requestId) {
+      body.requestId = requestId
+    }
+
     response.status(status).json(body)
   }
 
   private mapException(exception: unknown): {
     status: number
-    code: string
+    code: ApiErrorCode
     message: string
     details?: unknown
   } {
@@ -122,7 +129,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
     } else if (isPrismaValidationError(exception)) {
       return {
         status: HttpStatus.BAD_REQUEST,
-        code: 'PRISMA_VALIDATION_ERROR',
+        code: API_ERROR_CODE.PRISMA_VALIDATION_ERROR,
         message: 'Invalid query parameters.',
       }
     } else if (exception instanceof Error) {
@@ -131,14 +138,18 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
     return {
       status: HttpStatus.INTERNAL_SERVER_ERROR,
-      code: 'INTERNAL_SERVER_ERROR',
+      code: API_ERROR_CODE.INTERNAL_SERVER_ERROR,
       message: 'Internal server error',
     }
   }
 
   private handleHttpException(exception: HttpException) {
     const status = exception.getStatus()
-    const code = HttpStatus[status] ?? 'HTTP_ERROR'
+    const statusCodeName = HttpStatus[status]
+    const code =
+      typeof statusCodeName === 'string' && isApiErrorCode(statusCodeName)
+        ? statusCodeName
+        : API_ERROR_CODE.INTERNAL_SERVER_ERROR
     const body = exception.getResponse()
 
     let message = 'Internal server error'
@@ -167,6 +178,11 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (status >= 500) {
       this.logger.error(message, exception.stack)
     }
-    return { status, code, message, details }
+    return {
+      status,
+      code: isApiErrorCode(code) ? code : API_ERROR_CODE.APP_ERROR,
+      message,
+      details,
+    }
   }
 }

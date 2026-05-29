@@ -2,8 +2,8 @@
   "name": "@ecom/contracts",
   "version": "0.1.0",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
   "types": "./src/index.ts",
   "sideEffects": false,
   "files": [
@@ -13,33 +13,39 @@
   "exports": {
     ".": {
       "types": "./src/index.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "development": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./enums": {
       "types": "./src/enums/index.ts",
-      "import": "./dist/enums/index.js",
-      "require": "./dist/enums/index.cjs"
+      "development": "./src/enums/index.ts",
+      "import": "./src/enums/index.ts",
+      "default": "./src/enums/index.ts"
     },
     "./http": {
       "types": "./src/http/index.ts",
-      "import": "./dist/http/index.js",
-      "require": "./dist/http/index.cjs"
+      "development": "./src/http/index.ts",
+      "import": "./src/http/index.ts",
+      "default": "./src/http/index.ts"
     },
     "./common": {
       "types": "./src/common/index.ts",
-      "import": "./dist/common/index.js",
-      "require": "./dist/common/index.cjs"
+      "development": "./src/common/index.ts",
+      "import": "./src/common/index.ts",
+      "default": "./src/common/index.ts"
     },
     "./admin/chat": {
       "types": "./src/admin/chat/index.ts",
-      "import": "./dist/admin/chat/index.js",
-      "require": "./dist/admin/chat/index.cjs"
+      "development": "./src/admin/chat/index.ts",
+      "import": "./src/admin/chat/index.ts",
+      "default": "./src/admin/chat/index.ts"
     },
     "./generated": {
       "types": "./src/generated/index.ts",
-      "import": "./dist/generated/index.js",
-      "require": "./dist/generated/index.cjs"
+      "development": "./src/generated/index.ts",
+      "import": "./src/generated/index.ts",
+      "default": "./src/generated/index.ts"
     }
   },
   "scripts": {

@@ -1,10 +1,10 @@
 'use client'
 
-import { Finance } from '@ecom/ui-seller'
+import { Finance } from '@ecom/ui-seller/pages/Finance'
 import { useFinanceAdapter } from '@/features/finance/hooks/use-finance-adapter'
 
 export default function FinancePage() {
-  const { loading, props } = useFinanceAdapter()
+  const { props } = useFinanceAdapter()
 
   return props ? (
     <Finance {...props} />

@@ -1,11 +1,21 @@
 'use client'
 
-import { Orders } from '@ecom/ui-seller'
+import { Orders } from '@ecom/ui-seller/pages/Orders'
 import { useOrdersAdapter } from '@/features/orders/hooks/use-orders-adapter'
 
 export default function OrdersPage() {
-  const { loading, orders, status, onStatusChange, search, onSearchChange, statusCounts, emptyMessage, meta, onPageChange } =
-    useOrdersAdapter()
+  const {
+    loading,
+    orders,
+    status,
+    onStatusChange,
+    search,
+    onSearchChange,
+    statusCounts,
+    emptyMessage,
+    meta,
+    onPageChange,
+  } = useOrdersAdapter()
 
   return (
     <Orders

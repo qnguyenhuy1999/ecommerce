@@ -1,6 +1,6 @@
 'use client'
 
-import { Warehouses } from '@ecom/ui-seller'
+import { Warehouses } from '@ecom/ui-seller/pages/Warehouses'
 import { useWarehousesAdapter } from '@/features/warehouses/hooks/use-warehouses-adapter'
 
 export default function WarehousesPage() {

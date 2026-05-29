@@ -1,6 +1,6 @@
 'use client'
 
-import { Notifications } from '@ecom/ui-seller'
+import { Notifications } from '@ecom/ui-seller/pages/Notifications'
 import { useNotificationsAdapter } from '@/features/notifications/hooks/use-notifications-adapter'
 
 export default function NotificationsPage() {

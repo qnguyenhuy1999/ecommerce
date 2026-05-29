@@ -1,3 +1,5 @@
+'use client'
+
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 import { SectionCard } from '../../atoms/SectionCard'
 import type { DashboardProps } from './Dashboard.types'

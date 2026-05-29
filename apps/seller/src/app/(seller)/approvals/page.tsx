@@ -1,6 +1,6 @@
 'use client'
 
-import { Approvals } from '@ecom/ui-seller'
+import { Approvals } from '@ecom/ui-seller/pages/Approvals'
 import { useApprovalsAdapter } from '@/features/approvals/hooks/use-approvals-adapter'
 
 export default function ApprovalsPage() {

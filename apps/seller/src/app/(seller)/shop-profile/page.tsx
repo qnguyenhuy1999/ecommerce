@@ -1,10 +1,10 @@
 'use client'
 
-import { ShopProfile } from '@ecom/ui-seller'
+import { ShopProfile } from '@ecom/ui-seller/pages/ShopProfile'
 import { useShopProfileAdapter } from '@/features/shop-profile/hooks/use-shop-profile-adapter'
 
 export default function ShopProfilePage() {
-  const { loading, formData, onSubmit } = useShopProfileAdapter()
+  const { formData, onSubmit } = useShopProfileAdapter()
 
   return formData ? (
     <ShopProfile

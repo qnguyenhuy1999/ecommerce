@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import type { MessagesConversationRecord, MessagesMessageRecord } from '@ecom/ui-storefront'
 import type { ChatConversation } from '../../../lib/storefront-contracts'
 import type { RealtimeChatMessagePayload } from '../../../lib/realtime'
@@ -24,7 +24,6 @@ import type { ChatMessageState } from '../types'
 export function useMessagesAdapter() {
   const { loading: routeLoading } = useProtectedRoute()
   const { socket, setChatUnreadCount } = useStorefrontRealtime()
-  const queryClient = useQueryClient()
   const [conversations, setConversations] = useState<ChatConversation[]>([])
   const [messages, setMessages] = useState<ChatMessageState[]>([])
   const [selectedConversationId, setSelectedConversationId] = useState<string>()
@@ -41,19 +40,21 @@ export function useMessagesAdapter() {
   })
 
   useEffect(() => {
-    if (conversationsQuery.data) {
-      setConversations(conversationsQuery.data)
-      setSelectedConversationId((current) =>
-        getSelectedConversationId(current, conversationsQuery.data!),
-      )
-      setChatUnreadCount(getUnreadCount(conversationsQuery.data))
+    const nextConversations = conversationsQuery.data
+    if (nextConversations) {
+      setConversations(nextConversations)
+      setSelectedConversationId((current) => getSelectedConversationId(current, nextConversations))
+      setChatUnreadCount(getUnreadCount(nextConversations))
     }
   }, [conversationsQuery.data, setChatUnreadCount])
 
   const messagesQuery = useQuery({
     queryKey: messageKeys.detail(selectedConversationId ?? ''),
     queryFn: async () => {
-      const items = await getConversationMessages(selectedConversationId!)
+      if (!selectedConversationId) {
+        return []
+      }
+      const items = await getConversationMessages(selectedConversationId)
       return items.map(toChatMessageState)
     },
     enabled: !!selectedConversationId,

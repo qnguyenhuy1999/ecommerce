@@ -1,5 +1,7 @@
+import type { ApiErrorCode } from './error-code'
+
 export interface ApiErrorBody {
-  code: string
+  code: ApiErrorCode
   message: string
   details?: unknown
 }
@@ -36,6 +38,7 @@ export interface ApiErrorResponse {
   statusCode: number
   timestamp: string
   path: string
+  requestId?: string
 }
 
 export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse

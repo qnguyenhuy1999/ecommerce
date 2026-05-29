@@ -1,7 +1,6 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { Products, type ProductRow } from '@ecom/ui-seller'
 import { getProductsList } from '../api'
 import { mapProductsToRows } from '../mappers'
 import { productKeys } from '../query-keys'

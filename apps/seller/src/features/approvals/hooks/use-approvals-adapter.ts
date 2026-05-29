@@ -19,7 +19,7 @@ export function useApprovalsAdapter() {
   const resubmitMutation = useMutation({
     mutationFn: (approvalId: string) => resubmitApproval(approvalId),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: approvalKeys.all })
+      void queryClient.invalidateQueries({ queryKey: approvalKeys.all })
     },
   })
 

@@ -3,50 +3,58 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js",
-      "require": "./dist/constants/index.cjs"
+      "types": "./src/constants/index.ts",
+      "development": "./src/constants/index.ts",
+      "import": "./src/constants/index.ts",
+      "default": "./src/constants/index.ts"
     },
     "./pagination/core": {
-      "types": "./dist/pagination/core/index.d.ts",
-      "import": "./dist/pagination/core/index.js",
-      "require": "./dist/pagination/core/index.cjs"
+      "types": "./src/pagination/core/index.ts",
+      "development": "./src/pagination/core/index.ts",
+      "import": "./src/pagination/core/index.ts",
+      "default": "./src/pagination/core/index.ts"
     },
     "./pagination/nestjs": {
-      "types": "./dist/pagination/nestjs/index.d.ts",
-      "import": "./dist/pagination/nestjs/index.js",
-      "require": "./dist/pagination/nestjs/index.cjs"
+      "types": "./src/pagination/nestjs/index.ts",
+      "development": "./src/pagination/nestjs/index.ts",
+      "import": "./src/pagination/nestjs/index.ts",
+      "default": "./src/pagination/nestjs/index.ts"
     },
     "./pagination/prisma": {
-      "types": "./dist/pagination/prisma/index.d.ts",
-      "import": "./dist/pagination/prisma/index.js",
-      "require": "./dist/pagination/prisma/index.cjs"
+      "types": "./src/pagination/prisma/index.ts",
+      "development": "./src/pagination/prisma/index.ts",
+      "import": "./src/pagination/prisma/index.ts",
+      "default": "./src/pagination/prisma/index.ts"
     },
     "./pagination/react": {
-      "types": "./dist/pagination/react/index.d.ts",
-      "import": "./dist/pagination/react/index.js",
-      "require": "./dist/pagination/react/index.cjs"
+      "types": "./src/pagination/react/index.ts",
+      "development": "./src/pagination/react/index.ts",
+      "import": "./src/pagination/react/index.ts",
+      "default": "./src/pagination/react/index.ts"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js",
-      "require": "./dist/utils/index.cjs"
+      "types": "./src/utils/index.ts",
+      "development": "./src/utils/index.ts",
+      "import": "./src/utils/index.ts",
+      "default": "./src/utils/index.ts"
     },
     "./errors": {
-      "types": "./dist/errors/index.d.ts",
-      "import": "./dist/errors/index.js",
-      "require": "./dist/errors/index.cjs"
+      "types": "./src/errors/index.ts",
+      "development": "./src/errors/index.ts",
+      "import": "./src/errors/index.ts",
+      "default": "./src/errors/index.ts"
     }
   },
   "scripts": {

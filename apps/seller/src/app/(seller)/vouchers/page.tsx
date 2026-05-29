@@ -1,10 +1,10 @@
 'use client'
 
-import { Vouchers } from '@ecom/ui-seller'
+import { Vouchers } from '@ecom/ui-seller/pages/Vouchers'
 import { useVouchersAdapter } from '@/features/vouchers/hooks/use-vouchers-adapter'
 
 export default function VouchersPage() {
-  const { loading, vouchers } = useVouchersAdapter()
+  const { vouchers } = useVouchersAdapter()
 
   return (
     <Vouchers

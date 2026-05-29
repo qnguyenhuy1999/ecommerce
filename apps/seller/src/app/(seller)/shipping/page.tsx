@@ -1,6 +1,6 @@
 'use client'
 
-import { Shipping } from '@ecom/ui-seller'
+import { Shipping } from '@ecom/ui-seller/pages/Shipping'
 import { useShippingAdapter } from '@/features/shipping/hooks/use-shipping-adapter'
 
 export default function ShippingPage() {

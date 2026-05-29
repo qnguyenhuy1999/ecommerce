@@ -1,7 +1,7 @@
 'use client'
 
 import { api } from '../../lib/api'
-import { ForgotPassword } from '@ecom/ui-seller'
+import { ForgotPassword } from '@ecom/ui-seller/pages/ForgotPassword'
 
 interface ForgotPasswordResponse {
   data: {

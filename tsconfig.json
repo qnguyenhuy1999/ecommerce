@@ -23,7 +23,34 @@
       "path": "./apps/storefront"
     },
     {
+      "path": "./packages/api-client"
+    },
+    {
+      "path": "./packages/auth"
+    },
+    {
+      "path": "./packages/config"
+    },
+    {
+      "path": "./packages/contracts"
+    },
+    {
+      "path": "./packages/database"
+    },
+    {
+      "path": "./packages/email"
+    },
+    {
       "path": "./packages/nestjs-core"
+    },
+    {
+      "path": "./packages/redis"
+    },
+    {
+      "path": "./packages/shared"
+    },
+    {
+      "path": "./packages/testing"
     },
     {
       "path": "./packages/core-ui"

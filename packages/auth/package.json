@@ -9,25 +9,33 @@
   "exports": {
     ".": {
       "types": "./src/index.ts",
+      "development": "./src/index.ts",
       "import": "./src/index.ts",
-      "require": "./dist/index.cjs"
+      "default": "./src/index.ts"
     },
     "./password.utils": {
       "types": "./src/password.utils.ts",
-      "import": "./dist/password.utils.js",
-      "require": "./dist/password.utils.cjs"
+      "development": "./src/password.utils.ts",
+      "import": "./src/password.utils.ts",
+      "default": "./src/password.utils.ts"
     },
     "./client": {
+      "types": "./src/next/client.tsx",
+      "development": "./src/next/client.tsx",
       "import": "./src/next/client.tsx",
-      "types": "./src/next/client.tsx"
+      "default": "./src/next/client.tsx"
     },
     "./protected-route": {
+      "types": "./src/next/protected-route.ts",
+      "development": "./src/next/protected-route.ts",
       "import": "./src/next/protected-route.ts",
-      "types": "./src/next/protected-route.ts"
+      "default": "./src/next/protected-route.ts"
     },
     "./middleware": {
+      "types": "./src/next/middleware.ts",
+      "development": "./src/next/middleware.ts",
       "import": "./src/next/middleware.ts",
-      "types": "./src/next/middleware.ts"
+      "default": "./src/next/middleware.ts"
     }
   },
   "scripts": {

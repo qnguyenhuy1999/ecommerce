@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { VoucherDetail, type VoucherDetailFormData } from '@ecom/ui-seller'
+import { VoucherDetail, type VoucherDetailFormData } from '@ecom/ui-seller/pages/VoucherDetail'
 import { createVoucher } from '@/features/vouchers/api'
 import { mapVoucherFormToCreateCouponPayload } from '@/features/vouchers/mappers'
 

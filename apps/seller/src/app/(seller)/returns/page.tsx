@@ -1,10 +1,10 @@
 'use client'
 
-import { ReturnsRefunds } from '@ecom/ui-seller'
+import { ReturnsRefunds } from '@ecom/ui-seller/pages/ReturnsRefunds'
 import { useReturnsAdapter } from '@/features/returns/hooks/use-returns-adapter'
 
 export default function ReturnsPage() {
-  const { loading, returns, onAction } = useReturnsAdapter()
+  const { returns, onAction } = useReturnsAdapter()
 
   return <ReturnsRefunds returns={returns} onAction={onAction} />
 }

@@ -1,10 +1,10 @@
 'use client'
 
-import { ProductDetail } from '@ecom/ui-seller'
+import { ProductDetail } from '@ecom/ui-seller/pages/ProductDetail'
 import { useNewProductAdapter } from '@/features/products/hooks/use-new-product-adapter'
 
 export default function NewProductPage() {
-  const { loading, categories, onSaveDraft, onPublish } = useNewProductAdapter()
+  const { categories, onSaveDraft, onPublish } = useNewProductAdapter()
 
   return (
     <ProductDetail

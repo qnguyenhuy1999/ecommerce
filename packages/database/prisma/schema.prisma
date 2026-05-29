@@ -160,6 +160,21 @@ model EmailVerifyToken {
   @@map("email_verify_tokens")
 }
 
+model IdempotencyKey {
+  id           String   @id @default(uuid()) @db.Uuid
+  key          String
+  scope        String
+  requestHash  String   @map("request_hash")
+  responseJson Json?    @map("response_json")
+  status       String
+  expiresAt    DateTime @map("expires_at")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  @@unique([key, scope])
+  @@index([expiresAt])
+  @@map("idempotency_keys")
+}
+
 // ─── Seller & Shop ──────────────────────────────────────────────
 
 model SellerProfile {

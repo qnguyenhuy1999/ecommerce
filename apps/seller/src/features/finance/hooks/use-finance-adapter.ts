@@ -1,7 +1,6 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
-import { FinanceProps } from '@ecom/ui-seller'
 import { getFinanceBundle } from '../api'
 import { buildFinanceProps } from '../mappers'
 import { financeKeys } from '../query-keys'
@@ -18,6 +17,6 @@ export function useFinanceAdapter() {
   return {
     loading: query.isPending,
     error: query.error,
-    props: query.data as FinanceProps | undefined,
+    props: query.data,
   }
 }

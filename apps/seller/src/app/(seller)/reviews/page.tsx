@@ -1,6 +1,6 @@
 'use client'
 
-import { Reviews } from '@ecom/ui-seller'
+import { Reviews } from '@ecom/ui-seller/pages/Reviews'
 import { useReviewsAdapter } from '@/features/reviews/hooks/use-reviews-adapter'
 
 export default function ReviewsPage() {

@@ -4,25 +4,28 @@
   "private": true,
   "license": "MIT",
   "type": "module",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "types": "./src/index.ts",
+      "development": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./styles/globals.css": "./src/styles/globals.css",
     "./tokens": {
-      "types": "./dist/tokens/index.d.ts",
-      "import": "./dist/tokens/index.js",
-      "require": "./dist/tokens/index.cjs"
+      "types": "./src/tokens/index.ts",
+      "development": "./src/tokens/index.ts",
+      "import": "./src/tokens/index.ts",
+      "default": "./src/tokens/index.ts"
     },
     "./providers/ThemeProvider": {
-      "types": "./dist/providers/ThemeProvider.d.ts",
-      "import": "./dist/providers/ThemeProvider.js",
-      "require": "./dist/providers/ThemeProvider.cjs"
+      "types": "./src/providers/ThemeProvider.tsx",
+      "development": "./src/providers/ThemeProvider.tsx",
+      "import": "./src/providers/ThemeProvider.tsx",
+      "default": "./src/providers/ThemeProvider.tsx"
     }
   },
   "scripts": {

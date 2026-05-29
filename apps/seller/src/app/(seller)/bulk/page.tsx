@@ -1,6 +1,6 @@
 'use client'
 
-import { Bulk } from '@ecom/ui-seller'
+import { Bulk } from '@ecom/ui-seller/pages/Bulk'
 import { useBulkAdapter } from '@/features/bulk/hooks/use-bulk-adapter'
 
 export default function BulkPage() {

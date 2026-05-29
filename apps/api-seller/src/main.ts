@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core'
-import { Logger, ValidationPipe } from '@nestjs/common'
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common'
 import cookieParser from 'cookie-parser'
 import { ensureWorkspaceEnvFileLoaded } from '@ecom/config'
 
@@ -9,7 +9,7 @@ async function bootstrap() {
   const [
     { AppModule },
     { getCorsOrigins, getSellerPort },
-    { AllExceptionsFilter, RedisIoAdapter, ResponseInterceptor },
+    { AllExceptionsFilter, RedisIoAdapter, ResponseInterceptor, requestIdMiddleware },
     { buildSwaggerDocument },
   ] = await Promise.all([
     import('./app.module'),
@@ -26,6 +26,11 @@ async function bootstrap() {
   app.useWebSocketAdapter(redisIoAdapter)
 
   app.use(cookieParser())
+  app.use(requestIdMiddleware)
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  })
 
   app.enableCors({
     origin: getCorsOrigins(),

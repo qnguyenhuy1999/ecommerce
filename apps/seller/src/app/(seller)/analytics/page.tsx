@@ -1,6 +1,6 @@
 'use client'
 
-import { Analytics } from '@ecom/ui-seller'
+import { Analytics } from '@ecom/ui-seller/pages/Analytics'
 import { useAnalyticsAdapter } from '@/features/analytics/hooks/use-analytics-adapter'
 
 export default function AnalyticsPage() {

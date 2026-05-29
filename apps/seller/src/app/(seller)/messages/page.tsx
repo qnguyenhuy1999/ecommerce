@@ -1,6 +1,6 @@
 'use client'
 
-import { Messages } from '@ecom/ui-seller'
+import { Messages } from '@ecom/ui-seller/pages/Messages'
 import { useMessagesAdapter } from '@/features/messages/hooks/use-messages-adapter'
 
 export default function MessagesPage() {

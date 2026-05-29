@@ -17,11 +17,18 @@ export class AppError extends Error {
       cause?: Error
     } = {},
   ) {
-    super(message, { cause: options.cause })
+    super(message)
     this.name = 'AppError'
     this.code = options.code ?? 'APP_ERROR'
     this.statusCode = options.statusCode ?? 500
     this.details = options.details
+    if (options.cause) {
+      Object.defineProperty(this, 'cause', {
+        value: options.cause,
+        configurable: true,
+        writable: false,
+      })
+    }
     Object.setPrototypeOf(this, new.target.prototype)
   }
 }
