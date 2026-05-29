@@ -1,10 +1,10 @@
 import { ReturnStatus } from '@ecom/contracts/enums'
-import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
-import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import type { ReturnQueryDto } from './dto/return-query.dto'
+import { ReturnRepository } from './repositories/return.repository'
 
 const VALID_TRANSITIONS: Partial<Record<ReturnStatus, ReturnStatus[]>> = {
   [ReturnStatus.REQUESTED]: [ReturnStatus.REVIEWING, ReturnStatus.REJECTED],
@@ -19,7 +19,8 @@ const VALID_TRANSITIONS: Partial<Record<ReturnStatus, ReturnStatus[]>> = {
 
 @Injectable()
 export class ReturnService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly returnRepository: ReturnRepository) {}
+
   async list(shopId: string, query: ReturnQueryDto) {
     const {
       page = 1,
@@ -30,36 +31,19 @@ export class ReturnService {
       status,
     } = query
 
-    const finalSort = sortBy
-    const finalOrder = sortOrder
-
     const where: Prisma.ReturnRequestWhereInput = { shopId }
     if (status !== undefined) where.status = status
     if (search) where.description = { contains: search, mode: 'insensitive' }
 
-    const { items, total } = await offsetPaginate(this.prisma.returnRequest, {
-      page,
-      limit,
-      where,
-      include: {
-        items: true,
-        _count: { select: { evidence: true, timeline: true } },
-      },
-      orderBy: { [finalSort]: finalOrder },
+    const { items, total } = await this.returnRepository.findMany(where, page, limit, {
+      [sortBy]: sortOrder,
     })
 
     return buildOffsetResponse(items, page, limit, total)
   }
 
   async getById(shopId: string, returnId: string) {
-    const returnRequest = await this.prisma.returnRequest.findFirst({
-      where: { id: returnId, shopId },
-      include: {
-        items: true,
-        evidence: { orderBy: { createdAt: 'desc' } },
-        timeline: { orderBy: { createdAt: 'desc' } },
-      },
-    })
+    const returnRequest = await this.returnRepository.findOne(returnId, shopId)
 
     if (!returnRequest) {
       throw new NotFoundException('Return request not found')
@@ -75,9 +59,7 @@ export class ReturnService {
     note?: string,
     _performedBy?: string,
   ) {
-    const returnRequest = await this.prisma.returnRequest.findFirst({
-      where: { id: returnId, shopId },
-    })
+    const returnRequest = await this.returnRepository.findOneBasic(returnId, shopId)
 
     if (!returnRequest) {
       throw new NotFoundException('Return request not found')
@@ -92,10 +74,8 @@ export class ReturnService {
       )
     }
 
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-      const data: Prisma.ReturnRequestUpdateInput = {
-        status: newStatus,
-      }
+    return this.returnRepository.$transaction(async (tx: Prisma.TransactionClient) => {
+      const data: Prisma.ReturnRequestUpdateInput = { status: newStatus }
 
       if (newStatus === ReturnStatus.REFUNDED || newStatus === ReturnStatus.CLOSED) {
         data.resolvedAt = new Date()
@@ -129,9 +109,7 @@ export class ReturnService {
     url: string,
     description?: string,
   ) {
-    const returnRequest = await this.prisma.returnRequest.findFirst({
-      where: { id: returnId, shopId },
-    })
+    const returnRequest = await this.returnRepository.findOneBasic(returnId, shopId)
 
     if (!returnRequest) {
       throw new NotFoundException('Return request not found')
@@ -146,17 +124,15 @@ export class ReturnService {
       evidenceData.description = description
     }
 
-    return this.prisma.returnEvidence.create({ data: evidenceData })
+    return this.returnRepository.createEvidence(evidenceData)
   }
 
   async getStats(shopId: string) {
     const [total, pending, approved, refunded] = await Promise.all([
-      this.prisma.returnRequest.count({ where: { shopId } }),
-      this.prisma.returnRequest.count({
-        where: { shopId, status: { in: [ReturnStatus.REQUESTED, ReturnStatus.REVIEWING] } },
-      }),
-      this.prisma.returnRequest.count({ where: { shopId, status: ReturnStatus.APPROVED } }),
-      this.prisma.returnRequest.count({ where: { shopId, status: ReturnStatus.REFUNDED } }),
+      this.returnRepository.countAll(shopId),
+      this.returnRepository.countByStatus(shopId, [ReturnStatus.REQUESTED, ReturnStatus.REVIEWING]),
+      this.returnRepository.countSingleStatus(shopId, ReturnStatus.APPROVED),
+      this.returnRepository.countSingleStatus(shopId, ReturnStatus.REFUNDED),
     ])
 
     return { total, pending, approved, refunded }

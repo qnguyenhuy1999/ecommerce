@@ -3,6 +3,7 @@ import { BullModule } from '@nestjs/bullmq'
 import { AuthModule } from '../auth/auth.module'
 import { CheckoutController } from './checkout.controller'
 import { CheckoutService } from './checkout.service'
+import { CheckoutRepository } from './repositories/checkout.repository'
 import { QUEUES } from '@ecom/shared'
 
 @Module({
@@ -18,6 +19,6 @@ import { QUEUES } from '@ecom/shared'
     BullModule.registerQueue({ name: QUEUES.ORDER_PROCESSING }),
   ],
   controllers: [CheckoutController],
-  providers: [CheckoutService],
+  providers: [CheckoutService, CheckoutRepository],
 })
 export class CheckoutModule {}

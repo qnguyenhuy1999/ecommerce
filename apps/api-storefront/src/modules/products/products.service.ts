@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
-import { FlashSaleStatus, ProductStatus, ReviewStatus } from '@ecom/contracts/enums'
+import { ProductStatus } from '@ecom/contracts/enums'
+import { ProductsRepository } from './repositories/products.repository'
 
 type DecimalLike = { toNumber(): number } | null | undefined
 
@@ -122,63 +122,17 @@ type ProductDetailRow = {
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly productsRepository: ProductsRepository) {}
 
   async getProductDetail(slug: string) {
-    const product = await this.prisma.product.findFirst({
-      where: { slug, status: ProductStatus.PUBLISHED, deletedAt: null },
-      include: {
-        shop: {
-          select: { id: true, name: true, slug: true, logo: true, city: true, country: true },
-        },
-        category: { select: { id: true, name: true, slug: true, parentId: true } },
-        images: { orderBy: [{ isCover: 'desc' }, { sortOrder: 'asc' }, { createdAt: 'asc' }] },
-        variantOptionGroups: {
-          include: { options: { orderBy: { sortOrder: 'asc' } } },
-          orderBy: { sortOrder: 'asc' },
-        },
-        variants: {
-          where: { isActive: true },
-          include: {
-            optionValues: {
-              include: {
-                option: {
-                  include: { group: true },
-                },
-              },
-            },
-          },
-          orderBy: { createdAt: 'asc' },
-        },
-      },
-    })
+    const product = await this.productsRepository.findProductBySlug(slug)
 
     if (!product) throw new NotFoundException('Product not found')
 
     const [reviewRows, soldRows, flashSaleSlot, breadcrumbs, recommendations] = await Promise.all([
-      this.prisma.review.groupBy({
-        by: ['productId'],
-        where: { productId: product.id, status: ReviewStatus.APPROVED },
-        _avg: { rating: true },
-        _count: { productId: true },
-      }),
-      this.prisma.sellerOrderItem.groupBy({
-        by: ['variantId'],
-        where: { variantId: { in: product.variants.map((variant) => variant.id) } },
-        _sum: { quantity: true },
-      }),
-      this.prisma.flashSaleSlot.findFirst({
-        where: {
-          productId: product.id,
-          status: 'APPROVED',
-          campaign: {
-            status: FlashSaleStatus.ACTIVE,
-            startsAt: { lte: new Date() },
-            endsAt: { gte: new Date() },
-          },
-        },
-        select: { originalPrice: true, salePrice: true, purchaseLimit: true },
-      }),
+      this.productsRepository.aggregateReviews(product.id),
+      this.productsRepository.aggregateSoldItems(product.variants.map((v) => v.id)),
+      this.productsRepository.findActiveFlashSaleSlot(product.id),
       this.buildBreadcrumbs(product.categoryId),
       this.getRecommendations(product.id, product.categoryId),
     ])
@@ -200,10 +154,7 @@ export class ProductsService {
     let cursor: string | null = categoryId
 
     while (cursor) {
-      const category: BreadcrumbNode | null = await this.prisma.category.findUnique({
-        where: { id: cursor },
-        select: { id: true, name: true, slug: true, parentId: true },
-      })
+      const category = await this.productsRepository.findCategory(cursor)
 
       if (!category) break
 
@@ -231,16 +182,7 @@ export class ProductsService {
 
     if (sameCategory.length >= 6) return sameCategory.slice(0, 6)
 
-    const scores =
-      (await this.prisma.productScore.findMany({
-        where: {
-          productId: { not: productId },
-          scoreType: 'POPULARITY',
-        },
-        orderBy: { score: 'desc' },
-        take: 12,
-        select: { productId: true },
-      })) ?? []
+    const scores = await this.productsRepository.findProductScores(productId)
 
     if (scores.length === 0) return sameCategory
 
@@ -272,22 +214,7 @@ export class ProductsService {
     where: Record<string, unknown>,
     take = 6,
   ): Promise<RecommendationDto[]> {
-    const rows = await this.prisma.product.findMany({
-      where,
-      include: {
-        images: { where: { isCover: true }, take: 1, select: { url: true } },
-        shop: { select: { id: true, name: true, slug: true, logo: true } },
-        _count: { select: { reviews: true } },
-        reviews: { where: { status: ReviewStatus.APPROVED }, select: { rating: true } },
-        variants: {
-          where: { isActive: true },
-          select: { price: true },
-          orderBy: { price: 'asc' },
-          take: 1,
-        },
-      },
-      take,
-    })
+    const rows = await this.productsRepository.findRecommendationProducts(where, take)
 
     return rows.map((row) => this.mapRecommendation(row))
   }

@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
 import type { SessionData } from '@ecom/auth'
 import type {
   AddCartItemDto,
@@ -8,64 +7,13 @@ import type {
   UpdateCartItemDto,
 } from './dto/cart.dto'
 import { calculateVoucherDiscount, roundMoney } from './cart.utils'
+import { CartRepository } from './repositories/cart.repository'
 
-const CART_INCLUDE = {
-  items: {
-    orderBy: { createdAt: 'asc' as const },
-    include: {
-      product: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-          basePrice: true,
-          baseStock: true,
-          reservedStock: true,
-          hasVariants: true,
-          status: true,
-          deletedAt: true,
-          shop: {
-            select: { id: true, name: true, slug: true, logo: true, status: true },
-          },
-          images: {
-            where: { isCover: true },
-            take: 1,
-            select: { url: true },
-          },
-        },
-      },
-      variant: {
-        select: {
-          id: true,
-          sku: true,
-          price: true,
-          stock: true,
-          reservedStock: true,
-          isActive: true,
-          optionValues: {
-            select: {
-              option: {
-                select: {
-                  value: true,
-                  group: {
-                    select: { name: true, sortOrder: true },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  platformVoucher: true,
-} as const
-
-type CartRecord = NonNullable<Awaited<ReturnType<CartService['loadCart']>>>
+type CartRecord = NonNullable<Awaited<ReturnType<CartRepository['findCartWithItems']>>>
 
 @Injectable()
 export class CartService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly cartRepository: CartRepository) {}
 
   async getCart(user: SessionData): Promise<CartDto> {
     const cart = await this.loadCart(user.userId)
@@ -73,34 +21,22 @@ export class CartService {
   }
 
   async addItem(user: SessionData, dto: AddCartItemDto): Promise<CartDto> {
-    const cart = await this.ensureCart(user.userId)
+    const cart = await this.cartRepository.upsertCart(user.userId)
     const selection = await this.resolveSelection(dto.productId, dto.variantId)
-    const existingItem = await this.prisma.cartItem.findUnique({
-      where: {
-        cartId_itemKey: {
-          cartId: cart.id,
-          itemKey: selection.itemKey,
-        },
-      },
-    })
+    const existingItem = await this.cartRepository.findCartItemByKey(cart.id, selection.itemKey)
 
     const quantity = (existingItem?.quantity ?? 0) + dto.quantity
     ensureQuantityAvailable(quantity, selection.availableStock)
 
     if (existingItem) {
-      await this.prisma.cartItem.update({
-        where: { id: existingItem.id },
-        data: { quantity },
-      })
+      await this.cartRepository.updateCartItem(existingItem.id, quantity)
     } else {
-      await this.prisma.cartItem.create({
-        data: {
-          cartId: cart.id,
-          itemKey: selection.itemKey,
-          productId: dto.productId,
-          variantId: dto.variantId ?? null,
-          quantity: dto.quantity,
-        },
+      await this.cartRepository.createCartItem({
+        cartId: cart.id,
+        itemKey: selection.itemKey,
+        productId: dto.productId,
+        variantId: dto.variantId ?? null,
+        quantity: dto.quantity,
       })
     }
 
@@ -108,10 +44,8 @@ export class CartService {
   }
 
   async updateItem(user: SessionData, itemId: string, dto: UpdateCartItemDto): Promise<CartDto> {
-    const cart = await this.ensureCart(user.userId)
-    const item = await this.prisma.cartItem.findFirst({
-      where: { id: itemId, cartId: cart.id },
-    })
+    const cart = await this.cartRepository.upsertCart(user.userId)
+    const item = await this.cartRepository.findCartItemById(itemId, cart.id)
 
     if (!item) {
       throw new NotFoundException('Cart item not found')
@@ -120,26 +54,20 @@ export class CartService {
     const selection = await this.resolveSelection(item.productId, item.variantId ?? undefined)
     ensureQuantityAvailable(dto.quantity, selection.availableStock)
 
-    await this.prisma.cartItem.update({
-      where: { id: item.id },
-      data: { quantity: dto.quantity },
-    })
+    await this.cartRepository.updateCartItem(item.id, dto.quantity)
 
     return this.getCart(user)
   }
 
   async removeItem(user: SessionData, itemId: string): Promise<CartDto> {
-    const cart = await this.ensureCart(user.userId)
-    const item = await this.prisma.cartItem.findFirst({
-      where: { id: itemId, cartId: cart.id },
-      select: { id: true },
-    })
+    const cart = await this.cartRepository.upsertCart(user.userId)
+    const item = await this.cartRepository.findCartItemById(itemId, cart.id)
 
     if (!item) {
       throw new NotFoundException('Cart item not found')
     }
 
-    await this.prisma.cartItem.delete({ where: { id: item.id } })
+    await this.cartRepository.deleteCartItem(item.id)
     return this.getCart(user)
   }
 
@@ -147,9 +75,7 @@ export class CartService {
     const cart = await this.loadCart(user.userId)
     const subtotal = calculateSubtotal(cart)
 
-    const voucher = await this.prisma.platformVoucher.findFirst({
-      where: { code: dto.code.trim() },
-    })
+    const voucher = await this.cartRepository.findVoucher(dto.code.trim())
 
     if (!voucher) {
       throw new BadRequestException('Voucher not found')
@@ -175,46 +101,26 @@ export class CartService {
       throw new BadRequestException(evaluation.reason)
     }
 
-    await this.prisma.cart.update({
-      where: { id: cart.id },
-      data: { platformVoucherId: voucher.id },
-    })
+    await this.cartRepository.setCartVoucher(cart.id, voucher.id)
 
     return this.getCart(user)
   }
 
   async removeVoucher(user: SessionData): Promise<CartDto> {
-    const cart = await this.ensureCart(user.userId)
-    await this.prisma.cart.update({
-      where: { id: cart.id },
-      data: { platformVoucherId: null },
-    })
+    const cart = await this.cartRepository.upsertCart(user.userId)
+    await this.cartRepository.setCartVoucher(cart.id, null)
     return this.getCart(user)
   }
 
   async getCartCount(user: SessionData): Promise<{ count: number }> {
-    const result = await this.prisma.cart.findUnique({
-      where: { userId: user.userId },
-      select: { _count: { select: { items: true } } },
-    })
+    const result = await this.cartRepository.findCartItemCount(user.userId)
     return { count: result?._count.items ?? 0 }
   }
 
-  private async ensureCart(userId: string) {
-    return this.prisma.cart.upsert({
-      where: { userId },
-      update: {},
-      create: { userId },
-    })
-  }
+  private async loadCart(userId: string): Promise<CartRecord> {
+    await this.cartRepository.upsertCart(userId)
 
-  private async loadCart(userId: string) {
-    await this.ensureCart(userId)
-
-    const cart = await this.prisma.cart.findUnique({
-      where: { userId },
-      include: CART_INCLUDE,
-    })
+    const cart = await this.cartRepository.findCartWithItems(userId)
 
     if (!cart) {
       throw new NotFoundException('Cart not found')
@@ -248,10 +154,7 @@ export class CartService {
       )
 
       if (evaluation.reason) {
-        await this.prisma.cart.update({
-          where: { id: cart.id },
-          data: { platformVoucherId: null },
-        })
+        await this.cartRepository.setCartVoucher(cart.id, null)
         voucher = null
       } else {
         discountTotal = evaluation.discountTotal
@@ -313,30 +216,7 @@ export class CartService {
   }
 
   private async resolveSelection(productId: string, variantId?: string) {
-    const product = await this.prisma.product.findUnique({
-      where: { id: productId },
-      select: {
-        id: true,
-        status: true,
-        deletedAt: true,
-        hasVariants: true,
-        basePrice: true,
-        baseStock: true,
-        reservedStock: true,
-        shop: {
-          select: { status: true },
-        },
-        variants: {
-          ...(variantId ? { where: { id: variantId } } : {}),
-          select: {
-            id: true,
-            stock: true,
-            reservedStock: true,
-            isActive: true,
-          },
-        },
-      },
-    })
+    const product = await this.cartRepository.findProduct(productId, variantId)
 
     if (
       !product ||

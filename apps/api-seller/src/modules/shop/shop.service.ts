@@ -1,16 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { UpdateShopDto } from './dto/update-shop.dto'
+import { ShopRepository } from './repositories/shop.repository'
 
 @Injectable()
 export class ShopService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly shopRepository: ShopRepository) {}
+
   async getShop(userId: string) {
-    const profile = await this.prisma.sellerProfile.findUnique({
-      where: { userId },
-      include: { shop: true },
-    })
+    const profile = await this.shopRepository.findProfileWithShop(userId)
 
     if (!profile?.shop) {
       throw new NotFoundException('Shop not found. Please complete registration.')
@@ -20,17 +18,12 @@ export class ShopService {
   }
 
   async updateShop(userId: string, dto: UpdateShopDto) {
-    const profile = await this.prisma.sellerProfile.findUnique({
-      where: { userId },
-      include: { shop: true },
-    })
+    const profile = await this.shopRepository.findProfileWithShop(userId)
 
     if (!profile?.shop) {
       throw new NotFoundException('Shop not found')
     }
 
-    // Build update payload explicitly to avoid passing `undefined` values
-    // to Prisma under exactOptionalPropertyTypes.
     const data: Prisma.ShopUpdateInput = {}
     if (dto.name !== undefined) data.name = dto.name
     if (dto.description !== undefined) data.description = dto.description
@@ -45,17 +38,11 @@ export class ShopService {
     if (dto.postalCode !== undefined) data.postalCode = dto.postalCode
     if (dto.country !== undefined) data.country = dto.country
 
-    return this.prisma.shop.update({
-      where: { id: profile.shop.id },
-      data,
-    })
+    return this.shopRepository.updateShop(profile.shop.id, data)
   }
 
   async getShopId(userId: string): Promise<string> {
-    const profile = await this.prisma.sellerProfile.findUnique({
-      where: { userId },
-      include: { shop: { select: { id: true } } },
-    })
+    const profile = await this.shopRepository.findProfileShopId(userId)
 
     if (!profile?.shop) {
       throw new NotFoundException('Shop not found')

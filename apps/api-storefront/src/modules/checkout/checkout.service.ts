@@ -3,14 +3,12 @@ import {
   BadRequestException,
   ConflictException,
   ForbiddenException,
-  Inject,
   Injectable,
   Logger,
   NotFoundException,
 } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
-import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { RedisService } from '@ecom/redis'
 import type { SessionData } from '@ecom/auth'
@@ -21,6 +19,7 @@ import type {
   SetCheckoutPaymentDto,
   SetCheckoutShippingDto,
 } from './dto/checkout.dto'
+import { CheckoutRepository } from './repositories/checkout.repository'
 
 const CHECKOUT_SESSION_TTL_SECONDS = 15 * 60 // 15 minutes
 const CONFIRM_LOCK_TTL_SECONDS = 30
@@ -40,42 +39,13 @@ export class CheckoutService {
   private readonly logger = new Logger(CheckoutService.name)
 
   constructor(
-    @Inject(PrismaService) private readonly prisma: PrismaService,
+    private readonly checkoutRepository: CheckoutRepository,
     private readonly redis: RedisService,
     @InjectQueue(QUEUES.ORDER_PROCESSING) private readonly orderQueue: Queue,
   ) {}
 
   async createSession(user: SessionData) {
-    const cart = await this.prisma.cart.findUnique({
-      where: { userId: user.userId },
-      include: {
-        items: {
-          include: {
-            product: {
-              select: {
-                id: true,
-                shopId: true,
-                basePrice: true,
-                baseStock: true,
-                reservedStock: true,
-                hasVariants: true,
-                status: true,
-                deletedAt: true,
-              },
-            },
-            variant: {
-              select: {
-                id: true,
-                price: true,
-                stock: true,
-                reservedStock: true,
-                isActive: true,
-              },
-            },
-          },
-        },
-      },
-    })
+    const cart = await this.checkoutRepository.findCartWithItems(user.userId)
 
     if (!cart || cart.items.length === 0) {
       throw new BadRequestException('Cart is empty')
@@ -109,7 +79,7 @@ export class CheckoutService {
     const expiresAt = new Date(Date.now() + CHECKOUT_SESSION_TTL_SECONDS * 1000)
 
     // Optimistic inventory reservation + session creation in one transaction
-    const session = await this.prisma.$transaction(async (tx) => {
+    const session = await this.checkoutRepository.$transaction(async (tx) => {
       // Reserve stock for each variant/product
       for (const item of cart.items) {
         if (item.product.hasVariants && item.variant) {
@@ -167,14 +137,13 @@ export class CheckoutService {
   async setAddress(user: SessionData, sessionId: string, dto: SetCheckoutAddressDto) {
     await this.loadSession(user.userId, sessionId)
 
-    const address = await this.prisma.userAddress.findUnique({ where: { id: dto.addressId } })
+    const address = await this.checkoutRepository.findUserAddress(dto.addressId)
     if (!address) throw new NotFoundException('Address not found')
     if (address.userId !== user.userId) throw new ForbiddenException()
 
-    const session = await this.prisma.checkoutSession.update({
-      where: { id: sessionId },
-      data: { addressId: dto.addressId, step: 'SHIPPING' },
-      include: { distributionLogs: true },
+    const session = await this.checkoutRepository.updateSession(sessionId, {
+      addressId: dto.addressId,
+      step: 'SHIPPING',
     })
 
     return this.normalizeSession(session)
@@ -189,24 +158,18 @@ export class CheckoutService {
     const shippingFee = 0
 
     for (const s of dto.selections) {
-      const method = await this.prisma.sellerShippingMethod.findFirst({
-        where: { shopId: s.shopId, providerId: s.providerId, isEnabled: true },
-      })
+      const method = await this.checkoutRepository.findShippingMethod(s.shopId, s.providerId)
       if (!method) {
         throw new BadRequestException(`Shipping method not available for shop ${s.shopId}`)
       }
       shippingSelections[s.shopId] = { providerId: s.providerId, shippingFee: 0 }
     }
 
-    const updated = await this.prisma.checkoutSession.update({
-      where: { id: sessionId },
-      data: {
-        shippingSelections,
-        shippingFee,
-        total: session.subtotal.toNumber() - session.discount.toNumber() + shippingFee,
-        step: 'PAYMENT',
-      },
-      include: { distributionLogs: true },
+    const updated = await this.checkoutRepository.updateSession(sessionId, {
+      shippingSelections,
+      shippingFee,
+      total: session.subtotal.toNumber() - session.discount.toNumber() + shippingFee,
+      step: 'PAYMENT',
     })
 
     return this.normalizeSession(updated)
@@ -218,11 +181,9 @@ export class CheckoutService {
       throw new BadRequestException('Complete address and shipping steps first')
     }
 
-    const updated = await this.prisma.checkoutSession.update({
-      where: { id: sessionId },
-
-      data: { paymentMethod: toPaymentMethodInput(dto.paymentMethod), step: 'REVIEW' },
-      include: { distributionLogs: true },
+    const updated = await this.checkoutRepository.updateSession(sessionId, {
+      paymentMethod: toPaymentMethodInput(dto.paymentMethod),
+      step: 'REVIEW',
     })
 
     return this.normalizeSession(updated)
@@ -256,10 +217,7 @@ export class CheckoutService {
       // Pre-generate orderId so frontend can reference it immediately
       const orderId = randomUUID()
 
-      await this.prisma.checkoutSession.update({
-        where: { id: sessionId },
-        data: { orderId, step: 'CONFIRMED' },
-      })
+      await this.checkoutRepository.updateSession(sessionId, { orderId, step: 'CONFIRMED' })
 
       await this.orderQueue.add(
         'process-order',
@@ -286,12 +244,7 @@ export class CheckoutService {
   }
 
   async getOrderStatus(user: SessionData, orderId: string) {
-    const session = await this.prisma.checkoutSession.findFirst({
-      where: { orderId, userId: user.userId },
-      include: {
-        distributionLogs: { orderBy: { createdAt: 'asc' } },
-      },
-    })
+    const session = await this.checkoutRepository.findSessionByOrder(orderId, user.userId)
 
     if (!session) throw new NotFoundException('Order not found')
 
@@ -312,10 +265,7 @@ export class CheckoutService {
   // ─── Private ──────────────────────────────────────────────────────
 
   private async loadSession(userId: string, sessionId: string) {
-    const session = await this.prisma.checkoutSession.findUnique({
-      where: { id: sessionId },
-      include: { distributionLogs: { orderBy: { createdAt: 'asc' } } },
-    })
+    const session = await this.checkoutRepository.findSession(sessionId)
 
     if (!session) throw new NotFoundException('Checkout session not found')
     if (session.userId !== userId) throw new ForbiddenException()
@@ -325,10 +275,7 @@ export class CheckoutService {
       session.step !== 'FAILED' &&
       new Date() > session.expiresAt
     ) {
-      await this.prisma.checkoutSession.update({
-        where: { id: sessionId },
-        data: { step: 'EXPIRED' },
-      })
+      await this.checkoutRepository.updateSession(sessionId, { step: 'EXPIRED' })
       throw new BadRequestException('Checkout session has expired')
     }
 

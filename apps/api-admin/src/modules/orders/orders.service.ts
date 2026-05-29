@@ -1,12 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { PrismaService, Prisma } from '@ecom/database'
+import { Prisma } from '@ecom/database'
 import { type OrderStatus, OrderStatus as OS } from '@ecom/contracts/enums'
-import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { withDefined } from '@ecom/shared/utils'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { OrdersRepository } from './repositories/orders.repository'
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly ordersRepository: OrdersRepository) {}
+
   async findAll(query: {
     page?: number
     limit?: number
@@ -14,51 +15,20 @@ export class OrdersService {
     status?: OrderStatus
     buyerId?: string
   }) {
-    const where: Prisma.OrderWhereInput = {}
-    if (query.status) where.status = query.status
-    if (query.buyerId) where.buyerId = query.buyerId
-    if (query.search) {
-      where.OR = [{ id: query.search }]
-    }
-
-    const { items, total } = await offsetPaginate(this.prisma.order, {
-      ...withDefined({ page: query.page, limit: query.limit }),
-      where,
-      include: {
-        sellerOrders: {
-          include: {
-            shop: { select: { id: true, name: true } },
-            _count: { select: { items: true } },
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    })
+    const { items, total } = await this.ordersRepository.findMany(query)
 
     return buildOffsetResponse(items, query.page ?? 1, query.limit ?? 20, total)
   }
 
   async findById(id: string) {
-    const order = await this.prisma.order.findUnique({
-      where: { id },
-      include: {
-        sellerOrders: {
-          include: {
-            shop: { select: { id: true, name: true } },
-            items: true,
-            shipments: true,
-            auditLogs: { orderBy: { createdAt: 'desc' } },
-          },
-        },
-      },
-    })
+    const order = await this.ordersRepository.findById(id)
     if (!order) throw new NotFoundException('Order not found')
     return order
   }
 
   async forceCancel(id: string) {
     const order = await this.findById(id)
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return this.ordersRepository.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.sellerOrder.updateMany({
         where: { orderId: order.id },
         data: { status: OS.CANCELLED },
@@ -72,7 +42,7 @@ export class OrdersService {
 
   async forceComplete(id: string) {
     const order = await this.findById(id)
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return this.ordersRepository.$transaction(async (tx: Prisma.TransactionClient) => {
       await tx.sellerOrder.updateMany({
         where: { orderId: order.id },
         data: { status: OS.DELIVERED },
@@ -85,10 +55,7 @@ export class OrdersService {
   }
 
   async getStatusCounts() {
-    const counts = await this.prisma.order.groupBy({
-      by: ['status'],
-      _count: { status: true },
-    })
+    const counts = await this.ordersRepository.groupByStatus()
     const result: Record<string, number> = {}
     for (const item of counts) {
       result[item.status] = item._count.status

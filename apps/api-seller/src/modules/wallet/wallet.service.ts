@@ -1,25 +1,22 @@
-import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
-import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { randomUUID } from 'node:crypto'
 import type { RequestWithdrawalDto } from './dto/wallet.dto'
+import { WalletRepository } from './repositories/wallet.repository'
 
 @Injectable()
 export class WalletService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly walletRepository: WalletRepository) {}
+
   async getWallet(shopId: string) {
-    let wallet = await this.prisma.wallet.findUnique({
-      where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
-    })
+    let wallet = await this.walletRepository.findWallet(shopId)
 
     if (!wallet) {
-      wallet = await this.prisma.wallet.create({
-        data: { ownerId: shopId, ownerType: 'SHOP' },
-      })
+      wallet = await this.walletRepository.createWallet(shopId)
     }
 
     return wallet
@@ -34,10 +31,10 @@ export class WalletService {
   ) {
     const idempotencyKey = `credit_${shopId}_${referenceId ?? randomUUID()}`
 
-    const existing = await this.prisma.walletTransaction.findUnique({ where: { idempotencyKey } })
+    const existing = await this.walletRepository.findTransaction(idempotencyKey)
     if (existing) return existing
 
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return this.walletRepository.$transaction(async (tx: Prisma.TransactionClient) => {
       const wallet = await tx.wallet.upsert({
         where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
         update: { pendingBalance: { increment: amount } },
@@ -73,16 +70,14 @@ export class WalletService {
   }
 
   async settleBalance(shopId: string, amount: number) {
-    const wallet = await this.prisma.wallet.findUnique({
-      where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
-    })
+    const wallet = await this.walletRepository.findWallet(shopId)
     if (!wallet) throw new NotFoundException('Wallet not found')
 
     if (Number(wallet.pendingBalance) < amount) {
       throw new BadRequestException('Insufficient pending balance')
     }
 
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return this.walletRepository.$transaction(async (tx: Prisma.TransactionClient) => {
       const updated = await tx.wallet.update({
         where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
         data: {
@@ -106,16 +101,14 @@ export class WalletService {
   }
 
   async requestWithdrawal(shopId: string, dto: RequestWithdrawalDto) {
-    const wallet = await this.prisma.wallet.findUnique({
-      where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
-    })
+    const wallet = await this.walletRepository.findWallet(shopId)
     if (!wallet) throw new NotFoundException('Wallet not found')
 
     if (Number(wallet.balance) < dto.amount) {
       throw new BadRequestException('Insufficient available balance')
     }
 
-    return this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+    return this.walletRepository.$transaction(async (tx: Prisma.TransactionClient) => {
       const updated = await tx.wallet.update({
         where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
         data: { balance: { decrement: dto.amount } },
@@ -152,19 +145,10 @@ export class WalletService {
   async listTransactions(shopId: string, query: OffsetPaginationDto) {
     const { page = 1, limit = PAGINATION_DEFAULTS.DEFAULT_LIMIT } = query
 
-    const wallet = await this.prisma.wallet.findUnique({
-      where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
-    })
+    const wallet = await this.walletRepository.findWallet(shopId)
     if (!wallet) return buildOffsetResponse([], 1, limit, 0)
 
-    const where: Prisma.WalletTransactionWhereInput = { walletId: wallet.id }
-
-    const { items, total } = await offsetPaginate(this.prisma.walletTransaction, {
-      page,
-      limit,
-      where,
-      orderBy: { createdAt: 'desc' },
-    })
+    const { items, total } = await this.walletRepository.findTransactions(wallet.id, page, limit)
 
     return buildOffsetResponse(items, page, limit, total)
   }
@@ -172,19 +156,10 @@ export class WalletService {
   async listWithdrawals(shopId: string, query: OffsetPaginationDto) {
     const { page = 1, limit = PAGINATION_DEFAULTS.DEFAULT_LIMIT } = query
 
-    const wallet = await this.prisma.wallet.findUnique({
-      where: { ownerId_ownerType: { ownerId: shopId, ownerType: 'SHOP' } },
-    })
+    const wallet = await this.walletRepository.findWallet(shopId)
     if (!wallet) return buildOffsetResponse([], 1, limit, 0)
 
-    const where: Prisma.WalletWithdrawalWhereInput = { walletId: wallet.id }
-
-    const { items, total } = await offsetPaginate(this.prisma.walletWithdrawal, {
-      page,
-      limit,
-      where,
-      orderBy: { createdAt: 'desc' },
-    })
+    const { items, total } = await this.walletRepository.findWithdrawals(wallet.id, page, limit)
 
     return buildOffsetResponse(items, page, limit, total)
   }
