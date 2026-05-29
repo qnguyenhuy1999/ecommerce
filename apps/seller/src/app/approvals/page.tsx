@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Approvals, type ApprovalRow } from '@ecom/ui-seller'
-import { getApprovals, resubmitApproval } from '@/features/integration/seller-page-api'
-import { mapApprovalsToRows } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getApprovals, resubmitApproval } from '@/features/approvals/api'
+import { mapApprovalsToRows } from '@/features/approvals/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function ApprovalsPage() {
   const [approvals, setApprovals] = useState<ApprovalRow[]>([])

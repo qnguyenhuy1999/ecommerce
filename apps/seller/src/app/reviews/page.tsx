@@ -2,9 +2,9 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Reviews, type ReviewAnalytics, type ReviewRow } from '@ecom/ui-seller'
-import { getReviewsBundle, replyToReview } from '@/features/integration/seller-page-api'
-import { mapReviewsToRows } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getReviewsBundle, replyToReview } from '@/features/reviews/api'
+import { mapReviewsToRows } from '@/features/reviews/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function ReviewsPage() {
   const [rows, setRows] = useState<ReviewRow[]>([])

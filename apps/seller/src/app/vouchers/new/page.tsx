@@ -2,9 +2,9 @@
 
 import { useRouter } from 'next/navigation'
 import { VoucherDetail, type VoucherDetailFormData } from '@ecom/ui-seller'
-import { DashboardLayout } from '../../../components/dashboard-layout'
-import { createVoucher } from '@/features/integration/seller-page-api'
-import { mapVoucherFormToCreateCouponPayload } from '@/features/integration/seller-page-adapters'
+import { DashboardLayout } from '../../../shared/components/dashboard-layout'
+import { createVoucher } from '@/features/vouchers/api'
+import { mapVoucherFormToCreateCouponPayload } from '@/features/vouchers/mappers'
 
 export default function NewVoucherPage() {
   const router = useRouter()

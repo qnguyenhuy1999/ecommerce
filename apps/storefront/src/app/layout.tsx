@@ -1,6 +1,7 @@
-import { StorefrontShell } from '../components/storefront-shell'
-import { AuthProvider } from '../providers/auth-provider'
-import { StorefrontRealtimeProvider } from '../providers/realtime-provider'
+import '../styles/globals.css'
+import { AuthProvider } from '../core/auth/auth-provider'
+import { StorefrontRealtimeProvider } from '../core/providers/realtime-provider'
+import { StorefrontShell } from '../shared/components/storefront-shell'
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

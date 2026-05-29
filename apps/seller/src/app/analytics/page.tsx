@@ -2,12 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Analytics, type AnalyticsProps } from '@ecom/ui-seller'
-import { DashboardLayout } from '../../components/dashboard-layout'
-import { getAnalyticsBundle } from '@/features/integration/seller-page-api'
-import {
-  buildAnalyticsProps,
-  buildDateRangeParams,
-} from '@/features/integration/seller-page-adapters'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
+import { getAnalyticsBundle } from '@/features/analytics/api'
+import { buildAnalyticsProps, buildDateRangeParams } from '@/features/analytics/mappers'
 
 export default function AnalyticsPage() {
   const [range, setRange] = useState('30d')

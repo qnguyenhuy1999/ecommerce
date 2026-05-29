@@ -1,0 +1,4 @@
+@import '@ecom/ui-admin/styles/globals.css';
+@source "../**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/core-ui/src/**/*.{js,ts,jsx,tsx,mdx}";
+@source "../../../../packages/ui-admin/src/**/*.{js,ts,jsx,tsx,mdx}";

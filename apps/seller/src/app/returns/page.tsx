@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { ReturnsRefunds, type ReturnRow, type ReturnsRefundsActionPayload } from '@ecom/ui-seller'
-import { getReturns, updateReturnStatus } from '@/features/integration/seller-page-api'
-import { mapReturnsToRows } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getReturns, updateReturnStatus } from '@/features/returns/api'
+import { mapReturnsToRows } from '@/features/returns/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 const RETURN_ACTION_STATUS_MAP: Record<ReturnsRefundsActionPayload['action'], string> = {
   approve: 'APPROVED',

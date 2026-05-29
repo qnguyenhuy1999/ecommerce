@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Dashboard, type DashboardProps } from '@ecom/ui-seller'
-import { DashboardLayout } from '../components/dashboard-layout'
-import { getDashboardBundle } from '@/features/integration/seller-page-api'
-import { buildDashboardProps } from '@/features/integration/seller-page-adapters'
+import { DashboardLayout } from '../shared/components/dashboard-layout'
+import { getDashboardBundle } from '@/features/dashboard/api'
+import { buildDashboardProps } from '@/features/dashboard/mappers'
 
 export default function DashboardPage() {
   const [props, setProps] = useState<DashboardProps>()

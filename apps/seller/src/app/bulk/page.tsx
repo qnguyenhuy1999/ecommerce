@@ -2,12 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Bulk, type BulkJobRow } from '@ecom/ui-seller'
-import {
-  createBulkExport,
-  createBulkImport,
-  getBulkJobs,
-} from '@/features/integration/seller-page-api'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { createBulkExport, createBulkImport, getBulkJobs } from '@/features/bulk/api'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function BulkPage() {
   const [jobs, setJobs] = useState<BulkJobRow[]>([])

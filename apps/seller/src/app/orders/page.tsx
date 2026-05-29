@@ -8,12 +8,9 @@ import {
   type OrdersStatusTab,
 } from '@ecom/ui-seller'
 import type { PaginationMeta } from '@ecom/shared/pagination/core'
-import { getOrdersList } from '@/features/integration/seller-page-api'
-import {
-  mapOrdersToRows,
-  SELLER_ORDER_STATUS_TO_QUERY,
-} from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getOrdersList } from '@/features/orders/api'
+import { mapOrdersToRows, SELLER_ORDER_STATUS_TO_QUERY } from '@/features/orders/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function OrdersPage() {
   const [orders, setOrders] = useState<OrderRow[]>([])

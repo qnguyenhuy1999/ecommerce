@@ -1,7 +1,8 @@
 'use client'
 
 import type { OrderDetailProps } from '@ecom/ui-admin'
-import { useOrder, useForceCancelOrder, useForceCompleteOrder } from './use-orders'
+import { useOrder } from './use-order-queries'
+import { useForceCancelOrder, useForceCompleteOrder } from './use-order-mutations'
 import { mapOrderToDetailRecord } from '../mappers/order.mapper'
 
 export function useOrderDetailAdapter(

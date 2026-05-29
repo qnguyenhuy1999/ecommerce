@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Products, type ProductRow } from '@ecom/ui-seller'
-import { getProductsList } from '@/features/integration/seller-page-api'
-import { mapProductsToRows } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getProductsList } from '@/features/products/api'
+import { mapProductsToRows } from '@/features/products/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<ProductRow[]>([])

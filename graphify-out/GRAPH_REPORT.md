@@ -1,19 +1,19 @@
-# Graph Report - ecommerce-v2 (2026-05-23)
+# Graph Report - ecommerce-v2 (2026-05-29)
 
 ## Corpus Check
 
-- 1257 files · ~1,131,796 words
+- 1593 files · ~1,598,754 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
 
-- 21028 nodes · 33861 edges · 655 communities (569 shown, 86 thin omitted)
-- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 441 edges (avg confidence: 0.8)
+- 23045 nodes · 39309 edges · 804 communities (647 shown, 157 thin omitted)
+- Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 473 edges (avg confidence: 0.8)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
 
-- Built from commit: `58792fa2`
+- Built from commit: `a01eaa25`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -395,7 +395,9 @@
 - [[_COMMUNITY_Community 373|Community 373]]
 - [[_COMMUNITY_Community 374|Community 374]]
 - [[_COMMUNITY_Community 375|Community 375]]
+- [[_COMMUNITY_Community 376|Community 376]]
 - [[_COMMUNITY_Community 377|Community 377]]
+- [[_COMMUNITY_Community 378|Community 378]]
 - [[_COMMUNITY_Community 379|Community 379]]
 - [[_COMMUNITY_Community 380|Community 380]]
 - [[_COMMUNITY_Community 381|Community 381]]
@@ -440,11 +442,10 @@
 - [[_COMMUNITY_Community 420|Community 420]]
 - [[_COMMUNITY_Community 421|Community 421]]
 - [[_COMMUNITY_Community 422|Community 422]]
-- [[_COMMUNITY_Community 423|Community 423]]
-- [[_COMMUNITY_Community 424|Community 424]]
 - [[_COMMUNITY_Community 425|Community 425]]
 - [[_COMMUNITY_Community 426|Community 426]]
 - [[_COMMUNITY_Community 427|Community 427]]
+- [[_COMMUNITY_Community 428|Community 428]]
 - [[_COMMUNITY_Community 429|Community 429]]
 - [[_COMMUNITY_Community 430|Community 430]]
 - [[_COMMUNITY_Community 431|Community 431]]
@@ -467,6 +468,8 @@
 - [[_COMMUNITY_Community 448|Community 448]]
 - [[_COMMUNITY_Community 449|Community 449]]
 - [[_COMMUNITY_Community 450|Community 450]]
+- [[_COMMUNITY_Community 451|Community 451]]
+- [[_COMMUNITY_Community 452|Community 452]]
 - [[_COMMUNITY_Community 453|Community 453]]
 - [[_COMMUNITY_Community 454|Community 454]]
 - [[_COMMUNITY_Community 455|Community 455]]
@@ -475,10 +478,12 @@
 - [[_COMMUNITY_Community 458|Community 458]]
 - [[_COMMUNITY_Community 459|Community 459]]
 - [[_COMMUNITY_Community 460|Community 460]]
+- [[_COMMUNITY_Community 461|Community 461]]
 - [[_COMMUNITY_Community 462|Community 462]]
 - [[_COMMUNITY_Community 463|Community 463]]
 - [[_COMMUNITY_Community 464|Community 464]]
 - [[_COMMUNITY_Community 465|Community 465]]
+- [[_COMMUNITY_Community 466|Community 466]]
 - [[_COMMUNITY_Community 467|Community 467]]
 - [[_COMMUNITY_Community 468|Community 468]]
 - [[_COMMUNITY_Community 469|Community 469]]
@@ -491,209 +496,316 @@
 - [[_COMMUNITY_Community 476|Community 476]]
 - [[_COMMUNITY_Community 477|Community 477]]
 - [[_COMMUNITY_Community 478|Community 478]]
+- [[_COMMUNITY_Community 479|Community 479]]
+- [[_COMMUNITY_Community 480|Community 480]]
+- [[_COMMUNITY_Community 481|Community 481]]
+- [[_COMMUNITY_Community 482|Community 482]]
+- [[_COMMUNITY_Community 483|Community 483]]
+- [[_COMMUNITY_Community 484|Community 484]]
+- [[_COMMUNITY_Community 485|Community 485]]
+- [[_COMMUNITY_Community 486|Community 486]]
+- [[_COMMUNITY_Community 487|Community 487]]
+- [[_COMMUNITY_Community 488|Community 488]]
+- [[_COMMUNITY_Community 489|Community 489]]
+- [[_COMMUNITY_Community 490|Community 490]]
+- [[_COMMUNITY_Community 491|Community 491]]
+- [[_COMMUNITY_Community 492|Community 492]]
+- [[_COMMUNITY_Community 493|Community 493]]
+- [[_COMMUNITY_Community 494|Community 494]]
+- [[_COMMUNITY_Community 495|Community 495]]
+- [[_COMMUNITY_Community 496|Community 496]]
+- [[_COMMUNITY_Community 497|Community 497]]
+- [[_COMMUNITY_Community 498|Community 498]]
+- [[_COMMUNITY_Community 499|Community 499]]
+- [[_COMMUNITY_Community 500|Community 500]]
+- [[_COMMUNITY_Community 501|Community 501]]
+- [[_COMMUNITY_Community 502|Community 502]]
+- [[_COMMUNITY_Community 503|Community 503]]
+- [[_COMMUNITY_Community 504|Community 504]]
+- [[_COMMUNITY_Community 505|Community 505]]
+- [[_COMMUNITY_Community 506|Community 506]]
+- [[_COMMUNITY_Community 507|Community 507]]
+- [[_COMMUNITY_Community 508|Community 508]]
+- [[_COMMUNITY_Community 509|Community 509]]
+- [[_COMMUNITY_Community 510|Community 510]]
+- [[_COMMUNITY_Community 511|Community 511]]
+- [[_COMMUNITY_Community 512|Community 512]]
+- [[_COMMUNITY_Community 513|Community 513]]
+- [[_COMMUNITY_Community 514|Community 514]]
+- [[_COMMUNITY_Community 515|Community 515]]
+- [[_COMMUNITY_Community 516|Community 516]]
+- [[_COMMUNITY_Community 517|Community 517]]
+- [[_COMMUNITY_Community 519|Community 519]]
+- [[_COMMUNITY_Community 520|Community 520]]
+- [[_COMMUNITY_Community 521|Community 521]]
+- [[_COMMUNITY_Community 522|Community 522]]
+- [[_COMMUNITY_Community 523|Community 523]]
+- [[_COMMUNITY_Community 524|Community 524]]
+- [[_COMMUNITY_Community 525|Community 525]]
+- [[_COMMUNITY_Community 526|Community 526]]
+- [[_COMMUNITY_Community 527|Community 527]]
+- [[_COMMUNITY_Community 528|Community 528]]
+- [[_COMMUNITY_Community 529|Community 529]]
+- [[_COMMUNITY_Community 530|Community 530]]
+- [[_COMMUNITY_Community 531|Community 531]]
+- [[_COMMUNITY_Community 532|Community 532]]
+- [[_COMMUNITY_Community 533|Community 533]]
+- [[_COMMUNITY_Community 534|Community 534]]
+- [[_COMMUNITY_Community 535|Community 535]]
+- [[_COMMUNITY_Community 536|Community 536]]
+- [[_COMMUNITY_Community 537|Community 537]]
+- [[_COMMUNITY_Community 538|Community 538]]
+- [[_COMMUNITY_Community 539|Community 539]]
+- [[_COMMUNITY_Community 540|Community 540]]
+- [[_COMMUNITY_Community 541|Community 541]]
+- [[_COMMUNITY_Community 542|Community 542]]
+- [[_COMMUNITY_Community 543|Community 543]]
+- [[_COMMUNITY_Community 544|Community 544]]
+- [[_COMMUNITY_Community 545|Community 545]]
+- [[_COMMUNITY_Community 546|Community 546]]
+- [[_COMMUNITY_Community 547|Community 547]]
+- [[_COMMUNITY_Community 548|Community 548]]
+- [[_COMMUNITY_Community 549|Community 549]]
+- [[_COMMUNITY_Community 550|Community 550]]
+- [[_COMMUNITY_Community 551|Community 551]]
+- [[_COMMUNITY_Community 552|Community 552]]
+- [[_COMMUNITY_Community 553|Community 553]]
+- [[_COMMUNITY_Community 554|Community 554]]
+- [[_COMMUNITY_Community 557|Community 557]]
+- [[_COMMUNITY_Community 558|Community 558]]
+- [[_COMMUNITY_Community 559|Community 559]]
+- [[_COMMUNITY_Community 560|Community 560]]
+- [[_COMMUNITY_Community 561|Community 561]]
+- [[_COMMUNITY_Community 562|Community 562]]
+- [[_COMMUNITY_Community 563|Community 563]]
+- [[_COMMUNITY_Community 564|Community 564]]
+- [[_COMMUNITY_Community 565|Community 565]]
+- [[_COMMUNITY_Community 566|Community 566]]
+- [[_COMMUNITY_Community 567|Community 567]]
+- [[_COMMUNITY_Community 568|Community 568]]
+- [[_COMMUNITY_Community 570|Community 570]]
+- [[_COMMUNITY_Community 571|Community 571]]
+- [[_COMMUNITY_Community 573|Community 573]]
+- [[_COMMUNITY_Community 574|Community 574]]
+- [[_COMMUNITY_Community 575|Community 575]]
+- [[_COMMUNITY_Community 576|Community 576]]
+- [[_COMMUNITY_Community 578|Community 578]]
+- [[_COMMUNITY_Community 579|Community 579]]
+- [[_COMMUNITY_Community 580|Community 580]]
+- [[_COMMUNITY_Community 581|Community 581]]
+- [[_COMMUNITY_Community 582|Community 582]]
+- [[_COMMUNITY_Community 583|Community 583]]
+- [[_COMMUNITY_Community 585|Community 585]]
+- [[_COMMUNITY_Community 586|Community 586]]
+- [[_COMMUNITY_Community 587|Community 587]]
+- [[_COMMUNITY_Community 588|Community 588]]
+- [[_COMMUNITY_Community 589|Community 589]]
+- [[_COMMUNITY_Community 590|Community 590]]
+- [[_COMMUNITY_Community 591|Community 591]]
+- [[_COMMUNITY_Community 592|Community 592]]
 
 ## God Nodes (most connected - your core abstractions)
 
 1. `cn()` - 176 edges
-2. `buildOffsetResponse()` - 85 edges
-3. `filter()` - 77 edges
-4. `apiFetch` - 77 edges
-5. `filter()` - 77 edges
-6. `get()` - 72 edges
-7. `get()` - 72 edges
-8. `keys()` - 68 edges
-9. `keys()` - 68 edges
-10. `createElement()` - 61 edges
+2. `buildOffsetResponse()` - 133 edges
+3. `apiFetch` - 94 edges
+4. `AuthModule` - 87 edges
+5. `AuthGuard` - 82 edges
+6. `filter()` - 77 edges
+7. `filter()` - 77 edges
+8. `get()` - 72 edges
+9. `get()` - 72 edges
+10. `CurrentUser` - 70 edges
 
 ## Surprising Connections (you probably didn't know these)
 
+- `toChatError()` --calls--> `toSocketError()` [INFERRED]
+  apps/api-admin/src/modules/chat/chat.gateway.ts → packages/nestjs-core/src/nestjs/websocket/chat-gateway.utils.ts
+- `asNumber()` --calls--> `number()` [INFERRED]
+  apps/seller/src/features/integration/seller-page-adapters.ts → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
+- `mapVoucherFormToCreateCouponPayload()` --calls--> `number()` [INFERRED]
+  apps/seller/src/features/integration/seller-page-adapters.ts → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
+- `mapProductFormToCreatePayload()` --calls--> `number()` [INFERRED]
+  apps/seller/src/features/integration/seller-page-adapters.ts → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
 - `mapOrderDetail()` --calls--> `number()` [INFERRED]
-  apps/seller/src/app/orders/[id]/page.tsx → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
-- `ProductDetailPage()` --calls--> `number()` [INFERRED]
-  apps/admin/src/features/products/components/product-detail-page.tsx → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
-- `mapProductToApprovalItem()` --calls--> `number()` [INFERRED]
-  apps/admin/src/features/products/mappers/product-approval.mapper.ts → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
-- `RefundDetailPage()` --calls--> `number()` [INFERRED]
-  apps/admin/src/features/refunds/components/refund-detail-page.tsx → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
-- `mapRefundToDisputeRecord()` --calls--> `number()` [INFERRED]
-  apps/admin/src/features/refunds/mappers/dispute.mapper.ts → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
+  apps/seller/src/features/integration/seller-page-adapters.ts → packages/ui-seller/storybook-static/sb-manager/globals-runtime.js
 
-## Communities (655 total, 86 thin omitted)
+## Communities (804 total, 157 thin omitted)
 
 ### Community 0 - "Prisma Schema Enums"
 
 Cohesion: 0.0
-Nodes (427): $148a7a147e38ea7f$export$702d680b21cbd764(), $1e5a04cdaf7d1af8$export$f09106e7c6677ec5(), $1e5a04cdaf7d1af8$var$updateLocale(), $507fabe10e71c6fb$var$handleClickEvent(), $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey() (+419 more)
+Nodes (482): $148a7a147e38ea7f$export$702d680b21cbd764(), $1e5a04cdaf7d1af8$export$f09106e7c6677ec5(), $1e5a04cdaf7d1af8$var$updateLocale(), $507fabe10e71c6fb$var$handleClickEvent(), $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey() (+474 more)
 
 ### Community 1 - "Prisma Filter Types"
 
 Cohesion: 0.0
-Nodes (491): $148a7a147e38ea7f$export$702d680b21cbd764(), $1e5a04cdaf7d1af8$export$f09106e7c6677ec5(), $1e5a04cdaf7d1af8$var$updateLocale(), $507fabe10e71c6fb$export$2f1888112f558a7d(), $507fabe10e71c6fb$var$handleClickEvent(), $507fabe10e71c6fb$var$setupGlobalFocusEvents(), $6179b936705e76d3$var$handleGlobalPointerEvent(), $6179b936705e76d3$var$setGlobalIgnoreEmulatedMouseEvents() (+483 more)
+Nodes (501): $148a7a147e38ea7f$export$702d680b21cbd764(), $1e5a04cdaf7d1af8$export$f09106e7c6677ec5(), $1e5a04cdaf7d1af8$var$updateLocale(), $507fabe10e71c6fb$export$2f1888112f558a7d(), $507fabe10e71c6fb$var$handleClickEvent(), $507fabe10e71c6fb$var$setupGlobalFocusEvents(), $6179b936705e76d3$var$handleGlobalPointerEvent(), $6179b936705e76d3$var$setGlobalIgnoreEmulatedMouseEvents() (+493 more)
 
 ### Community 2 - "Shop Domain Models"
 
 Cohesion: 0.01
-Nodes (347): AdCampaignScalarFieldEnum, AdClickScalarFieldEnum, AdGroupScalarFieldEnum, AdImpressionScalarFieldEnum, AdKeywordScalarFieldEnum, AdminAuditLogScalarFieldEnum, AdminNotificationScalarFieldEnum, AdminPasswordResetTokenScalarFieldEnum (+339 more)
+Nodes (354): $2a41e45df1593e64$var$translateRTL(), $9bf71ea28793e738$var$isTabbableRadio(), a(), alloc(), an(), append(), arrayFromSet(), arrayFromSet2() (+346 more)
 
 ### Community 3 - "Product Domain Models"
 
 Cohesion: 0.01
-Nodes (305): BoolFilter, BoolWithAggregatesFilter, DateTimeFilter, DateTimeNullableFilter, DateTimeNullableWithAggregatesFilter, DateTimeWithAggregatesFilter, DecimalFilter, DecimalNullableFilter (+297 more)
+Nodes (347): AdCampaignScalarFieldEnum, AdClickScalarFieldEnum, AdGroupScalarFieldEnum, AdImpressionScalarFieldEnum, AdKeywordScalarFieldEnum, AdminAuditLogScalarFieldEnum, AdminNotificationScalarFieldEnum, AdminPasswordResetTokenScalarFieldEnum (+339 more)
 
 ### Community 4 - "Seller Order Models"
 
 Cohesion: 0.01
-Nodes (300): "node_modules/is-window/index.js"(), $14c0b72509d70225$export$b0d6fa1ab32e3295(), $23b9f4fcf0fe224b$var$filterChildren(), $319e236875307eab$export$a9b970dcc4ae71a9(), $453cc9f0df89c0a5$export$77d5aafae4e095b2(), $488c6ddbf4ef74c2$var$getCachedNumberFormatter(), $9bf71ea28793e738$export$1258395f99bf9cbf(), $9bf71ea28793e738$var$isAncestorScope() (+292 more)
+Nodes (305): BoolFilter, BoolWithAggregatesFilter, DateTimeFilter, DateTimeNullableFilter, DateTimeNullableWithAggregatesFilter, DateTimeWithAggregatesFilter, DecimalFilter, DecimalNullableFilter (+297 more)
 
 ### Community 5 - "User Domain Models"
 
 Cohesion: 0.01
-Nodes (287): $2a41e45df1593e64$var$translateRTL(), $9bf71ea28793e738$var$isTabbableRadio(), alloc(), arrayFromSet(), arrayFromSet2(), \_arrayLikeToArray(), \_arrayWithoutHoles(), arrow() (+279 more)
+Nodes (303): "node_modules/is-window/index.js"(), $14c0b72509d70225$export$b0d6fa1ab32e3295(), $23b9f4fcf0fe224b$var$filterChildren(), $319e236875307eab$export$a9b970dcc4ae71a9(), $488c6ddbf4ef74c2$var$getCachedNumberFormatter(), $7135fc7d473fd974$var$useCollectionRender(), $9bf71ea28793e738$export$1258395f99bf9cbf(), $9bf71ea28793e738$var$isAncestorScope() (+295 more)
 
 ### Community 6 - "Prisma Browser Types"
 
 Cohesion: 0.01
-Nodes (250): Admin$adminAuditLogsArgs, Admin$adminNotificationsSentArgs, Admin$adminRolesArgs, Admin$adminSessionsArgs, Admin$approvedSellersArgs, Admin$bannersCreatedArgs, Admin$flashSaleCampaignsCreatedArgs, Admin$orderAuditLogsArgs (+242 more)
+Nodes (294): $23b9f4fcf0fe224b$var$filterChildren(), $319e236875307eab$export$a9b970dcc4ae71a9(), $488c6ddbf4ef74c2$var$getCachedNumberFormatter(), $9bf71ea28793e738$export$1258395f99bf9cbf(), $9bf71ea28793e738$var$isAncestorScope(), $9bf71ea28793e738$var$isElementInAnyScope(), $9bf71ea28793e738$var$isElementInChildScope(), $9bf71ea28793e738$var$isElementInScope() (+286 more)
 
 ### Community 7 - "Coupon Domain Models"
 
 Cohesion: 0.01
-Nodes (114): As(), Ay(), Ba(), br(), CA(), cE(), ci(), constructor() (+106 more)
+Nodes (277): $2a41e45df1593e64$var$translateRTL(), $9bf71ea28793e738$var$isTabbableRadio(), alloc(), arrayFromSet(), arrayFromSet2(), \_arrayLikeToArray(), \_arrayWithoutHoles(), asFlatString2() (+269 more)
 
 ### Community 8 - "Client Entity Types"
 
 Cohesion: 0.01
-Nodes (221): $23b9f4fcf0fe224b$var$filterChildren(), $9bf71ea28793e738$export$1258395f99bf9cbf(), $9bf71ea28793e738$var$isAncestorScope(), $9bf71ea28793e738$var$isElementInAnyScope(), $9bf71ea28793e738$var$isElementInChildScope(), $9bf71ea28793e738$var$isElementInScope(), $9bf71ea28793e738$var$shouldContainFocus(), $9bf71ea28793e738$var$shouldRestoreFocus() (+213 more)
+Nodes (250): Admin$adminAuditLogsArgs, Admin$adminNotificationsSentArgs, Admin$adminRolesArgs, Admin$adminSessionsArgs, Admin$approvedSellersArgs, Admin$bannersCreatedArgs, Admin$flashSaleCampaignsCreatedArgs, Admin$orderAuditLogsArgs (+242 more)
 
 ### Community 9 - "Browser Client Types"
 
 Cohesion: 0.01
-Nodes (218): $2a41e45df1593e64$var$translateRTL(), alloc(), arrayFromSet(), arrayFromSet2(), \_arrayLikeToArray(), \_arrayWithoutHoles(), assertDescriptor(), build() (+210 more)
+Nodes (111): As(), Ay(), br(), CA(), cE(), ci(), constructor(), dE() (+103 more)
 
 ### Community 10 - "Category Domain Models"
 
 Cohesion: 0.02
-Nodes (199): addPressed(), assertPointerEvents(), attachClipboardStubToView(), blurElement(), calculateNewValue(), checkPointerEvents(), clear(), clear2() (+191 more)
+Nodes (209): addPressed(), assertPointerEvents(), assignProps(), attachClipboardStubToView(), blurElement(), calculateNewValue(), checkPointerEvents(), clear() (+201 more)
 
 ### Community 11 - "Product Variant Models"
 
 Cohesion: 0.02
-Nodes (199): addPressed(), assertPointerEvents(), attachClipboardStubToView(), blurElement(), calculateNewValue(), checkPointerEvents(), clear(), clear2() (+191 more)
+Nodes (195): addPressed(), assertPointerEvents(), attachClipboardStubToView(), blurElement(), calculateNewValue(), checkPointerEvents(), clear(), clear2() (+187 more)
 
 ### Community 12 - "Warehouse Domain Models"
 
-Cohesion: 0.01
-Nodes (28): AffiliateService, AiToolsService, AuditLogService, BannersService, BannersService, FlashSaleService, GrowthService, LivestreamService (+20 more)
+Cohesion: 0.03
+Nodes (61): CreateAffiliateLinkDto, RequestPayoutDto, UpdateAffiliateStatusDto, CreateAiTaskDto, ApplyFlashSaleSlotDto, ApprovalQueryDto, LogParams, BulkJobQueryDto (+53 more)
 
 ### Community 13 - "Loyalty Account Models"
 
 Cohesion: 0.02
-Nodes (108): AdminAuthGuard, getSessionIdFromRequest(), toAdminSessionData(), AuditLogInterceptor, AuditLogQueryDto, AuditLogResponseDto, AuditLogsController, data (+100 more)
+Nodes (187): $0065b146e7192841$export$7138b0d059a6e743(), $0175d55c2a017ebc$export$fdf4756d5b8ef90a(), $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $07b14b47974efb58$var$PopoverInner(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1dbecbe27a04f9af$export$14d238f342723f25(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $204d9ebcedfb8806$export$ed5abd763a836edc() (+179 more)
 
 ### Community 14 - "Ad Domain Models"
+
+Cohesion: 0.02
+Nodes (171): $0065b146e7192841$export$7138b0d059a6e743(), $0175d55c2a017ebc$export$fdf4756d5b8ef90a(), $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $07b14b47974efb58$var$PopoverInner(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1dbecbe27a04f9af$export$14d238f342723f25(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $204d9ebcedfb8806$export$ed5abd763a836edc() (+163 more)
+
+### Community 15 - "Affiliate Link Models"
+
+Cohesion: 0.04
+Nodes (45): AuthController, getClientIp(), getCookieValue(), getSessionIdFromRequest(), AuthService, parseAdminSessionData(), TEMPLATES_DIR, getClientIp() (+37 more)
+
+### Community 16 - "Inventory Transfer Models"
 
 Cohesion: 0.01
 Nodes (168): AggregateSeller, EnumSellerStatusFieldUpdateOperationsInput, GetSellerAggregateType, GetSellerGroupByPayload, Prisma\_\_SellerClient, Seller$approvedByAdminArgs, Seller$rejectedByAdminArgs, Seller$sellerProfileArgs (+160 more)
 
-### Community 15 - "Affiliate Link Models"
-
-Cohesion: 0.02
-Nodes (71): AiToolsController, CreateAiTaskDto, AnalyticsController, ApplyFlashSaleSlotDto, AuthGuard, getCookieValue(), getSessionIdFromRequest(), CreateFlashSaleCampaignDto (+63 more)
-
-### Community 16 - "Inventory Transfer Models"
-
-Cohesion: 0.02
-Nodes (150): $488c6ddbf4ef74c2$var$getCachedNumberFormatter(), a(), addChainableMethod(), addLengthGuard(), addListener(), addMethod(), addProperty(), an() (+142 more)
-
 ### Community 17 - "Return Request Models"
 
 Cohesion: 0.02
-Nodes (141): $21f1aa98acb08317$export$c57958e35f31ed73(), $319e236875307eab$export$a9b970dcc4ae71a9(), $337b884510726a0d$export$c6fdb837b070b4ff(), $49c51c25361d4cd2$var$addEvent(), $49c51c25361d4cd2$var$preventScrollMobileSafari(), $49c51c25361d4cd2$var$scrollIntoView(), $49c51c25361d4cd2$var$scrollIntoViewWhenReady(), $507fabe10e71c6fb$export$2f1888112f558a7d() (+133 more)
+Nodes (114): getAnalyticsBundle(), getApprovals(), getBulkJobs(), ANALYTICS_DATE_RANGE_OPTIONS, applyIncomingMessage(), applyIncomingMessageResult(), asNumber(), buildAnalyticsProps() (+106 more)
 
 ### Community 18 - "Review Domain Models"
 
-Cohesion: 0.02
-Nodes (141): allowsNameFromContent(), arrayFrom(), asFlatString(), asymmetricMatch(), canElementBeDisabled(), checkHasWindow(), checkHtmlElement(), checkNode() (+133 more)
+Cohesion: 0.04
+Nodes (68): AdsModule, AdsModule, AdvancedSearchController, AdvancedSearchModule, AdvancedSearchModule, AffiliateModule, AffiliateModule, AiToolsModule (+60 more)
 
 ### Community 19 - "Ad Group Models"
 
-Cohesion: 0.01
-Nodes (139): AffiliateLink$productArgs, AffiliateLink$shopArgs, AffiliateLink$trackClicksArgs, AffiliateLink$trackConversionsArgs, AffiliateLinkAggregateArgs, AffiliateLinkAvgAggregateInputType, AffiliateLinkAvgAggregateOutputType, AffiliateLinkAvgOrderByAggregateInput (+131 more)
+Cohesion: 0.02
+Nodes (147): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), allowsNameFromContent(), arrayFrom(), asFlatString(), asymmetricMatch() (+139 more)
 
 ### Community 20 - "Community 20"
 
 Cohesion: 0.02
-Nodes (41): AuditLogService, LogParams, AuditLogsController, AuditLogsModule, AuditLogsModule, BannersController, BannersModule, BannersModule (+33 more)
+Nodes (141): $2f04cbc44ee30ce0$export$53a0910f038337bd(), $2f04cbc44ee30ce0$export$c826860796309d1b(), $2f04cbc44ee30ce0$var$relativeOffset(), $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), allowsNameFromContent() (+133 more)
 
 ### Community 21 - "Community 21"
 
-Cohesion: 0.02
-Nodes (130): AdCampaignScalarFieldEnum, AdClickScalarFieldEnum, AdGroupScalarFieldEnum, AdImpressionScalarFieldEnum, AdKeywordScalarFieldEnum, AdminAuditLogScalarFieldEnum, AdminNotificationScalarFieldEnum, AdminPasswordResetTokenScalarFieldEnum (+122 more)
+Cohesion: 0.01
+Nodes (139): AffiliateLink$productArgs, AffiliateLink$shopArgs, AffiliateLink$trackClicksArgs, AffiliateLink$trackConversionsArgs, AffiliateLinkAggregateArgs, AffiliateLinkAvgAggregateInputType, AffiliateLinkAvgAggregateOutputType, AffiliateLinkAvgOrderByAggregateInput (+131 more)
 
 ### Community 22 - "Community 22"
 
 Cohesion: 0.02
-Nodes (122): Ad, AdCampaign, AdClick, AdGroup, AdImpression, AdKeyword, Admin, AdminAuditLog (+114 more)
+Nodes (137): $488c6ddbf4ef74c2$export$711b50b3c525e0f2(), $5b160d28a433310d$var$getLanguage(), $5b160d28a433310d$var$getStringsForLocale(), align(), assemble(), clone2(), collectOwnProperties(), compareObjects() (+129 more)
 
 ### Community 23 - "Community 23"
 
 Cohesion: 0.02
-Nodes (121): Ad, AdCampaign, AdClick, AdGroup, AdImpression, AdKeyword, Admin, AdminAuditLog (+113 more)
+Nodes (29): AdvancedSearchService, AffiliateService, ApprovalService, CreateWarehouseDto, CreateWarehouseDto, StockQueryDto, TransferQueryDto, WarehouseQueryDto (+21 more)
 
 ### Community 24 - "Community 24"
 
 Cohesion: 0.02
-Nodes (120): AggregateLoyaltyAccount, GetLoyaltyAccountAggregateType, GetLoyaltyAccountGroupByPayload, LoyaltyAccount$missionProgressArgs, LoyaltyAccount$tierArgs, LoyaltyAccount$transactionsArgs, LoyaltyAccountAggregateArgs, LoyaltyAccountAvgAggregateInputType (+112 more)
+Nodes (130): AdCampaignScalarFieldEnum, AdClickScalarFieldEnum, AdGroupScalarFieldEnum, AdImpressionScalarFieldEnum, AdKeywordScalarFieldEnum, AdminAuditLogScalarFieldEnum, AdminNotificationScalarFieldEnum, AdminPasswordResetTokenScalarFieldEnum (+122 more)
 
 ### Community 25 - "Community 25"
 
-Cohesion: 0.02
-Nodes (117): allowsNameFromContent(), arrayFrom(), asFlatString(), canElementBeDisabled(), checkHasWindow(), checkHtmlElement(), checkNode(), checkToAppear() (+109 more)
+Cohesion: 0.04
+Nodes (40): ChatAdminService, existingConversation, prisma, service, ChatBuyerService, ChatController, conversationResponses, createResponses (+32 more)
 
 ### Community 26 - "Community 26"
 
 Cohesion: 0.02
-Nodes (115): AggregateAiTask, AiTask$productArgs, AiTask$templateArgs, AiTaskAggregateArgs, AiTaskAvgAggregateInputType, AiTaskAvgAggregateOutputType, AiTaskAvgOrderByAggregateInput, AiTaskCountAggregateInputType (+107 more)
+Nodes (122): Ad, AdCampaign, AdClick, AdGroup, AdImpression, AdKeyword, Admin, AdminAuditLog (+114 more)
 
 ### Community 27 - "Community 27"
 
 Cohesion: 0.02
-Nodes (113): AggregateRegionalPricing, GetRegionalPricingAggregateType, GetRegionalPricingGroupByPayload, Prisma\_\_RegionalPricingClient, RegionalPricing$variantArgs, RegionalPricingAggregateArgs, RegionalPricingAvgAggregateInputType, RegionalPricingAvgAggregateOutputType (+105 more)
+Nodes (121): Ad, AdCampaign, AdClick, AdGroup, AdImpression, AdKeyword, Admin, AdminAuditLog (+113 more)
 
 ### Community 28 - "Community 28"
 
 Cohesion: 0.02
-Nodes (111): AggregateSettlementItem, GetSettlementItemAggregateType, GetSettlementItemGroupByPayload, Prisma\_\_SettlementItemClient, SettlementItemAggregateArgs, SettlementItemAvgAggregateInputType, SettlementItemAvgAggregateOutputType, SettlementItemAvgOrderByAggregateInput (+103 more)
+Nodes (120): AggregateLoyaltyAccount, GetLoyaltyAccountAggregateType, GetLoyaltyAccountGroupByPayload, LoyaltyAccount$missionProgressArgs, LoyaltyAccount$tierArgs, LoyaltyAccount$transactionsArgs, LoyaltyAccountAggregateArgs, LoyaltyAccountAvgAggregateInputType (+112 more)
 
 ### Community 29 - "Community 29"
 
-Cohesion: 0.02
-Nodes (108): AggregateLivestreamSession, EnumLivestreamStatusFieldUpdateOperationsInput, GetLivestreamSessionAggregateType, GetLivestreamSessionGroupByPayload, LivestreamSession$chatMessagesArgs, LivestreamSession$productsArgs, LivestreamSessionAggregateArgs, LivestreamSessionAvgAggregateInputType (+100 more)
+Cohesion: 0.03
+Nodes (120): $14c0b72509d70225$export$b0d6fa1ab32e3295(), $21f1aa98acb08317$export$c57958e35f31ed73(), $2f04cbc44ee30ce0$export$53a0910f038337bd(), $2f04cbc44ee30ce0$export$c826860796309d1b(), $2f04cbc44ee30ce0$var$relativeOffset(), $49c51c25361d4cd2$var$addEvent(), $49c51c25361d4cd2$var$preventScrollMobileSafari(), $49c51c25361d4cd2$var$scrollIntoView() (+112 more)
 
 ### Community 30 - "Community 30"
 
 Cohesion: 0.02
-Nodes (108): $488c6ddbf4ef74c2$export$711b50b3c525e0f2(), $5b160d28a433310d$var$getLanguage(), $5b160d28a433310d$var$getStringsForLocale(), $5e3802645cc19319$export$1020fa7f77e17884(), $875d6693e12af071$var$toggleKey(), add(), align(), assert2() (+100 more)
+Nodes (115): AggregateAiTask, AiTask$productArgs, AiTask$templateArgs, AiTaskAggregateArgs, AiTaskAvgAggregateInputType, AiTaskAvgAggregateOutputType, AiTaskAvgOrderByAggregateInput, AiTaskCountAggregateInputType (+107 more)
 
 ### Community 31 - "Community 31"
 
 Cohesion: 0.02
-Nodes (103): AggregateSellerSubscription, EnumSubscriptionStatusFieldUpdateOperationsInput, GetSellerSubscriptionAggregateType, GetSellerSubscriptionGroupByPayload, Prisma\_\_SellerSubscriptionClient, SellerSubscription$invoicesArgs, SellerSubscriptionAggregateArgs, SellerSubscriptionCountAggregateInputType (+95 more)
+Nodes (113): AggregateRegionalPricing, GetRegionalPricingAggregateType, GetRegionalPricingGroupByPayload, Prisma\_\_RegionalPricingClient, RegionalPricing$variantArgs, RegionalPricingAggregateArgs, RegionalPricingAvgAggregateInputType, RegionalPricingAvgAggregateOutputType (+105 more)
 
 ### Community 32 - "Community 32"
 
-Cohesion: 0.05
-Nodes (64): AdsModule, AdsModule, AdvancedSearchModule, AdvancedSearchModule, AffiliateModule, AffiliateModule, AiToolsModule, AiToolsModule (+56 more)
+Cohesion: 0.02
+Nodes (111): AggregateSettlementItem, GetSettlementItemAggregateType, GetSettlementItemGroupByPayload, Prisma\_\_SettlementItemClient, SettlementItemAggregateArgs, SettlementItemAvgAggregateInputType, SettlementItemAvgAggregateOutputType, SettlementItemAvgOrderByAggregateInput (+103 more)
 
 ### Community 33 - "Community 33"
 
-Cohesion: 0.05
-Nodes (49): AuthFeature, authFeatures, authFormPanelStyle, authGradientStyle, authGridStyle, AuthPageShell(), AuthPageShellProps, authPanelStyle (+41 more)
+Cohesion: 0.02
+Nodes (108): AggregateLivestreamSession, EnumLivestreamStatusFieldUpdateOperationsInput, GetLivestreamSessionAggregateType, GetLivestreamSessionGroupByPayload, LivestreamSession$chatMessagesArgs, LivestreamSession$productsArgs, LivestreamSessionAggregateArgs, LivestreamSessionAvgAggregateInputType (+100 more)
 
 ### Community 34 - "Community 34"
 
-Cohesion: 0.03
-Nodes (99): $488c6ddbf4ef74c2$export$711b50b3c525e0f2(), $5b160d28a433310d$var$getLanguage(), $5b160d28a433310d$var$getStringsForLocale(), $86ea4cb521eb2e37$export$2317d149ed6f78c4(), align(), compareObjects(), comparePrimitive(), concatenateRelevantDiffs() (+91 more)
+Cohesion: 0.02
+Nodes (103): AggregateSellerSubscription, EnumSubscriptionStatusFieldUpdateOperationsInput, GetSellerSubscriptionAggregateType, GetSellerSubscriptionGroupByPayload, Prisma\_\_SellerSubscriptionClient, SellerSubscription$invoicesArgs, SellerSubscriptionAggregateArgs, SellerSubscriptionCountAggregateInputType (+95 more)
 
 ### Community 35 - "Community 35"
 
@@ -737,8 +849,8 @@ Nodes (96): AggregateLoyaltyRedemption, GetLoyaltyRedemptionAggregateType, GetLo
 
 ### Community 43 - "Community 43"
 
-Cohesion: 0.02
-Nodes (91): AdminRoleAssignmentAdminIdAdminRoleIdCompoundUniqueInput, AdminRoleAssignmentAggregateArgs, AdminRoleAssignmentCountAggregateInputType, AdminRoleAssignmentCountAggregateOutputType, AdminRoleAssignmentCountArgs, AdminRoleAssignmentCountOrderByAggregateInput, AdminRoleAssignmentCreateArgs, AdminRoleAssignmentCreateInput (+83 more)
+Cohesion: 0.03
+Nodes (43): Approval, ApprovalsResponse, BulkJob, BulkJobsResponse, PageHeader(), PageHeaderProps, STATUS_COLORS, StatusBadge() (+35 more)
 
 ### Community 44 - "Community 44"
 
@@ -752,8 +864,8 @@ Nodes (91): AggregateAutomationRule, AutomationRule$actionsArgs, AutomationRule$
 
 ### Community 46 - "Community 46"
 
-Cohesion: 0.03
-Nodes (91): a(), addChainableMethod(), addLengthGuard(), addMethod(), addProperty(), an(), assemble(), assert() (+83 more)
+Cohesion: 0.02
+Nodes (91): AdminRoleAssignmentAdminIdAdminRoleIdCompoundUniqueInput, AdminRoleAssignmentAggregateArgs, AdminRoleAssignmentCountAggregateInputType, AdminRoleAssignmentCountAggregateOutputType, AdminRoleAssignmentCountArgs, AdminRoleAssignmentCountOrderByAggregateInput, AdminRoleAssignmentCreateArgs, AdminRoleAssignmentCreateInput (+83 more)
 
 ### Community 47 - "Community 47"
 
@@ -767,213 +879,213 @@ Nodes (89): AggregateSubscriptionPlan, GetSubscriptionPlanAggregateType, GetSubs
 
 ### Community 49 - "Community 49"
 
-Cohesion: 0.05
-Nodes (86): $5dc95899b306f630$var$setRef(), setRef(), setRef2(), $5dc95899b306f630$var$setRef(), adjustHue(), callAllEventHandlers(), callOnChangeProps(), capitalizeString() (+78 more)
+Cohesion: 0.09
+Nodes (39): data, AuditLog(), AdminRequest, AdminSessionData, CurrentAdmin, Permissions(), OrderActionDto, OrderResponseDto (+31 more)
 
 ### Community 50 - "Community 50"
 
-Cohesion: 0.02
-Nodes (84): AggregateBanner, Banner$createdByAdminArgs, BannerAggregateArgs, BannerAvgAggregateInputType, BannerAvgAggregateOutputType, BannerAvgOrderByAggregateInput, BannerCountAggregateInputType, BannerCountAggregateOutputType (+76 more)
+Cohesion: 0.04
+Nodes (88): a(), addChainableMethod(), addLengthGuard(), addMethod(), addProperty(), assemble(), assert(), assertAbove() (+80 more)
 
 ### Community 51 - "Community 51"
 
-Cohesion: 0.02
-Nodes (84): AdminRole$adminsArgs, AdminRole$permissionsArgs, AdminRoleAggregateArgs, AdminRoleCountAggregateInputType, AdminRoleCountAggregateOutputType, AdminRoleCountArgs, AdminRoleCountOrderByAggregateInput, AdminRoleCountOutputType (+76 more)
+Cohesion: 0.03
+Nodes (86): $488c6ddbf4ef74c2$export$711b50b3c525e0f2(), $5b160d28a433310d$var$getLanguage(), $5b160d28a433310d$var$getStringsForLocale(), align(), clone2(), collectOwnProperties(), compareObjects(), comparePrimitive() (+78 more)
 
 ### Community 52 - "Community 52"
 
-Cohesion: 0.02
-Nodes (84): AggregatePlatformVoucher, EnumPlatformVoucherStatusFieldUpdateOperationsInput, EnumPlatformVoucherTypeFieldUpdateOperationsInput, GetPlatformVoucherAggregateType, GetPlatformVoucherGroupByPayload, PlatformVoucher$createdByAdminArgs, PlatformVoucherAggregateArgs, PlatformVoucherAvgAggregateInputType (+76 more)
+Cohesion: 0.05
+Nodes (86): $5dc95899b306f630$var$setRef(), setRef(), setRef2(), $5dc95899b306f630$var$setRef(), adjustHue(), callAllEventHandlers(), callOnChangeProps(), capitalizeString() (+78 more)
 
 ### Community 53 - "Community 53"
 
-Cohesion: 0.02
-Nodes (83): AggregateWalletTransaction, EnumWalletTransactionStatusFieldUpdateOperationsInput, EnumWalletTransactionTypeFieldUpdateOperationsInput, GetWalletTransactionAggregateType, GetWalletTransactionGroupByPayload, Prisma\_\_WalletTransactionClient, WalletTransactionAggregateArgs, WalletTransactionAvgAggregateInputType (+75 more)
+Cohesion: 0.04
+Nodes (28): LivestreamService, ProductsController, BreadcrumbDto, BreadcrumbNode, DecimalLike, FlashSaleSlotRow, ProductDetailRow, ProductImageRow (+20 more)
 
 ### Community 54 - "Community 54"
 
 Cohesion: 0.02
-Nodes (83): AggregateRegion, GetRegionAggregateType, GetRegionGroupByPayload, Prisma\_\_RegionClient, Region$regionalPricingsArgs, Region$taxRatesArgs, RegionAggregateArgs, RegionCountAggregateInputType (+75 more)
+Nodes (84): AggregateBanner, Banner$createdByAdminArgs, BannerAggregateArgs, BannerAvgAggregateInputType, BannerAvgAggregateOutputType, BannerAvgOrderByAggregateInput, BannerCountAggregateInputType, BannerCountAggregateOutputType (+76 more)
 
 ### Community 55 - "Community 55"
 
 Cohesion: 0.02
-Nodes (82): AggregateAttributeValue, AttributeValueAggregateArgs, AttributeValueAvgAggregateInputType, AttributeValueAvgAggregateOutputType, AttributeValueAvgOrderByAggregateInput, AttributeValueCountAggregateInputType, AttributeValueCountAggregateOutputType, AttributeValueCountArgs (+74 more)
+Nodes (84): AdminRole$adminsArgs, AdminRole$permissionsArgs, AdminRoleAggregateArgs, AdminRoleCountAggregateInputType, AdminRoleCountAggregateOutputType, AdminRoleCountArgs, AdminRoleCountOrderByAggregateInput, AdminRoleCountOutputType (+76 more)
 
 ### Community 56 - "Community 56"
 
 Cohesion: 0.02
-Nodes (82): AdKeywordAdGroupIdKeywordCompoundUniqueInput, AdKeywordAggregateArgs, AdKeywordAvgAggregateInputType, AdKeywordAvgAggregateOutputType, AdKeywordAvgOrderByAggregateInput, AdKeywordCountAggregateInputType, AdKeywordCountAggregateOutputType, AdKeywordCountArgs (+74 more)
+Nodes (84): AggregatePlatformVoucher, EnumPlatformVoucherStatusFieldUpdateOperationsInput, EnumPlatformVoucherTypeFieldUpdateOperationsInput, GetPlatformVoucherAggregateType, GetPlatformVoucherGroupByPayload, PlatformVoucher$createdByAdminArgs, PlatformVoucherAggregateArgs, PlatformVoucherAvgAggregateInputType (+76 more)
 
 ### Community 57 - "Community 57"
 
 Cohesion: 0.02
-Nodes (82): AggregateLoyaltyTransaction, EnumLoyaltyTransactionTypeFieldUpdateOperationsInput, GetLoyaltyTransactionAggregateType, GetLoyaltyTransactionGroupByPayload, LoyaltyTransactionAggregateArgs, LoyaltyTransactionAvgAggregateInputType, LoyaltyTransactionAvgAggregateOutputType, LoyaltyTransactionAvgOrderByAggregateInput (+74 more)
+Nodes (83): AggregateWalletTransaction, EnumWalletTransactionStatusFieldUpdateOperationsInput, EnumWalletTransactionTypeFieldUpdateOperationsInput, GetWalletTransactionAggregateType, GetWalletTransactionGroupByPayload, Prisma\_\_WalletTransactionClient, WalletTransactionAggregateArgs, WalletTransactionAvgAggregateInputType (+75 more)
 
 ### Community 58 - "Community 58"
 
 Cohesion: 0.02
-Nodes (82): AggregateAiUsageLog, AiUsageLogAggregateArgs, AiUsageLogAvgAggregateInputType, AiUsageLogAvgAggregateOutputType, AiUsageLogAvgOrderByAggregateInput, AiUsageLogCountAggregateInputType, AiUsageLogCountAggregateOutputType, AiUsageLogCountArgs (+74 more)
+Nodes (83): AggregateRegion, GetRegionAggregateType, GetRegionGroupByPayload, Prisma\_\_RegionClient, Region$regionalPricingsArgs, Region$taxRatesArgs, RegionAggregateArgs, RegionCountAggregateInputType (+75 more)
 
 ### Community 59 - "Community 59"
 
 Cohesion: 0.02
-Nodes (82): AggregateSubscriptionInvoice, EnumInvoiceStatusFieldUpdateOperationsInput, GetSubscriptionInvoiceAggregateType, GetSubscriptionInvoiceGroupByPayload, Prisma\_\_SubscriptionInvoiceClient, SubscriptionInvoiceAggregateArgs, SubscriptionInvoiceAvgAggregateInputType, SubscriptionInvoiceAvgAggregateOutputType (+74 more)
+Nodes (82): AggregateLoyaltyTransaction, EnumLoyaltyTransactionTypeFieldUpdateOperationsInput, GetLoyaltyTransactionAggregateType, GetLoyaltyTransactionGroupByPayload, LoyaltyTransactionAggregateArgs, LoyaltyTransactionAvgAggregateInputType, LoyaltyTransactionAvgAggregateOutputType, LoyaltyTransactionAvgOrderByAggregateInput (+74 more)
 
 ### Community 60 - "Community 60"
 
 Cohesion: 0.02
-Nodes (82): AggregateAutomationRuleAction, AutomationRuleActionAggregateArgs, AutomationRuleActionAvgAggregateInputType, AutomationRuleActionAvgAggregateOutputType, AutomationRuleActionAvgOrderByAggregateInput, AutomationRuleActionCountAggregateInputType, AutomationRuleActionCountAggregateOutputType, AutomationRuleActionCountArgs (+74 more)
+Nodes (82): AggregateAttributeValue, AttributeValueAggregateArgs, AttributeValueAvgAggregateInputType, AttributeValueAvgAggregateOutputType, AttributeValueAvgOrderByAggregateInput, AttributeValueCountAggregateInputType, AttributeValueCountAggregateOutputType, AttributeValueCountArgs (+74 more)
 
 ### Community 61 - "Community 61"
 
 Cohesion: 0.02
-Nodes (82): AggregateCommissionPayout, CommissionPayoutAggregateArgs, CommissionPayoutAvgAggregateInputType, CommissionPayoutAvgAggregateOutputType, CommissionPayoutAvgOrderByAggregateInput, CommissionPayoutCountAggregateInputType, CommissionPayoutCountAggregateOutputType, CommissionPayoutCountArgs (+74 more)
+Nodes (82): AdKeywordAdGroupIdKeywordCompoundUniqueInput, AdKeywordAggregateArgs, AdKeywordAvgAggregateInputType, AdKeywordAvgAggregateOutputType, AdKeywordAvgOrderByAggregateInput, AdKeywordCountAggregateInputType, AdKeywordCountAggregateOutputType, AdKeywordCountArgs (+74 more)
 
 ### Community 62 - "Community 62"
 
 Cohesion: 0.02
-Nodes (81): AggregateTaxRate, GetTaxRateAggregateType, GetTaxRateGroupByPayload, Prisma\_\_TaxRateClient, TaxRateAggregateArgs, TaxRateAvgAggregateInputType, TaxRateAvgAggregateOutputType, TaxRateAvgOrderByAggregateInput (+73 more)
+Nodes (82): AggregateAiUsageLog, AiUsageLogAggregateArgs, AiUsageLogAvgAggregateInputType, AiUsageLogAvgAggregateOutputType, AiUsageLogAvgOrderByAggregateInput, AiUsageLogCountAggregateInputType, AiUsageLogCountAggregateOutputType, AiUsageLogCountArgs (+74 more)
 
 ### Community 63 - "Community 63"
 
 Cohesion: 0.02
-Nodes (81): AggregateExperimentVariant, ExperimentVariantAggregateArgs, ExperimentVariantAvgAggregateInputType, ExperimentVariantAvgAggregateOutputType, ExperimentVariantAvgOrderByAggregateInput, ExperimentVariantCountAggregateInputType, ExperimentVariantCountAggregateOutputType, ExperimentVariantCountArgs (+73 more)
+Nodes (82): AggregateSubscriptionInvoice, EnumInvoiceStatusFieldUpdateOperationsInput, GetSubscriptionInvoiceAggregateType, GetSubscriptionInvoiceGroupByPayload, Prisma\_\_SubscriptionInvoiceClient, SubscriptionInvoiceAggregateArgs, SubscriptionInvoiceAvgAggregateInputType, SubscriptionInvoiceAvgAggregateOutputType (+74 more)
 
 ### Community 64 - "Community 64"
 
-Cohesion: 0.03
-Nodes (22): CouponController, CouponService, CouponQueryDto, CreateCouponDto, CouponQueryDto, CreateCouponDto, InventoryQueryDto, UpdateCouponDto (+14 more)
+Cohesion: 0.02
+Nodes (82): AggregateAutomationRuleAction, AutomationRuleActionAggregateArgs, AutomationRuleActionAvgAggregateInputType, AutomationRuleActionAvgAggregateOutputType, AutomationRuleActionAvgOrderByAggregateInput, AutomationRuleActionCountAggregateInputType, AutomationRuleActionCountAggregateOutputType, AutomationRuleActionCountArgs (+74 more)
 
 ### Community 65 - "Community 65"
 
-Cohesion: 0.04
-Nodes (53): CategoryHierarchy(), CategoryHierarchyClient(), CategoryHierarchyClientProps, buildCategoryHierarchyState(), CategoryHierarchyAction, CategoryHierarchyControllerProps, CategoryHierarchyControllerResult, categoryHierarchyReducer() (+45 more)
+Cohesion: 0.02
+Nodes (82): AggregateCommissionPayout, CommissionPayoutAggregateArgs, CommissionPayoutAvgAggregateInputType, CommissionPayoutAvgAggregateOutputType, CommissionPayoutAvgOrderByAggregateInput, CommissionPayoutCountAggregateInputType, CommissionPayoutCountAggregateOutputType, CommissionPayoutCountArgs (+74 more)
 
 ### Community 66 - "Community 66"
 
-Cohesion: 0.04
-Nodes (80): $(), A(), Ao(), b(), componentDidUpdate(), D(), E(), e2() (+72 more)
+Cohesion: 0.02
+Nodes (81): AggregateTaxRate, GetTaxRateAggregateType, GetTaxRateGroupByPayload, Prisma\_\_TaxRateClient, TaxRateAggregateArgs, TaxRateAvgAggregateInputType, TaxRateAvgAggregateOutputType, TaxRateAvgOrderByAggregateInput (+73 more)
 
 ### Community 67 - "Community 67"
 
-Cohesion: 0.03
-Nodes (79): AggregateAiPromptTemplate, AiPromptTemplate$tasksArgs, AiPromptTemplateAggregateArgs, AiPromptTemplateAvgAggregateInputType, AiPromptTemplateAvgAggregateOutputType, AiPromptTemplateAvgOrderByAggregateInput, AiPromptTemplateCountAggregateInputType, AiPromptTemplateCountAggregateOutputType (+71 more)
+Cohesion: 0.02
+Nodes (81): AggregateExperimentVariant, ExperimentVariantAggregateArgs, ExperimentVariantAvgAggregateInputType, ExperimentVariantAvgAggregateOutputType, ExperimentVariantAvgOrderByAggregateInput, ExperimentVariantCountAggregateInputType, ExperimentVariantCountAggregateOutputType, ExperimentVariantCountArgs (+73 more)
 
 ### Community 68 - "Community 68"
 
-Cohesion: 0.03
-Nodes (79): AggregateLoyaltyReward, EnumLoyaltyRewardTypeFieldUpdateOperationsInput, GetLoyaltyRewardAggregateType, GetLoyaltyRewardGroupByPayload, LoyaltyReward$redemptionsArgs, LoyaltyRewardAggregateArgs, LoyaltyRewardAvgAggregateInputType, LoyaltyRewardAvgAggregateOutputType (+71 more)
+Cohesion: 0.04
+Nodes (55): Avatar(), AvatarBadge(), AvatarFallback(), AvatarGroup(), AvatarGroupCount(), AvatarImage(), Card(), CardAction() (+47 more)
 
 ### Community 69 - "Community 69"
 
-Cohesion: 0.04
-Nodes (51): Avatar(), AvatarBadge(), AvatarFallback(), AvatarGroup(), AvatarGroupCount(), AvatarImage(), Card(), CardAction() (+43 more)
+Cohesion: 0.05
+Nodes (33): AuditLogsModule, AuditLogsModule, AuthModule, BannersController, BannersModule, BannersModule, CategoriesModule, CategoriesModule (+25 more)
 
 ### Community 70 - "Community 70"
 
 Cohesion: 0.03
-Nodes (31): CreateProductDto, ProductImageDto, ProductVariantDto, VariantOptionGroupDto, VariantOptionValueDto, CreateProductDto, ProductImageDto, ProductVariantDto (+23 more)
+Nodes (79): AggregateAiPromptTemplate, AiPromptTemplate$tasksArgs, AiPromptTemplateAggregateArgs, AiPromptTemplateAvgAggregateInputType, AiPromptTemplateAvgAggregateOutputType, AiPromptTemplateAvgOrderByAggregateInput, AiPromptTemplateCountAggregateInputType, AiPromptTemplateCountAggregateOutputType (+71 more)
 
 ### Community 71 - "Community 71"
+
+Cohesion: 0.03
+Nodes (79): AggregateLoyaltyReward, EnumLoyaltyRewardTypeFieldUpdateOperationsInput, GetLoyaltyRewardAggregateType, GetLoyaltyRewardGroupByPayload, LoyaltyReward$redemptionsArgs, LoyaltyRewardAggregateArgs, LoyaltyRewardAvgAggregateInputType, LoyaltyRewardAvgAggregateOutputType (+71 more)
+
+### Community 72 - "Community 72"
+
+Cohesion: 0.04
+Nodes (23): DashboardLayout(), NAV_ITEMS, Sidebar(), getDashboardBundle(), getFinanceBundle(), getDashboardBundle(), getFinanceBundle(), getMetricsBundle() (+15 more)
+
+### Community 73 - "Community 73"
 
 Cohesion: 0.06
 Nodes (79): adjustHue(), callAllEventHandlers(), callOnChangeProps(), capitalizeString(), cbToCb(), cleanupStatusDiv(), colorToHex(), convertToHex() (+71 more)
 
-### Community 72 - "Community 72"
-
-Cohesion: 0.03
-Nodes (78): AggregateSettlementBatch, GetSettlementBatchAggregateType, GetSettlementBatchGroupByPayload, Prisma\_\_SettlementBatchClient, SettlementBatch$itemsArgs, SettlementBatchAggregateArgs, SettlementBatchAvgAggregateInputType, SettlementBatchAvgAggregateOutputType (+70 more)
-
-### Community 73 - "Community 73"
+### Community 74 - "Community 74"
 
 Cohesion: 0.03
 Nodes (78): AggregateFeatureFlag, FeatureFlag$experimentsArgs, FeatureFlagAggregateArgs, FeatureFlagAvgAggregateInputType, FeatureFlagAvgAggregateOutputType, FeatureFlagAvgOrderByAggregateInput, FeatureFlagCountAggregateInputType, FeatureFlagCountAggregateOutputType (+70 more)
 
-### Community 74 - "Community 74"
+### Community 75 - "Community 75"
 
 Cohesion: 0.03
 Nodes (78): AggregateAttributeGroup, AttributeGroup$valuesArgs, AttributeGroupAggregateArgs, AttributeGroupAvgAggregateInputType, AttributeGroupAvgAggregateOutputType, AttributeGroupAvgOrderByAggregateInput, AttributeGroupCountAggregateInputType, AttributeGroupCountAggregateOutputType (+70 more)
 
-### Community 75 - "Community 75"
+### Community 76 - "Community 76"
 
 Cohesion: 0.03
 Nodes (78): AggregateLoyaltyMission, GetLoyaltyMissionAggregateType, GetLoyaltyMissionGroupByPayload, LoyaltyMission$progressArgs, LoyaltyMissionAggregateArgs, LoyaltyMissionAvgAggregateInputType, LoyaltyMissionAvgAggregateOutputType, LoyaltyMissionAvgOrderByAggregateInput (+70 more)
 
-### Community 76 - "Community 76"
-
-Cohesion: 0.03
-Nodes (78): AggregateLoyaltyTier, GetLoyaltyTierAggregateType, GetLoyaltyTierGroupByPayload, LoyaltyTier$accountsArgs, LoyaltyTierAggregateArgs, LoyaltyTierAvgAggregateInputType, LoyaltyTierAvgAggregateOutputType, LoyaltyTierAvgOrderByAggregateInput (+70 more)
-
 ### Community 77 - "Community 77"
 
 Cohesion: 0.03
-Nodes (77): AdminNotification$sentByAdminArgs, AdminNotificationAggregateArgs, AdminNotificationCountAggregateInputType, AdminNotificationCountAggregateOutputType, AdminNotificationCountArgs, AdminNotificationCountOrderByAggregateInput, AdminNotificationCreateArgs, AdminNotificationCreateInput (+69 more)
+Nodes (78): AggregateSettlementBatch, GetSettlementBatchAggregateType, GetSettlementBatchGroupByPayload, Prisma\_\_SettlementBatchClient, SettlementBatch$itemsArgs, SettlementBatchAggregateArgs, SettlementBatchAvgAggregateInputType, SettlementBatchAvgAggregateOutputType (+70 more)
 
 ### Community 78 - "Community 78"
 
 Cohesion: 0.03
-Nodes (77): AggregateRolePermission, EnumAdminPermissionFieldUpdateOperationsInput, GetRolePermissionAggregateType, GetRolePermissionGroupByPayload, Prisma\_\_RolePermissionClient, RolePermissionAdminRoleIdPermissionCompoundUniqueInput, RolePermissionAggregateArgs, RolePermissionCountAggregateInputType (+69 more)
+Nodes (78): AggregateLoyaltyTier, GetLoyaltyTierAggregateType, GetLoyaltyTierGroupByPayload, LoyaltyTier$accountsArgs, LoyaltyTierAggregateArgs, LoyaltyTierAvgAggregateInputType, LoyaltyTierAvgAggregateOutputType, LoyaltyTierAvgOrderByAggregateInput (+70 more)
 
 ### Community 79 - "Community 79"
 
 Cohesion: 0.03
-Nodes (77): AdminAuditLog$adminArgs, AdminAuditLogAggregateArgs, AdminAuditLogCountAggregateInputType, AdminAuditLogCountAggregateOutputType, AdminAuditLogCountArgs, AdminAuditLogCountOrderByAggregateInput, AdminAuditLogCreateArgs, AdminAuditLogCreateInput (+69 more)
+Nodes (77): AdminNotification$sentByAdminArgs, AdminNotificationAggregateArgs, AdminNotificationCountAggregateInputType, AdminNotificationCountAggregateOutputType, AdminNotificationCountArgs, AdminNotificationCountOrderByAggregateInput, AdminNotificationCreateArgs, AdminNotificationCreateInput (+69 more)
 
 ### Community 80 - "Community 80"
 
-Cohesion: 0.05
-Nodes (48): ResolutionPanelClient(), DISPUTE_CONVERSATION_CARD_CLASS_NAMES, DISPUTE_RESOLUTION_CHECKED_CLASS_NAME, DISPUTE_RESOLUTION_UNCHECKED_CLASS_NAME, getConversationCardClassName(), DisputeDetailControllerProps, DisputeDetailState, useDisputeDetailController() (+40 more)
+Cohesion: 0.03
+Nodes (77): AggregateRolePermission, EnumAdminPermissionFieldUpdateOperationsInput, GetRolePermissionAggregateType, GetRolePermissionGroupByPayload, Prisma\_\_RolePermissionClient, RolePermissionAdminRoleIdPermissionCompoundUniqueInput, RolePermissionAggregateArgs, RolePermissionCountAggregateInputType (+69 more)
 
 ### Community 81 - "Community 81"
 
 Cohesion: 0.03
-Nodes (76): AggregatePlanEntitlement, GetPlanEntitlementAggregateType, GetPlanEntitlementGroupByPayload, PlanEntitlementAggregateArgs, PlanEntitlementCountAggregateInputType, PlanEntitlementCountAggregateOutputType, PlanEntitlementCountArgs, PlanEntitlementCountOrderByAggregateInput (+68 more)
+Nodes (77): AdminAuditLog$adminArgs, AdminAuditLogAggregateArgs, AdminAuditLogCountAggregateInputType, AdminAuditLogCountAggregateOutputType, AdminAuditLogCountArgs, AdminAuditLogCountOrderByAggregateInput, AdminAuditLogCreateArgs, AdminAuditLogCreateInput (+69 more)
 
 ### Community 82 - "Community 82"
 
 Cohesion: 0.03
-Nodes (76): AggregateCategoryAttribute, CategoryAttributeAggregateArgs, CategoryAttributeCategoryIdGroupIdCompoundUniqueInput, CategoryAttributeCountAggregateInputType, CategoryAttributeCountAggregateOutputType, CategoryAttributeCountArgs, CategoryAttributeCountOrderByAggregateInput, CategoryAttributeCreateArgs (+68 more)
+Nodes (76): AggregatePlanEntitlement, GetPlanEntitlementAggregateType, GetPlanEntitlementGroupByPayload, PlanEntitlementAggregateArgs, PlanEntitlementCountAggregateInputType, PlanEntitlementCountAggregateOutputType, PlanEntitlementCountArgs, PlanEntitlementCountOrderByAggregateInput (+68 more)
 
 ### Community 83 - "Community 83"
 
 Cohesion: 0.03
-Nodes (76): AggregateSellerVerification, EnumSellerVerificationStatusFieldUpdateOperationsInput, GetSellerVerificationAggregateType, GetSellerVerificationGroupByPayload, Prisma\_\_SellerVerificationClient, SellerVerificationAggregateArgs, SellerVerificationCountAggregateInputType, SellerVerificationCountAggregateOutputType (+68 more)
+Nodes (76): AggregateCategoryAttribute, CategoryAttributeAggregateArgs, CategoryAttributeCategoryIdGroupIdCompoundUniqueInput, CategoryAttributeCountAggregateInputType, CategoryAttributeCountAggregateOutputType, CategoryAttributeCountArgs, CategoryAttributeCountOrderByAggregateInput, CategoryAttributeCreateArgs (+68 more)
 
 ### Community 84 - "Community 84"
 
 Cohesion: 0.03
-Nodes (75): AffiliateClickAggregateArgs, AffiliateClickCountAggregateInputType, AffiliateClickCountAggregateOutputType, AffiliateClickCountArgs, AffiliateClickCountOrderByAggregateInput, AffiliateClickCreateArgs, AffiliateClickCreateInput, AffiliateClickCreateManyAndReturnArgs (+67 more)
+Nodes (76): AggregateSellerVerification, EnumSellerVerificationStatusFieldUpdateOperationsInput, GetSellerVerificationAggregateType, GetSellerVerificationGroupByPayload, Prisma\_\_SellerVerificationClient, SellerVerificationAggregateArgs, SellerVerificationCountAggregateInputType, SellerVerificationCountAggregateOutputType (+68 more)
 
 ### Community 85 - "Community 85"
 
-Cohesion: 0.03
-Nodes (75): AggregateLivestreamChat, GetLivestreamChatAggregateType, GetLivestreamChatGroupByPayload, LivestreamChatAggregateArgs, LivestreamChatCountAggregateInputType, LivestreamChatCountAggregateOutputType, LivestreamChatCountArgs, LivestreamChatCountOrderByAggregateInput (+67 more)
+Cohesion: 0.04
+Nodes (76): A(), Ao(), b(), componentDidUpdate(), D(), E(), e2(), Ei() (+68 more)
 
 ### Community 86 - "Community 86"
 
 Cohesion: 0.03
-Nodes (75): AggregateAutomationExecution, AutomationExecutionAggregateArgs, AutomationExecutionCountAggregateInputType, AutomationExecutionCountAggregateOutputType, AutomationExecutionCountArgs, AutomationExecutionCountOrderByAggregateInput, AutomationExecutionCreateArgs, AutomationExecutionCreateInput (+67 more)
+Nodes (75): AffiliateClickAggregateArgs, AffiliateClickCountAggregateInputType, AffiliateClickCountAggregateOutputType, AffiliateClickCountArgs, AffiliateClickCountOrderByAggregateInput, AffiliateClickCreateArgs, AffiliateClickCreateInput, AffiliateClickCreateManyAndReturnArgs (+67 more)
 
 ### Community 87 - "Community 87"
 
 Cohesion: 0.03
-Nodes (75): AdminSessionAggregateArgs, AdminSessionCountAggregateInputType, AdminSessionCountAggregateOutputType, AdminSessionCountArgs, AdminSessionCountOrderByAggregateInput, AdminSessionCreateArgs, AdminSessionCreateInput, AdminSessionCreateManyAdminInput (+67 more)
+Nodes (75): AggregateLivestreamChat, GetLivestreamChatAggregateType, GetLivestreamChatGroupByPayload, LivestreamChatAggregateArgs, LivestreamChatCountAggregateInputType, LivestreamChatCountAggregateOutputType, LivestreamChatCountArgs, LivestreamChatCountOrderByAggregateInput (+67 more)
 
 ### Community 88 - "Community 88"
 
 Cohesion: 0.03
-Nodes (75): AdminPasswordResetTokenAggregateArgs, AdminPasswordResetTokenCountAggregateInputType, AdminPasswordResetTokenCountAggregateOutputType, AdminPasswordResetTokenCountArgs, AdminPasswordResetTokenCountOrderByAggregateInput, AdminPasswordResetTokenCreateArgs, AdminPasswordResetTokenCreateInput, AdminPasswordResetTokenCreateManyAdminInput (+67 more)
+Nodes (75): AggregateAutomationExecution, AutomationExecutionAggregateArgs, AutomationExecutionCountAggregateInputType, AutomationExecutionCountAggregateOutputType, AutomationExecutionCountArgs, AutomationExecutionCountOrderByAggregateInput, AutomationExecutionCreateArgs, AutomationExecutionCreateInput (+67 more)
 
 ### Community 89 - "Community 89"
 
-Cohesion: 0.05
-Nodes (75): a, Ao(), b(), \_c(), componentDidUpdate(), d, E(), e2() (+67 more)
+Cohesion: 0.03
+Nodes (75): AdminSessionAggregateArgs, AdminSessionCountAggregateInputType, AdminSessionCountAggregateOutputType, AdminSessionCountArgs, AdminSessionCountOrderByAggregateInput, AdminSessionCreateArgs, AdminSessionCreateInput, AdminSessionCreateManyAdminInput (+67 more)
 
 ### Community 90 - "Community 90"
 
 Cohesion: 0.03
-Nodes (75): $2f04cbc44ee30ce0$export$53a0910f038337bd(), $2f04cbc44ee30ce0$export$c826860796309d1b(), $2f04cbc44ee30ce0$var$relativeOffset(), $3ad3f6e1647bc98d$export$80f3e147d781571c(), $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $507fabe10e71c6fb$export$630ff653c5ada6a9(), $55f9b1ae81f22853$export$2b35b76d2e30e129() (+67 more)
+Nodes (75): AdminPasswordResetTokenAggregateArgs, AdminPasswordResetTokenCountAggregateInputType, AdminPasswordResetTokenCountAggregateOutputType, AdminPasswordResetTokenCountArgs, AdminPasswordResetTokenCountOrderByAggregateInput, AdminPasswordResetTokenCreateArgs, AdminPasswordResetTokenCreateInput, AdminPasswordResetTokenCreateManyAdminInput (+67 more)
 
 ### Community 91 - "Community 91"
 
@@ -982,1495 +1094,1700 @@ Nodes (75): addLandmark(), applyStyle(), applyStyleOnLoad(), arrow(), attachToSc
 
 ### Community 92 - "Community 92"
 
-Cohesion: 0.04
-Nodes (19): AuthController, getClientIp(), getCookieValue(), getSessionIdFromRequest(), AuthService, parseAdminSessionData(), TEMPLATES_DIR, AuthController (+11 more)
+Cohesion: 0.06
+Nodes (44): OffsetMetaDto, ReviewBuyerDto, ReviewImageDto, ReviewProductDto, ReviewReplyDto, SHOP_PRODUCT_SORTS, ShopCardSummaryDto, ShopCategorySummaryDto (+36 more)
 
 ### Community 93 - "Community 93"
 
-Cohesion: 0.03
-Nodes (69): $21f1aa98acb08317$export$c57958e35f31ed73(), $2f04cbc44ee30ce0$export$53a0910f038337bd(), $2f04cbc44ee30ce0$export$c826860796309d1b(), $2f04cbc44ee30ce0$var$relativeOffset(), $3ad3f6e1647bc98d$export$80f3e147d781571c(), $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $49c51c25361d4cd2$var$addEvent() (+61 more)
+Cohesion: 0.05
+Nodes (74): $5e3802645cc19319$export$1020fa7f77e17884(), $7135fc7d473fd974$export$2dbbd341daed716d(), $76f919a04c5a7d14$var$findDefaultSelectedKey(), $875d6693e12af071$var$toggleKey(), $a40c673dc9f6d9c7$export$94ed1c92c7beeb22(), add(), assert2(), assertIsMock() (+66 more)
 
 ### Community 94 - "Community 94"
 
 Cohesion: 0.05
-Nodes (34): approveSeller(), getSellerById(), getSellers(), getSellerStatusCounts(), rejectSeller(), Seller, SellerActionBody, SellerActionResponse (+26 more)
+Nodes (73): a, Ao(), b(), componentDidUpdate(), d, E(), e2(), Ei() (+65 more)
 
 ### Community 95 - "Community 95"
 
-Cohesion: 0.03
-Nodes (62): AggregateProductRelation, EnumProductRelationTypeFieldUpdateOperationsInput, GetProductRelationAggregateType, GetProductRelationGroupByPayload, Prisma\_\_ProductRelationClient, ProductRelationAggregateArgs, ProductRelationAvgAggregateInputType, ProductRelationAvgAggregateOutputType (+54 more)
+Cohesion: 0.05
+Nodes (72): $5e3802645cc19319$export$1020fa7f77e17884(), $7135fc7d473fd974$export$2dbbd341daed716d(), $76f919a04c5a7d14$var$findDefaultSelectedKey(), $875d6693e12af071$var$toggleKey(), add(), assert2(), assertIsMock(), $c5a24bc478652b5f$export$8c434b3a7a4dad6() (+64 more)
 
 ### Community 96 - "Community 96"
 
-Cohesion: 0.03
-Nodes (62): AggregateProductScore, EnumProductScoreTypeFieldUpdateOperationsInput, GetProductScoreAggregateType, GetProductScoreGroupByPayload, Prisma\_\_ProductScoreClient, ProductScoreAggregateArgs, ProductScoreAvgAggregateInputType, ProductScoreAvgAggregateOutputType (+54 more)
+Cohesion: 0.06
+Nodes (49): Home(), MessagesPageClient(), NotificationsPageClient(), StorefrontShell(), api, createStorefrontRealtimeSocket(), RealtimeChatMessagePayload, StorefrontRealtimeSocket (+41 more)
 
 ### Community 97 - "Community 97"
 
-Cohesion: 0.03
-Nodes (61): AggregateReferral, EnumReferralStatusFieldUpdateOperationsInput, GetReferralAggregateType, GetReferralGroupByPayload, Prisma\_\_ReferralClient, ReferralAggregateArgs, ReferralAvgAggregateInputType, ReferralAvgAggregateOutputType (+53 more)
+Cohesion: 0.05
+Nodes (34): approveSeller(), getSellerById(), getSellers(), getSellerStatusCounts(), rejectSeller(), Seller, SellerActionBody, SellerActionResponse (+26 more)
 
 ### Community 98 - "Community 98"
 
-Cohesion: 0.06
-Nodes (38): activateUser(), banUser(), getUser(), getUsers(), getUserStatusCounts(), suspendUser(), UserActionBody, UserActionResponse (+30 more)
+Cohesion: 0.07
+Nodes (68): applyStyles(), areValidElements(), arrow(), computeAutoPlacement(), computeOffsets(), computeStyles(), debounce(), detectOverflow() (+60 more)
 
 ### Community 99 - "Community 99"
 
-Cohesion: 0.05
-Nodes (61): ah(), Bb(), bh(), Bt(), CA(), Cg(), Ch(), Db() (+53 more)
+Cohesion: 0.06
+Nodes (41): activateUser(), banUser(), getUser(), getUsers(), getUserStatusCounts(), suspendUser(), UserActionBody, UserActionResponse (+33 more)
 
 ### Community 100 - "Community 100"
 
-Cohesion: 0.03
-Nodes (60): AggregateEventSubscription, EventSubscriptionAggregateArgs, EventSubscriptionAvgAggregateInputType, EventSubscriptionAvgAggregateOutputType, EventSubscriptionAvgOrderByAggregateInput, EventSubscriptionCountAggregateInputType, EventSubscriptionCountAggregateOutputType, EventSubscriptionCountArgs (+52 more)
+Cohesion: 0.06
+Nodes (36): approveRefund(), getRefund(), getRefunds(), getRefundStatusCounts(), RefundListItem, rejectRefund(), RefundDetailPage(), col (+28 more)
 
 ### Community 101 - "Community 101"
 
-Cohesion: 0.03
-Nodes (60): AdCampaignStatus, AdminNotificationStatus, AdminPermission, AdminRoleType, AdminStatus, AdType, AffiliateStatus, AiTaskStatus (+52 more)
+Cohesion: 0.05
+Nodes (63): \_0(), Ac(), Ag(), au(), Bf(), bg(), \_c(), c0() (+55 more)
 
 ### Community 102 - "Community 102"
 
 Cohesion: 0.03
-Nodes (60): AggregateSearchAnalytics, GetSearchAnalyticsAggregateType, GetSearchAnalyticsGroupByPayload, Prisma\_\_SearchAnalyticsClient, SearchAnalyticsAggregateArgs, SearchAnalyticsAvgAggregateInputType, SearchAnalyticsAvgAggregateOutputType, SearchAnalyticsAvgOrderByAggregateInput (+52 more)
+Nodes (62): AggregateProductRelation, EnumProductRelationTypeFieldUpdateOperationsInput, GetProductRelationAggregateType, GetProductRelationGroupByPayload, Prisma\_\_ProductRelationClient, ProductRelationAggregateArgs, ProductRelationAvgAggregateInputType, ProductRelationAvgAggregateOutputType (+54 more)
 
 ### Community 103 - "Community 103"
 
 Cohesion: 0.03
-Nodes (60): AggregateCurrency, CurrencyAggregateArgs, CurrencyAvgAggregateInputType, CurrencyAvgAggregateOutputType, CurrencyAvgOrderByAggregateInput, CurrencyCountAggregateInputType, CurrencyCountAggregateOutputType, CurrencyCountArgs (+52 more)
+Nodes (62): AggregateProductScore, EnumProductScoreTypeFieldUpdateOperationsInput, GetProductScoreAggregateType, GetProductScoreGroupByPayload, Prisma\_\_ProductScoreClient, ProductScoreAggregateArgs, ProductScoreAvgAggregateInputType, ProductScoreAvgAggregateOutputType (+54 more)
 
 ### Community 104 - "Community 104"
 
 Cohesion: 0.03
-Nodes (60): AggregateGrowthCampaign, GetGrowthCampaignAggregateType, GetGrowthCampaignGroupByPayload, GrowthCampaignAggregateArgs, GrowthCampaignAvgAggregateInputType, GrowthCampaignAvgAggregateOutputType, GrowthCampaignAvgOrderByAggregateInput, GrowthCampaignCountAggregateInputType (+52 more)
+Nodes (61): AggregateReferral, EnumReferralStatusFieldUpdateOperationsInput, GetReferralAggregateType, GetReferralGroupByPayload, Prisma\_\_ReferralClient, ReferralAggregateArgs, ReferralAvgAggregateInputType, ReferralAvgAggregateOutputType (+53 more)
 
 ### Community 105 - "Community 105"
 
-Cohesion: 0.03
-Nodes (60): AggregateUserSegment, GetUserSegmentAggregateType, GetUserSegmentGroupByPayload, Prisma\_\_UserSegmentClient, UserSegmentAggregateArgs, UserSegmentAvgAggregateInputType, UserSegmentAvgAggregateOutputType, UserSegmentAvgOrderByAggregateInput (+52 more)
+Cohesion: 0.05
+Nodes (61): ah(), Bb(), bh(), Bt(), CA(), Cg(), Ch(), Db() (+53 more)
 
 ### Community 106 - "Community 106"
 
 Cohesion: 0.03
-Nodes (60): AggregateSearchBoostRule, GetSearchBoostRuleAggregateType, GetSearchBoostRuleGroupByPayload, Prisma\_\_SearchBoostRuleClient, SearchBoostRuleAggregateArgs, SearchBoostRuleAvgAggregateInputType, SearchBoostRuleAvgAggregateOutputType, SearchBoostRuleAvgOrderByAggregateInput (+52 more)
+Nodes (60): AdCampaignStatus, AdminNotificationStatus, AdminPermission, AdminRoleType, AdminStatus, AdType, AffiliateStatus, AiTaskStatus (+52 more)
 
 ### Community 107 - "Community 107"
 
-Cohesion: 0.05
-Nodes (44): SidebarMenuRenderer(), SidebarMenuRendererProps, SidebarShell(), SidebarShellProps, Default, groups, meta, Story (+36 more)
+Cohesion: 0.03
+Nodes (60): AggregateSearchAnalytics, GetSearchAnalyticsAggregateType, GetSearchAnalyticsGroupByPayload, Prisma\_\_SearchAnalyticsClient, SearchAnalyticsAggregateArgs, SearchAnalyticsAvgAggregateInputType, SearchAnalyticsAvgAggregateOutputType, SearchAnalyticsAvgOrderByAggregateInput (+52 more)
 
 ### Community 108 - "Community 108"
 
-Cohesion: 0.06
-Nodes (36): ProductEditorProvider(), useProductEditorContext(), createFormDefaultValues(), createInitialState(), ProductEditorContext, ProductEditorContextValue, ProductEditorProvider(), useProductEditorVariants() (+28 more)
+Cohesion: 0.03
+Nodes (60): AggregateCurrency, CurrencyAggregateArgs, CurrencyAvgAggregateInputType, CurrencyAvgAggregateOutputType, CurrencyAvgOrderByAggregateInput, CurrencyCountAggregateInputType, CurrencyCountAggregateOutputType, CurrencyCountArgs (+52 more)
 
 ### Community 109 - "Community 109"
 
-Cohesion: 0.05
-Nodes (58): t2(), isObject2(), applyStyle(), applyStyleOnLoad(), canHaveLength(), canHaveLength2(), checkEquality(), checkEquality2() (+50 more)
+Cohesion: 0.03
+Nodes (60): AggregateGrowthCampaign, GetGrowthCampaignAggregateType, GetGrowthCampaignGroupByPayload, GrowthCampaignAggregateArgs, GrowthCampaignAvgAggregateInputType, GrowthCampaignAvgAggregateOutputType, GrowthCampaignAvgOrderByAggregateInput, GrowthCampaignCountAggregateInputType (+52 more)
 
 ### Community 110 - "Community 110"
 
 Cohesion: 0.03
-Nodes (57): AggregateSearchSynonym, GetSearchSynonymAggregateType, GetSearchSynonymGroupByPayload, Prisma\_\_SearchSynonymClient, SearchSynonymAggregateArgs, SearchSynonymCountAggregateInputType, SearchSynonymCountAggregateOutputType, SearchSynonymCountArgs (+49 more)
+Nodes (60): AggregateEventSubscription, EventSubscriptionAggregateArgs, EventSubscriptionAvgAggregateInputType, EventSubscriptionAvgAggregateOutputType, EventSubscriptionAvgOrderByAggregateInput, EventSubscriptionCountAggregateInputType, EventSubscriptionCountAggregateOutputType, EventSubscriptionCountArgs (+52 more)
 
 ### Community 111 - "Community 111"
 
-Cohesion: 0.06
-Nodes (39): approveProduct(), bulkApproveProducts(), bulkRejectProducts(), getProduct(), getProducts(), getProductStatusCounts(), hideProduct(), ProductApproveBody (+31 more)
+Cohesion: 0.03
+Nodes (60): AggregateUserSegment, GetUserSegmentAggregateType, GetUserSegmentGroupByPayload, Prisma\_\_UserSegmentClient, UserSegmentAggregateArgs, UserSegmentAvgAggregateInputType, UserSegmentAvgAggregateOutputType, UserSegmentAvgOrderByAggregateInput (+52 more)
 
 ### Community 112 - "Community 112"
 
-Cohesion: 0.05
-Nodes (57): $9bf71ea28793e738$var$isElementInScope(), addChild(), addTreeNode(), all, canUseDOM2(), clone(), componentDidMount(), componentDidUpdate() (+49 more)
+Cohesion: 0.03
+Nodes (60): AggregateSearchBoostRule, GetSearchBoostRuleAggregateType, GetSearchBoostRuleGroupByPayload, Prisma\_\_SearchBoostRuleClient, SearchBoostRuleAggregateArgs, SearchBoostRuleAvgAggregateInputType, SearchBoostRuleAvgAggregateOutputType, SearchBoostRuleAvgOrderByAggregateInput (+52 more)
 
 ### Community 113 - "Community 113"
 
-Cohesion: 0.04
-Nodes (56): AggregateUserEvent, EnumUserEventEntityTypeFieldUpdateOperationsInput, EnumUserEventTypeFieldUpdateOperationsInput, GetUserEventAggregateType, GetUserEventGroupByPayload, Prisma\_\_UserEventClient, UserEventAggregateArgs, UserEventCountAggregateInputType (+48 more)
+Cohesion: 0.06
+Nodes (36): ProductEditorProvider(), useProductEditorContext(), createFormDefaultValues(), createInitialState(), ProductEditorContext, ProductEditorContextValue, ProductEditorProvider(), useProductEditorVariants() (+28 more)
 
 ### Community 114 - "Community 114"
 
-Cohesion: 0.04
-Nodes (56): AggregateProductReport, EnumProductReportReasonFieldUpdateOperationsInput, EnumProductReportStatusFieldUpdateOperationsInput, GetProductReportAggregateType, GetProductReportGroupByPayload, Prisma\_\_ProductReportClient, ProductReportAggregateArgs, ProductReportCountAggregateInputType (+48 more)
+Cohesion: 0.06
+Nodes (31): ConversationItem(), ConversationItemProps, ConversationSidebarProps, EmptyPanelProps, MessageComposerProps, MessagePane(), MessagePaneProps, MessagesClient() (+23 more)
 
 ### Community 115 - "Community 115"
 
-Cohesion: 0.04
-Nodes (12): ReviewActionDto, ReviewQueryDto, ReviewResponseDto, ReviewController, ReviewActionDto, ReviewQueryDto, ReviewResponseDto, ReviewController (+4 more)
+Cohesion: 0.05
+Nodes (43): SidebarMenuRenderer(), SidebarMenuRendererProps, SidebarShell(), SidebarShellProps, Default, groups, meta, Story (+35 more)
 
 ### Community 116 - "Community 116"
-
-Cohesion: 0.08
-Nodes (57): $14c0b72509d70225$export$b0d6fa1ab32e3295(), append(), applyStyles(), detectOverflow(), $edcf132a9284368a$export$4b834cebd9e5cebe(), $edcf132a9284368a$export$b3ceb0cbf1056d98(), $edcf132a9284368a$var$getContainerDimensions(), $edcf132a9284368a$var$getContainingBlock() (+49 more)
-
-### Community 117 - "Community 117"
-
-Cohesion: 0.05
-Nodes (56): $, Ac(), Ag(), an(), au(), Ba(), Bf(), bg() (+48 more)
-
-### Community 118 - "Community 118"
-
-Cohesion: 0.05
-Nodes (56): $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey(), $507fabe10e71c6fb$var$triggerChangeHandlers(), addListener(), createCanvas(), debug() (+48 more)
-
-### Community 119 - "Community 119"
-
-Cohesion: 0.04
-Nodes (55): AggregateNotificationTemplate, EnumNotificationChannelFieldUpdateOperationsInput, GetNotificationTemplateAggregateType, GetNotificationTemplateGroupByPayload, NotificationTemplateAggregateArgs, NotificationTemplateCountAggregateInputType, NotificationTemplateCountAggregateOutputType, NotificationTemplateCountArgs (+47 more)
-
-### Community 120 - "Community 120"
-
-Cohesion: 0.04
-Nodes (55): AggregatePlatformEvent, EnumPlatformEventStatusFieldUpdateOperationsInput, GetPlatformEventAggregateType, GetPlatformEventGroupByPayload, PlatformEventAggregateArgs, PlatformEventCountAggregateInputType, PlatformEventCountAggregateOutputType, PlatformEventCountArgs (+47 more)
-
-### Community 121 - "Community 121"
-
-Cohesion: 0.04
-Nodes (55): AggregateTranslation, GetTranslationAggregateType, GetTranslationGroupByPayload, Prisma\_\_TranslationClient, TranslationAggregateArgs, TranslationCountAggregateInputType, TranslationCountAggregateOutputType, TranslationCountArgs (+47 more)
-
-### Community 122 - "Community 122"
-
-Cohesion: 0.06
-Nodes (55): $9bf71ea28793e738$var$isElementInScope(), addChild(), addTreeNode(), canUseDOM2(), clone(), componentDidMount(), componentDidUpdate(), componentWillUnmount() (+47 more)
-
-### Community 123 - "Community 123"
 
 Cohesion: 0.06
 Nodes (36): getReviewItems(), maskAccountNumber(), getInitialDocumentInputs(), isStepIndex(), useSellerOnboardingController(), getReviewItems(), maskAccountNumber(), maskIdNumber() (+28 more)
 
+### Community 117 - "Community 117"
+
+Cohesion: 0.06
+Nodes (36): EmptyState(), LoadingState(), OrderDetailActions(), OrderDetailClientProps, OrderRecord, orderDetailDefaultProps, orderDetailFixture, orderDetailFixtureActions (+28 more)
+
+### Community 118 - "Community 118"
+
+Cohesion: 0.03
+Nodes (57): AggregateSearchSynonym, GetSearchSynonymAggregateType, GetSearchSynonymGroupByPayload, Prisma\_\_SearchSynonymClient, SearchSynonymAggregateArgs, SearchSynonymCountAggregateInputType, SearchSynonymCountAggregateOutputType, SearchSynonymCountArgs (+49 more)
+
+### Community 119 - "Community 119"
+
+Cohesion: 0.06
+Nodes (39): approveProduct(), bulkApproveProducts(), bulkRejectProducts(), getProduct(), getProducts(), getProductStatusCounts(), hideProduct(), ProductApproveBody (+31 more)
+
+### Community 120 - "Community 120"
+
+Cohesion: 0.04
+Nodes (10): CreateCurrencyDto, CreateRegionDto, CreateTranslationDto, I18nController, CreateCurrencyDto, CreateRegionDto, CreateTranslationDto, I18nController (+2 more)
+
+### Community 121 - "Community 121"
+
+Cohesion: 0.06
+Nodes (21): CreateProductDto, ProductImageDto, ProductVariantDto, VariantOptionGroupDto, VariantOptionValueDto, CreateProductDto, ProductImageDto, ProductVariantDto (+13 more)
+
+### Community 122 - "Community 122"
+
+Cohesion: 0.06
+Nodes (57): \_0(), Ac(), Ag(), bg(), \_c(), c0(), Cc(), Cu() (+49 more)
+
+### Community 123 - "Community 123"
+
+Cohesion: 0.1
+Nodes (57): addChainableMethod(), addLengthGuard(), addMethod(), addProperty(), atcharset, atcontainer(), atcustommedia(), atdocument() (+49 more)
+
 ### Community 124 - "Community 124"
 
-Cohesion: 0.07
-Nodes (39): AppModule, buildSwaggerDocument(), SwaggerConfig, CategoryPageModule, generate(), HomepageModule, getAdminPort(), getAdminThrottleConfig() (+31 more)
+Cohesion: 0.05
+Nodes (57): $9bf71ea28793e738$var$isElementInScope(), addChild(), addTreeNode(), all, canUseDOM2(), clone(), componentDidMount(), componentDidUpdate() (+49 more)
 
 ### Community 125 - "Community 125"
 
 Cohesion: 0.04
-Nodes (11): AnalyticsService, AnalyticsService, ReturnQueryDto, ReturnController, UpdateReturnStatusDto, ReturnQueryDto, ReturnController, UpdateReturnStatusDto (+3 more)
+Nodes (56): AggregateProductReport, EnumProductReportReasonFieldUpdateOperationsInput, EnumProductReportStatusFieldUpdateOperationsInput, GetProductReportAggregateType, GetProductReportGroupByPayload, Prisma\_\_ProductReportClient, ProductReportAggregateArgs, ProductReportCountAggregateInputType (+48 more)
 
 ### Community 126 - "Community 126"
 
-Cohesion: 0.07
-Nodes (26): ConversationItem(), ConversationItemProps, ConversationSidebarProps, EmptyPanelProps, MessageComposerProps, MessagePane(), MessagePaneProps, MessagesClient() (+18 more)
+Cohesion: 0.04
+Nodes (56): AggregateUserEvent, EnumUserEventEntityTypeFieldUpdateOperationsInput, EnumUserEventTypeFieldUpdateOperationsInput, GetUserEventAggregateType, GetUserEventGroupByPayload, Prisma\_\_UserEventClient, UserEventAggregateArgs, UserEventCountAggregateInputType (+48 more)
 
 ### Community 127 - "Community 127"
 
-Cohesion: 0.07
-Nodes (21): CartController, CartModule, calculateSubtotal(), CART_INCLUDE, CartRecord, CartService, ensureQuantityAvailable(), calculateVoucherDiscount() (+13 more)
+Cohesion: 0.09
+Nodes (25): CartController, CartModule, calculateSubtotal(), CART_INCLUDE, CartRecord, CartService, ensureQuantityAvailable(), formatVariantLabel() (+17 more)
 
 ### Community 128 - "Community 128"
 
-Cohesion: 0.05
-Nodes (14): AdsController, UpdateAdCampaignStatusDto, AdsService, AdsController, UpdateAdCampaignStatusDto, AdsService, AdKeywordDto, CreateAdCampaignDto (+6 more)
+Cohesion: 0.04
+Nodes (55): AggregateNotificationTemplate, EnumNotificationChannelFieldUpdateOperationsInput, GetNotificationTemplateAggregateType, GetNotificationTemplateGroupByPayload, NotificationTemplateAggregateArgs, NotificationTemplateCountAggregateInputType, NotificationTemplateCountAggregateOutputType, NotificationTemplateCountArgs (+47 more)
 
 ### Community 129 - "Community 129"
 
-Cohesion: 0.07
-Nodes (31): EmptyState(), LoadingState(), OrderDetailActions(), OrderDetailClientProps, OrderRecord, orderDetailDefaultProps, orderDetailFixture, orderDetailFixtureActions (+23 more)
+Cohesion: 0.04
+Nodes (55): AggregatePlatformEvent, EnumPlatformEventStatusFieldUpdateOperationsInput, GetPlatformEventAggregateType, GetPlatformEventGroupByPayload, PlatformEventAggregateArgs, PlatformEventCountAggregateInputType, PlatformEventCountAggregateOutputType, PlatformEventCountArgs (+47 more)
 
 ### Community 130 - "Community 130"
 
-Cohesion: 0.08
-Nodes (25): approveRefund(), getRefund(), getRefunds(), getRefundStatusCounts(), RefundListItem, rejectRefund(), RefundDetailPage(), col (+17 more)
+Cohesion: 0.04
+Nodes (55): AggregateTranslation, GetTranslationAggregateType, GetTranslationGroupByPayload, Prisma\_\_TranslationClient, TranslationAggregateArgs, TranslationCountAggregateInputType, TranslationCountAggregateOutputType, TranslationCountArgs (+47 more)
 
 ### Community 131 - "Community 131"
 
-Cohesion: 0.06
-Nodes (28): forceCancelOrder(), forceCompleteOrder(), getOrder(), getOrders(), getOrderStatusCounts(), OrderActionBody, OrderActionResponse, OrderDetail (+20 more)
+Cohesion: 0.07
+Nodes (44): ChatConversationResponse, ChatDetailDto, ChatMessageDto, ChatMessagesResponse, ChatsResponse, ChatSummaryDto, createChatConversation(), CreateChatConversationBody (+36 more)
 
 ### Community 132 - "Community 132"
 
 Cohesion: 0.06
-Nodes (46): Ac(), Ag(), an(), au(), Bf(), bg(), \_c(), Cc() (+38 more)
+Nodes (55): $9bf71ea28793e738$var$isElementInScope(), addChild(), addTreeNode(), canUseDOM2(), clone(), componentDidMount(), componentDidUpdate(), componentWillUnmount() (+47 more)
 
 ### Community 133 - "Community 133"
 
-Cohesion: 0.08
-Nodes (46): createLocation(), \_extends2(), attachToScrollParents(), clockwise(), computeStyle(), destroy(), disableEventListeners(), enableEventListeners() (+38 more)
+Cohesion: 0.05
+Nodes (55): t2(), isObject2(), applyStyle(), canHaveLength(), canHaveLength2(), checkEquality(), checkEquality2(), compareNumbers() (+47 more)
 
 ### Community 134 - "Community 134"
 
-Cohesion: 0.09
-Nodes (26): ApproveReturnModal(), ReturnCaseDetail(), ReturnsRefundsClient(), ReturnsRefundsClientProps, createReturnsColumns(), buildReturnActionPayload(), buildReturnStatusCounts(), formatReturnAmount() (+18 more)
+Cohesion: 0.06
+Nodes (55): offset(), addEccAndInterleave(), appendBits(), applyMask(), assert(), \_check_private_redeclaration(), \_class_apply_descriptor_get(), \_class_apply_descriptor_set() (+47 more)
 
 ### Community 135 - "Community 135"
 
 Cohesion: 0.08
-Nodes (29): OrdersClient(), OrdersClientProps, buyerColumn, dateColumn, itemsColumn, orderColumn, ordersColumns, selectColumn (+21 more)
+Nodes (35): ReviewsClient(), ReviewsClientProps, buildReviewColumns(), BuildReviewColumnsOptions, buildReviewsColumns(), buildReviewStatusCounts(), REVIEWS_REPLY_FILTER_LABELS, REVIEWS_STATUS_BADGE_STYLES (+27 more)
 
 ### Community 136 - "Community 136"
 
-Cohesion: 0.08
-Nodes (30): CategoryDetailsCard(), CategorySeoCard(), isRowClickIgnored(), Boolean, ProductApprovalClient(), buildProductApprovalColumns(), productApprovalBadgeTones, ProductApprovalDetailSheet() (+22 more)
+Cohesion: 0.07
+Nodes (54): createLocation(), \_extends2(), fn(), applyStyleOnLoad(), arrow(), attachToScrollParents(), clockwise(), computeAutoPlacement() (+46 more)
 
 ### Community 137 - "Community 137"
 
-Cohesion: 0.08
-Nodes (31): getInitialForm(), handleOpenChange(), handleSubmit(), AddCommissionRuleModal(), CommissionFeesClient(), CommissionFeesClientProps, DraftValues, getInitialFormValues() (+23 more)
+Cohesion: 0.07
+Nodes (27): createNotification(), createTemplate(), getNotifications(), getTemplates(), NotificationListItem, NotificationTemplate, sendNotification(), col (+19 more)
 
 ### Community 138 - "Community 138"
 
-Cohesion: 0.09
-Nodes (27): LedgerSectionClient(), LedgerSectionClientProps, useFinanceController(), UseFinanceControllerProps, Finance(), financeDefaultProps, financeKindLabels, financeLedgerEntries (+19 more)
+Cohesion: 0.06
+Nodes (26): AdminProfile, getAdminProfile(), loginAdmin(), LoginBody, LoginResponse, logoutAdmin(), LogoutResponse, ProfileResponse (+18 more)
 
 ### Community 139 - "Community 139"
 
-Cohesion: 0.05
-Nodes (22): DatePicker(), DateRangePicker(), DatePickerProps, DateRangePickerProps, DateRangeValue, Button(), ButtonProps, buttonVariants (+14 more)
+Cohesion: 0.08
+Nodes (30): ProductsClient(), ProductsClientProps, priceColumn, productColumn, productsColumns, ratingColumn, selectColumn, soldColumn (+22 more)
 
 ### Community 140 - "Community 140"
 
 Cohesion: 0.08
-Nodes (26): PromotionCard(), PromotionCardProps, PromotionsClient(), PromotionsClientProps, usePromotionsController(), UsePromotionsControllerProps, promotionsPageRows, Promotions() (+18 more)
+Nodes (37): DisputesClient(), DisputesClientProps, DisputeStatusBadge(), RefundsClient(), RefundsClientProps, RefundStatusBadge(), buildDisputeColumns(), buildRefundColumns() (+29 more)
 
 ### Community 141 - "Community 141"
 
-Cohesion: 0.08
-Nodes (29): ProductsClient(), ProductsClientProps, priceColumn, productColumn, productsColumns, ratingColumn, selectColumn, soldColumn (+21 more)
+Cohesion: 0.09
+Nodes (26): ApproveReturnModal(), ReturnCaseDetail(), ReturnsRefundsClient(), ReturnsRefundsClientProps, createReturnsColumns(), buildReturnActionPayload(), buildReturnStatusCounts(), formatReturnAmount() (+18 more)
 
 ### Community 142 - "Community 142"
 
-Cohesion: 0.07
-Nodes (43): offset(), addEccAndInterleave(), applyMask(), assert(), \_check_private_redeclaration(), \_class_apply_descriptor_get(), \_class_apply_descriptor_set(), \_class_extract_field_descriptor() (+35 more)
+Cohesion: 0.08
+Nodes (31): getInitialForm(), handleOpenChange(), handleSubmit(), AddCommissionRuleModal(), CommissionFeesClient(), CommissionFeesClientProps, DraftValues, getInitialFormValues() (+23 more)
 
 ### Community 143 - "Community 143"
 
-Cohesion: 0.06
-Nodes (42): $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $2a41e45df1593e64$export$d39e1813b3bdd0e1(), $2a41e45df1593e64$var$useResize(), $326e436e94273fe1$export$1c4b08e0eca38426(), $3ef42575df84b30b$export$9d1611c77c2fe928(), $458b0a5536c1a7cf$export$40bfa8c7b0832715() (+34 more)
+Cohesion: 0.09
+Nodes (27): LedgerSectionClient(), LedgerSectionClientProps, useFinanceController(), UseFinanceControllerProps, Finance(), financeDefaultProps, financeKindLabels, financeLedgerEntries (+19 more)
 
 ### Community 144 - "Community 144"
 
 Cohesion: 0.06
-Nodes (42): $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $2a41e45df1593e64$export$d39e1813b3bdd0e1(), $2a41e45df1593e64$var$useResize(), $326e436e94273fe1$export$1c4b08e0eca38426(), $3ef42575df84b30b$export$9d1611c77c2fe928(), $458b0a5536c1a7cf$export$40bfa8c7b0832715() (+34 more)
+Nodes (26): metadata, RootLayout(), { AuthProvider, useAuth }, { client }, { protectedRoute }, useProtectedRoute(), UseProtectedRouteOptions, useProtectedRoute() (+18 more)
 
 ### Community 145 - "Community 145"
 
-Cohesion: 0.05
-Nodes (23): CurrencyInput, CurrencyInputProps, NumberInput, NumberInputProps, Checkbox(), Kbd(), KbdGroup(), Progress() (+15 more)
+Cohesion: 0.08
+Nodes (26): createVoucher(), getVoucher(), getVouchers(), getVoucherStatusCounts(), updateVoucher(), VoucherListItem, col, columns (+18 more)
 
 ### Community 146 - "Community 146"
 
-Cohesion: 0.07
-Nodes (21): CategoryPageController, CandidateProduct, CategoryNode, CategoryPageService, DetailedProduct, ProductReviewAggregate, ReviewStats, SORT_OPTIONS (+13 more)
+Cohesion: 0.08
+Nodes (26): PromotionCard(), PromotionCardProps, PromotionsClient(), PromotionsClientProps, usePromotionsController(), UsePromotionsControllerProps, promotionsPageRows, Promotions() (+18 more)
 
 ### Community 147 - "Community 147"
 
-Cohesion: 0.09
-Nodes (21): CategoryDetail, CategoryNode, createCategory(), deleteCategory(), getCategories(), getCategory(), reorderCategories(), updateCategory() (+13 more)
+Cohesion: 0.05
+Nodes (27): Default, meta, Story, WithCustomContent, cn(), DataTable(), DataTableDataRow(), formatStatusLabel() (+19 more)
 
 ### Community 148 - "Community 148"
 
 Cohesion: 0.08
-Nodes (22): createVoucher(), getVoucher(), getVouchers(), getVoucherStatusCounts(), updateVoucher(), VoucherListItem, col, columns (+14 more)
+Nodes (25): BannerListItem, createBanner(), deleteBanner(), getBanner(), getBanners(), updateBanner(), BannersPageClient(), BannersPage() (+17 more)
 
 ### Community 149 - "Community 149"
 
-Cohesion: 0.05
-Nodes (40): \_assertThisInitialized2(), canUseDOM(), \_check_private_redeclaration(), \_class_apply_descriptor_get(), \_class_apply_descriptor_set(), \_class_extract_field_descriptor(), \_class_private_field_get(), \_class_private_field_init() (+32 more)
+Cohesion: 0.06
+Nodes (42): $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $2a41e45df1593e64$export$d39e1813b3bdd0e1(), $2a41e45df1593e64$var$useResize(), $326e436e94273fe1$export$1c4b08e0eca38426(), $3ef42575df84b30b$export$9d1611c77c2fe928(), $458b0a5536c1a7cf$export$40bfa8c7b0832715() (+34 more)
 
 ### Community 150 - "Community 150"
 
-Cohesion: 0.08
-Nodes (23): AdminProfile, getAdminProfile(), loginAdmin(), LoginBody, LoginResponse, logoutAdmin(), LogoutResponse, ProfileResponse (+15 more)
+Cohesion: 0.06
+Nodes (42): $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $2a41e45df1593e64$export$d39e1813b3bdd0e1(), $2a41e45df1593e64$var$useResize(), $326e436e94273fe1$export$1c4b08e0eca38426(), $3ef42575df84b30b$export$9d1611c77c2fe928(), $458b0a5536c1a7cf$export$40bfa8c7b0832715() (+34 more)
 
 ### Community 151 - "Community 151"
 
-Cohesion: 0.08
-Nodes (19): DetailCard(), SellerKycDetailClient(), getStatusTone(), useSellerKycDetailController(), sellerKycDetailDefaultProps, formatStatusLabel(), getStatusTone(), SellerKycDetail() (+11 more)
+Cohesion: 0.05
+Nodes (23): CurrencyInput, CurrencyInputProps, NumberInput, NumberInputProps, Checkbox(), Kbd(), KbdGroup(), Progress() (+15 more)
 
 ### Community 152 - "Community 152"
 
-Cohesion: 0.08
-Nodes (22): VouchersClient(), VouchersClientProps, vouchersPageRows, Default, Story, VoucherRow, VouchersProps, VoucherStatus (+14 more)
+Cohesion: 0.09
+Nodes (26): ProductApprovalClient(), buildProductApprovalColumns(), productApprovalBadgeTones, ProductApprovalDetailSheet(), ProductApprovalDetailSheetFooter(), ProductApprovalModal(), ReasonTags(), areSelectedIdsEqual() (+18 more)
 
 ### Community 153 - "Community 153"
 
-Cohesion: 0.09
-Nodes (21): toNumberInputValue(), VoucherDetailClient(), VoucherDetailClientProps, VoucherFormSectionProps, VoucherLimitsSection(), VoucherPreview(), VoucherPricingSection(), formatDateLabel() (+13 more)
+Cohesion: 0.06
+Nodes (10): CreateCampaignDto, CreateExperimentDto, CreateFeatureFlagDto, CreateReferralProgramDto, CreateCampaignDto, CreateExperimentDto, CreateFeatureFlagDto, CreateReferralProgramDto (+2 more)
 
 ### Community 154 - "Community 154"
 
-Cohesion: 0.06
-Nodes (8): CreateEventSubscriptionDto, EmitEventDto, EventStreamingController, CreateEventSubscriptionDto, EmitEventDto, EventStreamingController, EventStreamingService, EventStreamingService
+Cohesion: 0.1
+Nodes (11): MarkAllNotificationsReadDto, MarkNotificationReadDto, NotificationQueryDto, NotificationResponseDto, NotificationUnreadCountDto, ProfileDto, UpdateProfileDto, NotificationsService (+3 more)
 
 ### Community 155 - "Community 155"
 
 Cohesion: 0.09
-Nodes (38): \_0(), c0(), di(), dr(), Ga(), Gu(), H0(), Hc() (+30 more)
+Nodes (21): CategoryDetail, CategoryNode, createCategory(), deleteCategory(), getCategories(), getCategory(), reorderCategories(), updateCategory() (+13 more)
 
 ### Community 156 - "Community 156"
 
-Cohesion: 0.09
-Nodes (38): \_0(), c0(), di(), dr(), Ga(), Gu(), H0(), Hc() (+30 more)
+Cohesion: 0.07
+Nodes (13): CategoriesController, CategoriesService, CategoriesController, CategoryQueryDto, CategoryResponseDto, CreateCategoryDto, ReorderDto, UpdateCategoryDto (+5 more)
 
 ### Community 157 - "Community 157"
 
-Cohesion: 0.19
-Nodes (38): atcharset, atcontainer(), atcustommedia(), atdocument(), atfontface(), athost(), atimport, atkeyframes() (+30 more)
+Cohesion: 0.05
+Nodes (40): \_assertThisInitialized2(), canUseDOM(), \_check_private_redeclaration(), \_class_apply_descriptor_get(), \_class_apply_descriptor_set(), \_class_extract_field_descriptor(), \_class_private_field_get(), \_class_private_field_init() (+32 more)
 
 ### Community 158 - "Community 158"
 
 Cohesion: 0.08
-Nodes (27): RevenueCard(), RevenueCardProps, CampaignTone, DisputeTone, getCampaignToneClassName(), getDisputeToneClassNames(), Dashboard(), AuditEventsCard() (+19 more)
+Nodes (19): DetailCard(), SellerKycDetailClient(), getStatusTone(), useSellerKycDetailController(), sellerKycDetailDefaultProps, formatStatusLabel(), getStatusTone(), SellerKycDetail() (+11 more)
 
 ### Community 159 - "Community 159"
 
-Cohesion: 0.07
-Nodes (28): AddButton(), MediaUploadActionsContext, MediaUploadActionsContextValue, MediaUploadItemsContext, MediaUploadItemsContextValue, useMediaUploadActions(), useMediaUploadItems(), Item() (+20 more)
+Cohesion: 0.11
+Nodes (28): Campaigns(), CampaignsClient(), CampaignsClientProps, StatusDot(), StatusLabel(), VouchersClient(), VouchersClientProps, CAMPAIGN_STATUS_DOT_CLASS (+20 more)
 
 ### Community 160 - "Community 160"
 
-Cohesion: 0.06
-Nodes (16): AllVariants, Default, meta, Story, AsProp, PolymorphicComponentProps, PolymorphicPropsWithChildren, PropsToOmit (+8 more)
+Cohesion: 0.09
+Nodes (32): AppModule, getAdminPort(), getAdminThrottleConfig(), getCorsOrigins(), getDefaultThrottleConfig(), getRedisConfig(), getSellerPort(), getSmtpConfig() (+24 more)
 
 ### Community 161 - "Community 161"
 
 Cohesion: 0.08
-Nodes (37): allowsNameFromContent2(), arrayFrom2(), asFlatString2(), computeAccessibleName2(), computeTextAlternative2(), findLabelableElement2(), getControlOfLabel2(), getLabels2() (+29 more)
+Nodes (9): AutomationController, AutomationService, AutomationController, CreateAutomationRuleDto, UpdateAutomationRuleDto, AutomationQueryDto, CreateAutomationRuleDto, UpdateAutomationRuleDto (+1 more)
 
 ### Community 162 - "Community 162"
 
-Cohesion: 0.1
-Nodes (21): SupportClient(), SupportClientProps, SUPPORT_ALL_STATUSES, SUPPORT_STATUS_BADGE_CLASSES, SUPPORT_STATUS_DOT_CLASSES, SUPPORT_STATUS_LABELS, SupportControllerProps, useSupportController() (+13 more)
+Cohesion: 0.12
+Nodes (13): CheckoutController, CheckoutModule, CheckoutService, toPaymentMethodInput(), CheckoutSessionDto, ConfirmCheckoutDto, ConfirmCheckoutResponseDto, DistributionLogDto (+5 more)
 
 ### Community 163 - "Community 163"
 
-Cohesion: 0.1
-Nodes (20): SellersKycClient(), buildSellersKycColumns(), buildSellerKycStatusCounts(), filterSellerKycItems(), formatSellerKycGmv(), useSellersKycController(), sellersKycDefaultProps, SellersKyc() (+12 more)
+Cohesion: 0.08
+Nodes (28): Dashboard(), RevenueCard(), RevenueCardProps, CampaignTone, DisputeTone, getCampaignToneClassName(), getDisputeToneClassNames(), Dashboard() (+20 more)
 
 ### Community 164 - "Community 164"
 
-Cohesion: 0.21
-Nodes (36): atcontainer(), atcustommedia(), atdocument(), atfontface(), athost(), atkeyframes(), atlayer(), atmedia() (+28 more)
+Cohesion: 0.09
+Nodes (21): toNumberInputValue(), VoucherDetailClient(), VoucherDetailClientProps, VoucherFormSectionProps, VoucherLimitsSection(), VoucherPreview(), VoucherPricingSection(), formatDateLabel() (+13 more)
 
 ### Community 165 - "Community 165"
 
-Cohesion: 0.07
-Nodes (35): $337b884510726a0d$export$c6fdb837b070b4ff(), $64fa3d84918910a7$export$2881499e37b75b9a(), $96b38030c423d352$export$78efe591171d7d45(), $96b38030c423d352$export$9fc1347d4195ccb3(), AllLineNumbers(), $b5e257d569688ac6$export$535bd6ca7f90a273(), $b5e257d569688ac6$var$useModernSSRSafeId(), BrowserRouter() (+27 more)
+Cohesion: 0.08
+Nodes (22): VouchersClient(), VouchersClientProps, vouchersPageRows, Default, Story, VoucherRow, VouchersProps, VoucherStatus (+14 more)
 
 ### Community 166 - "Community 166"
 
-Cohesion: 0.1
-Nodes (27): Analytics(), AnalyticsPageActions(), OrdersByDaySection(), RevenueTrendSection(), TrafficSourcesSection(), analyticsConversionFunnel, analyticsDateRangeOptions, analyticsMetrics (+19 more)
+Cohesion: 0.06
+Nodes (16): AllVariants, Default, meta, Story, AsProp, PolymorphicComponentProps, PolymorphicPropsWithChildren, PropsToOmit (+8 more)
 
 ### Community 167 - "Community 167"
 
 Cohesion: 0.07
-Nodes (23): Field(), FieldContent(), FieldDescription(), FieldError(), FieldGroup(), FieldLabel(), FieldLegend(), FieldSeparator() (+15 more)
+Nodes (28): AddButton(), MediaUploadActionsContext, MediaUploadActionsContextValue, MediaUploadItemsContext, MediaUploadItemsContextValue, useMediaUploadActions(), useMediaUploadItems(), Item() (+20 more)
 
 ### Community 168 - "Community 168"
 
 Cohesion: 0.1
-Nodes (20): RolesPermissionsClient(), RolesPermissionsClientProps, RolesPermissionsControllerProps, useRolesPermissionsController(), ALL_PERMISSION_ROWS, ALL_PERMISSIONS, FINANCE_PERMISSIONS, FIXTURE_ROLES (+12 more)
+Nodes (21): SupportClient(), SupportClientProps, SUPPORT_ALL_STATUSES, SUPPORT_STATUS_BADGE_CLASSES, SUPPORT_STATUS_DOT_CLASSES, SUPPORT_STATUS_LABELS, SupportControllerProps, useSupportController() (+13 more)
 
 ### Community 169 - "Community 169"
 
-Cohesion: 0.09
-Nodes (18): createNotification(), createTemplate(), getNotifications(), getTemplates(), NotificationListItem, NotificationTemplate, sendNotification(), col (+10 more)
+Cohesion: 0.11
+Nodes (25): approveReview(), getReviews(), getReviewStatusCounts(), hideReview(), rejectReview(), ReviewListItem, col, columns (+17 more)
 
 ### Community 170 - "Community 170"
 
-Cohesion: 0.1
-Nodes (35): $0175d55c2a017ebc$export$fdf4756d5b8ef90a(), $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $34bce698202e07cb$export$fae0121b5afe572d(), $3ef42575df84b30b$export$9d1611c77c2fe928(), $453cc9f0df89c0a5$export$77d5aafae4e095b2(), $46d819fcbaf35654$export$8f71654801c2f7cd(), $49c51c25361d4cd2$var$preventScrollStandard(), $49c51c25361d4cd2$var$setStyle() (+27 more)
+Cohesion: 0.07
+Nodes (18): findWorkspaceEnvPath(), loadDatabaseEnv(), DatabaseModule, findWorkspaceEnvPath(), loadDatabaseEnv(), adminRoles, superAdminPermissions, buyers (+10 more)
 
 ### Community 171 - "Community 171"
 
-Cohesion: 0.08
-Nodes (34): merge(), addLandmark(), arrow(), checkLabels(), closestLandmark(), createLandmarkController(), f6Handler(), filter (+26 more)
+Cohesion: 0.1
+Nodes (20): SellersKycClient(), buildSellersKycColumns(), buildSellerKycStatusCounts(), filterSellerKycItems(), formatSellerKycGmv(), useSellersKycController(), sellersKycDefaultProps, SellersKyc() (+12 more)
 
 ### Community 172 - "Community 172"
 
-Cohesion: 0.07
-Nodes (14): ChatMessage, Conversation, ConversationsResponse, MessagesResponse, ChatMessage, Conversation, ConversationsResponse, MessagesResponse (+6 more)
+Cohesion: 0.21
+Nodes (36): atcontainer(), atcustommedia(), atdocument(), atfontface(), athost(), atkeyframes(), atlayer(), atmedia() (+28 more)
 
 ### Community 173 - "Community 173"
 
-Cohesion: 0.09
-Nodes (13): ForgotPasswordResponse, api, LoginResponse, CreateCouponResponse, CreateProductPayload, CreateProductResponse, CreateWarehouseResponse, handleSubmit() (+5 more)
+Cohesion: 0.1
+Nodes (27): Analytics(), AnalyticsPageActions(), OrdersByDaySection(), RevenueTrendSection(), TrafficSourcesSection(), analyticsConversionFunnel, analyticsDateRangeOptions, analyticsMetrics (+19 more)
 
 ### Community 174 - "Community 174"
 
 Cohesion: 0.09
-Nodes (19): BannerListItem, createBanner(), deleteBanner(), getBanner(), getBanners(), updateBanner(), BannersPage(), col (+11 more)
+Nodes (34): allowsNameFromContent2(), arrayFrom2(), computeAccessibleName2(), findLabelableElement2(), getControlOfLabel2(), getLabels2(), getLocalName2(), getSlotContents2() (+26 more)
 
 ### Community 175 - "Community 175"
 
-Cohesion: 0.07
-Nodes (9): AffiliateController, AffiliateController, CreateAffiliateLinkDto, RequestPayoutDto, UpdateAffiliateStatusDto, AffiliateService, CreateAffiliateLinkDto, RequestPayoutDto (+1 more)
+Cohesion: 0.09
+Nodes (34): allowsNameFromContent2(), arrayFrom2(), computeAccessibleName2(), findLabelableElement2(), getControlOfLabel2(), getLabels2(), getLocalName2(), getSlotContents2() (+26 more)
 
 ### Community 176 - "Community 176"
 
-Cohesion: 0.09
-Nodes (33): allowsNameFromContent2(), arrayFrom2(), findLabelableElement2(), getControlOfLabel2(), getLabels2(), getLocalName2(), getSlotContents2(), getValueOfTextbox2() (+25 more)
+Cohesion: 0.1
+Nodes (20): RolesPermissionsClient(), RolesPermissionsClientProps, RolesPermissionsControllerProps, useRolesPermissionsController(), ALL_PERMISSION_ROWS, ALL_PERMISSIONS, FINANCE_PERMISSIONS, FIXTURE_ROLES (+12 more)
 
 ### Community 177 - "Community 177"
+
+Cohesion: 0.15
+Nodes (15): CategoryDto, FeaturedSectionDto, FlashSaleDto, FlashSaleProductDto, HomepageDto, PlatformVoucherDto, ProductCardDto, ShopSummaryDto (+7 more)
+
+### Community 178 - "Community 178"
 
 Cohesion: 0.1
 Nodes (22): InventoryClient(), InventoryClientProps, inventoryPageRows, Inventory(), Default, Empty, Story, InventoryFilterParams (+14 more)
 
-### Community 178 - "Community 178"
-
-Cohesion: 0.08
-Nodes (8): DashboardLayout(), NAV_ITEMS, Sidebar(), DashboardLayout(), useProtectedRoute(), UseProtectedRouteOptions, { AuthProvider, useAuth }, useProtectedRoute()
-
 ### Community 179 - "Community 179"
 
-Cohesion: 0.1
-Nodes (20): approveReview(), getReviews(), getReviewStatusCounts(), hideReview(), rejectReview(), ReviewListItem, col, columns (+12 more)
+Cohesion: 0.08
+Nodes (24): buildMessage(), buildNewCategory(), buildUniqueSlug(), CategoryValidationMessages, collectDescendantIds(), createTempId(), filterCategoryTree(), flattenVisibleTree() (+16 more)
 
 ### Community 180 - "Community 180"
 
-Cohesion: 0.07
-Nodes (6): ApprovalController, ApprovalService, ApprovalController, ApprovalQueryDto, ApprovalService, ApprovalQueryDto
+Cohesion: 0.08
+Nodes (17): ApiCreatedResponseData(), ApiOkResponseData(), isModelArray(), isSwaggerClass(), ApiCreatedResponseData(), ApiOkResponseData(), isModelArray(), isSwaggerClass() (+9 more)
 
 ### Community 181 - "Community 181"
 
-Cohesion: 0.07
-Nodes (7): ChatController, ChatGateway, ChatService, ConversationQueryDto, MessageQueryDto, ConversationQueryDto, MessageQueryDto
+Cohesion: 0.12
+Nodes (10): ChannelRouterService, dedupeChannels(), EmailChannel, TEMPLATE_PATH, InAppChannel, PushChannel, ChannelDeliveryResult, NotificationDeliveryPayload (+2 more)
 
 ### Community 182 - "Community 182"
 
-Cohesion: 0.1
-Nodes (32): \_extends3(), getInvalidPathError(), getPathContributingMatches(), invariant2(), navigate, navigateTo(), parsePath3(), resolvePath() (+24 more)
+Cohesion: 0.07
+Nodes (14): ChatMessage, Conversation, ConversationsResponse, MessagesResponse, ChatMessage, Conversation, ConversationsResponse, MessagesResponse (+6 more)
 
 ### Community 183 - "Community 183"
 
-Cohesion: 0.13
-Nodes (20): UsersClient(), UsersClientProps, buildUserColumns(), buildUserStatusCounts(), matchesJoinedRange(), USERS_STATUS_TAB_ORDER, UsersControllerProps, UsersState (+12 more)
+Cohesion: 0.09
+Nodes (12): AdsController, UpdateAdCampaignStatusDto, AdsService, UpdateAdCampaignStatusDto, AdKeywordDto, CreateAdCampaignDto, CreateAdDto, CreateAdGroupDto (+4 more)
 
 ### Community 184 - "Community 184"
 
 Cohesion: 0.08
-Nodes (11): CreateLoyaltyTierDto, CreateMissionDto, RedeemPointsDto, LoyaltyController, CreateLoyaltyTierDto, CreateMissionDto, RedeemPointsDto, LoyaltyController (+3 more)
+Nodes (8): CreateEventSubscriptionDto, EmitEventDto, EventStreamingController, CreateEventSubscriptionDto, EmitEventDto, EventStreamingController, EventStreamingService, EventStreamingModule
 
 ### Community 185 - "Community 185"
 
-Cohesion: 0.07
-Nodes (8): CreateCurrencyDto, CreateRegionDto, CreateTranslationDto, CreateCurrencyDto, CreateRegionDto, CreateTranslationDto, I18nController, I18nService
+Cohesion: 0.08
+Nodes (9): UserActionDto, UserQueryDto, UserResponseDto, UserActionDto, UserQueryDto, UserResponseDto, UsersController, UsersController (+1 more)
 
 ### Community 186 - "Community 186"
 
 Cohesion: 0.08
-Nodes (31): Bb(), Dg(), Du(), eo(), Fg(), Fu(), gg(), hd() (+23 more)
+Nodes (32): merge(), addLandmark(), checkLabels(), closestLandmark(), createLandmarkController(), f6Handler(), filter, filterTabs() (+24 more)
 
 ### Community 187 - "Community 187"
 
-Cohesion: 0.14
-Nodes (31): $7135fc7d473fd974$export$2dbbd341daed716d(), $76f919a04c5a7d14$var$findDefaultSelectedKey(), $c5a24bc478652b5f$export$8c434b3a7a4dad6(), $c5a24bc478652b5f$var$getAncestors(), findKey(), findNextNonDisabled(), firstSelectedKey(), getContentSize() (+23 more)
+Cohesion: 0.13
+Nodes (20): UsersClient(), UsersClientProps, buildUserColumns(), buildUserStatusCounts(), matchesJoinedRange(), USERS_STATUS_TAB_ORDER, UsersControllerProps, UsersState (+12 more)
 
 ### Community 188 - "Community 188"
 
-Cohesion: 0.07
-Nodes (5): RedisModule, RedisService, RedisModule, RedisService, RedisModuleOptions
+Cohesion: 0.11
+Nodes (24): ChangeAssigneeResponse, ChangeStatusResponse, changeSupportTicketAssignee(), changeSupportTicketStatus(), getSupportMessages(), getSupportTickets(), SendReplyResponse, sendSupportReply() (+16 more)
 
 ### Community 189 - "Community 189"
 
-Cohesion: 0.08
-Nodes (7): BulkController, BulkService, BulkController, BulkJobProcessor, BulkJobQueryDto, BulkJobQueryDto, BulkJobProcessor
+Cohesion: 0.11
+Nodes (8): CouponController, CouponService, CouponQueryDto, CreateCouponDto, CouponQueryDto, CreateCouponDto, UpdateCouponDto, UpdateCouponDto
 
 ### Community 190 - "Community 190"
 
 Cohesion: 0.08
-Nodes (8): AdvancedSearchController, AdvancedSearchService, AdvancedSearchController, AdvancedSearchService, SearchProductsDto, SearchSuggestionsDto, SearchProductsDto, SearchSuggestionsDto
+Nodes (31): Bb(), Dg(), Du(), eo(), Fg(), Fu(), gg(), hd() (+23 more)
 
 ### Community 191 - "Community 191"
 
 Cohesion: 0.07
-Nodes (6): NotificationQueryDto, NotificationController, NotificationController, NotificationService, NotificationQueryDto, NotificationService
+Nodes (31): \_createClass(), \_defineProperties(), \_defineProperty2(), \_assertThisInitialized2(), canUseDOM(), \_classCallCheck(), componentDidCatch(), \_createClass() (+23 more)
 
 ### Community 192 - "Community 192"
+
+Cohesion: 0.07
+Nodes (5): RedisModule, RedisService, RedisModule, RedisService, RedisModuleOptions
+
+### Community 193 - "Community 193"
+
+Cohesion: 0.09
+Nodes (23): getRoles(), getString(), AuthProviderProps, AuthRefs, createAuthClient(), defaultParseUser(), getLoginErrorMessage(), getRoles() (+15 more)
+
+### Community 194 - "Community 194"
+
+Cohesion: 0.11
+Nodes (21): getConversationCardClassName(), DisputeDetail(), disputeDetailDefaultProps, refundDetailDefaultProps, RefundDetail(), AuditTrailCard(), ConversationCard(), ConversationEvidenceCard() (+13 more)
+
+### Community 195 - "Community 195"
+
+Cohesion: 0.14
+Nodes (16): NotificationsClient(), NotificationsClientProps, notificationsDefaultProps, Notifications(), AllRead, Default, Empty, Loading (+8 more)
+
+### Community 196 - "Community 196"
+
+Cohesion: 0.14
+Nodes (20): CategoryPageController, CategoryPageModule, CandidateProduct, CategoryNode, DetailedProduct, ProductReviewAggregate, ReviewStats, SORT_OPTIONS (+12 more)
+
+### Community 197 - "Community 197"
+
+Cohesion: 0.13
+Nodes (20): AdminConsoleLayoutProps, ConsoleLayout, ConsoleLayoutBase(), ConsoleLayoutComponent, sidebarGroups, Root, Default, FullyCompound (+12 more)
+
+### Community 198 - "Community 198"
 
 Cohesion: 0.12
 Nodes (17): getInitials(), IdentitySection(), LivePreview(), ShopProfileClient(), ShopProfileClientProps, ShopProfileControllerProps, useShopProfileController(), shopProfileCountryOptions (+9 more)
 
-### Community 193 - "Community 193"
+### Community 199 - "Community 199"
 
 Cohesion: 0.08
 Nodes (12): AppError, BusinessRuleError, AppError, BusinessRuleError, ExternalServiceError, NotFoundError, PermissionError, ValidationError (+4 more)
 
-### Community 194 - "Community 194"
-
-Cohesion: 0.12
-Nodes (16): Dashboard(), ActivityItem, DashboardProps, LowStockItem, Metric, PendingOrder, PromotionItem, TodoItem (+8 more)
-
-### Community 195 - "Community 195"
-
-Cohesion: 0.13
-Nodes (15): AuditLog(), AuditLogClient(), AuditLogClientProps, buildAuditLogColumns(), AUDIT_LOG_REFERENCE_DATE, useAuditLogController(), auditLogDefaultProps, Default (+7 more)
-
-### Community 196 - "Community 196"
-
-Cohesion: 0.1
-Nodes (8): AutomationController, AutomationService, CreateAutomationRuleDto, UpdateAutomationRuleDto, AutomationQueryDto, CreateAutomationRuleDto, UpdateAutomationRuleDto, AutomationQueryDto
-
-### Community 197 - "Community 197"
-
-Cohesion: 0.12
-Nodes (28): arrow(), computeAutoPlacement(), computeOffsets(), computeStyles(), distanceAndSkiddingToXY(), ensurePanel(), findClosingParenthese(), flip() (+20 more)
-
-### Community 198 - "Community 198"
-
-Cohesion: 0.11
-Nodes (28): $0065b146e7192841$export$7138b0d059a6e743(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $204d9ebcedfb8806$export$ed5abd763a836edc(), $2a41e45df1593e64$export$d39e1813b3bdd0e1(), $2a41e45df1593e64$var$useResize(), $313b98861ee5dd6c$export$d6875122194c7b44(), $325a3faab7a68acd$export$a16aca283550c30d() (+20 more)
-
-### Community 199 - "Community 199"
-
-Cohesion: 0.09
-Nodes (28): fn(), createDefaultFormatters(), createFastMemoizeCache(), formatToParts(), IntlMessageFormat2(), isArgumentElement(), isDateElement(), isDateTimeSkeleton() (+20 more)
-
 ### Community 200 - "Community 200"
 
-Cohesion: 0.09
-Nodes (11): findWorkspaceEnvPath(), loadDatabaseEnv(), DatabaseModule, findWorkspaceEnvPath(), loadDatabaseEnv(), adminRoles, superAdminPermissions, PrismaService (+3 more)
+Cohesion: 0.08
+Nodes (29): $, an(), cy(), es(), Ha(), Hy(), jy(), Kr() (+21 more)
 
 ### Community 201 - "Community 201"
 
 Cohesion: 0.08
-Nodes (13): Approval, ApprovalsResponse, BulkJob, BulkJobsResponse, STATUS_COLORS, StatusBadge(), StatusBadgeProps, ReturnRequest (+5 more)
+Nodes (29): $(), an(), cy(), es(), Ha(), Hy(), jy(), Kr() (+21 more)
 
 ### Community 202 - "Community 202"
 
-Cohesion: 0.12
-Nodes (13): CategoryDto, FeaturedSectionDto, FlashSaleDto, FlashSaleProductDto, HomepageDto, PlatformVoucherDto, ProductCardDto, ShopSummaryDto (+5 more)
+Cohesion: 0.17
+Nodes (14): getErrorMessage(), ResetPasswordClient(), ResetPasswordClientProps, ResetPasswordFormProps, ResetPasswordStatus(), ResetPasswordStatusProps, resetPasswordDefaultProps, resetPasswordSubmitFallback() (+6 more)
 
 ### Community 203 - "Community 203"
 
-Cohesion: 0.09
-Nodes (12): DashboardController, DashboardController, DashboardModule, DashboardService, AnalyticsQueryDto, DashboardAnalyticsDto, DashboardMetricsDto, DashboardModule (+4 more)
+Cohesion: 0.08
+Nodes (16): DatePicker(), DateRangePicker(), DatePickerProps, DateRangePickerProps, DateRangeValue, Button(), ButtonProps, buttonVariants (+8 more)
 
 ### Community 204 - "Community 204"
 
-Cohesion: 0.06
-Nodes (4): AiToolsController, AnalyticsController, SearchController, ShippingController
+Cohesion: 0.13
+Nodes (15): AuditLog(), AuditLogClient(), AuditLogClientProps, buildAuditLogColumns(), AUDIT_LOG_REFERENCE_DATE, useAuditLogController(), auditLogDefaultProps, Default (+7 more)
 
 ### Community 205 - "Community 205"
 
-Cohesion: 0.12
-Nodes (16): BasicInfoSection(), ProductDetailClientProps, ProductDetailContent(), ProductMediaSection(), PRODUCT_DETAIL_ACTION_LABELS, useProductEditorBasicInfo(), useProductEditorContext(), useProductEditorForm() (+8 more)
+Cohesion: 0.09
+Nodes (11): AuditLogInterceptor, AuditLogQueryDto, AuditLogResponseDto, AuditLogService, AuditLogsController, AuditLogsController, AuditLogMetadata, AuditLogQueryDto (+3 more)
 
 ### Community 206 - "Community 206"
 
-Cohesion: 0.14
-Nodes (16): Campaigns(), CampaignsClient(), CampaignsClientProps, StatusDot(), StatusLabel(), CAMPAIGN_STATUS_DOT_CLASS, CAMPAIGN_STATUS_LABEL_CLASS, CAMPAIGN_STATUS_TEXT (+8 more)
+Cohesion: 0.08
+Nodes (28): $3ad3f6e1647bc98d$export$80f3e147d781571c(), $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $507fabe10e71c6fb$export$630ff653c5ada6a9(), $55f9b1ae81f22853$export$2b35b76d2e30e129(), $55f9b1ae81f22853$export$6c5dc7e81d2cc29a(), $55f9b1ae81f22853$export$759df0d867455a91(), $55f9b1ae81f22853$export$76e4e37e5339496d() (+20 more)
 
 ### Community 207 - "Community 207"
 
-Cohesion: 0.15
-Nodes (17): ProductListItem, col, columns, ProductsPage(), ProductStatusFilter, STATUS_TABS, useProductApprovalAdapter(), useBulkApproveProducts() (+9 more)
+Cohesion: 0.08
+Nodes (28): $3ad3f6e1647bc98d$export$80f3e147d781571c(), $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $507fabe10e71c6fb$export$630ff653c5ada6a9(), $55f9b1ae81f22853$export$2b35b76d2e30e129(), $55f9b1ae81f22853$export$6c5dc7e81d2cc29a(), $55f9b1ae81f22853$export$759df0d867455a91(), $55f9b1ae81f22853$export$76e4e37e5339496d() (+20 more)
 
 ### Community 208 - "Community 208"
 
 Cohesion: 0.12
-Nodes (12): DashboardAnalytics, DashboardMetrics, getDashboardAnalytics(), getDashboardMetrics(), Home(), DashboardPage(), DashboardPageClient(), useDashboardAdapter() (+4 more)
+Nodes (16): ShippingClient(), Shipping(), Default, Empty, meta, Story, ShippingProps, ShippingProviderRow (+8 more)
 
 ### Community 209 - "Community 209"
 
-Cohesion: 0.11
-Nodes (7): isSessionData(), SessionService, isSessionData(), SessionData, SessionService, SessionServiceOptions, AuthPrismaClient
+Cohesion: 0.12
+Nodes (15): ActivityItem, DashboardProps, LowStockItem, Metric, PendingOrder, PromotionItem, TodoItem, TodoTone (+7 more)
 
 ### Community 210 - "Community 210"
 
-Cohesion: 0.14
-Nodes (26): $0175d55c2a017ebc$export$fdf4756d5b8ef90a(), $03deb23ff14920c4$export$4eaf04e54aa8eed6(), $34bce698202e07cb$export$fae0121b5afe572d(), $3ef42575df84b30b$export$9d1611c77c2fe928(), $46d819fcbaf35654$export$8f71654801c2f7cd(), $49c51c25361d4cd2$var$preventScrollStandard(), $49c51c25361d4cd2$var$setStyle(), $4e1b34546679e357$export$a6da6c504e4bba8b() (+18 more)
+Cohesion: 0.12
+Nodes (13): DashboardAnalytics, DashboardAnalyticsResponse, DashboardMetrics, DashboardMetricsResponse, getDashboardAnalytics(), getDashboardMetrics(), DashboardPage(), DashboardPageClient() (+5 more)
 
 ### Community 211 - "Community 211"
 
-Cohesion: 0.1
-Nodes (25): createDefaultFormatters(), createFastMemoizeCache(), formatToParts(), IntlMessageFormat2(), isArgumentElement(), isDateElement(), isDateTimeSkeleton(), isFormatXMLElementFn() (+17 more)
+Cohesion: 0.12
+Nodes (16): BasicInfoSection(), ProductDetailClientProps, ProductDetailContent(), ProductMediaSection(), PRODUCT_DETAIL_ACTION_LABELS, useProductEditorBasicInfo(), useProductEditorContext(), useProductEditorForm() (+8 more)
 
 ### Community 212 - "Community 212"
 
 Cohesion: 0.11
-Nodes (11): useIsMobile(), ReviewSheet(), ReviewSheetProps, Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHeader() (+3 more)
+Nodes (7): isSessionData(), SessionService, isSessionData(), SessionData, SessionService, SessionServiceOptions, AuthPrismaClient
 
 ### Community 213 - "Community 213"
 
 Cohesion: 0.09
-Nodes (8): PageHeader(), PageHeaderProps, InventoryItem, InventoryResponse, CurrentMetrics, MetricSnapshot, Notification, NotificationsResponse
+Nodes (15): ApiError, API_PORTS, ApiError, ApiOptions, ApiParams, ApiParamsInput, createApiClient(), createWebApiClient() (+7 more)
 
 ### Community 214 - "Community 214"
+
+Cohesion: 0.1
+Nodes (26): handleEvent(), createDefaultFormatters(), createFastMemoizeCache(), formatToParts(), IntlMessageFormat2(), isArgumentElement(), isDateElement(), isDateTimeSkeleton() (+18 more)
+
+### Community 215 - "Community 215"
+
+Cohesion: 0.1
+Nodes (19): ResolutionPanelClient(), DISPUTE_CONVERSATION_CARD_CLASS_NAMES, DISPUTE_RESOLUTION_CHECKED_CLASS_NAME, DISPUTE_RESOLUTION_UNCHECKED_CLASS_NAME, REFUND_CONVERSATION_CARD_CLASS_NAMES, REFUND_RESOLUTION_CHECKED_CLASS_NAME, REFUND_RESOLUTION_UNCHECKED_CLASS_NAME, DisputeDetailControllerProps (+11 more)
+
+### Community 216 - "Community 216"
+
+Cohesion: 0.12
+Nodes (14): buyerColumn, dateColumn, itemsColumn, orderColumn, ordersColumns, selectColumn, statusColumn, totalColumn (+6 more)
+
+### Community 217 - "Community 217"
+
+Cohesion: 0.12
+Nodes (13): DashboardController, DashboardController, DashboardService, AnalyticsQueryDto, DashboardAnalyticsDto, DashboardMetricsDto, AnalyticsQueryDto, DashboardAnalyticsDto (+5 more)
+
+### Community 218 - "Community 218"
+
+Cohesion: 0.17
+Nodes (8): ChangeAssigneeDto, ChangeStatusDto, SendReplyDto, SupportMessageResponseDto, SupportTicketQueryDto, SupportTicketResponseDto, SupportController, SupportService
+
+### Community 219 - "Community 219"
+
+Cohesion: 0.11
+Nodes (14): ConsoleLayoutProps, ConsoleLayoutSwitcher, ConsoleLayoutUserMenu, ConsoleNotificationButton(), ConsoleNotificationButtonProps, ConsoleSidebarTrigger(), ConsoleStorefrontButton(), ConsoleStorefrontButtonProps (+6 more)
+
+### Community 220 - "Community 220"
 
 Cohesion: 0.18
 Nodes (25): adjustHue(), darken(), desaturate(), \_extends(), guard(), hsl(), hsla(), hslToHex() (+17 more)
 
-### Community 215 - "Community 215"
-
-Cohesion: 0.13
-Nodes (25): $0065b146e7192841$export$7138b0d059a6e743(), $18f2051aff69b9bf$export$43bb16f9c6d9e3f7(), $1e5a04cdaf7d1af8$export$188ec29ebc2bdc3a(), $204d9ebcedfb8806$export$ed5abd763a836edc(), $2a41e45df1593e64$export$d39e1813b3bdd0e1(), $2a41e45df1593e64$var$useResize(), $313b98861ee5dd6c$export$d6875122194c7b44(), $325a3faab7a68acd$export$a16aca283550c30d() (+17 more)
-
-### Community 216 - "Community 216"
-
-Cohesion: 0.19
-Nodes (24): adjustHue(), darken(), desaturate(), \_extends(), guard(), hsl(), hsla(), hslToHex() (+16 more)
-
-### Community 217 - "Community 217"
-
-Cohesion: 0.09
-Nodes (24): \_createClass(), \_defineProperties(), \_assertThisInitialized2(), canUseDOM(), \_classCallCheck(), \_createClass(), \_createSuper(), defineProperties() (+16 more)
-
-### Community 218 - "Community 218"
-
-Cohesion: 0.12
-Nodes (16): cn(), Actions(), ConsoleListPage, ConsoleListPageComponent, Filters(), Header(), SearchField(), StatusTabs() (+8 more)
-
-### Community 219 - "Community 219"
-
-Cohesion: 0.09
-Nodes (5): MetricsController, MetricsController, MetricsService, MetricsSnapshotProcessor, MetricsSnapshotProcessor
-
-### Community 220 - "Community 220"
-
-Cohesion: 0.11
-Nodes (9): ApiCreatedResponseData(), ApiOkResponseData(), isModelArray(), isSwaggerClass(), ApiCreatedResponseData(), ApiOkResponseData(), isModelArray(), isSwaggerClass() (+1 more)
-
 ### Community 221 - "Community 221"
 
-Cohesion: 0.17
-Nodes (14): AdminConsoleLayoutProps, ConsoleLayout, ConsoleLayoutBase(), ConsoleLayoutComponent, SidebarFixtureItem, sidebarGroups, FullyCompound, meta (+6 more)
+Cohesion: 0.1
+Nodes (25): createDefaultFormatters(), createFastMemoizeCache(), formatToParts(), IntlMessageFormat2(), isArgumentElement(), isDateElement(), isDateTimeSkeleton(), isFormatXMLElementFn() (+17 more)
 
 ### Community 222 - "Community 222"
 
 Cohesion: 0.11
-Nodes (22): buildQueries(), createDOMElementFilter(), filterCommentsAndDefaultIgnoreTagsTags(), fireEvent(), getConfig2(), getDefaultNormalizer(), getDocument(), getElementError() (+14 more)
+Nodes (11): useIsMobile(), ReviewSheet(), ReviewSheetProps, Sheet(), SheetContent(), SheetDescription(), SheetFooter(), SheetHeader() (+3 more)
 
 ### Community 223 - "Community 223"
 
-Cohesion: 0.09
-Nodes (9): DropdownMenuCheckboxItem(), DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel(), DropdownMenuRadioItem(), DropdownMenuSeparator(), DropdownMenuShortcut(), DropdownMenuSubContent() (+1 more)
+Cohesion: 0.14
+Nodes (17): CommissionRuleApiItem, CommissionRulesListResponse, createCommissionRule(), CreateCommissionRulePayload, CreateCommissionRuleResponse, getCommissionRules(), updateCommissionRule(), UpdateCommissionRulePayload (+9 more)
 
 ### Community 224 - "Community 224"
 
 Cohesion: 0.09
-Nodes (13): Default, meta, Story, WithCustomContent, Default, meta, Story, Default (+5 more)
+Nodes (5): MetricsController, MetricsService, MetricsService, MetricsSnapshotProcessor, MetricsSnapshotProcessor
 
 ### Community 225 - "Community 225"
 
-Cohesion: 0.12
-Nodes (14): cn(), DataTable(), DataTableDataRow(), formatStatusLabel(), STATUS_STYLES, StatusBadge(), StatusTabs(), TableToolbar() (+6 more)
+Cohesion: 0.21
+Nodes (11): ForgotPasswordClient(), ForgotPasswordClientProps, getErrorMessage(), forgotPasswordDefaultProps, forgotPasswordSubmitFallback(), ForgotPassword(), forgotPasswordSchema, Default (+3 more)
 
 ### Community 226 - "Community 226"
 
-Cohesion: 0.11
-Nodes (10): OrdersListResponse, OrdersPage(), SellerOrder, STATUS_TO_QUERY, fetchOrders(), getHasNextPage(), getHasPreviousPage(), getLimit() (+2 more)
+Cohesion: 0.12
+Nodes (16): cn(), Actions(), ConsoleListPage, ConsoleListPageComponent, Filters(), Header(), SearchField(), StatusTabs() (+8 more)
+
+### Community 227 - "Community 227"
+
+Cohesion: 0.14
+Nodes (17): getSubtree(), StorefrontFooter(), StorefrontAnnouncement(), StorefrontHeader(), StorefrontNavigation(), Content(), storefrontFooterColumns, storefrontNavigation (+9 more)
 
 ### Community 228 - "Community 228"
+
+Cohesion: 0.12
+Nodes (9): buildSwaggerDocument(), SwaggerConfig, CheckoutProcessorModule, generate(), NotificationProcessorModule, OutboxModule, OutboxPoller, AppModule (+1 more)
+
+### Community 229 - "Community 229"
+
+Cohesion: 0.14
+Nodes (16): getRoles(), RoleApiItem, RolePermission, RolesListResponse, updateRolePermissions(), UpdateRolePermissionsResponse, useRolesPermissionsAdapter(), useRoles() (+8 more)
+
+### Community 230 - "Community 230"
+
+Cohesion: 0.17
+Nodes (6): AddressesController, AddressesModule, AddressesService, AddressDto, CreateAddressDto, UpdateAddressDto
+
+### Community 231 - "Community 231"
+
+Cohesion: 0.09
+Nodes (22): Cave commands, Caveman field notes (ecommerce-v2), code:bash (pnpm dev), code:text (docs/ai/rules-engineering.md), code:bash (graphify update .), code:bash (python3 -c "import graphify"), code:bash (/Users/mac/.local/share/uv/tools/graphifyy/bin/python), code:bash (graphify update .) (+14 more)
+
+### Community 232 - "Community 232"
+
+Cohesion: 0.11
+Nodes (23): createDefaultFormatters(), createFastMemoizeCache(), formatRangeToParts(), formatToParts(), IntlMessageFormat2(), isArgumentElement(), isDateElement(), isDateTimeSkeleton() (+15 more)
+
+### Community 233 - "Community 233"
+
+Cohesion: 0.17
+Nodes (15): ProductListItem, col, columns, ProductsPage(), ProductStatusFilter, STATUS_TABS, useProductApprovalAdapter(), useBulkApproveProducts() (+7 more)
+
+### Community 234 - "Community 234"
+
+Cohesion: 0.13
+Nodes (12): getOrder(), getOrders(), getOrderStatusCounts(), OrderActionBody, OrderActionResponse, OrderDetailResponse, OrderListQuery, OrderListResponse (+4 more)
+
+### Community 235 - "Community 235"
+
+Cohesion: 0.2
+Nodes (23): adjustHue(), darken(), desaturate(), \_extends(), guard(), hsl(), hsla(), hslToHex() (+15 more)
+
+### Community 236 - "Community 236"
+
+Cohesion: 0.11
+Nodes (22): buildQueries(), createDOMElementFilter(), filterCommentsAndDefaultIgnoreTagsTags(), fireEvent(), getConfig2(), getDefaultNormalizer(), getDocument(), getElementError() (+14 more)
+
+### Community 237 - "Community 237"
+
+Cohesion: 0.11
+Nodes (22): buildQueries(), createDOMElementFilter(), filterCommentsAndDefaultIgnoreTagsTags(), fireEvent(), getConfig2(), getDefaultNormalizer(), getDocument(), getElementError() (+14 more)
+
+### Community 238 - "Community 238"
+
+Cohesion: 0.1
+Nodes (8): getErrorMessage(), handleSubmit(), getErrorMessage(), LoginClientProps, LoginFormFieldProps, LoginFormProps, createLoginSchema(), loginSchema
+
+### Community 239 - "Community 239"
+
+Cohesion: 0.09
+Nodes (9): DropdownMenuCheckboxItem(), DropdownMenuContent(), DropdownMenuItem(), DropdownMenuLabel(), DropdownMenuRadioItem(), DropdownMenuSeparator(), DropdownMenuShortcut(), DropdownMenuSubContent() (+1 more)
+
+### Community 240 - "Community 240"
+
+Cohesion: 0.15
+Nodes (16): OrdersClient(), OrdersClientProps, ordersDefaultProps, ordersPageRows, Orders(), ControlledFilters, Default, Empty (+8 more)
+
+### Community 242 - "Community 242"
 
 Cohesion: 0.09
 Nodes (21): Boundaries, Checklist for new seller features, code:text (src/), code:tsx (import { Login, ShopProfile } from '@ecom/ui-seller'), code:bash (pnpm --filter @ecom/ui-seller storybook), code:bash (pnpm --filter @ecom/ui-seller build), Current focus, Current structure (+13 more)
 
-### Community 229 - "Community 229"
+### Community 243 - "Community 243"
 
 Cohesion: 0.09
 Nodes (21): Boundaries, Checklist for new admin features, code:text (src/), code:tsx (import { SellerListPage } from '@ecom/ui-admin'), code:bash (pnpm --filter @ecom/ui-admin storybook), code:bash (pnpm --filter @ecom/ui-admin build), Current focus, Current structure (+13 more)
 
-### Community 230 - "Community 230"
+### Community 244 - "Community 244"
 
 Cohesion: 0.09
 Nodes (21): Boundaries, Checklist for new storefront features, code:text (src/), code:tsx (import { FeaturedProducts } from '@ecom/ui-storefront'), code:bash (pnpm --filter @ecom/ui-storefront storybook), code:bash (pnpm --filter @ecom/ui-storefront build), Current focus, Current structure (+13 more)
 
-### Community 231 - "Community 231"
-
-Cohesion: 0.16
-Nodes (12): Root, ConsoleLayoutAccount, ConsoleLayoutProps, ConsoleLayoutSwitcher, ConsoleLayoutUserMenu, getInitials(), ConsoleLayoutProviders(), ConsoleLayoutProvidersProps (+4 more)
-
-### Community 233 - "Community 233"
+### Community 245 - "Community 245"
 
 Cohesion: 0.12
-Nodes (21): Dg(), Du(), eo(), Fg(), Fu(), gg(), ht(), Ig() (+13 more)
+Nodes (21): Dg(), Du(), eo(), Fg(), Fu(), ht(), Ig(), It() (+13 more)
 
-### Community 234 - "Community 234"
+### Community 247 - "Community 247"
 
-Cohesion: 0.14
-Nodes (21): $07b14b47974efb58$var$PopoverInner(), $2680b1829e803644$export$fa142eb1681c5202(), $326e436e94273fe1$export$1c4b08e0eca38426(), $3674c52c6b3c5bce$var$MenuInner(), $3674c52c6b3c5bce$var$MenuSectionInner(), $3e5eb2498db5b506$export$73f7a44322579622(), $4e3b923658d69c60$var$TooltipInner(), $5e8ad37a45e1c704$var$TabListInner() (+13 more)
+Cohesion: 0.1
+Nodes (10): CategoryDetailsCard(), CategoryHierarchyClient(), CategoryHierarchyClientProps, CategorySeoCard(), useCategoryHierarchyController(), CategoryHierarchySavePayload, FlatCategoryItem, ValidationErrors (+2 more)
 
-### Community 235 - "Community 235"
-
-Cohesion: 0.11
-Nodes (8): getRoles(), getString(), AuthContextValue, AuthUser, CreateAuthClientOptions, getRoles(), getString(), ProtectedRouteOptions
-
-### Community 237 - "Community 237"
-
-Cohesion: 0.14
-Nodes (8): EmailServiceBase, EmailModule, EmailService, EmailServiceBase, EmailModule, EmailService, EmailModuleOptions, SendMailOptions
-
-### Community 238 - "Community 238"
-
-Cohesion: 0.14
-Nodes (21): $458b0a5536c1a7cf$export$40bfa8c7b0832715(), $7135fc7d473fd974$export$2dbbd341daed716d(), $7613b1592d41b092$export$6cd28814d92fa9c9(), $76f919a04c5a7d14$export$4ba071daf4e486(), $76f919a04c5a7d14$var$findDefaultSelectedKey(), $7af3f5b51489e0b5$export$253fe78d46329472(), $875d6693e12af071$export$728d6ba534403756(), $a0d645289fe9b86b$export$e7f05e985daf4b5f() (+13 more)
-
-### Community 239 - "Community 239"
-
-Cohesion: 0.14
-Nodes (21): $07b14b47974efb58$var$PopoverInner(), $2680b1829e803644$export$fa142eb1681c5202(), $326e436e94273fe1$export$1c4b08e0eca38426(), $3674c52c6b3c5bce$var$MenuInner(), $3674c52c6b3c5bce$var$MenuSectionInner(), $3e5eb2498db5b506$export$73f7a44322579622(), $4e3b923658d69c60$var$TooltipInner(), $5e8ad37a45e1c704$var$TabListInner() (+13 more)
-
-### Community 240 - "Community 240"
+### Community 248 - "Community 248"
 
 Cohesion: 0.16
 Nodes (12): AllExceptionsFilter, isAppError(), isPrismaKnownError(), isPrismaValidationError(), mapPrismaError(), AllExceptionsFilter, AppErrorLike, isAppError() (+4 more)
 
-### Community 241 - "Community 241"
+### Community 249 - "Community 249"
+
+Cohesion: 0.14
+Nodes (8): EmailServiceBase, EmailModule, EmailService, EmailServiceBase, EmailModule, EmailService, EmailModuleOptions, SendMailOptions
+
+### Community 250 - "Community 250"
+
+Cohesion: 0.18
+Nodes (4): CategoryPageService, createPrismaMock(), prisma, service
+
+### Community 251 - "Community 251"
+
+Cohesion: 0.12
+Nodes (9): OrdersListResponse, SellerOrder, STATUS_TO_QUERY, fetchOrders(), getHasNextPage(), getHasPreviousPage(), getLimit(), getTotal() (+1 more)
+
+### Community 252 - "Community 252"
+
+Cohesion: 0.1
+Nodes (20): AI rules — Contracts and OpenAPI, API response shape, Applies to, code:txt (packages/contracts), code:ts (enum OrderStatus {), code:ts (import { OrderStatus } from '@ecom/contracts'), code:ts (import type { ApiResponse } from '@ecom/contracts'), code:ts (return {) (+12 more)
+
+### Community 253 - "Community 253"
 
 Cohesion: 0.16
-Nodes (20): deepEqual(), entriesEqual(), extensiveDeepEqual(), extensiveDeepEqualByType(), generatorEqual(), getEnumerableKeys(), getEnumerableSymbols(), getGeneratorEntries() (+12 more)
+Nodes (12): SetStateAction, useControllableState(), UseControllableStateOptions, WarehousesClient(), WarehousesClientProps, mockWarehouses, Default, Story (+4 more)
 
-### Community 242 - "Community 242"
+### Community 254 - "Community 254"
 
 Cohesion: 0.12
 Nodes (13): Default, Disabled, meta, Story, productStatusCounts, productStatusTabs, ProductTableRow, productTableRows (+5 more)
 
-### Community 243 - "Community 243"
+### Community 255 - "Community 255"
 
-Cohesion: 0.13
-Nodes (11): Coupon, CouponsListResponse, CouponStats, CouponStatsResponse, fetchData(), fetchProducts(), getItems(), getStats() (+3 more)
+Cohesion: 0.1
+Nodes (19): AI rules — Database, Applies to, code:txt (packages/database), code:txt (packages/database), code:bash (pnpm db:generate), code:ts (await prisma.$transaction(async (tx) => {), code:ts (for (const item of items) {), code:ts (await prisma.product.findMany({) (+11 more)
 
-### Community 244 - "Community 244"
+### Community 256 - "Community 256"
 
 Cohesion: 0.22
 Nodes (19): ah(), bh(), Bt(), Ch(), fh(), gh(), \_h(), he() (+11 more)
 
-### Community 245 - "Community 245"
-
-Cohesion: 0.17
-Nodes (19): deepEqual(), entriesEqual(), extensiveDeepEqual(), extensiveDeepEqualByType(), generatorEqual(), getEnumerableKeys(), getEnumerableSymbols(), getGeneratorEntries() (+11 more)
-
-### Community 246 - "Community 246"
+### Community 257 - "Community 257"
 
 Cohesion: 0.11
 Nodes (6): DrawerContent(), DrawerDescription(), DrawerFooter(), DrawerHeader(), DrawerOverlay(), DrawerTitle()
 
-### Community 247 - "Community 247"
+### Community 258 - "Community 258"
+
+Cohesion: 0.13
+Nodes (11): FormControl(), FormDescription(), FormFieldContext, FormFieldContextValue, FormItem(), FormItemContext, FormItemContextValue, FormLabel() (+3 more)
+
+### Community 259 - "Community 259"
 
 Cohesion: 0.11
 Nodes (8): SelectContent(), SelectGroup(), SelectItem(), SelectLabel(), SelectScrollDownButton(), SelectScrollUpButton(), SelectSeparator(), SelectTrigger()
 
-### Community 248 - "Community 248"
+### Community 260 - "Community 260"
+
+Cohesion: 0.18
+Nodes (11): Chat(), ChatClient(), ChatClientProps, ConversationItemProps, chatDefaultProps, Default, Empty, Story (+3 more)
+
+### Community 261 - "Community 261"
+
+Cohesion: 0.12
+Nodes (12): AdminBroadcastJobPayload, ChatMessageOutboxPayload, defaultJobOptions(), NOTIFICATION_JOBS, NotificationJobName, NotificationJobOptions, NotificationJobPayload, OUTBOX_EVENTS (+4 more)
+
+### Community 262 - "Community 262"
 
 Cohesion: 0.19
 Nodes (8): AuditLog, getAuditLogs(), AuditLogPageClient(), AuditLogsPage(), useAuditLogAdapter(), useAuditLogs(), mapAuditLogToEntry(), toAuditLogResource()
 
-### Community 249 - "Community 249"
+### Community 263 - "Community 263"
+
+Cohesion: 0.2
+Nodes (17): ProductDetailBreadcrumbDto, ProductDetailMediaDto, ProductDetailOptionDto, ProductDetailOptionGroupDto, ProductDetailProductDto, ProductDetailProductStatusFlagsDto, ProductDetailPurchaseOptionsDto, ProductDetailQuantityDto (+9 more)
+
+### Community 264 - "Community 264"
+
+Cohesion: 0.11
+Nodes (18): After editing code, AI rules — Graphify, Before architecture/codebase questions, code:txt (graphify-out/), code:txt (graphify-out/GRAPH_REPORT.md), code:txt (graphify-out/wiki/index.md), code:bash (graphify update .), code:bash (python3 -c "import graphify") (+10 more)
+
+### Community 265 - "Community 265"
+
+Cohesion: 0.11
+Nodes (18): AI rules — NestJS apps, Applies to, Auth/RBAC, code:txt (apps/api-storefront), code:txt (controller -> service -> database/repository/client), code:ts (throw new Error('Prisma failed with connection string ...')), code:ts (throw new BadRequestException('Invalid order status')), code:bash (pnpm openapi:sync) (+10 more)
+
+### Community 266 - "Community 266"
 
 Cohesion: 0.11
 Nodes (18): Authoring guidelines, Checklist for new features, code:text (src/), code:tsx (import { Form, FormField, Input, useForm, z, zodResolver } f), code:bash (pnpm --filter @ecom/core-ui storybook), code:bash (pnpm --filter @ecom/core-ui build), Core UI, Current structure (+10 more)
 
-### Community 250 - "Community 250"
-
-Cohesion: 0.24
-Nodes (19): $cc38e7bd3fc7b213$export$2bb74740c4e19def(), findKey(), findNextNonDisabled(), getContentSize(), getFirstKey(), getItemRect(), getKeyAbove(), getKeyBelow() (+11 more)
-
-### Community 251 - "Community 251"
-
-Cohesion: 0.13
-Nodes (9): ConsoleNotificationButton(), ConsoleNotificationButtonProps, ConsoleSearch(), ConsoleSearchProps, ConsoleSidebarTrigger(), ConsoleStorefrontButton(), ConsoleStorefrontButtonProps, ConsoleTopbar() (+1 more)
-
-### Community 252 - "Community 252"
+### Community 267 - "Community 267"
 
 Cohesion: 0.11
-Nodes (11): AllVariants, Default, meta, Story, ConsoleHelpButton(), Default, meta, Story (+3 more)
+Nodes (10): ConsoleHelpButton(), Default, meta, Story, Default, meta, Story, FullVariants (+2 more)
 
-### Community 254 - "Community 254"
-
-Cohesion: 0.24
-Nodes (18): applyStyles(), effect(), getClippingParents(), getComputedStyle2(), getContainingBlock(), getNodeName(), getOffsetParent(), getParentNode() (+10 more)
-
-### Community 255 - "Community 255"
-
-Cohesion: 0.22
-Nodes (18): detectOverflow(), getBoundingClientRect(), getClientRectFromMixedType(), getClippingRect(), getCompositeRect(), getDocumentElement(), getDocumentRect(), getHTMLElementScroll() (+10 more)
-
-### Community 256 - "Community 256"
+### Community 269 - "Community 269"
 
 Cohesion: 0.18
 Nodes (18): canHaveLength2(), checkEquality2(), compareNumbers2(), compareValues2(), equal2(), equalArray2(), equalArrayBuffer2(), equalMap2() (+10 more)
 
-### Community 257 - "Community 257"
+### Community 270 - "Community 270"
 
-Cohesion: 0.16
-Nodes (18): appendBits(), encodeBinary(), encodeSegments(), encodeText(), getData(), getTotalBits(), isAlphanumeric(), isNumeric() (+10 more)
+Cohesion: 0.14
+Nodes (13): AuthFeature, authFeatures, authFormPanelStyle, authGradientStyle, authGridStyle, AuthPageShell(), AuthPageShellProps, authPanelStyle (+5 more)
 
-### Community 258 - "Community 258"
+### Community 271 - "Community 271"
+
+Cohesion: 0.29
+Nodes (9): loginSubmitFallback(), LoginClient(), loginDefaultProps, loginSubmitFallback(), Login(), Default, Story, LoginProps (+1 more)
+
+### Community 272 - "Community 272"
+
+Cohesion: 0.2
+Nodes (11): Approvals(), ApprovalsClient(), ApprovalsClientProps, APPROVAL_STATUS_OPTIONS, mockApprovals, Default, Story, WithData (+3 more)
+
+### Community 273 - "Community 273"
 
 Cohesion: 0.15
 Nodes (12): buildPaginatedResponse(), buildPaginationMeta(), buildPaginatedResponse(), buildPaginationMeta(), getSkip(), DefaultSortOrder, PAGINATION_DEFAULTS, CursorParams (+4 more)
 
-### Community 261 - "Community 261"
+### Community 274 - "Community 274"
+
+Cohesion: 0.12
+Nodes (5): homeContent, media, FeaturedShelfContent, HeroContent, HomeContent
+
+### Community 275 - "Community 275"
+
+Cohesion: 0.2
+Nodes (14): forceCancelOrder(), forceCompleteOrder(), OrderDetail, useOrderDetailAdapter(), useForceCancelOrder(), useForceCompleteOrder(), useInvalidateOrders(), useOrder() (+6 more)
+
+### Community 276 - "Community 276"
+
+Cohesion: 0.13
+Nodes (17): align(), d0(), Dc(), f0(), flushChangeLines(), getLines(), I0(), isLineEmpty() (+9 more)
+
+### Community 277 - "Community 277"
+
+Cohesion: 0.13
+Nodes (17): align(), d0(), Dc(), f0(), flushChangeLines(), getLines(), I0(), isLineEmpty() (+9 more)
+
+### Community 278 - "Community 278"
 
 Cohesion: 0.13
 Nodes (17): Db(), dd(), en(), Fb(), Gb(), gi(), kb(), mr() (+9 more)
 
-### Community 262 - "Community 262"
-
-Cohesion: 0.13
-Nodes (17): align(), d0(), Dc(), f0(), flushChangeLines(), getLines(), I0(), isLineEmpty() (+9 more)
-
-### Community 263 - "Community 263"
-
-Cohesion: 0.13
-Nodes (17): align(), d0(), Dc(), f0(), flushChangeLines(), getLines(), I0(), isLineEmpty() (+9 more)
-
-### Community 264 - "Community 264"
-
-Cohesion: 0.17
-Nodes (17): formatRangeToParts(), formatToParts(), isArgumentElement(), isDateElement(), isDateTimeSkeleton(), isFormatXMLElementFn(), isLiteralElement(), isNumberElement() (+9 more)
-
-### Community 265 - "Community 265"
+### Community 279 - "Community 279"
 
 Cohesion: 0.12
 Nodes (17): canHaveLength(), checkEquality(), compareNumbers(), compareValues(), equal(), equalArray(), equalArrayBuffer(), equalMap() (+9 more)
 
-### Community 266 - "Community 266"
+### Community 280 - "Community 280"
+
+Cohesion: 0.14
+Nodes (9): AuthContextValue, AuthUser, CreateAuthClientOptions, WithAuthOptions, ProtectedRouteOptions, getWebAuthPreset(), preset, WebAppKind (+1 more)
+
+### Community 281 - "Community 281"
+
+Cohesion: 0.16
+Nodes (5): Roles(), RolesGuard, UserRequest, Roles(), RolesGuard
+
+### Community 282 - "Community 282"
+
+Cohesion: 0.12
+Nodes (16): AI rules — Next.js apps, Applies to, code:txt (apps/storefront), code:ts (export function getProductHref(slug: string): string {), code:ts (export function formatSoldCount(count: number): string {), code:txt (apps/storefront), code:bash (pnpm --filter @ecom/<app-name> type-check), Data fetching (+8 more)
+
+### Community 283 - "Community 283"
 
 Cohesion: 0.17
 Nodes (16): fi(), getLog(), getState(), handleAddMode(), handleAddValueCancel(), handleCollapseMode(), handleEditMode(), instrument() (+8 more)
 
-### Community 267 - "Community 267"
+### Community 284 - "Community 284"
 
 Cohesion: 0.17
 Nodes (16): fi(), getLog(), getState(), handleAddMode(), handleAddValueCancel(), handleCollapseMode(), handleEditMode(), instrument() (+8 more)
 
-### Community 268 - "Community 268"
+### Community 285 - "Community 285"
 
 Cohesion: 0.16
 Nodes (16): $9446cca9a3875146$export$7d15b64cf5a3a4c4(), $edcf132a9284368a$export$4b834cebd9e5cebe(), $edcf132a9284368a$export$6839422d1f33cee9(), $edcf132a9284368a$export$b3ceb0cbf1056d98(), $edcf132a9284368a$var$computePosition(), $edcf132a9284368a$var$getAvailableSpace(), $edcf132a9284368a$var$getContainerDimensions(), $edcf132a9284368a$var$getContainingBlock() (+8 more)
 
-### Community 269 - "Community 269"
+### Community 286 - "Community 286"
 
 Cohesion: 0.16
 Nodes (16): $9446cca9a3875146$export$7d15b64cf5a3a4c4(), $edcf132a9284368a$export$4b834cebd9e5cebe(), $edcf132a9284368a$export$6839422d1f33cee9(), $edcf132a9284368a$export$b3ceb0cbf1056d98(), $edcf132a9284368a$var$computePosition(), $edcf132a9284368a$var$getAvailableSpace(), $edcf132a9284368a$var$getContainerDimensions(), $edcf132a9284368a$var$getContainingBlock() (+8 more)
 
-### Community 270 - "Community 270"
+### Community 287 - "Community 287"
 
 Cohesion: 0.16
 Nodes (16): $9446cca9a3875146$export$7d15b64cf5a3a4c4(), $edcf132a9284368a$export$4b834cebd9e5cebe(), $edcf132a9284368a$export$6839422d1f33cee9(), $edcf132a9284368a$export$b3ceb0cbf1056d98(), $edcf132a9284368a$var$computePosition(), $edcf132a9284368a$var$getAvailableSpace(), $edcf132a9284368a$var$getContainerDimensions(), $edcf132a9284368a$var$getContainingBlock() (+8 more)
 
-### Community 271 - "Community 271"
+### Community 288 - "Community 288"
+
+Cohesion: 0.16
+Nodes (16): $9446cca9a3875146$export$7d15b64cf5a3a4c4(), $edcf132a9284368a$export$4b834cebd9e5cebe(), $edcf132a9284368a$export$6839422d1f33cee9(), $edcf132a9284368a$export$b3ceb0cbf1056d98(), $edcf132a9284368a$var$computePosition(), $edcf132a9284368a$var$getAvailableSpace(), $edcf132a9284368a$var$getContainerDimensions(), $edcf132a9284368a$var$getContainingBlock() (+8 more)
+
+### Community 289 - "Community 289"
 
 Cohesion: 0.22
 Nodes (9): OnboardingStatusClient(), statusToneClassName, onboardingStatusDefaultSteps, OnboardingStatus(), Default, Story, OnboardingStatusProps, OnboardingStatusStep (+1 more)
 
-### Community 272 - "Community 272"
+### Community 290 - "Community 290"
 
 Cohesion: 0.13
 Nodes (14): dashboardAuditEvents, dashboardCampaigns, dashboardDisputeQueue, dashboardLowStockItems, dashboardMetrics, dashboardModerationQueue, dashboardPendingApprovals, dashboardPendingOrders (+6 more)
 
-### Community 273 - "Community 273"
+### Community 291 - "Community 291"
+
+Cohesion: 0.21
+Nodes (9): Bulk(), BulkClient(), BulkClientProps, mockJobs, Default, Story, BulkJobRow, BulkProps (+1 more)
+
+### Community 292 - "Community 292"
+
+Cohesion: 0.12
+Nodes (6): DialogContent(), DialogDescription(), DialogFooter(), DialogHeader(), DialogOverlay(), DialogTitle()
+
+### Community 293 - "Community 293"
+
+Cohesion: 0.16
+Nodes (9): InputGroupAddon(), inputGroupAddonVariants, InputGroupButton(), inputGroupButtonVariants, InputGroupText(), InputGroupTextarea(), Input(), InputProps (+1 more)
+
+### Community 294 - "Community 294"
 
 Cohesion: 0.2
 Nodes (11): StatCardChart(), accentMap, Header(), Root(), StatCardBase(), StatCardComponent, Trend(), Accent (+3 more)
 
-### Community 277 - "Community 277"
+### Community 295 - "Community 295"
+
+Cohesion: 0.21
+Nodes (14): buildCategoryHierarchyState(), CategoryHierarchyAction, CategoryHierarchyControllerProps, CategoryHierarchyControllerResult, categoryHierarchyReducer(), CategoryHierarchyState, buildDraft(), cloneCategories() (+6 more)
+
+### Community 296 - "Community 296"
+
+Cohesion: 0.27
+Nodes (10): buildOrderColumns(), BuildOrderColumnsOptions, buildOrderStatusCounts(), ORDERS_STATUS_TAB_ORDER, OrderRecord, OrdersProps, OrderStatus, orderStatuses (+2 more)
+
+### Community 300 - "Community 300"
 
 Cohesion: 0.16
 Nodes (15): fp(), Hm(), hn(), Hs(), lh(), Mt(), uh(), Us() (+7 more)
 
-### Community 278 - "Community 278"
+### Community 301 - "Community 301"
 
 Cohesion: 0.18
 Nodes (11): ProductDetailClient(), productDetailBrands, productDetailCategories, productDetailDefaultProps, productDetailStatuses, ProductDetail(), Default, EmptyDraft (+3 more)
 
-### Community 280 - "Community 280"
+### Community 302 - "Community 302"
+
+Cohesion: 0.15
+Nodes (10): API_PORTS, ApiError, ApiOptions, ApiParams, ApiParamsInput, createApiClient(), createWebApiClient(), getWebApiBaseUrl() (+2 more)
+
+### Community 303 - "Community 303"
+
+Cohesion: 0.2
+Nodes (11): Banners(), bannersDefaultProps, Default, Empty, Story, BannerPosition, bannerPositions, BannerRecord (+3 more)
+
+### Community 304 - "Community 304"
+
+Cohesion: 0.19
+Nodes (10): handleConnection(), handleDisconnect(), handleHeartbeat(), trackPresence(), untrackPresence(), createPresenceKey(), DEV_CORS_ORIGINS, extractSocketSessionId() (+2 more)
+
+### Community 305 - "Community 305"
+
+Cohesion: 0.15
+Nodes (9): getShippingBundle(), toggleShippingMethod(), getShippingBundle(), toggleShippingMethod(), SellerMethod, ShippingMethodsResponse, ShippingProvider, ShippingProvidersResponse (+1 more)
+
+### Community 306 - "Community 306"
+
+Cohesion: 0.14
+Nodes (3): BulkService, BulkJobProcessor, BulkJobProcessor
+
+### Community 307 - "Community 307"
+
+Cohesion: 0.13
+Nodes (14): Admin Panel goals, Architecture direction, code:txt (Storefront # buyer/customer experience), code:txt (NestJS REST APIs), code:txt (Next.js), code:txt (shared # pure helpers/constants), Core marketplace behavior, Main domains (+6 more)
+
+### Community 308 - "Community 308"
+
+Cohesion: 0.13
+Nodes (14): Add or update tests for, AI rules — Testing, API tests, Best test targets, code:txt (packages/shared), code:bash (pnpm --filter @ecom/<name> test), code:bash (pnpm test), code:txt (Checks run:) (+6 more)
+
+### Community 309 - "Community 309"
 
 Cohesion: 0.13
 Nodes (14): API baseline, Apps, Architecture rules, code:bash (git clone https://github.com/qnguyenhuy1999/ecommerce.git), code:bash (pnpm build), Environment variables, Local ports, Local setup (+6 more)
 
-### Community 281 - "Community 281"
+### Community 310 - "Community 310"
 
 Cohesion: 0.13
 Nodes (14): API and contracts, Backend, code:bash (pnpm lint), code:bash (pnpm openapi:sync), Database, Engineering Rules, Frontend, General (+6 more)
 
-### Community 282 - "Community 282"
+### Community 311 - "Community 311"
 
-Cohesion: 0.14
-Nodes (15): $1dbecbe27a04f9af$export$14d238f342723f25(), $337b884510726a0d$export$14c98a7594375490(), $40df3f8667284809$export$d55e7ee900f34e93(), $49c51c25361d4cd2$export$ee0f7cc6afcd1c18(), $4e3b923658d69c60$export$8c610744efcf8a1d(), $8796f90736e175cb$export$4d40659c25ecb50b(), $8ac8429251c45e4b$export$dbc0f175b25fb0fb(), $a11501f3d1d39e6c$export$ea8f71083e90600f() (+7 more)
+Cohesion: 0.26
+Nodes (12): createWithAuth(), hasSellerProfile(), parseRoles(), createWithAuth(), fetchWithTimeout(), hasSellerProfile(), isRecord(), isUnauthenticatedStatus() (+4 more)
 
-### Community 283 - "Community 283"
+### Community 313 - "Community 313"
 
-Cohesion: 0.12
-Nodes (9): ConsoleWorkspaceSwitcher(), ConsoleWorkspaceSwitcherProps, Default, meta, Story, Default, meta, Story (+1 more)
+Cohesion: 0.22
+Nodes (9): userDetailDefaultProps, Default, Loading, NotFound, Story, UserDetailProps, UserDetailRecord, UserSessionRecord (+1 more)
 
-### Community 284 - "Community 284"
-
-Cohesion: 0.15
-Nodes (14): $1dbecbe27a04f9af$export$14d238f342723f25(), $337b884510726a0d$export$14c98a7594375490(), $40df3f8667284809$export$d55e7ee900f34e93(), $49c51c25361d4cd2$export$ee0f7cc6afcd1c18(), $8796f90736e175cb$export$4d40659c25ecb50b(), $8ac8429251c45e4b$export$dbc0f175b25fb0fb(), $a11501f3d1d39e6c$export$ea8f71083e90600f(), $a28c903ee9ad8dc5$export$79fefeb1c2091ac3() (+6 more)
-
-### Community 289 - "Community 289"
+### Community 315 - "Community 315"
 
 Cohesion: 0.14
 Nodes (13): Apps, code:bash (git clone https://github.com/qnguyenhuy1999/ecommerce.git), code:bash (docker compose -f docker-compose.infra.yml up -d), Dependency boundaries, Docs, Ecommerce Marketplace, Local infrastructure, Packages (+5 more)
 
-### Community 292 - "Community 292"
+### Community 318 - "Community 318"
 
 Cohesion: 0.17
 Nodes (8): ProductMediaUpload(), ProductMediaUploadProps, Default, Interactive, meta, mockItems, Story, WithUploadProgress
 
-### Community 293 - "Community 293"
+### Community 319 - "Community 319"
 
-Cohesion: 0.15
-Nodes (6): ApiError, API_PORTS, ApiError, ApiOptions, ApiParams, ApiParamsInput
+Cohesion: 0.22
+Nodes (11): StorefrontHomePage(), CategoryIcon, formatCurrency(), formatSoldLabel(), getCategoryIcon(), mapFlashProduct(), mapHomepageToHomeContent(), mapProduct() (+3 more)
 
-### Community 294 - "Community 294"
+### Community 320 - "Community 320"
+
+Cohesion: 0.18
+Nodes (7): formatDateTime(), mapOrderDetail(), SellerOrderDetailApi, SellerOrderDetailResponse, UpdateOrderStatusRequest, formatDateTime(), mapOrderDetail()
+
+### Community 321 - "Community 321"
 
 Cohesion: 0.19
-Nodes (5): Roles(), RolesGuard, UserRequest, Roles(), RolesGuard
+Nodes (8): OrderListItem, col, columns, OrdersPage(), OrderStatusFilter, STATUS_TABS, useOrders(), useOrderStatusCounts()
 
-### Community 296 - "Community 296"
+### Community 322 - "Community 322"
 
-Cohesion: 0.33
-Nodes (12): canSelectItem(), extendSelection(), getKey(), getSelectAllKeys(), isSelectAll(), isSelected(), plural(), replaceSelection() (+4 more)
+Cohesion: 0.28
+Nodes (5): CommissionFeesService, serializeRule(), CommissionRuleResponseDto, CreateCommissionRuleDto, UpdateCommissionRuleDto
 
-### Community 297 - "Community 297"
+### Community 323 - "Community 323"
+
+Cohesion: 0.17
+Nodes (12): colorToHex(), colorToInt(), convertToHex(), convertToInt(), drawBorder(), drawContent(), drawMargin(), drawPadding() (+4 more)
+
+### Community 324 - "Community 324"
 
 Cohesion: 0.27
 Nodes (9): mappingLabel, ProductStatusPillVariantProps, productStatusPillVariants, ProductStatusPill(), ProductStatusPillProps, Default, FullVariants, meta (+1 more)
 
-### Community 298 - "Community 298"
+### Community 325 - "Community 325"
 
 Cohesion: 0.2
-Nodes (7): formatDateTime(), mapOrderDetail(), SellerOrderDetailApi, SellerOrderDetailResponse, UpdateOrderStatusRequest, formatDateTime(), mapOrderDetail()
+Nodes (10): CategoryHierarchyCategory, VisibleTreeItem, CategoryTreeRow(), CategoryTreeRowProps, Collapsed, Default, electronics, ForceExpanded (+2 more)
 
-### Community 300 - "Community 300"
+### Community 326 - "Community 326"
 
-Cohesion: 0.33
-Nodes (12): canSelectItem(), extendSelection(), getKey(), getSelectAllKeys(), isSelectAll(), isSelected(), plural(), replaceSelection() (+4 more)
+Cohesion: 0.27
+Nodes (3): CartItemWithVariant, CheckoutProcessor, OrderJobData
 
-### Community 304 - "Community 304"
+### Community 327 - "Community 327"
 
-Cohesion: 0.2
-Nodes (11): createStringFromObject(), css(), getRegisteredStyles(), handleInterpolation(), keyframes(), murmur2(), "../../node_modules/@emotion/react/dist/emotion-element-f0de968e.browser.esm.js"(), "../../node_modules/@emotion/styled/base/dist/emotion-styled-base.browser.esm.js"() (+3 more)
+Cohesion: 0.21
+Nodes (3): AuthController, getCookieValue(), getSessionIdFromRequest()
 
-### Community 305 - "Community 305"
+### Community 330 - "Community 330"
 
-Cohesion: 0.2
-Nodes (11): orDefault(), useAddonState(), useArgs2(), useArgTypes(), useCurrentStory(), useGlobals2(), useGlobalTypes(), useParameter2() (+3 more)
+Cohesion: 0.17
+Nodes (11): AI rules — Engineering, code:ts (// Good), code:`, code:block3, code:block4, code:block5, Focused first, Shared code (`packages/shared`) (+3 more)
 
-### Community 306 - "Community 306"
-
-Cohesion: 0.18
-Nodes (11): colorToHex(), colorToInt(), convertToHex(), convertToInt(), drawBorder(), drawContent(), drawMargin(), drawPadding() (+3 more)
-
-### Community 307 - "Community 307"
+### Community 334 - "Community 334"
 
 Cohesion: 0.2
 Nodes (11): orDefault(), useAddonState(), useArgs2(), useArgTypes(), useCurrentStory(), useGlobals2(), useGlobalTypes(), useParameter2() (+3 more)
 
-### Community 308 - "Community 308"
-
-Cohesion: 0.2
-Nodes (11): $507fabe10e71c6fb$export$2f1888112f558a7d(), $507fabe10e71c6fb$export$98e20ec92f614cfe(), $507fabe10e71c6fb$export$b9b3dfddab17db27(), $507fabe10e71c6fb$export$ec71b4b83ac08ec3(), $507fabe10e71c6fb$var$setupGlobalFocusEvents(), $5c3e21d68f1c4674$export$439d29a4e110a164(), $5c3e21d68f1c4674$export$a966af930f325cab(), $8a9cb279dc87e130$export$715c682d09d639cc() (+3 more)
-
-### Community 309 - "Community 309"
+### Community 335 - "Community 335"
 
 Cohesion: 0.18
 Nodes (9): Compound, Default, Grid, meta, NegativeTrend, NoSpark, NoTrend, spark (+1 more)
 
-### Community 310 - "Community 310"
+### Community 336 - "Community 336"
+
+Cohesion: 0.18
+Nodes (11): InternalAuthProvider(), useAuthProviderValue(), useAuthRefs(), useForbiddenRedirect(), useInitialRefresh(), useLogin(), useLogout(), useRefreshAuth() (+3 more)
+
+### Community 337 - "Community 337"
 
 Cohesion: 0.18
 Nodes (10): CheckoutStep, DistributionEvent, DistributionStatus, OrderStatus, PaymentStatus, RefundMethod, RefundStatus, ReturnReason (+2 more)
 
-### Community 311 - "Community 311"
+### Community 338 - "Community 338"
 
 Cohesion: 0.2
 Nodes (3): UsePaginatedQueryOptions, PaginationState, UsePaginationOptions
 
-### Community 312 - "Community 312"
+### Community 339 - "Community 339"
 
 Cohesion: 0.22
 Nodes (6): buildQueryString(), buildUrlWithQuery(), buildQueryString(), buildUrlWithQuery(), QueryParams, QueryParamValue
 
-### Community 314 - "Community 314"
+### Community 340 - "Community 340"
+
+Cohesion: 0.35
+Nodes (8): Disputes(), disputesDefaultProps, refundsDefaultProps, Refunds(), Default, Story, DisputesProps, RefundsProps
+
+### Community 341 - "Community 341"
+
+Cohesion: 0.31
+Nodes (6): { middleware }, withAuth, config, { middleware }, proxy(), withAuth
+
+### Community 345 - "Community 345"
+
+Cohesion: 0.22
+Nodes (10): \_classCallCheck(), \_classCallCheck2(), \_createClass2(), \_defineProperties2(), \_defineProperty2(), \_defineProperty4(), SetLike3(), \_toPrimitive3() (+2 more)
+
+### Community 346 - "Community 346"
 
 Cohesion: 0.27
 Nodes (10): assignProps(), initClipboardEvent(), initFocusEvent(), initInputEvent(), initKeyboardEvent(), initMouseEvent(), initPointerEvent(), initUIEvent() (+2 more)
 
-### Community 315 - "Community 315"
-
-Cohesion: 0.27
-Nodes (10): assignProps(), initClipboardEvent(), initFocusEvent(), initInputEvent(), initKeyboardEvent(), initMouseEvent(), initPointerEvent(), initUIEvent() (+2 more)
-
-### Community 316 - "Community 316"
+### Community 347 - "Community 347"
 
 Cohesion: 0.22
 Nodes (10): collide(), configureText(), drawFloatingLabel(), drawLabel(), floatingOffset(), offset(), overlapAdjustment(), positionCoordinate() (+2 more)
 
-### Community 317 - "Community 317"
+### Community 348 - "Community 348"
+
+Cohesion: 0.36
+Nodes (6): CategoryHierarchy(), categoryHierarchyDefaultProps, Default, Story, CategoryHierarchyProps, CategoryHierarchyStats
+
+### Community 350 - "Community 350"
+
+Cohesion: 0.27
+Nodes (5): Home(), MarketplaceHome, meta, Story, HomeProps
+
+### Community 351 - "Community 351"
+
+Cohesion: 0.31
+Nodes (5): OrderDetailPage(), useForceCancelOrder(), useForceCompleteOrder(), useInvalidateOrders(), useOrder()
+
+### Community 355 - "Community 355"
+
+Cohesion: 0.27
+Nodes (8): SellerQueryDto, SellerResponseDto, SellerShopDto, SellerUserDto, SellerQueryDto, SellerResponseDto, SellerShopDto, SellerUserDto
+
+### Community 356 - "Community 356"
+
+Cohesion: 0.24
+Nodes (8): CreateNotificationDto, CreateTemplateDto, NotificationTemplateResponseDto, CreateNotificationDto, CreateTemplateDto, NotificationQueryDto, NotificationResponseDto, NotificationTemplateResponseDto
+
+### Community 357 - "Community 357"
+
+Cohesion: 0.29
+Nodes (3): RoleResponseDto, UpdateRolePermissionsDto, RolesService
+
+### Community 358 - "Community 358"
+
+Cohesion: 0.27
+Nodes (8): BannerQueryDto, BannerResponseDto, CreateBannerDto, UpdateBannerDto, BannerQueryDto, BannerResponseDto, CreateBannerDto, UpdateBannerDto
+
+### Community 361 - "Community 361"
 
 Cohesion: 0.2
-Nodes (10): colorToHex(), colorToInt(), convertToHex(), convertToInt(), drawBorder(), drawContent(), drawMargin(), drawPadding() (+2 more)
+Nodes (10): BE-1: Contracts Cleanup, code:block1 (packages/nestjs-core/src/dtos/pagination.dto.ts), code:bash (grep -r "from '@ecom/contracts'" apps/api-_/src --include="_), code:block3 (packages/contracts/src/), code:bash (grep -r "@ecom/shared" packages/contracts/src), code:bash (pnpm --filter @ecom/contracts build), Context, Risks (+2 more)
 
-### Community 318 - "Community 318"
-
-Cohesion: 0.22
-Nodes (10): \_classCallCheck(), \_classCallCheck2(), \_createClass2(), \_defineProperties2(), \_defineProperty2(), \_defineProperty4(), SetLike3(), \_toPrimitive3() (+2 more)
-
-### Community 319 - "Community 319"
-
-Cohesion: 0.22
-Nodes (10): \_classCallCheck(), \_classCallCheck2(), \_createClass2(), \_defineProperties2(), \_defineProperty2(), \_defineProperty4(), SetLike3(), \_toPrimitive3() (+2 more)
-
-### Community 321 - "Community 321"
+### Community 362 - "Community 362"
 
 Cohesion: 0.36
 Nodes (5): middleware(), withAuth, config, middleware(), withAuth
 
-### Community 322 - "Community 322"
+### Community 363 - "Community 363"
 
-Cohesion: 0.29
-Nodes (4): metadata, RootLayout(), RootLayout(), QueryProvider()
+Cohesion: 0.2
+Nodes (5): ConsoleLayoutProviders(), ConsoleLayoutProvidersProps, Default, meta, Story
 
-### Community 329 - "Community 329"
+### Community 366 - "Community 366"
 
 Cohesion: 0.25
-Nodes (9): collide(), configureText(), drawFloatingLabel(), drawLabel(), floatingOffset(), overlapAdjustment(), positionCoordinate(), roundedRect() (+1 more)
+Nodes (9): au(), Ba(), Bf(), iu(), Mf(), rm(), tm(), xt() (+1 more)
 
-### Community 330 - "Community 330"
-
-Cohesion: 0.31
-Nodes (9): $458b0a5536c1a7cf$export$40bfa8c7b0832715(), $7613b1592d41b092$export$6cd28814d92fa9c9(), $76f919a04c5a7d14$export$4ba071daf4e486(), $7af3f5b51489e0b5$export$253fe78d46329472(), $875d6693e12af071$export$728d6ba534403756(), $a0d645289fe9b86b$export$e7f05e985daf4b5f(), $e72dd72e1c76a225$export$2f645645f7bca764(), $e72dd72e1c76a225$var$useFocusedKeyReset() (+1 more)
-
-### Community 331 - "Community 331"
+### Community 367 - "Community 367"
 
 Cohesion: 0.22
 Nodes (4): config, LogOptions, PrismaClient, PrismaClientConstructor
 
-### Community 332 - "Community 332"
+### Community 368 - "Community 368"
 
 Cohesion: 0.22
 Nodes (7): AllCompleted, meta, Step1, Step3, Step5, steps, Story
 
-### Community 333 - "Community 333"
+### Community 369 - "Community 369"
 
 Cohesion: 0.22
 Nodes (8): AffiliateStatus, CouponScope, CouponStatus, CouponType, FlashSaleSlotStatus, FlashSaleStatus, PlatformVoucherStatus, PlatformVoucherType
 
-### Community 334 - "Community 334"
+### Community 370 - "Community 370"
 
-Cohesion: 0.22
-Nodes (3): ProductResult, SavedFilter, SearchResponse
+Cohesion: 0.25
+Nodes (3): ProductCardData, ProductCardProps, ShopCardProps
 
-### Community 335 - "Community 335"
-
-Cohesion: 0.22
-Nodes (5): SellerMethod, ShippingMethodsResponse, ShippingProvider, ShippingProvidersResponse, ToggleShippingMethodResponse
-
-### Community 338 - "Community 338"
-
-Cohesion: 0.22
-Nodes (8): Cave commands, Caveman field notes (ecommerce-v2), code:bash (pnpm dev # all apps watch), code:bash (python3 -c "from graphify.watch import \_rebuild_code; from p), Deeper cave drawings, Fire rules, graphify, Repo grunt
-
-### Community 339 - "Community 339"
-
-Cohesion: 0.33
-Nodes (8): createWithAuth(), hasSellerProfile(), parseRoles(), createWithAuth(), hasSellerProfile(), parseRoles(), WithAuthOptions, WithAuthRequest
-
-### Community 343 - "Community 343"
-
-Cohesion: 0.36
-Nodes (8): append(), getFormEncType(), getFormSubmissionInfo(), isButtonElement(), isFormDataSubmitterSupported(), isFormElement(), isHTMLElement(), isInputElement()
-
-### Community 344 - "Community 344"
+### Community 381 - "Community 381"
 
 Cohesion: 0.25
 Nodes (8): $3ad3f6e1647bc98d$export$80f3e147d781571c(), $507fabe10e71c6fb$export$630ff653c5ada6a9(), $7215afc6de606d6b$export$de79e2c695e052f3(), $7215afc6de606d6b$var$getScrollableElements(), $7215afc6de606d6b$var$restoreScrollPosition(), $7215afc6de606d6b$var$supportsPreventScroll(), $bbed8b41f857bcc0$export$24490316f764c430(), $ea8dcbcb9ea1b556$export$95185d699e05d4d7()
 
-### Community 345 - "Community 345"
+### Community 382 - "Community 382"
 
 Cohesion: 0.25
 Nodes (8): $3ad3f6e1647bc98d$export$80f3e147d781571c(), $507fabe10e71c6fb$export$630ff653c5ada6a9(), $7215afc6de606d6b$export$de79e2c695e052f3(), $7215afc6de606d6b$var$getScrollableElements(), $7215afc6de606d6b$var$restoreScrollPosition(), $7215afc6de606d6b$var$supportsPreventScroll(), $bbed8b41f857bcc0$export$24490316f764c430(), $ea8dcbcb9ea1b556$export$95185d699e05d4d7()
 
-### Community 346 - "Community 346"
+### Community 383 - "Community 383"
 
 Cohesion: 0.25
 Nodes (6): AllCompleted, Default, meta, NoTitle, orderItems, Story
 
-### Community 347 - "Community 347"
+### Community 384 - "Community 384"
 
 Cohesion: 0.29
 Nodes (5): Tabs(), TabsContent(), TabsList(), tabsListVariants, TabsTrigger()
 
-### Community 348 - "Community 348"
+### Community 385 - "Community 385"
 
 Cohesion: 0.32
 Nodes (5): getSessionId(), parseCookies(), AuthUser, getSessionId(), parseCookies()
 
-### Community 349 - "Community 349"
+### Community 386 - "Community 386"
+
+Cohesion: 0.36
+Nodes (5): CookieOptions, getSessionCookieOptions(), isLocalhostDomain(), resolveCookieDomain(), cookieOptions
+
+### Community 387 - "Community 387"
 
 Cohesion: 0.25
 Nodes (7): AutomationStatus, SellerStatus, SellerVerificationStatus, ShopStatus, SubscriptionStatus, WalletTransactionStatus, WithdrawalStatus
 
-### Community 350 - "Community 350"
+### Community 388 - "Community 388"
+
+Cohesion: 0.25
+Nodes (7): AdminNotificationStatus, AuditActions, NotificationChannel, NotificationStatus, NotificationType, PlatformEventStatus, UserNotificationType
+
+### Community 389 - "Community 389"
 
 Cohesion: 0.25
 Nodes (7): ApiErrorBody, ApiErrorResponse, ApiPaginatedSuccessResponse, ApiResponse, ApiSuccess, ApiSuccessResponse, PaginationMeta
 
-### Community 351 - "Community 351"
+### Community 390 - "Community 390"
 
 Cohesion: 0.25
 Nodes (7): DeepPartial, Mutable, Nullable, PartialBy, PickRequired, RequiredBy, ValueOf
 
-### Community 352 - "Community 352"
+### Community 391 - "Community 391"
 
 Cohesion: 0.25
 Nodes (3): PaginatedData, ResponseInterceptor, ResponseInterceptor
 
-### Community 366 - "Community 366"
+### Community 410 - "Community 410"
 
-Cohesion: 0.33
-Nodes (7): $9446cca9a3875146$export$7d15b64cf5a3a4c4(), $edcf132a9284368a$export$6839422d1f33cee9(), $edcf132a9284368a$var$computePosition(), $edcf132a9284368a$var$getAvailableSpace(), $edcf132a9284368a$var$getDelta(), $edcf132a9284368a$var$getMaxHeight(), $edcf132a9284368a$var$parsePlacement()
+Cohesion: 0.25
+Nodes (8): BE-4: Repository / Mapper / Policy — Priority Modules Only, code:block15 (modules/[feature]/), code:bash (grep -n "PrismaService" apps/api-\*/src/modules/[feature]/[fe), Priority modules (ordered by business importance), Reference pattern, Rules, Task per module, Verification per module
 
-### Community 367 - "Community 367"
+### Community 411 - "Community 411"
 
-Cohesion: 0.29
-Nodes (7): areValidElements(), debounce(), mergeByName(), "../../node_modules/@popperjs/core/lib/createPopper.js"(), "../../node_modules/@popperjs/core/lib/popper.js"(), "../../node_modules/@popperjs/core/lib/popper-lite.js"(), popperGenerator()
+Cohesion: 0.25
+Nodes (8): BE-2: API Client Extraction, code:block6 (packages/api-client/), code:ts (// @deprecated — import from @ecom/api-client instead), code:bash (pnpm --filter @ecom/api-client build), Constraints, New structure, Tasks, Verification
 
-### Community 368 - "Community 368"
+### Community 412 - "Community 412"
 
-Cohesion: 0.29
-Nodes (5): Default, frameworks, meta, MultipleSelection, Story
+Cohesion: 0.25
+Nodes (7): AI rules — UI packages, code:txt (core-ui # base primitives: Button, Input, Badge, Dial), code:`, code:block3, code:block4, code:block5, Package purpose
 
-### Community 369 - "Community 369"
+### Community 417 - "Community 417"
 
 Cohesion: 0.29
 Nodes (5): Default, Disabled, meta, Story, WithDescriptionAndValidation
 
-### Community 370 - "Community 370"
+### Community 418 - "Community 418"
+
+Cohesion: 0.29
+Nodes (5): Default, frameworks, meta, MultipleSelection, Story
+
+### Community 419 - "Community 419"
 
 Cohesion: 0.29
 Nodes (5): Default, Disabled, meta, Story, WithPlaceholder
 
-### Community 371 - "Community 371"
+### Community 420 - "Community 420"
 
 Cohesion: 0.33
 Nodes (5): SectionCard(), SectionCardProps, Default, meta, Story
 
-### Community 373 - "Community 373"
+### Community 421 - "Community 421"
 
 Cohesion: 0.29
 Nodes (6): \_\_dirname, outputDir, repoRoot, schema, schemaText, specs
 
-### Community 374 - "Community 374"
-
-Cohesion: 0.29
-Nodes (6): AdminNotificationStatus, AuditActions, NotificationChannel, NotificationStatus, NotificationType, PlatformEventStatus
-
-### Community 375 - "Community 375"
+### Community 422 - "Community 422"
 
 Cohesion: 0.29
 Nodes (6): ADMIN_ROUTES, AUTH_ROUTES, CART_ROUTES, ORDER_ROUTES, PRODUCT_ROUTES, USER_ROUTES
 
-### Community 377 - "Community 377"
+### Community 452 - "Community 452"
+
+Cohesion: 0.33
+Nodes (5): ReviewActionDto, ReviewResponseDto, ReviewActionDto, ReviewQueryDto, ReviewResponseDto
+
+### Community 463 - "Community 463"
 
 Cohesion: 0.29
-Nodes (6): ApiResponseDto, ErrorResponseDto, PaginatedResponseDto, ApiResponseDto, ErrorResponseDto, PaginatedResponseDto
+Nodes (7): api-client, Key Findings, Module internals, Naming inconsistencies, NestJS folder structure, packages/contracts violations, packages/validation
 
-### Community 380 - "Community 380"
+### Community 464 - "Community 464"
+
+Cohesion: 0.29
+Nodes (6): code:block21 (BE-1 → BE-2 → BE-3A → BE-3B → BE-3C → BE-4 → BE-5 (if needed), code:block22 (1. Files changed), Execution Order, Output Required Per Phase, Phase 0: Discovery Results (Audit), Plan: Backend + Contracts Architecture Refactor
+
+### Community 465 - "Community 465"
+
+Cohesion: 0.29
+Nodes (7): BE-3A: api-storefront Modules Move, code:bash (pnpm --filter @ecom/api-storefront build), code:block9 (apps/api-storefront/src/), Feature modules to move (11 total), Target structure, Tasks, Verification
+
+### Community 466 - "Community 466"
 
 Cohesion: 0.29
 Nodes (5): Default, Fallback, Group, meta, Story
 
-### Community 389 - "Community 389"
+### Community 471 - "Community 471"
 
 Cohesion: 0.4
 Nodes (6): clamp(), getScrollPositionFromPointer(), getThumbOffsetFromScroll(), getThumbRatio(), getThumbSize(), linearScale()
 
-### Community 390 - "Community 390"
-
-Cohesion: 0.4
-Nodes (6): getHooksContextOrNull(), getHooksContextOrThrow(), useEffect5(), useHook(), useMemo3(), useMemoLike()
-
-### Community 391 - "Community 391"
+### Community 472 - "Community 472"
 
 Cohesion: 0.4
 Nodes (6): clamp(), getScrollPositionFromPointer(), getThumbOffsetFromScroll(), getThumbRatio(), getThumbSize(), linearScale()
 
-### Community 392 - "Community 392"
-
-Cohesion: 0.33
-Nodes (6): $7135fc7d473fd974$var$useCollectionRender(), CollectionBranch(), CollectionRoot(), $e1995378a142960e$export$fb8073518f34e6ec(), $e1995378a142960e$var$useCollectionChildren(), $e948873055cbafe4$export$727c8fc270210f13()
-
-### Community 393 - "Community 393"
+### Community 473 - "Community 473"
 
 Cohesion: 0.4
 Nodes (6): icuUnitToEcma(), parseConciseScientificAndEngineeringStem(), parseNotationOptions(), parseNumberSkeleton(), parseSign(), parseSignificantPrecision()
 
-### Community 394 - "Community 394"
-
-Cohesion: 0.33
-Nodes (6): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), $b4b717babfbb907b$export$4c063cf1350e6fed(), $b4b717babfbb907b$var$isInert()
-
-### Community 395 - "Community 395"
-
-Cohesion: 0.33
-Nodes (6): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), $b4b717babfbb907b$export$4c063cf1350e6fed(), $b4b717babfbb907b$var$isInert()
-
-### Community 396 - "Community 396"
+### Community 474 - "Community 474"
 
 Cohesion: 0.33
 Nodes (6): \_construct(), \_inheritsLoose(), \_isNativeFunction(), \_isNativeReflectConstruct(), \_setPrototypeOf(), \_wrapNativeSuper()
 
-### Community 397 - "Community 397"
-
-Cohesion: 0.4
-Nodes (6): icuUnitToEcma(), parseConciseScientificAndEngineeringStem(), parseNotationOptions(), parseNumberSkeleton(), parseSign(), parseSignificantPrecision()
-
-### Community 398 - "Community 398"
+### Community 475 - "Community 475"
 
 Cohesion: 0.33
-Nodes (6): \_construct(), \_inheritsLoose(), \_isNativeFunction(), \_isNativeReflectConstruct(), \_setPrototypeOf(), \_wrapNativeSuper()
+Nodes (6): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), $b4b717babfbb907b$export$4c063cf1350e6fed(), $b4b717babfbb907b$var$isInert()
 
-### Community 399 - "Community 399"
+### Community 476 - "Community 476"
 
 Cohesion: 0.33
 Nodes (6): $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey(), $507fabe10e71c6fb$var$triggerChangeHandlers(), handler()
 
-### Community 400 - "Community 400"
+### Community 477 - "Community 477"
+
+Cohesion: 0.4
+Nodes (6): icuUnitToEcma(), parseConciseScientificAndEngineeringStem(), parseNotationOptions(), parseNumberSkeleton(), parseSign(), parseSignificantPrecision()
+
+### Community 478 - "Community 478"
+
+Cohesion: 0.33
+Nodes (6): \_construct(), \_inheritsLoose(), \_isNativeFunction(), \_isNativeReflectConstruct(), \_setPrototypeOf(), \_wrapNativeSuper()
+
+### Community 479 - "Community 479"
+
+Cohesion: 0.33
+Nodes (6): $7d2416ea0959daaa$export$e989c0fffaa6b27a(), $7d2416ea0959daaa$var$isAttributeVisible(), $7d2416ea0959daaa$var$isStyleVisible(), $8a9cb279dc87e130$export$cabe61c495ee3649(), $b4b717babfbb907b$export$4c063cf1350e6fed(), $b4b717babfbb907b$var$isInert()
+
+### Community 480 - "Community 480"
 
 Cohesion: 0.33
 Nodes (4): Default, Group, meta, Story
 
-### Community 401 - "Community 401"
+### Community 481 - "Community 481"
 
 Cohesion: 0.33
 Nodes (4): Default, meta, Outline, Story
 
-### Community 402 - "Community 402"
+### Community 482 - "Community 482"
 
 Cohesion: 0.33
 Nodes (4): Default, Disabled, meta, Story
 
-### Community 403 - "Community 403"
+### Community 483 - "Community 483"
 
 Cohesion: 0.33
 Nodes (4): Default, Disabled, meta, Story
 
-### Community 404 - "Community 404"
+### Community 484 - "Community 484"
 
 Cohesion: 0.33
 Nodes (4): Default, meta, Story, Textarea
 
-### Community 405 - "Community 405"
+### Community 485 - "Community 485"
 
 Cohesion: 0.4
 Nodes (3): ConsolePageLayout(), ConsoleBreadcrumbItem, ConsolePageLayoutProps
 
-### Community 406 - "Community 406"
+### Community 486 - "Community 486"
 
 Cohesion: 0.33
 Nodes (4): Default, Group, meta, Story
 
-### Community 407 - "Community 407"
+### Community 487 - "Community 487"
 
 Cohesion: 0.33
 Nodes (5): components, $defs, operations, paths, webhooks
 
-### Community 408 - "Community 408"
+### Community 488 - "Community 488"
 
 Cohesion: 0.33
 Nodes (5): components, $defs, operations, paths, webhooks
 
-### Community 409 - "Community 409"
+### Community 489 - "Community 489"
 
 Cohesion: 0.33
 Nodes (5): components, $defs, operations, paths, webhooks
 
-### Community 410 - "Community 410"
+### Community 490 - "Community 490"
 
 Cohesion: 0.33
 Nodes (5): ApprovalStatus, ProductReportReason, ProductReportStatus, ProductStatus, ReviewStatus
 
-### Community 411 - "Community 411"
+### Community 491 - "Community 491"
 
-Cohesion: 0.4
-Nodes (5): guardAgainstInvalidArgTypes(), isRequiredIf(), missingPropError(), propExists(), propIsRequired()
+Cohesion: 0.33
+Nodes (5): PaginationMetaDto, PaginationQuery, PaginationQueryDto, PaginationMetaDto, PaginationQueryDto
 
-### Community 412 - "Community 412"
-
-Cohesion: 0.4
-Nodes (5): $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $d4ee10de306f2510$export$4282f70798064fe0(), $d4ee10de306f2510$export$e58f029f0fbfdb29(), $f4e2df6bd15f8569$export$98658e8c59125e6a()
-
-### Community 413 - "Community 413"
-
-Cohesion: 0.4
-Nodes (5): guardAgainstInvalidArgTypes(), isRequiredIf(), missingPropError(), propExists(), propIsRequired()
-
-### Community 414 - "Community 414"
-
-Cohesion: 0.5
-Nodes (5): $f6c31cce2adf654f$var$isHTMLAnchorLink(), $f6c31cce2adf654f$var$isValidInputKey(), $f6c31cce2adf654f$var$isValidKeyboardEvent(), $f6c31cce2adf654f$var$shouldPreventDefaultKeyboard(), $f6c31cce2adf654f$var$shouldPreventDefaultUp()
-
-### Community 415 - "Community 415"
-
-Cohesion: 0.4
-Nodes (5): $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $d4ee10de306f2510$export$4282f70798064fe0(), $d4ee10de306f2510$export$e58f029f0fbfdb29(), $f4e2df6bd15f8569$export$98658e8c59125e6a()
-
-### Community 416 - "Community 416"
-
-Cohesion: 0.4
-Nodes (5): $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey(), $507fabe10e71c6fb$var$triggerChangeHandlers()
-
-### Community 417 - "Community 417"
-
-Cohesion: 0.5
-Nodes (5): $f6c31cce2adf654f$var$isHTMLAnchorLink(), $f6c31cce2adf654f$var$isValidInputKey(), $f6c31cce2adf654f$var$isValidKeyboardEvent(), $f6c31cce2adf654f$var$shouldPreventDefaultKeyboard(), $f6c31cce2adf654f$var$shouldPreventDefaultUp()
-
-### Community 418 - "Community 418"
-
-Cohesion: 0.4
-Nodes (3): SetStateAction, useControllableState(), UseControllableStateOptions
-
-### Community 419 - "Community 419"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 420 - "Community 420"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 421 - "Community 421"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 422 - "Community 422"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 423 - "Community 423"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 424 - "Community 424"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 425 - "Community 425"
-
-Cohesion: 0.4
-Nodes (4): BannerPosition, BannerStatus, BulkJobStatus, BulkJobType
-
-### Community 426 - "Community 426"
-
-Cohesion: 0.4
-Nodes (4): AdminRoleType, AdminStatus, UserEventType, UserStatus
-
-### Community 427 - "Community 427"
-
-Cohesion: 0.4
-Nodes (4): PaginationMetaDto, PaginationQueryDto, PaginationMetaDto, PaginationQueryDto
-
-### Community 429 - "Community 429"
-
-Cohesion: 0.4
-Nodes (4): INVENTORY_DEFAULTS, ORDER_LIMITS, PRODUCT_LIMITS, USER_LIMITS
-
-### Community 430 - "Community 430"
+### Community 492 - "Community 492"
 
 Cohesion: 0.4
 Nodes (4): GetRecommendationsDto, TrackEventDto, GetRecommendationsDto, TrackEventDto
 
-### Community 431 - "Community 431"
+### Community 503 - "Community 503"
+
+Cohesion: 0.33
+Nodes (6): Audit first, BE-5: Validation Package — Only If Needed, code:bash (grep -r "z\.object\|z\.string\|z\.number" apps/ packages/ --), code:block18 (packages/validation/), Constraints, Target (if created)
+
+### Community 504 - "Community 504"
+
+Cohesion: 0.33
+Nodes (4): Default, meta, Story, Variants
+
+### Community 505 - "Community 505"
 
 Cohesion: 0.4
-Nodes (3): Default, meta, Story
+Nodes (5): $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $d4ee10de306f2510$export$4282f70798064fe0(), $d4ee10de306f2510$export$e58f029f0fbfdb29(), $f4e2df6bd15f8569$export$98658e8c59125e6a()
 
-### Community 432 - "Community 432"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 433 - "Community 433"
+### Community 506 - "Community 506"
 
 Cohesion: 0.4
-Nodes (3): FullVariants, meta, Story
+Nodes (5): $431fbd86ca7dc216$export$af51f0f06c0f328a(), $431fbd86ca7dc216$var$isNode(), $d4ee10de306f2510$export$4282f70798064fe0(), $d4ee10de306f2510$export$e58f029f0fbfdb29(), $f4e2df6bd15f8569$export$98658e8c59125e6a()
 
-### Community 434 - "Community 434"
-
-Cohesion: 0.4
-Nodes (3): Default, meta, Story
-
-### Community 437 - "Community 437"
+### Community 507 - "Community 507"
 
 Cohesion: 0.5
-Nodes (4): expandToHashMap(), getFreshSideObject(), mergePaddingObject(), "../../node_modules/@popperjs/core/lib/modifiers/arrow.js"()
+Nodes (5): $f6c31cce2adf654f$var$isHTMLAnchorLink(), $f6c31cce2adf654f$var$isValidInputKey(), $f6c31cce2adf654f$var$isValidKeyboardEvent(), $f6c31cce2adf654f$var$shouldPreventDefaultKeyboard(), $f6c31cce2adf654f$var$shouldPreventDefaultUp()
 
-### Community 438 - "Community 438"
+### Community 508 - "Community 508"
 
 Cohesion: 0.5
-Nodes (4): handleKeyDown(), parseValue, setInputSelection, updateValue
+Nodes (5): $f6c31cce2adf654f$var$isHTMLAnchorLink(), $f6c31cce2adf654f$var$isValidInputKey(), $f6c31cce2adf654f$var$isValidKeyboardEvent(), $f6c31cce2adf654f$var$shouldPreventDefaultKeyboard(), $f6c31cce2adf654f$var$shouldPreventDefaultUp()
 
-### Community 439 - "Community 439"
+### Community 509 - "Community 509"
+
+Cohesion: 0.4
+Nodes (5): $507fabe10e71c6fb$var$handleFocusEvent(), $507fabe10e71c6fb$var$handleKeyboardEvent(), $507fabe10e71c6fb$var$handlePointerEvent(), $507fabe10e71c6fb$var$isValidKey(), $507fabe10e71c6fb$var$triggerChangeHandlers()
+
+### Community 510 - "Community 510"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 511 - "Community 511"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 512 - "Community 512"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 513 - "Community 513"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 514 - "Community 514"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 515 - "Community 515"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 516 - "Community 516"
+
+Cohesion: 0.4
+Nodes (4): BannerPosition, BannerStatus, BulkJobStatus, BulkJobType
+
+### Community 517 - "Community 517"
+
+Cohesion: 0.4
+Nodes (4): AdminRoleType, AdminStatus, UserEventType, UserStatus
+
+### Community 519 - "Community 519"
+
+Cohesion: 0.4
+Nodes (4): INVENTORY_DEFAULTS, ORDER_LIMITS, PRODUCT_LIMITS, USER_LIMITS
+
+### Community 525 - "Community 525"
+
+Cohesion: 0.4
+Nodes (3): AdminAuthGuard, getSessionIdFromRequest(), toAdminSessionData()
+
+### Community 526 - "Community 526"
+
+Cohesion: 0.4
+Nodes (4): code:bash (graphify update .), code:bash (/Users/mac/.local/share/uv/tools/graphifyy/bin/python), code:bash (uv pip install --python /Users/mac/.local/share/uv/tools/gra), Graphify
+
+### Community 527 - "Community 527"
+
+Cohesion: 0.4
+Nodes (5): BE-3C: api-admin Modules Move, code:block13 (apps/api-admin/src/), code:bash (pnpm --filter @ecom/api-admin build), Target structure, Verification
+
+### Community 528 - "Community 528"
+
+Cohesion: 0.4
+Nodes (5): BE-3B: api-seller Modules Move, code:block11 (apps/api-seller/src/), code:bash (pnpm --filter @ecom/api-seller build), Target structure, Verification
+
+### Community 529 - "Community 529"
+
+Cohesion: 0.4
+Nodes (5): BE-6: Boundary Rules Enforcement, code:block19 (contracts cannot import: NestJS, React, Next.js, Prisma, dat), code:bash (pnpm lint), Rules to add/verify in `packages/config/src/tooling/dependency-cruiser.cjs`, Run full validation suite
+
+### Community 530 - "Community 530"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 531 - "Community 531"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 532 - "Community 532"
+
+Cohesion: 0.4
+Nodes (3): Default, meta, Story
+
+### Community 534 - "Community 534"
+
+Cohesion: 0.4
+Nodes (4): AllVariants, Default, meta, Story
+
+### Community 535 - "Community 535"
 
 Cohesion: 0.5
 Nodes (4): getObjectType3(), is3(), isObjectOfType3(), isObjectType3()
 
-### Community 440 - "Community 440"
+### Community 536 - "Community 536"
 
 Cohesion: 0.5
 Nodes (4): getObjectType3(), is3(), isObjectOfType3(), isObjectType3()
 
-### Community 441 - "Community 441"
+### Community 537 - "Community 537"
+
+Cohesion: 0.5
+Nodes (4): getObjectType2(), is2(), isObjectOfType2(), isObjectType2()
+
+### Community 538 - "Community 538"
 
 Cohesion: 0.5
 Nodes (4): handleAPI(), off(), on(), once3()
 
-### Community 442 - "Community 442"
+### Community 539 - "Community 539"
 
 Cohesion: 0.5
 Nodes (4): handleAPI(), off(), on(), once3()
 
-### Community 443 - "Community 443"
+### Community 542 - "Community 542"
 
 Cohesion: 0.5
 Nodes (3): DEFAULT_FEATURE_FLAGS, FEATURE_FLAGS, FeatureFlag
 
-### Community 444 - "Community 444"
+### Community 543 - "Community 543"
 
 Cohesion: 0.5
 Nodes (3): API_CONFIG, CORS_CONFIG, RATE_LIMIT_CONFIG
 
-### Community 445 - "Community 445"
+### Community 545 - "Community 545"
 
 Cohesion: 0.5
 Nodes (3): AdminTags, SellerTags, StorefrontTags
 
-### Community 449 - "Community 449"
+### Community 546 - "Community 546"
 
 Cohesion: 0.5
 Nodes (3): connection, QueueName, queues
 
-### Community 450 - "Community 450"
+### Community 553 - "Community 553"
 
 Cohesion: 0.67
-Nodes (3): getSideOffsets(), hide(), isAnySideFullyClipped()
+Nodes (3): useIsomorphicLayoutEffect(), useVirtualizer(), useVirtualizerBase()
 
 ## Knowledge Gaps
 
-- **8780 isolated node(s):** `[t,r,n,o]`, `[o,i,a]`, `[r,n]`, `[o,i]`, `[a,s]` (+8775 more)
+- **9089 isolated node(s):** `[t,r,n,o]`, `[o,i,a]`, `[r,n]`, `[o,i]`, `[a,s]` (+9084 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **86 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **157 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `Boolean` connect `Community 136` to `Shop Domain Models`?**
-  _High betweenness centrality (0.431) - this node is a cross-community bridge._
-- **Why does `isRowClickIgnored()` connect `Community 136` to `Community 225`?**
-  _High betweenness centrality (0.315) - this node is a cross-community bridge._
-- **Why does `number()` connect `Category Domain Models` to `Prisma Schema Enums`, `Prisma Filter Types`, `Community 130`, `Community 131`, `Seller Order Models`, `Community 128`, `Browser Client Types`, `Community 137`, `Warehouse Domain Models`, `Community 146`, `Community 153`, `Community 25`, `Community 30`, `Community 161`, `Community 298`, `Community 185`, `Community 315`, `Community 205`, `Community 207`, `Community 89`, `Community 233`, `Community 108`, `Community 111`, `Community 125`?**
-  _High betweenness centrality (0.221) - this node is a cross-community bridge._
+- **Why does `Boolean` connect `Community 247` to `Community 152`, `Product Domain Models`, `Community 53`?**
+  _High betweenness centrality (0.395) - this node is a cross-community bridge._
+- **Why does `number()` connect `Product Variant Models` to `Prisma Schema Enums`, `Prisma Filter Types`, `Shop Domain Models`, `User Domain Models`, `Community 393`, `Community 142`, `Return Request Models`, `Community 275`, `Community 20`, `Community 22`, `Community 23`, `Community 164`, `Community 430`, `Community 175`, `Community 183`, `Community 320`, `Community 211`, `Community 217`, `Community 346`, `Community 92`, `Community 94`, `Community 351`, `Community 100`, `Community 233`, `Community 113`, `Community 245`, `Community 119`, `Community 120`?**
+  _High betweenness centrality (0.273) - this node is a cross-community bridge._
+- **Why does `isRowClickIgnored()` connect `Community 247` to `Community 147`?**
+  _High betweenness centrality (0.152) - this node is a cross-community bridge._
 - **Are the 175 inferred relationships involving `cn()` (e.g. with `ProductMediaUpload()` and `SectionCard()`) actually correct?**
   _`cn()` has 175 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 2 inferred relationships involving `buildOffsetResponse()` (e.g. with `getMessagesForConversation()` and `list()`) actually correct?**
+  _`buildOffsetResponse()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `[t,r,n,o]`, `[o,i,a]`, `[r,n]` to the rest of the system?**
-  _8780 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _9089 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Prisma Schema Enums` be split into smaller, more focused modules?**
-  _Cohesion score 0.0 - nodes in this community are weakly interconnected._
-- **Should `Prisma Filter Types` be split into smaller, more focused modules?**
   _Cohesion score 0.0 - nodes in this community are weakly interconnected._

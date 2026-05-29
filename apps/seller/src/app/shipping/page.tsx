@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Shipping, type ShippingProviderRow } from '@ecom/ui-seller'
-import { getShippingBundle, toggleShippingMethod } from '@/features/integration/seller-page-api'
-import { mapShippingProviders } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getShippingBundle, toggleShippingMethod } from '@/features/shipping/api'
+import { mapShippingProviders } from '@/features/shipping/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function ShippingPage() {
   const [rows, setRows] = useState<ShippingProviderRow[]>([])

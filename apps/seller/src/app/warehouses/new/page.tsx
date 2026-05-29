@@ -3,8 +3,8 @@
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { WarehouseDetail } from '@ecom/ui-seller'
-import { createWarehouse } from '@/features/integration/seller-page-api'
-import { DashboardLayout } from '../../../components/dashboard-layout'
+import { createWarehouse } from '@/features/warehouses/api'
+import { DashboardLayout } from '../../../shared/components/dashboard-layout'
 import type { WarehouseFormValues } from '@ecom/ui-seller'
 
 export default function NewWarehousePage() {

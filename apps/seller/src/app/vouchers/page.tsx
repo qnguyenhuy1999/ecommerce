@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Vouchers, type VoucherRow } from '@ecom/ui-seller'
-import { DashboardLayout } from '../../components/dashboard-layout'
-import { getVouchersBundle } from '@/features/integration/seller-page-api'
-import { mapCouponsToVoucherRows } from '@/features/integration/seller-page-adapters'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
+import { getVouchersBundle } from '@/features/vouchers/api'
+import { mapCouponsToVoucherRows } from '@/features/vouchers/mappers'
 
 export default function VouchersPage() {
   const [rows, setRows] = useState<VoucherRow[]>([])

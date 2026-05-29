@@ -1,6 +1,6 @@
-import './globals.css'
-import { QueryProvider } from '@/lib/query-client'
-import { AuthProvider } from '@/providers/auth-provider'
+import '../styles/globals.css'
+import { AuthProvider } from '@/core/auth/auth-provider'
+import { QueryProvider } from '@/core/query/query-provider'
 import { TooltipProvider } from '@ecom/core-ui'
 
 export const metadata = {

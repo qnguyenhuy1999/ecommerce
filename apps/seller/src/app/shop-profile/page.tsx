@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { ShopProfile, type ShopProfileFormData } from '@ecom/ui-seller'
-import { DashboardLayout } from '../../components/dashboard-layout'
-import { getShopProfile, updateShopProfile } from '@/features/integration/seller-page-api'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
+import { getShopProfile, updateShopProfile } from '@/features/shop-profile/api'
 import {
   mapProfileFormToUpdateShopPayload,
   mapShopToProfileForm,
-} from '@/features/integration/seller-page-adapters'
+} from '@/features/shop-profile/mappers'
 
 export default function ShopProfilePage() {
   const [formData, setFormData] = useState<ShopProfileFormData>()

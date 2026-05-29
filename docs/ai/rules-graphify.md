@@ -39,8 +39,51 @@ Use graph before raw file crawling when possible.
 Refresh graph:
 
 ```bash
-python3 -c "from graphify.watch import _rebuild_code; from pathlib import Path; _rebuild_code(Path('.'))"
+graphify update .
 ```
+
+## Graphify Python Environment
+
+Graphify installed via `uv` runs in its own Python environment.
+
+Do NOT use:
+
+```bash
+python3 -c "import graphify"
+```
+
+Use:
+
+```bash
+/Users/mac/.local/share/uv/tools/graphifyy/bin/python
+```
+
+Or Graphify CLI commands:
+
+```bash
+graphify update .
+graphify watch .
+graphify extract .
+```
+
+## Watch Mode
+
+If watch mode reports:
+
+```text
+error: watchdog not installed
+```
+
+Install `watchdog` into the Graphify uv environment, not the system Python:
+
+```bash
+uv pip install --python /Users/mac/.local/share/uv/tools/graphifyy/bin/python watchdog
+```
+
+## Rebuild Operations
+
+Never run `_rebuild_code(Path('.'))` from the home directory.
+Always execute Graphify commands inside the target repository root.
 
 ## Rule
 

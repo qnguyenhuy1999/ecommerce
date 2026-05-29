@@ -1,7 +1,7 @@
 'use client'
 
 import { Login, type LoginSubmitValues } from '@ecom/ui-seller'
-import { useAuth } from '../../providers/auth-provider'
+import { useAuth } from '../../core/auth/auth-provider'
 
 export default function LoginPage() {
   const { login } = useAuth()

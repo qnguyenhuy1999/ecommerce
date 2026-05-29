@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Inventory, type InventoryRow } from '@ecom/ui-seller'
-import { getInventory } from '@/features/integration/seller-page-api'
-import { mapInventoryToRows } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getInventory } from '@/features/inventory/api'
+import { mapInventoryToRows } from '@/features/inventory/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function InventoryPage() {
   const [rows, setRows] = useState<InventoryRow[]>([])

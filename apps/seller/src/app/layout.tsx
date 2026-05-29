@@ -1,7 +1,7 @@
-import './globals.css'
+import '../styles/globals.css'
 
-import { AuthProvider } from '../providers/auth-provider'
-import { SellerRealtimeProvider } from '../providers/realtime-provider'
+import { AuthProvider } from '../core/auth/auth-provider'
+import { SellerRealtimeProvider } from '../core/providers/realtime-provider'
 
 export const metadata = {
   title: 'Seller Center',

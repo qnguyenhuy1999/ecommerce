@@ -7,7 +7,7 @@ import {
   getMessageConversations,
   markConversationRead,
   sendConversationMessage,
-} from '@/features/integration/seller-page-api'
+} from '@/features/messages/api'
 import {
   appendMessage,
   applyIncomingMessageResult,
@@ -20,10 +20,10 @@ import {
   type SellerChatConversation,
   type SellerChatMessage,
   updateConversationsAfterSend,
-} from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
+} from '@/features/messages/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 import { type RealtimeChatMessagePayload } from '../../lib/realtime'
-import { useSellerRealtime } from '../../providers/realtime-provider'
+import { useSellerRealtime } from '../../core/providers/realtime-provider'
 
 export default function MessagesPage() {
   const [conversations, setConversations] = useState<SellerChatConversation[]>([])

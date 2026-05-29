@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Warehouses, type WarehouseRow } from '@ecom/ui-seller'
-import { getWarehouses } from '@/features/integration/seller-page-api'
-import { DashboardLayout } from '../../components/dashboard-layout'
+import { getWarehouses } from '@/features/warehouses/api'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
 
 export default function WarehousesPage() {
   const router = useRouter()

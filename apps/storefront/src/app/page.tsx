@@ -1,5 +1,5 @@
 import { Home } from '@ecom/ui-storefront'
-import { mapHomepageToHomeContent } from '../features/home/homepage-adapter'
+import { mapHomepageToHomeContent } from '../features/home/mappers/homepage-mapper'
 import { api } from '../lib/api'
 import type { HomepageResponse } from '../lib/storefront-contracts'
 

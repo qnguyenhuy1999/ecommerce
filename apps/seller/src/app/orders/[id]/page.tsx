@@ -7,9 +7,9 @@ import {
   type OrderDetailRecord,
   type OrderDetailStatus,
 } from '@ecom/ui-seller'
-import { getOrderDetail, updateOrderStatus } from '@/features/integration/seller-page-api'
-import { mapOrderDetail } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../../components/dashboard-layout'
+import { getOrderDetail, updateOrderStatus } from '@/features/orders/api'
+import { mapOrderDetail } from '@/features/orders/mappers'
+import { DashboardLayout } from '../../../shared/components/dashboard-layout'
 
 function formatDateTime(value: string) {
   return new Intl.DateTimeFormat('en-US', {

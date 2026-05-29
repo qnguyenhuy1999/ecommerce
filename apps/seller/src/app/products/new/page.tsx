@@ -2,15 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { DashboardLayout } from '../../../components/dashboard-layout'
+import { DashboardLayout } from '../../../shared/components/dashboard-layout'
 import { ProductDetail, type ProductDetailFormData } from '@ecom/ui-seller'
 import type { ProductStatus } from '@ecom/contracts'
-import { createProduct, getProductCategories } from '@/features/integration/seller-page-api'
-import type { SellerCategory } from '@/features/integration/seller-page-adapters'
-import {
-  flattenCategories,
-  mapProductFormToCreatePayload,
-} from '@/features/integration/seller-page-adapters'
+import { createProduct, getProductCategories } from '@/features/products/api'
+import type { SellerCategory } from '@/features/products/mappers'
+import { flattenCategories, mapProductFormToCreatePayload } from '@/features/products/mappers'
 
 export default function NewProductPage() {
   const router = useRouter()

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { Finance, type FinanceProps } from '@ecom/ui-seller'
-import { DashboardLayout } from '../../components/dashboard-layout'
-import { getFinanceBundle } from '@/features/integration/seller-page-api'
-import { buildFinanceProps } from '@/features/integration/seller-page-adapters'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
+import { getFinanceBundle } from '@/features/finance/api'
+import { buildFinanceProps } from '@/features/finance/mappers'
 
 export default function FinancePage() {
   const [props, setProps] = useState<FinanceProps>()

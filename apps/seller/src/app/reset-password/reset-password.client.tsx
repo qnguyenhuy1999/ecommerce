@@ -2,7 +2,7 @@
 
 import { useSearchParams } from 'next/navigation'
 import { ResetPassword, type ResetPasswordSubmitValues } from '@ecom/ui-seller'
-import { resetPassword } from '@/features/integration/seller-page-api'
+import { resetPassword } from '@/features/auth/api'
 
 export function ResetPasswordClient() {
   const searchParams = useSearchParams()

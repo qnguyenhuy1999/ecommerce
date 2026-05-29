@@ -6,10 +6,10 @@ import {
   getNotifications,
   markAllNotificationsRead as markAllNotificationsReadApi,
   markNotificationRead as markNotificationReadApi,
-} from '@/features/integration/seller-page-api'
-import { mapNotificationsToRows } from '@/features/integration/seller-page-adapters'
-import { DashboardLayout } from '../../components/dashboard-layout'
-import { useSellerRealtime } from '../../providers/realtime-provider'
+} from '@/features/notifications/api'
+import { mapNotificationsToRows } from '@/features/notifications/mappers'
+import { DashboardLayout } from '../../shared/components/dashboard-layout'
+import { useSellerRealtime } from '../../core/providers/realtime-provider'
 
 export default function NotificationsPage() {
   const [rows, setRows] = useState<NotificationRow[]>([])
