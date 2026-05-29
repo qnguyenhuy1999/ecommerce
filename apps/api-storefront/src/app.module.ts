@@ -5,10 +5,10 @@ import { RedisModule } from '@ecom/redis'
 import { EmailModule } from '@ecom/email'
 import { DatabaseModule } from '@ecom/database'
 import { getDefaultThrottleConfig, getRedisConfig, getSmtpConfig } from '@ecom/config'
-import { AuthModule } from './auth/auth.module'
-import { ChatModule } from './chat/chat.module'
-import { HomepageModule } from './homepage/homepage.module'
-import { NotificationsModule } from './notifications/notifications.module'
+import { AuthModule } from './modules/auth/auth.module'
+import { ChatModule } from './modules/chat/chat.module'
+import { HomepageModule } from './modules/homepage/homepage.module'
+import { NotificationsModule } from './modules/notifications/notifications.module'
 
 @Module({
   imports: [

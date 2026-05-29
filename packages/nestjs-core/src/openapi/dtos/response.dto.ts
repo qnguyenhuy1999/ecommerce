@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { PaginationMetaDto } from '@ecom/contracts'
+import { PaginationMetaDto } from '../../dtos/pagination.dto'
 
 /**
  * Swagger schema class for the canonical success response envelope.

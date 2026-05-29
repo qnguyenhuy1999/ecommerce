@@ -9,7 +9,7 @@
     "start": "node --env-file=../../.env dist/main.js",
     "start:prod": "node dist/main.js",
     "lint": "pnpm exec eslint --no-error-on-unmatched-pattern src/",
-    "test": "vitest run src/**/*.test.ts",
+    "test": "vitest run",
     "type-check": "tsc --noEmit",
     "swagger:gen": "node --env-file-if-exists=../../.env ../../scripts/run-nest-swagger-gen.cjs"
   },

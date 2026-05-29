@@ -1,5 +1,5 @@
 import { getSchemaPath } from '@nestjs/swagger'
-import { PaginationMetaDto } from '@ecom/contracts'
+import { PaginationMetaDto } from '../../dtos/pagination.dto'
 import { ApiResponseDto, PaginatedResponseDto } from '../dtos'
 
 /**

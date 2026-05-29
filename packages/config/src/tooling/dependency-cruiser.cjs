@@ -44,6 +44,44 @@ module.exports = {
       to: { path: '^packages/(contracts|database|auth|redis|email|nestjs-core|api-client|core-ui|ui-|config)/' },
       comment: 'shared is a leaf — it cannot import internal workspace packages (external libs only)',
     },
+    // ── api-client boundary ─────────────────────────────────────────────────
+    {
+      name: 'api-client-no-react',
+      severity: 'error',
+      from: { path: '^packages/api-client/' },
+      to: { path: 'node_modules/(react|react-dom|@tanstack|next)/' },
+      comment: 'api-client is framework-free — no React, Next.js, or TanStack imports',
+    },
+    // ── contracts boundary ──────────────────────────────────────────────────
+    {
+      name: 'contracts-no-nestjs-runtime',
+      severity: 'error',
+      from: { path: '^packages/contracts/' },
+      to: { path: 'node_modules/(@nestjs|class-validator|class-transformer|@prisma)/' },
+      comment: 'contracts must be frontend-safe — no NestJS, class-validator, Prisma runtime deps',
+    },
+    // ── cross-app isolation ─────────────────────────────────────────────────
+    {
+      name: 'api-storefront-isolated',
+      severity: 'error',
+      from: { path: '^apps/api-storefront/' },
+      to: { path: '^apps/(api-seller|api-admin|seller|admin)/' },
+      comment: 'api-storefront cannot import from other apps',
+    },
+    {
+      name: 'api-seller-isolated',
+      severity: 'error',
+      from: { path: '^apps/api-seller/' },
+      to: { path: '^apps/(api-storefront|api-admin|storefront|admin)/' },
+      comment: 'api-seller cannot import from other apps',
+    },
+    {
+      name: 'api-admin-isolated',
+      severity: 'error',
+      from: { path: '^apps/api-admin/' },
+      to: { path: '^apps/(api-storefront|api-seller|storefront|seller)/' },
+      comment: 'api-admin cannot import from other apps',
+    },
   ],
   options: {
     doNotFollow: {
