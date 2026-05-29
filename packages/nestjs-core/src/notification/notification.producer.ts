@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common'
-import { InjectQueue } from '@nestjs/bullmq'
+import { Injectable, Inject } from '@nestjs/common'
 import type { Queue } from 'bullmq'
 import {
   QUEUES,
@@ -12,7 +11,7 @@ import {
 
 @Injectable()
 export class NotificationProducer {
-  constructor(@InjectQueue(QUEUES.NOTIFICATION) private readonly queue: Queue) {}
+  constructor(@Inject('BullQueue_' + QUEUES.NOTIFICATION) private readonly queue: Queue) {}
 
   async enqueueUser(payload: UserNotificationJobPayload): Promise<void> {
     await this.queue.add(NOTIFICATION_JOBS.USER_NOTIFICATION, payload, defaultJobOptions())

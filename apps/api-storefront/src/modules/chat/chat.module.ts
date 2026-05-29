@@ -3,7 +3,7 @@ import { AuthModule } from '../auth/auth.module'
 import { ChatBuyerService } from './chat-buyer.service'
 import { ChatController } from './chat.controller'
 import { ChatGateway } from './chat.gateway'
-import { ChatModule as EcomChatModule } from '@ecom/chat'
+import { ChatModule as EcomChatModule } from '@ecom/nestjs-core/chat'
 
 @Module({
   imports: [AuthModule, EcomChatModule],

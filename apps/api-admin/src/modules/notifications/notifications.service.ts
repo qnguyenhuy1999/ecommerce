@@ -3,7 +3,7 @@ import { type AdminNotificationStatus, type NotificationChannel, type Prisma } f
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { withDefined } from '@ecom/shared/utils'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { NotificationProducer } from '@ecom/notification'
+import { NotificationProducer } from '@ecom/nestjs-core/notification'
 
 @Injectable()
 export class NotificationsService {

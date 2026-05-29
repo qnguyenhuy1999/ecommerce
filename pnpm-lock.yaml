@@ -168,9 +168,6 @@ importers:
       '@ecom/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@ecom/chat':
-        specifier: workspace:*
-        version: link:../../packages/chat
       '@ecom/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -186,9 +183,6 @@ importers:
       '@ecom/nestjs-core':
         specifier: workspace:*
         version: link:../../packages/nestjs-core
-      '@ecom/notification':
-        specifier: workspace:*
-        version: link:../../packages/notification
       '@ecom/redis':
         specifier: workspace:*
         version: link:../../packages/redis
@@ -292,9 +286,6 @@ importers:
       '@ecom/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@ecom/chat':
-        specifier: workspace:*
-        version: link:../../packages/chat
       '@ecom/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -310,9 +301,6 @@ importers:
       '@ecom/nestjs-core':
         specifier: workspace:*
         version: link:../../packages/nestjs-core
-      '@ecom/notification':
-        specifier: workspace:*
-        version: link:../../packages/notification
       '@ecom/redis':
         specifier: workspace:*
         version: link:../../packages/redis
@@ -413,9 +401,6 @@ importers:
       '@ecom/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@ecom/chat':
-        specifier: workspace:*
-        version: link:../../packages/chat
       '@ecom/config':
         specifier: workspace:*
         version: link:../../packages/config
@@ -431,9 +416,6 @@ importers:
       '@ecom/nestjs-core':
         specifier: workspace:*
         version: link:../../packages/nestjs-core
-      '@ecom/notification':
-        specifier: workspace:*
-        version: link:../../packages/notification
       '@ecom/redis':
         specifier: workspace:*
         version: link:../../packages/redis
@@ -755,55 +737,6 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
-  packages/chat:
-    dependencies:
-      '@ecom/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@ecom/database':
-        specifier: workspace:*
-        version: link:../database
-      '@ecom/nestjs-core':
-        specifier: workspace:*
-        version: link:../nestjs-core
-      '@ecom/redis':
-        specifier: workspace:*
-        version: link:../redis
-      '@ecom/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@nestjs/common':
-        specifier: '*'
-        version: 11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: '*'
-        version: 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.19)(@nestjs/websockets@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/platform-socket.io':
-        specifier: '*'
-        version: 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/websockets@11.1.19)(rxjs@7.8.2)
-      '@nestjs/websockets':
-        specifier: '*'
-        version: 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(@nestjs/platform-socket.io@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-    devDependencies:
-      '@ecom/config':
-        specifier: workspace:*
-        version: link:../config
-      '@types/node':
-        specifier: ^25.7.0
-        version: 25.7.0
-      ioredis:
-        specifier: ^5.8.1
-        version: 5.10.1
-      socket.io:
-        specifier: ^4.8.1
-        version: 4.8.3
-      tsup:
-        specifier: ^8.4.0
-        version: 8.5.1(@swc/core@1.15.33)(jiti@2.7.0)(postcss@8.5.14)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.4)
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-
   packages/config:
     dependencies:
       '@commitlint/config-conventional':
@@ -1045,12 +978,27 @@ importers:
 
   packages/nestjs-core:
     dependencies:
+      '@ecom/auth':
+        specifier: workspace:*
+        version: link:../auth
       '@ecom/config':
         specifier: workspace:*
         version: link:../config
       '@ecom/contracts':
         specifier: workspace:*
         version: link:../contracts
+      '@ecom/database':
+        specifier: workspace:*
+        version: link:../database
+      '@ecom/redis':
+        specifier: workspace:*
+        version: link:../redis
+      '@ecom/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@nestjs/bullmq':
+        specifier: ^11.0.4
+        version: 11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(bullmq@5.76.8)
       '@nestjs/common':
         specifier: ^11.1.19
         version: 11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
@@ -1060,9 +1008,15 @@ importers:
       '@nestjs/swagger':
         specifier: ^11.0.6
         version: 11.4.2(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)
+      '@nestjs/websockets':
+        specifier: ^11.1.19
+        version: 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(@nestjs/platform-socket.io@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)
       '@socket.io/redis-adapter':
         specifier: ^8.3.0
         version: 8.3.0(socket.io-adapter@2.5.6)
+      bullmq:
+        specifier: ^5.76.8
+        version: 5.76.8
       class-transformer:
         specifier: ^0.5.1
         version: 0.5.1
@@ -1094,40 +1048,6 @@ importers:
       pino-pretty:
         specifier: ^13.0.0
         version: 13.1.3
-      tsup:
-        specifier: ^8.4.0
-        version: 8.5.1(@swc/core@1.15.33)(jiti@2.7.0)(postcss@8.5.14)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.4)
-      typescript:
-        specifier: ^6.0.3
-        version: 6.0.3
-
-  packages/notification:
-    dependencies:
-      '@ecom/database':
-        specifier: workspace:*
-        version: link:../database
-      '@ecom/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@nestjs/bullmq':
-        specifier: '*'
-        version: 11.0.4(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.19)(bullmq@5.76.8)
-      '@nestjs/common':
-        specifier: '*'
-        version: 11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-      '@nestjs/core':
-        specifier: '*'
-        version: 11.1.19(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.19)(@nestjs/websockets@11.1.19)(reflect-metadata@0.2.2)(rxjs@7.8.2)
-    devDependencies:
-      '@ecom/config':
-        specifier: workspace:*
-        version: link:../config
-      '@types/node':
-        specifier: ^25.7.0
-        version: 25.7.0
-      bullmq:
-        specifier: '*'
-        version: 5.76.8
       tsup:
         specifier: ^8.4.0
         version: 8.5.1(@swc/core@1.15.33)(jiti@2.7.0)(postcss@8.5.14)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.4)

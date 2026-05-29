@@ -12,7 +12,7 @@ import type { SessionService } from '@ecom/auth'
 import { resolveSocketCorsOrigins, toSocketError } from '@ecom/nestjs-core'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import { BaseChatGateway, SESSION_SERVICE } from '@ecom/chat'
+import { BaseChatGateway, SESSION_SERVICE } from '@ecom/nestjs-core/chat'
 import { ChatAdminService } from './chat-admin.service'
 import { CHAT_MESSAGE_CREATED_CHANNEL } from '@ecom/shared'
 
@@ -64,7 +64,11 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     return session.adminId as string | undefined
   }
 
-  protected async onAuthenticated(client: Socket, adminId: string): Promise<void> {
+  protected async onAuthenticated(
+    client: Socket,
+    adminId: string,
+    _session: Record<string, unknown>,
+  ): Promise<void> {
     client.data.adminId = adminId
     void client.join(`admin:${adminId}`)
     void client.join(ADMIN_ROOM)

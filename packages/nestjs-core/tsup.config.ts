@@ -4,6 +4,8 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     openapi: 'src/openapi/index.ts',
+    notification: 'src/notification/index.ts',
+    chat: 'src/chat/index.ts',
   },
   format: ['cjs', 'esm'],
   dts: { compilerOptions: { ignoreDeprecations: '6.0' } },

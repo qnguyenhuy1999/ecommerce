@@ -3,7 +3,7 @@ import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { BaseChatService } from '@ecom/chat'
+import { BaseChatService } from '@ecom/nestjs-core/chat'
 import {
   ChatConversationDetailDto,
   ChatConversationSummaryDto,

@@ -4,7 +4,7 @@ import type { OnGatewayConnection, OnGatewayDisconnect } from '@nestjs/websocket
 import type { Server, Socket } from 'socket.io'
 import type { SessionService } from '@ecom/auth'
 import { SESSION_COOKIE_NAME } from '@ecom/auth'
-import { createPresenceKey, extractSocketSessionId } from '@ecom/nestjs-core'
+import { createPresenceKey, extractSocketSessionId } from '../nestjs/websocket/chat-gateway.utils'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 

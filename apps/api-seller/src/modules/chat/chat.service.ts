@@ -14,7 +14,7 @@ import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import { BaseChatService } from '@ecom/chat'
+import { BaseChatService } from '@ecom/nestjs-core/chat'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()

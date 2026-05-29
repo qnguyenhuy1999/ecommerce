@@ -11,7 +11,7 @@ import {
 import { Inject, NotFoundException, Injectable, Logger } from '@nestjs/common'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import { BaseChatService } from '@ecom/chat'
+import { BaseChatService } from '@ecom/nestjs-core/chat'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'
 
 @Injectable()

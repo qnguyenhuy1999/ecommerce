@@ -7,13 +7,6 @@ import { MetricsModule } from '../metrics/metrics.module'
 
 @Module({
   imports: [
-    BullModule.forRoot({
-      connection: {
-        host: process.env.REDIS_HOST ?? 'localhost',
-        port: parseInt(process.env.REDIS_PORT ?? '6379', 10),
-        password: process.env.REDIS_PASSWORD,
-      },
-    }),
     BullModule.registerQueue({ name: 'bulk-jobs' }, { name: 'metrics-snapshots' }),
     BulkModule,
     MetricsModule,

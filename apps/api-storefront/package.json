@@ -15,8 +15,6 @@
   },
   "dependencies": {
     "@ecom/auth": "workspace:*",
-    "@ecom/chat": "workspace:*",
-    "@ecom/notification": "workspace:*",
     "@ecom/config": "workspace:*",
     "@ecom/contracts": "workspace:*",
     "@ecom/database": "workspace:*",

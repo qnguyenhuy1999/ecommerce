@@ -7,8 +7,8 @@ describe('ChatGateway.afterInit', () => {
 
     const redisSubscriber = {
       on: vi.fn(),
-      psubscribe: vi.fn().mockResolvedValue(),
-      subscribe: vi.fn().mockResolvedValue(),
+      psubscribe: vi.fn().mockResolvedValue(undefined),
+      subscribe: vi.fn().mockResolvedValue(undefined),
     }
     const redis = {
       duplicate: vi.fn().mockReturnValue(redisSubscriber),

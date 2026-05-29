@@ -12,7 +12,7 @@ import type { SessionService } from '@ecom/auth'
 import { resolveSocketCorsOrigins, toSocketError } from '@ecom/nestjs-core'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import { BaseChatGateway, SESSION_SERVICE } from '@ecom/chat'
+import { BaseChatGateway, SESSION_SERVICE } from '@ecom/nestjs-core/chat'
 import { ChatService } from './chat.service'
 import { ShopService } from '../shop/shop.service'
 

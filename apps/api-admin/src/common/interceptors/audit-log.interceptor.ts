@@ -4,9 +4,9 @@ import { Reflector } from '@nestjs/core'
 import type { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
 import type { Request } from 'express'
-import { AuditLogService } from '../../audit-logs/audit-log.service'
+import { AuditLogService } from '../../modules/audit-logs/audit-log.service'
 import { AUDIT_LOG_KEY, type AuditLogMetadata } from '../decorators/audit-log.decorator'
-import type { AdminSessionData } from '../../auth/decorators/current-admin.decorator'
+import type { AdminSessionData } from '../../modules/auth/decorators/current-admin.decorator'
 
 interface RequestWithAdmin extends Request {
   admin?: AdminSessionData
