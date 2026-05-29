@@ -1,7 +1,7 @@
 'use client'
 
 import { usePathname } from 'next/navigation'
-import { SellerDashboardShell } from '@ecom/ui-seller'
+import { ConsoleLayout } from '@ecom/ui-seller'
 import { useProtectedRoute } from '../../core/auth/use-protected-route'
 import { useAuth } from '../../core/auth/auth-provider'
 import { useSellerRealtime } from '../../core/providers/realtime-provider'
@@ -13,7 +13,7 @@ export function SellerLayout({ children }: { children: React.ReactNode }) {
   const { chatUnreadCount, notificationCount } = useSellerRealtime()
 
   return (
-    <SellerDashboardShell
+    <ConsoleLayout
       pathname={pathname}
       loading={loading}
       chatUnreadCount={chatUnreadCount}
@@ -21,6 +21,6 @@ export function SellerLayout({ children }: { children: React.ReactNode }) {
       onLogout={() => logout()}
     >
       {children}
-    </SellerDashboardShell>
+    </ConsoleLayout>
   )
 }

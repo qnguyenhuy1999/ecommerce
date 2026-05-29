@@ -37,6 +37,7 @@ import { AutomationModule } from './modules/automation/automation.module'
 import { I18nModule } from './modules/i18n/i18n.module'
 import { EventStreamingModule } from './modules/event-streaming/event-streaming.module'
 import { GrowthModule } from './modules/growth/growth.module'
+import { DashboardModule } from './modules/dashboard/dashboard.module'
 
 @Module({
   imports: [
@@ -106,6 +107,7 @@ import { GrowthModule } from './modules/growth/growth.module'
     I18nModule,
     EventStreamingModule,
     GrowthModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}

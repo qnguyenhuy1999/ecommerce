@@ -24,6 +24,7 @@ export function ConsoleLayout({
   children,
   sidebarGroups = [],
   sidebarAccount = defaultSidebarAccount,
+  sidebarFooter,
   workspaceSwitcher = defaultWorkspaceSwitcher,
   searchPlaceholder = 'Search...',
   balanceLabel,
@@ -36,6 +37,7 @@ export function ConsoleLayout({
     <ConsoleLayoutProviders>
       <SidebarShell
         header={sidebarAccount ? <ConsoleSidebarHeader account={sidebarAccount} /> : undefined}
+        footer={sidebarFooter}
       >
         <SidebarMenuRenderer groups={sidebarGroups} />
       </SidebarShell>

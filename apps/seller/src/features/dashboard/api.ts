@@ -1,17 +1,24 @@
-import { getDashboardBundle as getDashboardBundleBase } from '../integration/seller-page-api'
+import 'server-only'
 
-export async function getDashboardBundle() {
-  const bundle = await getDashboardBundleBase()
+import { headers } from 'next/headers'
+import { api } from '@/lib/api'
+import type { SellerDashboardBundle, SellerDashboardViewModel } from './normalize'
+import { normalizeDashboardBundle } from './normalize'
 
-  return {
-    summary: bundle.summary.items,
-    revenue: bundle.revenue.items,
-    orders: bundle.orders.items,
-    products: bundle.products.items,
-    lowStock: bundle.lowStock.items,
-    unreadCount: bundle.unreadCount.items,
-    notifications: bundle.notifications,
-    pendingOrders: bundle.pendingOrders,
-    returnStats: bundle.returnStats.items,
+interface DashboardBundleEnvelope {
+  data: {
+    items: SellerDashboardBundle
   }
+}
+
+export async function getDashboardBundle(): Promise<SellerDashboardViewModel> {
+  const requestHeaders = await headers()
+  const cookie = requestHeaders.get('cookie')
+
+  const response = await api<DashboardBundleEnvelope>('/dashboard/bundle', {
+    cache: 'no-store',
+    headers: cookie ? { cookie } : undefined,
+  })
+
+  return normalizeDashboardBundle(response.data.items)
 }

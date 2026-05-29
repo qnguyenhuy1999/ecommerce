@@ -53,6 +53,19 @@ interface PaginatedEnvelope<T> {
   meta?: unknown
 }
 
+export function unwrapApiData<T>(value: unknown): T {
+  if (!value || typeof value !== 'object') {
+    return value as T
+  }
+
+  const items = (value as { items?: unknown }).items
+  if (items !== undefined) {
+    return items as T
+  }
+
+  return value as T
+}
+
 type UpdateOrderStatusRequest =
   SellerPaths['/orders/{id}/status']['put']['requestBody']['content']['application/json']
 type CreateWarehouseResponse =
@@ -162,15 +175,15 @@ export async function getDashboardBundle() {
   ])
 
   return {
-    summary: summary.data,
-    revenue: revenue.data,
-    orders: orders.data,
-    products: products.data,
-    lowStock: lowStock.data,
-    unreadCount: unreadCount.data,
-    notifications: notifications.data.items,
-    pendingOrders: pendingOrders.data.items,
-    returnStats: returnStats.data,
+    summary: unwrapApiData<SellerDashboardSummary>(summary.data),
+    revenue: unwrapApiData<SellerRevenueAnalytics>(revenue.data),
+    orders: unwrapApiData<SellerOrderAnalytics>(orders.data),
+    products: unwrapApiData<SellerProductPerformanceItem[]>(products.data),
+    lowStock: unwrapApiData<SellerLowStockItem[]>(lowStock.data),
+    unreadCount: unwrapApiData<SellerNotificationUnreadCount>(unreadCount.data),
+    notifications: unwrapApiData<SellerNotification[]>(notifications.data),
+    pendingOrders: unwrapApiData<SellerOrderListItem[]>(pendingOrders.data),
+    returnStats: unwrapApiData<SellerReturnStats>(returnStats.data),
   }
 }
 
@@ -185,10 +198,10 @@ export async function getAnalyticsBundle(rangeParams: { startDate: string; endDa
   ])
 
   return {
-    revenue: revenue.data,
-    orders: orders.data,
-    products: products.data,
-    conversion: conversion.data,
+    revenue: unwrapApiData<SellerRevenueAnalytics>(revenue.data),
+    orders: unwrapApiData<SellerOrderAnalytics>(orders.data),
+    products: unwrapApiData<SellerProductPerformanceItem[]>(products.data),
+    conversion: unwrapApiData<SellerConversionMetrics>(conversion.data),
   }
 }
 

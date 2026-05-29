@@ -57,8 +57,8 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
   private notificationSubscriber: Redis | undefined
 
   constructor(
-    private readonly shopService: ShopService,
-    private readonly chatService: ChatService,
+    @Inject(ShopService) private readonly shopService: ShopService,
+    @Inject(ChatService) private readonly chatService: ChatService,
     @Inject(SESSION_SERVICE) sessionService: SessionService,
     @Inject(REDIS_CLIENT) redis: Redis,
   ) {

@@ -1,19 +1,11 @@
 import { formatCurrency, formatDateIntl } from '@ecom/shared'
-import type { DashboardProps } from '@ecom/ui-admin'
+import { dashboardDefaultProps, type DashboardProps } from '@ecom/ui-admin'
 import type { DashboardAnalytics, DashboardMetrics } from '../api/dashboard.api'
 
 export function mapDashboardMetricsToProps(
   metrics: DashboardMetrics,
   analytics: DashboardAnalytics | undefined,
-): Pick<
-  DashboardProps,
-  | 'metrics'
-  | 'pendingApprovals'
-  | 'moderationQueue'
-  | 'revenueSeries'
-  | 'revenueValueLabel'
-  | 'revenueTrendLabel'
-> {
+): DashboardProps {
   const totalRevenue = analytics?.totalRevenue ?? 0
   const revenueTrendLabel =
     analytics?.revenueTrendPercent !== null && analytics?.revenueTrendPercent !== undefined
@@ -26,6 +18,7 @@ export function mapDashboardMetricsToProps(
   })
 
   return {
+    ...dashboardDefaultProps,
     metrics: [
       {
         label: 'Total Sellers',

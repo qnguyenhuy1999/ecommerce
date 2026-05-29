@@ -4,9 +4,9 @@ export async function getAnalyticsBundle(rangeParams: { startDate: string; endDa
   const bundle = await getAnalyticsBundleBase(rangeParams)
 
   return {
-    revenue: bundle.revenue.items,
-    orders: bundle.orders.items,
-    products: bundle.products.items,
-    conversion: bundle.conversion.items,
+    revenue: bundle.revenue,
+    orders: bundle.orders,
+    products: bundle.products,
+    conversion: bundle.conversion,
   }
 }

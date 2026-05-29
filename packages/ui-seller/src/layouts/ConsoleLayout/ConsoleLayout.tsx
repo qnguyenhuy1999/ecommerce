@@ -1,10 +1,15 @@
+'use client'
+
 import {
   ConsoleLayout as CoreConsoleLayout,
   Root as CoreRoot,
-  type ConsoleLayoutProps,
+  type SidebarGroup,
 } from '@ecom/core-ui'
+import { LogOut } from 'lucide-react'
 import { withDefined } from '@ecom/shared'
 import {
+  buildSidebarGroups,
+  type ConsoleLayoutProps,
   defaultSidebarAccount,
   defaultSidebarGroups,
   defaultUserMenu,
@@ -13,6 +18,9 @@ import {
 
 function ConsoleLayoutBase({
   children,
+  pathname,
+  loading = false,
+  chatUnreadCount = 0,
   sidebarGroups = defaultSidebarGroups,
   sidebarAccount = defaultSidebarAccount,
   workspaceSwitcher = defaultWorkspaceSwitcher,
@@ -22,10 +30,26 @@ function ConsoleLayoutBase({
   storefrontLabel = 'Storefront',
   userMenu = defaultUserMenu,
   contentClassName,
+  onLogout,
 }: ConsoleLayoutProps) {
+  const resolvedSidebarGroups: SidebarGroup[] = buildSidebarGroups({
+    pathname,
+    sidebarGroups,
+    chatUnreadCount,
+    notificationCount,
+  })
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="border-primary h-8 w-8 animate-spin rounded-full border-b-2" />
+      </div>
+    )
+  }
+
   return (
     <CoreConsoleLayout
-      sidebarGroups={sidebarGroups}
+      sidebarGroups={resolvedSidebarGroups}
       sidebarAccount={sidebarAccount}
       workspaceSwitcher={workspaceSwitcher}
       searchPlaceholder={searchPlaceholder}
@@ -35,6 +59,18 @@ function ConsoleLayoutBase({
       userMenu={userMenu}
       {...withDefined({
         contentClassName,
+        sidebarFooter: onLogout ? (
+          <button
+            type="button"
+            onClick={() => {
+              void onLogout()
+            }}
+            className="hover:bg-muted hover:text-foreground text-muted-foreground flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors"
+          >
+            <LogOut className="size-4 shrink-0" />
+            Logout
+          </button>
+        ) : undefined,
       })}
     >
       {children}

@@ -25,6 +25,7 @@ export interface ConsoleLayoutProps {
   children: React.ReactNode
   sidebarGroups?: SidebarGroup[]
   sidebarAccount?: ConsoleLayoutAccount
+  sidebarFooter?: React.ReactNode
   workspaceSwitcher?: ConsoleLayoutSwitcher
   searchPlaceholder?: string
   balanceLabel?: string

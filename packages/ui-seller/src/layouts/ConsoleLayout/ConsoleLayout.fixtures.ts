@@ -1,5 +1,7 @@
 import {
   BarChart2,
+  Bell,
+  ClipboardCheck,
   DollarSign,
   LayoutDashboard,
   Megaphone,
@@ -8,9 +10,13 @@ import {
   RefreshCcw,
   Settings,
   ShoppingCart,
+  Star,
   Store,
   Tag,
+  Truck,
+  Upload,
   Ticket,
+  TrendingUp,
   Warehouse,
 } from 'lucide-react'
 
@@ -19,16 +25,20 @@ import { type SidebarGroup } from '@ecom/core-ui'
 export const sidebarGroups: SidebarGroup[] = [
   {
     id: 'main',
-    items: [{ id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' }],
+    items: [{ id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/' }],
   },
   {
     id: 'manage',
     label: 'Manage',
     items: [
-      { id: 'products', label: 'Products', icon: Package, href: '/products', isActive: true },
-      { id: 'inventory', label: 'Inventory', icon: Warehouse, href: '/inventory' },
       { id: 'orders', label: 'Orders', icon: ShoppingCart, href: '/orders' },
+      { id: 'products', label: 'Products', icon: Package, href: '/products' },
+      { id: 'inventory', label: 'Inventory', icon: Warehouse, href: '/inventory' },
+      { id: 'shipping', label: 'Shipping', icon: Truck, href: '/shipping' },
       { id: 'returns', label: 'Returns', icon: RefreshCcw, href: '/returns' },
+      { id: 'bulk', label: 'Bulk Operations', icon: Upload, href: '/bulk' },
+      { id: 'warehouses', label: 'Warehouses', icon: Warehouse, href: '/warehouses' },
+      { id: 'approvals', label: 'Approvals', icon: ClipboardCheck, href: '/approvals' },
     ],
   },
   {
@@ -46,12 +56,17 @@ export const sidebarGroups: SidebarGroup[] = [
     items: [
       { id: 'analytics', label: 'Analytics', icon: BarChart2, href: '/analytics' },
       { id: 'finance', label: 'Finance', icon: DollarSign, href: '/finance' },
+      { id: 'metrics', label: 'Performance', icon: TrendingUp, href: '/metrics' },
     ],
   },
   {
     id: 'engage',
     label: 'Engage',
-    items: [{ id: 'messages', label: 'Messages', icon: MessageSquare, href: '/messages' }],
+    items: [
+      { id: 'messages', label: 'Messages', icon: MessageSquare, href: '/messages' },
+      { id: 'reviews', label: 'Reviews', icon: Star, href: '/reviews' },
+      { id: 'notifications', label: 'Notifications', icon: Bell, href: '/notifications' },
+    ],
   },
   {
     id: 'system',
