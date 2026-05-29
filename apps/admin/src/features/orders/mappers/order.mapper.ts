@@ -1,3 +1,4 @@
+import { formatCurrency, formatDateIntl, formatDateTime } from '@ecom/shared'
 import type {
   OrderDetailRecord,
   OrderRecord,
@@ -11,10 +12,10 @@ export function mapOrderToRecord(order: OrderListItem): OrderRecord {
   return {
     id: order.id,
     status: order.status as OrderRecord['status'],
-    totalAmountLabel: `$${Number(order.totalAmount).toFixed(2)}`,
+    totalAmountLabel: formatCurrency(Number(order.totalAmount)),
     sellerCount: order.sellerOrders.length,
     itemCount,
-    createdAtLabel: new Date(order.createdAt).toLocaleDateString(),
+    createdAtLabel: formatDateIntl(order.createdAt),
   }
 }
 
@@ -24,22 +25,22 @@ export function mapOrderToDetailRecord(order: OrderDetail): OrderDetailRecord {
     id: order.id,
     shortId: `${order.id.slice(0, 8)}…`,
     status: order.status,
-    totalAmountLabel: `$${Number(order.totalAmount).toFixed(2)}`,
+    totalAmountLabel: formatCurrency(Number(order.totalAmount)),
     sellerCount: order.sellerOrders.length,
-    createdAtLabel: new Date(order.createdAt).toLocaleString(),
+    createdAtLabel: formatDateTime(order.createdAt),
     canForceCancel: canEnd,
     canForceComplete: canEnd,
     sellerOrders: order.sellerOrders.map((so) => ({
       id: so.id,
       shopName: so.shop.name,
       status: so.status,
-      subtotalLabel: `$${Number(so.subtotal).toFixed(2)}`,
+      subtotalLabel: formatCurrency(Number(so.subtotal)),
       items: so.items.map((item) => ({
         id: item.id,
         productName: item.productName,
         quantity: item.quantity,
-        unitPriceLabel: `$${Number(item.unitPrice).toFixed(2)}`,
-        totalPriceLabel: `$${Number(item.totalPrice).toFixed(2)}`,
+        unitPriceLabel: formatCurrency(Number(item.unitPrice)),
+        totalPriceLabel: formatCurrency(Number(item.totalPrice)),
       })),
       shipment: so.shipment,
     })),

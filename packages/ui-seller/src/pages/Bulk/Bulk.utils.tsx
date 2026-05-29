@@ -1,3 +1,4 @@
+import { formatDateTime } from '@ecom/shared'
 import type { DataTableColumn } from '@ecom/core-ui'
 import { StatusBadge } from '../../atoms/StatusBadge'
 import type { BulkJobRow } from './Bulk.types'
@@ -28,6 +29,6 @@ export const bulkColumns: DataTableColumn<BulkJobRow>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Created',
-    cell: ({ row }) => new Date(row.original.createdAt).toLocaleString(),
+    cell: ({ row }) => formatDateTime(row.original.createdAt),
   },
 ]

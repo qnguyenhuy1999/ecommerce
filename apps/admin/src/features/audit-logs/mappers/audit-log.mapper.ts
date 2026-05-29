@@ -1,3 +1,4 @@
+import { formatDateTime } from '@ecom/shared'
 import type { AuditLogEntry, AuditLogResource } from '@ecom/ui-admin'
 import type { AuditLog } from '../api/audit-logs.api'
 
@@ -32,7 +33,7 @@ export function mapAuditLogToEntry(log: AuditLog): AuditLogEntry {
 
   return {
     id: log.id,
-    timestampLabel: new Date(log.createdAt).toLocaleString(),
+    timestampLabel: formatDateTime(log.createdAt),
     timestamp: log.createdAt,
     actorName,
     actorRole: 'Admin',

@@ -15,7 +15,7 @@ type Story = StoryObj<typeof StorefrontLayout>
 
 export const Default: Story = {
   render: () => (
-    <StorefrontLayout>
+    <StorefrontLayout header={{ cartCount: 3, notificationCount: 3, sellerLabel: 'Seller' }}>
       <StorefrontLayout.Content>
         <div className="bg-card rounded-2xl border p-10">
           <Typography variant="h3">Page content slot</Typography>

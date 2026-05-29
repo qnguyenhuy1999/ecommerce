@@ -1,3 +1,4 @@
+import { formatNumber } from '@ecom/shared'
 import { ArrowRight, CircleAlert, MessageSquareText, PackageCheck, RotateCcw } from 'lucide-react'
 
 export const dashboardTodoStyles = {
@@ -26,5 +27,5 @@ export const dashboardTodoStyles = {
 export const dashboardChevronIcon = ArrowRight
 
 export function formatDashboardNumber(value: number) {
-  return new Intl.NumberFormat('en-US').format(value)
+  return formatNumber(value)
 }

@@ -1,3 +1,4 @@
+import { formatDateTime } from '@ecom/shared'
 import type { MessagesConversationRecord, MessagesMessageRecord } from '@ecom/ui-storefront'
 import type { ChatConversation, ChatMessagesResponse } from '../../lib/storefront-contracts'
 import type { RealtimeChatMessagePayload } from '../../lib/realtime'
@@ -16,7 +17,7 @@ export function mapMessage(message: ChatMessageState): MessagesMessageRecord {
   return {
     id: message.id,
     content: message.content,
-    createdAtLabel: new Date(message.createdAt).toLocaleString(),
+    createdAtLabel: formatDateTime(message.createdAt),
   }
 }
 

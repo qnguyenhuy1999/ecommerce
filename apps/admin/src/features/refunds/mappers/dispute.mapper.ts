@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { RefundRecord, RefundStatus } from '@ecom/ui-admin'
 import type { RefundListItem } from '../api/refunds.api'
 
@@ -23,7 +24,7 @@ export function mapRefundToRefundRecord(refund: RefundListItem): RefundRecord {
     sellerName: '—',
     amountLabel: refund.refundAmount ? `$${Number(refund.refundAmount).toFixed(2)}` : '—',
     reason: refund.reason,
-    openedAtLabel: new Date(refund.createdAt).toLocaleDateString(),
+    openedAtLabel: formatDateIntl(refund.createdAt),
     status: toRefundStatus(refund.status),
     priority: 'MEDIUM',
     queue: 'SUPPORT',

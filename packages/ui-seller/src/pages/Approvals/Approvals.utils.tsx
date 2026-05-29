@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { DataTableColumn } from '@ecom/core-ui'
 import { StatusBadge } from '../../atoms/StatusBadge'
 import type { ApprovalRow, ApprovalsProps } from './Approvals.types'
@@ -51,7 +52,7 @@ export function makeApprovalsColumns(
     {
       accessorKey: 'createdAt',
       header: 'Submitted',
-      cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+      cell: ({ row }) => formatDateIntl(row.original.createdAt),
     },
   ]
 }

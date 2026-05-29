@@ -8,20 +8,24 @@ describe('ChatController metadata', () => {
   it('uses concrete dto decorators instead of Object', () => {
     const listResponses = Reflect.getMetadata(
       DECORATORS.API_RESPONSE,
-      ChatController.prototype.listConversations,
-    )
+      ChatController.prototype,
+      'listConversations',
+    ) as string[]
     const conversationResponses = Reflect.getMetadata(
       DECORATORS.API_RESPONSE,
-      ChatController.prototype.getConversation,
-    )
+      ChatController.prototype,
+      'getConversation',
+    ) as string[]
     const createResponses = Reflect.getMetadata(
       DECORATORS.API_RESPONSE,
-      ChatController.prototype.createConversation,
-    )
+      ChatController.prototype,
+      'createConversation',
+    ) as string[]
     const messageResponses = Reflect.getMetadata(
       DECORATORS.API_RESPONSE,
-      ChatController.prototype.getMessages,
-    )
+      ChatController.prototype,
+      'getMessages',
+    ) as string[]
 
     expect(JSON.stringify(listResponses)).toContain('ChatConversationSummaryDto')
     expect(JSON.stringify(createResponses)).toContain('ChatConversationSummaryDto')
@@ -36,7 +40,8 @@ describe('ChatController metadata', () => {
   it('requires SUPPORT_MANAGE on chat endpoints', () => {
     const permissions = Reflect.getMetadata(
       PERMISSIONS_KEY,
-      ChatController.prototype.createConversation,
+      ChatController.prototype,
+      'createConversation',
     ) as string[]
 
     expect(permissions).toEqual(['SUPPORT_MANAGE'])

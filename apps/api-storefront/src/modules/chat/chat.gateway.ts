@@ -31,6 +31,10 @@ interface UserNotificationPayload {
   metadata?: Record<string, unknown>
 }
 
+interface BuyerChatSocketData {
+  userId?: string
+}
+
 function extractUserIdFromNotificationChannel(channel: string): string | undefined {
   if (!channel.startsWith(USER_NOTIFICATION_CHANNEL)) {
     return undefined
@@ -46,6 +50,23 @@ function toChatError(err: unknown): ChatErrorPayload {
     'Chat operation failed',
     'INTERNAL',
   )
+}
+
+function getUserIdFromSession(session: Record<string, unknown>): string | undefined {
+  const userId = session['userId']
+  return typeof userId === 'string' && userId.length > 0 ? userId : undefined
+}
+
+function getBuyerSocketData(client: Socket): BuyerChatSocketData | undefined {
+  const data = client.data as Record<string, unknown>
+  const userId = data['userId']
+
+  return typeof userId === 'string' && userId.length > 0 ? { userId } : undefined
+}
+
+function setBuyerSocketData(client: Socket, userId: string): void {
+  const data = client.data as Record<string, unknown>
+  data['userId'] = userId
 }
 
 @WebSocketGateway({
@@ -67,16 +88,16 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
   }
 
   protected getIdentityFromSession(session: Record<string, unknown>): string | undefined {
-    return session.userId as string | undefined
+    return getUserIdFromSession(session)
   }
 
   protected async onAuthenticated(client: Socket, userId: string): Promise<void> {
-    client.data.userId = userId
-    void client.join(`user:${userId}`)
+    setBuyerSocketData(client, userId)
+    await client.join(`user:${userId}`)
   }
 
   protected getIdentityFromSocketData(client: Socket): string | undefined {
-    return (client.data as { userId?: string }).userId
+    return getBuyerSocketData(client)?.userId
   }
 
   protected getPresenceScope(): string {
@@ -115,7 +136,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): Promise<void> {
-    const userId = (client.data as { userId?: string }).userId
+    const userId = getBuyerSocketData(client)?.userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
@@ -133,7 +154,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): void {
-    const userId = (client.data as { userId?: string }).userId
+    const userId = getBuyerSocketData(client)?.userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     void client.leave(`conversation:${data.conversationId}`)
@@ -149,7 +170,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
       type?: 'TEXT' | 'IMAGE' | 'PRODUCT'
     },
   ): Promise<void> {
-    const userId = (client.data as { userId?: string }).userId
+    const userId = getBuyerSocketData(client)?.userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
@@ -170,7 +191,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): Promise<void> {
-    const userId = (client.data as { userId?: string }).userId
+    const userId = getBuyerSocketData(client)?.userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {
@@ -190,7 +211,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): Promise<void> {
-    const userId = (client.data as { userId?: string }).userId
+    const userId = getBuyerSocketData(client)?.userId
     if (typeof userId !== 'string' || userId.length === 0) return
 
     try {

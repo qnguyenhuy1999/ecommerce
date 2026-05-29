@@ -9,4 +9,5 @@ export type {
   StorefrontFooterColumn,
   StorefrontLayoutProps,
   StorefrontNavItem,
+  StorefrontHeaderProps,
 } from './StorefrontLayout.types'

@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { DataTableColumn } from '@ecom/core-ui'
 import { StatusBadge } from '../../atoms/StatusBadge'
 import type { WarehouseRow } from './Warehouses.types'
@@ -41,6 +42,6 @@ export const warehousesColumns: DataTableColumn<WarehouseRow>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Created',
-    cell: ({ row }) => new Date(row.original.createdAt).toLocaleDateString(),
+    cell: ({ row }) => formatDateIntl(row.original.createdAt),
   },
 ]

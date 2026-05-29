@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { BannerRecord, BannerStatus, BannerPosition } from '@ecom/ui-admin'
 import type { BannerListItem } from '../api/banners.api'
 
@@ -26,11 +27,11 @@ function toBannerPosition(position: string): BannerPosition {
 function toDateRangeLabel(startsAt: string | null, endsAt: string | null): string {
   if (!startsAt && !endsAt) return '—'
   const fmt = (d: string) =>
-    new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    formatDateIntl(d, { month: 'short', day: 'numeric', year: 'numeric' }, 'en-US')
   if (startsAt && endsAt) return `${fmt(startsAt)} – ${fmt(endsAt)}`
   if (startsAt) return `From ${fmt(startsAt)}`
   if (endsAt) return `Until ${fmt(endsAt)}`
-  return 'â€”'
+  return '—'
 }
 
 export function mapBannerToRecord(banner: BannerListItem): BannerRecord {

@@ -142,7 +142,11 @@ export class CheckoutService {
     if (address.userId !== user.userId) throw new ForbiddenException()
 
     const session = await this.checkoutRepository.updateSession(sessionId, {
-      addressId: dto.addressId,
+      address: {
+        connect: {
+          id: dto.addressId,
+        },
+      },
       step: 'SHIPPING',
     })
 

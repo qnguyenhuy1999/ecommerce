@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { VoucherDetailType } from './VoucherDetail.types'
 
 export const voucherTypeOptions: Array<{ value: VoucherDetailType; label: string }> = [
@@ -32,16 +33,12 @@ export function formatDateLabel(value: string) {
     return 'No expiry'
   }
 
-  const date = new Date(value)
-
-  if (Number.isNaN(date.getTime())) {
+  const label = formatDateIntl(value, { month: 'short', day: 'numeric' }, 'en-US')
+  if (!label) {
     return 'No expiry'
   }
 
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-  }).format(date)
+  return label
 }
 
 export function getPreviewHeadline(type: VoucherDetailType, value: string) {

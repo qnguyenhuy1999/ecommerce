@@ -92,9 +92,7 @@ export class ChatAdminService extends BaseChatService {
     await this.ensureConversationExists(conversationId)
     const result = await this.getMessagesForConversation(conversationId, query)
     return {
-      items: result.items.map((item) =>
-        this.toMessageDto(item as Prisma.ChatMessageGetPayload<Record<string, never>>),
-      ),
+      items: result.items.map((item) => this.toMessageDto(item)),
       meta: result.meta,
     }
   }

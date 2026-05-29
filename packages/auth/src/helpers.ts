@@ -3,6 +3,9 @@ import { SESSION_COOKIE_NAME } from './cookie.config'
 
 export interface AuthUser {
   userId: string
+  roles?: string[]
+  sellerProfile?: unknown
+  isStaff?: boolean
   [key: string]: unknown
 }
 

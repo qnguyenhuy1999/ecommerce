@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { NotificationRecord, NotificationStatus } from '@ecom/ui-admin'
 import type { NotificationListItem } from '../api/notifications.api'
 
@@ -13,11 +14,7 @@ function toNotificationStatus(status: string): NotificationStatus {
 
 function toDateLabel(value: string | null): string {
   if (!value) return '—'
-  return new Date(value).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
+  return formatDateIntl(value, { month: 'short', day: 'numeric', year: 'numeric' }, 'en-US')
 }
 
 export function mapNotificationToRecord(item: NotificationListItem): NotificationRecord {

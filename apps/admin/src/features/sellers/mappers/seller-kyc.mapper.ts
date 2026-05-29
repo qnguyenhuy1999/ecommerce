@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type {
   SellerKycRow,
   SellerKycStatus,
@@ -40,7 +41,7 @@ export function mapSellerToKycRow(seller: Seller): SellerKycRow {
     category: seller.shopDescription ?? '—',
     productsCount: 0,
     gmv: 0,
-    appliedAtLabel: new Date(seller.createdAt).toLocaleDateString(),
+    appliedAtLabel: formatDateIntl(seller.createdAt),
     status: toKycStatus(seller.status),
   } satisfies SellerKycRow
 }
@@ -64,7 +65,7 @@ export function mapSellerDetailToKycDetail(seller: SellerDetail): SellerKycDetai
   const documents: SellerKycDetailDocument[] = seller.verifications.map((v) => ({
     id: v.id,
     title: v.documentType,
-    uploadedAtLabel: new Date(v.createdAt).toLocaleDateString(),
+    uploadedAtLabel: formatDateIntl(v.createdAt),
     typeLabel: v.documentType,
     previewSrc: v.documentUrl,
     previewAlt: v.documentType,
@@ -78,7 +79,7 @@ export function mapSellerDetailToKycDetail(seller: SellerDetail): SellerKycDetai
     sellerName: seller.shopName,
     ownerName: seller.user?.email ?? '—',
     ownerEmail: seller.user?.email ?? '—',
-    appliedAtLabel: new Date(seller.createdAt).toLocaleDateString(),
+    appliedAtLabel: formatDateIntl(seller.createdAt),
     status: toKycDetailStatus(seller.status),
     tabs: [
       { value: 'KYC_REVIEW', label: 'KYC Review' },

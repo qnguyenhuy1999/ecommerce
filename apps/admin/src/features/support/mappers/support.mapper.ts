@@ -1,3 +1,4 @@
+import { formatDateIntl, formatDateTime } from '@ecom/shared'
 import type { SupportMessage, SupportTicket } from '@ecom/ui-admin'
 import type { SupportMessageApiItem, SupportTicketApiItem } from '../api/support.api'
 
@@ -5,8 +6,7 @@ export function mapApiTicketToSupportTicket(item: SupportTicketApiItem): Support
   const role = item.submitterRole.toUpperCase()
   const submitterRole: SupportTicket['submitterRole'] = role === 'SELLER' ? 'Seller' : 'Buyer'
 
-  const createdDate = new Date(item.createdAt)
-  const dateLabel = createdDate.toLocaleDateString(undefined, {
+  const dateLabel = formatDateIntl(item.createdAt, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',
@@ -25,8 +25,7 @@ export function mapApiTicketToSupportTicket(item: SupportTicketApiItem): Support
 
 export function mapApiMessageToSupportMessage(item: SupportMessageApiItem): SupportMessage {
   const sender = item.sender.toUpperCase() as SupportMessage['sender']
-  const createdDate = new Date(item.createdAt)
-  const dateLabel = createdDate.toLocaleString(undefined, {
+  const dateLabel = formatDateTime(item.createdAt, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

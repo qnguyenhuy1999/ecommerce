@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import {
   storefrontFooterColumns,
+  storefrontHeader,
   storefrontNavigation,
   storefrontUtilityLinks,
 } from './StorefrontLayout.fixtures'
@@ -16,13 +17,14 @@ function StorefrontLayoutBase({
   children,
   announcement = 'Free shipping on orders over $30 · 7-day returns · Verified shops',
   utilityLinks = storefrontUtilityLinks,
+  header = storefrontHeader,
   navigation = storefrontNavigation,
   footerColumns = storefrontFooterColumns,
 }: StorefrontLayoutProps) {
   return (
     <div className="bg-accent min-h-screen">
       <StorefrontAnnouncement announcement={announcement} links={utilityLinks} />
-      <StorefrontHeader />
+      <StorefrontHeader header={header} />
       <StorefrontNavigation navigation={navigation} />
       {children}
       <StorefrontFooter columns={footerColumns} />

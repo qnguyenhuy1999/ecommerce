@@ -1,5 +1,6 @@
 'use client'
 
+import { formatCurrency } from '@ecom/shared'
 import {
   Button,
   DatePicker,
@@ -151,14 +152,13 @@ function FeeFieldsGrid({
       <div className="bg-muted/50 rounded-lg px-4 py-3 text-sm">
         On a{' '}
         <strong>
-          $
-          {sampleOrderAmount.toLocaleString('en-US', {
+          {formatCurrency(sampleOrderAmount, {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0,
           })}
         </strong>{' '}
         order, seller receives{' '}
-        <span className="text-success font-semibold">${sellerReceives.toFixed(2)}</span>
+        <span className="text-success font-semibold">{formatCurrency(sellerReceives)}</span>
       </div>
     </>
   )

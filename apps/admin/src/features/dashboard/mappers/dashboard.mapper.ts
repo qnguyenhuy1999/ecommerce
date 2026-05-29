@@ -1,4 +1,4 @@
-import { formatCurrency } from '@ecom/shared'
+import { formatCurrency, formatDateIntl } from '@ecom/shared'
 import type { DashboardProps } from '@ecom/ui-admin'
 import type { DashboardAnalytics, DashboardMetrics } from '../api/dashboard.api'
 
@@ -88,14 +88,11 @@ export function mapDashboardMetricsToProps(
       sellerName: s.shopName,
       stateLabel: s.status,
       tagLabel: 'KYC',
-      dateLabel: new Date(s.createdAt).toLocaleDateString(),
+      dateLabel: formatDateIntl(s.createdAt),
     })),
     revenueSeries:
       analytics?.ordersByDay.map((d) => ({
-        label: new Intl.DateTimeFormat('en-US', {
-          month: 'short',
-          day: 'numeric',
-        }).format(new Date(d.date)),
+        label: formatDateIntl(d.date, { month: 'short', day: 'numeric' }, 'en-US'),
         revenue: d.revenue,
       })) ?? [],
   }

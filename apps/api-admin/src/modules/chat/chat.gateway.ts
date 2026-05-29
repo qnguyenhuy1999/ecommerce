@@ -42,6 +42,23 @@ function toChatError(err: unknown): ChatErrorPayload {
   return toSocketError(err, { 404: 'NOT_FOUND' }, 'Chat operation failed', 'INTERNAL')
 }
 
+function getAdminIdFromSession(session: Record<string, unknown>): string | undefined {
+  const adminId = session['adminId']
+  return typeof adminId === 'string' && adminId.length > 0 ? adminId : undefined
+}
+
+function getAdminSocketData(client: Socket): AdminChatSocketData | undefined {
+  const data = client.data as Record<string, unknown>
+  const adminId = data['adminId']
+
+  return typeof adminId === 'string' && adminId.length > 0 ? { adminId } : undefined
+}
+
+function setAdminSocketData(client: Socket, adminId: string): void {
+  const data = client.data as Record<string, unknown>
+  data['adminId'] = adminId
+}
+
 @WebSocketGateway({
   cors: { origin: resolveSocketCorsOrigins(), credentials: true },
   namespace: '/chat',
@@ -61,7 +78,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
   }
 
   protected getIdentityFromSession(session: Record<string, unknown>): string | undefined {
-    return session.adminId as string | undefined
+    return getAdminIdFromSession(session)
   }
 
   protected async onAuthenticated(
@@ -69,13 +86,12 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     adminId: string,
     _session: Record<string, unknown>,
   ): Promise<void> {
-    client.data.adminId = adminId
-    void client.join(`admin:${adminId}`)
-    void client.join(ADMIN_ROOM)
+    setAdminSocketData(client, adminId)
+    await Promise.all([client.join(`admin:${adminId}`), client.join(ADMIN_ROOM)])
   }
 
   protected getIdentityFromSocketData(client: Socket): string | undefined {
-    return (client.data as AdminChatSocketData).adminId
+    return getAdminSocketData(client)?.adminId
   }
 
   protected getPresenceScope(): string {
@@ -124,7 +140,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): Promise<void> {
-    const adminId = (client.data as AdminChatSocketData).adminId
+    const adminId = getAdminSocketData(client)?.adminId
     if (typeof adminId !== 'string' || adminId.length === 0) return
 
     try {
@@ -142,7 +158,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): void {
-    const adminId = (client.data as AdminChatSocketData).adminId
+    const adminId = getAdminSocketData(client)?.adminId
     if (typeof adminId !== 'string' || adminId.length === 0) return
 
     void client.leave(`conversation:${data.conversationId}`)
@@ -153,7 +169,7 @@ export class ChatGateway extends BaseChatGateway implements OnGatewayInit, OnMod
     @ConnectedSocket() client: Socket,
     @MessageBody() data: { conversationId: string },
   ): Promise<void> {
-    const adminId = (client.data as AdminChatSocketData).adminId
+    const adminId = getAdminSocketData(client)?.adminId
     if (typeof adminId !== 'string' || adminId.length === 0) return
 
     try {

@@ -1,41 +1,63 @@
 'use client'
 
-import Link from 'next/link'
-import { useAuth } from '../../core/auth/auth-provider'
-import { useStorefrontRealtime } from '../../core/providers/realtime-provider'
+import type { AuthUser } from '@/providers/auth-provider'
+import { useAuth } from '@/providers/auth-provider'
+import { useStorefrontRealtime } from '@/providers/realtime-provider'
+import { StorefrontLayout } from '@ecom/ui-storefront'
+
+function getUserString(user: AuthUser | null, keys: string[]): string | undefined {
+  if (!user) {
+    return undefined
+  }
+
+  for (const key of keys) {
+    const value = user[key]
+    if (typeof value === 'string' && value.trim().length > 0) {
+      return value.trim()
+    }
+  }
+
+  return undefined
+}
+
+function getUserInitials(displayName: string, fallback = 'A'): string {
+  const parts = displayName
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean)
+
+  if (parts.length === 0) {
+    return fallback
+  }
+
+  const initials = parts.slice(0, 2).map((part) => part[0]?.toUpperCase() ?? '')
+  return initials.join('').slice(0, 2) || fallback
+}
 
 export function StorefrontShell({ children }: Readonly<{ children: React.ReactNode }>) {
   const { user, logout } = useAuth()
   const { chatUnreadCount, notificationCount } = useStorefrontRealtime()
+  const userDisplayName =
+    getUserString(user, ['displayName', 'name', 'fullName']) ?? user?.userId ?? 'Account'
+  const userEmail = getUserString(user, ['email'])
+  const userAvatarUrl = getUserString(user, ['avatarUrl', 'imageUrl', 'photoUrl'])
 
   return (
-    <>
-      <header style={{ borderBottom: '1px solid #e5e7eb', padding: '12px 16px' }}>
-        <nav style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
-          <Link href="/">Storefront</Link>
-          <Link href="/messages">Messages{chatUnreadCount > 0 ? ` (${chatUnreadCount})` : ''}</Link>
-          <Link href="/notifications">
-            Notifications{notificationCount > 0 ? ` (${notificationCount})` : ''}
-          </Link>
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: 12, alignItems: 'center' }}>
-            {user ? (
-              <>
-                <span>{String(user.userId).slice(0, 8)}</span>
-                <button
-                  onClick={() => {
-                    void logout()
-                  }}
-                >
-                  Logout
-                </button>
-              </>
-            ) : (
-              <Link href="/login">Login</Link>
-            )}
-          </div>
-        </nav>
-      </header>
-      <main style={{ padding: 16 }}>{children}</main>
-    </>
+    <StorefrontLayout
+      header={{
+        cartCount: 0,
+        notificationCount,
+        sellerLabel: 'Seller',
+        chatHref: '/messages',
+        chatUnreadCount,
+        userDisplayName,
+        userInitials: getUserInitials(userDisplayName),
+        ...(userEmail ? { userEmail } : {}),
+        ...(userAvatarUrl ? { userAvatarUrl } : {}),
+        onLogout: logout,
+      }}
+    >
+      <StorefrontLayout.Content>{children}</StorefrontLayout.Content>
+    </StorefrontLayout>
   )
 }

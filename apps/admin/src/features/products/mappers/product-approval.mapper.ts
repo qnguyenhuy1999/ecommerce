@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type {
   ProductApprovalItem,
   ProductApprovalStatus,
@@ -22,7 +23,7 @@ export function mapProductToApprovalItem(product: ProductListItem): ProductAppro
     id: product.id,
     title: product.name,
     sellerName: product.shop.name,
-    submittedAtLabel: new Date(product.createdAt).toLocaleDateString(),
+    submittedAtLabel: formatDateIntl(product.createdAt),
     priceLabel: product.basePrice ? `$${Number(product.basePrice).toFixed(2)}` : '—',
     status: toApprovalStatus(product.status),
     flagsLabel: '',

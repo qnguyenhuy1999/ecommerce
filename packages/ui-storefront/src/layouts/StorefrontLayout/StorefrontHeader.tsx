@@ -1,6 +1,51 @@
-import { Button, Input, Separator, Typography } from '@ecom/core-ui'
-import { Bell, Heart, Search, ShoppingCart, Store, UserRound } from 'lucide-react'
-import type { StorefrontNavItem } from './StorefrontLayout.types'
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Badge,
+  Button,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  Input,
+  Separator,
+  Typography,
+} from '@ecom/core-ui'
+import {
+  Bell,
+  ChevronDown,
+  Heart,
+  LogOut,
+  MessageSquare,
+  Search,
+  ShoppingCart,
+  Store,
+} from 'lucide-react'
+import type { StorefrontHeaderProps, StorefrontNavItem } from './StorefrontLayout.types'
+
+const defaultHeaderProps: Required<
+  Pick<
+    StorefrontHeaderProps,
+    | 'cartCount'
+    | 'notificationCount'
+    | 'sellerLabel'
+    | 'chatHref'
+    | 'chatUnreadCount'
+    | 'userDisplayName'
+    | 'userInitials'
+  >
+> = {
+  cartCount: 3,
+  notificationCount: 3,
+  sellerLabel: 'Seller',
+  chatHref: '/messages',
+  chatUnreadCount: 0,
+  userDisplayName: 'Account',
+  userInitials: 'A',
+}
 
 export function StorefrontAnnouncement({
   announcement,
@@ -27,7 +72,18 @@ export function StorefrontAnnouncement({
   )
 }
 
-export function StorefrontHeader() {
+export function StorefrontHeader({ header }: { header?: StorefrontHeaderProps | undefined }) {
+  const cartCount = header?.cartCount ?? defaultHeaderProps.cartCount
+  const notificationCount = header?.notificationCount ?? defaultHeaderProps.notificationCount
+  const sellerLabel = header?.sellerLabel ?? defaultHeaderProps.sellerLabel
+  const chatHref = header?.chatHref ?? defaultHeaderProps.chatHref
+  const chatUnreadCount = header?.chatUnreadCount ?? defaultHeaderProps.chatUnreadCount
+  const userDisplayName = header?.userDisplayName ?? defaultHeaderProps.userDisplayName
+  const userEmail = header?.userEmail
+  const userAvatarUrl = header?.userAvatarUrl
+  const userInitials = header?.userInitials ?? defaultHeaderProps.userInitials
+  const onLogout = header?.onLogout
+
   return (
     <header className="bg-card border-b">
       <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-4 sm:px-6">
@@ -56,26 +112,71 @@ export function StorefrontHeader() {
           <Button variant="ghost" size="icon" aria-label="Favorites">
             <Heart />
           </Button>
+          <a
+            href={chatHref}
+            aria-label="Messages"
+            className="text-foreground hover:bg-accent relative inline-flex size-10 items-center justify-center rounded-full transition-colors"
+          >
+            <MessageSquare className="size-5" />
+            {chatUnreadCount > 0 ? (
+              <Badge
+                variant="destructive"
+                size="sm"
+                className="absolute -top-1 -right-1 min-w-5 rounded-full px-1.5"
+              >
+                {chatUnreadCount > 99 ? '99+' : chatUnreadCount}
+              </Badge>
+            ) : null}
+          </a>
           <Button variant="ghost" size="icon" aria-label="Cart" className="relative">
             <ShoppingCart />
             <span className="bg-destructive text-destructive-foreground absolute top-0 right-0 flex size-5 items-center justify-center rounded-full text-xs">
-              3
+              {cartCount}
             </span>
           </Button>
           <Button variant="ghost" size="icon" aria-label="Notifications" className="relative">
             <Bell />
             <span className="bg-destructive text-destructive-foreground absolute top-0 right-0 flex size-5 items-center justify-center rounded-full text-xs">
-              3
+              {notificationCount}
             </span>
-          </Button>
-          <Button variant="ghost" size="icon" aria-label="Account">
-            <UserRound />
           </Button>
           <Separator orientation="vertical" className="mx-2 h-7" />
           <Button variant="ghost">
             <Store />
-            Seller
+            {sellerLabel}
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="flex items-center gap-2 rounded-full px-3">
+                <Avatar className="size-8">
+                  {userAvatarUrl ? <AvatarImage src={userAvatarUrl} alt={userDisplayName} /> : null}
+                  <AvatarFallback>{userInitials}</AvatarFallback>
+                </Avatar>
+                <span className="flex min-w-0 flex-col items-start leading-tight">
+                  <span className="truncate text-sm font-semibold">{userDisplayName}</span>
+                  {userEmail ? (
+                    <span className="text-muted-foreground truncate text-xs font-normal">
+                      {userEmail}
+                    </span>
+                  ) : null}
+                </span>
+                <ChevronDown className="text-muted-foreground size-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-72">
+              <DropdownMenuLabel className="space-y-1 py-2">
+                <div className="text-sm font-semibold">{userDisplayName}</div>
+                {userEmail ? (
+                  <div className="text-muted-foreground text-xs font-normal">{userEmail}</div>
+                ) : null}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem variant="destructive" onClick={() => void onLogout?.()}>
+                <LogOut />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

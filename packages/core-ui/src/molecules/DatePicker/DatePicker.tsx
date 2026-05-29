@@ -1,9 +1,10 @@
 'use client'
 
+import { formatDate } from '@ecom/shared'
 import { useState } from 'react'
 import { Popover } from 'radix-ui'
 import { DayPicker } from 'react-day-picker'
-import { format, parseISO, isValid } from 'date-fns'
+import { parseISO, isValid } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { Button } from '../../primitives/ui/button'
@@ -40,7 +41,7 @@ export function DatePicker({
           disabled={disabled}
         >
           <CalendarIcon className="mr-2 size-4 shrink-0" />
-          {selected ? format(selected, 'MMM d, yyyy') : placeholder}
+          {selected ? formatDate(selected) : placeholder}
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
@@ -53,7 +54,7 @@ export function DatePicker({
             mode="single"
             selected={selected}
             onSelect={(date) => {
-              onChange(date ? format(date, 'yyyy-MM-dd') : '')
+              onChange(date ? formatDate(date, 'yyyy-MM-dd') : '')
               setOpen(false)
             }}
             disabled={[
@@ -104,11 +105,7 @@ export function DateRangePicker({
   const toDate = max && isValid(parseISO(max)) ? parseISO(max) : undefined
 
   const label =
-    from && to
-      ? `${format(from, 'MMM d, yyyy')} – ${format(to, 'MMM d, yyyy')}`
-      : from
-        ? format(from, 'MMM d, yyyy')
-        : placeholder
+    from && to ? `${formatDate(from)} – ${formatDate(to)}` : from ? formatDate(from) : placeholder
 
   return (
     <Popover.Root open={open} onOpenChange={setOpen}>
@@ -138,8 +135,8 @@ export function DateRangePicker({
             selected={from || to ? { from, to } : undefined}
             onSelect={(range) => {
               onChange({
-                from: range?.from ? format(range.from, 'yyyy-MM-dd') : undefined,
-                to: range?.to ? format(range.to, 'yyyy-MM-dd') : undefined,
+                from: range?.from ? formatDate(range.from, 'yyyy-MM-dd') : undefined,
+                to: range?.to ? formatDate(range.to, 'yyyy-MM-dd') : undefined,
               })
             }}
             disabled={[

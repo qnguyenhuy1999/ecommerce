@@ -1,5 +1,6 @@
 'use client'
 
+import { formatDateIntl } from '@ecom/shared'
 import type { RefundDetailRecord, RefundDetailSubmitPayload } from '@ecom/ui-admin'
 import { useRefund, useApproveRefund, useRejectRefund } from '../hooks/use-refunds'
 import { mapRefundToRefundRecord } from '../mappers/dispute.mapper'
@@ -51,7 +52,7 @@ export function useRefundDetailAdapter(id: string) {
             id: t.id,
             actor: 'System',
             action: `${t.fromStatus} → ${t.toStatus}`,
-            dateLabel: new Date(t.createdAt).toLocaleDateString(),
+            dateLabel: formatDateIntl(t.createdAt),
           })) ?? [],
       }
     : undefined

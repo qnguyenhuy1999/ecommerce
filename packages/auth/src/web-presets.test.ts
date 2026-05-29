@@ -1,7 +1,7 @@
-import assert from 'node:assert/strict'
-import test from 'node:test'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 
-import { getWebAuthPreset } from './web-presets.ts'
+import { getWebAuthPreset } from './web-presets'
 
 void test('getWebAuthPreset returns admin auth overrides', () => {
   const preset = getWebAuthPreset('admin')

@@ -1,3 +1,4 @@
+import { formatCurrency, formatDateIntl } from '@ecom/shared'
 import { homeContent } from '@ecom/ui-storefront'
 import type {
   HomeContent,
@@ -12,12 +13,11 @@ const fallbackImage = homeContent.hero.gallery[0] ?? '/media/home/camera.png'
 const fallbackCategoryIcon = homeContent.categories[0]?.icon
 const trustItems: TrustItemProps[] = homeContent.trustItems
 
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+function formatHomepageCurrency(value: number) {
+  return formatCurrency(value, {
     maximumFractionDigits: value % 1 === 0 ? 0 : 2,
-  }).format(value)
+    minimumFractionDigits: 0,
+  })
 }
 
 function formatSoldLabel(reviewCount: number): string | null {
@@ -56,9 +56,9 @@ function mapProduct(product: HomepageData['recommendedProducts'][number]): Produ
     id: product.id,
     name: product.name,
     imageUrl: product.coverImage ?? fallbackImage,
-    price: formatCurrency(product.price),
+    price: formatHomepageCurrency(product.price),
     ...(product.originalPrice !== null
-      ? { originalPrice: formatCurrency(product.originalPrice) }
+      ? { originalPrice: formatHomepageCurrency(product.originalPrice) }
       : {}),
     ...(product.discountPercent !== null ? { discount: `-${product.discountPercent}%` } : {}),
     ...(product.rating !== null ? { rating: product.rating.toFixed(1) } : {}),
@@ -82,8 +82,8 @@ function mapFlashProduct(
     id: product.id,
     name: product.name,
     imageUrl: product.coverImage ?? fallbackImage,
-    price: formatCurrency(product.salePrice),
-    originalPrice: formatCurrency(product.originalPrice),
+    price: formatHomepageCurrency(product.salePrice),
+    originalPrice: formatHomepageCurrency(product.originalPrice),
     discount: `-${product.discountPercent}%`,
     ...(product.rating !== null ? { rating: product.rating.toFixed(1) } : {}),
     sold: `${product.soldCount} sold`,
@@ -97,14 +97,14 @@ function mapVoucher(voucher: HomepageData['vouchers'][number]): VoucherCardProps
   const title =
     voucher.type === 'PERCENTAGE'
       ? `${voucher.discountValue}% OFF`
-      : `${formatCurrency(voucher.discountValue)} OFF`
+      : `${formatHomepageCurrency(voucher.discountValue)} OFF`
 
   const minimum =
     voucher.minOrderAmount !== null
-      ? `Min spend ${formatCurrency(voucher.minOrderAmount)}`
+      ? `Min spend ${formatHomepageCurrency(voucher.minOrderAmount)}`
       : voucher.maxDiscountAmount !== null
-        ? `Cap ${formatCurrency(voucher.maxDiscountAmount)}`
-        : `Expires ${new Date(voucher.expiresAt).toLocaleDateString()}`
+        ? `Cap ${formatHomepageCurrency(voucher.maxDiscountAmount)}`
+        : `Expires ${formatDateIntl(voucher.expiresAt)}`
 
   return {
     title,

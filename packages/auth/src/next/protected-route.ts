@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import type { AuthContextValue, AuthUser } from './client'
+import type { AuthContextValue, AuthUser } from './types'
 
 export interface ProtectedRouteOptions {
   requiredRoles?: string[]

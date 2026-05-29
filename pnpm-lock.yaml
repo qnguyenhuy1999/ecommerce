@@ -83,12 +83,12 @@ importers:
 
   apps/admin:
     dependencies:
+      '@ecom/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@ecom/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@ecom/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@ecom/core-ui':
         specifier: workspace:*
         version: link:../../packages/core-ui
@@ -513,15 +513,18 @@ importers:
 
   apps/seller:
     dependencies:
+      '@ecom/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@ecom/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@ecom/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@ecom/core-ui':
         specifier: workspace:*
         version: link:../../packages/core-ui
+      '@ecom/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
       '@ecom/ui-seller':
         specifier: workspace:*
         version: link:../../packages/ui-seller
@@ -571,12 +574,15 @@ importers:
 
   apps/storefront:
     dependencies:
+      '@ecom/api-client':
+        specifier: workspace:*
+        version: link:../../packages/api-client
       '@ecom/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@ecom/config':
+      '@ecom/shared':
         specifier: workspace:*
-        version: link:../../packages/config
+        version: link:../../packages/shared
       '@ecom/ui-storefront':
         specifier: workspace:*
         version: link:../../packages/ui-storefront
@@ -742,9 +748,6 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.8.0
         version: 19.8.1
-      '@ecom/api-client':
-        specifier: workspace:*
-        version: link:../api-client
       '@eslint/js':
         specifier: ^10.0.1
         version: 10.0.1(eslint@9.39.4(jiti@2.7.0))

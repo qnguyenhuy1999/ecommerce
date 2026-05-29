@@ -1,4 +1,11 @@
 import type { ProductStatus } from '@ecom/contracts'
+import {
+  formatCompactCurrency as sharedFormatCompactCurrency,
+  formatCurrency as sharedFormatCurrency,
+  formatDateIntl,
+  formatDateTime as sharedFormatDateTime,
+  formatPercent as sharedFormatPercent,
+} from '@ecom/shared'
 import type {
   ApprovalRow,
   AnalyticsDateRangeOption,
@@ -255,39 +262,26 @@ const STATUS_LABELS: Record<string, string> = {
 const FINANCE_TABS: FinanceTab[] = ['TRANSACTIONS', 'PAYOUTS', 'FEES_AND_TAXES', 'BANK']
 
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return sharedFormatCurrency(value, {
     maximumFractionDigits: value >= 1000 ? 0 : 2,
-  }).format(value)
+    minimumFractionDigits: 0,
+  })
 }
 
 function formatShortCurrency(value: number) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    notation: 'compact',
-    maximumFractionDigits: 1,
-  }).format(value)
+  return sharedFormatCompactCurrency(value)
 }
 
 function formatPercent(value: number, digits: number = 1) {
-  return `${value.toFixed(digits)}%`
+  return sharedFormatPercent(value, digits)
 }
 
 function formatDateLabel(value: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  }).format(new Date(value))
+  return formatDateIntl(value, { month: 'short', day: 'numeric', year: 'numeric' }, 'en-US')
 }
 
 function formatDateTime(value: string) {
-  return new Intl.DateTimeFormat('en-US', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-  }).format(new Date(value))
+  return sharedFormatDateTime(value, { dateStyle: 'medium', timeStyle: 'short' }, 'en-US')
 }
 
 function asNumber(value: number | string | null | undefined) {
@@ -441,10 +435,11 @@ export function buildDashboardProps(input: {
     recentActivity: notifications.slice(0, 6).map((notification) => ({
       title: notification.title,
       detail: notification.message,
-      time: new Intl.DateTimeFormat('en-US', {
-        hour: '2-digit',
-        minute: '2-digit',
-      }).format(new Date(notification.createdAt)),
+      time: sharedFormatDateTime(
+        notification.createdAt,
+        { hour: '2-digit', minute: '2-digit' },
+        'en-US',
+      ),
     })),
   }
 }
@@ -458,7 +453,7 @@ export function buildAnalyticsProps(input: {
 }): AnalyticsProps {
   const { range, revenue, orders, topProducts, conversion } = input
   const ordersByDay = revenue.dailyRevenue.map((point) => ({
-    label: new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(new Date(point.date)),
+    label: formatDateIntl(point.date, { weekday: 'short' }, 'en-US'),
     orders: Math.max(1, Math.round(revenue.orderCount / Math.max(revenue.dailyRevenue.length, 1))),
   }))
   const topProductRevenue = topProducts.map((item) => item.revenue)
@@ -663,7 +658,7 @@ export function buildMetricsAnalyticsProps(input: {
       { label: 'Refund', value: current.refundRate, color: '#0284c7' },
     ],
     ordersByDaySeries: history.map((item) => ({
-      label: new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(new Date(item.date)),
+      label: formatDateIntl(item.date, { weekday: 'short' }, 'en-US'),
       orders: item.totalOrders ?? 0,
     })),
     conversionFunnel: [
@@ -1012,29 +1007,25 @@ function formatConversationTime(value: string | null) {
     return null
   }
 
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) {
+  const label = sharedFormatDateTime(
+    value,
+    {
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    },
+    'en-US',
+  )
+  if (!label) {
     return null
   }
 
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(date)
+  return label
 }
 
 function formatMessageTime(value: string) {
-  const date = new Date(value)
-  if (Number.isNaN(date.getTime())) {
-    return ''
-  }
-
-  return new Intl.DateTimeFormat('en-US', {
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(date)
+  return sharedFormatDateTime(value, { hour: 'numeric', minute: '2-digit' }, 'en-US')
 }
 
 function formatBuyerLabel(buyerId: string) {
@@ -1076,7 +1067,7 @@ export function mapNotificationsToRows(notifications: SellerNotification[]): Not
     title: notification.title,
     message: notification.message,
     isRead: notification.isRead,
-    createdAtLabel: new Date(notification.createdAt).toLocaleString(),
+    createdAtLabel: sharedFormatDateTime(notification.createdAt),
   }))
 }
 
@@ -1142,7 +1133,7 @@ export function mapReviewsToRows(reviews: SellerReview[]): ReviewRow[] {
         : 'PENDING',
     hasReply: review.replies.length > 0,
     replyMessage: review.replies[0]?.message ?? null,
-    createdAtLabel: new Date(review.createdAt).toLocaleDateString(),
+    createdAtLabel: formatDateIntl(review.createdAt),
   }))
 }
 
@@ -1161,7 +1152,7 @@ export function mapReturnsToRows(items: SellerReturn[]): ReturnRow[] {
       item.status === 'REJECTED'
         ? item.status
         : 'OPEN',
-    openedAtLabel: new Date(item.createdAt).toLocaleDateString(),
+    openedAtLabel: formatDateIntl(item.createdAt),
   }))
 }
 

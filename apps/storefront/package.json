@@ -10,9 +10,10 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@ecom/api-client": "workspace:*",
     "@ecom/auth": "workspace:*",
-    "@ecom/config": "workspace:*",
     "@ecom/ui-storefront": "workspace:*",
+    "@ecom/shared": "workspace:*",
     "next": "^16.2.6",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",

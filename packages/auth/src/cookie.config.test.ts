@@ -1,7 +1,7 @@
-import assert from 'node:assert/strict'
-import test from 'node:test'
+import { strict as assert } from 'node:assert'
+import { test } from 'node:test'
 
-import { getSessionCookieOptions } from './cookie.config.ts'
+import { getSessionCookieOptions } from './cookie.config'
 
 void test('getSessionCookieOptions ignores invalid localhost placeholder domains', () => {
   const cookieOptions = getSessionCookieOptions('.')

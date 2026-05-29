@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { ReviewRecord } from '@ecom/ui-admin'
 import type { ReviewListItem } from '../api/reviews.api'
 
@@ -7,11 +8,7 @@ function toCommentPreview(comment: string | null): string {
 }
 
 function toCreatedAtLabel(createdAt: string): string {
-  return new Date(createdAt).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
-  })
+  return formatDateIntl(createdAt, { month: 'short', day: 'numeric', year: 'numeric' }, 'en-US')
 }
 
 export function mapReviewToRecord(item: ReviewListItem): ReviewRecord {

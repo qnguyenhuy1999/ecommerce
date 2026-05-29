@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { CommissionRule } from '@ecom/ui-admin'
 import type { CommissionRuleApiItem } from '../api/commission-fees.api'
 
@@ -7,10 +8,10 @@ export function mapApiRuleToCommissionRule(item: CommissionRuleApiItem): Commiss
     label: item.label,
     commissionPct: item.commissionPct,
     paymentFeePct: item.paymentFeePct,
-    effectiveFrom: new Date(item.effectiveFrom).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-    }),
+    effectiveFrom: formatDateIntl(
+      item.effectiveFrom,
+      { month: 'short', day: 'numeric', year: 'numeric' },
+      'en-US',
+    ),
   } satisfies CommissionRule
 }

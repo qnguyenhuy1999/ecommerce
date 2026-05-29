@@ -11,8 +11,8 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
+    "@ecom/api-client": "workspace:*",
     "@ecom/auth": "workspace:*",
-    "@ecom/config": "workspace:*",
     "@ecom/core-ui": "workspace:*",
     "@ecom/shared": "workspace:*",
     "@ecom/ui-admin": "workspace:*",

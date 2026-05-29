@@ -1,3 +1,4 @@
+import { formatDateTime } from '@ecom/shared'
 import type { ChatConversationRecord, ChatMessageRecord } from '@ecom/ui-admin'
 import type { ChatMessageDto, ChatSummaryDto } from '../api/chat.api'
 
@@ -23,6 +24,6 @@ export function mapChatMessageToRecord(message: ChatMessageDto): ChatMessageReco
     id: message.id,
     content: message.content,
     senderIdShort: toShortId(message.senderId),
-    createdAtLabel: new Date(message.createdAt).toLocaleString(),
+    createdAtLabel: formatDateTime(message.createdAt),
   }
 }

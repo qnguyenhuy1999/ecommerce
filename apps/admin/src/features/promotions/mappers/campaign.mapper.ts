@@ -1,3 +1,4 @@
+import { formatDateIntl } from '@ecom/shared'
 import type { VoucherRecord, VoucherStatus } from '@ecom/ui-admin'
 import type { VoucherListItem } from '../api/promotions.api'
 
@@ -15,7 +16,7 @@ function toVoucherStatus(status: string): VoucherStatus {
 }
 
 export function mapVoucherToVoucherRecord(voucher: VoucherListItem): VoucherRecord {
-  const dateRange = `${new Date(voucher.startsAt).toLocaleDateString()} — ${new Date(voucher.expiresAt).toLocaleDateString()}`
+  const dateRange = `${formatDateIntl(voucher.startsAt)} — ${formatDateIntl(voucher.expiresAt)}`
   const budgetPct = voucher.usageLimit
     ? Math.round((voucher.usedCount / voucher.usageLimit) * 100)
     : 0

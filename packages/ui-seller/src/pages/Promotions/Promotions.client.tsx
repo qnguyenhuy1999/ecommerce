@@ -1,5 +1,6 @@
 'use client'
 
+import { formatNumber } from '@ecom/shared'
 import { Badge, Button, Checkbox, Progress, Typography } from '@ecom/core-ui'
 import { cn } from '@ecom/shared/utils'
 import { SectionCard } from '../../atoms/SectionCard'
@@ -52,8 +53,7 @@ function PromotionCard({ promotion, onEdit, onDuplicate, onActiveChange }: Promo
       <div className="mt-5">
         <div className="text-muted-foreground mb-2 flex items-center justify-between gap-3 text-sm">
           <span className="text-foreground font-medium tabular-nums">
-            {promotion.progressCurrent.toLocaleString()} /{' '}
-            {promotion.progressTarget.toLocaleString()}
+            {formatNumber(promotion.progressCurrent)} / {formatNumber(promotion.progressTarget)}
           </span>
           <span className="tabular-nums">{progressValue}%</span>
         </div>

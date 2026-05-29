@@ -1,10 +1,20 @@
-import type { StorefrontFooterColumn, StorefrontNavItem } from './StorefrontLayout.types'
+import type {
+  StorefrontFooterColumn,
+  StorefrontHeaderProps,
+  StorefrontNavItem,
+} from './StorefrontLayout.types'
 
 export const storefrontUtilityLinks: StorefrontNavItem[] = [
   { label: 'Sell on Halo' },
   { label: 'Track order' },
   { label: 'Help' },
 ]
+
+export const storefrontHeader: StorefrontHeaderProps = {
+  cartCount: 0,
+  notificationCount: 0,
+  sellerLabel: 'Seller',
+}
 
 export const storefrontNavigation: StorefrontNavItem[] = [
   { label: 'All categories' },

@@ -1,4 +1,4 @@
-import type { CreateAuthClientOptions, AuthUser } from './next/client'
+import type { CreateAuthClientOptions, AuthUser } from './next/types'
 import type { WithAuthOptions } from './next/middleware'
 import type { ProtectedRouteOptions } from './next/protected-route'
 

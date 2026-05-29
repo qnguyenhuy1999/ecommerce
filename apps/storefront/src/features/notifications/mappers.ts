@@ -1,3 +1,4 @@
+import { formatDateTime } from '@ecom/shared'
 import type { NotificationRecord } from '@ecom/ui-storefront'
 import type { NotificationsResponse } from '../../lib/storefront-contracts'
 import type { NotificationState } from './types'
@@ -8,7 +9,7 @@ export function mapNotification(item: NotificationState): NotificationRecord {
     title: item.title,
     message: item.message,
     isRead: item.isRead,
-    createdAtLabel: new Date(item.createdAt).toLocaleString(),
+    createdAtLabel: formatDateTime(item.createdAt),
   }
 }
 

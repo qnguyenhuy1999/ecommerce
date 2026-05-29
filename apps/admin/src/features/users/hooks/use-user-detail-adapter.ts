@@ -1,5 +1,6 @@
 'use client'
 
+import { formatDateIntl } from '@ecom/shared'
 import type { UserDetailProps } from '@ecom/ui-admin'
 import { useUser, useActivateUser, useBanUser, useSuspendUser } from './use-users'
 import type { UserDetail } from '../api/users.api'
@@ -12,7 +13,7 @@ function mapUserToDetailRecord(user: UserDetail): NonNullable<UserDetailProps['u
     phone: user.phone,
     emailVerified: user.emailVerified,
     status: user.status,
-    joinedAtLabel: new Date(user.createdAt).toLocaleDateString(),
+    joinedAtLabel: formatDateIntl(user.createdAt),
     canSuspend: user.status === 'ACTIVE',
     canBan: user.status === 'ACTIVE',
     canActivate: ['SUSPENDED', 'BANNED'].includes(user.status),
@@ -20,7 +21,7 @@ function mapUserToDetailRecord(user: UserDetail): NonNullable<UserDetailProps['u
       id: s.id,
       userAgent: s.userAgent,
       ipAddress: s.ipAddress,
-      createdAtLabel: new Date(s.createdAt).toLocaleDateString(),
+      createdAtLabel: formatDateIntl(s.createdAt),
     })),
   }
 }
