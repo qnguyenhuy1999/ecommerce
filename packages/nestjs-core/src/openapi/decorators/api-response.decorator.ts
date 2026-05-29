@@ -1,7 +1,7 @@
 import type { Type } from '@nestjs/common'
 import { applyDecorators } from '@nestjs/common'
 import { ApiExtraModels, ApiOkResponse, ApiCreatedResponse, getSchemaPath } from '@nestjs/swagger'
-import { PaginationMetaDto } from '@ecom/contracts'
+import { PaginationMetaDto } from '../../dtos/pagination.dto'
 import { ApiResponseDto, PaginatedResponseDto } from '../dtos'
 
 type SwaggerModel = Type<unknown> | string
