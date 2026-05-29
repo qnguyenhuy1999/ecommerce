@@ -36,10 +36,28 @@
       "development": "./src/chat/index.ts",
       "import": "./src/chat/index.ts",
       "default": "./src/chat/index.ts"
+    },
+    "./request-context": {
+      "types": "./src/request-context/index.ts",
+      "development": "./src/request-context/index.ts",
+      "import": "./src/request-context/index.ts",
+      "default": "./src/request-context/index.ts"
+    },
+    "./idempotency": {
+      "types": "./src/idempotency/index.ts",
+      "development": "./src/idempotency/index.ts",
+      "import": "./src/idempotency/index.ts",
+      "default": "./src/idempotency/index.ts"
+    },
+    "./security": {
+      "types": "./src/security/index.ts",
+      "development": "./src/security/index.ts",
+      "import": "./src/security/index.ts",
+      "default": "./src/security/index.ts"
     }
   },
   "scripts": {
-    "dev": "",
+    "dev": "tsc --noEmit --watch",
     "build": "tsup",
     "lint": "pnpm exec eslint --no-error-on-unmatched-pattern src/",
     "type-check": "tsc --noEmit"

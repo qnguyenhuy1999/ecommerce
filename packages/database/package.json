@@ -14,7 +14,7 @@
     }
   },
   "scripts": {
-    "dev": "",
+    "dev": "tsc --noEmit --watch",
     "db:generate": "prisma generate --generator runtime_client",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",

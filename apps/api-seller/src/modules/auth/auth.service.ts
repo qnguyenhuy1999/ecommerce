@@ -96,7 +96,7 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
 
     const verifyToken = randomUUID()
     this.redisService
-      .set(`verify:${verifyToken}`, user.id, VERIFY_TOKEN_TTL)
+      .set(`verify:${hashToken(verifyToken)}`, user.id, VERIFY_TOKEN_TTL)
       .then(() =>
         this.emailService.sendMail({
           to: user.email,

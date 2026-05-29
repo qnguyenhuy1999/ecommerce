@@ -7,6 +7,7 @@ import type {
   MessagesMessageRecord,
   MessagesProps,
 } from './Messages.types'
+import { getMessagesViewModel } from './Messages.controller'
 
 function StartConversationForm({
   newShopId,
@@ -105,7 +106,12 @@ export function Messages({
   onNewProductIdChange,
   onStartConversation,
 }: MessagesProps) {
-  const selectedConversation = conversations.find((c) => c.id === selectedConversationId)
+  const viewModel = getMessagesViewModel({
+    conversations,
+    messages,
+    selectedConversationId,
+    draft,
+  })
 
   if (loading) {
     return (
@@ -139,27 +145,39 @@ export function Messages({
                 Conversations
               </Typography>
               <div className="space-y-2">
-                {conversations.map((conversation) => (
-                  <ConversationItem
-                    key={conversation.id}
-                    conversation={conversation}
-                    isSelected={conversation.id === selectedConversationId}
-                    onSelect={onSelectConversation ?? ((_id: string) => {})}
-                  />
-                ))}
+                {viewModel.hasConversations ? (
+                  conversations.map((conversation) => (
+                    <ConversationItem
+                      key={conversation.id}
+                      conversation={conversation}
+                      isSelected={conversation.id === selectedConversationId}
+                      onSelect={onSelectConversation ?? ((_id: string) => {})}
+                    />
+                  ))
+                ) : (
+                  <Typography variant="body-sm" className="text-muted-foreground">
+                    Start a conversation to contact a shop.
+                  </Typography>
+                )}
               </div>
             </aside>
 
             <section className="rounded-xl border p-4">
               <Typography variant="label" className="mb-4 block">
-                {selectedConversation
-                  ? `Conversation ${selectedConversation.id.slice(0, 8)}`
-                  : 'Messages'}
+                {viewModel.conversationTitle}
               </Typography>
               <div className="mb-4 min-h-80 space-y-2">
-                {messages.map((message) => (
-                  <MessageBubble key={message.id} message={message} />
-                ))}
+                {viewModel.hasMessages ? (
+                  messages.map((message) => <MessageBubble key={message.id} message={message} />)
+                ) : (
+                  <div className="flex min-h-80 items-center justify-center rounded-lg border border-dashed p-6 text-center">
+                    <Typography variant="body-sm" className="text-muted-foreground">
+                      {selectedConversationId
+                        ? 'Send the first message in this conversation.'
+                        : 'Select a conversation to view messages.'}
+                    </Typography>
+                  </div>
+                )}
               </div>
               <div className="flex gap-2">
                 <input
@@ -174,12 +192,7 @@ export function Messages({
                     }
                   }}
                 />
-                <Button
-                  type="button"
-                  size="sm"
-                  disabled={!selectedConversationId || draft.trim().length === 0}
-                  onClick={onSend}
-                >
+                <Button type="button" size="sm" disabled={!viewModel.canSend} onClick={onSend}>
                   Send
                 </Button>
               </div>

@@ -1,6 +1,7 @@
 import type { EmailServiceBase } from '@ecom/email'
 import type { RedisService } from '@ecom/redis'
 import type { SessionService } from './session.service'
+import { hashToken } from './tokens'
 
 export interface AuthPrismaClient {
   session: {
@@ -25,7 +26,8 @@ export abstract class BaseUserAuthService<TPrisma extends AuthPrismaClient = Aut
   }
 
   async verifyEmail(token: string): Promise<void> {
-    const userId = await this.redisService.get(`verify:${token}`)
+    const tokenKey = `verify:${hashToken(token)}`
+    const userId = await this.redisService.get(tokenKey)
     if (!userId) {
       throw new Error('Invalid or expired verification token')
     }
@@ -35,6 +37,6 @@ export abstract class BaseUserAuthService<TPrisma extends AuthPrismaClient = Aut
       data: { emailVerified: true },
     })
 
-    await this.redisService.del(`verify:${token}`)
+    await this.redisService.del(tokenKey)
   }
 }

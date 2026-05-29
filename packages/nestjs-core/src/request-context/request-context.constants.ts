@@ -1,1 +1,1 @@
-export const REQUEST_ID_HEADER = 'x-request-id' as const
+export { REQUEST_ID_HEADER } from './request-id.constants'

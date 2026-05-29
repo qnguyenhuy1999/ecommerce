@@ -16,6 +16,7 @@ import {
   SESSION_EXPIRY_DAYS,
   VERIFY_TOKEN_TTL,
   hashPassword,
+  hashToken,
   comparePassword,
 } from '@ecom/auth'
 import { EmailService } from '@ecom/email'
@@ -64,7 +65,7 @@ export class AuthService extends BaseUserAuthService<PrismaService> {
     // Generate a cryptographic verification token (not the user ID)
     const verifyToken = randomUUID()
     this.redisService
-      .set(`verify:${verifyToken}`, user.id, VERIFY_TOKEN_TTL)
+      .set(`verify:${hashToken(verifyToken)}`, user.id, VERIFY_TOKEN_TTL)
       .then(() =>
         this.emailService.sendMail({
           to: user.email,

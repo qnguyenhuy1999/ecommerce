@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto'
 import type { NextFunction, Request, Response } from 'express'
-import { REQUEST_ID_HEADER } from './request-context.constants'
+import { REQUEST_ID_HEADER } from './request-id.constants'
 
 const requestIds = new WeakMap<Request, string>()
 
