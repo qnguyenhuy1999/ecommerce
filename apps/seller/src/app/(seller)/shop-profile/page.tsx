@@ -1,20 +1,12 @@
-'use client'
+import { headers } from 'next/headers'
+import { getShopProfile } from '@/features/shop-profile/api'
+import { mapShopToProfileForm } from '@/features/shop-profile/mappers'
+import { ShopProfilePageClient } from './_components/ShopProfilePage.client'
 
-import { ShopProfile } from '@ecom/ui-seller/pages/ShopProfile'
-import { useShopProfileAdapter } from '@/features/shop-profile/hooks/use-shop-profile-adapter'
-
-export default function ShopProfilePage() {
-  const { formData, onSubmit } = useShopProfileAdapter()
-
-  return formData ? (
-    <ShopProfile
-      breadcrumb={[{ label: 'Seller', href: '/' }, { label: 'Shop profile' }]}
-      initialData={formData}
-      onSubmit={onSubmit}
-      countryOptions={['VN', 'SG', 'MY', 'TH', 'ID']}
-      responseTargetOptions={['within 1 hour', 'within 4 hours', 'within 24 hours']}
-    />
-  ) : (
-    <p className="p-6 text-sm text-gray-500">Loading shop profile...</p>
-  )
+export default async function ShopProfilePage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const shop = await getShopProfile(init)
+  const initialData = mapShopToProfileForm(shop)
+  return <ShopProfilePageClient initialData={initialData} />
 }

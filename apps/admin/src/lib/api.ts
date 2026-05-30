@@ -1,3 +1,3 @@
 import { createWebApiClient } from '@ecom/api-client'
 
-export const apiFetch = createWebApiClient('admin')
+export const api = createWebApiClient('admin')

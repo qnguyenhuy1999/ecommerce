@@ -5,13 +5,14 @@ import { getVouchersBundle } from '../api'
 import { mapCouponsToVoucherRows } from '../mappers'
 import { voucherKeys } from '../query-keys'
 
-export function useVouchersAdapter() {
+export function useVouchersAdapter(initialData?: ReturnType<typeof mapCouponsToVoucherRows>) {
   const query = useQuery({
     queryKey: voucherKeys.bundle(),
     queryFn: async () => {
       const coupons = await getVouchersBundle()
       return mapCouponsToVoucherRows(coupons)
     },
+    initialData,
   })
 
   return {

@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 
 export interface RolePermission {
@@ -26,11 +26,11 @@ type UpdateRolePermissionsResponse =
   }
 
 export async function getRoles() {
-  return apiFetch<RolesListResponse>('/admin/roles')
+  return api<RolesListResponse>('/admin/roles')
 }
 
 export async function updateRolePermissions(roleId: string, permissions: string[]) {
-  return apiFetch<UpdateRolePermissionsResponse>(`/admin/roles/${roleId}/permissions`, {
+  return api<UpdateRolePermissionsResponse>(`/admin/roles/${roleId}/permissions`, {
     method: 'POST',
     body: JSON.stringify({ permissions }),
   })

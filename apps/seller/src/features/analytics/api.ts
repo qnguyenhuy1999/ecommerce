@@ -1,7 +1,10 @@
 import { getAnalyticsBundle as getAnalyticsBundleBase } from '../integration/seller-page-api'
 
-export async function getAnalyticsBundle(rangeParams: { startDate: string; endDate: string }) {
-  const bundle = await getAnalyticsBundleBase(rangeParams)
+export async function getAnalyticsBundle(
+  rangeParams: { startDate: string; endDate: string },
+  init?: RequestInit,
+) {
+  const bundle = await getAnalyticsBundleBase(rangeParams, init)
 
   return {
     revenue: bundle.revenue,

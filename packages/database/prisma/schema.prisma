@@ -746,6 +746,7 @@ model AuditLog {
 enum CouponType {
   PERCENTAGE
   FIXED_AMOUNT
+  FREE_SHIPPING
 }
 
 enum CouponScope {
@@ -1379,6 +1380,7 @@ enum FlashSaleSlotStatus {
   ACTIVE
   SOLD_OUT
   ENDED
+  CANCELLED
 }
 
 enum AdCampaignStatus {

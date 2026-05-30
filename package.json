@@ -28,7 +28,7 @@
     "openapi:sync": "pnpm swagger:gen:all && pnpm openapi:gen",
     "contracts:generate": "pnpm swagger:gen:all && pnpm openapi:gen",
     "contracts:validate": "pnpm openapi:validate && pnpm --filter @ecom/contracts type-check",
-    "contracts:check": "pnpm contracts:validate && git diff --exit-code packages/contracts/src/generated apps/api-admin/openapi apps/api-seller/openapi apps/api-storefront/openapi"
+    "contracts:check": "tsx scripts/sync-prisma-enums.ts && pnpm contracts:validate && git diff --exit-code packages/contracts/src/generated apps/api-admin/openapi apps/api-seller/openapi apps/api-storefront/openapi"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
@@ -53,6 +53,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tsup": "^8.4.0",
+    "tsx": "^4.21.0",
     "turbo": "^2.9.12",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.3"

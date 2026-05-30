@@ -1,0 +1,21 @@
+'use client'
+
+import { api } from '../../../lib/api'
+import { ForgotPassword } from '@ecom/ui-seller/pages/ForgotPassword'
+
+interface ForgotPasswordResponse {
+  data: {
+    success: boolean
+  }
+}
+
+export function ForgotPasswordPageClient() {
+  const handleSubmit = async ({ email }: { email: string }) => {
+    await api<ForgotPasswordResponse>('/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+    })
+  }
+
+  return <ForgotPassword onSubmit={handleSubmit} />
+}

@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
@@ -50,15 +50,15 @@ export async function getUsers(params: UserListQuery = {}) {
     ...(params.status !== undefined && { status: params.status }),
   }
 
-  return apiFetch<UserListResponse>('/admin/users', { params: query })
+  return api<UserListResponse>('/admin/users', { params: query })
 }
 
 export async function getUser(id: string) {
-  return apiFetch<UserDetailResponse>(`/admin/users/${id}`)
+  return api<UserDetailResponse>(`/admin/users/${id}`)
 }
 
 export async function getUserStatusCounts() {
-  return apiFetch<UserStatusCountsResponse>('/admin/users/status-counts')
+  return api<UserStatusCountsResponse>('/admin/users/status-counts')
 }
 
 export async function suspendUser(id: string, reason?: string) {
@@ -66,7 +66,7 @@ export async function suspendUser(id: string, reason?: string) {
     ...(reason !== undefined && { reason }),
   }
 
-  return apiFetch<UserActionResponse>(`/admin/users/${id}/suspend`, {
+  return api<UserActionResponse>(`/admin/users/${id}/suspend`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
@@ -77,12 +77,12 @@ export async function banUser(id: string, reason?: string) {
     ...(reason !== undefined && { reason }),
   }
 
-  return apiFetch<UserActionResponse>(`/admin/users/${id}/ban`, {
+  return api<UserActionResponse>(`/admin/users/${id}/ban`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
 }
 
 export async function activateUser(id: string) {
-  return apiFetch<UserActionResponse>(`/admin/users/${id}/activate`, { method: 'POST' })
+  return api<UserActionResponse>(`/admin/users/${id}/activate`, { method: 'POST' })
 }

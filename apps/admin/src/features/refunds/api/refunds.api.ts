@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
 export interface RefundListItem {
@@ -25,30 +25,28 @@ export async function getRefunds(params: { page?: number; limit?: number; status
   if (params.page) query.set('page', String(params.page))
   if (params.limit) query.set('limit', String(params.limit))
   if (params.status) query.set('status', params.status)
-  return apiFetch<{ success: boolean; data: PaginatedResponse<RefundListItem> }>(
+  return api<{ success: boolean; data: PaginatedResponse<RefundListItem> }>(
     `/admin/refunds?${query.toString()}`,
   )
 }
 
 export async function getRefund(id: string) {
-  return apiFetch<{ success: boolean; data: RefundListItem }>(`/admin/refunds/${id}`)
+  return api<{ success: boolean; data: RefundListItem }>(`/admin/refunds/${id}`)
 }
 
 export async function getRefundStatusCounts() {
-  return apiFetch<{ success: boolean; data: Record<string, number> }>(
-    '/admin/refunds/status-counts',
-  )
+  return api<{ success: boolean; data: Record<string, number> }>('/admin/refunds/status-counts')
 }
 
 export async function approveRefund(id: string, note?: string) {
-  return apiFetch<{ success: boolean }>(`/admin/refunds/${id}/approve`, {
+  return api<{ success: boolean }>(`/admin/refunds/${id}/approve`, {
     method: 'POST',
     body: JSON.stringify({ note }),
   })
 }
 
 export async function rejectRefund(id: string, note?: string) {
-  return apiFetch<{ success: boolean }>(`/admin/refunds/${id}/reject`, {
+  return api<{ success: boolean }>(`/admin/refunds/${id}/reject`, {
     method: 'POST',
     body: JSON.stringify({ note }),
   })

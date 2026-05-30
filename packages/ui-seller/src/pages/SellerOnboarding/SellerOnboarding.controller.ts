@@ -1,3 +1,5 @@
+'use client'
+
 import { useRef, useState } from 'react'
 import { useForm, zodResolver, type UseFormReturn } from '@ecom/core-ui'
 import { useControllableState } from '../../hooks'

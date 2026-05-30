@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
@@ -62,15 +62,15 @@ export async function getOrders(params: OrderListQuery = {}) {
     ...(params.buyerId !== undefined && { buyerId: params.buyerId }),
   }
 
-  return apiFetch<OrderListResponse>('/admin/orders', { params: query })
+  return api<OrderListResponse>('/admin/orders', { params: query })
 }
 
 export async function getOrder(id: string) {
-  return apiFetch<OrderDetailResponse>(`/admin/orders/${id}`)
+  return api<OrderDetailResponse>(`/admin/orders/${id}`)
 }
 
 export async function getOrderStatusCounts() {
-  return apiFetch<OrderStatusCountsResponse>('/admin/orders/status-counts')
+  return api<OrderStatusCountsResponse>('/admin/orders/status-counts')
 }
 
 export async function forceCancelOrder(id: string, reason?: string) {
@@ -78,12 +78,12 @@ export async function forceCancelOrder(id: string, reason?: string) {
     ...(reason !== undefined && { reason }),
   }
 
-  return apiFetch<OrderActionResponse>(`/admin/orders/${id}/force-cancel`, {
+  return api<OrderActionResponse>(`/admin/orders/${id}/force-cancel`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
 }
 
 export async function forceCompleteOrder(id: string) {
-  return apiFetch<OrderActionResponse>(`/admin/orders/${id}/force-complete`, { method: 'POST' })
+  return api<OrderActionResponse>(`/admin/orders/${id}/force-complete`, { method: 'POST' })
 }

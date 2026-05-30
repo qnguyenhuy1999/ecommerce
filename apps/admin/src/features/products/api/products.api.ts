@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 import type { ProductStatus } from '@ecom/contracts'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
@@ -91,21 +91,21 @@ export async function getProducts(params: ProductListQuery = {}) {
     ...(params.categoryId !== undefined && { categoryId: params.categoryId }),
   }
 
-  return apiFetch<ProductListResponse>('/admin/products', { params: query })
+  return api<ProductListResponse>('/admin/products', { params: query })
 }
 
 export async function getProduct(id: string) {
-  return apiFetch<ProductDetailResponse>(`/admin/products/${id}`)
+  return api<ProductDetailResponse>(`/admin/products/${id}`)
 }
 
 export async function getProductStatusCounts() {
-  return apiFetch<ProductStatusCountsResponse>('/admin/products/status-counts')
+  return api<ProductStatusCountsResponse>('/admin/products/status-counts')
 }
 
 export async function approveProduct(id: string, note?: string) {
   const body: ProductApproveBody = { note: note ?? '' }
 
-  return apiFetch<ProductApproveResponse>(`/admin/products/${id}/approve`, {
+  return api<ProductApproveResponse>(`/admin/products/${id}/approve`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
@@ -114,24 +114,24 @@ export async function approveProduct(id: string, note?: string) {
 export async function rejectProduct(id: string, note?: string) {
   const body: ProductRejectBody = { note: note ?? '' }
 
-  return apiFetch<ProductRejectResponse>(`/admin/products/${id}/reject`, {
+  return api<ProductRejectResponse>(`/admin/products/${id}/reject`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
 }
 
 export async function hideProduct(id: string) {
-  return apiFetch<ProductHideResponse>(`/admin/products/${id}/hide`, { method: 'POST' })
+  return api<ProductHideResponse>(`/admin/products/${id}/hide`, { method: 'POST' })
 }
 
 export async function unhideProduct(id: string) {
-  return apiFetch<ProductUnhideResponse>(`/admin/products/${id}/unhide`, { method: 'POST' })
+  return api<ProductUnhideResponse>(`/admin/products/${id}/unhide`, { method: 'POST' })
 }
 
 export async function bulkApproveProducts(ids: string[], note = '') {
   const body: ProductBulkActionBody = { ids, note }
 
-  return apiFetch<ProductBulkApproveResponse>('/admin/products/bulk/approve', {
+  return api<ProductBulkApproveResponse>('/admin/products/bulk/approve', {
     method: 'POST',
     body: JSON.stringify(body),
   })
@@ -140,7 +140,7 @@ export async function bulkApproveProducts(ids: string[], note = '') {
 export async function bulkRejectProducts(ids: string[], note = '') {
   const body: ProductBulkActionBody = { ids, note }
 
-  return apiFetch<ProductBulkRejectResponse>('/admin/products/bulk/reject', {
+  return api<ProductBulkRejectResponse>('/admin/products/bulk/reject', {
     method: 'POST',
     body: JSON.stringify(body),
   })

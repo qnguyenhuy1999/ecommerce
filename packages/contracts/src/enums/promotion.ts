@@ -14,7 +14,9 @@ export const FlashSaleSlotStatus = {
   PENDING: 'PENDING',
   APPROVED: 'APPROVED',
   REJECTED: 'REJECTED',
+  ACTIVE: 'ACTIVE',
   SOLD_OUT: 'SOLD_OUT',
+  ENDED: 'ENDED',
   CANCELLED: 'CANCELLED',
 } as const
 
@@ -53,6 +55,7 @@ export type CouponScope = (typeof CouponScope)[keyof typeof CouponScope]
 export const PlatformVoucherType = {
   PERCENTAGE: 'PERCENTAGE',
   FIXED_AMOUNT: 'FIXED_AMOUNT',
+  FREE_SHIPPING: 'FREE_SHIPPING',
 } as const
 
 export type PlatformVoucherType = (typeof PlatformVoucherType)[keyof typeof PlatformVoucherType]
@@ -63,6 +66,7 @@ export const PlatformVoucherStatus = {
   ACTIVE: 'ACTIVE',
   PAUSED: 'PAUSED',
   EXPIRED: 'EXPIRED',
+  DEPLETED: 'DEPLETED',
 } as const
 
 export type PlatformVoucherStatus =

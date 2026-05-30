@@ -6,7 +6,7 @@ import { getShopProfile, updateShopProfile } from '../api'
 import { mapProfileFormToUpdateShopPayload, mapShopToProfileForm } from '../mappers'
 import { shopProfileKeys } from '../query-keys'
 
-export function useShopProfileAdapter() {
+export function useShopProfileAdapter(initialData?: ReturnType<typeof mapShopToProfileForm>) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
@@ -15,6 +15,7 @@ export function useShopProfileAdapter() {
       const shop = await getShopProfile()
       return mapShopToProfileForm(shop)
     },
+    initialData,
   })
 
   const updateMutation = useMutation({

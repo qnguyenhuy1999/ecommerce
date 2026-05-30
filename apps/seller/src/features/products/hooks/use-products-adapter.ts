@@ -5,13 +5,14 @@ import { getProductsList } from '../api'
 import { mapProductsToRows } from '../mappers'
 import { productKeys } from '../query-keys'
 
-export function useProductsAdapter() {
+export function useProductsAdapter(initialData?: ReturnType<typeof mapProductsToRows>) {
   const query = useQuery({
     queryKey: productKeys.list(),
     queryFn: async () => {
       const { items } = await getProductsList()
       return mapProductsToRows(items)
     },
+    initialData,
   })
 
   return {

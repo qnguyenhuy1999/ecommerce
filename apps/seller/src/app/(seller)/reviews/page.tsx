@@ -1,17 +1,15 @@
-'use client'
+import { headers } from 'next/headers'
+import { getReviewsBundle } from '@/features/reviews/api'
+import { mapReviewsToRows } from '@/features/reviews/mappers'
+import { ReviewsPageClient } from './_components/ReviewsPage.client'
 
-import { Reviews } from '@ecom/ui-seller/pages/Reviews'
-import { useReviewsAdapter } from '@/features/reviews/hooks/use-reviews-adapter'
-
-export default function ReviewsPage() {
-  const { loading, rows, analytics, onReply } = useReviewsAdapter()
-
-  return (
-    <Reviews
-      rows={rows}
-      {...(analytics !== undefined ? { analytics } : {})}
-      loading={loading}
-      onReply={onReply}
-    />
-  )
+export default async function ReviewsPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const bundle = await getReviewsBundle(undefined, init)
+  const initialData = {
+    rows: mapReviewsToRows(bundle.reviews),
+    analytics: bundle.analytics,
+  }
+  return <ReviewsPageClient initialData={initialData} />
 }

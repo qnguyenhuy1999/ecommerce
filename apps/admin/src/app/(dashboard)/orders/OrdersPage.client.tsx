@@ -2,7 +2,7 @@
 
 import { Orders } from '@ecom/ui-admin'
 import { useOrdersAdapter } from '@/features/orders/hooks/use-orders-adapter'
-import { stripAdapterMeta } from '@/lib/adapter-utils'
+import { stripAdapterMeta } from '@ecom/shared'
 
 export function OrdersPageClient() {
   return <Orders {...stripAdapterMeta(useOrdersAdapter())} />

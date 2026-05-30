@@ -15,6 +15,7 @@ export const BannerStatus = {
   SCHEDULED: 'SCHEDULED',
   ACTIVE: 'ACTIVE',
   EXPIRED: 'EXPIRED',
+  ARCHIVED: 'ARCHIVED',
 } as const
 
 export type BannerStatus = (typeof BannerStatus)[keyof typeof BannerStatus]

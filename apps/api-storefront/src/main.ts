@@ -51,7 +51,7 @@ async function bootstrap() {
     title: 'Storefront API',
     description: 'E-commerce Storefront API documentation',
     version: '1.0.0',
-    path: 'api/docs',
+    path: 'docs',
   })
 
   if (process.env.GENERATE_SWAGGER === 'true') {

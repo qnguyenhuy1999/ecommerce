@@ -1,18 +1,12 @@
-'use client'
+import { headers } from 'next/headers'
+import { getShippingBundle } from '@/features/shipping/api'
+import { mapShippingProviders } from '@/features/shipping/mappers'
+import { ShippingPageClient } from './_components/ShippingPage.client'
 
-import { Shipping } from '@ecom/ui-seller/pages/Shipping'
-import { useShippingAdapter } from '@/features/shipping/hooks/use-shipping-adapter'
-
-export default function ShippingPage() {
-  const { loading, rows, onToggle } = useShippingAdapter()
-
-  return (
-    <Shipping
-      rows={rows}
-      loading={loading}
-      onToggle={(providerId, enabled) => {
-        void onToggle(providerId, enabled)
-      }}
-    />
-  )
+export default async function ShippingPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const bundle = await getShippingBundle(init)
+  const initialData = mapShippingProviders(bundle.providers, bundle.methods)
+  return <ShippingPageClient initialData={initialData} />
 }

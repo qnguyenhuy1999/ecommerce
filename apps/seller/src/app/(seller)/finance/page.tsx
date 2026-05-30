@@ -1,14 +1,12 @@
-'use client'
+import { headers } from 'next/headers'
+import { getFinanceBundle } from '@/features/finance/api'
+import { buildFinanceProps } from '@/features/finance/mappers'
+import { FinancePageClient } from './_components/FinancePage.client'
 
-import { Finance } from '@ecom/ui-seller/pages/Finance'
-import { useFinanceAdapter } from '@/features/finance/hooks/use-finance-adapter'
-
-export default function FinancePage() {
-  const { props } = useFinanceAdapter()
-
-  return props ? (
-    <Finance {...props} />
-  ) : (
-    <p className="p-6 text-sm text-gray-500">Loading finance...</p>
-  )
+export default async function FinancePage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const bundle = await getFinanceBundle(init)
+  const initialData = buildFinanceProps(bundle)
+  return <FinancePageClient initialData={initialData} />
 }

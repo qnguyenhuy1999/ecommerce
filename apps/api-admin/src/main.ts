@@ -24,7 +24,6 @@ async function bootstrap() {
   redisIoAdapter.connectToRedis()
   app.useWebSocketAdapter(redisIoAdapter)
 
-  app.setGlobalPrefix('admin')
   app.enableVersioning({
     type: VersioningType.URI,
     defaultVersion: '1',

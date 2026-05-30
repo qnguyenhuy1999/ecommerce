@@ -1,34 +1,10 @@
-'use client'
+import { headers } from 'next/headers'
+import { getOrdersList } from '@/features/orders/api'
+import { OrdersPageClient } from './_components/OrdersPage.client'
 
-import { Orders } from '@ecom/ui-seller/pages/Orders'
-import { useOrdersAdapter } from '@/features/orders/hooks/use-orders-adapter'
-
-export default function OrdersPage() {
-  const {
-    loading,
-    orders,
-    status,
-    onStatusChange,
-    search,
-    onSearchChange,
-    statusCounts,
-    emptyMessage,
-    meta,
-    onPageChange,
-  } = useOrdersAdapter()
-
-  return (
-    <Orders
-      loading={loading}
-      orders={orders}
-      status={status}
-      onStatusChange={onStatusChange}
-      search={search}
-      onSearchChange={onSearchChange}
-      statusCounts={statusCounts}
-      emptyMessage={emptyMessage}
-      {...(meta ? { meta } : {})}
-      onPageChange={onPageChange}
-    />
-  )
+export default async function OrdersPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const initialData = await getOrdersList({}, init)
+  return <OrdersPageClient initialData={initialData} />
 }

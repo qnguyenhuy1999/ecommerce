@@ -1,10 +1,12 @@
-'use client'
+import { headers } from 'next/headers'
+import { getApprovals } from '@/features/approvals/api'
+import { mapApprovalsToRows } from '@/features/approvals/mappers'
+import { ApprovalsPageClient } from './_components/ApprovalsPage.client'
 
-import { Approvals } from '@ecom/ui-seller/pages/Approvals'
-import { useApprovalsAdapter } from '@/features/approvals/hooks/use-approvals-adapter'
-
-export default function ApprovalsPage() {
-  const { loading, approvals, onResubmit } = useApprovalsAdapter()
-
-  return <Approvals approvals={approvals} loading={loading} onResubmit={onResubmit} />
+export default async function ApprovalsPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const items = await getApprovals(undefined, init)
+  const initialData = mapApprovalsToRows(items)
+  return <ApprovalsPageClient initialData={initialData} />
 }

@@ -1,14 +1,12 @@
-'use client'
+import { headers } from 'next/headers'
+import { getMetricsBundle } from '@/features/metrics/api'
+import { buildMetricsAnalyticsProps } from '@/features/metrics/mappers'
+import { MetricsPageClient } from './_components/MetricsPage.client'
 
-import { Analytics } from '@ecom/ui-seller/pages/Analytics'
-import { useMetricsAdapter } from '@/features/metrics/hooks/use-metrics-adapter'
-
-export default function MetricsPage() {
-  const { props } = useMetricsAdapter()
-
-  return props ? (
-    <Analytics {...props} />
-  ) : (
-    <p className="p-6 text-sm text-gray-500">Loading metrics...</p>
-  )
+export default async function MetricsPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const bundle = await getMetricsBundle(init)
+  const initialData = buildMetricsAnalyticsProps(bundle)
+  return <MetricsPageClient initialData={initialData} />
 }

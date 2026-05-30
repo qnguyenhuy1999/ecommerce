@@ -1,23 +1,9 @@
 import { io, type Socket } from 'socket.io-client'
+import type { RealtimeNotificationPayload, RealtimeChatMessagePayload } from '@ecom/contracts'
+
+export type { RealtimeNotificationPayload, RealtimeChatMessagePayload }
 
 const HEARTBEAT_INTERVAL_MS = 30_000
-
-export interface RealtimeNotificationPayload {
-  id: string
-  type: string
-  title: string
-  message: string
-  createdAt: string
-  metadata?: Record<string, unknown>
-}
-
-export interface RealtimeChatMessagePayload {
-  id: string
-  conversationId: string
-  senderId: string
-  content: string
-  createdAt: string
-}
 
 export interface RealtimeChatReadPayload {
   conversationId: string
