@@ -31,7 +31,7 @@
     "contracts:check": "tsx scripts/sync-prisma-enums.ts && pnpm contracts:validate && git diff --exit-code packages/contracts/src/generated apps/api-admin/openapi apps/api-seller/openapi apps/api-storefront/openapi"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.8.0",
+    "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^19.8.0",
     "@apidevtools/swagger-cli": "^4.0.4",
     "@tailwindcss/postcss": "^4.3.0",
