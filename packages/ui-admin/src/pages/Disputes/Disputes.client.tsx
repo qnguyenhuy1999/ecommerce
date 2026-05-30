@@ -18,6 +18,7 @@ import type {
   RefundRecord,
   RefundCaseResolution,
   RefundCaseFilterOption,
+  RefundStatus,
   RefundsProps,
 } from './Disputes.types'
 

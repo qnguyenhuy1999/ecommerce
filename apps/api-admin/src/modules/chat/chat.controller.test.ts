@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/unbound-method */
 import 'reflect-metadata'
 import { DECORATORS } from '@nestjs/swagger/dist/constants'
 import { describe, expect, it } from 'vitest'
