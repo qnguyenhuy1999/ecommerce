@@ -1,6 +1,6 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { OrderStatus } from '@ecom/contracts'
+import { OrderStatus } from '@ecom/contracts/enums/order'
 
 export class UpdateOrderStatusDto {
   @ApiProperty({ enum: OrderStatus, description: 'New order status' })

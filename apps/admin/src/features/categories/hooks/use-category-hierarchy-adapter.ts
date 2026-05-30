@@ -1,6 +1,9 @@
 'use client'
 
-import type { CategoryHierarchyProps, CategoryHierarchySavePayload } from '@ecom/ui-admin'
+import type {
+  CategoryHierarchyProps,
+  CategoryHierarchySavePayload,
+} from '@ecom/ui-admin/pages/CategoryHierarchy'
 import { useCategories, useUpdateCategory } from '../hooks/use-categories'
 import { mapCategoryNode } from '../mappers/category.mapper'
 

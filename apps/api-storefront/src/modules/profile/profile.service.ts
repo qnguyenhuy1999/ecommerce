@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService } from '@ecom/database'
-import type { SessionData } from '@ecom/auth'
+import type { SessionData } from '@ecom/auth/session.service'
 import type { UpdateProfileDto } from './dto/profile.dto'
 
 @Injectable()

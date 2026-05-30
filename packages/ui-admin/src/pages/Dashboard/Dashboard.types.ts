@@ -1,4 +1,4 @@
-import type { StatCardProps } from '@ecom/core-ui'
+import type { StatCardProps } from '@ecom/core-ui/molecules/StatCard'
 
 type DashboardMetric = Pick<StatCardProps, 'label' | 'value' | 'trend' | 'spark' | 'accent'>
 

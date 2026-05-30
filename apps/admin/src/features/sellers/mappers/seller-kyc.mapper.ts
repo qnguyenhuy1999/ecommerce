@@ -1,12 +1,14 @@
-import { formatDateIntl } from '@ecom/shared'
+import { formatDateIntl } from '@ecom/shared/utils/format'
 import type {
   SellerKycRow,
   SellerKycStatus,
   SellerKycStatusTabOption,
+} from '@ecom/ui-admin/pages/SellersKyc'
+import type {
   SellerKycDetailRecord,
   SellerKycDetailStatus,
   SellerKycDetailDocument,
-} from '@ecom/ui-admin'
+} from '@ecom/ui-admin/pages/SellerKycDetail'
 import type { Seller, SellerDetail } from '../api/sellers.api'
 
 function toKycStatus(status: string): SellerKycStatus {

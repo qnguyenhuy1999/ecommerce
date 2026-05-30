@@ -1,4 +1,5 @@
-import { Card, CardContent, Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent } from '@ecom/core-ui/molecules/Card'
 import { getConversationCardClassName } from './DisputeDetail.constants'
 import type {
   RefundConversationItem,

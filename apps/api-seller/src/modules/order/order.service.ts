@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import type { Prisma } from '@ecom/database'
-import { OrderStatus, InventoryTransactionType } from '@ecom/contracts'
+import { OrderStatus } from '@ecom/contracts/enums/order'
+import { InventoryTransactionType } from '@ecom/contracts/enums/inventory'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { OrderQueryDto } from './dto/order-query.dto'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'

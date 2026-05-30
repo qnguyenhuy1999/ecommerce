@@ -1,4 +1,4 @@
-import { Badge } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
 
 const STATUS_COLORS: Record<string, string> = {
   DRAFT: 'bg-muted text-muted-foreground',

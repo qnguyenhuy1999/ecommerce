@@ -1,4 +1,4 @@
-import { SellerStatus } from '@ecom/contracts/enums'
+import { SellerStatus } from '@ecom/contracts/enums/seller'
 import type { FactoryOverrides } from './types'
 
 export interface TestSeller {

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common'
 import { Throttle } from '@nestjs/throttler'
 import type { Request, Response } from 'express'
-import { getSessionCookieOptions, SESSION_COOKIE_NAME } from '@ecom/auth'
+import { getSessionCookieOptions, SESSION_COOKIE_NAME } from '@ecom/auth/cookie.config'
 import { AuthService } from './auth.service'
 import { AdminAuthGuard } from './guards/admin-auth.guard'
 import { AuditLog } from '../../common/decorators/audit-log.decorator'

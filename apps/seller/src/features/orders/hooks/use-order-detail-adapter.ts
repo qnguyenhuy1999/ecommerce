@@ -1,12 +1,12 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { formatDateTime } from '@ecom/shared'
+import { formatDateTime } from '@ecom/shared/utils/format'
 import {
   buildOrderDetailStatusActions,
   type OrderDetailRecord,
   type OrderDetailStatus,
-} from '@ecom/ui-seller'
+} from '@ecom/ui-seller/pages/OrderDetail'
 import { getOrderDetail, updateOrderStatus } from '../api'
 import { mapOrderDetail } from '../mappers'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'

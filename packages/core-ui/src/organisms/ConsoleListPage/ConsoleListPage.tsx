@@ -1,11 +1,20 @@
 'use client'
 
-import { cn } from '@ecom/shared/utils'
+import { cn } from '@ecom/shared/utils/cn'
 import { Search } from 'lucide-react'
 import { Input } from '../../atoms/Input'
 import { ConsolePageLayout } from '../../layouts/ConsolePageLayout'
 import { DataTable } from '../DataTable'
 import type {
+  ConsoleListPageActionsProps,
+  ConsoleListPageFiltersProps,
+  ConsoleListPageHeaderProps,
+  ConsoleListPageRootProps,
+  ConsoleListPageSearchProps,
+  ConsoleListPageStatusTabsProps,
+  ConsoleListPageTableProps,
+} from './ConsoleListPage.types'
+export type {
   ConsoleListPageActionsProps,
   ConsoleListPageFiltersProps,
   ConsoleListPageHeaderProps,

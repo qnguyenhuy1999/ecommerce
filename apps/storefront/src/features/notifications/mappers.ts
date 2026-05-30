@@ -1,5 +1,5 @@
-import { formatDateTime } from '@ecom/shared'
-import type { NotificationRecord } from '@ecom/ui-storefront'
+import { formatDateTime } from '@ecom/shared/utils/format'
+import type { NotificationRecord } from '@ecom/ui-storefront/pages/Notifications'
 import type { NotificationsResponse } from '../../lib/storefront-contracts'
 import type { NotificationState } from './types'
 

@@ -1,4 +1,4 @@
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { inventoryDefaultProps } from './Inventory.fixtures'
 import type { InventoryProps } from './Inventory.types'

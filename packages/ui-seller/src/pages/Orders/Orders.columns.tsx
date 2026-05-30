@@ -1,6 +1,6 @@
-import { Checkbox } from '@ecom/core-ui'
-import type { DataTableColumn } from '@ecom/core-ui'
-import { formatCurrency } from '@ecom/shared/utils'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import { ORDERS_STATUS_BADGE_STYLES, ORDERS_STATUS_LABELS } from './Orders.constants'
 import type { OrderRow, OrdersStatusTab } from './Orders.types'
 

@@ -1,6 +1,6 @@
 'use client'
 
-import type { LoginProps, LoginSubmitValues } from '@ecom/ui-admin'
+import type { LoginProps, LoginSubmitValues } from '@ecom/ui-admin/pages/Login'
 import { useLogin } from '../hooks/use-auth-mutations'
 
 export function useLoginAdapter(): Pick<LoginProps, 'onSubmit'> {

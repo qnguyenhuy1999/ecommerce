@@ -1,4 +1,5 @@
-import { StatusBadge, Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
 import { Package, Truck } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import type { ensureAuditLogs } from './OrderDetail.utils'

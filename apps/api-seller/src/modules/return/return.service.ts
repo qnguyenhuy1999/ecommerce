@@ -1,4 +1,4 @@
-import { ReturnStatus } from '@ecom/contracts/enums'
+import { ReturnStatus } from '@ecom/contracts/enums/order'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'

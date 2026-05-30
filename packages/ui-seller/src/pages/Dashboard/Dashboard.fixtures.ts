@@ -244,18 +244,7 @@ export const dashboardRecentActivity: DashboardProps['recentActivity'] = [
   },
 ]
 
-export const dashboardDefaultProps = {
-  snapshotLabel: 'Snapshot for May 11, 2026 - Lumen Audio Official',
-  ordersHref: '#orders',
-  metrics: dashboardMetrics,
-  revenueSeries: dashboardRevenueSeries,
-  todos: dashboardTodos,
-  pendingOrders: dashboardPendingOrders,
-  lowStockItems: dashboardLowStockItems,
-  promotions: dashboardPromotions,
-  topProducts: dashboardTopProducts,
-  recentActivity: dashboardRecentActivity,
-} satisfies {
+export const dashboardDefaultProps: {
   snapshotLabel: string
   ordersHref: string
   metrics: NonNullable<DashboardProps['metrics']>
@@ -266,4 +255,15 @@ export const dashboardDefaultProps = {
   promotions: NonNullable<DashboardProps['promotions']>
   topProducts: NonNullable<DashboardProps['topProducts']>
   recentActivity: NonNullable<DashboardProps['recentActivity']>
+} = {
+  snapshotLabel: 'Snapshot for May 11, 2026 - Lumen Audio Official',
+  ordersHref: '#orders',
+  metrics: dashboardMetrics,
+  revenueSeries: dashboardRevenueSeries,
+  todos: dashboardTodos,
+  pendingOrders: dashboardPendingOrders,
+  lowStockItems: dashboardLowStockItems,
+  promotions: dashboardPromotions,
+  topProducts: dashboardTopProducts,
+  recentActivity: dashboardRecentActivity,
 }

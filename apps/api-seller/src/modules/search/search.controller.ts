@@ -11,7 +11,7 @@ import {
   HttpStatus,
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import type { SessionData } from '@ecom/auth'
+import type { SessionData } from '@ecom/auth/session.service'
 import { AuthGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import {

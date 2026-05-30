@@ -1,15 +1,11 @@
 'use client'
 
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Badge,
-  Button,
-  Input,
-  Textarea,
-  Typography,
-} from '@ecom/core-ui'
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import {
   ArrowLeft,
   Check,

@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { IsEnum, IsArray, IsString } from 'class-validator'
-import type { SessionData } from '@ecom/auth'
+import type { SessionData } from '@ecom/auth/session.service'
 import { AuthGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import {
@@ -28,7 +28,7 @@ import { ProductService } from './product.service'
 import { CreateProductDto } from './dto/create-product.dto'
 import { UpdateProductDto } from './dto/update-product.dto'
 import { ProductQueryDto } from './dto/product-query.dto'
-import { ProductStatus } from '@ecom/contracts'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 
 class BulkUpdateStatusDto {
   @IsArray()

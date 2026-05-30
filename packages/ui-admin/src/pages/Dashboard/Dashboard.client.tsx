@@ -1,6 +1,8 @@
 'use client'
 
-import { Button, Card, CardContent, CardHeader, CardTitle, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent, CardHeader, CardTitle } from '@ecom/core-ui/molecules/Card'
 import {
   Area,
   AreaChart,

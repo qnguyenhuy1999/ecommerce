@@ -1,40 +1,35 @@
-import type { ProductStatus } from '@ecom/contracts'
+import type { ProductStatus } from '@ecom/contracts/enums/product'
 import {
   formatCompactCurrency as sharedFormatCompactCurrency,
   formatCurrency as sharedFormatCurrency,
   formatDateIntl,
   formatDateTime as sharedFormatDateTime,
   formatPercent as sharedFormatPercent,
-} from '@ecom/shared'
+} from '@ecom/shared/utils/format'
+import type { AnalyticsDateRangeOption, AnalyticsProps } from '@ecom/ui-seller/pages/Analytics'
+import type { ApprovalRow } from '@ecom/ui-seller/pages/Approvals'
+import type { BulkJobRow } from '@ecom/ui-seller/pages/Bulk'
+import type { DashboardProps } from '@ecom/ui-seller/pages/Dashboard'
 import type {
-  ApprovalRow,
-  AnalyticsDateRangeOption,
-  AnalyticsProps,
-  BulkJobRow,
-  DashboardProps,
   FinanceBalanceMetric,
   FinanceEntryKind,
   FinanceProps,
   FinanceTab,
-  InventoryRow,
-  MessageConversation,
-  MessageEntry,
-  NotificationRow,
-  OrderDetailRecord,
-  OrderDetailStatus,
-  OrderRow,
-  OrdersStatusTab,
-  ProductDetailFormData,
-  ProductRow,
-  ReviewAnalytics,
-  ReviewRow,
-  ReturnRow,
-  ShippingProviderRow,
-  ShopProfileFormData,
-  WarehouseRow,
-  VoucherDetailFormData,
-  VoucherRow,
-} from '@ecom/ui-seller'
+} from '@ecom/ui-seller/pages/Finance'
+import type { InventoryRow } from '@ecom/ui-seller/pages/Inventory'
+import type { MessageConversation, MessageEntry } from '@ecom/ui-seller/pages/Messages'
+import type { NotificationRow } from '@ecom/ui-seller/pages/Notifications'
+import type { OrderDetailRecord, OrderDetailStatus } from '@ecom/ui-seller/pages/OrderDetail'
+import type { OrderRow, OrdersStatusTab } from '@ecom/ui-seller/pages/Orders'
+import type { ProductDetailFormData } from '@ecom/ui-seller/pages/ProductDetail'
+import type { ProductRow } from '@ecom/ui-seller/pages/Products'
+import type { ReviewAnalytics, ReviewRow } from '@ecom/ui-seller/pages/Reviews'
+import type { ShopProfileFormData } from '@ecom/ui-seller/pages/ShopProfile'
+import type { ShippingProviderRow } from '@ecom/ui-seller/pages/Shipping'
+import type { ReturnRow } from '@ecom/ui-seller/pages/ReturnsRefunds'
+import type { WarehouseRow } from '@ecom/ui-seller/pages/Warehouses'
+import type { VoucherDetailFormData } from '@ecom/ui-seller/pages/VoucherDetail'
+import type { VoucherRow } from '@ecom/ui-seller/pages/Vouchers'
 
 export interface SellerDashboardSummary {
   revenue: {

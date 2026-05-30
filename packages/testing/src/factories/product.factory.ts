@@ -1,4 +1,4 @@
-import { ProductStatus } from '@ecom/contracts/enums'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 import type { FactoryOverrides } from './types'
 
 export interface TestProduct {

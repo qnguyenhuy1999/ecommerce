@@ -1,18 +1,15 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Card, CardContent, CardHeader, CardTitle } from '@ecom/core-ui/molecules/Card'
 import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
 import { startTransition, useDeferredValue, useMemo, useState } from 'react'
 import { useControllableState } from '../../hooks'
 import { SellerListPage } from '../../organisms/SellerListPage'

@@ -1,6 +1,6 @@
 'use client'
 
-import type { OrderDetailProps } from '@ecom/ui-admin'
+import type { OrderDetailProps } from '@ecom/ui-admin/pages/OrderDetail'
 import { useOrder } from './use-order-queries'
 import { useForceCancelOrder, useForceCompleteOrder } from './use-order-mutations'
 import { mapOrderToDetailRecord } from '../mappers/order.mapper'

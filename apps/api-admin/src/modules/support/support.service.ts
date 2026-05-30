@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { PrismaService, type Prisma } from '@ecom/database'
 import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import type {
   SupportTicketQueryDto,
   SendReplyDto,

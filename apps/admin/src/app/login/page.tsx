@@ -1,5 +1,5 @@
-import { AuthPageShell } from '@ecom/ui-admin'
-import { LoginPageClient } from './LoginPage.client'
+import { AuthPageShell } from '@ecom/ui-admin/layouts/AuthPageShell'
+import { LoginPageClient } from './_components/LoginPage.client'
 
 export default function LoginPage() {
   return (

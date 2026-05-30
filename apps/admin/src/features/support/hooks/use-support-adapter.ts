@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { SupportProps } from '@ecom/ui-admin'
+import type { SupportProps } from '@ecom/ui-admin/pages/Support'
 import {
   useChangeSupportAssignee,
   useChangeSupportStatus,

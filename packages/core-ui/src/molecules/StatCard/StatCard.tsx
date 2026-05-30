@@ -1,10 +1,11 @@
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { ArrowDownRight, ArrowUpRight } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { cn } from '../../lib/utils'
 import { StatCardChart } from './StatCard.client'
 import { accentMap } from './StatCard.fixtures'
 import type { Accent, StatCardHeader, StatCardProps } from './StatCard.types'
+export type { Accent, StatCardHeader, StatCardProps, StatChartProps } from './StatCard.types'
 
 function Header({ label, icon: Icon, accent = 'primary' }: StatCardHeader) {
   const colors = accentMap[accent]

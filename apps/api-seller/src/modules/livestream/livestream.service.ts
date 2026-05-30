@@ -3,7 +3,7 @@ import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import type { AddLivestreamProductDto, CreateLivestreamDto } from './dto/livestream.dto'
 

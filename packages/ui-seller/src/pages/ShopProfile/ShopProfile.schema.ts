@@ -1,4 +1,4 @@
-import { z } from '@ecom/core-ui'
+import { z } from '@ecom/core-ui/vendors/zod'
 
 export const shopProfileSchema = z.object({
   shopName: z.string().trim().min(1, 'Shop name is required'),

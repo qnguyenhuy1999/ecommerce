@@ -1,4 +1,4 @@
-import { z } from '@ecom/core-ui'
+import { z } from '@ecom/core-ui/vendors/zod'
 
 function optionalNonNegativeNumber(fieldLabel: string) {
   return z.string().refine((value) => {

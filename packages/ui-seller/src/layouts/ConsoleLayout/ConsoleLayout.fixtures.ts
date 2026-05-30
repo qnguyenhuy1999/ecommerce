@@ -20,7 +20,7 @@ import {
   Warehouse,
 } from 'lucide-react'
 
-import { type SidebarGroup } from '@ecom/core-ui'
+import type { SidebarGroup } from '@ecom/core-ui/organisms/Sidebar'
 
 export const sidebarGroups: SidebarGroup[] = [
   {

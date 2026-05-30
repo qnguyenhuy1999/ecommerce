@@ -2,7 +2,7 @@
 
 import { startTransition, useDeferredValue } from 'react'
 import { Plus } from 'lucide-react'
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import type { PaginationMeta } from '@ecom/shared/pagination/core'
 import { useControllableState } from '../../hooks'
 import { SellerListPage } from '../../organisms/SellerListPage'

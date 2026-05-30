@@ -1,4 +1,4 @@
-import { z } from '@ecom/core-ui'
+import { z } from '@ecom/core-ui/vendors/zod'
 
 export const addRuleSchema = z
   .object({

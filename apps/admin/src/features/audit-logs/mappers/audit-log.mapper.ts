@@ -1,5 +1,5 @@
-import { formatDateTime } from '@ecom/shared'
-import type { AuditLogEntry, AuditLogResource } from '@ecom/ui-admin'
+import { formatDateTime } from '@ecom/shared/utils/format'
+import type { AuditLogEntry, AuditLogResource } from '@ecom/ui-admin/pages/AuditLog'
 import type { AuditLog } from '../api/audit-logs.api'
 
 function toAuditLogResource(entityType: string | null): AuditLogResource {

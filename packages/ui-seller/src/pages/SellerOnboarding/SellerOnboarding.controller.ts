@@ -1,7 +1,9 @@
 'use client'
 
 import { useRef, useState } from 'react'
-import { useForm, zodResolver, type UseFormReturn } from '@ecom/core-ui'
+import type { UseFormReturn } from '@ecom/core-ui/vendors/react-hook-form'
+import { useForm } from '@ecom/core-ui/vendors/react-hook-form'
+import { zodResolver } from '@ecom/core-ui/vendors/zod-resolver'
 import { useControllableState } from '../../hooks'
 import {
   SELLER_ONBOARDING_ERRORS,

@@ -1,4 +1,5 @@
-import { Card, Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card } from '@ecom/core-ui/molecules/Card'
 import { Clock3, Flame } from 'lucide-react'
 import {
   CategoryTile,

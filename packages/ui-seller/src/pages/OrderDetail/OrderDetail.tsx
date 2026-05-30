@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { orderDetailDefaultProps } from './OrderDetail.fixtures'
 import { EmptyState, LoadingState, OrderDetailActions } from './OrderDetail.client'
 import {

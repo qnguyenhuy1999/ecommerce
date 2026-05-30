@@ -1,6 +1,6 @@
 'use client'
 
-import { Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { SellerListPage } from '../../organisms'
 import { bannersDefaultProps } from './Banners.fixtures'
 import type { BannersProps } from './Banners.types'

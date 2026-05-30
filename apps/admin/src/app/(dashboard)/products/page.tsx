@@ -1,4 +1,4 @@
-import { ProductsPageClient } from './ProductsPage.client'
+import { ProductsPageClient } from './_components/ProductsPage.client'
 
 export default function Products() {
   return <ProductsPageClient />

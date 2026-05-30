@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button, ConsolePageLayout, SidebarInset, SidebarMenuRenderer, SidebarShell } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
+import { SidebarInset, SidebarMenuRenderer, SidebarShell } from '@ecom/core-ui/organisms/Sidebar'
 import { ConsoleLayout } from './ConsoleLayout'
 import {
   defaultSidebarAccount,

@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common'
 import { PrismaService, Prisma } from '@ecom/database'
 import { type AuditActionType } from '@ecom/database'
 import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { withDefined, nullable } from '@ecom/shared/utils'
+import { withDefined, nullable } from '@ecom/shared/utils/optional-object'
 
 interface LogParams {
   adminId: string

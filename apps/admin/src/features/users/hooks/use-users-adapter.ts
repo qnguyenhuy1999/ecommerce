@@ -1,6 +1,6 @@
 'use client'
 
-import type { UsersProps } from '@ecom/ui-admin'
+import type { UsersProps } from '@ecom/ui-admin/pages/Users'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useUsers, useUserStatusCounts } from '../hooks/use-users'
 import { mapUserToAccountRecord, buildUsersStatusTabs } from '../mappers/user.mapper'

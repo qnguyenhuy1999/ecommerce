@@ -1,7 +1,7 @@
 import { IsOptional, IsString, IsUUID, IsEnum } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
-import { ProductStatus } from '@ecom/contracts'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 
 export class ProductQueryDto extends OffsetPaginationDto {
   @ApiPropertyOptional({ description: 'Search by product name or SKU' })

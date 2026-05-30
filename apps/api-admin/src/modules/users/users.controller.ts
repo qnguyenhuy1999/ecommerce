@@ -7,7 +7,7 @@ import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AuditLog } from '../../common/decorators/audit-log.decorator'
 import { UserQueryDto, UserActionDto } from './dto/user-query.dto'
 import { UserResponseDto } from './dto/user-query.dto'
-import { AUDIT_ACTIONS } from '@ecom/shared/constants'
+import { AUDIT_ACTIONS } from '@ecom/shared/constants/audit'
 import {
   ApiOkResponseData,
   ApiPaginatedResponse,

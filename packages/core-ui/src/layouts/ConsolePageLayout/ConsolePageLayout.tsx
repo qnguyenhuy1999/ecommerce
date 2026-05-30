@@ -2,6 +2,7 @@ import { cn } from '../../lib/utils'
 import { ChevronRight } from 'lucide-react'
 import { Typography } from '../../atoms/Typography'
 import type { ConsolePageLayoutProps } from './ConsolePageLayout.types'
+export type { ConsoleBreadcrumbItem, ConsolePageLayoutProps } from './ConsolePageLayout.types'
 
 function ConsolePageBreadcrumb({
   items,

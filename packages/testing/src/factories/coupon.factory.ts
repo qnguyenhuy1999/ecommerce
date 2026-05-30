@@ -1,4 +1,4 @@
-import { CouponScope, CouponStatus, CouponType } from '@ecom/contracts/enums'
+import { CouponScope, CouponStatus, CouponType } from '@ecom/contracts/enums/promotion'
 import type { FactoryOverrides } from './types'
 
 export interface TestCoupon {

@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { ShopProfileFormData } from '@ecom/ui-seller'
+import type { ShopProfileFormData } from '@ecom/ui-seller/pages/ShopProfile'
 import { getShopProfile, updateShopProfile } from '../api'
 import { mapProfileFormToUpdateShopPayload, mapShopToProfileForm } from '../mappers'
 import { shopProfileKeys } from '../query-keys'

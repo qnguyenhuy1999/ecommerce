@@ -1,4 +1,4 @@
-import { NotificationsPageClient } from './NotificationsPage.client'
+import { NotificationsPageClient } from './_components/NotificationsPage.client'
 
 export default function StorefrontNotificationsPage() {
   return <NotificationsPageClient />

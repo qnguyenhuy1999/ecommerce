@@ -1,7 +1,7 @@
 import type { ExecutionContext } from '@nestjs/common'
 import { createParamDecorator } from '@nestjs/common'
 import type { Request } from 'express'
-import type { SessionData } from '@ecom/auth'
+import type { SessionData } from '@ecom/auth/session.service'
 
 type UserRequest = Request & { user?: SessionData }
 

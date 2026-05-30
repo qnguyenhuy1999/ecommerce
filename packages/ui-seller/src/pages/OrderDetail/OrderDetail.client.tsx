@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import { ArrowLeft } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import type { OrderDetailClientProps } from './OrderDetail.controller'

@@ -1,11 +1,8 @@
 'use client'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Button,
-  ConsolePageLayout,
   Form,
   FormControl,
   FormDescription,
@@ -13,17 +10,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
+} from '@ecom/core-ui/atoms/Form'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
-  Typography,
-  type UseFormReturn,
-} from '@ecom/core-ui'
-import { slugify } from '@ecom/shared/utils'
+} from '@ecom/core-ui/molecules/Select'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
+import type { UseFormReturn } from '@ecom/core-ui/vendors/react-hook-form'
+import { slugify } from '@ecom/shared/utils/slugify'
 import { ImagePlus, Star } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { shopProfileCountryOptions, shopProfileResponseTargetOptions } from './ShopProfile.fixtures'

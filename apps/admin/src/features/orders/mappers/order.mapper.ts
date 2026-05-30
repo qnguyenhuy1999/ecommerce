@@ -1,10 +1,6 @@
-import { formatCurrency, formatDateIntl, formatDateTime } from '@ecom/shared'
-import type {
-  OrderDetailRecord,
-  OrderRecord,
-  OrderStatusTabOption,
-  OrderStatusTab,
-} from '@ecom/ui-admin'
+import { formatCurrency, formatDateIntl, formatDateTime } from '@ecom/shared/utils/format'
+import type { OrderRecord, OrderStatusTabOption, OrderStatusTab } from '@ecom/ui-admin/pages/Orders'
+import type { OrderDetailRecord } from '@ecom/ui-admin/pages/OrderDetail'
 import type { OrderDetail, OrderListItem } from '../api/orders.api'
 
 export function mapOrderToRecord(order: OrderListItem): OrderRecord {

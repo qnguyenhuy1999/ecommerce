@@ -1,9 +1,9 @@
-import { formatDateIntl } from '@ecom/shared'
+import { formatDateIntl } from '@ecom/shared/utils/format'
 import type {
   ProductApprovalItem,
   ProductApprovalStatus,
   ProductApprovalStatusTab,
-} from '@ecom/ui-admin'
+} from '@ecom/ui-admin/pages/ProductApproval'
 import type { ProductListItem } from '../api/products.api'
 
 function toApprovalStatus(status: string): ProductApprovalStatus {

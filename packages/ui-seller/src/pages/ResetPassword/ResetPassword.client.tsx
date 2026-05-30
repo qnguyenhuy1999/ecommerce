@@ -1,23 +1,19 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
 import {
-  Button,
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  Typography,
-  useForm,
-  zodResolver,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/atoms/Form'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@ecom/core-ui/molecules/Card'
+import { useForm } from '@ecom/core-ui/vendors/react-hook-form'
+import { zodResolver } from '@ecom/core-ui/vendors/zod-resolver'
 import { CircleAlert, CircleCheckBig, KeyRound, ShieldAlert } from 'lucide-react'
 import { useState } from 'react'
 import { AuthPageShell } from '../../layouts/AuthPageShell'

@@ -3,12 +3,14 @@ import { type Prisma } from '@ecom/database'
 import {
   OUTBOX_EVENTS,
   type ChatMessageOutboxPayload,
+} from '@ecom/shared/constants/notification-jobs'
+import {
   CHAT_MESSAGE_CREATED_CHANNEL,
   LAST_MESSAGE_PREVIEW_LENGTH,
-} from '@ecom/shared'
+} from '@ecom/shared/constants/events'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { QUEUES } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
 import { ForbiddenException, Inject, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'

@@ -3,8 +3,11 @@ import { Processor, WorkerHost } from '@nestjs/bullmq'
 import type { Job } from 'bullmq'
 import { PrismaService } from '@ecom/database'
 import { type NotificationType, type UserNotificationType, type Prisma } from '@ecom/database'
-import { QUEUES, NOTIFICATION_JOBS } from '@ecom/shared'
-import type { NotificationJobPayload } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
+import {
+  NOTIFICATION_JOBS,
+  type NotificationJobPayload,
+} from '@ecom/shared/constants/notification-jobs'
 import type { ChannelRouterService } from './channels/channel-router.service'
 
 @Processor(QUEUES.NOTIFICATION, { concurrency: 5 })

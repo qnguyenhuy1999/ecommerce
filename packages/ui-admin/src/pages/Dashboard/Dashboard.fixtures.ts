@@ -309,22 +309,7 @@ export const dashboardAuditEvents: NonNullable<DashboardProps['auditEvents']> = 
   },
 ]
 
-export const dashboardDefaultProps = {
-  title: 'Platform overview',
-  description: 'Last 14 days · production environment',
-  exportReportHref: '#export-report',
-  openQueueHref: '#open-queue',
-  metrics: dashboardMetrics,
-  revenueSeries: dashboardRevenueSeries,
-  revenueValueLabel: '$1,842,000',
-  revenueTrendLabel: '+14.2% vs prev',
-  pendingApprovals: dashboardPendingApprovals,
-  systemHealth: dashboardSystemHealth,
-  moderationQueue: dashboardModerationQueue,
-  disputeQueue: dashboardDisputeQueue,
-  campaigns: dashboardCampaigns,
-  auditEvents: dashboardAuditEvents,
-} satisfies Required<
+export const dashboardDefaultProps: Required<
   Pick<
     DashboardProps,
     | 'title'
@@ -342,4 +327,19 @@ export const dashboardDefaultProps = {
     | 'campaigns'
     | 'auditEvents'
   >
->
+> = {
+  title: 'Platform overview',
+  description: 'Last 14 days · production environment',
+  exportReportHref: '#export-report',
+  openQueueHref: '#open-queue',
+  metrics: dashboardMetrics,
+  revenueSeries: dashboardRevenueSeries,
+  revenueValueLabel: '$1,842,000',
+  revenueTrendLabel: '+14.2% vs prev',
+  pendingApprovals: dashboardPendingApprovals,
+  systemHealth: dashboardSystemHealth,
+  moderationQueue: dashboardModerationQueue,
+  disputeQueue: dashboardDisputeQueue,
+  campaigns: dashboardCampaigns,
+  auditEvents: dashboardAuditEvents,
+}

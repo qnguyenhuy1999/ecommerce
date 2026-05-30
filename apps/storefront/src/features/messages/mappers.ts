@@ -1,5 +1,8 @@
-import { formatDateTime } from '@ecom/shared'
-import type { MessagesConversationRecord, MessagesMessageRecord } from '@ecom/ui-storefront'
+import { formatDateTime } from '@ecom/shared/utils/format'
+import type {
+  MessagesConversationRecord,
+  MessagesMessageRecord,
+} from '@ecom/ui-storefront/pages/Messages'
 import type { ChatConversation, ChatMessagesResponse } from '../../lib/storefront-contracts'
 import type { RealtimeChatMessagePayload } from '../../lib/realtime'
 import type { ChatMessageState } from './types'

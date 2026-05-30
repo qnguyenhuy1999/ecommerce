@@ -1,6 +1,6 @@
 'use client'
 
-import { getWebAuthPreset } from '@ecom/auth'
+import { getWebAuthPreset } from '@ecom/auth/web-presets'
 import { createAuthClient, type AuthContextValue } from '@ecom/auth/client'
 
 const { client } = getWebAuthPreset('admin')

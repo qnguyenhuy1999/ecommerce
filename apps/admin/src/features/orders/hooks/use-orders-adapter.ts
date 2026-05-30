@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import type { OrderRecord, OrdersProps, OrderStatusTab } from '@ecom/ui-admin'
+import type { OrderRecord, OrdersProps, OrderStatusTab } from '@ecom/ui-admin/pages/Orders'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useOrders, useOrderStatusCounts } from './use-order-queries'
 import { buildOrderStatusTabs, mapOrderToRecord } from '../mappers/order.mapper'

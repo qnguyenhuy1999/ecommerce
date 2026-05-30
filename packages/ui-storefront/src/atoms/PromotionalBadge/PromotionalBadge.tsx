@@ -1,4 +1,4 @@
-import { Badge } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
 import { Zap } from 'lucide-react'
 
 interface PromotionalBadgeProps {

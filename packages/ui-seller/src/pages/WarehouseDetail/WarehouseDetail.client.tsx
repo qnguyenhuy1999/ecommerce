@@ -1,18 +1,18 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
 import {
-  Button,
-  Checkbox,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  useForm,
-  zodResolver,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/atoms/Form'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { useForm } from '@ecom/core-ui/vendors/react-hook-form'
+import { zodResolver } from '@ecom/core-ui/vendors/zod-resolver'
 import { SectionCard } from '../../atoms/SectionCard'
 import { PageHeader } from '../../atoms/PageHeader'
 import { warehouseDetailSchema, type WarehouseDetailSchemaData } from './WarehouseDetail.schema'

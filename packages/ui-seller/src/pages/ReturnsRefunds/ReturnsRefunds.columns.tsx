@@ -1,4 +1,4 @@
-import type { DataTableColumn } from '@ecom/core-ui'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import {
   returnStatusClassNames,
   returnStatusLabels,

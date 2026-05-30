@@ -1,6 +1,7 @@
-import test from 'node:test'
 import assert from 'node:assert/strict'
-import type { ProductDetailFormData, VoucherDetailFormData } from '@ecom/ui-seller'
+import { test } from 'node:test'
+import type { ProductDetailFormData } from '@ecom/ui-seller/pages/ProductDetail'
+import type { VoucherDetailFormData } from '@ecom/ui-seller/pages/VoucherDetail'
 import {
   buildAnalyticsProps,
   buildDashboardProps,

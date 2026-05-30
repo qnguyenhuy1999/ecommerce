@@ -1,4 +1,5 @@
-import { type DataTableColumn, Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import type { AuditLogEntry } from './AuditLog.types'
 
 export function buildAuditLogColumns(): DataTableColumn<AuditLogEntry>[] {

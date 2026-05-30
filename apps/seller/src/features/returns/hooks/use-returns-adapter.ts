@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { type ReturnsRefundsActionPayload } from '@ecom/ui-seller'
+import { type ReturnsRefundsActionPayload } from '@ecom/ui-seller/pages/ReturnsRefunds'
 import { getReturns, updateReturnStatus } from '../api'
 import { mapReturnsToRows } from '../mappers'
 import { returnKeys } from '../query-keys'

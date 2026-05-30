@@ -1,4 +1,5 @@
-import type { ConsoleBreadcrumbItem, StatCardProps } from '@ecom/core-ui'
+import type { ConsoleBreadcrumbItem } from '@ecom/core-ui/layouts/ConsolePageLayout'
+import type { StatCardProps } from '@ecom/core-ui/molecules/StatCard'
 
 export type AnalyticsMetric = Pick<
   StatCardProps,

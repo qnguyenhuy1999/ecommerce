@@ -1,6 +1,6 @@
-import { Checkbox, StatusBadge } from '@ecom/core-ui'
-import type { DataTableColumn } from '@ecom/core-ui'
-import { formatCurrency } from '@ecom/shared/utils'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { StatusBadge, type DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import type { ProductRow } from './Products.types'
 
 const selectColumn: DataTableColumn<ProductRow> = {

@@ -1,4 +1,6 @@
-import { Button, Card, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card } from '@ecom/core-ui/molecules/Card'
 import { BadgeCheck, Star } from 'lucide-react'
 import { PromotionalBadge } from '../../atoms/PromotionalBadge'
 

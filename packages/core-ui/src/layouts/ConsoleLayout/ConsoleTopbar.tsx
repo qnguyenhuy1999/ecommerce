@@ -1,4 +1,4 @@
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import type { ConsoleLayoutSwitcher, ConsoleLayoutUserMenu } from './ConsoleLayout.types'
 import { ConsoleSidebarTrigger } from './ConsoleSidebarTrigger.client'
 import { ConsoleWorkspaceSwitcher } from './ConsoleWorkspaceSwitcher.client'

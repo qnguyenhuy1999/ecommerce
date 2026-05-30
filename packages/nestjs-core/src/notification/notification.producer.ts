@@ -1,13 +1,13 @@
 import { Injectable, Inject } from '@nestjs/common'
 import type { Queue } from 'bullmq'
 import {
-  QUEUES,
   NOTIFICATION_JOBS,
   defaultJobOptions,
   type UserNotificationJobPayload,
   type SellerNotificationJobPayload,
   type AdminBroadcastJobPayload,
-} from '@ecom/shared'
+} from '@ecom/shared/constants/notification-jobs'
+import { QUEUES } from '@ecom/shared/constants/queues'
 
 @Injectable()
 export class NotificationProducer {

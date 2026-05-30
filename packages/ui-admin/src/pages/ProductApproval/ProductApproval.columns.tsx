@@ -1,4 +1,6 @@
-import { Checkbox, StatusBadge, Typography, type DataTableColumn } from '@ecom/core-ui'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatusBadge, type DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { ReasonTags } from './ProductApproval.components'
 import type { ProductApprovalItem } from './ProductApproval.types'
 

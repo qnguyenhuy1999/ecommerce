@@ -1,13 +1,13 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
 import {
-  Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
 import { Download, UserPlus } from 'lucide-react'
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms'

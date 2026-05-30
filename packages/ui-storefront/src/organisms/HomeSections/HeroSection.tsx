@@ -1,4 +1,6 @@
-import { Badge, Button, Typography } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { ArrowRight, Star, WandSparkles } from 'lucide-react'
 import type { HeroContent } from './HomeSections.types'
 

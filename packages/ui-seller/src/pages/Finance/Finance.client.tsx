@@ -1,11 +1,13 @@
 'use client'
 
-import { Badge, Button, type DataTableColumn } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { Download } from 'lucide-react'
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { SectionCard } from '../../atoms/SectionCard'
-import { cn } from '@ecom/shared/utils'
+import { cn } from '@ecom/shared/utils/cn'
 import { useFinanceController } from './Finance.controller'
 import {
   formatSignedFinanceAmount,

@@ -1,4 +1,4 @@
-import type { PermissionKey, RoleRecord } from '@ecom/ui-admin'
+import type { PermissionKey, RoleRecord } from '@ecom/ui-admin/pages/RolesPermissions'
 import type { RoleApiItem } from '../api/roles.api'
 
 export const PERMISSION_KEY_TO_ADMIN_PERMISSION: Record<PermissionKey, string> = {

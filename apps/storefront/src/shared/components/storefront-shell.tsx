@@ -3,7 +3,7 @@
 import type { AuthUser } from '@/providers/auth-provider'
 import { useAuth } from '@/providers/auth-provider'
 import { useStorefrontRealtime } from '@/providers/realtime-provider'
-import { StorefrontLayout } from '@ecom/ui-storefront'
+import { StorefrontLayout } from '@ecom/ui-storefront/layouts/StorefrontLayout'
 
 function getUserString(user: AuthUser | null, keys: string[]): string | undefined {
   if (!user) {

@@ -1,4 +1,7 @@
-import { Badge, Button, Typography, type DataTableColumn } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { ArrowRight } from 'lucide-react'
 import {
   formatSellerKycGmv,

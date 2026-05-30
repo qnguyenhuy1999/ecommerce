@@ -1,23 +1,20 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Label } from '@ecom/core-ui/atoms/Label'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent, CardHeader, CardTitle } from '@ecom/core-ui/molecules/Card'
 import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Checkbox,
-  Input,
-  Label,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  StatCard,
-  Textarea,
-  Typography,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
+import { StatCard } from '@ecom/core-ui/molecules/StatCard'
 import { CircleAlert, Plus, Search, Trash2 } from 'lucide-react'
 import { type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { CategoryTreeRow } from '../../molecules'

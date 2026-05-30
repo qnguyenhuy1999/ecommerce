@@ -1,4 +1,4 @@
-import type { DashboardProps } from '@ecom/ui-admin'
+import type { DashboardProps } from '@ecom/ui-admin/pages/Dashboard'
 
 export type DashboardAdapterState = DashboardProps & {
   loading: boolean

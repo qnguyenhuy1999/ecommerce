@@ -1,5 +1,5 @@
-import { Checkbox } from '@ecom/core-ui'
-import type { DataTableColumn } from '@ecom/core-ui'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import type { InventoryRow, InventoryFilterParams } from './Inventory.types'
 
 export function filterInventory({

@@ -2,7 +2,7 @@ import type { CanActivate, ExecutionContext } from '@nestjs/common'
 import { Injectable, ForbiddenException } from '@nestjs/common'
 import { Reflector } from '@nestjs/core'
 import type { Request } from 'express'
-import type { SessionData } from '@ecom/auth'
+import type { SessionData } from '@ecom/auth/session.service'
 import { ROLES_KEY } from '../decorators/roles.decorator'
 
 @Injectable()

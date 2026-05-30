@@ -1,5 +1,8 @@
 import { io, type Socket } from 'socket.io-client'
-import type { RealtimeNotificationPayload, RealtimeChatMessagePayload } from '@ecom/contracts'
+import type {
+  RealtimeNotificationPayload,
+  RealtimeChatMessagePayload,
+} from '@ecom/contracts/http/realtime'
 
 export type { RealtimeNotificationPayload, RealtimeChatMessagePayload }
 

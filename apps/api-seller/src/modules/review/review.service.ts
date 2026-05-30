@@ -1,4 +1,4 @@
-import { ReviewStatus } from '@ecom/contracts/enums'
+import { ReviewStatus } from '@ecom/contracts/enums/product'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'

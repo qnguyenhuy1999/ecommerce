@@ -10,20 +10,14 @@ import { randomUUID } from 'node:crypto'
 import { join } from 'node:path'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
-import { type SessionService } from '@ecom/auth'
-import {
-  type SessionData,
-  BaseUserAuthService,
-  SESSION_EXPIRY_DAYS,
-  VERIFY_TOKEN_TTL,
-  RESET_TOKEN_TTL,
-  hashPassword,
-  hashToken,
-  comparePassword,
-} from '@ecom/auth'
+import { type SessionService, type SessionData } from '@ecom/auth/session.service'
+import { hashPassword, comparePassword } from '@ecom/auth/password.utils'
+import { BaseUserAuthService } from '@ecom/auth/user-auth.base'
+import { SESSION_EXPIRY_DAYS, VERIFY_TOKEN_TTL, RESET_TOKEN_TTL } from '@ecom/auth/constants'
+import { hashToken } from '@ecom/auth/tokens'
 import { EmailService } from '@ecom/email'
 import { RedisService } from '@ecom/redis'
-import { UserStatus } from '@ecom/contracts/enums'
+import { UserStatus } from '@ecom/contracts/enums/user'
 import { SESSION_SERVICE } from './session.provider'
 
 const TEMPLATES_DIR = join(__dirname, '..', 'email', 'templates')

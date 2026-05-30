@@ -1,4 +1,4 @@
-import { RolesPermissionsPageClient } from './RolesPermissionsPage.client'
+import { RolesPermissionsPageClient } from './_components/RolesPermissionsPage.client'
 
 export default function RolesPermissionsPage() {
   return <RolesPermissionsPageClient />

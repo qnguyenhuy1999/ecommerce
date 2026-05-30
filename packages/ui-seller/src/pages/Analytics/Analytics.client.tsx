@@ -1,13 +1,13 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
 import {
-  Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
 import { Download } from 'lucide-react'
 import {
   Area,
@@ -23,7 +23,7 @@ import {
   YAxis,
 } from 'recharts'
 import { SectionCard } from '../../atoms/SectionCard'
-import { formatCurrency } from '@ecom/shared/utils'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import { analyticsDefaultProps } from './Analytics.fixtures'
 import { TrafficLegend } from './Analytics.server'
 import type {

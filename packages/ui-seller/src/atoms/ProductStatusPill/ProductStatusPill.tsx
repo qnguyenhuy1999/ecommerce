@@ -1,7 +1,7 @@
-import { Badge } from '@ecom/core-ui'
-import type { BadgeProps } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import type { BadgeProps } from '@ecom/core-ui/atoms/Badge'
 
-import { cn } from '@ecom/shared/utils'
+import { cn } from '@ecom/shared/utils/cn'
 import {
   mappingLabel,
   productStatusPillVariants,

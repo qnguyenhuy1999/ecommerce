@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { ResolutionPanelClient } from './DisputeDetail.client'
 import { refundDetailDefaultProps } from './DisputeDetail.fixtures'
 import { AuditTrailCard, ConversationEvidenceCard, OrderSummaryCard } from './DisputeDetail.server'

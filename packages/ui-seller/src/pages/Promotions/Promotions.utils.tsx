@@ -1,4 +1,4 @@
-import { Badge } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
 import type { PromotionKind, PromotionRow, PromotionStatus } from './Promotions.types'
 
 const PROMOTION_STATUS_LABELS: Record<PromotionStatus, string> = {

@@ -1,6 +1,6 @@
 import type { NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common'
 import { Injectable } from '@nestjs/common'
-import type { ApiSuccess } from '@ecom/contracts'
+import type { ApiSuccess } from '@ecom/contracts/http/response'
 import type { Observable } from 'rxjs'
 import { map } from 'rxjs'
 

@@ -8,8 +8,11 @@ import {
 } from '@nestjs/websockets'
 import { Inject, type OnModuleDestroy } from '@nestjs/common'
 import type { Server, Socket } from 'socket.io'
-import type { SessionService } from '@ecom/auth'
-import { resolveSocketCorsOrigins, toSocketError } from '@ecom/nestjs-core'
+import type { SessionService } from '@ecom/auth/session.service'
+import {
+  resolveSocketCorsOrigins,
+  toSocketError,
+} from '@ecom/nestjs-core/nestjs/websocket/chat-gateway.utils'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 import { BaseChatGateway, SESSION_SERVICE } from '@ecom/nestjs-core/chat'

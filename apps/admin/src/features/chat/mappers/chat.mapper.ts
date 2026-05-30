@@ -1,5 +1,5 @@
-import { formatDateTime } from '@ecom/shared'
-import type { ChatConversationRecord, ChatMessageRecord } from '@ecom/ui-admin'
+import { formatDateTime } from '@ecom/shared/utils/format'
+import type { ChatConversationRecord, ChatMessageRecord } from '@ecom/ui-admin/pages/Chat'
 import type { ChatMessageDto, ChatSummaryDto } from '../api/chat.api'
 
 function toShortId(value: string): string {

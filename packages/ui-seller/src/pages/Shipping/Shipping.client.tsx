@@ -1,6 +1,9 @@
 'use client'
 
-import { Badge, Card, CardContent, Switch, Typography } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Switch } from '@ecom/core-ui/atoms/Switch'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent } from '@ecom/core-ui/molecules/Card'
 import { PageHeader } from '../../atoms/PageHeader'
 import { shippingDefaultProps } from './Shipping.fixtures'
 import type { ShippingProps } from './Shipping.types'

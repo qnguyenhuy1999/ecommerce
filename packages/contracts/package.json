@@ -23,11 +23,23 @@
       "import": "./src/enums/index.ts",
       "default": "./src/enums/index.ts"
     },
+    "./enums/*": {
+      "types": "./src/enums/*.ts",
+      "development": "./src/enums/*.ts",
+      "import": "./src/enums/*.ts",
+      "default": "./src/enums/*.ts"
+    },
     "./http": {
       "types": "./src/http/index.ts",
       "development": "./src/http/index.ts",
       "import": "./src/http/index.ts",
       "default": "./src/http/index.ts"
+    },
+    "./http/*": {
+      "types": "./src/http/*.ts",
+      "development": "./src/http/*.ts",
+      "import": "./src/http/*.ts",
+      "default": "./src/http/*.ts"
     },
     "./common": {
       "types": "./src/common/index.ts",

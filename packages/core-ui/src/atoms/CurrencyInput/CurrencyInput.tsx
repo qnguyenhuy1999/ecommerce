@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, useState } from 'react'
-import { formatCurrency } from '@ecom/shared/utils'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import { cn } from '../../lib/utils'
 import type { CurrencyInputProps } from './CurrencyInput.types'
 

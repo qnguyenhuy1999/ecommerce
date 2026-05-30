@@ -1,4 +1,5 @@
-import { Button, ConsolePageLayout } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { Plus } from 'lucide-react'
 import { PromotionsClient } from './Promotions.client'
 import { promotionsDefaultProps } from './Promotions.fixtures'

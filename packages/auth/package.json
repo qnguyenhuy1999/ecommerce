@@ -19,6 +19,42 @@
       "import": "./src/password.utils.ts",
       "default": "./src/password.utils.ts"
     },
+    "./constants": {
+      "types": "./src/constants.ts",
+      "development": "./src/constants.ts",
+      "import": "./src/constants.ts",
+      "default": "./src/constants.ts"
+    },
+    "./session.service": {
+      "types": "./src/session.service.ts",
+      "development": "./src/session.service.ts",
+      "import": "./src/session.service.ts",
+      "default": "./src/session.service.ts"
+    },
+    "./cookie.config": {
+      "types": "./src/cookie.config.ts",
+      "development": "./src/cookie.config.ts",
+      "import": "./src/cookie.config.ts",
+      "default": "./src/cookie.config.ts"
+    },
+    "./helpers": {
+      "types": "./src/helpers.ts",
+      "development": "./src/helpers.ts",
+      "import": "./src/helpers.ts",
+      "default": "./src/helpers.ts"
+    },
+    "./tokens": {
+      "types": "./src/tokens/index.ts",
+      "development": "./src/tokens/index.ts",
+      "import": "./src/tokens/index.ts",
+      "default": "./src/tokens/index.ts"
+    },
+    "./user-auth.base": {
+      "types": "./src/user-auth.base.ts",
+      "development": "./src/user-auth.base.ts",
+      "import": "./src/user-auth.base.ts",
+      "default": "./src/user-auth.base.ts"
+    },
     "./web-presets": {
       "types": "./src/web-presets.ts",
       "development": "./src/web-presets.ts",

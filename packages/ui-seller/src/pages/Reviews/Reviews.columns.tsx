@@ -1,5 +1,5 @@
-import type { DataTableColumn } from '@ecom/core-ui'
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { Star } from 'lucide-react'
 import { REVIEWS_STATUS_BADGE_STYLES } from './Reviews.constants'
 import type { ReviewRow, ReviewStatus } from './Reviews.types'

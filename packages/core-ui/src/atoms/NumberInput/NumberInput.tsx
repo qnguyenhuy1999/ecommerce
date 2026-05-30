@@ -1,7 +1,7 @@
 'use client'
 
 import { forwardRef, useState } from 'react'
-import { formatNumber } from '@ecom/shared/utils'
+import { formatNumber } from '@ecom/shared/utils/format'
 import { cn } from '../../lib/utils'
 import type { NumberInputProps } from './NumberInput.types'
 

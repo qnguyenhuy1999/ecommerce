@@ -1,4 +1,4 @@
-import { PlatformEventStatus } from '@ecom/contracts/enums'
+import { PlatformEventStatus } from '@ecom/contracts/enums/system'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import type { OffsetPaginationDTO } from '@ecom/shared/pagination/core'

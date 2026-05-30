@@ -1,5 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage, StatCard, Typography } from '@ecom/core-ui'
-import { cn } from '@ecom/shared/utils'
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatCard } from '@ecom/core-ui/molecules/StatCard'
+import { cn } from '@ecom/shared/utils/cn'
 import { SectionCard } from '../../atoms/SectionCard'
 import type {
   AnalyticsFunnelStage,

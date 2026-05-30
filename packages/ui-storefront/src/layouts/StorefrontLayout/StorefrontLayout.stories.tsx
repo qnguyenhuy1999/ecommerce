@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { StorefrontLayout } from './StorefrontLayout'
 
 const meta: Meta<typeof StorefrontLayout> = {

@@ -14,7 +14,7 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { Throttle } from '@nestjs/throttler'
 import type { Request, Response } from 'express'
-import { getSessionCookieOptions, SESSION_COOKIE_NAME } from '@ecom/auth'
+import { getSessionCookieOptions, SESSION_COOKIE_NAME } from '@ecom/auth/cookie.config'
 import {
   ApiOkResponseData,
   ApiCreatedResponseData,

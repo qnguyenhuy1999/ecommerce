@@ -1,8 +1,5 @@
-'use client'
+import { DashboardLayout } from './_components/DashboardLayout'
 
-import { ConsoleLayout } from '@ecom/ui-admin'
-import { sidebarGroups } from '@/components/layout/sidebar-config'
-
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  return <ConsoleLayout sidebarGroups={sidebarGroups}>{children}</ConsoleLayout>
+export default function AdminDashboardLayout({ children }: { children: React.ReactNode }) {
+  return <DashboardLayout>{children}</DashboardLayout>
 }

@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, ReviewSheet } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { ReviewSheet } from '@ecom/core-ui/organisms/ReviewSheet'
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms'
 import { buildProductApprovalColumns } from './ProductApproval.columns'

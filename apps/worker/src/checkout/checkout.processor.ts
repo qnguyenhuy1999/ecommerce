@@ -2,8 +2,12 @@ import { Inject, Logger } from '@nestjs/common'
 import { InjectQueue, Processor, WorkerHost } from '@nestjs/bullmq'
 import type { Job, Queue } from 'bullmq'
 import { PrismaService } from '@ecom/database'
-import { QUEUES, NOTIFICATION_JOBS, defaultJobOptions } from '@ecom/shared'
-import type { SellerNotificationJobPayload, UserNotificationJobPayload } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
+import { NOTIFICATION_JOBS, defaultJobOptions } from '@ecom/shared/constants/notification-jobs'
+import type {
+  SellerNotificationJobPayload,
+  UserNotificationJobPayload,
+} from '@ecom/shared/constants/notification-jobs'
 
 interface OrderJobData {
   sessionId: string

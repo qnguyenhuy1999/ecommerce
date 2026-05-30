@@ -1,5 +1,5 @@
 import { PrismaService } from '@ecom/database'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 
 @Injectable()

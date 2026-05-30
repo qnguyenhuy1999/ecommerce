@@ -330,7 +330,7 @@ export const productsPageRows: ProductRow[] = [
   },
 ]
 
-export const productsDefaultProps = {
+export const productsDefaultProps: Required<ProductsProps> = {
   title: 'Products',
   description: `${productsPageRows.length} products in catalog`,
   importHref: '#import-products',
@@ -348,4 +348,4 @@ export const productsDefaultProps = {
   searchPlaceholder: 'Search products or SKU...',
   emptyMessage: 'No products match the current filters',
   filterProducts: filterProductsBySearchAndStatus,
-} satisfies Required<ProductsProps>
+}

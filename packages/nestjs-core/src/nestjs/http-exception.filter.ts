@@ -1,7 +1,7 @@
 import type { ExceptionFilter, ArgumentsHost } from '@nestjs/common'
 import { Catch, HttpException, HttpStatus, Logger } from '@nestjs/common'
-import { API_ERROR_CODE, isApiErrorCode } from '@ecom/contracts'
-import type { ApiErrorBody, ApiErrorCode, ApiErrorResponse } from '@ecom/contracts'
+import { API_ERROR_CODE, isApiErrorCode, type ApiErrorCode } from '@ecom/contracts/http/error-code'
+import type { ApiErrorBody, ApiErrorResponse } from '@ecom/contracts/http/response'
 import type { Request, Response } from 'express'
 import { getRequestId } from '../request-context'
 

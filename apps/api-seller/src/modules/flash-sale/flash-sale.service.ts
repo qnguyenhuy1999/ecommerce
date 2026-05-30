@@ -1,13 +1,14 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
-import { FlashSaleStatus, FlashSaleSlotStatus, ProductStatus } from '@ecom/contracts/enums'
+import { ProductStatus } from '@ecom/contracts/enums/product'
+import { FlashSaleStatus, FlashSaleSlotStatus } from '@ecom/contracts/enums/promotion'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { CreateFlashSaleCampaignDto } from './dto/create-flash-sale.dto'
 import type { ApplyFlashSaleSlotDto } from './dto/apply-flash-sale-slot.dto'
 import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
 import type { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 
 @Injectable()
 export class FlashSaleService {

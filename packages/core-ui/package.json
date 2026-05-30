@@ -15,6 +15,60 @@
       "default": "./src/index.ts"
     },
     "./styles/globals.css": "./src/styles/globals.css",
+    "./atoms/*": {
+      "types": "./src/atoms/*/*.tsx",
+      "development": "./src/atoms/*/*.tsx",
+      "import": "./src/atoms/*/*.tsx",
+      "default": "./src/atoms/*/*.tsx"
+    },
+    "./molecules/*": {
+      "types": "./src/molecules/*/*.tsx",
+      "development": "./src/molecules/*/*.tsx",
+      "import": "./src/molecules/*/*.tsx",
+      "default": "./src/molecules/*/*.tsx"
+    },
+    "./organisms/*": {
+      "types": "./src/organisms/*/*.tsx",
+      "development": "./src/organisms/*/*.tsx",
+      "import": "./src/organisms/*/*.tsx",
+      "default": "./src/organisms/*/*.tsx"
+    },
+    "./layouts/*": {
+      "types": "./src/layouts/*/*.tsx",
+      "development": "./src/layouts/*/*.tsx",
+      "import": "./src/layouts/*/*.tsx",
+      "default": "./src/layouts/*/*.tsx"
+    },
+    "./hooks/*": {
+      "types": "./src/hooks/*.ts",
+      "development": "./src/hooks/*.ts",
+      "import": "./src/hooks/*.ts",
+      "default": "./src/hooks/*.ts"
+    },
+    "./lib/utils": {
+      "types": "./src/lib/utils.ts",
+      "development": "./src/lib/utils.ts",
+      "import": "./src/lib/utils.ts",
+      "default": "./src/lib/utils.ts"
+    },
+    "./vendors/react-hook-form": {
+      "types": "./src/vendors/react-hook-form.ts",
+      "development": "./src/vendors/react-hook-form.ts",
+      "import": "./src/vendors/react-hook-form.ts",
+      "default": "./src/vendors/react-hook-form.ts"
+    },
+    "./vendors/zod-resolver": {
+      "types": "./src/vendors/zod-resolver.ts",
+      "development": "./src/vendors/zod-resolver.ts",
+      "import": "./src/vendors/zod-resolver.ts",
+      "default": "./src/vendors/zod-resolver.ts"
+    },
+    "./vendors/zod": {
+      "types": "./src/vendors/zod.ts",
+      "development": "./src/vendors/zod.ts",
+      "import": "./src/vendors/zod.ts",
+      "default": "./src/vendors/zod.ts"
+    },
     "./tokens": {
       "types": "./src/tokens/index.ts",
       "development": "./src/tokens/index.ts",

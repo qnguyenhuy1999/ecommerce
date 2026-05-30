@@ -1,20 +1,12 @@
 'use client'
 
-import {
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  Progress,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-  Typography,
-} from '@ecom/core-ui'
-import { cn } from '@ecom/shared/utils'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Progress } from '@ecom/core-ui/atoms/Progress'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent, CardHeader, CardTitle } from '@ecom/core-ui/molecules/Card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@ecom/core-ui/molecules/Tabs'
+import { cn } from '@ecom/shared/utils/cn'
 import { Building2, CircleAlert, CircleCheck, CircleX, Landmark, ShieldAlert } from 'lucide-react'
 import { getStatusTone, PLACEHOLDER_CONTENT } from './SellerKycDetail.constants'
 import { useSellerKycDetailController } from './SellerKycDetail.controller'

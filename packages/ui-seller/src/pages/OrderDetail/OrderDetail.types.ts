@@ -1,4 +1,4 @@
-import type { ConsoleBreadcrumbItem } from '@ecom/core-ui'
+import type { ConsoleBreadcrumbItem } from '@ecom/core-ui/layouts/ConsolePageLayout'
 
 export type OrderDetailStatus =
   | 'PENDING'

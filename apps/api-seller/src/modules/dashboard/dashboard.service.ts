@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { OrderStatus } from '@ecom/contracts'
+import { OrderStatus } from '@ecom/contracts/enums/order'
 import { AnalyticsService } from '../analytics/analytics.service'
 import { InventoryService } from '../inventory/inventory.service'
 import { NotificationService } from '../notification/notification.service'

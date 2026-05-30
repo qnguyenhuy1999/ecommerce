@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { StorefrontLayout } from '../../layouts'
 import type {
   MessagesConversationRecord,

@@ -1,4 +1,4 @@
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import {
   Sidebar,
   SidebarContent,
@@ -13,6 +13,7 @@ import {
 } from '../../primitives/ui/sidebar'
 import type { SidebarGroup as Group } from './Sidebar.types'
 import type { ReactNode } from 'react'
+export type { SidebarGroup, SidebarMenuItem } from './Sidebar.types'
 
 type SidebarMenuRendererProps = {
   groups: Group[]

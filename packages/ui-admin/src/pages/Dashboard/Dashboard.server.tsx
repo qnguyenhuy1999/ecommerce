@@ -1,13 +1,8 @@
-import {
-  Badge,
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  StatCard,
-  Typography,
-} from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent, CardHeader, CardTitle } from '@ecom/core-ui/molecules/Card'
+import { StatCard } from '@ecom/core-ui/molecules/StatCard'
 import { Activity, ArrowRight, Circle, Megaphone, ShieldCheck } from 'lucide-react'
 import {
   dashboardActionClassName,

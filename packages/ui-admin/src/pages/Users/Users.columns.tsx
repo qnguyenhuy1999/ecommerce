@@ -1,12 +1,7 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Checkbox,
-  StatusBadge,
-  Typography,
-  type DataTableColumn,
-} from '@ecom/core-ui'
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatusBadge, type DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import type { UserAccountRecord } from './Users.types'
 
 export function buildUserColumns(): DataTableColumn<UserAccountRecord>[] {

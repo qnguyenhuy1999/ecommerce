@@ -1,7 +1,10 @@
 'use client'
 
-import { formatDateIntl } from '@ecom/shared'
-import type { RefundDetailRecord, RefundDetailSubmitPayload } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type {
+  RefundDetailRecord,
+  RefundDetailSubmitPayload,
+} from '@ecom/ui-admin/pages/DisputeDetail'
 import { useRefund, useApproveRefund, useRejectRefund } from '../hooks/use-refunds'
 import { mapRefundToRefundRecord } from '../mappers/dispute.mapper'
 

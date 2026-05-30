@@ -1,6 +1,7 @@
 'use client'
 
-import { StatusBadge, Typography, type DataTableColumn } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatusBadge, type DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import type { OrderRecord, OrdersProps } from './Orders.types'
 
 interface BuildOrderColumnsOptions {

@@ -11,6 +11,7 @@ import {
 } from 'react-hook-form'
 import { Slot } from 'radix-ui'
 import { cn } from '../../lib/utils'
+import { Typography, type TypographyProps } from '../../atoms/Typography'
 import { Label } from './label'
 
 const Form = FormProvider
@@ -86,10 +87,12 @@ function FormControl({ ...props }: React.ComponentProps<typeof Slot.Root>) {
   )
 }
 
-function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
+function FormDescription({ className, ...props }: Omit<TypographyProps<'p'>, 'variant'>) {
   const { formDescriptionId } = useFormField()
   return (
-    <p
+    <Typography
+      variant="muted"
+      as="p"
       data-slot="form-description"
       id={formDescriptionId}
       className={cn('text-muted-foreground text-sm', className)}
@@ -98,19 +101,21 @@ function FormDescription({ className, ...props }: React.ComponentProps<'p'>) {
   )
 }
 
-function FormMessage({ className, children, ...props }: React.ComponentProps<'p'>) {
+function FormMessage({ className, children, ...props }: Omit<TypographyProps<'p'>, 'variant'>) {
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message ?? '') : children
   if (!body) return null
   return (
-    <p
+    <Typography
+      variant="body-sm"
+      as="p"
       data-slot="form-message"
       id={formMessageId}
       className={cn('text-destructive text-sm font-medium', className)}
       {...props}
     >
       {body}
-    </p>
+    </Typography>
   )
 }
 

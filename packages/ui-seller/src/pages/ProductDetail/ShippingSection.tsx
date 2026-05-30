@@ -1,14 +1,8 @@
 'use client'
 
-import {
-  Checkbox,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  NumberInput,
-} from '@ecom/core-ui'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@ecom/core-ui/atoms/Form'
+import { NumberInput } from '@ecom/core-ui/atoms/NumberInput'
 import { SectionCard } from '../../atoms/SectionCard'
 import { useProductEditorShipping } from './ProductDetail.context'
 

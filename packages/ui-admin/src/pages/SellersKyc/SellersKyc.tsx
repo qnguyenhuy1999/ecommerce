@@ -1,4 +1,4 @@
-import { Badge } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
 import { SellerListPage } from '../../organisms'
 import { sellersKycDefaultProps } from './SellersKyc.fixtures'
 import { SellersKycClient } from './SellersKyc.client'

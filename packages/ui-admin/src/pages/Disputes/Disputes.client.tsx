@@ -1,14 +1,14 @@
 'use client'
 
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  StatusBadge,
-  Typography,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
 import { useMemo } from 'react'
 import { SellerListPage } from '../../organisms'
 import { buildRefundColumns } from './Disputes.columns'

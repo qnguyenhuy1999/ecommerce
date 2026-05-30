@@ -1,4 +1,6 @@
-import { Card, Progress, Typography } from '@ecom/core-ui'
+import { Progress } from '@ecom/core-ui/atoms/Progress'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card } from '@ecom/core-ui/molecules/Card'
 import { Star } from 'lucide-react'
 import { PromotionalBadge } from '../../atoms/PromotionalBadge'
 import type { ProductCardProps } from './ProductCard.types'

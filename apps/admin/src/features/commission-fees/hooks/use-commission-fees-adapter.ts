@@ -1,6 +1,6 @@
 'use client'
 
-import type { CommissionFeesProps } from '@ecom/ui-admin'
+import type { CommissionFeesProps } from '@ecom/ui-admin/pages/CommissionFees'
 import {
   useCommissionRules,
   useCreateCommissionRule,

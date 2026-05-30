@@ -1,6 +1,6 @@
 'use client'
 
-import type { SellerKycProps } from '@ecom/ui-admin'
+import type { SellerKycProps } from '@ecom/ui-admin/pages/SellersKyc'
 import { useRouter } from 'next/navigation'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useSellers, useSellerStatusCounts } from '../hooks/use-sellers'

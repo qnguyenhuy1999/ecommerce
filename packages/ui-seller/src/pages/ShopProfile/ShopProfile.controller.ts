@@ -1,8 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useRef } from 'react'
-import { useForm, useWatch, zodResolver } from '@ecom/core-ui'
-import { slugify } from '@ecom/shared/utils'
+import { useForm, useWatch } from '@ecom/core-ui/vendors/react-hook-form'
+import { zodResolver } from '@ecom/core-ui/vendors/zod-resolver'
+import { slugify } from '@ecom/shared/utils/slugify'
 import type { ShopProfileFormData, ShopProfileProps } from './ShopProfile.types'
 import { shopProfileSchema } from './ShopProfile.schema'
 

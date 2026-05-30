@@ -6,9 +6,9 @@ import {
   type ProductReportStatus,
   ProductStatus as PS,
   ProductReportStatus as PRS,
-} from '@ecom/contracts/enums'
+} from '@ecom/contracts/enums/product'
 import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { withDefined, nullable } from '@ecom/shared/utils'
+import { withDefined, nullable } from '@ecom/shared/utils/optional-object'
 
 @Injectable()
 export class ProductsService {

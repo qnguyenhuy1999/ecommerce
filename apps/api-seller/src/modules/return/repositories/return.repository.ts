@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { ReturnStatus } from '@ecom/contracts/enums'
+import { ReturnStatus } from '@ecom/contracts/enums/order'
 
 @Injectable()
 export class ReturnRepository {

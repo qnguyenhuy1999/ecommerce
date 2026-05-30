@@ -1,6 +1,6 @@
 'use client'
 
-import { getWebAuthPreset } from '@ecom/auth'
+import { getWebAuthPreset } from '@ecom/auth/web-presets'
 import { createAuthClient, type AuthContextValue, type AuthUser } from '@ecom/auth/client'
 
 export type { AuthUser }

@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import type { ProductStatus } from '@ecom/contracts'
+import type { ProductStatus } from '@ecom/contracts/enums/product'
 import type { SellerPaths } from '@ecom/contracts/generated'
 import type { PaginationMeta } from '@ecom/shared/pagination/core'
 import type {

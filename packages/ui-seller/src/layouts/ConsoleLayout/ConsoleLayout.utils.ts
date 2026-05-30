@@ -3,7 +3,8 @@ import type {
   ConsoleLayoutProps as CoreConsoleLayoutProps,
   ConsoleLayoutSwitcher,
   ConsoleLayoutUserMenu,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/layouts/ConsoleLayout'
+import type { SidebarGroup } from '@ecom/core-ui/organisms/Sidebar'
 import { sidebarGroups as defaultSidebarGroups } from './ConsoleLayout.fixtures'
 
 export { defaultSidebarGroups }
@@ -62,7 +63,7 @@ export function buildSidebarGroups({
 }: Pick<
   ConsoleLayoutProps,
   'pathname' | 'sidebarGroups' | 'chatUnreadCount' | 'notificationCount'
->) {
+>): SidebarGroup[] {
   const activePath = pathname ? normalizePath(pathname) : undefined
 
   return sidebarGroups.map((group) => ({

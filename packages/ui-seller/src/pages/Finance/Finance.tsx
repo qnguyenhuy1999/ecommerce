@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { WalletSummarySection } from './Finance.server'
 import { LedgerSectionClient } from './Finance.client'
 import { financeDefaultProps } from './Finance.fixtures'

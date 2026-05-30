@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { BannerRecord, BannerStatus, BannerPosition } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { BannerRecord, BannerStatus, BannerPosition } from '@ecom/ui-admin/pages/Banners'
 import type { BannerListItem } from '../api/banners.api'
 
 function toBannerStatus(status: string): BannerStatus {

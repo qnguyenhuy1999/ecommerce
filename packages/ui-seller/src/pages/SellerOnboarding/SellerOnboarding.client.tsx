@@ -1,7 +1,7 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
 import {
-  Button,
   Form,
   FormControl,
   FormDescription,
@@ -9,16 +9,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
+} from '@ecom/core-ui/atoms/Form'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
-  Typography,
-  type UseFormReturn,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
+import type { UseFormReturn } from '@ecom/core-ui/vendors/react-hook-form'
 import { ArrowLeft, ArrowRight, Check, Upload } from 'lucide-react'
 import { useMemo } from 'react'
 import { SectionCard } from '../../atoms/SectionCard'

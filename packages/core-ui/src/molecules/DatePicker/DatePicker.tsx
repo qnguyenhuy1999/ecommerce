@@ -1,6 +1,6 @@
 'use client'
 
-import { formatDate } from '@ecom/shared'
+import { formatDate } from '@ecom/shared/utils/format'
 import { useState } from 'react'
 import { Popover } from 'radix-ui'
 import { DayPicker } from 'react-day-picker'

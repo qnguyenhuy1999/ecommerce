@@ -1,19 +1,17 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Separator } from '@ecom/core-ui/atoms/Separator'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Badge,
-  Button,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  Input,
-  Separator,
-  Typography,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/DropdownMenu'
 import {
   Bell,
   ChevronDown,

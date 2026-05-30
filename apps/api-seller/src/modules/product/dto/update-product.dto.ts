@@ -9,7 +9,7 @@ import {
   IsEnum,
 } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { ProductStatus } from '@ecom/contracts'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 
 export class UpdateProductDto {
   @ApiPropertyOptional({ description: 'Product name', maxLength: 200 })

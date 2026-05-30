@@ -1,18 +1,18 @@
 'use client'
 
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import {
-  Badge,
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  Label,
-  Separator,
-  Textarea,
-  Typography,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/atoms/Dialog'
+import { Label } from '@ecom/core-ui/atoms/Label'
+import { Separator } from '@ecom/core-ui/atoms/Separator'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { X } from 'lucide-react'
 import { productApprovalStatusToneClassNames } from './ProductApproval.constants'
 import type { PendingAction, ProductApprovalItem } from './ProductApproval.types'

@@ -1,4 +1,4 @@
-import { formatNumber } from '@ecom/shared'
+import { formatNumber } from '@ecom/shared/utils/format'
 import { ArrowRight, CircleAlert, MessageSquareText, PackageCheck, RotateCcw } from 'lucide-react'
 
 export const dashboardTodoStyles = {

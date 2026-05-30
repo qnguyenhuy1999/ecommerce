@@ -1,4 +1,4 @@
-import { Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { Activity, Fingerprint, ShieldCheck, Waves, type LucideIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import {

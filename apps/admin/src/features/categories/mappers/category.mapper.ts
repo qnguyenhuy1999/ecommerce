@@ -1,4 +1,7 @@
-import type { CategoryHierarchyCategory, CategoryHierarchyStats } from '@ecom/ui-admin'
+import type {
+  CategoryHierarchyCategory,
+  CategoryHierarchyStats,
+} from '@ecom/ui-admin/pages/CategoryHierarchy'
 import type { CategoryNode } from '../api/categories.api'
 
 export function mapCategoryNode(node: CategoryNode): CategoryHierarchyCategory {

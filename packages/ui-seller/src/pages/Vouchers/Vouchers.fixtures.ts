@@ -52,11 +52,11 @@ export const vouchersPageRows: VoucherRow[] = [
   },
 ]
 
-export const vouchersDefaultProps = {
+export const vouchersDefaultProps: Required<VouchersProps> = {
   title: 'Vouchers',
   description: 'Code-based discounts you can share or attach to campaigns',
   newVoucherHref: '#',
   vouchers: vouchersPageRows,
   columns: vouchersColumns,
   emptyMessage: 'No vouchers available',
-} satisfies Required<VouchersProps>
+}

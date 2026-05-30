@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import { ChevronDown, Download } from 'lucide-react'
 import { startTransition, useDeferredValue, useMemo } from 'react'
 import { useControllableState } from '../../hooks'

@@ -1,4 +1,4 @@
-import { Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 
 interface PageHeaderProps {
   title: string

@@ -1,18 +1,18 @@
 'use client'
 
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { Label } from '@ecom/core-ui/atoms/Label'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import {
-  Badge,
-  Button,
-  Checkbox,
-  Label,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
-  Typography,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
 import { ArrowLeft, Inbox, MessageCircle, SendHorizontal } from 'lucide-react'
 import { useEffect, useRef } from 'react'
 import {

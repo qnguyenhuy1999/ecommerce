@@ -1,8 +1,8 @@
 import type { CanActivate, ExecutionContext } from '@nestjs/common'
 import { Injectable, Inject, UnauthorizedException } from '@nestjs/common'
 import type { Request } from 'express'
-import { SessionService } from '@ecom/auth'
-import { SESSION_COOKIE_NAME } from '@ecom/auth'
+import { SessionService } from '@ecom/auth/session.service'
+import { SESSION_COOKIE_NAME } from '@ecom/auth/cookie.config'
 import { SESSION_SERVICE } from '../session.provider'
 
 @Injectable()

@@ -1,20 +1,18 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { CurrencyInput } from '@ecom/core-ui/atoms/CurrencyInput'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { NumberInput } from '@ecom/core-ui/atoms/NumberInput'
+import { Field, FieldContent, FieldLabel } from '@ecom/core-ui/molecules/Field'
 import {
-  Button,
-  ConsolePageLayout,
-  CurrencyInput,
-  Field,
-  FieldContent,
-  FieldLabel,
-  Input,
-  NumberInput,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { Sparkles, Ticket } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import type { VoucherDetailProps } from './VoucherDetail.types'

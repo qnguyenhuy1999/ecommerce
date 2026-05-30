@@ -1,5 +1,5 @@
-import { formatCurrency, formatDateIntl } from '@ecom/shared'
-import { dashboardDefaultProps, type DashboardProps } from '@ecom/ui-admin'
+import { formatCurrency, formatDateIntl } from '@ecom/shared/utils/format'
+import { dashboardDefaultProps, type DashboardProps } from '@ecom/ui-admin/pages/Dashboard'
 import type { DashboardAnalytics, DashboardMetrics } from '../api/dashboard.api'
 
 export function mapDashboardMetricsToProps(

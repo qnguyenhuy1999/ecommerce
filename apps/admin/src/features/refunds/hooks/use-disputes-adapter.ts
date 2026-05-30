@@ -1,6 +1,6 @@
 'use client'
 
-import type { RefundsProps } from '@ecom/ui-admin'
+import type { RefundsProps } from '@ecom/ui-admin/pages/Disputes'
 import { useRouter } from 'next/navigation'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useRefunds } from '../hooks/use-refunds'

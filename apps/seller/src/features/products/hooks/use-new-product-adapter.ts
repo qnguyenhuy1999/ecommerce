@@ -1,8 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import type { ProductDetailFormData } from '@ecom/ui-seller'
-import type { ProductStatus } from '@ecom/contracts'
+import type { ProductDetailFormData } from '@ecom/ui-seller/pages/ProductDetail'
+import type { ProductStatus } from '@ecom/contracts/enums/product'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { createProduct, getProductCategories } from '../api'
 import { flattenCategories, mapProductFormToCreatePayload } from '../mappers'

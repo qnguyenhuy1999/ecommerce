@@ -5,9 +5,11 @@ import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/pri
 import {
   OUTBOX_EVENTS,
   type ChatMessageOutboxPayload,
+} from '@ecom/shared/constants/notification-jobs'
+import {
   CHAT_MESSAGE_CREATED_CHANNEL,
   LAST_MESSAGE_PREVIEW_LENGTH,
-} from '@ecom/shared'
+} from '@ecom/shared/constants/events'
 import { Inject, NotFoundException, Injectable, Logger } from '@nestjs/common'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'

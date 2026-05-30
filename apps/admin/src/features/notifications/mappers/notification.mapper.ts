@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { NotificationRecord, NotificationStatus } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { NotificationRecord, NotificationStatus } from '@ecom/ui-admin/pages/Notifications'
 import type { NotificationListItem } from '../api/notifications.api'
 
 function toNotificationStatus(status: string): NotificationStatus {

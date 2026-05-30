@@ -1,4 +1,4 @@
-import { Home } from '@ecom/ui-storefront'
+import { Home } from '@ecom/ui-storefront/pages/Home'
 import { mapHomepageToHomeContent } from '../features/home/mappers/homepage-mapper'
 import { api } from '../lib/api'
 import type { HomepageResponse } from '../lib/storefront-contracts'

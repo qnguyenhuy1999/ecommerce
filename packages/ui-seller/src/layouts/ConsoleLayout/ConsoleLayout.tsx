@@ -3,10 +3,10 @@
 import {
   ConsoleLayout as CoreConsoleLayout,
   Root as CoreRoot,
-  type SidebarGroup,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/layouts/ConsoleLayout'
+import type { SidebarGroup } from '@ecom/core-ui/organisms/Sidebar'
 import { LogOut } from 'lucide-react'
-import { withDefined } from '@ecom/shared'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import {
   buildSidebarGroups,
   type ConsoleLayoutProps,

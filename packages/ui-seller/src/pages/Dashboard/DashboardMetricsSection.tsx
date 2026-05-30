@@ -1,5 +1,5 @@
-import { StatCard } from '@ecom/core-ui'
-import { withDefined } from '@ecom/shared/utils'
+import { StatCard } from '@ecom/core-ui/molecules/StatCard'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import type { DashboardProps } from './Dashboard.types'
 
 export function DashboardMetricsSection({

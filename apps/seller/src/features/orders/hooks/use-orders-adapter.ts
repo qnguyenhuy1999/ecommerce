@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { buildOrderStatusCounts, type OrdersStatusTab } from '@ecom/ui-seller'
+import { buildOrderStatusCounts, type OrdersStatusTab } from '@ecom/ui-seller/pages/Orders'
 import { useOrdersList } from './use-order-queries'
 import { mapOrdersToRows, SELLER_ORDER_STATUS_TO_QUERY } from '../mappers'
 import type { getOrdersList } from '../api'

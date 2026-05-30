@@ -1,13 +1,12 @@
-import { formatCurrency, formatDateIntl } from '@ecom/shared'
-import { homeContent } from '@ecom/ui-storefront'
-import type {
-  HomeContent,
-  ProductCardData,
-  ShopCardProps,
-  TrustItemProps,
-  VoucherCardProps,
-} from '@ecom/ui-storefront'
+import { formatCurrency, formatDateIntl } from '@ecom/shared/utils/format'
+import { homeContent } from '@ecom/ui-storefront/organisms/HomeSections'
+import type { HomeContent } from '@ecom/ui-storefront/organisms/HomeSections'
 import type { HomepageData } from '../../lib/storefront-contracts'
+
+type ProductCardData = HomeContent['recommended'][number]
+type ShopCardProps = HomeContent['shops'][number]
+type TrustItemProps = HomeContent['trustItems'][number]
+type VoucherCardProps = HomeContent['vouchers'][number]
 
 const fallbackImage = homeContent.hero.gallery[0] ?? '/media/home/camera.png'
 const fallbackCategoryIcon = homeContent.categories[0]?.icon

@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
-import { type SellerStatus, SellerStatus as SS } from '@ecom/contracts/enums'
+import { type SellerStatus, SellerStatus as SS } from '@ecom/contracts/enums/seller'
 import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { withDefined, nullable } from '@ecom/shared/utils'
+import { withDefined, nullable } from '@ecom/shared/utils/optional-object'
 
 @Injectable()
 export class SellersService {

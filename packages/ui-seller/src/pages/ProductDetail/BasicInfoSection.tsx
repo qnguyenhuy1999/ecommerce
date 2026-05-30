@@ -7,14 +7,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
+} from '@ecom/core-ui/atoms/Form'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Textarea,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
 import { SectionCard } from '../../atoms/SectionCard'
 import { useProductEditorBasicInfo } from './ProductDetail.context'
 

@@ -1,4 +1,4 @@
-import { formatCurrency } from '@ecom/shared/utils'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import type { FinanceEntryKind, FinanceLedgerEntry, FinanceTab } from './Finance.types'
 
 export function formatFinanceAmount(amount: number) {

@@ -1,4 +1,4 @@
-import type { DataTableProps } from '@ecom/core-ui'
+import type { DataTableProps } from '@ecom/core-ui/organisms/DataTable'
 import type { PaginationMeta } from '@ecom/shared/pagination/core'
 
 export type OrdersStatusTab =

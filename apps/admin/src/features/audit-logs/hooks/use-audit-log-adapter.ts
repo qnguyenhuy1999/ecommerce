@@ -1,6 +1,6 @@
 'use client'
 
-import type { AuditLogProps } from '@ecom/ui-admin'
+import type { AuditLogProps } from '@ecom/ui-admin/pages/AuditLog'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useAuditLogs } from '../hooks/use-audit-logs'
 import { mapAuditLogToEntry } from '../mappers/audit-log.mapper'

@@ -1,18 +1,18 @@
 'use client'
 
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
 import {
-  Button,
-  Checkbox,
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  Input,
-  Label,
-  Typography,
-} from '@ecom/core-ui'
-import { cn } from '@ecom/shared/utils'
+} from '@ecom/core-ui/atoms/Dialog'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Label } from '@ecom/core-ui/atoms/Label'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { cn } from '@ecom/shared/utils/cn'
 import { Users } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { SellerListPage } from '../../organisms'

@@ -130,7 +130,7 @@ export const inventoryPageRows: InventoryRow[] = [
   },
 ]
 
-export const inventoryDefaultProps = {
+export const inventoryDefaultProps: Required<InventoryProps> = {
   loading: false,
   title: 'Inventory',
   description: 'Manage stock levels across all SKUs',
@@ -140,4 +140,4 @@ export const inventoryDefaultProps = {
   searchPlaceholder: 'Search SKU or product...',
   emptyMessage: 'No inventory items match the current filters',
   filterInventory,
-} satisfies Required<InventoryProps>
+}

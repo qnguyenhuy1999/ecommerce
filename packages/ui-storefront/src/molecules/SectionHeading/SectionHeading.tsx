@@ -1,4 +1,5 @@
-import { Button, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { ArrowRight, type LucideIcon } from 'lucide-react'
 
 interface SectionHeadingProps {

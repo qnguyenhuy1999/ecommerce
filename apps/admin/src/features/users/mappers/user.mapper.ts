@@ -3,7 +3,7 @@ import type {
   UserAccountStatus,
   UserAccountRole,
   UsersStatusTab,
-} from '@ecom/ui-admin'
+} from '@ecom/ui-admin/pages/Users'
 import type { UserListItem } from '../api/users.api'
 
 function toAccountStatus(status: string): UserAccountStatus {

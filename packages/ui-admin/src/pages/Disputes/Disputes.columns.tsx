@@ -1,4 +1,6 @@
-import { Button, Typography, type DataTableColumn } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { ArrowRight, Circle } from 'lucide-react'
 import { RefundStatusBadge } from './Disputes.client'
 import { getDisputePriorityDotClassName } from './Disputes.constants'

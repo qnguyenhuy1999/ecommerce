@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import type { MessagesConversationRecord, MessagesMessageRecord } from '@ecom/ui-storefront'
+import type {
+  MessagesConversationRecord,
+  MessagesMessageRecord,
+} from '@ecom/ui-storefront/pages/Messages'
 import type { ChatConversation } from '../../../lib/storefront-contracts'
 import type { RealtimeChatMessagePayload } from '../../../lib/realtime'
 import { useProtectedRoute } from '../../../core/auth/use-protected-route'

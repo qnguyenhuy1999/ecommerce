@@ -1,7 +1,9 @@
 'use client'
 
-import { Button, Progress, Typography } from '@ecom/core-ui'
-import { cn } from '@ecom/shared/utils'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Progress } from '@ecom/core-ui/atoms/Progress'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { cn } from '@ecom/shared/utils/cn'
 import { Megaphone, Plus } from 'lucide-react'
 import {
   VOUCHERS_EMPTY_MESSAGE,

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { ProductStatus } from '@ecom/contracts/enums'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 import { ProductsRepository } from './repositories/products.repository'
 
 type DecimalLike = { toNumber(): number } | null | undefined

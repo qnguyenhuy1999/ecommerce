@@ -1,6 +1,6 @@
 import { BullModule } from '@nestjs/bullmq'
 import { Module } from '@nestjs/common'
-import { QUEUES } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
 import { HealthController } from './health.controller'
 
 @Module({

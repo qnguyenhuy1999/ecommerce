@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import { Plus, Send } from 'lucide-react'
 import { SellerListPage } from '../../organisms'
 import type { NotificationRecord, NotificationsProps } from './Notifications.types'

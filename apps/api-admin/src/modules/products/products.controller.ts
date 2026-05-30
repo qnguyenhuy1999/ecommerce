@@ -1,12 +1,12 @@
-import { type ProductReportStatus } from '@ecom/contracts/enums'
+import { type ProductReportStatus } from '@ecom/contracts/enums/product'
 import {
   ApiAuth,
   ApiErrorResponses,
   ApiOkResponseData,
   ApiPaginatedResponse,
 } from '@ecom/nestjs-core/openapi'
-import { AUDIT_ACTIONS } from '@ecom/shared/constants'
-import { withDefined } from '@ecom/shared/utils'
+import { AUDIT_ACTIONS } from '@ecom/shared/constants/audit'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { CurrentAdmin, type AdminSessionData } from '../auth/decorators/current-admin.decorator'

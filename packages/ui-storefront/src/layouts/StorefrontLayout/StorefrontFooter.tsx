@@ -1,4 +1,7 @@
-import { Button, Input, Separator, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Separator } from '@ecom/core-ui/atoms/Separator'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { Globe, Mail, MessageCircle, Send, ShieldCheck, Truck } from 'lucide-react'
 import type { StorefrontFooterColumn } from './StorefrontLayout.types'
 

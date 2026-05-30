@@ -1,4 +1,4 @@
-import type { StatCardProps } from '@ecom/core-ui'
+import type { StatCardProps } from '@ecom/core-ui/molecules/StatCard'
 import type { ProductStatusPillVariantProps } from '../../atoms/ProductStatusPill/ProductStatusPill.fixtures'
 
 type Metric = Pick<StatCardProps, 'label' | 'value' | 'trend' | 'spark' | 'accent'>

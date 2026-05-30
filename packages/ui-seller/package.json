@@ -20,6 +20,12 @@
       "import": "./src/pages/*/index.ts",
       "default": "./src/pages/*/index.ts"
     },
+    "./layouts/*": {
+      "types": "./src/layouts/*/index.ts",
+      "development": "./src/layouts/*/index.ts",
+      "import": "./src/layouts/*/index.ts",
+      "default": "./src/layouts/*/index.ts"
+    },
     "./styles/globals.css": "./src/styles/globals.css"
   },
   "scripts": {

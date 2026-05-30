@@ -1,7 +1,7 @@
 'use client'
 
-import { formatDateIntl } from '@ecom/shared'
-import type { UserDetailProps } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { UserDetailProps } from '@ecom/ui-admin/pages/UserDetail'
 import { useUser, useActivateUser, useBanUser, useSuspendUser } from './use-users'
 import type { UserDetail } from '../api/users.api'
 

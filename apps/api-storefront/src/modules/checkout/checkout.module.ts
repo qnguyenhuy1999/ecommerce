@@ -4,7 +4,7 @@ import { AuthModule } from '../auth/auth.module'
 import { CheckoutController } from './checkout.controller'
 import { CheckoutService } from './checkout.service'
 import { CheckoutRepository } from './repositories/checkout.repository'
-import { QUEUES } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
 
 @Module({
   imports: [

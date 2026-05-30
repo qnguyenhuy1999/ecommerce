@@ -20,6 +20,12 @@
       "import": "./src/constants/index.ts",
       "default": "./src/constants/index.ts"
     },
+    "./constants/*": {
+      "types": "./src/constants/*.ts",
+      "development": "./src/constants/*.ts",
+      "import": "./src/constants/*.ts",
+      "default": "./src/constants/*.ts"
+    },
     "./pagination/core": {
       "types": "./src/pagination/core/index.ts",
       "development": "./src/pagination/core/index.ts",
@@ -49,6 +55,12 @@
       "development": "./src/utils/index.ts",
       "import": "./src/utils/index.ts",
       "default": "./src/utils/index.ts"
+    },
+    "./utils/*": {
+      "types": "./src/utils/*.ts",
+      "development": "./src/utils/*.ts",
+      "import": "./src/utils/*.ts",
+      "default": "./src/utils/*.ts"
     },
     "./errors": {
       "types": "./src/errors/index.ts",

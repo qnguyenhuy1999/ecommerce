@@ -1,6 +1,6 @@
 'use client'
 
-import type { BannersProps } from '@ecom/ui-admin'
+import type { BannersProps } from '@ecom/ui-admin/pages/Banners'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useBanners } from '../hooks/use-banners'
 import { mapBannerToRecord } from '../mappers/banner.mapper'

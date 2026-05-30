@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService, Prisma } from '@ecom/database'
-import { type OrderStatus } from '@ecom/contracts/enums'
+import { type OrderStatus } from '@ecom/contracts/enums/order'
 import { offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 
 @Injectable()
 export class OrdersRepository {

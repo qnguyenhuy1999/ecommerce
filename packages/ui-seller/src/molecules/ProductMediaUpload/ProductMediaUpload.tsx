@@ -1,6 +1,11 @@
-import { MediaUpload, Typography, type MediaItem, type MediaUploadProps } from '@ecom/core-ui'
-import { withDefined } from '@ecom/shared'
-import { cn } from '@ecom/shared/utils'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import {
+  MediaUpload,
+  type MediaItem,
+  type MediaUploadProps,
+} from '@ecom/core-ui/molecules/MediaUpload'
+import { withDefined } from '@ecom/shared/utils/optional-object'
+import { cn } from '@ecom/shared/utils/cn'
 
 type ProductMediaUploadProps = Omit<MediaUploadProps, 'coverIndex'> & {
   className?: string

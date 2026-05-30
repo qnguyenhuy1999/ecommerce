@@ -1,6 +1,9 @@
 'use client'
 
-import type { SellerKycDetailRecord, SellerKycDetailDocumentActionPayload } from '@ecom/ui-admin'
+import type {
+  SellerKycDetailRecord,
+  SellerKycDetailDocumentActionPayload,
+} from '@ecom/ui-admin/pages/SellerKycDetail'
 import {
   useSellerDetail,
   useApproveSeller,

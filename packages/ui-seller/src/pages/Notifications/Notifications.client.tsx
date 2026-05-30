@@ -1,6 +1,10 @@
 'use client'
 
-import { Badge, Button, Card, CardContent, Switch, Typography } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Switch } from '@ecom/core-ui/atoms/Switch'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent } from '@ecom/core-ui/molecules/Card'
 import { Bell } from 'lucide-react'
 import { useMemo } from 'react'
 import { useControllableState } from '../../hooks'

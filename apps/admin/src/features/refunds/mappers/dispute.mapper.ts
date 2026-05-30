@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { RefundRecord, RefundStatus } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { RefundRecord, RefundStatus } from '@ecom/ui-admin/pages/Disputes'
 import type { RefundListItem } from '../api/refunds.api'
 
 function toRefundStatus(status: string): RefundStatus {

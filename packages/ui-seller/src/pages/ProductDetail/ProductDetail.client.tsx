@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, ConsolePageLayout } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { Eye, FileText, Send } from 'lucide-react'
 import type { MouseEvent } from 'react'
 import { SectionCard } from '../../atoms/SectionCard'

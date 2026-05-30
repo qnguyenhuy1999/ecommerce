@@ -1,15 +1,11 @@
 'use client'
 
-import {
-  Button,
-  Card,
-  CardContent,
-  Label,
-  RadioGroup,
-  RadioGroupItem,
-  Textarea,
-  Typography,
-} from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Label } from '@ecom/core-ui/atoms/Label'
+import { RadioGroup, RadioGroupItem } from '@ecom/core-ui/atoms/RadioGroup'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent } from '@ecom/core-ui/molecules/Card'
 import {
   REFUND_RESOLUTION_CHECKED_CLASS_NAME,
   REFUND_RESOLUTION_UNCHECKED_CLASS_NAME,

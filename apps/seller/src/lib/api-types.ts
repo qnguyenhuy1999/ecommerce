@@ -1,4 +1,4 @@
-import type { ApiSuccessResponse } from '@ecom/contracts'
+import type { ApiSuccessResponse } from '@ecom/contracts/http/response'
 
 export type TypedApiResponse<T> = ApiSuccessResponse<T>
 

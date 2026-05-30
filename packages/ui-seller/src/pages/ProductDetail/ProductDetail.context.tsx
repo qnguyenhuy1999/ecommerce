@@ -1,7 +1,9 @@
 'use client'
 
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react'
-import { Form, useForm, useWatch, zodResolver } from '@ecom/core-ui'
+import { Form } from '@ecom/core-ui/atoms/Form'
+import { useForm, useWatch } from '@ecom/core-ui/vendors/react-hook-form'
+import { zodResolver } from '@ecom/core-ui/vendors/zod-resolver'
 import type {
   ProductDetailFormData,
   ProductDetailOptionGroup,

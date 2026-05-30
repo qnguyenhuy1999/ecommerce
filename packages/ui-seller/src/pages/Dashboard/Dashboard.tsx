@@ -1,4 +1,5 @@
-import { Button, ConsolePageLayout } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { ArrowRight } from 'lucide-react'
 import { dashboardDefaultProps } from './Dashboard.fixtures'
 import type { DashboardProps } from './Dashboard.types'

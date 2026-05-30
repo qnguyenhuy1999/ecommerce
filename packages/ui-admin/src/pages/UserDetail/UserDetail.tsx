@@ -1,4 +1,7 @@
-import { Button, ConsolePageLayout, StatusBadge, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
+import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
 import { userDetailDefaultProps } from './UserDetail.fixtures'
 import type { UserDetailProps } from './UserDetail.types'
 

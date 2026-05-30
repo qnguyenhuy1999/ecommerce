@@ -1,4 +1,4 @@
-import { slugify } from '@ecom/shared/utils'
+import { slugify } from '@ecom/shared/utils/slugify'
 
 export { slugify }
 import type {

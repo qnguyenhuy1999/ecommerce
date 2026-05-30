@@ -1,5 +1,5 @@
-import { formatDateIntl, formatDateTime } from '@ecom/shared'
-import type { SupportMessage, SupportTicket } from '@ecom/ui-admin'
+import { formatDateIntl, formatDateTime } from '@ecom/shared/utils/format'
+import type { SupportMessage, SupportTicket } from '@ecom/ui-admin/pages/Support'
 import type { SupportMessageApiItem, SupportTicketApiItem } from '../api/support.api'
 
 export function mapApiTicketToSupportTicket(item: SupportTicketApiItem): SupportTicket {

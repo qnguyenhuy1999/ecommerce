@@ -1,4 +1,5 @@
-import { Card, CardContent, Typography } from '@ecom/core-ui'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { Card, CardContent } from '@ecom/core-ui/molecules/Card'
 import { ShieldCheck, Store, type LucideIcon } from 'lucide-react'
 
 interface AuthFeature {

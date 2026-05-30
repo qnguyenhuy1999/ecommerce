@@ -1,8 +1,8 @@
-import { ProductStatus } from '@ecom/contracts'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 import type { Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
-import { slugify } from '@ecom/shared/utils'
+import { slugify } from '@ecom/shared/utils/slugify'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import type {
   CreateProductDto,

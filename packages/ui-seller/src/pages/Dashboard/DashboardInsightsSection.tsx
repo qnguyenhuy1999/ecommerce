@@ -1,6 +1,7 @@
-import { Avatar, AvatarFallback, AvatarImage, Typography } from '@ecom/core-ui'
+import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { SectionCard } from '../../atoms/SectionCard'
-import { cn } from '@ecom/shared/utils'
+import { cn } from '@ecom/shared/utils/cn'
 import { type DashboardProps } from './Dashboard.types'
 
 export function DashboardInsightsSection({

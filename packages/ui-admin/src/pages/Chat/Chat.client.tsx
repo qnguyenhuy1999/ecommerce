@@ -1,7 +1,7 @@
 'use client'
 
-import { Button } from '@ecom/core-ui'
-import { Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import type { ChatConversationRecord, ChatMessageRecord, ChatProps } from './Chat.types'
 
 interface ConversationItemProps {

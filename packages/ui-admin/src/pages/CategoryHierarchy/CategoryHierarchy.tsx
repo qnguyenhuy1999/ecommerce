@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { categoryHierarchyDefaultProps } from './CategoryHierarchy.fixtures'
 import { CategoryHierarchyClient } from './CategoryHierarchy.client'
 import type { CategoryHierarchyProps } from './CategoryHierarchy.types'

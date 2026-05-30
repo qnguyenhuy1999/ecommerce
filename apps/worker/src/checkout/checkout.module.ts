@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { BullModule } from '@nestjs/bullmq'
 import { CheckoutProcessor } from './checkout.processor'
-import { QUEUES } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
 
 @Module({
   imports: [

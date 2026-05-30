@@ -1,6 +1,6 @@
 import { useDeferredValue, useMemo, useState } from 'react'
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import { ConsoleLayout } from '../../layouts/ConsoleLayout'
 import { productsDefaultProps } from '../../pages/Products/Products.fixtures'
 import type { ProductsStatusTab } from '../../pages/Products/Products.types'

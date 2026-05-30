@@ -1,17 +1,17 @@
 'use client'
 
+import { cn } from '@ecom/shared/utils/cn'
+import { Checkbox } from '@ecom/core-ui/atoms/Checkbox'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import {
-  Checkbox,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  StatusBadge,
-  Typography,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
+import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
 import { SectionCard } from '../../atoms/SectionCard'
-import { cn } from '@ecom/shared/utils'
 import { useProductEditorSidebar } from './ProductDetail.context'
 
 export function ProductSidebar() {

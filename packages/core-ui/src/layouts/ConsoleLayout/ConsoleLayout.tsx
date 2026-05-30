@@ -1,6 +1,6 @@
 'use client'
 
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { SidebarInset, SidebarMenuRenderer, SidebarShell } from '../../organisms/Sidebar'
 import { cn } from '../../lib/utils'
 import type { ConsoleLayoutProps } from './ConsoleLayout.types'

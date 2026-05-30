@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Param, Query, Body, UseGuards } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { IsEnum, IsOptional, IsString } from 'class-validator'
-import type { SessionData } from '@ecom/auth'
+import type { SessionData } from '@ecom/auth/session.service'
 import { AuthGuard } from '../auth/guards/auth.guard'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import {
@@ -14,7 +14,7 @@ import {
 import { ShopService } from '../shop/shop.service'
 import { ReturnService } from './return.service'
 import { ReturnQueryDto } from './dto/return-query.dto'
-import { ReturnStatus } from '@ecom/contracts/enums'
+import { ReturnStatus } from '@ecom/contracts/enums/order'
 
 class UpdateReturnStatusDto {
   @IsEnum(ReturnStatus)

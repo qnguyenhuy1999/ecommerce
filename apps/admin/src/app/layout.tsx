@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import { AuthProvider } from '@/core/auth/auth-provider'
 import { QueryProvider } from '@/core/query/query-provider'
-import { TooltipProvider } from '@ecom/core-ui'
+import { TooltipProvider } from '@ecom/core-ui/molecules/Tooltip'
 
 export const metadata = {
   title: 'Admin Panel — Marketplace',

@@ -4,8 +4,8 @@ import {
   ConsoleLayout as CoreConsoleLayout,
   Root as CoreRoot,
   type ConsoleLayoutProps,
-  type SidebarGroup,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/layouts/ConsoleLayout'
+import type { SidebarGroup } from '@ecom/core-ui/organisms/Sidebar'
 import {
   defaultSidebarAccount,
   defaultSidebarGroups,

@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import {
   AnalyticsPageActions,
   OrdersByDaySection,

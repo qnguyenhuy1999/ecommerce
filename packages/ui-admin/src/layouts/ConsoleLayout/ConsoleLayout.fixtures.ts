@@ -15,7 +15,7 @@ import {
   Users,
   type LucideIcon,
 } from 'lucide-react'
-import type { SidebarGroup } from '@ecom/core-ui'
+import type { SidebarGroup } from '@ecom/core-ui/organisms/Sidebar'
 
 type SidebarFixtureItem = {
   id: string

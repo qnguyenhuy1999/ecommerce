@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { DataTableColumn } from '@ecom/core-ui'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { StatusBadge } from '../../atoms/StatusBadge'
 import type { ApprovalRow, ApprovalsProps } from './Approvals.types'
 

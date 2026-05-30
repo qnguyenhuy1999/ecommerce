@@ -1,33 +1,36 @@
 'use client'
 
-import { formatCurrency } from '@ecom/shared'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import {
-  Button,
-  DatePicker,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  NumberInput,
+} from '@ecom/core-ui/atoms/Form'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@ecom/core-ui/atoms/Dialog'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { NumberInput } from '@ecom/core-ui/atoms/NumberInput'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { DatePicker } from '@ecom/core-ui/molecules/DatePicker'
+import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-  Typography,
-  type UseFormReturn,
-  useForm,
-  zodResolver,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/molecules/Select'
+import { type UseFormReturn, useForm } from '@ecom/core-ui/vendors/react-hook-form'
+import { zodResolver } from '@ecom/core-ui/vendors/zod-resolver'
 import { Plus } from 'lucide-react'
 import { SellerListPage } from '../../organisms'
 import { COMMISSION_SECTION_TITLES, SCOPE_LABELS, TODAY } from './CommissionFees.constants'

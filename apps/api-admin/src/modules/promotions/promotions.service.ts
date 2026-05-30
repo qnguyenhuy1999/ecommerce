@@ -1,7 +1,7 @@
 import { PrismaService } from '@ecom/database'
 import { type PlatformVoucherStatus, type PlatformVoucherType, type Prisma } from '@ecom/database'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { nullable, withDefined } from '@ecom/shared/utils'
+import { nullable, withDefined } from '@ecom/shared/utils/optional-object'
 import {
   BadRequestException,
   ConflictException,

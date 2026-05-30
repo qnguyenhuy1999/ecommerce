@@ -3,12 +3,17 @@ import { Inject, Injectable, Logger } from '@nestjs/common'
 import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
 import { PrismaService } from '@ecom/database'
-import { QUEUES, NOTIFICATION_JOBS, OUTBOX_EVENTS, defaultJobOptions } from '@ecom/shared'
+import { QUEUES } from '@ecom/shared/constants/queues'
+import {
+  NOTIFICATION_JOBS,
+  OUTBOX_EVENTS,
+  defaultJobOptions,
+} from '@ecom/shared/constants/notification-jobs'
 import type {
   ChatMessageOutboxPayload,
   SellerNotificationJobPayload,
   UserNotificationJobPayload,
-} from '@ecom/shared'
+} from '@ecom/shared/constants/notification-jobs'
 
 const POLL_INTERVAL_MS = 5_000
 const BATCH_SIZE = 50

@@ -1,6 +1,7 @@
 'use client'
 
-import { Button, Typography } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { Clock3 } from 'lucide-react'
 import { onboardingStatusDefaultProps } from './OnboardingStatus.fixtures'
 import type {

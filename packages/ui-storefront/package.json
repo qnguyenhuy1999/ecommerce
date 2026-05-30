@@ -14,6 +14,24 @@
       "import": "./src/index.ts",
       "default": "./src/index.ts"
     },
+    "./pages/*": {
+      "types": "./src/pages/*/index.ts",
+      "development": "./src/pages/*/index.ts",
+      "import": "./src/pages/*/index.ts",
+      "default": "./src/pages/*/index.ts"
+    },
+    "./layouts/*": {
+      "types": "./src/layouts/*/index.ts",
+      "development": "./src/layouts/*/index.ts",
+      "import": "./src/layouts/*/index.ts",
+      "default": "./src/layouts/*/index.ts"
+    },
+    "./organisms/*": {
+      "types": "./src/organisms/*/index.ts",
+      "development": "./src/organisms/*/index.ts",
+      "import": "./src/organisms/*/index.ts",
+      "default": "./src/organisms/*/index.ts"
+    },
     "./styles/globals.css": "./src/styles/globals.css"
   },
   "scripts": {

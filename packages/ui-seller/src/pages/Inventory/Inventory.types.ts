@@ -1,4 +1,4 @@
-import type { DataTableProps } from '@ecom/core-ui'
+import type { DataTableProps } from '@ecom/core-ui/organisms/DataTable'
 
 export type InventoryStatus = 'OK' | 'Low'
 

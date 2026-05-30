@@ -11,8 +11,8 @@ import { InjectQueue } from '@nestjs/bullmq'
 import type { Queue } from 'bullmq'
 import { type Prisma } from '@ecom/database'
 import { RedisService } from '@ecom/redis'
-import type { SessionData } from '@ecom/auth'
-import { QUEUES } from '@ecom/shared'
+import type { SessionData } from '@ecom/auth/session.service'
+import { QUEUES } from '@ecom/shared/constants/queues'
 import type {
   ConfirmCheckoutDto,
   SetCheckoutAddressDto,

@@ -1,4 +1,4 @@
-import { formatDateIntl } from '@ecom/shared'
+import { formatDateIntl } from '@ecom/shared/utils/format'
 import type { VoucherDetailType } from './VoucherDetail.types'
 
 export const voucherTypeOptions: Array<{ value: VoucherDetailType; label: string }> = [

@@ -54,6 +54,12 @@
       "development": "./src/security/index.ts",
       "import": "./src/security/index.ts",
       "default": "./src/security/index.ts"
+    },
+    "./nestjs/websocket/chat-gateway.utils": {
+      "types": "./src/nestjs/websocket/chat-gateway.utils.ts",
+      "development": "./src/nestjs/websocket/chat-gateway.utils.ts",
+      "import": "./src/nestjs/websocket/chat-gateway.utils.ts",
+      "default": "./src/nestjs/websocket/chat-gateway.utils.ts"
     }
   },
   "scripts": {

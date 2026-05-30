@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { Upload, X } from 'lucide-react'
 import { cn } from '../../lib/utils'
 import { Progress } from '../../atoms/Progress'
@@ -12,6 +12,12 @@ import {
   useMediaUploadItems,
 } from './MediaUpload.context'
 import type {
+  MediaUploadItemProps,
+  MediaUploadProps,
+  MediaUploadRootProps,
+} from './MediaUpload.types'
+export type {
+  MediaItem,
   MediaUploadItemProps,
   MediaUploadProps,
   MediaUploadRootProps,

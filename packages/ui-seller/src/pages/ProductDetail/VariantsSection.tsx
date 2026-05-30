@@ -1,6 +1,9 @@
 'use client'
 
-import { Button, CurrencyInput, Input, NumberInput } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { CurrencyInput } from '@ecom/core-ui/atoms/CurrencyInput'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { NumberInput } from '@ecom/core-ui/atoms/NumberInput'
 import { Plus, X } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { useProductEditorVariants } from './ProductDetail.context'

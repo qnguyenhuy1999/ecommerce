@@ -1,4 +1,4 @@
-import { SellerDetailPageClient } from './SellerDetailPage.client'
+import { SellerDetailPageClient } from './_components/SellerDetailPage.client'
 
 export default async function SellerDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

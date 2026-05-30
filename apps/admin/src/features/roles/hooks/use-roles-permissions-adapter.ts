@@ -1,7 +1,7 @@
 'use client'
 
-import type { RolesPermissionsProps } from '@ecom/ui-admin'
-import { ALL_PERMISSION_ROWS } from '@ecom/ui-admin'
+import type { RolesPermissionsProps } from '@ecom/ui-admin/pages/RolesPermissions'
+import { ALL_PERMISSION_ROWS } from '@ecom/ui-admin/pages/RolesPermissions'
 import { useRoles, useUpdateRolePermissions } from './use-roles'
 import {
   mapApiRoleToRoleRecord,

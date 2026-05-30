@@ -1,6 +1,6 @@
 'use client'
 
-import type { ProductApprovalProps } from '@ecom/ui-admin'
+import type { ProductApprovalProps } from '@ecom/ui-admin/pages/ProductApproval'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import {
   useProducts,

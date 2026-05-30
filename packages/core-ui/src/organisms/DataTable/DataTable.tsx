@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import {
   flexRender,
   getCoreRowModel,
@@ -15,6 +15,13 @@ import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { Input } from '../../atoms/Input'
 import { cn } from '../../lib/utils'
 import type {
+  DataTableProps,
+  StatusBadgeProps,
+  StatusTabsProps,
+  TableToolbarProps,
+} from './DataTable.types'
+export type {
+  DataTableColumn,
   DataTableProps,
   StatusBadgeProps,
   StatusTabsProps,

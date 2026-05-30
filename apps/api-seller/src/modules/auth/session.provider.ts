@@ -1,5 +1,5 @@
 import type { Provider } from '@nestjs/common'
-import { SessionService } from '@ecom/auth'
+import { SessionService } from '@ecom/auth/session.service'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
 

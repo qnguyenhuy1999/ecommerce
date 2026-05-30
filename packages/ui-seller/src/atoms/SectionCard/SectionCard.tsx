@@ -1,5 +1,5 @@
-import { Typography } from '@ecom/core-ui'
-import { cn } from '@ecom/shared/utils'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { cn } from '@ecom/shared/utils/cn'
 
 interface SectionCardProps {
   title?: React.ReactNode

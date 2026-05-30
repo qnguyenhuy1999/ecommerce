@@ -1,6 +1,6 @@
 'use client'
 
-import type { NotificationsProps, NotificationRecord } from '@ecom/ui-admin'
+import type { NotificationsProps, NotificationRecord } from '@ecom/ui-admin/pages/Notifications'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import { useSendNotification } from '../hooks/use-notification-mutations'
 import { useNotifications } from '../hooks/use-notification-queries'

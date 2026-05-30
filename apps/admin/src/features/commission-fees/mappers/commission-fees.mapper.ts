@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { CommissionRule } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { CommissionRule } from '@ecom/ui-admin/pages/CommissionFees'
 import type { CommissionRuleApiItem } from '../api/commission-fees.api'
 
 export function mapApiRuleToCommissionRule(item: CommissionRuleApiItem): CommissionRule {

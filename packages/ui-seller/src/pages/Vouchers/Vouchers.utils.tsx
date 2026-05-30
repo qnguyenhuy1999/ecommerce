@@ -1,6 +1,6 @@
-import { Badge } from '@ecom/core-ui'
-import type { DataTableColumn } from '@ecom/core-ui'
-import { formatCurrency } from '@ecom/shared/utils'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import type { VoucherRow, VoucherStatus, VoucherType } from './Vouchers.types'
 
 const VOUCHER_TYPE_LABELS: Record<VoucherType, string> = {

@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { VoucherRecord, VoucherStatus } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { VoucherRecord, VoucherStatus } from '@ecom/ui-admin/pages/Campaigns'
 import type { VoucherListItem } from '../api/promotions.api'
 
 function toVoucherStatus(status: string): VoucherStatus {

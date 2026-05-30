@@ -1,1 +1,1 @@
-export { cn } from '@ecom/shared/utils'
+export { cn } from '@ecom/shared/utils/cn'

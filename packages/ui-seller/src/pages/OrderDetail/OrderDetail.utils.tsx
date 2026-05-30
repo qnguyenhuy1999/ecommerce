@@ -3,7 +3,7 @@ import type {
   OrderDetailStatus,
   OrderDetailStatusAction,
 } from './OrderDetail.types'
-import { formatCurrency } from '@ecom/shared/utils'
+import { formatCurrency } from '@ecom/shared/utils/format'
 import { formatStatusLabel } from '../../utils'
 
 export { formatStatusLabel }

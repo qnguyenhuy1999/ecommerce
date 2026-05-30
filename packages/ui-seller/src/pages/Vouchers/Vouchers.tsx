@@ -1,4 +1,4 @@
-import { Button } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
 import { Plus } from 'lucide-react'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { vouchersDefaultProps } from './Vouchers.fixtures'

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '@ecom/database'
-import { SellerStatus, ReturnStatus } from '@ecom/contracts/enums'
+import { ReturnStatus } from '@ecom/contracts/enums/order'
+import { SellerStatus } from '@ecom/contracts/enums/seller'
 
 @Injectable()
 export class DashboardService {

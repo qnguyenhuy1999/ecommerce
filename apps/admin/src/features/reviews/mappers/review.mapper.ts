@@ -1,5 +1,5 @@
-import { formatDateIntl } from '@ecom/shared'
-import type { ReviewRecord } from '@ecom/ui-admin'
+import { formatDateIntl } from '@ecom/shared/utils/format'
+import type { ReviewRecord } from '@ecom/ui-admin/pages/Reviews'
 import type { ReviewListItem } from '../api/reviews.api'
 
 function toCommentPreview(comment: string | null): string {

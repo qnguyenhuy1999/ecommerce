@@ -1,10 +1,10 @@
-import { SubscriptionStatus } from '@ecom/contracts/enums'
+import { SubscriptionStatus } from '@ecom/contracts/enums/seller'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
 import type { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
 import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
-import { withDefined } from '@ecom/shared/utils'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import type { CreatePlanDto, SubscribeDto } from './dto/subscription.dto'
 

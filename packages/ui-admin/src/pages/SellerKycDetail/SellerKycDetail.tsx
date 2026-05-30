@@ -1,4 +1,5 @@
-import { Badge, ConsolePageLayout } from '@ecom/core-ui'
+import { Badge } from '@ecom/core-ui/atoms/Badge'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { sellerKycDetailDefaultProps } from './SellerKycDetail.fixtures'
 import { SellerKycDetailClient } from './SellerKycDetail.client'
 import type { SellerKycDetailProps, SellerKycDetailStatus } from './SellerKycDetail.types'

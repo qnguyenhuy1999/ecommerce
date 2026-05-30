@@ -1,6 +1,8 @@
 'use client'
 
-import { Button, StatusBadge, Typography, type DataTableColumn } from '@ecom/core-ui'
+import { Button } from '@ecom/core-ui/atoms/Button'
+import { Typography } from '@ecom/core-ui/atoms/Typography'
+import { StatusBadge, type DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import type { ReviewRecord, ReviewsProps } from './Reviews.types'
 
 interface BuildReviewColumnsOptions {

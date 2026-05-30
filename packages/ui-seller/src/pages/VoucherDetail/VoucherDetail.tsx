@@ -1,7 +1,7 @@
 import { voucherDetailDefaultProps } from './VoucherDetail.fixtures'
 import type { VoucherDetailProps } from './VoucherDetail.types'
 import { VoucherDetailClient } from './VoucherDetail.client'
-import { withDefined } from '@ecom/shared'
+import { withDefined } from '@ecom/shared/utils/optional-object'
 
 export function VoucherDetail({
   title = voucherDetailDefaultProps.title,

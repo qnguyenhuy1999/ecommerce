@@ -1,4 +1,4 @@
-import { ConsolePageLayout } from '@ecom/core-ui'
+import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { MessagesClient } from './Messages.client'
 import { messagesDefaultProps } from './Messages.fixtures'
 import type { MessagesProps } from './Messages.types'

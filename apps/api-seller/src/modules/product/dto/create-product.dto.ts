@@ -12,7 +12,7 @@ import {
 } from 'class-validator'
 import { Type } from 'class-transformer'
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { ProductStatus } from '@ecom/contracts'
+import { ProductStatus } from '@ecom/contracts/enums/product'
 
 export class VariantOptionValueDto {
   @ApiProperty({ description: 'Option value (e.g. "Red", "XL")' })

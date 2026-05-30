@@ -7,9 +7,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  Textarea,
-} from '@ecom/core-ui'
+} from '@ecom/core-ui/atoms/Form'
+import { Input } from '@ecom/core-ui/atoms/Input'
+import { Textarea } from '@ecom/core-ui/atoms/Textarea'
 import { SectionCard } from '../../atoms/SectionCard'
 import { useProductEditorSeo } from './ProductDetail.context'
 
