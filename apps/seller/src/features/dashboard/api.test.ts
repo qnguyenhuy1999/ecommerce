@@ -1,5 +1,5 @@
-import test from 'node:test'
 import assert from 'node:assert/strict'
+import { test } from 'vitest'
 import { normalizeDashboardBundle } from './normalize'
 
 void test('normalizeDashboardBundle fills empty section defaults when partial data is missing', () => {

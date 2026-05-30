@@ -1,11 +1,11 @@
 import { productsColumns } from './Products.columns'
-import { productStatusTabs } from './Products.fixtures'
+import { PRODUCT_STATUS_TABS } from './Products.constants'
 import type { ProductRow, ProductsFilterParams, ProductsStatusTab } from './Products.types'
 
 export { productsColumns }
 
 export function isProductsStatusTab(value: string): value is ProductsStatusTab {
-  return productStatusTabs.some((tab) => tab === value)
+  return PRODUCT_STATUS_TABS.some((tab) => tab === value)
 }
 
 export function buildProductStatusCounts(

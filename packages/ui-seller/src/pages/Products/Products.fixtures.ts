@@ -1,19 +1,12 @@
 import type { ProductRow, ProductsProps, ProductsStatusTab } from './Products.types'
+import { PRODUCT_STATUS_TABS } from './Products.constants'
 import {
   buildProductStatusCounts,
   filterProductsBySearchAndStatus,
   productsColumns,
 } from './Products.utils'
 
-export const productStatusTabs = [
-  'ALL',
-  'LIVE',
-  'DRAFT',
-  'OUT_OF_STOCK',
-  'PENDING',
-  'BLOCKED',
-  'SCHEDULED',
-] as const satisfies readonly ProductsStatusTab[]
+export const productStatusTabs = PRODUCT_STATUS_TABS satisfies readonly ProductsStatusTab[]
 
 export const productsPageRows: ProductRow[] = [
   {

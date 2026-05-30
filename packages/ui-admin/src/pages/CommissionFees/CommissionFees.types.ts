@@ -6,6 +6,11 @@ export interface CommissionRule {
   effectiveFrom: string
 }
 
+export interface DraftValues {
+  commissionPct: string
+  paymentFeePct: string
+}
+
 export type CommissionRuleScope = 'global' | 'category' | 'vendor'
 
 export interface NewCommissionRule {

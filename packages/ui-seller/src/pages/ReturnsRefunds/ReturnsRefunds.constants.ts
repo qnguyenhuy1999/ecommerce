@@ -9,6 +9,14 @@ import type {
   ReturnsRefundsStatusTab,
 } from './ReturnsRefunds.types'
 
+export const RETURN_STATUS_TABS = [
+  'ALL',
+  'OPEN',
+  'APPROVED',
+  'REFUNDED',
+  'REJECTED',
+] as const satisfies readonly ReturnsRefundsStatusTab[]
+
 export function formatReturnAmount(amount: number) {
   return formatCurrency(amount)
 }

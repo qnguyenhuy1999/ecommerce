@@ -5,28 +5,23 @@ function decimal(value: number) {
   return { toNumber: () => value }
 }
 
-function createPrismaMock() {
+function createProductsRepositoryMock() {
   return {
-    product: { findFirst: vi.fn(), findMany: vi.fn() },
-    review: { groupBy: vi.fn() },
-    sellerOrderItem: { groupBy: vi.fn() },
-    flashSaleSlot: { findFirst: vi.fn() },
-    productScore: { findMany: vi.fn() },
-    category: { findUnique: vi.fn() },
+    findProductBySlug: vi.fn(),
+    aggregateReviews: vi.fn(),
+    aggregateSoldItems: vi.fn(),
+    findActiveFlashSaleSlot: vi.fn(),
+    findCategory: vi.fn(),
+    findProductScores: vi.fn(),
+    findRecommendationProducts: vi.fn(),
   }
 }
 
 type RecommendationFetchArgs = {
-  where: {
-    id?: { not?: string; in?: string[] }
-    categoryId?: string
-    status?: string
-    deletedAt?: null
-    productId?: { not?: string }
-    scoreType?: string
-  }
-  take?: number
-  orderBy?: { score: 'desc' }
+  id?: { not?: string; in?: string[] }
+  categoryId?: string
+  status?: string
+  deletedAt?: null
 }
 
 // eslint-disable-next-line max-lines-per-function
@@ -37,14 +32,14 @@ describe('ProductsService', () => {
 
   // eslint-disable-next-line max-lines-per-function
   it('returns product detail payload for published product slug', async () => {
-    const prisma = createPrismaMock()
-    const service = new ProductsService(prisma as never)
+    const productsRepository = createProductsRepositoryMock()
+    const service = new ProductsService(productsRepository as never)
     const now = new Date('2026-05-23T10:00:00.000Z')
 
     vi.useFakeTimers()
     vi.setSystemTime(now)
 
-    prisma.product.findFirst.mockResolvedValue({
+    productsRepository.findProductBySlug.mockResolvedValue({
       id: 'prod-1',
       shopId: 'shop-1',
       categoryId: 'cat-phones',
@@ -132,7 +127,7 @@ describe('ProductsService', () => {
         },
       ],
     })
-    prisma.category.findUnique
+    productsRepository.findCategory
       .mockResolvedValueOnce({
         id: 'cat-phones',
         name: 'Audio',
@@ -145,18 +140,18 @@ describe('ProductsService', () => {
         slug: 'electronics',
         parentId: null,
       })
-    prisma.review.groupBy.mockResolvedValue([
+    productsRepository.aggregateReviews.mockResolvedValue([
       { productId: 'prod-1', _avg: { rating: 4.4 }, _count: { productId: 1000 } },
     ])
-    prisma.sellerOrderItem.groupBy.mockResolvedValue([
+    productsRepository.aggregateSoldItems.mockResolvedValue([
       { variantId: 'var-1', _sum: { quantity: 2200 } },
     ])
-    prisma.flashSaleSlot.findFirst.mockResolvedValue({
+    productsRepository.findActiveFlashSaleSlot.mockResolvedValue({
       originalPrice: decimal(129.6),
       salePrice: decimal(81),
       purchaseLimit: 5,
     })
-    prisma.product.findMany.mockResolvedValue([
+    productsRepository.findRecommendationProducts.mockResolvedValue([
       {
         id: 'prod-2',
         name: 'Travel Backpack 24L Water-Resistant',
@@ -170,6 +165,7 @@ describe('ProductsService', () => {
         variants: [],
       },
     ])
+    productsRepository.findProductScores.mockResolvedValue([])
     const result = await service.getProductDetail('wireless-anc-headphones-studio-edition')
 
     expect(result.product).toMatchObject({
@@ -204,19 +200,19 @@ describe('ProductsService', () => {
   })
 
   it('throws when product slug is missing or unpublished', async () => {
-    const prisma = createPrismaMock()
-    const service = new ProductsService(prisma as never)
+    const productsRepository = createProductsRepositoryMock()
+    const service = new ProductsService(productsRepository as never)
 
-    prisma.product.findFirst.mockResolvedValue(null)
+    productsRepository.findProductBySlug.mockResolvedValue(null)
 
     await expect(service.getProductDetail('missing-product')).rejects.toThrow('Product not found')
   })
 
   it('excludes current product from recommendations and falls back to score query when needed', async () => {
-    const prisma = createPrismaMock()
-    const service = new ProductsService(prisma as never)
+    const productsRepository = createProductsRepositoryMock()
+    const service = new ProductsService(productsRepository as never)
 
-    prisma.product.findFirst.mockResolvedValue({
+    productsRepository.findProductBySlug.mockResolvedValue({
       id: 'prod-1',
       shopId: 'shop-1',
       categoryId: null,
@@ -235,10 +231,10 @@ describe('ProductsService', () => {
       variantOptionGroups: [],
       variants: [],
     })
-    prisma.review.groupBy.mockResolvedValue([])
-    prisma.sellerOrderItem.groupBy.mockResolvedValue([])
-    prisma.flashSaleSlot.findFirst.mockResolvedValue(null)
-    prisma.product.findMany.mockResolvedValueOnce([]).mockResolvedValueOnce([
+    productsRepository.aggregateReviews.mockResolvedValue([])
+    productsRepository.aggregateSoldItems.mockResolvedValue([])
+    productsRepository.findActiveFlashSaleSlot.mockResolvedValue(null)
+    productsRepository.findRecommendationProducts.mockResolvedValueOnce([]).mockResolvedValueOnce([
       {
         id: 'prod-9',
         name: 'Fallback Product',
@@ -252,21 +248,22 @@ describe('ProductsService', () => {
         variants: [],
       },
     ])
-    prisma.productScore.findMany.mockResolvedValue([{ productId: 'prod-9', score: 9.8 }])
+    productsRepository.findProductScores.mockResolvedValue([{ productId: 'prod-9', score: 9.8 }])
 
     const result = await service.getProductDetail('headphones')
-    const firstRecommendationFetch = prisma.product.findMany.mock.calls[0]?.[0] as
-      | RecommendationFetchArgs
+    const firstRecommendationFetch = productsRepository.findRecommendationProducts.mock
+      .calls[0]?.[0] as RecommendationFetchArgs | undefined
+    const fallbackScoreFetch = productsRepository.findProductScores.mock.calls[0]?.[0] as
+      | string
       | undefined
-    const fallbackScoreFetch = prisma.productScore.findMany.mock.calls[0]?.[0] as
-      | RecommendationFetchArgs
-      | undefined
-    const secondRecommendationFetch = prisma.product.findMany.mock.calls[1]?.[0] as
-      | RecommendationFetchArgs
-      | undefined
-    const firstRecommendationCallOrder = prisma.product.findMany.mock.invocationCallOrder[0] ?? -1
-    const fallbackScoreCallOrder = prisma.productScore.findMany.mock.invocationCallOrder[0] ?? -1
-    const secondRecommendationCallOrder = prisma.product.findMany.mock.invocationCallOrder[1] ?? -1
+    const secondRecommendationFetch = productsRepository.findRecommendationProducts.mock
+      .calls[1]?.[0] as RecommendationFetchArgs | undefined
+    const firstRecommendationCallOrder =
+      productsRepository.findRecommendationProducts.mock.invocationCallOrder[0] ?? -1
+    const fallbackScoreCallOrder =
+      productsRepository.findProductScores.mock.invocationCallOrder[0] ?? -1
+    const secondRecommendationCallOrder =
+      productsRepository.findRecommendationProducts.mock.invocationCallOrder[1] ?? -1
 
     expect(result.recommendations).toEqual([
       expect.objectContaining({ id: 'prod-9', slug: 'fallback-product' }),
@@ -274,31 +271,22 @@ describe('ProductsService', () => {
     expect(
       result.recommendations.find((item: { id: string }) => item.id === 'prod-1'),
     ).toBeUndefined()
-    expect(prisma.product.findMany).toHaveBeenCalledTimes(2)
-    expect(prisma.productScore.findMany).toHaveBeenCalledTimes(1)
+    expect(productsRepository.findRecommendationProducts).toHaveBeenCalledTimes(2)
+    expect(productsRepository.findProductScores).toHaveBeenCalledTimes(1)
     expect(firstRecommendationFetch).toMatchObject({
-      where: {
-        id: { not: 'prod-1' },
-        status: 'PUBLISHED',
-        deletedAt: null,
-      },
-      take: 6,
+      id: { not: 'prod-1' },
+      status: 'PUBLISHED',
+      deletedAt: null,
     })
-    expect(firstRecommendationFetch?.where).not.toHaveProperty('categoryId')
-    expect(fallbackScoreFetch).toMatchObject({
-      where: {
-        productId: { not: 'prod-1' },
-        scoreType: 'POPULARITY',
-      },
-      orderBy: { score: 'desc' },
-    })
+    expect(productsRepository.findRecommendationProducts.mock.calls[0]?.[1]).toBe(6)
+    expect(firstRecommendationFetch).not.toHaveProperty('categoryId')
+    expect(fallbackScoreFetch).toBe('prod-1')
     expect(secondRecommendationFetch).toMatchObject({
-      where: {
-        id: { in: ['prod-9'], not: 'prod-1' },
-        status: 'PUBLISHED',
-        deletedAt: null,
-      },
+      id: { in: ['prod-9'], not: 'prod-1' },
+      status: 'PUBLISHED',
+      deletedAt: null,
     })
+    expect(productsRepository.findRecommendationProducts.mock.calls[1]?.[1]).toBe(12)
     expect(firstRecommendationCallOrder).toBeGreaterThan(-1)
     expect(fallbackScoreCallOrder).toBeGreaterThan(-1)
     expect(secondRecommendationCallOrder).toBeGreaterThan(-1)

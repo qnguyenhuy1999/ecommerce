@@ -1,6 +1,5 @@
 import { ordersColumns } from './Orders.columns'
-import { ORDERS_STATUS_LABELS } from './Orders.constants'
-import { orderStatusTabs } from './Orders.fixtures'
+import { ORDERS_STATUS_LABELS, ORDER_STATUS_TABS } from './Orders.constants'
 import type { OrderRow, OrdersFilterParams, OrdersStatusTab } from './Orders.types'
 
 export { ordersColumns }
@@ -10,7 +9,7 @@ export function getOrdersStatusLabel(status: OrdersStatusTab) {
 }
 
 export function isOrdersStatusTab(value: string): value is OrdersStatusTab {
-  return orderStatusTabs.some((tab) => tab === value)
+  return ORDER_STATUS_TABS.some((tab) => tab === value)
 }
 
 export function buildOrderStatusCounts(orders: OrderRow[]): Record<OrdersStatusTab, number> {

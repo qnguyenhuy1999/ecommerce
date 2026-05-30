@@ -1,8 +1,7 @@
 import { Button } from '@ecom/core-ui/atoms/Button'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
-import type { DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
+import { StatusBadge, type DataTableColumn } from '@ecom/core-ui/organisms/DataTable'
 import { ArrowRight, Circle } from 'lucide-react'
-import { RefundStatusBadge } from './Disputes.client'
 import { getDisputePriorityDotClassName } from './Disputes.constants'
 import type { RefundRecord } from './Disputes.types'
 
@@ -70,7 +69,7 @@ export function buildRefundColumns({
     {
       accessorKey: 'status',
       header: 'Status',
-      cell: ({ row }) => <RefundStatusBadge status={row.original.status} />,
+      cell: ({ row }) => <StatusBadge status={row.original.status} />,
     },
     {
       id: 'actions',

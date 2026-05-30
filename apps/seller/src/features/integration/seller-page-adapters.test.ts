@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { test } from 'node:test'
+import { test } from 'vitest'
 import type { ProductDetailFormData } from '@ecom/ui-seller/pages/ProductDetail'
 import type { VoucherDetailFormData } from '@ecom/ui-seller/pages/VoucherDetail'
 import {

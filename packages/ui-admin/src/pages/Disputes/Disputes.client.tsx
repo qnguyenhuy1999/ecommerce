@@ -1,7 +1,6 @@
 'use client'
 
 import { Typography } from '@ecom/core-ui/atoms/Typography'
-import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
 import {
   Select,
   SelectContent,
@@ -18,14 +17,9 @@ import type {
   RefundCaseQueue,
   RefundRecord,
   RefundCaseResolution,
-  RefundStatus,
   RefundCaseFilterOption,
   RefundsProps,
 } from './Disputes.types'
-
-export function RefundStatusBadge({ status }: { status: RefundStatus }) {
-  return <StatusBadge status={status} />
-}
 
 function FilterSelect<TValue extends string>({
   label,

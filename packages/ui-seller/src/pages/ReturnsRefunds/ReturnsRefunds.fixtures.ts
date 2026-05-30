@@ -4,15 +4,10 @@ import type {
   ReturnsRefundsProps,
   ReturnsRefundsStatusTab,
 } from './ReturnsRefunds.types'
+import { RETURN_STATUS_TABS } from './ReturnsRefunds.constants'
 import { buildReturnStatusCounts, filterReturnsBySearchAndStatus } from './ReturnsRefunds.utils'
 
-export const returnStatusTabs = [
-  'ALL',
-  'OPEN',
-  'APPROVED',
-  'REFUNDED',
-  'REJECTED',
-] as const satisfies readonly ReturnsRefundsStatusTab[]
+export const returnStatusTabs = RETURN_STATUS_TABS satisfies readonly ReturnsRefundsStatusTab[]
 
 export const returnsPageRows: ReturnRow[] = [
   {

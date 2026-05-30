@@ -1,5 +1,4 @@
-import { returnStatusLabels } from './ReturnsRefunds.constants'
-import { returnStatusTabs } from './ReturnsRefunds.fixtures'
+import { RETURN_STATUS_TABS, returnStatusLabels } from './ReturnsRefunds.constants'
 import type {
   ReturnRow,
   ReturnsRefundsFilterParams,
@@ -13,7 +12,7 @@ export function getReturnStatusLabel(status: ReturnsRefundsStatusTab) {
 }
 
 export function isReturnsRefundsStatusTab(value: string): value is ReturnsRefundsStatusTab {
-  return returnStatusTabs.some((tab) => tab === value)
+  return RETURN_STATUS_TABS.some((tab) => tab === value)
 }
 
 export function filterReturnsBySearchAndStatus({

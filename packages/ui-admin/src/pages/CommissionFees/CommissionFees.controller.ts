@@ -1,6 +1,10 @@
 import { useCallback, useMemo, useState } from 'react'
-import type { DraftValues } from './CommissionFees.client'
-import type { CommissionFeesProps, CommissionRule, NewCommissionRule } from './CommissionFees.types'
+import type {
+  CommissionFeesProps,
+  CommissionRule,
+  DraftValues,
+  NewCommissionRule,
+} from './CommissionFees.types'
 
 function toDraft(rule: CommissionRule): DraftValues {
   return {

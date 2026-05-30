@@ -1,19 +1,12 @@
 import type { OrderRow, OrdersProps, OrdersStatusTab } from './Orders.types'
+import { ORDER_STATUS_TABS } from './Orders.constants'
 import {
   buildOrderStatusCounts,
   filterOrdersBySearchAndStatus,
   ordersColumns,
 } from './Orders.utils'
 
-export const orderStatusTabs = [
-  'ALL',
-  'TO_PAY',
-  'TO_SHIP',
-  'PACKING',
-  'SHIPPING',
-  'COMPLETED',
-  'CANCELLED',
-] as const satisfies readonly OrdersStatusTab[]
+export const orderStatusTabs = ORDER_STATUS_TABS satisfies readonly OrdersStatusTab[]
 
 export const ordersPageRows: OrderRow[] = [
   {

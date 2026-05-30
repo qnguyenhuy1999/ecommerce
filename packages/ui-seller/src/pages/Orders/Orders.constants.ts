@@ -1,5 +1,15 @@
 import type { OrdersStatusTab } from './Orders.types'
 
+export const ORDER_STATUS_TABS = [
+  'ALL',
+  'TO_PAY',
+  'TO_SHIP',
+  'PACKING',
+  'SHIPPING',
+  'COMPLETED',
+  'CANCELLED',
+] as const satisfies readonly OrdersStatusTab[]
+
 export const ORDERS_STATUS_LABELS: Record<OrdersStatusTab, string> = {
   ALL: 'All',
   TO_PAY: 'To pay',

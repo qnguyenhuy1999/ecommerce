@@ -40,13 +40,9 @@ import type {
   CommissionFeesProps,
   CommissionRule,
   CommissionRuleScope,
+  DraftValues,
   NewCommissionRule,
 } from './CommissionFees.types'
-
-export interface DraftValues {
-  commissionPct: string
-  paymentFeePct: string
-}
 
 function getInitialFormValues(): AddRuleSchemaValues {
   return {
