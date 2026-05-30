@@ -7,12 +7,12 @@ import {
   ApiOkResponseData,
   ApiCreatedResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { AffiliateService } from './affiliate.service'
 import { CreateAffiliateLinkDto, RequestPayoutDto } from './dto/affiliate.dto'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 
 @ApiTags('Seller/Affiliates')
 @ApiAuth()

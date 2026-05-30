@@ -11,13 +11,13 @@ import {
 } from '@nestjs/common'
 import { ApiNoContentResponse, ApiTags } from '@nestjs/swagger'
 import type { SessionData } from '@ecom/auth/session.service'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import {
-  ApiAuth,
   ApiCreatedResponseData,
   ApiOkResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
 import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import { AuthGuard } from '../auth/guards/auth.guard'
 import { ChatBuyerService } from './chat-buyer.service'

@@ -1,9 +1,10 @@
 import { PlatformEventStatus } from '@ecom/contracts/enums/system'
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
-import type { OffsetPaginationDTO } from '@ecom/shared/pagination/core'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
-import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
+import type { OffsetPaginationDTO } from '@ecom/shared/pagination/core/dto'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
+import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
 import { Injectable, NotFoundException } from '@nestjs/common'
 import type { EmitEventDto } from './dto/event-streaming.dto'
 @Injectable()

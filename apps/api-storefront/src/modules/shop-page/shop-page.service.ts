@@ -3,7 +3,7 @@ import { PrismaService, type Prisma } from '@ecom/database'
 import { ProductStatus, ReviewStatus } from '@ecom/contracts/enums/product'
 import { CouponStatus } from '@ecom/contracts/enums/promotion'
 import { ShopStatus } from '@ecom/contracts/enums/seller'
-import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
 import type { ShopProductsQueryDto, ShopReviewsQueryDto } from './dto/shop-page.dto'
 
 type ShopRecord = {

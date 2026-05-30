@@ -1,6 +1,6 @@
 import type { Prisma } from '@ecom/database'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
-import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
 import { BadRequestException, Injectable } from '@nestjs/common'
 import type { InventoryQueryDto } from './dto/inventory-query.dto'
 import { InventoryRepository } from './repositories/inventory.repository'

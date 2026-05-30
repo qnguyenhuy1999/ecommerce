@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
 import { IsOptional, IsBoolean, IsString } from 'class-validator'
 import { Type } from 'class-transformer'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 
 export class NotificationQueryDto extends OffsetPaginationDto {
   @ApiPropertyOptional()

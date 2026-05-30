@@ -18,9 +18,9 @@ import { getSessionCookieOptions, SESSION_COOKIE_NAME } from '@ecom/auth/cookie.
 import {
   ApiOkResponseData,
   ApiCreatedResponseData,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { AuthService } from './auth.service'
 import { AuthGuard } from './guards/auth.guard'
 import { LoginDto } from './dto/login.dto'

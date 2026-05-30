@@ -1,6 +1,6 @@
 import { IsOptional, IsString, IsEnum, IsInt, Min, Max } from 'class-validator'
 import { Type } from 'class-transformer'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 import { ReviewStatus } from '@ecom/contracts/enums/product'
 
 export class ReviewQueryDto extends OffsetPaginationDto {

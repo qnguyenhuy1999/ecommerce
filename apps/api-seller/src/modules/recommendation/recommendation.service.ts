@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
 import { PrismaService } from '@ecom/database'
 import { ProductStatus } from '@ecom/contracts/enums/product'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 
 @Injectable()
 export class RecommendationService {

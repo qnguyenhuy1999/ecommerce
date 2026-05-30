@@ -15,9 +15,9 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import {
   ApiOkResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { ShopService } from '../shop/shop.service'
 import { NotificationService } from './notification.service'
 import { NotificationQueryDto } from './dto/notification-query.dto'

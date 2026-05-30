@@ -6,9 +6,9 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import {
   ApiOkResponseData,
   ApiCreatedResponseData,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { ShopService } from '../shop/shop.service'
 import { MetricsService } from './metrics.service'
 

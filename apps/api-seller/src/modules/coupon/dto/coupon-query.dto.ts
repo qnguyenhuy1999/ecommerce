@@ -1,6 +1,6 @@
 import { IsOptional, IsString, IsEnum } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 import { CouponStatus, CouponType } from '@ecom/database'
 
 export class CouponQueryDto extends OffsetPaginationDto {

@@ -1,7 +1,7 @@
 import { IsEnum, IsOptional, IsString } from 'class-validator'
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { OrderStatus } from '@ecom/contracts/enums/order'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 
 export class OrderQueryDto extends OffsetPaginationDto {
   @ApiPropertyOptional({ enum: OrderStatus, description: 'Filter by order status' })

@@ -1,6 +1,6 @@
 import { api } from '@/lib/api'
 import type { ReviewStatus } from '@ecom/contracts/enums/product'
-import type { PaginatedResponse } from '@ecom/shared/pagination/core'
+import type { PaginatedResponse } from '@ecom/shared/pagination/core/types'
 
 export interface ReviewListItem {
   id: string

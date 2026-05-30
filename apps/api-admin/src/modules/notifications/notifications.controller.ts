@@ -15,9 +15,9 @@ import { NotificationResponseDto, NotificationTemplateResponseDto } from './dto/
 import {
   ApiOkResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 
 @ApiTags('Admin/Notifications')
 @Controller('notifications')

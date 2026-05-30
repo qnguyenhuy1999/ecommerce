@@ -1,9 +1,9 @@
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
 import {
-  ApiAuth,
-  ApiErrorResponses,
   ApiOkResponseData,
   ApiPaginatedResponse,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
 import { AUDIT_ACTIONS } from '@ecom/shared/constants/audit'
 import { withDefined } from '@ecom/shared/utils/optional-object'
 import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common'

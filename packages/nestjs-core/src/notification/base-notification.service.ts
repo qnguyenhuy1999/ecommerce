@@ -1,6 +1,7 @@
 import { PrismaService } from '@ecom/database'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
-import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
+import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
 import { Inject } from '@nestjs/common'
 
 type NotificationModel = {

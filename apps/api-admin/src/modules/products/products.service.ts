@@ -7,7 +7,8 @@ import {
   ProductStatus as PS,
   ProductReportStatus as PRS,
 } from '@ecom/contracts/enums/product'
-import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
+import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
 import { withDefined, nullable } from '@ecom/shared/utils/optional-object'
 
 @Injectable()

@@ -10,7 +10,7 @@ import {
   type RowSelectionState,
   type Table,
 } from '@tanstack/react-table'
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import type { PaginationMeta } from '@ecom/shared/pagination/core/types'
 import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { Input } from '../../atoms/Input'
 import { cn } from '../../lib/utils'

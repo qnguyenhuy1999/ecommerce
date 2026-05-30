@@ -32,17 +32,35 @@
       "import": "./src/pagination/core/index.ts",
       "default": "./src/pagination/core/index.ts"
     },
+    "./pagination/core/*": {
+      "types": "./src/pagination/core/*.ts",
+      "development": "./src/pagination/core/*.ts",
+      "import": "./src/pagination/core/*.ts",
+      "default": "./src/pagination/core/*.ts"
+    },
     "./pagination/nestjs": {
       "types": "./src/pagination/nestjs/index.ts",
       "development": "./src/pagination/nestjs/index.ts",
       "import": "./src/pagination/nestjs/index.ts",
       "default": "./src/pagination/nestjs/index.ts"
     },
+    "./pagination/nestjs/*": {
+      "types": "./src/pagination/nestjs/*.ts",
+      "development": "./src/pagination/nestjs/*.ts",
+      "import": "./src/pagination/nestjs/*.ts",
+      "default": "./src/pagination/nestjs/*.ts"
+    },
     "./pagination/prisma": {
       "types": "./src/pagination/prisma/index.ts",
       "development": "./src/pagination/prisma/index.ts",
       "import": "./src/pagination/prisma/index.ts",
       "default": "./src/pagination/prisma/index.ts"
+    },
+    "./pagination/prisma/*": {
+      "types": "./src/pagination/prisma/*.ts",
+      "development": "./src/pagination/prisma/*.ts",
+      "import": "./src/pagination/prisma/*.ts",
+      "default": "./src/pagination/prisma/*.ts"
     },
     "./pagination/react": {
       "types": "./src/pagination/react/index.ts",

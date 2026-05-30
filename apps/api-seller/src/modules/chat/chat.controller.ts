@@ -16,10 +16,10 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator'
 import {
   ApiOkResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
-import { ApiCreatedResponseData } from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
+import { ApiCreatedResponseData } from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
 import { ShopService } from '../shop/shop.service'
 import { ChatService } from './chat.service'
 import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto'

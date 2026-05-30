@@ -25,17 +25,41 @@
       "import": "./src/openapi/index.ts",
       "default": "./src/openapi/index.ts"
     },
+    "./openapi/*": {
+      "types": "./src/openapi/*.ts",
+      "development": "./src/openapi/*.ts",
+      "import": "./src/openapi/*.ts",
+      "default": "./src/openapi/*.ts"
+    },
+    "./openapi/*/*": {
+      "types": "./src/openapi/*/*.ts",
+      "development": "./src/openapi/*/*.ts",
+      "import": "./src/openapi/*/*.ts",
+      "default": "./src/openapi/*/*.ts"
+    },
     "./notification": {
       "types": "./src/notification/index.ts",
       "development": "./src/notification/index.ts",
       "import": "./src/notification/index.ts",
       "default": "./src/notification/index.ts"
     },
+    "./notification/*": {
+      "types": "./src/notification/*.ts",
+      "development": "./src/notification/*.ts",
+      "import": "./src/notification/*.ts",
+      "default": "./src/notification/*.ts"
+    },
     "./chat": {
       "types": "./src/chat/index.ts",
       "development": "./src/chat/index.ts",
       "import": "./src/chat/index.ts",
       "default": "./src/chat/index.ts"
+    },
+    "./chat/*": {
+      "types": "./src/chat/*.ts",
+      "development": "./src/chat/*.ts",
+      "import": "./src/chat/*.ts",
+      "default": "./src/chat/*.ts"
     },
     "./request-context": {
       "types": "./src/request-context/index.ts",

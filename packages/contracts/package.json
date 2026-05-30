@@ -58,6 +58,12 @@
       "development": "./src/generated/index.ts",
       "import": "./src/generated/index.ts",
       "default": "./src/generated/index.ts"
+    },
+    "./generated/*": {
+      "types": "./src/generated/*.ts",
+      "development": "./src/generated/*.ts",
+      "import": "./src/generated/*.ts",
+      "default": "./src/generated/*.ts"
     }
   },
   "scripts": {

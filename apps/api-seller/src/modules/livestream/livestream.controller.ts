@@ -7,13 +7,13 @@ import {
   ApiOkResponseData,
   ApiCreatedResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { ShopService } from '../shop/shop.service'
 import { LivestreamService } from './livestream.service'
 import { CreateLivestreamDto, AddLivestreamProductDto, PinProductDto } from './dto/livestream.dto'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 
 @ApiTags('Seller/Livestream')
 @ApiAuth()

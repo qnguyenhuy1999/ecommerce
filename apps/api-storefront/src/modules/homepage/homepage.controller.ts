@@ -1,6 +1,7 @@
 import { Controller, Get } from '@nestjs/common'
 import { ApiTags, ApiOperation } from '@nestjs/swagger'
-import { ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiOkResponseData } from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
 import { HomepageDto } from './dto/homepage.dto'
 import { HomepageService } from './homepage.service'
 

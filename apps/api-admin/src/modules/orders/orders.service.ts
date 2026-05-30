@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { Prisma } from '@ecom/database'
 import { type OrderStatus, OrderStatus as OS } from '@ecom/contracts/enums/order'
-import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
 import { OrdersRepository } from './repositories/orders.repository'
 
 @Injectable()

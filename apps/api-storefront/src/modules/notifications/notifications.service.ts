@@ -1,5 +1,5 @@
 import { PrismaService } from '@ecom/database'
-import { BaseNotificationService } from '@ecom/nestjs-core/notification'
+import { BaseNotificationService } from '@ecom/nestjs-core/notification/base-notification.service'
 import { Injectable } from '@nestjs/common'
 
 @Injectable()

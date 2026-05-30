@@ -2,7 +2,7 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { getAuditLogs, type AuditLog } from '../api/audit-logs.api'
-import type { PaginatedResponse } from '@ecom/shared/pagination/core'
+import type { PaginatedResponse } from '@ecom/shared/pagination/core/types'
 
 export function useAuditLogs(params: { page?: number; limit?: number; action?: string }) {
   return useQuery<PaginatedResponse<AuditLog>>({

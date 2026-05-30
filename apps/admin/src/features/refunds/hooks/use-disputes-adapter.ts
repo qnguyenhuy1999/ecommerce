@@ -2,7 +2,7 @@
 
 import type { RefundsProps } from '@ecom/ui-admin/pages/Disputes'
 import { useRouter } from 'next/navigation'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 import { useRefunds } from '../hooks/use-refunds'
 import { mapRefundToRefundRecord } from '../mappers/dispute.mapper'
 

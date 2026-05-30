@@ -1,4 +1,4 @@
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import type { PaginationMeta } from '@ecom/shared/pagination/core/types'
 
 export const orderStatuses = [
   'PENDING',

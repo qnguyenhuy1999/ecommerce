@@ -1,12 +1,12 @@
 import { Body, Controller, Get, Param, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import {
-  ApiAuth,
   ApiCreatedResponseData,
-  ApiErrorResponses,
   ApiOkResponseData,
   ApiPaginatedResponse,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
 import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'
 import { PermissionGuard } from '../auth/guards/permission.guard'

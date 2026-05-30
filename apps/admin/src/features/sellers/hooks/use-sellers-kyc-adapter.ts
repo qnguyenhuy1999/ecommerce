@@ -2,7 +2,7 @@
 
 import type { SellerKycProps } from '@ecom/ui-admin/pages/SellersKyc'
 import { useRouter } from 'next/navigation'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 import { useSellers, useSellerStatusCounts } from '../hooks/use-sellers'
 import { mapSellerToKycRow, buildSellerKycStatusTabs } from '../mappers/seller-kyc.mapper'
 

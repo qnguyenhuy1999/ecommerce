@@ -2,9 +2,9 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import type { Prisma } from '@ecom/database'
 import { OrderStatus } from '@ecom/contracts/enums/order'
 import { InventoryTransactionType } from '@ecom/contracts/enums/inventory'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 import type { OrderQueryDto } from './dto/order-query.dto'
-import { buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
 import { OrderRepository } from './repositories/order.repository'
 
 const VALID_TRANSITIONS: Record<OrderStatus, readonly OrderStatus[]> = {

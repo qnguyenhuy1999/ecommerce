@@ -6,7 +6,9 @@ import { PermissionGuard } from '../auth/guards/permission.guard'
 import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AnalyticsQueryDto } from './dto/dashboard.dto'
 import { DashboardMetricsDto, DashboardAnalyticsDto } from './dto/dashboard.dto'
-import { ApiOkResponseData, ApiErrorResponses, ApiAuth } from '@ecom/nestjs-core/openapi'
+import { ApiOkResponseData } from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 
 @ApiTags('Admin/Dashboard')
 @Controller('dashboard')

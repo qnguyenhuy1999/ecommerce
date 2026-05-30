@@ -9,9 +9,9 @@
  *
  * Usage in frontend code (Phase 3+):
  *
- *   import type { paths as AdminPaths } from '@ecom/contracts/generated/admin'
- *   import type { paths as SellerPaths } from '@ecom/contracts/generated/seller'
- *   import type { paths as StorefrontPaths } from '@ecom/contracts/generated/storefront'
+ *   import type { paths as AdminPaths } from '@ecom/contracts/generated'
+ *   import type { paths as SellerPaths } from '@ecom/contracts/generated'
+ *   import type { paths as StorefrontPaths } from '@ecom/contracts/generated'
  *
  *   // Extract a specific endpoint response type:
  *   type LoginResponse =

@@ -6,7 +6,7 @@ import { ChatService } from './chat.service'
 import { ChatGateway } from './chat.gateway'
 import { AuthModule } from '../auth/auth.module'
 import { ShopModule } from '../shop/shop.module'
-import { ChatModule as EcomChatModule } from '@ecom/nestjs-core/chat'
+import { ChatModule as EcomChatModule } from '@ecom/nestjs-core/chat/chat.module'
 
 @Module({
   imports: [

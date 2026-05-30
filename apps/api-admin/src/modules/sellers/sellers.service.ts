@@ -2,7 +2,8 @@ import { Injectable, NotFoundException, BadRequestException } from '@nestjs/comm
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
 import { type SellerStatus, SellerStatus as SS } from '@ecom/contracts/enums/seller'
-import { offsetPaginate, buildOffsetResponse } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
+import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
 import { withDefined, nullable } from '@ecom/shared/utils/optional-object'
 
 @Injectable()

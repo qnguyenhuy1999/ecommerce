@@ -1,5 +1,5 @@
 import { api } from '@/lib/api'
-import type { PaginatedResponse } from '@ecom/shared/pagination/core'
+import type { PaginatedResponse } from '@ecom/shared/pagination/core/types'
 
 export interface RefundListItem {
   id: string

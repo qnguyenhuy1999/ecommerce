@@ -1,9 +1,10 @@
 import { PrismaService } from '@ecom/database'
 import { type AdminNotificationStatus, type NotificationChannel, type Prisma } from '@ecom/database'
-import { buildOffsetResponse, offsetPaginate } from '@ecom/shared/pagination/prisma'
+import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
+import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
 import { withDefined } from '@ecom/shared/utils/optional-object'
 import { Inject, Injectable, NotFoundException } from '@nestjs/common'
-import { NotificationProducer } from '@ecom/nestjs-core/notification'
+import { NotificationProducer } from '@ecom/nestjs-core/notification/notification.producer'
 
 @Injectable()
 export class NotificationsService {

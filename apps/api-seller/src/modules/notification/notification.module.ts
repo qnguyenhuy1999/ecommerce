@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { NotificationModule as SharedNotificationModule } from '@ecom/nestjs-core/notification'
+import { NotificationModule as SharedNotificationModule } from '@ecom/nestjs-core/notification/notification.module'
 import { AuthModule } from '../auth/auth.module'
 import { ShopModule } from '../shop/shop.module'
 import { NotificationController } from './notification.controller'

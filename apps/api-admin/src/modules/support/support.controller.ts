@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common'
 import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
 import {
-  ApiAuth,
-  ApiErrorResponses,
   ApiOkResponseData,
   ApiPaginatedResponse,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
 import { CurrentAdmin, type AdminSessionData } from '../auth/decorators/current-admin.decorator'
 import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AdminAuthGuard } from '../auth/guards/admin-auth.guard'

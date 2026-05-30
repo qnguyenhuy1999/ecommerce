@@ -1,6 +1,6 @@
 import { IsOptional, IsBoolean, IsEnum } from 'class-validator'
 import { Type } from 'class-transformer'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 import { NotificationType } from '@ecom/database'
 
 export class NotificationQueryDto extends OffsetPaginationDto {

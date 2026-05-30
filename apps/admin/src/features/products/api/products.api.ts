@@ -1,7 +1,7 @@
 import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 import type { ProductStatus } from '@ecom/contracts/enums/product'
-import type { PaginatedResponse } from '@ecom/shared/pagination/core'
+import type { PaginatedResponse } from '@ecom/shared/pagination/core/types'
 
 export interface ProductListItem {
   id: string

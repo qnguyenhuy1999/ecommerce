@@ -1,7 +1,7 @@
 'use client'
 
 import type { VouchersProps } from '@ecom/ui-admin/pages/Campaigns'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 import { useVouchers } from '../hooks/use-promotions'
 import { mapVoucherToVoucherRecord } from '../mappers/campaign.mapper'
 

@@ -8,13 +8,13 @@ import {
   ApiOkResponseData,
   ApiCreatedResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { ShopService } from '../shop/shop.service'
 import { AdsService } from './ads.service'
 import { CreateAdCampaignDto, CreateAdGroupDto, CreateAdDto } from './dto/create-ad-campaign.dto'
-import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs'
+import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 import { AdCampaignStatus } from '@ecom/database'
 
 class UpdateAdCampaignStatusDto {

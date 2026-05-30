@@ -15,7 +15,7 @@ import {
 } from '@ecom/nestjs-core/nestjs/websocket/chat-gateway.utils'
 import { REDIS_CLIENT } from '@ecom/redis'
 import type Redis from 'ioredis'
-import { BaseChatGateway, SESSION_SERVICE } from '@ecom/nestjs-core/chat'
+import { BaseChatGateway, SESSION_SERVICE } from '@ecom/nestjs-core/chat/base-chat.gateway'
 import { ChatAdminService } from './chat-admin.service'
 import { CHAT_MESSAGE_CREATED_CHANNEL } from '@ecom/shared/constants/events'
 

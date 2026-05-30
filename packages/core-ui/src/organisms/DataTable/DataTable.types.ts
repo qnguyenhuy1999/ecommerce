@@ -1,4 +1,4 @@
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import type { PaginationMeta } from '@ecom/shared/pagination/core/types'
 import type { RowData, TableOptions } from '@tanstack/react-table'
 
 export type DataTableColumn<T extends RowData> = TableOptions<T>['columns'][number]

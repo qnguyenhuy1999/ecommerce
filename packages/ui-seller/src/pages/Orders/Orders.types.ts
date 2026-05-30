@@ -1,5 +1,5 @@
 import type { DataTableProps } from '@ecom/core-ui/organisms/DataTable'
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import type { PaginationMeta } from '@ecom/shared/pagination/core/types'
 
 export type OrdersStatusTab =
   | 'ALL'

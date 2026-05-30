@@ -1,7 +1,7 @@
 'use client'
 
 import type { ReviewRecord, ReviewsProps } from '@ecom/ui-admin/pages/Reviews'
-import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core'
+import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 import {
   useReviews,
   useReviewStatusCounts,

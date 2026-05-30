@@ -6,7 +6,9 @@ import { PermissionGuard } from '../auth/guards/permission.guard'
 import { Permissions } from '../auth/decorators/permissions.decorator'
 import { AuditLogQueryDto } from './dto/audit-log-query.dto'
 import { AuditLogResponseDto } from './dto/audit-log-query.dto'
-import { ApiPaginatedResponse, ApiErrorResponses, ApiAuth } from '@ecom/nestjs-core/openapi'
+import { ApiPaginatedResponse } from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 
 @ApiTags('Admin/Audit-logs')
 @Controller('audit-logs')

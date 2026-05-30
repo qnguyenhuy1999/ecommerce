@@ -4,9 +4,9 @@ import { AuthGuard } from '../auth/guards/auth.guard'
 import {
   ApiOkResponseData,
   ApiCreatedResponseData,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { I18nService } from './i18n.service'
 import { CreateTranslationDto } from './dto/i18n.dto'
 

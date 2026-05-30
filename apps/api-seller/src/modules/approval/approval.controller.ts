@@ -7,9 +7,9 @@ import {
   ApiOkResponseData,
   ApiCreatedResponseData,
   ApiPaginatedResponse,
-  ApiErrorResponses,
-  ApiAuth,
-} from '@ecom/nestjs-core/openapi'
+} from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiAuth } from '@ecom/nestjs-core/openapi/decorators/api-auth.decorator'
 import { ShopService } from '../shop/shop.service'
 import { ApprovalService } from './approval.service'
 import { ApprovalQueryDto } from './dto/approval-query.dto'

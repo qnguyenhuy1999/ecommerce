@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { Download, Upload } from 'lucide-react'
 import { Button } from '@ecom/core-ui/atoms/Button'
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import type { PaginationMeta } from '@ecom/shared/pagination/core/types'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { bulkColumns } from './Bulk.utils'
 import type { BulkJobRow, BulkProps } from './Bulk.types'

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { buildSwaggerDocument } from '@ecom/nestjs-core/openapi'
+import { buildSwaggerDocument } from '@ecom/nestjs-core/openapi/builders/swagger.builder'
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import * as fs from 'node:fs'

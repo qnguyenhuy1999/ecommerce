@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { PrismaService, Prisma } from '@ecom/database'
 import { type OrderStatus } from '@ecom/contracts/enums/order'
-import { offsetPaginate } from '@ecom/shared/pagination/prisma'
+import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
 import { withDefined } from '@ecom/shared/utils/optional-object'
 
 @Injectable()

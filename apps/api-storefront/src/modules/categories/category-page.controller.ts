@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
 import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ApiErrorResponses, ApiOkResponseData } from '@ecom/nestjs-core/openapi'
+import { ApiErrorResponses } from '@ecom/nestjs-core/openapi/decorators/api-error-responses.decorator'
+import { ApiOkResponseData } from '@ecom/nestjs-core/openapi/decorators/api-response.decorator'
 import { CategoryPageService } from './category-page.service'
 import type { CategoryPageQueryDto } from './dto/category-page.dto'
 import { CategoryListItemDto, CategoryPageResponseDto } from './dto/category-page.dto'

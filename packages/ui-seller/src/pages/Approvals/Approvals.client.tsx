@@ -1,7 +1,7 @@
 'use client'
 
 import { startTransition, useMemo, useState } from 'react'
-import type { PaginationMeta } from '@ecom/shared/pagination/core'
+import type { PaginationMeta } from '@ecom/shared/pagination/core/types'
 import { SellerListPage } from '../../organisms/SellerListPage'
 import { makeApprovalsColumns } from './Approvals.utils'
 import { APPROVAL_STATUS_OPTIONS } from './Approvals.constants'
