@@ -1,12 +1,19 @@
 import {
   createProduct,
   getProductCategories as getProductCategoriesBase,
-  getProductsList,
+  getProductsList as getProductsListBase,
 } from '../integration/seller-page-api'
 
-export async function getProductCategories() {
-  const categories = await getProductCategoriesBase()
+export async function getProductCategories(init?: RequestInit) {
+  const categories = await getProductCategoriesBase(init)
   return categories.items
 }
 
-export { createProduct, getProductsList }
+export function getProductsList(
+  params: { limit?: number; page?: number; search?: string; status?: string } = {},
+  init?: RequestInit,
+) {
+  return getProductsListBase(params, init)
+}
+
+export { createProduct }

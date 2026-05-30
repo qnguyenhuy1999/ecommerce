@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
 export interface AuditLog {
@@ -23,7 +23,7 @@ export async function getAuditLogs(params: { page?: number; limit?: number; acti
   if (params.page) query.set('page', String(params.page))
   if (params.limit) query.set('limit', String(params.limit))
   if (params.action) query.set('action', params.action)
-  return apiFetch<{ success: boolean; data: PaginatedResponse<AuditLog> }>(
+  return api<{ success: boolean; data: PaginatedResponse<AuditLog> }>(
     `/admin/audit-logs?${query.toString()}`,
   )
 }

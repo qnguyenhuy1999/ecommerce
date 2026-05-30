@@ -187,14 +187,24 @@ export async function getDashboardBundle() {
   }
 }
 
-export async function getAnalyticsBundle(rangeParams: { startDate: string; endDate: string }) {
+export async function getAnalyticsBundle(
+  rangeParams: { startDate: string; endDate: string },
+  init?: RequestInit,
+) {
   const [revenue, orders, products, conversion] = await Promise.all([
-    api<ApiEnvelope<SellerRevenueAnalytics>>('/analytics/revenue', { params: rangeParams }),
-    api<ApiEnvelope<SellerOrderAnalytics>>('/analytics/orders', { params: rangeParams }),
-    api<ApiEnvelope<SellerProductPerformanceItem[]>>('/analytics/products', {
+    api<ApiEnvelope<SellerRevenueAnalytics>>('/analytics/revenue', {
+      ...init,
       params: rangeParams,
     }),
-    api<ApiEnvelope<SellerConversionMetrics>>('/analytics/conversion', { params: rangeParams }),
+    api<ApiEnvelope<SellerOrderAnalytics>>('/analytics/orders', { ...init, params: rangeParams }),
+    api<ApiEnvelope<SellerProductPerformanceItem[]>>('/analytics/products', {
+      ...init,
+      params: rangeParams,
+    }),
+    api<ApiEnvelope<SellerConversionMetrics>>('/analytics/conversion', {
+      ...init,
+      params: rangeParams,
+    }),
   ])
 
   return {
@@ -205,13 +215,15 @@ export async function getAnalyticsBundle(rangeParams: { startDate: string; endDa
   }
 }
 
-export async function getFinanceBundle() {
+export async function getFinanceBundle(init?: RequestInit) {
   const [wallet, transactions, withdrawals] = await Promise.all([
-    api<ApiEnvelope<SellerWallet>>('/wallet'),
+    api<ApiEnvelope<SellerWallet>>('/wallet', init),
     api<PaginatedEnvelope<SellerWalletTransaction>>('/wallet/transactions', {
+      ...init,
       params: { limit: 20 },
     }),
     api<PaginatedEnvelope<SellerWalletWithdrawal>>('/wallet/withdrawals', {
+      ...init,
       params: { limit: 20 },
     }),
   ])
@@ -223,10 +235,13 @@ export async function getFinanceBundle() {
   }
 }
 
-export async function getMetricsBundle() {
+export async function getMetricsBundle(init?: RequestInit) {
   const [current, history] = await Promise.all([
-    api<ApiEnvelope<SellerMetricsCurrent>>('/metrics'),
-    api<ApiEnvelope<SellerMetricHistoryItem[]>>('/metrics/history', { params: { days: 30 } }),
+    api<ApiEnvelope<SellerMetricsCurrent>>('/metrics', init),
+    api<ApiEnvelope<SellerMetricHistoryItem[]>>('/metrics/history', {
+      ...init,
+      params: { days: 30 },
+    }),
   ])
 
   return {
@@ -235,8 +250,8 @@ export async function getMetricsBundle() {
   }
 }
 
-export async function getShopProfile() {
-  const response = await api<ApiEnvelope<SellerShop>>('/shop')
+export async function getShopProfile(init?: RequestInit) {
+  const response = await api<ApiEnvelope<SellerShop>>('/shop', init)
   return response.data
 }
 
@@ -247,8 +262,9 @@ export async function updateShopProfile(payload: Record<string, string | undefin
   })
 }
 
-export async function getVouchersBundle() {
+export async function getVouchersBundle(init?: RequestInit) {
   const response = await api<PaginatedEnvelope<SellerCoupon>>('/coupons', {
+    ...init,
     params: { limit: 50 },
   })
 
@@ -262,8 +278,8 @@ export async function createVoucher(payload: CreateCouponPayload) {
   })
 }
 
-export async function getProductCategories() {
-  const response = await api<ApiEnvelope<SellerCategory[]>>('/products/categories')
+export async function getProductCategories(init?: RequestInit) {
+  const response = await api<ApiEnvelope<SellerCategory[]>>('/products/categories', init)
   return response.data
 }
 
@@ -274,8 +290,11 @@ export async function createProduct(payload: CreateProductPayload, status: Produ
   })
 }
 
-export async function getApprovals(limit: number = 50) {
-  const response = await api<ApiEnvelope<SellerApproval[]>>('/approvals', { params: { limit } })
+export async function getApprovals(limit: number = 50, init?: RequestInit) {
+  const response = await api<ApiEnvelope<SellerApproval[]>>('/approvals', {
+    ...init,
+    params: { limit },
+  })
   return response.data
 }
 
@@ -283,8 +302,11 @@ export async function resubmitApproval(approvalId: string) {
   await api(`/approvals/${approvalId}/resubmit`, { method: 'POST' })
 }
 
-export async function getBulkJobs(limit: number = 50) {
-  const response = await api<ApiEnvelope<SellerBulkJob[]>>('/bulk/jobs', { params: { limit } })
+export async function getBulkJobs(limit: number = 50, init?: RequestInit) {
+  const response = await api<ApiEnvelope<SellerBulkJob[]>>('/bulk/jobs', {
+    ...init,
+    params: { limit },
+  })
   return response.data
 }
 
@@ -302,10 +324,14 @@ export async function createBulkImport(file: File) {
   await api('/bulk/import', { method: 'POST', body: formData })
 }
 
-export async function getNotifications(params: { page?: number; limit?: number } = {}) {
+export async function getNotifications(
+  params: { page?: number; limit?: number } = {},
+  init?: RequestInit,
+) {
   const page = params.page ?? 1
   const limit = params.limit ?? 50
   const response = await api<ApiEnvelope<SellerNotification[]>>('/notifications', {
+    ...init,
     params: { page, limit },
   })
 
@@ -320,8 +346,8 @@ export async function markAllNotificationsRead() {
   await api('/notifications/read-all', { method: 'POST' })
 }
 
-export async function getWarehouses() {
-  const response = await api<ApiEnvelope<SellerWarehouse[]>>('/warehouses')
+export async function getWarehouses(init?: RequestInit) {
+  const response = await api<ApiEnvelope<SellerWarehouse[]>>('/warehouses', init)
   return response.data
 }
 
@@ -339,10 +365,12 @@ export async function getProductsList(
     search?: string
     status?: string
   } = {},
+  init?: RequestInit,
 ) {
   const page = params.page ?? 1
   const limit = params.limit ?? 100
   const response = await api<ApiEnvelope<unknown>>('/products', {
+    ...init,
     params: {
       page,
       limit,
@@ -364,10 +392,12 @@ export async function getOrdersList(
     search?: string
     status?: string
   } = {},
+  init?: RequestInit,
 ) {
   const page = params.page ?? 1
   const limit = params.limit ?? 20
   const response = await api<ApiEnvelope<unknown>>('/orders', {
+    ...init,
     params: {
       page,
       limit,
@@ -382,9 +412,10 @@ export async function getOrdersList(
   }
 }
 
-export async function getOrderDetail(orderId: string) {
+export async function getOrderDetail(orderId: string, init?: RequestInit) {
   const response = await api<ApiEnvelope<SellerOrderDetail> | { data?: SellerOrderDetail }>(
     `/orders/${orderId}`,
+    init,
   )
 
   if ('data' in response && response.data) {
@@ -401,18 +432,19 @@ export async function updateOrderStatus(orderId: string, payload: UpdateOrderSta
   })
 }
 
-export async function getInventory(limit: number = 100) {
+export async function getInventory(limit: number = 100, init?: RequestInit) {
   const response = await api<ApiEnvelope<unknown>>('/inventory', {
+    ...init,
     params: { limit },
   })
 
   return getItems<SellerInventoryItem>(response.data)
 }
 
-export async function getReviewsBundle(limit: number = 100) {
+export async function getReviewsBundle(limit: number = 100, init?: RequestInit) {
   const [reviewsResponse, analyticsResponse] = await Promise.all([
-    api<ApiEnvelope<SellerReview[]>>('/reviews', { params: { limit } }),
-    api<SellerReviewAnalytics>('/reviews/analytics'),
+    api<ApiEnvelope<SellerReview[]>>('/reviews', { ...init, params: { limit } }),
+    api<SellerReviewAnalytics>('/reviews/analytics', init),
   ])
 
   return {
@@ -428,8 +460,9 @@ export async function replyToReview(reviewId: string, message: string) {
   })
 }
 
-export async function getReturns(limit: number = 100) {
+export async function getReturns(limit: number = 100, init?: RequestInit) {
   const response = await api<ApiEnvelope<SellerReturn[]>>('/returns', {
+    ...init,
     params: { page: 1, limit },
   })
 
@@ -443,10 +476,10 @@ export async function updateReturnStatus(returnId: string, status: string) {
   })
 }
 
-export async function getShippingBundle() {
+export async function getShippingBundle(init?: RequestInit) {
   const [providersResponse, methodsResponse] = await Promise.all([
-    api<ApiEnvelope<SellerShippingProvider[]>>('/shipping/providers'),
-    api<ApiEnvelope<SellerShippingMethod[]>>('/shipping/methods'),
+    api<ApiEnvelope<SellerShippingProvider[]>>('/shipping/providers', init),
+    api<ApiEnvelope<SellerShippingMethod[]>>('/shipping/methods', init),
   ])
 
   return {

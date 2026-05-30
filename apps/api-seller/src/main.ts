@@ -42,9 +42,6 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
-      transformOptions: {
-        enableImplicitConversion: true,
-      },
     }),
   )
 
@@ -54,7 +51,7 @@ async function bootstrap() {
   const document = buildSwaggerDocument(app, {
     title: 'Seller Center API',
     description: 'API for the multi-vendor marketplace Seller Center',
-    version: '1.0',
+    version: '1.0.0',
     path: 'docs',
   })
 

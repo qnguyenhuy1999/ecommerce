@@ -5,7 +5,7 @@ import { getApprovals, resubmitApproval } from '../api'
 import { mapApprovalsToRows } from '../mappers'
 import { approvalKeys } from '../query-keys'
 
-export function useApprovalsAdapter() {
+export function useApprovalsAdapter(initialData?: ReturnType<typeof mapApprovalsToRows>) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
@@ -14,6 +14,7 @@ export function useApprovalsAdapter() {
       const items = await getApprovals()
       return mapApprovalsToRows(items)
     },
+    initialData,
   })
 
   const resubmitMutation = useMutation({

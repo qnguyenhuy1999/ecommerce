@@ -1,32 +1,17 @@
-'use client'
+import { headers } from 'next/headers'
+import { getOrderDetail } from '@/features/orders/api'
+import { mapOrderDetail } from '@/features/orders/mappers'
+import { OrderDetailPageClient } from './_components/OrderDetailPage.client'
 
-import { OrderDetail } from '@ecom/ui-seller/pages/OrderDetail'
-import { useOrderDetailAdapter } from '@/features/orders/hooks/use-order-detail-adapter'
+interface OrderDetailPageProps {
+  params: Promise<{ id: string }>
+}
 
-export default function SellerOrderDetailPage({ params }: { params: { id: string } }) {
-  const {
-    loading,
-    order,
-    statusActions,
-    actionInFlight,
-    onStatusAction,
-    backHref,
-    breadcrumb,
-    emptyMessage,
-  } = useOrderDetailAdapter(params.id)
-
-  return (
-    <OrderDetail
-      title="Order detail"
-      description="Review items, buyer information, and update fulfillment progress."
-      breadcrumb={breadcrumb}
-      backHref={backHref}
-      order={order}
-      loading={loading}
-      statusActions={statusActions}
-      actionInFlight={actionInFlight}
-      onStatusAction={onStatusAction}
-      emptyMessage={emptyMessage}
-    />
-  )
+export default async function OrderDetailPage({ params }: OrderDetailPageProps) {
+  const { id } = await params
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const order = await getOrderDetail(id, init)
+  const initialData = order ? mapOrderDetail(order) : null
+  return <OrderDetailPageClient orderId={id} initialData={initialData} />
 }

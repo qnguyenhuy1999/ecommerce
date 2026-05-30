@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { ReviewStatus } from '@ecom/contracts'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
@@ -18,25 +18,23 @@ export async function getReviews(params: { page?: number; limit?: number; status
   if (params.page) query.set('page', String(params.page))
   if (params.limit) query.set('limit', String(params.limit))
   if (params.status) query.set('status', params.status)
-  return apiFetch<{ success: boolean; data: PaginatedResponse<ReviewListItem> }>(
+  return api<{ success: boolean; data: PaginatedResponse<ReviewListItem> }>(
     `/admin/reviews?${query.toString()}`,
   )
 }
 
 export async function getReviewStatusCounts() {
-  return apiFetch<{ success: boolean; data: Record<string, number> }>(
-    '/admin/reviews/status-counts',
-  )
+  return api<{ success: boolean; data: Record<string, number> }>('/admin/reviews/status-counts')
 }
 
 export async function approveReview(id: string) {
-  return apiFetch<{ success: boolean }>(`/admin/reviews/${id}/approve`, { method: 'POST' })
+  return api<{ success: boolean }>(`/admin/reviews/${id}/approve`, { method: 'POST' })
 }
 
 export async function hideReview(id: string) {
-  return apiFetch<{ success: boolean }>(`/admin/reviews/${id}/hide`, { method: 'POST' })
+  return api<{ success: boolean }>(`/admin/reviews/${id}/hide`, { method: 'POST' })
 }
 
 export async function rejectReview(id: string) {
-  return apiFetch<{ success: boolean }>(`/admin/reviews/${id}/reject`, { method: 'POST' })
+  return api<{ success: boolean }>(`/admin/reviews/${id}/reject`, { method: 'POST' })
 }

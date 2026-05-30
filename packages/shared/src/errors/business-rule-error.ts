@@ -1,4 +1,4 @@
-import { AppError } from './app-error.js'
+import { AppError } from './app-error'
 
 /**
  * Thrown when a business rule is violated (e.g., insufficient stock, order already shipped).

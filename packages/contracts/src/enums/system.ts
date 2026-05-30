@@ -15,6 +15,7 @@ export const NotificationType = {
   LOW_STOCK: 'LOW_STOCK',
   PRODUCT_REJECTED: 'PRODUCT_REJECTED',
   SYSTEM: 'SYSTEM',
+  MESSAGE: 'MESSAGE',
 } as const
 
 export type NotificationType = (typeof NotificationType)[keyof typeof NotificationType]
@@ -24,6 +25,7 @@ export const NotificationChannel = {
   IN_APP: 'IN_APP',
   EMAIL: 'EMAIL',
   PUSH: 'PUSH',
+  SMS: 'SMS',
 } as const
 
 export type NotificationChannel = (typeof NotificationChannel)[keyof typeof NotificationChannel]
@@ -36,6 +38,7 @@ export const UserNotificationType = {
   ORDER_CANCELLED: 'ORDER_CANCELLED',
   RETURN_APPROVED: 'RETURN_APPROVED',
   SYSTEM: 'SYSTEM',
+  NEW_MESSAGE: 'NEW_MESSAGE',
 } as const
 
 export type UserNotificationType = (typeof UserNotificationType)[keyof typeof UserNotificationType]

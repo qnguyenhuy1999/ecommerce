@@ -1,3 +1,5 @@
+'use client'
+
 import { useCallback, useEffect, useRef } from 'react'
 import { useForm, useWatch, zodResolver } from '@ecom/core-ui'
 import { slugify } from '@ecom/shared/utils'

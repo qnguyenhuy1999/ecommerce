@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations, AdminComponents } from '@ecom/contracts/generated'
 
 type DashboardMetricsResponse =
@@ -12,10 +12,10 @@ export type DashboardMetrics = AdminComponents['schemas']['DashboardMetricsDto']
 export type DashboardAnalytics = AdminComponents['schemas']['DashboardAnalyticsDto']
 
 export async function getDashboardMetrics() {
-  return apiFetch<DashboardMetricsResponse>('/admin/dashboard/metrics')
+  return api<DashboardMetricsResponse>('/admin/dashboard/metrics')
 }
 
 export async function getDashboardAnalytics(period?: string) {
   const query = period ? `?period=${period}` : ''
-  return apiFetch<DashboardAnalyticsResponse>(`/admin/dashboard/analytics${query}`)
+  return api<DashboardAnalyticsResponse>(`/admin/dashboard/analytics${query}`)
 }

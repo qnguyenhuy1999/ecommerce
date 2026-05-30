@@ -12,7 +12,10 @@ import { mapOrderDetail } from '../mappers'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { orderKeys } from '../query-keys'
 
-export function useOrderDetailAdapter(orderId: string) {
+export function useOrderDetailAdapter(
+  orderId: string,
+  initialData?: ReturnType<typeof mapOrderDetail> | null,
+) {
   const queryClient = useQueryClient()
   const [actionInFlight, setActionInFlight] = useState<OrderDetailStatus | null>(null)
 
@@ -23,6 +26,7 @@ export function useOrderDetailAdapter(orderId: string) {
       return response ? mapOrderDetail(response) : null
     },
     enabled: !!orderId,
+    initialData: initialData ?? undefined,
   })
 
   const statusMutation = useMutation({
@@ -84,6 +88,6 @@ export function useOrderDetailAdapter(orderId: string) {
       { label: 'Orders', href: '/orders' },
       ...(order ? [{ label: order.orderNumber }] : [{ label: orderId }]),
     ],
-    emptyMessage: 'We couldn\'t find this order.',
+    emptyMessage: "We couldn't find this order.",
   }
 }

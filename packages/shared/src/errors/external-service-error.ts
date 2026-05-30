@@ -1,4 +1,4 @@
-import { AppError } from './app-error.js'
+import { AppError } from './app-error'
 
 /**
  * Thrown when an external service (payment gateway, email provider, etc.) fails.

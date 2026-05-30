@@ -44,3 +44,7 @@ export interface ApiErrorResponse {
 export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse
 
 export type ApiSuccess<T = unknown> = ApiSuccessResponse<T>
+
+export type ApiEnvelope<T = unknown> = ApiSuccessResponse<T>
+
+export type PaginatedEnvelope<T = unknown> = ApiPaginatedSuccessResponse<T>

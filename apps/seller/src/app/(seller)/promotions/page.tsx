@@ -1,7 +1,5 @@
-'use client'
-
-import { Promotions } from '@ecom/ui-seller/pages/Promotions'
+import { PromotionsPageClient } from './_components/PromotionsPage.client'
 
 export default function PromotionsPage() {
-  return <Promotions />
+  return <PromotionsPageClient />
 }

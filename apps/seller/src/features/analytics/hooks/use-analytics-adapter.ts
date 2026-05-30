@@ -6,7 +6,7 @@ import { getAnalyticsBundle } from '../api'
 import { buildAnalyticsProps, buildDateRangeParams } from '../mappers'
 import { analyticsKeys } from '../query-keys'
 
-export function useAnalyticsAdapter() {
+export function useAnalyticsAdapter(initialData?: ReturnType<typeof buildAnalyticsProps>) {
   const [range, setRange] = useState('30d')
 
   const query = useQuery({
@@ -21,6 +21,7 @@ export function useAnalyticsAdapter() {
         conversion: bundle.conversion,
       })
     },
+    initialData: range === '30d' ? initialData : undefined,
   })
 
   return {

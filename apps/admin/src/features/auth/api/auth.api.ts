@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 
 export interface AdminProfile {
@@ -32,18 +32,18 @@ type LoginBody = {
 export async function loginAdmin(email: string, password: string) {
   const body: LoginBody = { email, password }
 
-  return apiFetch<LoginResponse>('/admin/auth/login', {
+  return api<LoginResponse>('/admin/auth/login', {
     method: 'POST',
     body: JSON.stringify(body),
   })
 }
 
 export async function logoutAdmin() {
-  return apiFetch<LogoutResponse>('/admin/auth/logout', {
+  return api<LogoutResponse>('/admin/auth/logout', {
     method: 'POST',
   })
 }
 
 export async function getAdminProfile() {
-  return apiFetch<ProfileResponse>('/admin/auth/me')
+  return api<ProfileResponse>('/admin/auth/me')
 }

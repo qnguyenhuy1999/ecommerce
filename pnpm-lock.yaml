@@ -74,6 +74,9 @@ importers:
       tsup:
         specifier: ^8.4.0
         version: 8.5.1(@swc/core@1.15.33)(jiti@2.7.0)(postcss@8.5.14)(tsx@4.21.0)(typescript@6.0.3)(yaml@2.8.4)
+      tsx:
+        specifier: ^4.21.0
+        version: 4.21.0
       turbo:
         specifier: ^2.9.12
         version: 2.9.12
@@ -831,9 +834,6 @@ importers:
       '@base-ui/react':
         specifier: ^1.4.1
         version: 1.4.1(@date-fns/tz@1.5.0)(@types/react@19.2.14)(date-fns@4.2.1)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      '@ecom/nestjs-core':
-        specifier: workspace:*
-        version: link:../nestjs-core
       '@ecom/shared':
         specifier: workspace:*
         version: link:../shared

@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 
 export interface SupportTicketApiItem {
   id: string
@@ -59,15 +59,15 @@ export async function getSupportTickets(params?: SupportTicketQueryParams) {
   if (params?.search) query.set('search', params.search)
   const qs = query.toString()
   const path = qs ? `/admin/support/tickets?${qs}` : '/admin/support/tickets'
-  return apiFetch<SupportTicketListResponse>(path)
+  return api<SupportTicketListResponse>(path)
 }
 
 export async function getSupportMessages(ticketId: string) {
-  return apiFetch<SupportMessagesResponse>(`/admin/support/tickets/${ticketId}/messages`)
+  return api<SupportMessagesResponse>(`/admin/support/tickets/${ticketId}/messages`)
 }
 
 export async function sendSupportReply(ticketId: string, content: string, isInternal: boolean) {
-  return apiFetch<SendReplyResponse>(`/admin/support/tickets/${ticketId}/reply`, {
+  return api<SendReplyResponse>(`/admin/support/tickets/${ticketId}/reply`, {
     method: 'POST',
     body: JSON.stringify({ content, isInternal }),
   })
@@ -77,7 +77,7 @@ export async function changeSupportTicketStatus(
   ticketId: string,
   status: SupportTicketApiItem['status'],
 ) {
-  return apiFetch<ChangeStatusResponse>(`/admin/support/tickets/${ticketId}/status`, {
+  return api<ChangeStatusResponse>(`/admin/support/tickets/${ticketId}/status`, {
     method: 'PATCH',
     body: JSON.stringify({ status }),
   })
@@ -87,7 +87,7 @@ export async function changeSupportTicketAssignee(
   ticketId: string,
   assignedAdminId: string | null,
 ) {
-  return apiFetch<ChangeAssigneeResponse>(`/admin/support/tickets/${ticketId}/assignee`, {
+  return api<ChangeAssigneeResponse>(`/admin/support/tickets/${ticketId}/assignee`, {
     method: 'PATCH',
     body: JSON.stringify({ assignedAdminId }),
   })

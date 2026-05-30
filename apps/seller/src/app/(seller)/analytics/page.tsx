@@ -1,14 +1,18 @@
-'use client'
+import { headers } from 'next/headers'
+import { getAnalyticsBundle } from '@/features/analytics/api'
+import { buildAnalyticsProps, buildDateRangeParams } from '@/features/analytics/mappers'
+import { AnalyticsPageClient } from './_components/AnalyticsPage.client'
 
-import { Analytics } from '@ecom/ui-seller/pages/Analytics'
-import { useAnalyticsAdapter } from '@/features/analytics/hooks/use-analytics-adapter'
-
-export default function AnalyticsPage() {
-  const { loading, props, onDateRangeChange } = useAnalyticsAdapter()
-
-  if (loading && !props) {
-    return <p className="p-6 text-sm text-gray-500">Loading analytics...</p>
-  }
-
-  return props ? <Analytics {...props} onDateRangeChange={onDateRangeChange} /> : null
+export default async function AnalyticsPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const bundle = await getAnalyticsBundle(buildDateRangeParams('30d'), init)
+  const initialData = buildAnalyticsProps({
+    range: '30d',
+    revenue: bundle.revenue,
+    orders: bundle.orders,
+    topProducts: bundle.products,
+    conversion: bundle.conversion,
+  })
+  return <AnalyticsPageClient initialData={initialData} />
 }

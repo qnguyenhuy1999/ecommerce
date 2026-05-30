@@ -4,12 +4,13 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { createBulkExport, createBulkImport, getBulkJobs } from '../api'
 import { bulkKeys } from '../query-keys'
 
-export function useBulkAdapter() {
+export function useBulkAdapter(initialData?: Awaited<ReturnType<typeof getBulkJobs>>) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
     queryKey: bulkKeys.jobs(),
     queryFn: () => getBulkJobs(),
+    initialData,
   })
 
   const exportMutation = useMutation({

@@ -3,8 +3,8 @@ import {
   updateShopProfile as updateShopProfileBase,
 } from '../integration/seller-page-api'
 
-export async function getShopProfile() {
-  const shop = await getShopProfileBase()
+export async function getShopProfile(init?: RequestInit) {
+  const shop = await getShopProfileBase(init)
   return shop.items
 }
 

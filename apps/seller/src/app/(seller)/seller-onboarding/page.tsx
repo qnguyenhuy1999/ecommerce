@@ -1,7 +1,5 @@
-'use client'
-
-import { SellerOnboarding } from '@ecom/ui-seller/pages/SellerOnboarding'
+import { SellerOnboardingPageClient } from './_components/SellerOnboardingPage.client'
 
 export default function SellerOnboardingPage() {
-  return <SellerOnboarding />
+  return <SellerOnboardingPageClient />
 }

@@ -5,13 +5,14 @@ import { getInventory } from '../api'
 import { mapInventoryToRows } from '../mappers'
 import { inventoryKeys } from '../query-keys'
 
-export function useInventoryAdapter() {
+export function useInventoryAdapter(initialData?: ReturnType<typeof mapInventoryToRows>) {
   const query = useQuery({
     queryKey: inventoryKeys.list(),
     queryFn: async () => {
       const items = await getInventory()
       return mapInventoryToRows(items)
     },
+    initialData,
   })
 
   return {

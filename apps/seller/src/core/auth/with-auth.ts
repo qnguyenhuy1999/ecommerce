@@ -1,4 +1,4 @@
-import { getWebAuthPreset } from '@ecom/auth'
+import { getWebAuthPreset } from '@ecom/auth/web-presets'
 import { createWithAuth } from '@ecom/auth/middleware'
 
 const { middleware } = getWebAuthPreset('seller')

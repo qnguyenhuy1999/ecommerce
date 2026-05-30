@@ -5,13 +5,14 @@ import { getFinanceBundle } from '../api'
 import { buildFinanceProps } from '../mappers'
 import { financeKeys } from '../query-keys'
 
-export function useFinanceAdapter() {
+export function useFinanceAdapter(initialData?: ReturnType<typeof buildFinanceProps>) {
   const query = useQuery({
     queryKey: financeKeys.bundle(),
     queryFn: async () => {
       const bundle = await getFinanceBundle()
       return buildFinanceProps(bundle)
     },
+    initialData,
   })
 
   return {

@@ -5,12 +5,13 @@ import { useQuery } from '@tanstack/react-query'
 import { getWarehouses } from '../api'
 import { warehouseKeys } from '../query-keys'
 
-export function useWarehousesAdapter() {
+export function useWarehousesAdapter(initialData?: Awaited<ReturnType<typeof getWarehouses>>) {
   const router = useRouter()
 
   const query = useQuery({
     queryKey: warehouseKeys.list(),
     queryFn: () => getWarehouses(),
+    initialData,
   })
 
   return {

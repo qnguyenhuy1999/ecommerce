@@ -5,7 +5,10 @@ import { getReviewsBundle, replyToReview } from '../api'
 import { mapReviewsToRows } from '../mappers'
 import { reviewKeys } from '../query-keys'
 
-export function useReviewsAdapter() {
+export function useReviewsAdapter(initialData?: {
+  rows: ReturnType<typeof mapReviewsToRows>
+  analytics: Awaited<ReturnType<typeof getReviewsBundle>>['analytics']
+}) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
@@ -17,6 +20,7 @@ export function useReviewsAdapter() {
         analytics: bundle.analytics,
       }
     },
+    initialData,
   })
 
   const replyMutation = useMutation({

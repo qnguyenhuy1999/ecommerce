@@ -4,8 +4,8 @@ import {
   getBulkJobs as getBulkJobsBase,
 } from '../integration/seller-page-api'
 
-export async function getBulkJobs(limit?: number) {
-  const jobs = await getBulkJobsBase(limit)
+export async function getBulkJobs(limit?: number, init?: RequestInit) {
+  const jobs = await getBulkJobsBase(limit, init)
   return jobs.items
 }
 

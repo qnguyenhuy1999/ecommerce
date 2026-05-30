@@ -52,7 +52,7 @@
     },
     "contracts:check": {
       "cache": false,
-      "dependsOn": ["openapi:gen"]
+      "dependsOn": []
     }
   }
 }

@@ -11,7 +11,7 @@ import { mapNotificationsToRows } from '../mappers'
 import { notificationKeys } from '../query-keys'
 import { useSellerRealtime } from '../../../core/providers/realtime-provider'
 
-export function useNotificationsAdapter() {
+export function useNotificationsAdapter(initialData?: ReturnType<typeof mapNotificationsToRows>) {
   const queryClient = useQueryClient()
   const {
     lastNotification,
@@ -25,6 +25,7 @@ export function useNotificationsAdapter() {
       const items = await getNotifications()
       return mapNotificationsToRows(items)
     },
+    initialData,
   })
 
   const markReadMutation = useMutation({

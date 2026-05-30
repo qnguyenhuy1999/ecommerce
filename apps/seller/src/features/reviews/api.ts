@@ -3,8 +3,8 @@ import {
   replyToReview,
 } from '../integration/seller-page-api'
 
-export async function getReviewsBundle(limit?: number) {
-  const bundle = await getReviewsBundleBase(limit)
+export async function getReviewsBundle(limit?: number, init?: RequestInit) {
+  const bundle = await getReviewsBundleBase(limit, init)
   return {
     reviews: bundle.reviews.items,
     analytics: bundle.analytics,

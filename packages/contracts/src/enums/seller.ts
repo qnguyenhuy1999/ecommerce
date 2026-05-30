@@ -36,6 +36,7 @@ export const SubscriptionStatus = {
   PAST_DUE: 'PAST_DUE',
   CANCELLED: 'CANCELLED',
   EXPIRED: 'EXPIRED',
+  TRIALING: 'TRIALING',
 } as const
 
 export type SubscriptionStatus = (typeof SubscriptionStatus)[keyof typeof SubscriptionStatus]
@@ -47,6 +48,7 @@ export const WithdrawalStatus = {
   PROCESSING: 'PROCESSING',
   COMPLETED: 'COMPLETED',
   REJECTED: 'REJECTED',
+  FAILED: 'FAILED',
 } as const
 
 export type WithdrawalStatus = (typeof WithdrawalStatus)[keyof typeof WithdrawalStatus]
@@ -56,6 +58,7 @@ export const WalletTransactionStatus = {
   PENDING: 'PENDING',
   COMPLETED: 'COMPLETED',
   FAILED: 'FAILED',
+  REVERSED: 'REVERSED',
 } as const
 
 export type WalletTransactionStatus =

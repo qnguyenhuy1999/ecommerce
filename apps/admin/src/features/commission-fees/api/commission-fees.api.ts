@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 
 export interface CommissionRuleApiItem {
   id: string
@@ -41,18 +41,18 @@ export interface UpdateCommissionRulePayload {
 }
 
 export async function getCommissionRules() {
-  return apiFetch<CommissionRulesListResponse>('/admin/commission-fees')
+  return api<CommissionRulesListResponse>('/admin/commission-fees')
 }
 
 export async function createCommissionRule(payload: CreateCommissionRulePayload) {
-  return apiFetch<CreateCommissionRuleResponse>('/admin/commission-fees', {
+  return api<CreateCommissionRuleResponse>('/admin/commission-fees', {
     method: 'POST',
     body: JSON.stringify(payload),
   })
 }
 
 export async function updateCommissionRule(id: string, payload: UpdateCommissionRulePayload) {
-  return apiFetch<UpdateCommissionRuleResponse>(`/admin/commission-fees/${id}`, {
+  return api<UpdateCommissionRuleResponse>(`/admin/commission-fees/${id}`, {
     method: 'PUT',
     body: JSON.stringify(payload),
   })

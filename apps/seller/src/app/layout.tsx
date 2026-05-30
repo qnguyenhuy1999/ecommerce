@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import './globals.css'
 
 import { AuthProvider } from '../core/auth/auth-provider'
 import { QueryProvider } from '../core/query/query-provider'

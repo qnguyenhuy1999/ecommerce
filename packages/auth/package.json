@@ -19,6 +19,12 @@
       "import": "./src/password.utils.ts",
       "default": "./src/password.utils.ts"
     },
+    "./web-presets": {
+      "types": "./src/web-presets.ts",
+      "development": "./src/web-presets.ts",
+      "import": "./src/web-presets.ts",
+      "default": "./src/web-presets.ts"
+    },
     "./client": {
       "types": "./src/next/client.tsx",
       "development": "./src/next/client.tsx",

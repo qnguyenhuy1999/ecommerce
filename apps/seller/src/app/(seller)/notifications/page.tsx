@@ -1,21 +1,12 @@
-'use client'
+import { headers } from 'next/headers'
+import { getNotifications } from '@/features/notifications/api'
+import { mapNotificationsToRows } from '@/features/notifications/mappers'
+import { NotificationsPageClient } from './_components/NotificationsPage.client'
 
-import { Notifications } from '@ecom/ui-seller/pages/Notifications'
-import { useNotificationsAdapter } from '@/features/notifications/hooks/use-notifications-adapter'
-
-export default function NotificationsPage() {
-  const { loading, rows, onMarkRead, onMarkAllRead } = useNotificationsAdapter()
-
-  return (
-    <Notifications
-      rows={rows}
-      loading={loading}
-      onMarkRead={(id) => {
-        void onMarkRead(id)
-      }}
-      onMarkAllRead={() => {
-        void onMarkAllRead()
-      }}
-    />
-  )
+export default async function NotificationsPage() {
+  const cookie = (await headers()).get('cookie')
+  const init = { cache: 'no-store' as const, ...(cookie ? { headers: { cookie } } : {}) }
+  const items = await getNotifications(undefined, init)
+  const initialData = mapNotificationsToRows(items)
+  return <NotificationsPageClient initialData={initialData} />
 }

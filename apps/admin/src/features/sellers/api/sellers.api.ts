@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { AdminOperations } from '@ecom/contracts/generated'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
@@ -61,15 +61,15 @@ export async function getSellers(params: SellersListQuery = {}) {
     ...(params.status !== undefined && { status: params.status }),
   }
 
-  return apiFetch<SellersListResponse>('/admin/sellers', { params: query })
+  return api<SellersListResponse>('/admin/sellers', { params: query })
 }
 
 export async function getSellerById(id: string) {
-  return apiFetch<SellerDetailResponse>(`/admin/sellers/${id}`)
+  return api<SellerDetailResponse>(`/admin/sellers/${id}`)
 }
 
 export async function approveSeller(id: string) {
-  return apiFetch<SellerActionResponse>(`/admin/sellers/${id}/approve`, {
+  return api<SellerActionResponse>(`/admin/sellers/${id}/approve`, {
     method: 'POST',
   })
 }
@@ -79,7 +79,7 @@ export async function rejectSeller(id: string, reason?: string) {
     ...(reason !== undefined && { reason }),
   }
 
-  return apiFetch<SellerActionResponse>(`/admin/sellers/${id}/reject`, {
+  return api<SellerActionResponse>(`/admin/sellers/${id}/reject`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
@@ -90,12 +90,12 @@ export async function suspendSeller(id: string, reason?: string) {
     ...(reason !== undefined && { reason }),
   }
 
-  return apiFetch<SellerActionResponse>(`/admin/sellers/${id}/suspend`, {
+  return api<SellerActionResponse>(`/admin/sellers/${id}/suspend`, {
     method: 'POST',
     body: JSON.stringify(body),
   })
 }
 
 export async function getSellerStatusCounts() {
-  return apiFetch<SellerStatusCountsResponse>('/admin/sellers/status-counts')
+  return api<SellerStatusCountsResponse>('/admin/sellers/status-counts')
 }

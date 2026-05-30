@@ -1,4 +1,4 @@
-import { apiFetch } from '@/lib/api'
+import { api } from '@/lib/api'
 import type { PaginatedResponse } from '@ecom/shared/pagination/core'
 
 export interface VoucherListItem {
@@ -28,30 +28,30 @@ export async function getVouchers(params: {
   if (params.limit) query.set('limit', String(params.limit))
   if (params.status) query.set('status', params.status)
   if (params.search) query.set('search', params.search)
-  return apiFetch<{ success: boolean; data: PaginatedResponse<VoucherListItem> }>(
+  return api<{ success: boolean; data: PaginatedResponse<VoucherListItem> }>(
     `/admin/promotions/vouchers?${query.toString()}`,
   )
 }
 
 export async function getVoucher(id: string) {
-  return apiFetch<{ success: boolean; data: VoucherListItem }>(`/admin/promotions/vouchers/${id}`)
+  return api<{ success: boolean; data: VoucherListItem }>(`/admin/promotions/vouchers/${id}`)
 }
 
 export async function getVoucherStatusCounts() {
-  return apiFetch<{ success: boolean; data: Record<string, number> }>(
+  return api<{ success: boolean; data: Record<string, number> }>(
     '/admin/promotions/vouchers/status-counts',
   )
 }
 
 export async function createVoucher(data: Record<string, unknown>) {
-  return apiFetch<{ success: boolean; data: VoucherListItem }>('/admin/promotions/vouchers', {
+  return api<{ success: boolean; data: VoucherListItem }>('/admin/promotions/vouchers', {
     method: 'POST',
     body: JSON.stringify(data),
   })
 }
 
 export async function updateVoucher(id: string, data: Record<string, unknown>) {
-  return apiFetch<{ success: boolean; data: VoucherListItem }>(`/admin/promotions/vouchers/${id}`, {
+  return api<{ success: boolean; data: VoucherListItem }>(`/admin/promotions/vouchers/${id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   })

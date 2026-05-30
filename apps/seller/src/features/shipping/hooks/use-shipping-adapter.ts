@@ -5,7 +5,7 @@ import { getShippingBundle, toggleShippingMethod } from '../api'
 import { mapShippingProviders } from '../mappers'
 import { shippingKeys } from '../query-keys'
 
-export function useShippingAdapter() {
+export function useShippingAdapter(initialData?: ReturnType<typeof mapShippingProviders>) {
   const queryClient = useQueryClient()
 
   const query = useQuery({
@@ -14,6 +14,7 @@ export function useShippingAdapter() {
       const bundle = await getShippingBundle()
       return mapShippingProviders(bundle.providers, bundle.methods)
     },
+    initialData,
   })
 
   const toggleMutation = useMutation({

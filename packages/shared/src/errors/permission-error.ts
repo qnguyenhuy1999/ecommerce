@@ -1,4 +1,4 @@
-import { AppError } from './app-error.js'
+import { AppError } from './app-error'
 
 /**
  * Thrown when the authenticated user lacks permission for the requested action.
