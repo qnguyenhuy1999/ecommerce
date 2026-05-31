@@ -1,9 +1,12 @@
 import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
+import {
+  CategoryHierarchyClient,
+  type CategoryHierarchyClientProps,
+} from './CategoryHierarchy.client'
 import { categoryHierarchyDefaultProps } from './CategoryHierarchy.fixtures'
-import { CategoryHierarchyClient } from './CategoryHierarchy.client'
 import type { CategoryHierarchyProps } from './CategoryHierarchy.types'
 
-export function CategoryHierarchy({
+function normalizeCategoryHierarchyProps({
   title = categoryHierarchyDefaultProps.title,
   description = categoryHierarchyDefaultProps.description,
   treeTitle = categoryHierarchyDefaultProps.treeTitle,
@@ -55,7 +58,71 @@ export function CategoryHierarchy({
   expandedCategoryIds = categoryHierarchyDefaultProps.expandedCategoryIds,
   onSave = categoryHierarchyDefaultProps.onSave,
   onDelete = categoryHierarchyDefaultProps.onDelete,
-}: CategoryHierarchyProps) {
+}: CategoryHierarchyProps): CategoryHierarchyClientProps & { title: string; description: string } {
+  return {
+    title: title ?? 'Categories',
+    description: description ?? '',
+    treeTitle: treeTitle ?? 'Tree',
+    detailsTitle: detailsTitle ?? 'Category details',
+    seoTitle: seoTitle ?? 'SEO',
+    statsTitle: statsTitle ?? 'Stats',
+    searchPlaceholder: searchPlaceholder ?? 'Search categories',
+    newCategoryLabel: newCategoryLabel ?? 'New category',
+    saveLabel: saveLabel ?? 'Save changes',
+    saveLoadingLabel: saveLoadingLabel ?? 'Saving...',
+    cancelLabel: cancelLabel ?? 'Cancel',
+    deleteLabel: deleteLabel ?? 'Delete category',
+    deleteLoadingLabel: deleteLoadingLabel ?? 'Deleting...',
+    displayNameLabel: displayNameLabel ?? 'Display name',
+    slugLabel: slugLabel ?? 'Slug',
+    parentLabel: parentLabel ?? 'Parent',
+    sortOrderLabel: sortOrderLabel ?? 'Sort order',
+    iconLabel: iconLabel ?? 'Icon (lucide)',
+    featuredLabel: featuredLabel ?? 'Featured',
+    showOnHomeLabel: showOnHomeLabel ?? 'Show on home',
+    metaTitleLabel: metaTitleLabel ?? 'Meta title',
+    metaDescriptionLabel: metaDescriptionLabel ?? 'Meta description',
+    canonicalUrlLabel: canonicalUrlLabel ?? 'Canonical URL',
+    rootParentLabel: rootParentLabel ?? '—',
+    productsStatLabel: productsStatLabel ?? 'Products',
+    liveVendorsStatLabel: liveVendorsStatLabel ?? 'Live vendors',
+    gmv30dStatLabel: gmv30dStatLabel ?? 'GMV (30d)',
+    emptyStateMessage: emptyStateMessage ?? 'Select category to edit details.',
+    emptyTreeMessage:
+      emptyTreeMessage ?? 'No categories yet. Create first category to start hierarchy.',
+    noSearchResultsMessage: noSearchResultsMessage ?? 'No categories match search.',
+    newCategoryName: newCategoryName ?? 'New category',
+    newCategorySlug: newCategorySlug ?? 'new-category',
+    newCategoryMetaDescription: newCategoryMetaDescription ?? 'Add category SEO copy.',
+    defaultMetaTitleSuffix: defaultMetaTitleSuffix ?? 'Halo Market',
+    unsavedChangesMessage:
+      unsavedChangesMessage ?? 'You have unsaved changes. Discard them and switch categories?',
+    cancelChangesMessage: cancelChangesMessage ?? 'Discard unsaved changes for this category?',
+    deleteCategoryMessage: deleteCategoryMessage ?? 'Delete "{name}"?',
+    deleteCategoryWithChildrenMessage:
+      deleteCategoryWithChildrenMessage ??
+      'Delete "{name}" and {count} nested subcategories? This cannot be undone.',
+    nameRequiredMessage: nameRequiredMessage ?? 'Display name is required.',
+    slugRequiredMessage: slugRequiredMessage ?? 'Slug is required.',
+    canonicalUrlRequiredMessage: canonicalUrlRequiredMessage ?? 'Canonical URL is required.',
+    duplicateSlugMessage: duplicateSlugMessage ?? 'Slug must be unique.',
+    invalidCanonicalUrlMessage:
+      invalidCanonicalUrlMessage ?? 'Canonical URL must be relative path or valid http(s) URL.',
+    negativeSortOrderMessage: negativeSortOrderMessage ?? 'Sort order cannot be negative.',
+    invalidParentMessage: invalidParentMessage ?? 'Parent category is invalid.',
+    saveErrorMessage: saveErrorMessage ?? 'Save failed. Try again.',
+    deleteErrorMessage: deleteErrorMessage ?? 'Delete failed. Try again.',
+    categories: categories ?? [],
+    expandedCategoryIds: expandedCategoryIds ?? [],
+    onSave,
+    onDelete,
+  }
+}
+
+export function CategoryHierarchy(props: CategoryHierarchyProps) {
+  const normalized = normalizeCategoryHierarchyProps(props)
+  const { title, description, ...clientProps } = normalized
+
   return (
     <ConsolePageLayout
       title={title}
@@ -63,66 +130,7 @@ export function CategoryHierarchy({
       breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Categories' }]}
       mainClassName="space-y-5"
     >
-      <CategoryHierarchyClient
-        treeTitle={treeTitle ?? 'Tree'}
-        detailsTitle={detailsTitle ?? 'Category details'}
-        seoTitle={seoTitle ?? 'SEO'}
-        statsTitle={statsTitle ?? 'Stats'}
-        searchPlaceholder={searchPlaceholder ?? 'Search categories'}
-        newCategoryLabel={newCategoryLabel ?? 'New category'}
-        saveLabel={saveLabel ?? 'Save changes'}
-        saveLoadingLabel={saveLoadingLabel ?? 'Saving...'}
-        cancelLabel={cancelLabel ?? 'Cancel'}
-        deleteLabel={deleteLabel ?? 'Delete category'}
-        deleteLoadingLabel={deleteLoadingLabel ?? 'Deleting...'}
-        displayNameLabel={displayNameLabel ?? 'Display name'}
-        slugLabel={slugLabel ?? 'Slug'}
-        parentLabel={parentLabel ?? 'Parent'}
-        sortOrderLabel={sortOrderLabel ?? 'Sort order'}
-        iconLabel={iconLabel ?? 'Icon (lucide)'}
-        featuredLabel={featuredLabel ?? 'Featured'}
-        showOnHomeLabel={showOnHomeLabel ?? 'Show on home'}
-        metaTitleLabel={metaTitleLabel ?? 'Meta title'}
-        metaDescriptionLabel={metaDescriptionLabel ?? 'Meta description'}
-        canonicalUrlLabel={canonicalUrlLabel ?? 'Canonical URL'}
-        rootParentLabel={rootParentLabel ?? '—'}
-        productsStatLabel={productsStatLabel ?? 'Products'}
-        liveVendorsStatLabel={liveVendorsStatLabel ?? 'Live vendors'}
-        gmv30dStatLabel={gmv30dStatLabel ?? 'GMV (30d)'}
-        emptyStateMessage={emptyStateMessage ?? 'Select category to edit details.'}
-        emptyTreeMessage={
-          emptyTreeMessage ?? 'No categories yet. Create first category to start hierarchy.'
-        }
-        noSearchResultsMessage={noSearchResultsMessage ?? 'No categories match search.'}
-        newCategoryName={newCategoryName ?? 'New category'}
-        newCategorySlug={newCategorySlug ?? 'new-category'}
-        newCategoryMetaDescription={newCategoryMetaDescription ?? 'Add category SEO copy.'}
-        defaultMetaTitleSuffix={defaultMetaTitleSuffix ?? 'Halo Market'}
-        unsavedChangesMessage={
-          unsavedChangesMessage ?? 'You have unsaved changes. Discard them and switch categories?'
-        }
-        cancelChangesMessage={cancelChangesMessage ?? 'Discard unsaved changes for this category?'}
-        deleteCategoryMessage={deleteCategoryMessage ?? 'Delete "{name}"?'}
-        deleteCategoryWithChildrenMessage={
-          deleteCategoryWithChildrenMessage ??
-          'Delete "{name}" and {count} nested subcategories? This cannot be undone.'
-        }
-        nameRequiredMessage={nameRequiredMessage ?? 'Display name is required.'}
-        slugRequiredMessage={slugRequiredMessage ?? 'Slug is required.'}
-        canonicalUrlRequiredMessage={canonicalUrlRequiredMessage ?? 'Canonical URL is required.'}
-        duplicateSlugMessage={duplicateSlugMessage ?? 'Slug must be unique.'}
-        invalidCanonicalUrlMessage={
-          invalidCanonicalUrlMessage ?? 'Canonical URL must be relative path or valid http(s) URL.'
-        }
-        negativeSortOrderMessage={negativeSortOrderMessage ?? 'Sort order cannot be negative.'}
-        invalidParentMessage={invalidParentMessage ?? 'Parent category is invalid.'}
-        saveErrorMessage={saveErrorMessage ?? 'Save failed. Try again.'}
-        deleteErrorMessage={deleteErrorMessage ?? 'Delete failed. Try again.'}
-        categories={categories ?? []}
-        expandedCategoryIds={expandedCategoryIds ?? []}
-        onSave={onSave}
-        onDelete={onDelete}
-      />
+      <CategoryHierarchyClient {...clientProps} />
     </ConsolePageLayout>
   )
 }

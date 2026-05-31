@@ -1,9 +1,9 @@
-import type { VouchersProps } from './Campaigns.types'
+import type { CampaignsProps } from './Campaigns.types'
 
-export const vouchersDefaultProps: VouchersProps = {
-  title: 'Promotions & vouchers',
-  description: 'Platform-wide discount codes and vouchers',
-  newVoucherLabel: 'New voucher',
+export const campaignsDefaultProps: CampaignsProps = {
+  title: 'Promotions & campaigns',
+  description: 'Platform-wide discount campaigns',
+  newCampaignLabel: 'New campaign',
   budgetLabel: 'Usage',
   editLabel: 'Edit',
   performanceLabel: 'Performance',
@@ -18,7 +18,7 @@ export const vouchersDefaultProps: VouchersProps = {
   },
   items: [
     {
-      id: 'VCH-001',
+      id: 'CAM-001',
       name: 'May Mega Sale',
       type: 'PERCENTAGE',
       category: 'Platform',
@@ -32,7 +32,7 @@ export const vouchersDefaultProps: VouchersProps = {
       budgetPercent: 53,
     },
     {
-      id: 'VCH-002',
+      id: 'CAM-002',
       name: 'Beauty Spotlight',
       type: 'FIXED_AMOUNT',
       category: 'Beauty',
@@ -46,7 +46,7 @@ export const vouchersDefaultProps: VouchersProps = {
       budgetPercent: 39,
     },
     {
-      id: 'VCH-003',
+      id: 'CAM-003',
       name: 'Summer Kickoff',
       type: 'PERCENTAGE',
       category: 'Platform',
@@ -60,7 +60,7 @@ export const vouchersDefaultProps: VouchersProps = {
       budgetPercent: 0,
     },
     {
-      id: 'VCH-004',
+      id: 'CAM-004',
       name: 'Spring Clearance',
       type: 'PERCENTAGE',
       category: 'Platform',
@@ -74,7 +74,7 @@ export const vouchersDefaultProps: VouchersProps = {
       budgetPercent: 100,
     },
     {
-      id: 'VCH-005',
+      id: 'CAM-005',
       name: 'Back to School',
       type: 'FIXED_AMOUNT',
       category: 'Education',

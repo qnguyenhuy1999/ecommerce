@@ -1,25 +1,24 @@
-// Campaigns.tsx
 import { SellerListPage } from '../../organisms'
-import { VouchersClient } from './Campaigns.client'
-import { vouchersDefaultProps } from './Campaigns.fixtures'
-import type { VouchersProps } from './Campaigns.types'
+import { CampaignsClient } from './Campaigns.client'
+import { campaignsDefaultProps } from './Campaigns.fixtures'
+import type { CampaignsProps } from './Campaigns.types'
 
-export function Vouchers({
-  title = vouchersDefaultProps.title,
-  description = vouchersDefaultProps.description,
-  newVoucherLabel = vouchersDefaultProps.newVoucherLabel,
-  budgetLabel = vouchersDefaultProps.budgetLabel,
-  editLabel = vouchersDefaultProps.editLabel,
-  performanceLabel = vouchersDefaultProps.performanceLabel,
-  impressionsLabel = vouchersDefaultProps.impressionsLabel,
-  ctrLabel = vouchersDefaultProps.ctrLabel,
-  redemptionsLabel = vouchersDefaultProps.redemptionsLabel,
-  tabLabels = vouchersDefaultProps.tabLabels,
-  items = vouchersDefaultProps.items,
-  onNewVoucher = vouchersDefaultProps.onNewVoucher,
-  onEdit = vouchersDefaultProps.onEdit,
-  onPerformance = vouchersDefaultProps.onPerformance,
-}: VouchersProps) {
+export function Campaigns({
+  title = campaignsDefaultProps.title,
+  description = campaignsDefaultProps.description,
+  newCampaignLabel = campaignsDefaultProps.newCampaignLabel,
+  budgetLabel = campaignsDefaultProps.budgetLabel,
+  editLabel = campaignsDefaultProps.editLabel,
+  performanceLabel = campaignsDefaultProps.performanceLabel,
+  impressionsLabel = campaignsDefaultProps.impressionsLabel,
+  ctrLabel = campaignsDefaultProps.ctrLabel,
+  redemptionsLabel = campaignsDefaultProps.redemptionsLabel,
+  tabLabels = campaignsDefaultProps.tabLabels,
+  items = campaignsDefaultProps.items,
+  onNewCampaign = campaignsDefaultProps.onNewCampaign,
+  onEdit = campaignsDefaultProps.onEdit,
+  onPerformance = campaignsDefaultProps.onPerformance,
+}: CampaignsProps) {
   const normalizedItems = items ?? []
   const normalizedTabLabels = tabLabels ?? {}
 
@@ -27,11 +26,11 @@ export function Vouchers({
     <SellerListPage
       title={title}
       description={description}
-      breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Vouchers' }]}
+      breadcrumb={[{ label: 'Admin', href: '#' }, { label: 'Campaigns' }]}
       mainClassName="space-y-5"
     >
-      <VouchersClient
-        newVoucherLabel={newVoucherLabel ?? '+ New voucher'}
+      <CampaignsClient
+        newCampaignLabel={newCampaignLabel ?? 'New campaign'}
         budgetLabel={budgetLabel ?? 'Usage'}
         editLabel={editLabel ?? 'Edit'}
         performanceLabel={performanceLabel ?? 'Performance'}
@@ -40,7 +39,7 @@ export function Vouchers({
         redemptionsLabel={redemptionsLabel ?? 'Redm'}
         tabLabels={normalizedTabLabels}
         items={normalizedItems}
-        onNewVoucher={onNewVoucher}
+        onNewCampaign={onNewCampaign}
         onEdit={onEdit}
         onPerformance={onPerformance}
       />

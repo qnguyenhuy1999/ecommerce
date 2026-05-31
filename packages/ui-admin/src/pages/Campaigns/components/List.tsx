@@ -1,16 +1,16 @@
-import type { VoucherRecord, VouchersProps } from '../Campaigns.types'
+import type { CampaignRecord, CampaignsProps } from '../Campaigns.types'
 import { Item } from './Item'
 
 interface ListProps {
-  items: VoucherRecord[]
+  items: CampaignRecord[]
   budgetLabel: string
   editLabel: string
   performanceLabel: string
   impressionsLabel: string
   ctrLabel: string
   redemptionsLabel: string
-  onEdit: VouchersProps['onEdit'] | undefined
-  onPerformance: VouchersProps['onPerformance'] | undefined
+  onEdit: CampaignsProps['onEdit'] | undefined
+  onPerformance: CampaignsProps['onPerformance'] | undefined
 }
 
 export function List(props: ListProps) {

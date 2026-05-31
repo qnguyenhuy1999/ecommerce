@@ -1,24 +1,24 @@
-import type { VoucherStatus } from './Campaigns.types'
+import type { CampaignStatus } from './Campaigns.types'
 
-export const VOUCHER_STATUS_DOT_CLASS: Record<VoucherStatus, string> = {
+export const CAMPAIGN_STATUS_DOT_CLASS: Record<CampaignStatus, string> = {
   DRAFT: 'bg-muted-foreground',
   ACTIVE: 'bg-success',
   PAUSED: 'bg-info',
   EXPIRED: 'bg-muted-foreground',
 }
 
-export const VOUCHER_STATUS_LABEL_CLASS: Record<VoucherStatus, string> = {
+export const CAMPAIGN_STATUS_LABEL_CLASS: Record<CampaignStatus, string> = {
   DRAFT: 'text-muted-foreground',
   ACTIVE: 'text-success',
   PAUSED: 'text-info',
   EXPIRED: 'text-muted-foreground',
 }
 
-export const VOUCHER_STATUS_TEXT: Record<VoucherStatus, string> = {
+export const CAMPAIGN_STATUS_TEXT: Record<CampaignStatus, string> = {
   DRAFT: 'Draft',
   ACTIVE: 'Active',
   PAUSED: 'Paused',
   EXPIRED: 'Expired',
 }
 
-export const VOUCHERS_EMPTY_MESSAGE = 'No vouchers in this tab.'
+export const CAMPAIGNS_EMPTY_MESSAGE = 'No campaigns in this tab.'

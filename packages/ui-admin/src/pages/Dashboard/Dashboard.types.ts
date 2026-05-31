@@ -1,19 +1,19 @@
 import type { StatCardProps } from '@ecom/core-ui/molecules/StatCard'
 
-type DashboardMetric = Pick<StatCardProps, 'label' | 'value' | 'trend' | 'spark' | 'accent'>
+export type DashboardMetric = Pick<StatCardProps, 'label' | 'value' | 'trend' | 'spark' | 'accent'>
 
-type RevenuePoint = {
+export interface RevenuePoint {
   label: string
   revenue: number
 }
 
-type PendingApprovalItem = {
+export interface PendingApprovalItem {
   id: string
   label: string
   countLabel: string
 }
 
-type SystemHealthItem = {
+export interface SystemHealthItem {
   id: string
   label: string
   status: 'Operational' | 'Degraded'
@@ -21,7 +21,7 @@ type SystemHealthItem = {
   latencyLabel: string
 }
 
-type ModerationQueueItem = {
+export interface ModerationQueueItem {
   id: string
   sellerName: string
   stateLabel: string
@@ -29,16 +29,18 @@ type ModerationQueueItem = {
   dateLabel: string
 }
 
-type DisputeQueueItem = {
+export type DashboardTone = 'info' | 'warning' | 'destructive' | 'success' | 'muted'
+
+export interface DisputeQueueItem {
   id: string
   ticket: string
   counterparties: string
   stateLabel: string
   amountLabel: string
-  tone: 'info' | 'warning' | 'destructive' | 'success' | 'muted'
+  tone: DashboardTone
 }
 
-type CampaignItem = {
+export interface CampaignItem {
   id: string
   name: string
   detail: string
@@ -46,7 +48,7 @@ type CampaignItem = {
   tone: 'info' | 'success'
 }
 
-type AuditEventItem = {
+export interface AuditEventItem {
   id: string
   actor: string
   action: string
@@ -70,4 +72,21 @@ export interface DashboardProps {
   disputeQueue?: DisputeQueueItem[]
   campaigns?: CampaignItem[]
   auditEvents?: AuditEventItem[]
+}
+
+export interface NormalizedDashboardProps {
+  title: string
+  description: string
+  exportReportHref: string
+  openQueueHref: string
+  metrics: DashboardMetric[]
+  revenueSeries: RevenuePoint[]
+  revenueValueLabel: string
+  revenueTrendLabel: string
+  pendingApprovals: PendingApprovalItem[]
+  systemHealth: SystemHealthItem[]
+  moderationQueue: ModerationQueueItem[]
+  disputeQueue: DisputeQueueItem[]
+  campaigns: CampaignItem[]
+  auditEvents: AuditEventItem[]
 }

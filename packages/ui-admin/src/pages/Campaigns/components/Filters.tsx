@@ -1,30 +1,30 @@
 import { Button } from '@ecom/core-ui/atoms/Button'
 import { cn } from '@ecom/shared/utils/cn'
 import { Plus } from 'lucide-react'
-import type { VouchersProps } from '../Campaigns.types'
-import { voucherStatuses, type VoucherStatus } from '../Campaigns.types'
+import type { CampaignsProps } from '../Campaigns.types'
+import { campaignStatuses, type CampaignStatus } from '../Campaigns.types'
 
 interface FiltersProps {
-  activeTab: VoucherStatus
-  counts: Record<VoucherStatus, number>
-  tabLabels: Partial<Record<VoucherStatus, string>>
-  newVoucherLabel: string
-  onTabChange: (status: VoucherStatus) => void
-  onNewVoucher: VouchersProps['onNewVoucher'] | undefined
+  activeTab: CampaignStatus
+  counts: Record<CampaignStatus, number>
+  tabLabels: Partial<Record<CampaignStatus, string>>
+  newCampaignLabel: string
+  onTabChange: (status: CampaignStatus) => void
+  onNewCampaign: CampaignsProps['onNewCampaign'] | undefined
 }
 
 export function Filters({
   activeTab,
   counts,
   tabLabels,
-  newVoucherLabel,
+  newCampaignLabel,
   onTabChange,
-  onNewVoucher,
+  onNewCampaign,
 }: FiltersProps) {
   return (
     <div className="border-border flex items-center justify-between border-b">
       <div className="flex">
-        {voucherStatuses.map((status) => {
+        {campaignStatuses.map((status) => {
           const isActive = activeTab === status
 
           return (
@@ -53,10 +53,10 @@ export function Filters({
         })}
       </div>
 
-      {onNewVoucher && (
-        <Button type="button" onClick={() => void onNewVoucher?.()}>
+      {onNewCampaign && (
+        <Button type="button" onClick={() => void onNewCampaign?.()}>
           <Plus className="size-4" />
-          {newVoucherLabel}
+          {newCampaignLabel}
         </Button>
       )}
     </div>

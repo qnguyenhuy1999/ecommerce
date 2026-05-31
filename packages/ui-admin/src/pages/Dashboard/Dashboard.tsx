@@ -1,17 +1,14 @@
 import { Button } from '@ecom/core-ui/atoms/Button'
 import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
+import { AuditEventsSection } from './components/sections/AuditEventsSection'
+import { CampaignsSection } from './components/sections/CampaignsSection'
+import { DisputeQueueSection } from './components/sections/DisputeQueueSection'
+import { ModerationQueueSection } from './components/sections/ModerationQueueSection'
+import { PendingApprovalsSection } from './components/sections/PendingApprovalsSection'
+import { SystemHealthSection } from './components/sections/SystemHealthSection'
 import { RevenueCard } from './Dashboard.client'
 import { dashboardDefaultProps } from './Dashboard.fixtures'
-import {
-  AuditEventsCard,
-  CampaignsCard,
-  DashboardFooter,
-  DisputeQueueCard,
-  MetricsGrid,
-  ModerationQueueCard,
-  PendingApprovalsCard,
-  SystemHealthCard,
-} from './Dashboard.server'
+import { DashboardFooter, MetricsGrid } from './Dashboard.server'
 import type { DashboardProps } from './Dashboard.types'
 
 export function Dashboard({
@@ -36,44 +33,38 @@ export function Dashboard({
       description={description}
       actions={
         <>
-          <Button asChild variant="outline" className="rounded-2xl">
+          <Button asChild variant="outline">
             <a href={exportReportHref}>Export report</a>
           </Button>
-          <Button asChild className="rounded-2xl">
+          <Button asChild>
             <a href={openQueueHref}>Open queue</a>
           </Button>
         </>
       }
-      mainClassName="space-y-5"
+      mainClassName="space-y-6"
     >
-      <div className="space-y-5">
-        <MetricsGrid metrics={metrics} />
+      <MetricsGrid metrics={metrics} />
 
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1.9fr)_minmax(22rem,1fr)]">
-          <RevenueCard
-            revenueSeries={revenueSeries}
-            revenueValueLabel={revenueValueLabel}
-            revenueTrendLabel={revenueTrendLabel}
-          />
+      <RevenueCard
+        revenueSeries={revenueSeries}
+        revenueValueLabel={revenueValueLabel}
+        revenueTrendLabel={revenueTrendLabel}
+      />
 
-          <div className="space-y-4">
-            <PendingApprovalsCard pendingApprovals={pendingApprovals} />
-            <SystemHealthCard systemHealth={systemHealth} />
-          </div>
+      <div className="grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_minmax(360px,0.65fr)]">
+        <div className="space-y-6">
+          <PendingApprovalsSection items={pendingApprovals} />
+          <ModerationQueueSection items={moderationQueue} />
+          <DisputeQueueSection items={disputeQueue} />
+          <AuditEventsSection items={auditEvents} />
         </div>
-
-        <div className="grid gap-4 xl:grid-cols-2">
-          <ModerationQueueCard moderationQueue={moderationQueue} />
-          <DisputeQueueCard disputeQueue={disputeQueue} />
+        <div className="space-y-6">
+          <SystemHealthSection items={systemHealth} />
+          <CampaignsSection items={campaigns} />
         </div>
-
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(0,1.35fr)]">
-          <CampaignsCard campaigns={campaigns} />
-          <AuditEventsCard auditEvents={auditEvents} />
-        </div>
-
-        <DashboardFooter />
       </div>
+
+      <DashboardFooter />
     </ConsolePageLayout>
   )
 }

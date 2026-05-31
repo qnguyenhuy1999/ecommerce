@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ConsoleLayout } from '../../layouts/ConsoleLayout'
-import { Vouchers } from './Campaigns'
-import { vouchersDefaultProps } from './Campaigns.fixtures'
+import { Campaigns } from './Campaigns'
+import { campaignsDefaultProps } from './Campaigns.fixtures'
 
 const meta = {
   title: 'Pages/Campaigns',
-  component: Vouchers,
+  component: Campaigns,
   parameters: {
     layout: 'fullscreen',
   },
-} satisfies Meta<typeof Vouchers>
+} satisfies Meta<typeof Campaigns>
 
 export default meta
 
@@ -17,23 +17,23 @@ type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   args: {
-    ...vouchersDefaultProps,
+    ...campaignsDefaultProps,
   },
   render: (args) => (
     <ConsoleLayout>
-      <Vouchers {...args} />
+      <Campaigns {...args} />
     </ConsoleLayout>
   ),
 }
 
 export const EmptyState: Story = {
   args: {
-    ...vouchersDefaultProps,
+    ...campaignsDefaultProps,
     items: [],
   },
   render: (args) => (
     <ConsoleLayout>
-      <Vouchers {...args} />
+      <Campaigns {...args} />
     </ConsoleLayout>
   ),
 }

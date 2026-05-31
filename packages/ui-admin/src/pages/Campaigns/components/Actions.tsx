@@ -1,14 +1,14 @@
 'use client'
 
 import { Button } from '@ecom/core-ui/atoms/Button'
-import type { VoucherRecord, VouchersProps } from '../Campaigns.types'
+import type { CampaignRecord, CampaignsProps } from '../Campaigns.types'
 
 interface ActionsProps {
-  item: VoucherRecord
+  item: CampaignRecord
   editLabel: string
   performanceLabel: string
-  onEdit: VouchersProps['onEdit'] | undefined
-  onPerformance: VouchersProps['onPerformance'] | undefined
+  onEdit: CampaignsProps['onEdit'] | undefined
+  onPerformance: CampaignsProps['onPerformance'] | undefined
 }
 
 export function Actions({

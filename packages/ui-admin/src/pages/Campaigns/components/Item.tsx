@@ -1,22 +1,22 @@
 import { Progress } from '@ecom/core-ui/atoms/Progress'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { Megaphone } from 'lucide-react'
-import type { VoucherRecord, VouchersProps } from '../Campaigns.types'
+import type { CampaignRecord, CampaignsProps } from '../Campaigns.types'
 import { Actions } from './Actions'
 import { StatBox } from './StatBox'
 import { StatusDot } from './StatusDot'
 import { StatusLabel } from './StatusLabel'
 
 interface ItemProps {
-  item: VoucherRecord
+  item: CampaignRecord
   budgetLabel: string
   editLabel: string
   performanceLabel: string
   impressionsLabel: string
   ctrLabel: string
   redemptionsLabel: string
-  onEdit: VouchersProps['onEdit'] | undefined
-  onPerformance: VouchersProps['onPerformance'] | undefined
+  onEdit: CampaignsProps['onEdit'] | undefined
+  onPerformance: CampaignsProps['onPerformance'] | undefined
 }
 
 export function Item({

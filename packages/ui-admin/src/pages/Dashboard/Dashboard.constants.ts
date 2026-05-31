@@ -1,13 +1,10 @@
-import type { DashboardProps } from './Dashboard.types'
+import type { CampaignItem, DisputeQueueItem } from './Dashboard.types'
 
 export const dashboardCardClassName = 'rounded-3xl border-border/80 shadow-sm'
 export const dashboardActionClassName = 'text-primary'
 export const warningBadgeClassName = 'bg-warning/12 text-warning rounded-full'
 
-type DisputeTone = NonNullable<DashboardProps['disputeQueue']>[number]['tone']
-type CampaignTone = NonNullable<DashboardProps['campaigns']>[number]['tone']
-
-export function getDisputeToneClassNames(tone: DisputeTone) {
+export function getDisputeToneClassNames(tone: DisputeQueueItem['tone']) {
   switch (tone) {
     case 'info':
       return {
@@ -29,7 +26,7 @@ export function getDisputeToneClassNames(tone: DisputeTone) {
         dot: 'text-success',
         badge: 'border-success/20 bg-success/10 text-success',
       }
-    default:
+    case 'muted':
       return {
         dot: 'text-muted-foreground',
         badge: 'border-border bg-muted text-muted-foreground',
@@ -37,7 +34,7 @@ export function getDisputeToneClassNames(tone: DisputeTone) {
   }
 }
 
-export function getCampaignToneClassName(tone: CampaignTone) {
+export function getCampaignToneClassName(tone: CampaignItem['tone']) {
   return tone === 'success'
     ? 'bg-success/10 text-success rounded-full'
     : 'bg-info/10 text-info rounded-full'

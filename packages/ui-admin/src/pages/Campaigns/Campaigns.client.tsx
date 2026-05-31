@@ -1,28 +1,28 @@
 'use client'
 
-import { useVouchersController } from './Campaigns.controller'
-import type { VoucherRecord, VoucherStatus, VouchersProps } from './Campaigns.types'
+import { useCampaignsController } from './Campaigns.controller'
+import type { CampaignRecord, CampaignStatus, CampaignsProps } from './Campaigns.types'
 import { Empty } from './components/Empty'
 import { Filters } from './components/Filters'
 import { List } from './components/List'
 
-export interface VouchersClientProps {
-  newVoucherLabel: string
+export interface CampaignsClientProps {
+  newCampaignLabel: string
   budgetLabel: string
   editLabel: string
   performanceLabel: string
   impressionsLabel: string
   ctrLabel: string
   redemptionsLabel: string
-  tabLabels: Partial<Record<VoucherStatus, string>>
-  items: VoucherRecord[]
-  onNewVoucher: VouchersProps['onNewVoucher'] | undefined
-  onEdit: VouchersProps['onEdit'] | undefined
-  onPerformance: VouchersProps['onPerformance'] | undefined
+  tabLabels: Partial<Record<CampaignStatus, string>>
+  items: CampaignRecord[]
+  onNewCampaign: CampaignsProps['onNewCampaign'] | undefined
+  onEdit: CampaignsProps['onEdit'] | undefined
+  onPerformance: CampaignsProps['onPerformance'] | undefined
 }
 
-export function VouchersClient({
-  newVoucherLabel,
+export function CampaignsClient({
+  newCampaignLabel,
   budgetLabel,
   editLabel,
   performanceLabel,
@@ -31,11 +31,11 @@ export function VouchersClient({
   redemptionsLabel,
   tabLabels,
   items,
-  onNewVoucher,
+  onNewCampaign,
   onEdit,
   onPerformance,
-}: VouchersClientProps) {
-  const { state, computed, handlers } = useVouchersController({ items })
+}: CampaignsClientProps) {
+  const { state, computed, handlers } = useCampaignsController({ items })
 
   return (
     <div className="space-y-6">
@@ -43,13 +43,13 @@ export function VouchersClient({
         activeTab={state.activeTab}
         counts={computed.counts}
         tabLabels={tabLabels}
-        newVoucherLabel={newVoucherLabel}
+        newCampaignLabel={newCampaignLabel}
         onTabChange={handlers.setActiveTab}
-        onNewVoucher={computed.filtered.length > 0 ? onNewVoucher : undefined}
+        onNewCampaign={computed.filtered.length > 0 ? onNewCampaign : undefined}
       />
 
       {computed.filtered.length === 0 ? (
-        <Empty newVoucherLabel={newVoucherLabel} onNewVoucher={onNewVoucher} />
+        <Empty newCampaignLabel={newCampaignLabel} onNewCampaign={onNewCampaign} />
       ) : (
         <List
           items={computed.filtered}
