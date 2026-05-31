@@ -19,6 +19,7 @@
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
     "db:seed": "tsx prisma/seed.ts",
+    "generate:enums": "node ./scripts/generate-enums.ts",
     "build": "prisma generate --generator runtime_client && node ./scripts/build.mjs",
     "type-check": "tsc --noEmit"
   },

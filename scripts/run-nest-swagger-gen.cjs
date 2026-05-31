@@ -4,6 +4,8 @@ const path = require('node:path')
 const env = {
   ...process.env,
   GENERATE_SWAGGER: 'true',
+  NODE_OPTIONS: [process.env.NODE_OPTIONS, '-r @swc-node/register'].filter(Boolean).join(' '),
+  SWC_NODE_PROJECT: path.join(process.cwd(), 'tsconfig.build.json'),
 }
 
 const nestBin = path.join(
@@ -15,11 +17,11 @@ const nestBin = path.join(
 
 const result =
   process.platform === 'win32'
-    ? spawnSync(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `${nestBin} start --entryFile main`], {
+    ? spawnSync(process.env.ComSpec || 'cmd.exe', ['/d', '/s', '/c', `${nestBin} start --entryFile generate-openapi`], {
         stdio: 'inherit',
         env,
       })
-    : spawnSync(nestBin, ['start', '--entryFile', 'main'], {
+    : spawnSync(nestBin, ['start', '--entryFile', 'generate-openapi'], {
         stdio: 'inherit',
         env,
       })

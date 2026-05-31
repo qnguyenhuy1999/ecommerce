@@ -1341,7 +1341,7 @@ export type components = {
       /**
        * Format: password
        * @description Admin password
-       * @example admin123
+       * @example Str0ngPassw0rd!
        */
       password: string
     }

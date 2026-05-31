@@ -26,7 +26,7 @@ export function DashboardRevenueAndTodoSection({
         padded={false}
       >
         <div className="h-62 px-2 py-4 sm:px-3">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <AreaChart data={revenueSeries} margin={{ top: 8, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="dashboard-revenue" x1="0" y1="0" x2="0" y2="1">

@@ -2277,7 +2277,7 @@ export type components = {
       /**
        * Format: password
        * @description User password
-       * @example admin123
+       * @example Str0ngPassw0rd!
        */
       password: string
     }
@@ -2445,7 +2445,7 @@ export type components = {
        * @description Discount type
        * @enum {string}
        */
-      type: 'PERCENTAGE' | 'FIXED_AMOUNT'
+      type: 'PERCENTAGE' | 'FIXED_AMOUNT' | 'FREE_SHIPPING'
       /**
        * @description Coupon applicability scope
        * @enum {string}
@@ -2490,7 +2490,7 @@ export type components = {
        * @description Discount type
        * @enum {string}
        */
-      type?: 'PERCENTAGE' | 'FIXED_AMOUNT'
+      type?: 'PERCENTAGE' | 'FIXED_AMOUNT' | 'FREE_SHIPPING'
       /**
        * @description Coupon applicability scope
        * @enum {string}
@@ -5014,7 +5014,7 @@ export interface operations {
         /** @description Filter by coupon status */
         status?: 'DRAFT' | 'ACTIVE' | 'PAUSED' | 'EXPIRED' | 'DEPLETED'
         /** @description Filter by coupon type */
-        type?: 'PERCENTAGE' | 'FIXED_AMOUNT'
+        type?: 'PERCENTAGE' | 'FIXED_AMOUNT' | 'FREE_SHIPPING'
       }
       header?: never
       path?: never

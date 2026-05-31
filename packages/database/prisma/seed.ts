@@ -5,7 +5,10 @@ loadDatabaseEnv()
 
 const { prisma } = await import('../src/client')
 
-const ADMIN_PASSWORD = 'admin123'
+const ADMIN_PASSWORD = process.env.SEED_ADMIN_PASSWORD
+if (!ADMIN_PASSWORD) {
+  throw new Error('SEED_ADMIN_PASSWORD must be set before running the database seed')
+}
 const ADMIN_PASSWORD_HASH = await bcrypt.hash(ADMIN_PASSWORD, 12)
 
 const adminRoles = [
@@ -106,7 +109,7 @@ async function main() {
     },
   })
 
-  console.log('Seeded super admin account:', adminEmail, '(password: admin123)')
+  console.log('Seeded super admin account:', adminEmail)
 }
 
 main()

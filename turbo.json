@@ -35,7 +35,7 @@
     "test": {
       "cache": true,
       "inputs": ["src/**", "test/**", "tests/**", "**/*.test.*", "**/*.spec.*", "vitest.config.*", "package.json"],
-      "outputs": ["coverage/**"]
+      "outputs": []
     },
     "type-check": {
       "cache": true,

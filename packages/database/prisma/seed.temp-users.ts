@@ -5,7 +5,10 @@ loadDatabaseEnv()
 
 const { prisma } = await import('../src/client')
 
-const TEMP_PASSWORD = 'TempPass123!'
+const TEMP_PASSWORD = process.env.SEED_TEMP_USERS_PASSWORD
+if (!TEMP_PASSWORD) {
+  throw new Error('SEED_TEMP_USERS_PASSWORD must be set before seeding temporary users')
+}
 const TEMP_PASSWORD_HASH = await bcrypt.hash(TEMP_PASSWORD, 12)
 
 type SellerSeed = {
@@ -268,7 +271,7 @@ async function main() {
     await seedBuyer(buyer)
   }
 
-  console.log(`Temporary users seeded. Shared password: ${TEMP_PASSWORD}`)
+  console.log('Temporary users seeded')
 }
 
 main()

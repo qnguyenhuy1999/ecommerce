@@ -3624,7 +3624,7 @@
             "description": "Filter by coupon type",
             "schema": {
               "type": "string",
-              "enum": ["PERCENTAGE", "FIXED_AMOUNT"]
+              "enum": ["PERCENTAGE", "FIXED_AMOUNT", "FREE_SHIPPING"]
             }
           }
         ],
@@ -16809,7 +16809,7 @@
             "type": "string",
             "description": "User password",
             "format": "password",
-            "example": "admin123"
+            "example": "Str0ngPassw0rd!"
           }
         },
         "required": ["email", "password"]
@@ -17138,7 +17138,7 @@
           },
           "type": {
             "type": "string",
-            "enum": ["PERCENTAGE", "FIXED_AMOUNT"],
+            "enum": ["PERCENTAGE", "FIXED_AMOUNT", "FREE_SHIPPING"],
             "description": "Discount type"
           },
           "scope": {
@@ -17217,7 +17217,7 @@
           },
           "type": {
             "type": "string",
-            "enum": ["PERCENTAGE", "FIXED_AMOUNT"],
+            "enum": ["PERCENTAGE", "FIXED_AMOUNT", "FREE_SHIPPING"],
             "description": "Discount type"
           },
           "scope": {

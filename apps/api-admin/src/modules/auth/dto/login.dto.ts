@@ -10,7 +10,7 @@ export class LoginDto {
   @IsEmail()
   email!: string
 
-  @ApiProperty({ description: 'Admin password', format: 'password', example: 'admin123' })
+  @ApiProperty({ description: 'Admin password', format: 'password', example: 'Str0ngPassw0rd!' })
   @IsString()
   password!: string
 }

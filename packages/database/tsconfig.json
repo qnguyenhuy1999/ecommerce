@@ -5,5 +5,5 @@
     "rootDir": "."
   },
   "include": ["src/**/*", "env.ts"],
-  "exclude": ["node_modules", "dist", "prisma"]
+  "exclude": ["node_modules", "dist", "prisma", "scripts/generate-enums.ts"]
 }

@@ -37,7 +37,7 @@ export function RevenueTrendSection({ revenueSeries }: { revenueSeries: Analytic
   return (
     <SectionCard title="Revenue trend" padded={false}>
       <div className="h-72 px-2 py-4 sm:px-3">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
           <AreaChart data={revenueSeries} margin={{ top: 8, right: 10, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id="analytics-revenue" x1="0" y1="0" x2="0" y2="1">
@@ -94,7 +94,7 @@ export function TrafficSourcesSection({
     <SectionCard title="Traffic sources">
       <div className="grid gap-4 md:grid-cols-[9rem_minmax(0,1fr)] md:items-center">
         <div className="h-40">
-          <ResponsiveContainer width="100%" height="100%">
+          <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
             <PieChart>
               <Pie
                 data={chartData}
@@ -122,7 +122,7 @@ export function OrdersByDaySection({
   return (
     <SectionCard title="Orders by day" padded={false}>
       <div className="h-64 px-2 py-4 sm:px-3">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer width="100%" height="100%" minWidth={0} minHeight={0}>
           <BarChart data={ordersByDaySeries} margin={{ top: 8, right: 10, left: 0, bottom: 0 }}>
             <CartesianGrid vertical={false} stroke="var(--border)" strokeOpacity={0.35} />
             <XAxis

@@ -89,9 +89,7 @@
           }
         },
         "summary": "Register a new user",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/auth/login": {
@@ -182,9 +180,7 @@
           }
         },
         "summary": "Login and receive session cookie",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/auth/logout": {
@@ -265,9 +261,7 @@
           }
         },
         "summary": "Logout and clear session cookie",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/auth/me": {
@@ -348,9 +342,7 @@
           }
         },
         "summary": "Get current user session info",
-        "tags": [
-          "Storefront/Auth"
-        ]
+        "tags": ["Storefront/Auth"]
       }
     },
     "/chat/conversations": {
@@ -449,9 +441,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       },
       "post": {
         "operationId": "ChatController_createConversation",
@@ -537,9 +527,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       }
     },
     "/chat/unread": {
@@ -627,9 +615,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       }
     },
     "/chat/conversations/{id}": {
@@ -726,9 +712,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       }
     },
     "/chat/conversations/{id}/messages": {
@@ -836,9 +820,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       },
       "post": {
         "operationId": "ChatController_sendMessage",
@@ -933,9 +915,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       }
     },
     "/chat/conversations/{id}/read": {
@@ -1014,9 +994,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Chat"
-        ]
+        "tags": ["Storefront/Chat"]
       }
     },
     "/homepage": {
@@ -1097,9 +1075,7 @@
           }
         },
         "summary": "Get all landing page data (categories, vouchers, flash sale, featured products, shops)",
-        "tags": [
-          "Storefront/Homepage"
-        ]
+        "tags": ["Storefront/Homepage"]
       }
     },
     "/notifications": {
@@ -1198,9 +1174,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Notifications"]
       }
     },
     "/notifications/unread-count": {
@@ -1288,9 +1262,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Notifications"]
       }
     },
     "/notifications/{id}/read": {
@@ -1387,9 +1359,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Notifications"]
       }
     },
     "/notifications/read-all": {
@@ -1477,9 +1447,7 @@
             "sessionId": []
           }
         ],
-        "tags": [
-          "Storefront/Notifications"
-        ]
+        "tags": ["Storefront/Notifications"]
       }
     }
   },
@@ -1533,10 +1501,7 @@
                 "additionalProperties": true
               }
             },
-            "required": [
-              "code",
-              "message"
-            ]
+            "required": ["code", "message"]
           },
           "statusCode": {
             "type": "number",
@@ -1551,13 +1516,7 @@
             "example": "/admin/products/123"
           }
         },
-        "required": [
-          "success",
-          "message",
-          "statusCode",
-          "timestamp",
-          "path"
-        ]
+        "required": ["success", "message", "statusCode", "timestamp", "path"]
       },
       "ApiResponseDto": {
         "type": "object",
@@ -1583,11 +1542,7 @@
             "example": "2024-01-01T00:00:00.000Z"
           }
         },
-        "required": [
-          "success",
-          "data",
-          "timestamp"
-        ]
+        "required": ["success", "data", "timestamp"]
       },
       "RegisterDto": {
         "type": "object",
@@ -1605,10 +1560,7 @@
             "minLength": 8
           }
         },
-        "required": [
-          "email",
-          "password"
-        ]
+        "required": ["email", "password"]
       },
       "LoginDto": {
         "type": "object",
@@ -1623,13 +1575,10 @@
             "type": "string",
             "description": "User password",
             "format": "password",
-            "example": "admin123"
+            "example": "Str0ngPassw0rd!"
           }
         },
-        "required": [
-          "email",
-          "password"
-        ]
+        "required": ["email", "password"]
       },
       "PaginationMetaDto": {
         "type": "object",
@@ -1665,14 +1614,7 @@
             "example": false
           }
         },
-        "required": [
-          "total",
-          "page",
-          "limit",
-          "totalPages",
-          "hasNextPage",
-          "hasPreviousPage"
-        ]
+        "required": ["total", "page", "limit", "totalPages", "hasNextPage", "hasPreviousPage"]
       },
       "PaginatedResponseDto": {
         "type": "object",
@@ -1691,9 +1633,7 @@
                 }
               }
             },
-            "required": [
-              "items"
-            ]
+            "required": ["items"]
           },
           "message": {
             "type": "string",
@@ -1707,11 +1647,7 @@
             "example": "2024-01-01T00:00:00.000Z"
           }
         },
-        "required": [
-          "success",
-          "meta",
-          "timestamp"
-        ]
+        "required": ["success", "meta", "timestamp"]
       },
       "ChatConversationDto": {
         "type": "object",
@@ -1773,9 +1709,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "unreadCount"
-        ]
+        "required": ["unreadCount"]
       },
       "ChatMessageDto": {
         "type": "object",
@@ -1844,12 +1778,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "icon"
-        ]
+        "required": ["id", "name", "slug", "icon"]
       },
       "PlatformVoucherDto": {
         "type": "object",
@@ -1883,16 +1812,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "code",
-          "name",
-          "type",
-          "discountValue",
-          "maxDiscountAmount",
-          "minOrderAmount",
-          "expiresAt"
-        ]
+        "required": ["id", "code", "name", "type", "discountValue", "maxDiscountAmount", "minOrderAmount", "expiresAt"]
       },
       "ShopSummaryDto": {
         "type": "object",
@@ -1911,12 +1831,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "logo"
-        ]
+        "required": ["id", "name", "slug", "logo"]
       },
       "FlashSaleProductDto": {
         "type": "object",
@@ -2003,12 +1918,7 @@
             }
           }
         },
-        "required": [
-          "id",
-          "name",
-          "endsAt",
-          "products"
-        ]
+        "required": ["id", "name", "endsAt", "products"]
       },
       "ProductCardDto": {
         "type": "object",
@@ -2097,12 +2007,7 @@
             }
           }
         },
-        "required": [
-          "title",
-          "categorySlug",
-          "categoryId",
-          "products"
-        ]
+        "required": ["title", "categorySlug", "categoryId", "products"]
       },
       "TrendingShopDto": {
         "type": "object",
@@ -2125,13 +2030,7 @@
             "nullable": true
           }
         },
-        "required": [
-          "id",
-          "name",
-          "slug",
-          "logo",
-          "banner"
-        ]
+        "required": ["id", "name", "slug", "logo", "banner"]
       },
       "HomepageDto": {
         "type": "object",
@@ -2221,15 +2120,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "id",
-          "userId",
-          "type",
-          "title",
-          "message",
-          "isRead",
-          "createdAt"
-        ]
+        "required": ["id", "userId", "type", "title", "message", "isRead", "createdAt"]
       },
       "NotificationUnreadCountDto": {
         "type": "object",
@@ -2238,9 +2129,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "count"
-        ]
+        "required": ["count"]
       },
       "MarkNotificationReadDto": {
         "type": "object",
@@ -2249,9 +2138,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "message"
-        ]
+        "required": ["message"]
       },
       "MarkAllNotificationsReadDto": {
         "type": "object",
@@ -2260,9 +2147,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "updated"
-        ]
+        "required": ["updated"]
       }
     }
   },

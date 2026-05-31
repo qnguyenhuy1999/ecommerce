@@ -6,7 +6,7 @@ module.exports = {
       name: 'no-deep-imports',
       severity: 'error',
       from: { pathNot: '^packages/shared/' },
-      to: { path: '^packages/shared/src/', pathNot: '^packages/shared/src/index\\.ts$' },
+      to: { path: '^packages/shared/src/', dependencyTypes: ['local'] },
       comment: 'Only @ecom/shared/<export-path> allowed. Internal src/ files unreachable from outside shared/',
     },
     {
@@ -84,6 +84,9 @@ module.exports = {
     },
   ],
   options: {
+    exclude: {
+      path: '(^|/)(dist|\\.next)/|^packages/database/src/generated/',
+    },
     doNotFollow: {
       path: 'node_modules',
     },
