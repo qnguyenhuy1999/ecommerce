@@ -1,5 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { IsOptional, IsString } from 'class-validator'
+import { IsIn, IsObject, IsOptional, IsString } from 'class-validator'
 import { OffsetPaginationDto } from '@ecom/shared/pagination/nestjs/offset-pagination.dto'
 
 export class ConversationQueryDto extends OffsetPaginationDto {
@@ -23,4 +23,20 @@ export class CreateConversationDto {
   @ApiPropertyOptional()
   @IsString()
   productId?: string
+}
+
+export class SendChatMessageDto {
+  @ApiProperty()
+  @IsString()
+  content!: string
+
+  @IsOptional()
+  @ApiPropertyOptional({ enum: ['TEXT', 'IMAGE', 'PRODUCT'] })
+  @IsIn(['TEXT', 'IMAGE', 'PRODUCT'])
+  type?: 'TEXT' | 'IMAGE' | 'PRODUCT'
+
+  @IsOptional()
+  @ApiPropertyOptional({ type: Object })
+  @IsObject()
+  metadata?: Record<string, unknown>
 }

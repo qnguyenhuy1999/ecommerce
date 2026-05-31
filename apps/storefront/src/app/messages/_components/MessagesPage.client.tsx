@@ -5,40 +5,30 @@ import { useMessagesAdapter } from '../../../features/messages/hooks/use-message
 
 export function MessagesPageClient() {
   const {
-    loading,
+    loadingConversations,
+    loadingMessages,
     conversations,
     messages,
     selectedConversationId,
-    onSelectConversation,
-    draft,
-    onDraftChange,
-    onSend,
-    onStartConversation,
-    newShopId,
-    onNewShopIdChange,
-    newProductId,
-    onNewProductIdChange,
+    onSelectedConversationChange,
+    draftMessage,
+    onDraftMessageChange,
+    onSendMessage,
   } = useMessagesAdapter()
 
   return (
     <Messages
-      loading={loading}
+      title="Messages"
+      description="Conversations with shops"
+      loadingConversations={loadingConversations}
+      loadingMessages={loadingMessages}
       conversations={conversations}
       messages={messages}
-      selectedConversationId={selectedConversationId}
-      onSelectConversation={onSelectConversation}
-      draft={draft}
-      onDraftChange={onDraftChange}
-      onSend={() => {
-        void onSend()
-      }}
-      onStartConversation={() => {
-        void onStartConversation()
-      }}
-      newShopId={newShopId}
-      onNewShopIdChange={onNewShopIdChange}
-      newProductId={newProductId}
-      onNewProductIdChange={onNewProductIdChange}
+      {...(selectedConversationId !== undefined ? { selectedConversationId } : {})}
+      onSelectedConversationChange={onSelectedConversationChange}
+      draftMessage={draftMessage}
+      onDraftMessageChange={onDraftMessageChange}
+      onSendMessage={() => onSendMessage()}
     />
   )
 }

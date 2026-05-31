@@ -3,7 +3,7 @@ import type { BannersProps } from './Banners.types'
 export const bannersDefaultProps: BannersProps = {
   title: 'Banners',
   description: '4 banners · platform-wide',
-  newBannerLabel: '+ New banner',
+  newBannerLabel: 'New banner',
   editLabel: 'Edit',
   deleteLabel: 'Delete',
   emptyMessage: 'No banners match current filters.',

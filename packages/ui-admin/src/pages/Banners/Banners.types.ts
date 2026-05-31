@@ -33,3 +33,24 @@ export interface BannersProps {
   onEdit?: (item: BannerRecord) => void
   onDelete?: (item: BannerRecord) => void
 }
+
+export interface NewBannerButtonProps {
+  label?: string | undefined
+  onNew: () => void
+}
+
+export interface BannerActionsProps {
+  item: BannerRecord
+  editLabel?: string | undefined
+  deleteLabel?: string | undefined
+  onEdit?: ((item: BannerRecord) => void) | undefined
+  onDelete?: ((item: BannerRecord) => void) | undefined
+}
+
+export interface BannersListProps {
+  items: BannerRecord[]
+  editLabel?: string | undefined
+  deleteLabel?: string | undefined
+  onEdit?: ((item: BannerRecord) => void) | undefined
+  onDelete?: ((item: BannerRecord) => void) | undefined
+}

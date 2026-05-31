@@ -1,10 +1,20 @@
 import { PrismaService } from '@ecom/database'
 import { type Prisma } from '@ecom/database'
+import {
+  CHAT_MESSAGE_CREATED_CHANNEL,
+  LAST_MESSAGE_PREVIEW_LENGTH,
+} from '@ecom/shared/constants/events'
+import {
+  OUTBOX_EVENTS,
+  type ChatMessageOutboxPayload,
+} from '@ecom/shared/constants/notification-jobs'
 import { PAGINATION_DEFAULTS } from '@ecom/shared/pagination/core/constants'
 import { buildOffsetResponse } from '@ecom/shared/pagination/prisma/builders'
 import { offsetPaginate } from '@ecom/shared/pagination/prisma/offset-paginate'
-import { Inject, Injectable, NotFoundException } from '@nestjs/common'
+import { Inject, Injectable, Logger, NotFoundException } from '@nestjs/common'
 import { BaseChatService } from '@ecom/nestjs-core/chat/base-chat.service'
+import { REDIS_CLIENT } from '@ecom/redis'
+import type Redis from 'ioredis'
 import {
   ChatConversationDetailDto,
   ChatConversationSummaryDto,
@@ -14,7 +24,12 @@ import type { ConversationQueryDto, MessageQueryDto } from './dto/chat-query.dto
 
 @Injectable()
 export class ChatAdminService extends BaseChatService {
-  constructor(@Inject(PrismaService) prisma: PrismaService) {
+  private readonly logger = new Logger(ChatAdminService.name)
+
+  constructor(
+    @Inject(PrismaService) prisma: PrismaService,
+    @Inject(REDIS_CLIENT) private readonly redis: Redis,
+  ) {
     super(prisma)
   }
 
@@ -120,6 +135,84 @@ export class ChatAdminService extends BaseChatService {
     })
 
     return this.toConversationSummary(conversation)
+  }
+
+  async sendMessage(
+    conversationId: string,
+    content: string,
+    type: 'TEXT' | 'IMAGE' | 'PRODUCT' = 'TEXT',
+    metadata?: Record<string, unknown>,
+  ) {
+    const conversation = await this.prisma.conversation.findUnique({
+      where: { id: conversationId },
+      select: { id: true, buyerId: true, shopId: true },
+    })
+
+    if (!conversation) {
+      throw new NotFoundException('Conversation not found')
+    }
+
+    const shop = await this.prisma.shop.findUnique({
+      where: { id: conversation.shopId },
+      select: { seller: { select: { userId: true } } },
+    })
+
+    if (!shop) {
+      throw new NotFoundException('Conversation shop not found')
+    }
+
+    const senderId = shop.seller.userId
+    const message = await this.prisma.$transaction(async (tx: Prisma.TransactionClient) => {
+      const message = await tx.chatMessage.create({
+        data: {
+          conversationId,
+          senderId,
+          type,
+          content,
+          metadata: metadata as Prisma.InputJsonValue,
+          isReadBySeller: true,
+        },
+      })
+
+      await tx.conversation.update({
+        where: { id: conversationId },
+        data: {
+          lastMessageAt: new Date(),
+          lastMessageText: content.substring(0, LAST_MESSAGE_PREVIEW_LENGTH),
+          buyerUnread: { increment: 1 },
+        },
+      })
+
+      await tx.outboxEvent.create({
+        data: {
+          aggregateType: 'ChatMessage',
+          aggregateId: message.id,
+          eventType: OUTBOX_EVENTS.MESSAGE_CREATED,
+          payload: {
+            recipientKind: 'user',
+            messageId: message.id,
+            conversationId,
+            senderId,
+            recipientUserId: conversation.buyerId,
+            content: content.substring(0, LAST_MESSAGE_PREVIEW_LENGTH),
+          } satisfies ChatMessageOutboxPayload,
+        },
+      })
+
+      return message
+    })
+
+    try {
+      await this.redis.publish(
+        CHAT_MESSAGE_CREATED_CHANNEL,
+        JSON.stringify({ messageId: message.id }),
+      )
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'unknown error'
+      this.logger.warn(`Failed to publish immediate chat event ${message.id}: ${errorMessage}`)
+    }
+
+    return this.toMessageDto(message)
   }
 
   async getMessage(messageId: string) {

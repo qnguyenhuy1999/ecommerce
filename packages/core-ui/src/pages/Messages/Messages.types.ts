@@ -8,6 +8,7 @@ export interface MessageConversation {
   buyerInitials?: string
   orderLabel?: string
   productLabel?: string
+  shopIdLabel?: string
   lastMessagePreview?: string
   lastMessageAtLabel?: string
   lastActivityAt?: string

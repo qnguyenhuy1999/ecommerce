@@ -1,9 +1,9 @@
 'use client'
 
-import { Support } from '@ecom/ui-admin/pages/Support'
+import { Messages } from '@ecom/ui-admin/pages/Messages'
 import { useSupportAdapter } from '@/features/support/hooks/use-support-adapter'
 
 export function SupportPageClient() {
   const { props } = useSupportAdapter()
-  return <Support {...props} />
+  return <Messages {...props} />
 }

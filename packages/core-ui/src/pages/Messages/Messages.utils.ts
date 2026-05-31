@@ -11,7 +11,13 @@ export function filterMessageConversations({
   }
 
   return conversations.filter((conversation) =>
-    [conversation.buyerName, conversation.orderLabel, conversation.lastMessagePreview]
+    [
+      conversation.buyerName,
+      conversation.orderLabel,
+      conversation.productLabel,
+      conversation.shopIdLabel,
+      conversation.lastMessagePreview,
+    ]
       .filter(Boolean)
       .some((value) => value?.toLowerCase().includes(normalizedQuery)),
   )

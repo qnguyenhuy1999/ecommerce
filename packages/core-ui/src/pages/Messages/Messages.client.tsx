@@ -141,11 +141,12 @@ function ConversationItem({ conversation, isSelected, onSelect }: ConversationIt
     <button
       type="button"
       aria-current={isSelected ? 'page' : undefined}
+      aria-selected={isSelected}
       aria-label={`Open conversation with ${conversation.buyerName}`}
       onClick={() => {
         onSelect(conversation.id)
       }}
-      className={`border-border/80 hover:bg-muted/60 relative flex w-full items-start gap-3 border-b px-4 py-3 text-left transition-colors ${
+      className={`border-border/80 hover:bg-muted/60 focus-visible:ring-ring focus-visible:ring-offset-background relative flex w-full items-start gap-3 border-b px-4 py-3 text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${
         isSelected
           ? 'bg-primary/8 ring-primary/25 z-10 shadow-[inset_4px_0_0_0_hsl(var(--primary))]'
           : hasUnread
@@ -230,7 +231,7 @@ function ConversationSidebar({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto" aria-label="Conversation list">
+      <div className="min-h-0 flex-1 overflow-y-auto" role="listbox" aria-label="Conversation list">
         {loading ? <ConversationListSkeleton /> : null}
 
         {!loading && conversations.length === 0 ? (
@@ -457,8 +458,13 @@ function MessagePane({
           <div className="mt-1 flex flex-wrap items-center gap-2 text-sm">
             {selectedConversation.orderLabel ? (
               <span className="bg-muted text-muted-foreground inline-flex items-center gap-1 rounded-full px-2.5 py-1">
-                <Package className="size-3.5" />
+                <Package className="size-3.5" aria-hidden="true" />
                 {selectedConversation.orderLabel}
+              </span>
+            ) : null}
+            {selectedConversation.shopIdLabel ? (
+              <span className="bg-muted text-muted-foreground inline-flex items-center gap-1 rounded-full px-2.5 py-1">
+                {selectedConversation.shopIdLabel}
               </span>
             ) : null}
             {selectedConversation.productLabel ? (
@@ -473,6 +479,9 @@ function MessagePane({
       <div
         ref={messagesScrollRef}
         className="min-h-0 flex-1 overflow-y-auto"
+        role="log"
+        aria-label={`Messages with ${selectedConversation.buyerName}`}
+        aria-live="polite"
         onScroll={onMessagesScroll}
       >
         <MessageList

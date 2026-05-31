@@ -23,15 +23,21 @@ describe('ChatController metadata', () => {
       DECORATORS.API_RESPONSE,
       ChatController.prototype.getMessages,
     ) as string[]
+    const sendMessageResponses = Reflect.getMetadata(
+      DECORATORS.API_RESPONSE,
+      ChatController.prototype.sendMessage,
+    ) as string[]
 
     expect(JSON.stringify(listResponses)).toContain('ChatConversationSummaryDto')
     expect(JSON.stringify(createResponses)).toContain('ChatConversationSummaryDto')
     expect(JSON.stringify(conversationResponses)).toContain('ChatConversationDetailDto')
     expect(JSON.stringify(messageResponses)).toContain('ChatMessageDto')
+    expect(JSON.stringify(sendMessageResponses)).toContain('ChatMessageDto')
     expect(JSON.stringify(listResponses)).not.toContain('Object')
     expect(JSON.stringify(createResponses)).not.toContain('Object')
     expect(JSON.stringify(conversationResponses)).not.toContain('Object')
     expect(JSON.stringify(messageResponses)).not.toContain('Object')
+    expect(JSON.stringify(sendMessageResponses)).not.toContain('Object')
   })
 
   it('requires SUPPORT_MANAGE on chat endpoints', () => {

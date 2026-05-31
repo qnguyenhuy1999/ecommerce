@@ -1,3 +1,4 @@
+// Campaigns.tsx
 import { SellerListPage } from '../../organisms'
 import { VouchersClient } from './Campaigns.client'
 import { vouchersDefaultProps } from './Campaigns.fixtures'
@@ -19,6 +20,9 @@ export function Vouchers({
   onEdit = vouchersDefaultProps.onEdit,
   onPerformance = vouchersDefaultProps.onPerformance,
 }: VouchersProps) {
+  const normalizedItems = items ?? []
+  const normalizedTabLabels = tabLabels ?? {}
+
   return (
     <SellerListPage
       title={title}
@@ -34,8 +38,8 @@ export function Vouchers({
         impressionsLabel={impressionsLabel ?? 'Impr'}
         ctrLabel={ctrLabel ?? 'CTR'}
         redemptionsLabel={redemptionsLabel ?? 'Redm'}
-        tabLabels={tabLabels ?? {}}
-        items={items ?? []}
+        tabLabels={normalizedTabLabels}
+        items={normalizedItems}
         onNewVoucher={onNewVoucher}
         onEdit={onEdit}
         onPerformance={onPerformance}

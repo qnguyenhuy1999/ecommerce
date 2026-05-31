@@ -1,11 +1,20 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
-import { createChatConversation, type ChatSummaryDto } from '../api/chat.api'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  createChatConversation,
+  sendChatMessage,
+  type ChatMessageDto,
+  type ChatSummaryDto,
+} from '../api/chat.api'
 import { mapChatMessageToRecord, mapChatToRecord } from '../mappers/chat.mapper'
 import { useChatMessages, useChatRealtime, useChats } from './use-chat'
-import { insertChatIntoList } from '../utils/chat-realtime'
+import {
+  applyIncomingMessageToChats,
+  insertChatIntoList,
+  mergeIncomingChatMessage,
+} from '../utils/chat-realtime'
 import { chatKeys } from '../query-keys'
 
 export function useChatAdapter() {
@@ -17,6 +26,7 @@ export function useChatAdapter() {
   const [submitError, setSubmitError] = useState<Error | null>(null)
   const chatsQuery = useChats()
   const messagesQuery = useChatMessages(selectedChatId)
+  const selectedChat = chatsQuery.data?.find((chat) => chat.id === selectedChatId)
 
   useChatRealtime(selectedChatId)
 
@@ -59,19 +69,70 @@ export function useChatAdapter() {
     }
   }
 
+  const sendMutation = useMutation({
+    mutationFn: ({ conversationId, content }: { conversationId: string; content: string }) =>
+      sendChatMessage(conversationId, { content }),
+  })
+
+  const handleSendMessage = async (conversationId: string, content: string) => {
+    const sentAt = new Date().toISOString()
+    const optimisticMessage: ChatMessageDto = {
+      id: `optimistic-${sentAt}`,
+      conversationId,
+      senderId: '__admin_outbound__',
+      content,
+      createdAt: sentAt,
+    }
+
+    queryClient.setQueryData<ChatMessageDto[]>(chatKeys.messages(conversationId), (current = []) =>
+      mergeIncomingChatMessage(current, optimisticMessage),
+    )
+    queryClient.setQueryData<ChatSummaryDto[]>(chatKeys.chats(), (current = []) =>
+      applyIncomingMessageToChats(current, optimisticMessage),
+    )
+
+    try {
+      const response = await sendMutation.mutateAsync({ conversationId, content })
+      queryClient.setQueryData<ChatMessageDto[]>(
+        chatKeys.messages(conversationId),
+        (current = []) => [
+          ...current.filter((message) => message.id !== optimisticMessage.id),
+          response.data,
+        ],
+      )
+      queryClient.setQueryData<ChatSummaryDto[]>(chatKeys.chats(), (current = []) =>
+        applyIncomingMessageToChats(current, response.data),
+      )
+    } catch (error) {
+      queryClient.setQueryData<ChatMessageDto[]>(
+        chatKeys.messages(conversationId),
+        (current = []) => current.filter((message) => message.id !== optimisticMessage.id),
+      )
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: chatKeys.chats() }),
+        queryClient.invalidateQueries({ queryKey: chatKeys.messages(conversationId) }),
+      ])
+      throw error
+    }
+  }
+
   return {
-    loading: chatsQuery.isPending,
     error: chatsQuery.error ?? messagesQuery.error ?? submitError ?? null,
     conversations: chatsQuery.data?.map(mapChatToRecord) ?? [],
-    messages: messagesQuery.data?.map(mapChatMessageToRecord) ?? [],
+    messages:
+      messagesQuery.data?.map((message) => mapChatMessageToRecord(message, selectedChat)) ?? [],
     newBuyerId,
     newShopId,
     newProductId,
     ...(selectedChatId !== undefined ? { selectedConversationId: selectedChatId } : {}),
-    onSelectConversation: setSelectedChatId,
+    onSelectedConversationChange: setSelectedChatId,
+    loadingConversations: chatsQuery.isPending,
+    loadingMessages: messagesQuery.isPending,
     onNewBuyerIdChange: setNewBuyerId,
     onNewShopIdChange: setNewShopId,
     onNewProductIdChange: setNewProductId,
+    onSendMessage: (conversation: { id: string }, content: string) =>
+      handleSendMessage(conversation.id, content),
     onStartConversation: () => {
       void handleStartConversation()
     },

@@ -39,6 +39,12 @@
       "import": "./src/layouts/*/*.tsx",
       "default": "./src/layouts/*/*.tsx"
     },
+    "./pages/*": {
+      "types": "./src/pages/*/index.ts",
+      "development": "./src/pages/*/index.ts",
+      "import": "./src/pages/*/index.ts",
+      "default": "./src/pages/*/index.ts"
+    },
     "./hooks/*": {
       "types": "./src/hooks/*.ts",
       "development": "./src/hooks/*.ts",

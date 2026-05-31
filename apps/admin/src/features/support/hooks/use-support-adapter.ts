@@ -1,23 +1,17 @@
 'use client'
 
 import { useState } from 'react'
-import type { SupportProps } from '@ecom/ui-admin/pages/Support'
+import type { MessagesProps } from '@ecom/ui-admin/pages/Messages'
+import { useSendSupportReply, useSupportMessages, useSupportTickets } from './use-support'
 import {
-  useChangeSupportAssignee,
-  useChangeSupportStatus,
-  useSendSupportReply,
-  useSupportMessages,
-  useSupportTickets,
-} from './use-support'
-import {
-  mapApiMessageToSupportMessage,
-  mapApiTicketToSupportTicket,
+  mapApiMessageToSupportEntry,
+  mapApiTicketToSupportConversation,
 } from '../mappers/support.mapper'
 
 interface SupportAdapterResult {
   loading: boolean
   error: Error | null
-  props: SupportProps
+  props: MessagesProps
 }
 
 export function useSupportAdapter(): SupportAdapterResult {
@@ -26,30 +20,28 @@ export function useSupportAdapter(): SupportAdapterResult {
   const ticketsQuery = useSupportTickets()
   const messagesQuery = useSupportMessages(selectedTicketId)
   const sendReplyMutation = useSendSupportReply(selectedTicketId)
-  const changeStatusMutation = useChangeSupportStatus()
-  const changeAssigneeMutation = useChangeSupportAssignee()
 
-  const tickets = (ticketsQuery.data ?? []).map(mapApiTicketToSupportTicket)
-  const messages = (messagesQuery.data ?? []).map(mapApiMessageToSupportMessage)
+  const conversations = (ticketsQuery.data ?? []).map(mapApiTicketToSupportConversation)
+  const messages = (messagesQuery.data ?? []).map(mapApiMessageToSupportEntry)
 
   return {
     loading: ticketsQuery.isPending,
     error: ticketsQuery.error,
     props: {
-      tickets,
+      title: 'Support Messages',
+      description: 'Customer support tickets as shared message threads.',
+      conversations,
       messages,
-      ...(selectedTicketId !== null && { selectedTicketId }),
-      onSelectedTicketChange: setSelectedTicketId,
-      loadingTickets: ticketsQuery.isPending,
+      ...(selectedTicketId !== null && { selectedConversationId: selectedTicketId }),
+      onSelectedConversationChange: setSelectedTicketId,
+      loadingConversations: ticketsQuery.isPending,
       loadingMessages: messagesQuery.isPending,
-      onSendReply: async (_ticket, content, isInternal) => {
-        await sendReplyMutation.mutateAsync({ content, isInternal })
-      },
-      onStatusChange: async (ticket, status) => {
-        await changeStatusMutation.mutateAsync({ ticketId: ticket.id, status })
-      },
-      onAssigneeChange: async (ticket, assignee) => {
-        await changeAssigneeMutation.mutateAsync({ ticketId: ticket.id, assignedAdminId: assignee })
+      emptyConversationsMessage: 'No support tickets found.',
+      emptyMessagesMessage: 'No support messages yet.',
+      unselectedConversationMessage: 'Select a support ticket to view the conversation.',
+      composerPlaceholder: 'Reply to customer...',
+      onSendMessage: async (_conversation, content) => {
+        await sendReplyMutation.mutateAsync({ content, isInternal: false })
       },
     },
   }

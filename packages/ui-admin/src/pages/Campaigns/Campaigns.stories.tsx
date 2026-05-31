@@ -25,3 +25,15 @@ export const Default: Story = {
     </ConsoleLayout>
   ),
 }
+
+export const EmptyState: Story = {
+  args: {
+    ...vouchersDefaultProps,
+    items: [],
+  },
+  render: (args) => (
+    <ConsoleLayout>
+      <Vouchers {...args} />
+    </ConsoleLayout>
+  ),
+}

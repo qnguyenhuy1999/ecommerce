@@ -49,6 +49,9 @@ export * from './organisms/Sidebar'
 
 export * from './layouts/ConsoleLayout'
 export * from './layouts/ConsolePageLayout'
+export * from './layouts/StorefrontLayout'
+
+export * from './pages'
 
 export * from './hooks/use-controllable-state'
 

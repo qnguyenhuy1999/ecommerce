@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { mapChatMessageToRecord, mapChatToRecord } from './chat.mapper'
 
 describe('mapChatToRecord', () => {
-  it('maps summary dto fields into ChatConversationRecord', () => {
+  it('maps summary dto fields into ChatConversation', () => {
     const record = mapChatToRecord({
       id: 'conv_1',
       buyerId: 'buyer_12345678',
@@ -13,28 +13,60 @@ describe('mapChatToRecord', () => {
 
     expect(record).toEqual({
       id: 'conv_1',
-      buyerIdShort: 'buyer_12…',
-      shopIdShort: 'shop_123…',
-      lastMessageText: null,
+      buyerName: 'Buyer buyer_12…',
+      buyerInitials: 'B',
+      shopIdLabel: 'Shop shop_123…',
+      lastMessageAtLabel: new Date('2026-05-27T10:00:00.000Z').toLocaleString(),
+      lastActivityAt: '2026-05-27T10:00:00.000Z',
     })
   })
 })
 
 describe('mapChatMessageToRecord', () => {
-  it('maps message dto fields into ChatMessageRecord', () => {
-    const record = mapChatMessageToRecord({
-      id: 'msg_1',
-      conversationId: 'conv_1',
-      senderId: 'seller_12345678',
-      content: 'Reply',
-      createdAt: '2026-05-27T10:00:00.000Z',
-    })
+  it('maps non-buyer messages as seller messages', () => {
+    const record = mapChatMessageToRecord(
+      {
+        id: 'msg_1',
+        conversationId: 'conv_1',
+        senderId: 'seller-user-uuid',
+        content: 'Reply',
+        createdAt: '2026-05-27T10:00:00.000Z',
+      },
+      {
+        id: 'conv_1',
+        buyerId: 'buyer-user-uuid',
+        shopId: 'shop_12345678',
+        lastMessageText: null,
+        updatedAt: '2026-05-27T10:00:00.000Z',
+      },
+    )
 
     expect(record).toEqual({
       id: 'msg_1',
       content: 'Reply',
-      senderIdShort: 'seller_1…',
-      createdAtLabel: new Date('2026-05-27T10:00:00.000Z').toLocaleString(),
+      sender: 'SELLER',
+      sentAtLabel: new Date('2026-05-27T10:00:00.000Z').toLocaleString(),
     })
+  })
+
+  it('maps buyer messages by comparing the selected conversation buyer id', () => {
+    const record = mapChatMessageToRecord(
+      {
+        id: 'msg_2',
+        conversationId: 'conv_1',
+        senderId: 'buyer-user-uuid',
+        content: 'Question',
+        createdAt: '2026-05-27T10:01:00.000Z',
+      },
+      {
+        id: 'conv_1',
+        buyerId: 'buyer-user-uuid',
+        shopId: 'shop_12345678',
+        lastMessageText: null,
+        updatedAt: '2026-05-27T10:00:00.000Z',
+      },
+    )
+
+    expect(record.sender).toBe('BUYER')
   })
 })

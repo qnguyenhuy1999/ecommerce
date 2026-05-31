@@ -17,7 +17,12 @@ import {
   ChatConversationSummaryDto,
   ChatMessageDto,
 } from './dto/chat-response.dto'
-import { ConversationQueryDto, CreateConversationDto, MessageQueryDto } from './dto/chat-query.dto'
+import {
+  ConversationQueryDto,
+  CreateConversationDto,
+  MessageQueryDto,
+  SendChatMessageDto,
+} from './dto/chat-query.dto'
 
 @ApiTags('Admin/Chat')
 @ApiAuth()
@@ -53,5 +58,12 @@ export class ChatController {
   @ApiPaginatedResponse(ChatMessageDto)
   async getMessages(@Param('id') id: string, @Query() query: MessageQueryDto) {
     return this.chatAdminService.getMessages(id, query)
+  }
+
+  @Post('conversations/:id/messages')
+  @Permissions('SUPPORT_MANAGE')
+  @ApiCreatedResponseData(ChatMessageDto)
+  async sendMessage(@Param('id') id: string, @Body() body: SendChatMessageDto) {
+    return this.chatAdminService.sendMessage(id, body.content, body.type, body.metadata)
   }
 }

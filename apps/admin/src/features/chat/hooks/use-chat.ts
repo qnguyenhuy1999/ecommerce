@@ -15,7 +15,7 @@ import {
 import { acquireChatSocket, releaseChatSocket } from '../utils/chat-socket-manager'
 
 export function useChats() {
-  return useQuery({
+  return useQuery<ChatSummaryDto[]>({
     queryKey: chatKeys.chats(),
     queryFn: async () => {
       const res = await getChats()
@@ -25,7 +25,7 @@ export function useChats() {
 }
 
 export function useChatMessages(chatId: string | undefined) {
-  return useQuery({
+  return useQuery<ChatMessageDto[]>({
     queryKey: chatKeys.messages(chatId ?? '__none__'),
     queryFn: async () => {
       if (!chatId) {

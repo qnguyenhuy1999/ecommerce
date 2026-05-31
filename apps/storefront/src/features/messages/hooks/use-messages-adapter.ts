@@ -2,10 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
-import type {
-  MessagesConversationRecord,
-  MessagesMessageRecord,
-} from '@ecom/ui-storefront/pages/Messages'
+import type { MessageConversation, MessageEntry } from '@ecom/ui-storefront/pages/Messages'
 import type { ChatConversation } from '../../../lib/storefront-contracts'
 import type { RealtimeChatMessagePayload } from '../../../lib/realtime'
 import { useProtectedRoute } from '../../../core/auth/use-protected-route'
@@ -138,24 +135,24 @@ export function useMessagesAdapter() {
     setDraft('')
   }
 
-  const mappedConversations = useMemo<MessagesConversationRecord[]>(
+  const mappedConversations = useMemo<MessageConversation[]>(
     () => conversations.map(mapConversation),
     [conversations],
   )
-  const mappedMessages = useMemo<MessagesMessageRecord[]>(
-    () => messages.map(mapMessage),
-    [messages],
-  )
+  const mappedMessages = useMemo<MessageEntry[]>(() => messages.map(mapMessage), [messages])
 
   return {
-    loading: routeLoading || conversationsQuery.isPending,
+    loadingConversations: routeLoading || conversationsQuery.isPending,
+    loadingMessages: messagesQuery.isPending,
     conversations: mappedConversations,
     messages: mappedMessages,
     selectedConversationId,
-    onSelectConversation: setSelectedConversationId,
-    draft,
-    onDraftChange: setDraft,
-    onSend: handleSendMessage,
+    onSelectedConversationChange: setSelectedConversationId,
+    draftMessage: draft,
+    onDraftMessageChange: setDraft,
+    onSendMessage: async () => {
+      await handleSendMessage()
+    },
     onStartConversation: handleStartConversation,
     newShopId,
     onNewShopIdChange: setNewShopId,

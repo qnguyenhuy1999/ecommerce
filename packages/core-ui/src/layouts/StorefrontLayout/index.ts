@@ -1,12 +1,13 @@
-export { StorefrontFooter, StorefrontLayout } from '@ecom/core-ui/layouts/StorefrontLayout'
+export { StorefrontLayout } from './StorefrontLayout'
+export { StorefrontFooter } from './StorefrontFooter'
 export {
   storefrontFooterColumns,
   storefrontNavigation,
   storefrontUtilityLinks,
-} from '@ecom/core-ui/layouts/StorefrontLayout'
+} from './StorefrontLayout.fixtures'
 export type {
   StorefrontFooterColumn,
   StorefrontLayoutProps,
   StorefrontNavItem,
   StorefrontHeaderProps,
-} from '@ecom/core-ui/layouts/StorefrontLayout'
+} from './StorefrontLayout.types'

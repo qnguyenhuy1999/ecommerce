@@ -9,6 +9,8 @@ export type CreateChatConversationBody = {
   shopId: string
   productId?: string
 }
+export type SendChatMessageBody =
+  AdminOperations['ChatController_sendMessage']['requestBody']['content']['application/json']
 
 export type ChatsResponse =
   AdminOperations['ChatController_listConversations']['responses']['200']['content']['application/json']
@@ -20,6 +22,8 @@ export type ChatConversationResponse = {
 
 export type ChatMessagesResponse =
   AdminOperations['ChatController_getMessages']['responses']['200']['content']['application/json']
+export type SendChatMessageResponse =
+  AdminOperations['ChatController_sendMessage']['responses']['201']['content']['application/json']
 
 export async function getChats() {
   return api<ChatsResponse>('/admin/chat/conversations')
@@ -34,4 +38,11 @@ export async function createChatConversation(body: CreateChatConversationBody) {
 
 export async function getChatMessages(chatId: string) {
   return api<ChatMessagesResponse>(`/admin/chat/conversations/${chatId}/messages`)
+}
+
+export async function sendChatMessage(chatId: string, body: SendChatMessageBody) {
+  return api<SendChatMessageResponse>(`/admin/chat/conversations/${chatId}/messages`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  })
 }

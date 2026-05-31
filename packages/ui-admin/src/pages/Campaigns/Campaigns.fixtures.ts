@@ -3,7 +3,7 @@ import type { VouchersProps } from './Campaigns.types'
 export const vouchersDefaultProps: VouchersProps = {
   title: 'Promotions & vouchers',
   description: 'Platform-wide discount codes and vouchers',
-  newVoucherLabel: '+ New voucher',
+  newVoucherLabel: 'New voucher',
   budgetLabel: 'Usage',
   editLabel: 'Edit',
   performanceLabel: 'Performance',

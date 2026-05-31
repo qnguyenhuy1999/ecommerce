@@ -271,7 +271,7 @@ export type paths = {
     }
     get: operations['ChatController_getMessages']
     put?: never
-    post?: never
+    post: operations['ChatController_sendMessage']
     delete?: never
     options?: never
     head?: never
@@ -1514,6 +1514,12 @@ export type components = {
       content: string
       /** @example 2026-05-27T10:01:00.000Z */
       createdAt: string
+    }
+    SendChatMessageDto: {
+      content: string
+      /** @enum {string} */
+      type?: 'TEXT' | 'IMAGE' | 'PRODUCT'
+      metadata?: Record<string, never>
     }
     DashboardSellerUserDto: {
       email: string
@@ -3109,6 +3115,78 @@ export interface operations {
               items?: components['schemas']['ChatMessageDto'][]
             }
             meta?: components['schemas']['PaginationMetaDto']
+          }
+        }
+      }
+      /** @description Bad Request */
+      400: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponseDto']
+        }
+      }
+      /** @description Unauthorized */
+      401: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponseDto']
+        }
+      }
+      /** @description Forbidden */
+      403: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponseDto']
+        }
+      }
+      /** @description Not Found */
+      404: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponseDto']
+        }
+      }
+      /** @description Internal Server Error */
+      500: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ErrorResponseDto']
+        }
+      }
+    }
+  }
+  ChatController_sendMessage: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SendChatMessageDto']
+      }
+    }
+    responses: {
+      201: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiResponseDto'] & {
+            data?: components['schemas']['ChatMessageDto']
           }
         }
       }

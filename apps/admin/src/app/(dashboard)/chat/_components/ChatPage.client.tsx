@@ -1,9 +1,15 @@
 'use client'
 
-import { Chat } from '@ecom/ui-admin/pages/Chat'
+import { Messages } from '@ecom/ui-admin/pages/Messages'
 import { useChatAdapter } from '@/features/chat/hooks/use-chat-adapter'
 
 export function ChatPageClient() {
   const props = useChatAdapter()
-  return <Chat {...props} />
+  return (
+    <Messages
+      {...props}
+      title="Chat Monitor"
+      description="Live view of buyer and seller conversations."
+    />
+  )
 }

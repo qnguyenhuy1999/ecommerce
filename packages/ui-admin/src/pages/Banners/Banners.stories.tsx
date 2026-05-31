@@ -18,6 +18,9 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   args: {
     ...bannersDefaultProps,
+    onNew: () => alert('New banner'),
+    onEdit: (item) => alert(`Edit banner ${item.id}`),
+    onDelete: (item) => alert(`Delete banner ${item.id}`),
   },
   render: (args) => (
     <ConsoleLayout>

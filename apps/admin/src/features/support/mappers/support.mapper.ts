@@ -1,10 +1,10 @@
 import { formatDateIntl, formatDateTime } from '@ecom/shared/utils/format'
-import type { SupportMessage, SupportTicket } from '@ecom/ui-admin/pages/Support'
+import type { MessageConversation, MessageEntry } from '@ecom/ui-admin/pages/Messages'
 import type { SupportMessageApiItem, SupportTicketApiItem } from '../api/support.api'
 
-export function mapApiTicketToSupportTicket(item: SupportTicketApiItem): SupportTicket {
+export function mapApiTicketToSupportConversation(item: SupportTicketApiItem): MessageConversation {
   const role = item.submitterRole.toUpperCase()
-  const submitterRole: SupportTicket['submitterRole'] = role === 'SELLER' ? 'Seller' : 'Buyer'
+  const submitterRole = role === 'SELLER' ? 'Seller' : 'Buyer'
 
   const dateLabel = formatDateIntl(item.createdAt, {
     year: 'numeric',
@@ -14,17 +14,23 @@ export function mapApiTicketToSupportTicket(item: SupportTicketApiItem): Support
 
   return {
     id: item.id,
-    title: item.title,
-    submitterName: item.submitterName,
-    submitterRole,
-    dateLabel,
-    status: item.status,
-    openedAtLabel: dateLabel,
+    buyerName: item.submitterName,
+    buyerInitials: item.submitterName
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((part) => part[0]?.toUpperCase() ?? '')
+      .join(''),
+    orderLabel: `${submitterRole} support`,
+    productLabel: item.status,
+    lastMessagePreview: item.title,
+    lastMessageAtLabel: dateLabel,
+    lastActivityAt: item.updatedAt,
   }
 }
 
-export function mapApiMessageToSupportMessage(item: SupportMessageApiItem): SupportMessage {
-  const sender = item.sender.toUpperCase() as SupportMessage['sender']
+export function mapApiMessageToSupportEntry(item: SupportMessageApiItem): MessageEntry {
+  const sender = item.sender.toUpperCase() === 'AGENT' ? 'SELLER' : 'BUYER'
   const dateLabel = formatDateTime(item.createdAt, {
     year: 'numeric',
     month: 'short',
@@ -36,8 +42,7 @@ export function mapApiMessageToSupportMessage(item: SupportMessageApiItem): Supp
   return {
     id: item.id,
     sender,
-    senderName: item.senderName,
     content: item.content,
-    dateLabel,
+    sentAtLabel: `${item.senderName} · ${dateLabel}`,
   }
 }
