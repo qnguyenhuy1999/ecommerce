@@ -1,5 +1,3 @@
-'use client'
-
 import {
   ConsoleLayout as CoreConsoleLayout,
   Root as CoreRoot,

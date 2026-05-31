@@ -1,5 +1,3 @@
-'use client'
-
 export * from './atoms/Avatar'
 export * from './atoms/Badge'
 export * from './atoms/Button'

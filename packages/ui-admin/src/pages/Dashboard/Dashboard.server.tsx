@@ -11,19 +11,42 @@ import {
   getDisputeToneClassNames,
   warningBadgeClassName,
 } from './Dashboard.constants'
-import type { DashboardProps } from './Dashboard.types'
+import type {
+  AuditEventItem,
+  CampaignItem,
+  DashboardMetric,
+  DisputeQueueItem,
+  ModerationQueueItem,
+  PendingApprovalItem,
+  SystemHealthItem,
+} from './Dashboard.types'
 
-type DashboardServerProps = {
-  metrics: NonNullable<DashboardProps['metrics']>
-  revenueSeries: NonNullable<DashboardProps['revenueSeries']>
-  revenueValueLabel: string
-  revenueTrendLabel: string
-  pendingApprovals: NonNullable<DashboardProps['pendingApprovals']>
-  systemHealth: NonNullable<DashboardProps['systemHealth']>
-  moderationQueue: NonNullable<DashboardProps['moderationQueue']>
-  disputeQueue: NonNullable<DashboardProps['disputeQueue']>
-  campaigns: NonNullable<DashboardProps['campaigns']>
-  auditEvents: NonNullable<DashboardProps['auditEvents']>
+interface MetricsGridProps {
+  metrics: DashboardMetric[]
+}
+
+interface PendingApprovalsCardProps {
+  pendingApprovals: PendingApprovalItem[]
+}
+
+interface SystemHealthCardProps {
+  systemHealth: SystemHealthItem[]
+}
+
+interface ModerationQueueCardProps {
+  moderationQueue: ModerationQueueItem[]
+}
+
+interface DisputeQueueCardProps {
+  disputeQueue: DisputeQueueItem[]
+}
+
+interface CampaignsCardProps {
+  campaigns: CampaignItem[]
+}
+
+interface AuditEventsCardProps {
+  auditEvents: AuditEventItem[]
 }
 
 export function SystemHealthStatus({ status }: { status: 'Operational' | 'Degraded' }) {
@@ -34,7 +57,7 @@ export function SystemHealthStatus({ status }: { status: 'Operational' | 'Degrad
   )
 }
 
-export function MetricsGrid({ metrics }: Pick<DashboardServerProps, 'metrics'>) {
+export function MetricsGrid({ metrics }: MetricsGridProps) {
   return (
     <div className="grid gap-4 xl:grid-cols-4">
       {metrics.map((metric) => {
@@ -58,9 +81,7 @@ export function MetricsGrid({ metrics }: Pick<DashboardServerProps, 'metrics'>) 
   )
 }
 
-export function PendingApprovalsCard({
-  pendingApprovals,
-}: Pick<DashboardServerProps, 'pendingApprovals'>) {
+export function PendingApprovalsCard({ pendingApprovals }: PendingApprovalsCardProps) {
   return (
     <Card className={dashboardCardClassName}>
       <CardHeader className="border-b px-5 py-4 sm:px-6">
@@ -89,7 +110,7 @@ export function PendingApprovalsCard({
   )
 }
 
-export function SystemHealthCard({ systemHealth }: Pick<DashboardServerProps, 'systemHealth'>) {
+export function SystemHealthCard({ systemHealth }: SystemHealthCardProps) {
   return (
     <Card className={dashboardCardClassName}>
       <CardHeader className="border-b px-5 py-4 sm:px-6">
@@ -126,9 +147,7 @@ export function SystemHealthCard({ systemHealth }: Pick<DashboardServerProps, 's
   )
 }
 
-export function ModerationQueueCard({
-  moderationQueue,
-}: Pick<DashboardServerProps, 'moderationQueue'>) {
+export function ModerationQueueCard({ moderationQueue }: ModerationQueueCardProps) {
   return (
     <Card className={dashboardCardClassName}>
       <CardHeader className="flex flex-row items-center justify-between border-b px-5 py-4 sm:px-6">
@@ -158,7 +177,7 @@ export function ModerationQueueCard({
   )
 }
 
-export function DisputeQueueCard({ disputeQueue }: Pick<DashboardServerProps, 'disputeQueue'>) {
+export function DisputeQueueCard({ disputeQueue }: DisputeQueueCardProps) {
   return (
     <Card className={dashboardCardClassName}>
       <CardHeader className="flex flex-row items-center justify-between border-b px-5 py-4 sm:px-6">
@@ -195,7 +214,7 @@ export function DisputeQueueCard({ disputeQueue }: Pick<DashboardServerProps, 'd
   )
 }
 
-export function CampaignsCard({ campaigns }: Pick<DashboardServerProps, 'campaigns'>) {
+export function CampaignsCard({ campaigns }: CampaignsCardProps) {
   return (
     <Card className={dashboardCardClassName}>
       <CardHeader className="border-b px-5 py-4 sm:px-6">
@@ -221,7 +240,7 @@ export function CampaignsCard({ campaigns }: Pick<DashboardServerProps, 'campaig
   )
 }
 
-export function AuditEventsCard({ auditEvents }: Pick<DashboardServerProps, 'auditEvents'>) {
+export function AuditEventsCard({ auditEvents }: AuditEventsCardProps) {
   return (
     <Card className={dashboardCardClassName}>
       <CardHeader className="border-b px-5 py-4 sm:px-6">

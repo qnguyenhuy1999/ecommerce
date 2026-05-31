@@ -14,13 +14,10 @@ import {
   YAxis,
 } from 'recharts'
 import { dashboardActionClassName, dashboardCardClassName } from './Dashboard.constants'
-import type { DashboardProps } from './Dashboard.types'
+import type { RevenuePoint } from './Dashboard.types'
 
-type RevenueCardProps = Pick<
-  DashboardProps,
-  'revenueSeries' | 'revenueValueLabel' | 'revenueTrendLabel'
-> & {
-  revenueSeries: NonNullable<DashboardProps['revenueSeries']>
+interface RevenueCardProps {
+  revenueSeries: RevenuePoint[]
   revenueValueLabel: string
   revenueTrendLabel: string
 }

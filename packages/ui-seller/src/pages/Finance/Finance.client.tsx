@@ -16,7 +16,7 @@ import {
   getFinanceKindLabel,
   getFinanceTabLabel,
 } from './Finance.utils'
-import type { FinanceLedgerEntry, FinanceProps, FinanceTab } from './Finance.types'
+import type { FinanceLedgerEntry, FinanceTab } from './Finance.types'
 
 function buildFinanceColumns(): DataTableColumn<FinanceLedgerEntry>[] {
   return [
@@ -62,10 +62,15 @@ function buildFinanceColumns(): DataTableColumn<FinanceLedgerEntry>[] {
   ]
 }
 
-export type LedgerSectionClientProps = Required<
-  Pick<FinanceProps, 'statementHref' | 'tabs' | 'defaultTab' | 'entries' | 'emptyMessage'>
-> &
-  Pick<FinanceProps, 'tab' | 'onTabChange'>
+export interface LedgerSectionClientProps {
+  statementHref: string
+  tabs: FinanceTab[]
+  tab: FinanceTab | undefined
+  defaultTab: FinanceTab
+  onTabChange: ((tab: FinanceTab) => void) | undefined
+  entries: FinanceLedgerEntry[]
+  emptyMessage: string
+}
 
 export function LedgerSectionClient({
   statementHref,
@@ -108,9 +113,10 @@ export function LedgerSectionClient({
             <button
               key={item}
               type="button"
+              aria-pressed={isActive}
               onClick={() => setCurrentTab(item)}
               className={cn(
-                'inline-flex h-10 items-center rounded-2xl px-4 text-sm font-medium transition-colors',
+                'focus-visible:ring-ring/50 inline-flex h-10 items-center rounded-2xl px-4 text-sm font-medium transition-colors focus-visible:ring-3 focus-visible:outline-none',
                 isActive ? 'bg-primary-soft text-primary-deep' : 'text-foreground hover:bg-muted',
               )}
             >

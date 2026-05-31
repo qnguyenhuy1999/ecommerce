@@ -19,11 +19,6 @@ export function Finance({
   entries = financeDefaultProps.entries,
   emptyMessage = financeDefaultProps.emptyMessage,
 }: FinanceProps) {
-  const optionalProps = {
-    ...(tab !== undefined ? { tab } : {}),
-    ...(onTabChange !== undefined ? { onTabChange } : {}),
-  }
-
   return (
     <ConsolePageLayout title={title} description={description} mainClassName="space-y-5">
       <WalletSummarySection
@@ -35,10 +30,11 @@ export function Finance({
       <LedgerSectionClient
         statementHref={statementHref}
         tabs={tabs}
+        tab={tab}
         defaultTab={defaultTab}
+        onTabChange={onTabChange}
         entries={entries}
         emptyMessage={emptyMessage}
-        {...optionalProps}
       />
     </ConsolePageLayout>
   )

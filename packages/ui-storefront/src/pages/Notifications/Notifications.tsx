@@ -1,34 +1,27 @@
-'use client'
-
-import { Button } from '@ecom/core-ui/atoms/Button'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { StorefrontLayout } from '../../layouts'
+import { MarkAllReadButton, MarkReadButton } from './Notifications.client'
 import type { NotificationRecord, NotificationsProps } from './Notifications.types'
 
-function NotificationCard({
-  notification,
-  markReadLabel,
-  onMarkRead,
-}: {
+interface NotificationCardProps {
   notification: NotificationRecord
   markReadLabel: string
-  onMarkRead?: (id: string) => void
-}) {
+  onMarkRead: ((id: string) => void) | undefined
+}
+
+function NotificationCard({ notification, markReadLabel, onMarkRead }: NotificationCardProps) {
   return (
-    <div
+    <article
       className={`rounded-xl border p-4 transition-colors ${notification.isRead ? 'opacity-60' : 'border-primary/30 bg-primary/5'}`}
     >
       <div className="flex items-start justify-between gap-2">
         <Typography variant="label">{notification.title}</Typography>
         {!notification.isRead && (
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            onClick={() => onMarkRead?.(notification.id)}
-          >
-            {markReadLabel}
-          </Button>
+          <MarkReadButton
+            notificationId={notification.id}
+            label={markReadLabel}
+            onMarkRead={onMarkRead}
+          />
         )}
       </div>
       <Typography variant="body-sm" className="text-muted-foreground mt-1">
@@ -37,7 +30,40 @@ function NotificationCard({
       <Typography variant="caption" className="text-muted-foreground mt-2">
         {notification.createdAtLabel}
       </Typography>
-    </div>
+    </article>
+  )
+}
+
+interface NotificationsLoadingProps {
+  itemCount: number
+}
+
+function NotificationsLoading({ itemCount }: NotificationsLoadingProps) {
+  return (
+    <StorefrontLayout>
+      <StorefrontLayout.Content>
+        <section className="space-y-3" aria-busy="true" aria-label="Loading notifications">
+          <span className="sr-only" role="status">
+            Loading notifications
+          </span>
+          {Array.from({ length: itemCount }).map((_, i) => (
+            <div key={i} className="bg-muted h-20 animate-pulse rounded-xl" />
+          ))}
+        </section>
+      </StorefrontLayout.Content>
+    </StorefrontLayout>
+  )
+}
+
+interface NotificationsEmptyProps {
+  message: string
+}
+
+function NotificationsEmpty({ message }: NotificationsEmptyProps) {
+  return (
+    <Typography variant="muted" role="status">
+      {message}
+    </Typography>
   )
 }
 
@@ -49,35 +75,27 @@ export function Notifications({
   onMarkAllRead,
   onMarkRead,
 }: NotificationsProps) {
+  const hasUnreadNotifications = notifications.some((notification) => !notification.isRead)
+
   if (loading) {
-    return (
-      <StorefrontLayout>
-        <StorefrontLayout.Content>
-          <div className="space-y-3">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="bg-muted h-20 animate-pulse rounded-xl" />
-            ))}
-          </div>
-        </StorefrontLayout.Content>
-      </StorefrontLayout>
-    )
+    return <NotificationsLoading itemCount={4} />
   }
 
   return (
     <StorefrontLayout>
       <StorefrontLayout.Content>
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <Typography variant="h1">Notifications</Typography>
-            {notifications.some((n) => !n.isRead) && (
-              <Button type="button" variant="outline" size="sm" onClick={onMarkAllRead}>
-                {markAllReadLabel}
-              </Button>
+        <section className="space-y-4" aria-labelledby="storefront-notifications-title">
+          <header className="flex items-center justify-between">
+            <Typography id="storefront-notifications-title" variant="h1">
+              Notifications
+            </Typography>
+            {hasUnreadNotifications && (
+              <MarkAllReadButton label={markAllReadLabel} onMarkAllRead={onMarkAllRead} />
             )}
-          </div>
+          </header>
 
           {notifications.length === 0 ? (
-            <Typography variant="muted">No notifications yet.</Typography>
+            <NotificationsEmpty message="No notifications yet." />
           ) : (
             <div className="space-y-3">
               {notifications.map((notification) => (
@@ -85,12 +103,12 @@ export function Notifications({
                   key={notification.id}
                   notification={notification}
                   markReadLabel={markReadLabel}
-                  {...(onMarkRead !== undefined ? { onMarkRead } : {})}
+                  onMarkRead={onMarkRead}
                 />
               ))}
             </div>
           )}
-        </div>
+        </section>
       </StorefrontLayout.Content>
     </StorefrontLayout>
   )

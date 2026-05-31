@@ -1,22 +1,28 @@
-import type { StatCardProps } from '@ecom/core-ui/molecules/StatCard'
+import type { Accent, StatSparkPoint } from '@ecom/core-ui/molecules/StatCard'
 import type { ProductStatusPillVariantProps } from '../../atoms/ProductStatusPill/ProductStatusPill.fixtures'
 
-type Metric = Pick<StatCardProps, 'label' | 'value' | 'trend' | 'spark' | 'accent'>
+export interface Metric {
+  label: string
+  value: string | number
+  trend?: number
+  spark?: StatSparkPoint[]
+  accent?: Accent
+}
 
-type RevenuePoint = {
+export interface RevenuePoint {
   label: string
   revenue: number
 }
 
-type TodoTone = 'default' | 'warning' | 'destructive' | 'info'
+export type TodoTone = 'default' | 'warning' | 'destructive' | 'info'
 
-type TodoItem = {
+export interface TodoItem {
   label: string
   count: number
   tone?: TodoTone
 }
 
-type PendingOrder = {
+export interface PendingOrder {
   id: string
   customer: string
   amount: string
@@ -24,21 +30,21 @@ type PendingOrder = {
   imageUrl: string
 }
 
-type LowStockItem = {
+export interface LowStockItem {
   name: string
   sku: string
   remaining: number
   imageUrl: string
 }
 
-type PromotionItem = {
+export interface PromotionItem {
   name: string
   redeemed: number
   total: number
   status: string
 }
 
-type TopProduct = {
+export interface TopProduct {
   rank: number
   name: string
   sold: number
@@ -46,7 +52,7 @@ type TopProduct = {
   imageUrl: string
 }
 
-type ActivityItem = {
+export interface ActivityItem {
   title: string
   detail: string
   time: string

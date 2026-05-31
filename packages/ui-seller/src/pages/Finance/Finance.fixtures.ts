@@ -1,7 +1,7 @@
 import type {
+  FinanceBalanceMetric,
   FinanceEntryKind,
   FinanceLedgerEntry,
-  FinanceProps,
   FinanceTab,
 } from './Finance.types'
 
@@ -119,23 +119,22 @@ export const financeKindLabels: Record<FinanceEntryKind, string> = {
   BANK_TRANSFER: 'bank transfer',
 }
 
-export const financeDefaultProps: Required<
-  Pick<
-    FinanceProps,
-    | 'title'
-    | 'description'
-    | 'walletBalanceLabel'
-    | 'walletBalance'
-    | 'balanceMetrics'
-    | 'withdrawHref'
-    | 'statementHref'
-    | 'tabs'
-    | 'defaultTab'
-    | 'entries'
-    | 'emptyMessage'
-  >
-> &
-  Pick<FinanceProps, 'tab'> = {
+interface FinanceDefaultProps {
+  title: string
+  description: string
+  walletBalanceLabel: string
+  walletBalance: number
+  balanceMetrics: FinanceBalanceMetric[]
+  withdrawHref: string
+  statementHref: string
+  tabs: FinanceTab[]
+  tab?: FinanceTab
+  defaultTab: FinanceTab
+  entries: FinanceLedgerEntry[]
+  emptyMessage: string
+}
+
+export const financeDefaultProps: FinanceDefaultProps = {
   title: 'Finance & wallet',
   description: 'Payouts, fees and ledger',
   walletBalanceLabel: 'Wallet balance',

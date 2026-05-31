@@ -2,15 +2,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { SectionCard } from '../../atoms/SectionCard'
 import { cn } from '@ecom/shared/utils/cn'
-import { type DashboardProps } from './Dashboard.types'
+import type { ActivityItem, TopProduct } from './Dashboard.types'
+
+interface DashboardInsightsSectionProps {
+  topProducts: TopProduct[]
+  recentActivity: ActivityItem[]
+}
 
 export function DashboardInsightsSection({
   topProducts,
   recentActivity,
-}: {
-  topProducts: NonNullable<DashboardProps['topProducts']>
-  recentActivity: NonNullable<DashboardProps['recentActivity']>
-}) {
+}: DashboardInsightsSectionProps) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <SectionCard title="Top products this week" padded={false}>

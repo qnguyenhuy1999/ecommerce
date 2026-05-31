@@ -37,6 +37,13 @@ export type ConsoleLayoutProps = CoreConsoleLayoutProps & {
   onLogout?: () => void | Promise<void>
 }
 
+interface BuildSidebarGroupsInput {
+  pathname?: string
+  sidebarGroups?: SidebarGroup[]
+  chatUnreadCount?: number
+  notificationCount?: number
+}
+
 const normalizePath = (pathname: string) => {
   if (pathname === '/') return pathname
 
@@ -60,10 +67,7 @@ export function buildSidebarGroups({
   sidebarGroups = defaultSidebarGroups,
   chatUnreadCount = 0,
   notificationCount,
-}: Pick<
-  ConsoleLayoutProps,
-  'pathname' | 'sidebarGroups' | 'chatUnreadCount' | 'notificationCount'
->): SidebarGroup[] {
+}: BuildSidebarGroupsInput): SidebarGroup[] {
   const activePath = pathname ? normalizePath(pathname) : undefined
 
   return sidebarGroups.map((group) => ({

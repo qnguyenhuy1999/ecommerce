@@ -6,18 +6,20 @@ import { CircleDashed } from 'lucide-react'
 import { SectionCard } from '../../atoms/SectionCard'
 import { cn } from '@ecom/shared/utils/cn'
 import { formatDashboardNumber } from '../../pages/Dashboard/Dashboard.utils'
-import type { DashboardProps } from './Dashboard.types'
+import type { LowStockItem, PendingOrder, PromotionItem } from './Dashboard.types'
 import { ProductStatusPill } from '../../atoms/ProductStatusPill'
+
+interface DashboardOperationsSectionProps {
+  pendingOrders: PendingOrder[]
+  lowStockItems: LowStockItem[]
+  promotions: PromotionItem[]
+}
 
 export function DashboardOperationsSection({
   pendingOrders,
   lowStockItems,
   promotions,
-}: {
-  pendingOrders: NonNullable<DashboardProps['pendingOrders']>
-  lowStockItems: NonNullable<DashboardProps['lowStockItems']>
-  promotions: NonNullable<DashboardProps['promotions']>
-}) {
+}: DashboardOperationsSectionProps) {
   return (
     <section className="grid gap-4 xl:grid-cols-3">
       <SectionCard title="Pending orders" subtitle="Awaiting fulfilment" padded={false}>

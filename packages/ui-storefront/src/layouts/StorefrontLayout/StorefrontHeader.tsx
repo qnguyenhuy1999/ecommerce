@@ -1,41 +1,23 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@ecom/core-ui/atoms/Avatar'
 import { Badge } from '@ecom/core-ui/atoms/Badge'
 import { Button } from '@ecom/core-ui/atoms/Button'
 import { Input } from '@ecom/core-ui/atoms/Input'
 import { Separator } from '@ecom/core-ui/atoms/Separator'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@ecom/core-ui/molecules/DropdownMenu'
-import {
-  Bell,
-  ChevronDown,
-  Heart,
-  LogOut,
-  MessageSquare,
-  Search,
-  ShoppingCart,
-  Store,
-} from 'lucide-react'
+import { Bell, Heart, MessageSquare, Search, ShoppingCart, Store } from 'lucide-react'
+import { StorefrontAccountMenu } from './StorefrontAccountMenu.client'
 import type { StorefrontHeaderProps, StorefrontNavItem } from './StorefrontLayout.types'
 
-const defaultHeaderProps: Required<
-  Pick<
-    StorefrontHeaderProps,
-    | 'cartCount'
-    | 'notificationCount'
-    | 'sellerLabel'
-    | 'chatHref'
-    | 'chatUnreadCount'
-    | 'userDisplayName'
-    | 'userInitials'
-  >
-> = {
+interface StorefrontHeaderDefaults {
+  cartCount: number
+  notificationCount: number
+  sellerLabel: string
+  chatHref: string
+  chatUnreadCount: number
+  userDisplayName: string
+  userInitials: string
+}
+
+const defaultHeaderProps: StorefrontHeaderDefaults = {
   cartCount: 3,
   notificationCount: 3,
   sellerLabel: 'Seller',
@@ -143,38 +125,13 @@ export function StorefrontHeader({ header }: { header?: StorefrontHeaderProps | 
             <Store />
             {sellerLabel}
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-2 rounded-full px-3">
-                <Avatar className="size-8">
-                  {userAvatarUrl ? <AvatarImage src={userAvatarUrl} alt={userDisplayName} /> : null}
-                  <AvatarFallback>{userInitials}</AvatarFallback>
-                </Avatar>
-                <span className="flex min-w-0 flex-col items-start leading-tight">
-                  <span className="truncate text-sm font-semibold">{userDisplayName}</span>
-                  {userEmail ? (
-                    <span className="text-muted-foreground truncate text-xs font-normal">
-                      {userEmail}
-                    </span>
-                  ) : null}
-                </span>
-                <ChevronDown className="text-muted-foreground size-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-72">
-              <DropdownMenuLabel className="space-y-1 py-2">
-                <div className="text-sm font-semibold">{userDisplayName}</div>
-                {userEmail ? (
-                  <div className="text-muted-foreground text-xs font-normal">{userEmail}</div>
-                ) : null}
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem variant="destructive" onClick={() => void onLogout?.()}>
-                <LogOut />
-                Logout
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <StorefrontAccountMenu
+            userDisplayName={userDisplayName}
+            userEmail={userEmail}
+            userAvatarUrl={userAvatarUrl}
+            userInitials={userInitials}
+            onLogout={onLogout}
+          />
         </div>
       </div>
     </header>

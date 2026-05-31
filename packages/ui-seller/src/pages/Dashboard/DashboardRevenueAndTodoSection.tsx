@@ -2,7 +2,7 @@
 
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 import { SectionCard } from '../../atoms/SectionCard'
-import type { DashboardProps } from './Dashboard.types'
+import type { RevenuePoint, TodoItem } from './Dashboard.types'
 import { dashboardChevronIcon, dashboardTodoStyles, formatDashboardNumber } from './Dashboard.utils'
 import type { ValueType } from 'recharts/types/component/DefaultTooltipContent'
 import { Badge } from '@ecom/core-ui/atoms/Badge'
@@ -13,10 +13,7 @@ const ChevronIcon = dashboardChevronIcon
 export function DashboardRevenueAndTodoSection({
   revenueSeries,
   todos,
-}: {
-  revenueSeries: NonNullable<DashboardProps['revenueSeries']>
-  todos: NonNullable<DashboardProps['todos']>
-}) {
+}: DashboardRevenueAndTodoSectionProps) {
   return (
     <section className="grid gap-4 xl:grid-cols-[minmax(0,1.95fr)_minmax(0,0.95fr)]">
       <SectionCard
@@ -107,4 +104,9 @@ export function DashboardRevenueAndTodoSection({
       </SectionCard>
     </section>
   )
+}
+
+interface DashboardRevenueAndTodoSectionProps {
+  revenueSeries: RevenuePoint[]
+  todos: TodoItem[]
 }

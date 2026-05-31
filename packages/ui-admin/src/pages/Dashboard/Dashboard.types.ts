@@ -1,6 +1,12 @@
-import type { StatCardProps } from '@ecom/core-ui/molecules/StatCard'
+import type { Accent, StatSparkPoint } from '@ecom/core-ui/molecules/StatCard'
 
-export type DashboardMetric = Pick<StatCardProps, 'label' | 'value' | 'trend' | 'spark' | 'accent'>
+export interface DashboardMetric {
+  label: string
+  value: string | number
+  trend?: number
+  spark?: StatSparkPoint[]
+  accent?: Accent
+}
 
 export interface RevenuePoint {
   label: string

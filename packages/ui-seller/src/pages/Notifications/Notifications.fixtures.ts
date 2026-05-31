@@ -1,4 +1,16 @@
-import type { NotificationsProps } from './Notifications.types'
+import type { NotificationRow } from './Notifications.types'
+
+interface NotificationsDefaultProps {
+  title: string
+  description: string
+  rows: NotificationRow[]
+  loading: boolean
+  unreadOnly: boolean
+  onUnreadOnlyChange: (value: boolean) => void
+  onMarkRead: (id: string) => void
+  onMarkAllRead: () => void
+  emptyMessage: string
+}
 
 export const notificationsDefaultProps = {
   title: 'Notifications',
@@ -43,4 +55,4 @@ export const notificationsDefaultProps = {
   onMarkRead: (_id: string) => {},
   onMarkAllRead: () => {},
   emptyMessage: 'No notifications to show.',
-} satisfies Required<NotificationsProps>
+} satisfies NotificationsDefaultProps

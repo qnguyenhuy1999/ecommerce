@@ -3,12 +3,12 @@ import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { WalletCards } from 'lucide-react'
 import { cn } from '@ecom/shared/utils/cn'
 import { formatFinanceAmount, getFinanceMetricTone } from './Finance.utils'
-import type { FinanceProps } from './Finance.types'
+import type { FinanceBalanceMetric } from './Finance.types'
 
 export interface WalletSummarySectionProps {
   walletBalanceLabel: string
   walletBalance: number
-  balanceMetrics: NonNullable<FinanceProps['balanceMetrics']>
+  balanceMetrics: FinanceBalanceMetric[]
   withdrawHref: string
 }
 

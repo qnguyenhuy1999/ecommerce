@@ -11,7 +11,7 @@ import { prependNotification } from '../realtime'
 import { notificationKeys } from '../query-keys'
 import type { NotificationState } from '../types'
 
-export function useNotificationsAdapter() {
+export function useNotificationsAdapter(initialData?: NotificationState[]) {
   const { loading: routeLoading } = useProtectedRoute()
   const {
     lastNotification,
@@ -19,7 +19,9 @@ export function useNotificationsAdapter() {
     markNotificationRead: clearOneRealtime,
   } = useStorefrontRealtime()
   const queryClient = useQueryClient()
-  const [localNotifications, setLocalNotifications] = useState<NotificationState[]>([])
+  const [localNotifications, setLocalNotifications] = useState<NotificationState[]>(
+    initialData ?? [],
+  )
 
   const query = useQuery({
     queryKey: notificationKeys.list(),
@@ -27,6 +29,7 @@ export function useNotificationsAdapter() {
       const items = await getNotifications()
       return items.map(toNotificationState)
     },
+    ...(initialData !== undefined ? { initialData } : {}),
   })
 
   const notifications = query.data ?? localNotifications
@@ -76,7 +79,7 @@ export function useNotificationsAdapter() {
   )
 
   return {
-    loading: routeLoading || query.isPending,
+    loading: routeLoading || (query.isPending && localNotifications.length === 0),
     notifications: notifications.map(mapNotification),
     onMarkAllRead: handleMarkAllRead,
     onMarkRead: handleMarkRead,

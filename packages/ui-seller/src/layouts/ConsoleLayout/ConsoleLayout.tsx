@@ -1,12 +1,10 @@
-'use client'
-
 import {
   ConsoleLayout as CoreConsoleLayout,
   Root as CoreRoot,
 } from '@ecom/core-ui/layouts/ConsoleLayout'
 import type { SidebarGroup } from '@ecom/core-ui/organisms/Sidebar'
-import { LogOut } from 'lucide-react'
 import { withDefined } from '@ecom/shared/utils/optional-object'
+import { ConsoleLogoutButton } from './ConsoleLogoutButton.client'
 import {
   buildSidebarGroups,
   type ConsoleLayoutProps,
@@ -59,18 +57,7 @@ function ConsoleLayoutBase({
       userMenu={userMenu}
       {...withDefined({
         contentClassName,
-        sidebarFooter: onLogout ? (
-          <button
-            type="button"
-            onClick={() => {
-              void onLogout()
-            }}
-            className="hover:bg-muted hover:text-foreground text-muted-foreground flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors"
-          >
-            <LogOut className="size-4 shrink-0" />
-            Logout
-          </button>
-        ) : undefined,
+        sidebarFooter: onLogout ? <ConsoleLogoutButton onLogout={onLogout} /> : undefined,
       })}
     >
       {children}

@@ -20,13 +20,17 @@ export interface NotificationTemplate {
   channel: string
 }
 
-export async function getNotifications(params: { page?: number; limit?: number; status?: string }) {
+export async function getNotifications(
+  params: { page?: number; limit?: number; status?: string },
+  init?: RequestInit,
+) {
   const query = new URLSearchParams()
   if (params.page) query.set('page', String(params.page))
   if (params.limit) query.set('limit', String(params.limit))
   if (params.status) query.set('status', params.status)
   return api<{ success: boolean; data: PaginatedResponse<NotificationListItem> }>(
     `/admin/notifications?${query.toString()}`,
+    init,
   )
 }
 

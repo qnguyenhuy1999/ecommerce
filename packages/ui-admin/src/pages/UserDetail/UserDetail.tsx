@@ -1,8 +1,7 @@
-import { Button } from '@ecom/core-ui/atoms/Button'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
-import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
 import { userDetailDefaultProps } from './UserDetail.fixtures'
+import { UserDetailActions } from './UserDetail.client'
 import type { UserDetailProps } from './UserDetail.types'
 
 function LoadingSkeleton() {
@@ -39,24 +38,15 @@ export function UserDetail({
         { label: user.email },
       ]}
       actions={
-        <div className="flex items-center gap-2">
-          <StatusBadge status={user.status} />
-          {user.canSuspend && (
-            <Button type="button" variant="outline" size="sm" onClick={() => void onSuspend?.()}>
-              {suspendLabel}
-            </Button>
-          )}
-          {user.canBan && (
-            <Button type="button" variant="destructive" size="sm" onClick={() => void onBan?.()}>
-              {banLabel}
-            </Button>
-          )}
-          {user.canActivate && (
-            <Button type="button" variant="default" size="sm" onClick={() => void onActivate?.()}>
-              {activateLabel}
-            </Button>
-          )}
-        </div>
+        <UserDetailActions
+          user={user}
+          suspendLabel={suspendLabel}
+          banLabel={banLabel}
+          activateLabel={activateLabel}
+          onSuspend={onSuspend}
+          onBan={onBan}
+          onActivate={onActivate}
+        />
       }
       mainClassName="space-y-6"
     >

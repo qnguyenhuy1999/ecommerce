@@ -1,7 +1,7 @@
-import { Button } from '@ecom/core-ui/atoms/Button'
 import { Typography } from '@ecom/core-ui/atoms/Typography'
 import { ConsolePageLayout } from '@ecom/core-ui/layouts/ConsolePageLayout'
 import { StatusBadge } from '@ecom/core-ui/organisms/DataTable'
+import { OrderDetailActions } from './OrderDetail.client'
 import { orderDetailDefaultProps } from './OrderDetail.fixtures'
 import type { OrderDetailProps, SellerOrderRecord } from './OrderDetail.types'
 
@@ -86,29 +86,13 @@ export function OrderDetail({
         { label: order.shortId },
       ]}
       actions={
-        <div className="flex items-center gap-2">
-          <StatusBadge status={order.status} />
-          {order.canForceCancel && (
-            <Button
-              type="button"
-              variant="destructive"
-              size="sm"
-              onClick={() => void onForceCancel?.()}
-            >
-              {forceCancelLabel}
-            </Button>
-          )}
-          {order.canForceComplete && (
-            <Button
-              type="button"
-              variant="default"
-              size="sm"
-              onClick={() => void onForceComplete?.()}
-            >
-              {forceCompleteLabel}
-            </Button>
-          )}
-        </div>
+        <OrderDetailActions
+          order={order}
+          forceCancelLabel={forceCancelLabel}
+          forceCompleteLabel={forceCompleteLabel}
+          onForceCancel={onForceCancel}
+          onForceComplete={onForceComplete}
+        />
       }
       mainClassName="space-y-6"
     >

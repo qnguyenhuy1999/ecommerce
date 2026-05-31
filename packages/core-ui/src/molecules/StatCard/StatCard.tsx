@@ -5,7 +5,13 @@ import { cn } from '../../lib/utils'
 import { StatCardChart } from './StatCard.client'
 import { accentMap } from './StatCard.fixtures'
 import type { Accent, StatCardHeader, StatCardProps } from './StatCard.types'
-export type { Accent, StatCardHeader, StatCardProps, StatChartProps } from './StatCard.types'
+export type {
+  Accent,
+  StatCardHeader,
+  StatCardProps,
+  StatChartProps,
+  StatSparkPoint,
+} from './StatCard.types'
 
 function Header({ label, icon: Icon, accent = 'primary' }: StatCardHeader) {
   const colors = accentMap[accent]
@@ -73,6 +79,8 @@ export function StatCardBase({
   className,
   description,
 }: StatCardProps) {
+  const shouldRenderChart = spark !== undefined && spark.length > 0
+
   return (
     <Root accent={accent} {...withDefined({ className })}>
       <div className="flex h-full min-w-0 flex-col justify-between gap-3">
@@ -89,7 +97,7 @@ export function StatCardBase({
         ) : null}
       </div>
 
-      <StatCardChart spark={spark ?? []} accent={accent} />
+      {shouldRenderChart ? <StatCardChart spark={spark} accent={accent} /> : null}
     </Root>
   )
 }

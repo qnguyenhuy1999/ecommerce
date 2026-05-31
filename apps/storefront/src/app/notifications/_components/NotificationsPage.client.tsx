@@ -3,8 +3,12 @@
 import { Notifications } from '@ecom/ui-storefront/pages/Notifications'
 import { useNotificationsAdapter } from '../../../features/notifications/hooks/use-notifications-adapter'
 
-export function NotificationsPageClient() {
-  const { loading, notifications, onMarkAllRead, onMarkRead } = useNotificationsAdapter()
+type NotificationsPageClientProps = {
+  initialData?: Parameters<typeof useNotificationsAdapter>[0]
+}
+
+export function NotificationsPageClient({ initialData }: NotificationsPageClientProps) {
+  const { loading, notifications, onMarkAllRead, onMarkRead } = useNotificationsAdapter(initialData)
 
   return (
     <Notifications

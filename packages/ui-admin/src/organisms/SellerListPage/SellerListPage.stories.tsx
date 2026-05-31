@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { ConsoleLayout } from '../../layouts/ConsoleLayout'
 import { SellerListPage } from '.'
 
-const meta = {
+const meta: Meta<typeof SellerListPage> = {
   title: 'Organisms/SellerListPage',
   component: SellerListPage,
   parameters: {
@@ -12,11 +12,11 @@ const meta = {
     title: '',
     children: undefined,
   },
-} satisfies Meta<typeof SellerListPage>
+}
 
 export default meta
 
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof SellerListPage>
 
 export const Default: Story = {
   render: () => (
