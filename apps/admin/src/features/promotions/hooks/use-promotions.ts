@@ -1,11 +1,14 @@
 'use client'
 
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import type { PaginatedResponse } from '@ecom/shared/pagination/core/types'
+import type { UseQueryResult } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import type { CampaignListItem } from '../api/promotions.api'
 import {
-  getVouchers,
-  getVoucher,
-  getVoucherStatusCounts,
   createVoucher,
+  getVoucher,
+  getVouchers,
+  getVoucherStatusCounts,
   updateVoucher,
 } from '../api/promotions.api'
 
@@ -14,7 +17,7 @@ export function useVouchers(params: {
   limit?: number
   status?: string
   search?: string
-}) {
+}): UseQueryResult<PaginatedResponse<CampaignListItem>, Error> {
   return useQuery({
     queryKey: ['vouchers', params],
     queryFn: async () => {
@@ -24,7 +27,7 @@ export function useVouchers(params: {
   })
 }
 
-export function useVoucher(id: string) {
+export function useVoucher(id: string): UseQueryResult<CampaignListItem, Error> {
   return useQuery({
     queryKey: ['voucher', id],
     queryFn: async () => {
@@ -35,7 +38,7 @@ export function useVoucher(id: string) {
   })
 }
 
-export function useVoucherStatusCounts() {
+export function useVoucherStatusCounts(): UseQueryResult<Record<string, number>, Error> {
   return useQuery({
     queryKey: ['voucher-status-counts'],
     queryFn: async () => {

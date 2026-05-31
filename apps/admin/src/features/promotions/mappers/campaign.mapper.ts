@@ -1,9 +1,9 @@
 import { formatDateIntl } from '@ecom/shared/utils/format'
-import type { VoucherRecord, VoucherStatus } from '@ecom/ui-admin/pages/Campaigns'
-import type { VoucherListItem } from '../api/promotions.api'
+import type { CampaignRecord, CampaignStatus } from '@ecom/ui-admin/pages/Campaigns'
+import type { CampaignListItem } from '../api/promotions.api'
 
-function toVoucherStatus(status: string): VoucherStatus {
-  const map: Record<string, VoucherStatus> = {
+function toCampaignStatus(status: string): CampaignStatus {
+  const map: Record<string, CampaignStatus> = {
     ACTIVE: 'ACTIVE',
     LIVE: 'ACTIVE',
     SCHEDULED: 'PAUSED',
@@ -15,24 +15,24 @@ function toVoucherStatus(status: string): VoucherStatus {
   return map[status] ?? 'DRAFT'
 }
 
-export function mapVoucherToVoucherRecord(voucher: VoucherListItem): VoucherRecord {
-  const dateRange = `${formatDateIntl(voucher.startsAt)} — ${formatDateIntl(voucher.expiresAt)}`
-  const budgetPct = voucher.usageLimit
-    ? Math.round((voucher.usedCount / voucher.usageLimit) * 100)
+export function mapCampaignToCampaignRecord(campaign: CampaignListItem): CampaignRecord {
+  const dateRange = `${formatDateIntl(campaign.startsAt)} — ${formatDateIntl(campaign.expiresAt)}`
+  const budgetPct = campaign.usageLimit
+    ? Math.round((campaign.usedCount / campaign.usageLimit) * 100)
     : 0
 
   return {
-    id: voucher.id,
-    name: voucher.name,
-    type: voucher.type,
+    id: campaign.id,
+    name: campaign.name,
+    type: campaign.type,
     category: '—',
     dateRange,
-    status: toVoucherStatus(voucher.status),
+    status: toCampaignStatus(campaign.status),
     impressions: '—',
     ctr: '—',
-    redemptions: String(voucher.usedCount),
-    budgetSpent: voucher.discountValue,
-    budgetTotal: voucher.maxDiscountAmount ?? voucher.discountValue,
+    redemptions: String(campaign.usedCount),
+    budgetSpent: campaign.discountValue,
+    budgetTotal: campaign.maxDiscountAmount ?? campaign.discountValue,
     budgetPercent: budgetPct,
-  } satisfies VoucherRecord
+  } satisfies CampaignRecord
 }

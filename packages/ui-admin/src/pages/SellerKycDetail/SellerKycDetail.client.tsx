@@ -27,10 +27,10 @@ function DetailCard({
 }) {
   return (
     <Card className={cn('gap-0 shadow-none', className)}>
-      <CardHeader className="border-border border-b">
+      <CardHeader className="border-border border-b px-5 py-4 sm:px-6">
         <CardTitle>{title}</CardTitle>
       </CardHeader>
-      <CardContent className="p-0">{children}</CardContent>
+      <CardContent className="px-0">{children}</CardContent>
     </Card>
   )
 }
