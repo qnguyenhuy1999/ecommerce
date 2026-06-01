@@ -73,7 +73,7 @@
     "eslint-plugin-unicorn": "^59.0.1",
     "eslint-plugin-unused-imports": "^4.1.4",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "typescript-eslint": "^8.59.3",
+    "typescript-eslint": "^8.60.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
