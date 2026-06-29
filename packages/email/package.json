@@ -20,7 +20,7 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@nestjs/common": "^11.1.19",
+    "@nestjs/common": "^11.1.27",
     "handlebars": "^4.7.8",
     "nodemailer": "^6.10.0"
   },
