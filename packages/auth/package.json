@@ -90,7 +90,7 @@
     "@ecom/shared": "workspace:*",
     "@ecom/database": "workspace:*",
     "bcryptjs": "^3.0.3",
-    "ioredis": "^5.6.0"
+    "ioredis": "^5.11.1"
   },
   "peerDependencies": {
     "next": "^16.2.6",
@@ -112,11 +112,11 @@
     "@ecom/config": "workspace:*",
     "@ecom/email": "workspace:*",
     "@ecom/redis": "workspace:*",
-    "@prisma/client": "^7.8.0",
+    "@prisma/client": "^7.9.1",
     "@types/bcryptjs": "^3.0.0",
     "@types/node": "^25.7.0",
-    "@types/react": "^19.1.0",
-    "@types/react-dom": "^19.1.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "tsup": "^8.4.0",
     "typescript": "^6.0.3"
   }
