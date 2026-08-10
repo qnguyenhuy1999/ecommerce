@@ -18,21 +18,21 @@
     "@ecom/redis": "workspace:*",
     "@ecom/shared": "workspace:*",
     "@nestjs/bullmq": "^11.0.4",
-    "@nestjs/common": "^11.1.19",
-    "@nestjs/core": "^11.1.19",
+    "@nestjs/common": "^11.1.28",
+    "@nestjs/core": "^11.1.28",
     "bullmq": "^5.76.8",
     "ioredis": "^5.6.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^11.0.21",
+    "@nestjs/cli": "^11.0.24",
     "@swc/cli": "^0.8.1",
-    "@swc/core": "^1.15.33",
+    "@swc/core": "^1.15.47",
     "@types/node": "^25.7.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "tsx": "^4.21.0",
+    "tsx": "^4.23.10",
     "typescript": "^6.0.3"
   }
 }
